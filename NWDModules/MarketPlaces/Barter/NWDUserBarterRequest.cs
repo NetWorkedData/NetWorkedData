@@ -70,6 +70,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDAlias("ItemsReceived")]
+        [NWDNotEditable]
         public NWDReferencesQuantityType<NWDItem> ItemsReceived
         {
             get; set;

@@ -38,9 +38,11 @@ namespace NetWorkedData
         Cancelled = 9,
         Refresh = 10,
 
+        Sync = 40,
 
-		Force = 99,
-	}
+        Force = 99, // admin only 
+        ForceNone = 999, // admin only 
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
     public class NWDTradePlaceConnection : NWDConnection<NWDTradePlace>

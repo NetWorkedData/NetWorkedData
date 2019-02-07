@@ -34,6 +34,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDNotEditable]
         public string UniqueNickname
         {
             get; set;

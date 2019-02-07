@@ -1,78 +1,73 @@
 ﻿//=====================================================================================================================
-//
+//NWDAccountRelationship
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
 using BasicToolBox;
 using SQLite.Attribute;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UBPR")]
-    [NWDClassDescriptionAttribute("User Barter Proposition descriptions Class")]
-    [NWDClassMenuNameAttribute("User Barter Proposition")]
+    [NWDClassTrigrammeAttribute("ARS")]
+    [NWDClassDescriptionAttribute("Account Relationship descriptions Class")]
+    [NWDClassMenuNameAttribute("Account Relationship")]
     [NWDForceSecureDataAttribute]
-    public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
+    public partial class NWDAccountRelationship : NWDBasis<NWDAccountRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Barter Detail", true, true, true)]
+        [NWDGroupStart("User Relationship Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
-        public NWDReferenceType<NWDGameSave> GameSave
+        public NWDReferenceType<NWDRelationshipPlace> RelationPlace
         {
             get; set;
         }
-        [NWDAlias("BarterPlace")]
-        public NWDReferenceType<NWDBarterPlace> BarterPlace
+
+        public NWDReferenceFreeType<NWDAccountRelationship> FriendUserRelationShip
         {
             get; set;
         }
-        [NWDAlias("BarterRequest")]
-        public NWDReferenceType<NWDUserBarterRequest> BarterRequest
+        public NWDReferenceFreeType<NWDAccount> FriendAccount
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        public NWDDateTimeUtcType FriendLastSynchronization
         {
             get; set;
         }
         [NWDGroupEnd]
-
         [NWDGroupSeparator]
-
-        [NWDGroupStart("Barter References", true, true, true)]
-        [NWDAlias("ItemsProposed")]
-        [NWDNotEditable]
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed
-        {
-            get; set;
-        }
-        [NWDAlias("ItemsSend")]
-        public NWDReferencesQuantityType<NWDItem> ItemsSend
-        {
-            get; set;
-        }
-        [NWDAlias("BarterStatus")]
-        public NWDTradeStatus BarterStatus
+        [NWDGroupStart("Relationship informations", true, true, true)]
+        [NWDAlias("RelationshipStatus")]
+        public NWDRelationshipStatus RelationshipStatus
         {
             get; set;
         }
         [NWDNotEditable]
-        [NWDAlias("BarterRequestHash")]
-        public string BarterRequestHash
+        [NWDAlias("RelationshipHash")]
+        public string RelationshipHash
+        {
+            get; set;
+        }
+        [NWDAlias("RelationshipCode")]
+        public string RelationshipCode
+        {
+            get; set;
+        }
+        [NWDAlias("LimitDayTime")]
+        public NWDDateTimeUtcType LimitDayTime
         {
             get; set;
         }

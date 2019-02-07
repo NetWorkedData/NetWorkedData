@@ -11,35 +11,33 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
+using SQLite4Unity3d;
 using BasicToolBox;
-
+using SQLite.Attribute;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ANN")]
-    [NWDClassDescriptionAttribute("Account Nickname")]
-    [NWDClassMenuNameAttribute("Account Nickname")]
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+    public partial class NWDAccountRelationship : NWDBasis<NWDAccountRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account
+        public delegate void barterRequestBlock(bool result, NWDOperationResult infos);
+        public barterRequestBlock barterRequestBlockDelegate;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAccountRelationship()
         {
-            get; set;
         }
-        public string Nickname
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAccountRelationship(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            get; set;
         }
-        [NWDNotEditable]
-        public string UniqueNickname
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
         {
-            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -52,6 +52,15 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpGetCalculate)]
+        public static string AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            //"while($tRow = $tResult->fetch_row()")
+            //"{"
+            return "// write your php script string here to special operation, example : \n$REP['" + BasisHelper().ClassName + " After Get'] ='success!!!';\n";
+            //"\t}\n"
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_AddonPhpSpecialCalculate)]
         public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {

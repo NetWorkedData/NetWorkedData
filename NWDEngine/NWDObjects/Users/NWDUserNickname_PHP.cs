@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BasicToolBox;
+using System.Text;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -18,19 +19,15 @@ namespace NetWorkedData
     public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
-                                       "\n " +
-                                       "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
-                                       "\t{\n" +
-                                       "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n" +
-                                       "\t}\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("IntegrityNWDUserNicknameReevalue($tReference);");
+            rReturn.AppendLine("}");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

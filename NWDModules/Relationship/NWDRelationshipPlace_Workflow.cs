@@ -14,32 +14,40 @@ using System.Reflection;
 
 using UnityEngine;
 
+using SQLite4Unity3d;
+
 using BasicToolBox;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ANN")]
-    [NWDClassDescriptionAttribute("Account Nickname")]
-    [NWDClassMenuNameAttribute("Account Nickname")]
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+    public partial class NWDRelationshipPlace : NWDBasis<NWDRelationshipPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account
+        const int K_CODE_LENGHT_MIN = 4; 
+        const int K_CODE_LENGHT_MAX = 8;
+        const int K_EXPIRE_TIME_MIN = 60;
+        const int K_EXPIRE_TIME_MAX = 600;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDRelationshipPlace()
         {
-            get; set;
+            //Debug.Log("NWDRelationshipPlace Constructor");
         }
-        public string Nickname
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDRelationshipPlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            get; set;
+            //Debug.Log("NWDRelationshipPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-        [NWDNotEditable]
-        public string UniqueNickname
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
         {
-            get; set;
+            ExpireTime = K_EXPIRE_TIME_MIN;
+            ExpireTime = K_EXPIRE_TIME_MIN;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

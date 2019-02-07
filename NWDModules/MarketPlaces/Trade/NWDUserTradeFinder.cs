@@ -207,7 +207,7 @@ namespace NetWorkedData
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
-                "AND `WebServiceVersion` <= '.$WSBUILD.' " +
+                "AND `WebModel` <= '.$WSBUILD.' " +
                 "LIMIT 0, 100;';\n" +
                 "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultExpired = $SQL_CON->query($tQueryExpired);\n" +

@@ -5,30 +5,33 @@
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using BasicToolBox;
-using System.Text;
 
+using System;
+using UnityEngine;
+using SQLite4Unity3d;
+using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+	[NWDTypeWindowParamAttribute("Relationship",
+        "Relationship window description",
+		new Type[] {
+            typeof(NWDRelationshipPlace),
+            typeof(NWDAccountRelationship),
+            typeof(NWDUserRelationship),
+        }
+	)]
+	public class NWDRelationshipWindow : NWDBasisWindow <NWDRelationshipWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            StringBuilder rReturn = new StringBuilder();
-            rReturn.AppendLine("if (UniquePropertyValueFromValue($ENV.'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
-            rReturn.AppendLine("{");
-            rReturn.AppendLine("IntegrityNWDAccountNicknameReevalue($tReference);");
-            rReturn.AppendLine("}");
-            return rReturn.ToString();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem (NWDConstants.K_MENU_BASE+ "Relationship" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 550)]
+		public static void MenuMethod ()
+		{
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDRelationshipWindow));
+			tWindow.Show ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -29,6 +29,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string M_AddonPhpPreCalculate = "AddonPhpPreCalculate_dxEyEsrd";
         public const string M_AddonPhpPostCalculate = "AddonPhpPostCalculate_dez4Erze";
+        public const string M_AddonPhpGetCalculate = "AddonPhpGetCalculate_Edk77aOp";
         public const string M_AddonPhpSpecialCalculate = "AddonPhpSpecialCalculate_re5RT778";
         public const string M_AddonPhpFunctions = "AddonPhpFunctions_erE78erz";
         //-------------------------------------------------------------------------------------------------------------
