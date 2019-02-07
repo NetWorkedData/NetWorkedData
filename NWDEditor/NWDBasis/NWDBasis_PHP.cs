@@ -455,11 +455,11 @@ namespace NetWorkedData
             tFile.AppendLine("unset($sCsvList[3]);//remove DevSync");
             tFile.AppendLine("unset($sCsvList[4]);//remove PreprodSync");
             tFile.AppendLine("unset($sCsvList[5]);//remove ProdSync");
+            tFile.AppendLine("$sDataString = implode('',$sCsvList);");
             if (sEnvironment.LogMode == true)
             {
                 tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
             }
-            tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("$tCalculate = str_replace('|', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));");
             tFile.AppendLine("$sCsvArray[$sIndex] = $sValue;");
             tFile.AppendLine("array_pop($sCsvArray);");

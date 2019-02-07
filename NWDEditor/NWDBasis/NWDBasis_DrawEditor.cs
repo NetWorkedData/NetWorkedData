@@ -1343,6 +1343,8 @@ namespace NetWorkedData
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity seq", IntegrityAssembly(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "head integrity Csv", CSVAssemblyHead(), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity Csv", CSVAssembly(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity req", IntegrityValue(), tMiniLabelStyle);

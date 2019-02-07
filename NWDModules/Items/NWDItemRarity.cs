@@ -168,6 +168,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDItemRarity), typeof(NWDItem) };

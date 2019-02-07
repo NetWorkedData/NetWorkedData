@@ -140,9 +140,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Initialization()
 		{
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDUserTradeRequest CreateTradeRequestWith(NWDTradePlace sTradePlace, Dictionary<string, int> sProposed, Dictionary<string, int> sAsked)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserTradeRequest CreateTradeRequestWith(NWDTradePlace sTradePlace, Dictionary<string, int> sProposed, Dictionary<string, int> sAsked)
 		{
 			// Get Request Life time
 			int tLifetime = sTradePlace.RequestLifeTime;

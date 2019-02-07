@@ -160,6 +160,12 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserNewsRead), typeof(NWDNews) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
@@ -579,11 +585,6 @@ namespace NetWorkedData
 #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDNews)/*, typeof(NWDUserNickname), etc*/ };
-        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just after loaded from database.

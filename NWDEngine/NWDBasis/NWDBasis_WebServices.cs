@@ -525,7 +525,10 @@ namespace NetWorkedData
             MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(ClassType(), NWDConstants.M_OverrideClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
-                rReturn = tMethodInfo.Invoke(null, null) as List<Type>;
+                List<Type> tReturn = null;
+                tReturn = tMethodInfo.Invoke(null, null) as List<Type>;
+                tReturn.Add(typeof(K));
+                rReturn = new List<Type>(tReturn.Distinct<Type>());
             }
             else
             {

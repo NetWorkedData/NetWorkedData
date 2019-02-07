@@ -36,6 +36,12 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserBarterFinder), typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterRequest[] FindPropositionsWith(NWDBarterPlace sBarterPlace)
         {
             //TODO: use index

@@ -52,11 +52,17 @@ namespace NetWorkedData
         {
             RefreshDelay = 60 * 3;
             CancelDelay = 60 * 5;
-            MaxRequestPerUser = 3;
-            MaxPropositionsPerUser = 20;
-            MaxPropositionsPerRequest = 10;
+            MaxRequestPerUser = K_BARTER_REQUEST_MAX;
+            MaxPropositionsPerUser = K_BARTER_PROPOSITIONS_PER_USER_MAX;
+            MaxPropositionsPerRequest = K_BARTER_PROPOSITIONS_PER_REQUEST_MAX;
             WaitingLifeTime = 60 * 60 * 1;
             RequestLifeTime = 60 * 60 * 24;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

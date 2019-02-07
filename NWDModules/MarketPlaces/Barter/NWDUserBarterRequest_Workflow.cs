@@ -43,6 +43,12 @@ namespace NetWorkedData
             ForRelationshipOnly = false;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterRequest CreateBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed, Dictionary<string, int> sAsked)
         {
             // Get Request Life time

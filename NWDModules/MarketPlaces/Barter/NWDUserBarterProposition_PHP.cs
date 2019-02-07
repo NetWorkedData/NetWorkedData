@@ -35,6 +35,7 @@ namespace NetWorkedData
             string tMaxPropositions = NWDUserBarterRequest.FindAliasName("MaxPropositions");
             string tPropositionsCounter = NWDUserBarterRequest.FindAliasName("PropositionsCounter");
             string tBarterHash = NWDUserBarterRequest.FindAliasName("BarterHash");
+            string tItemsProposed = NWDUserBarterRequest.FindAliasName("ItemsProposed");
 
             string t_THIS_BarterRequestHash = FindAliasName("BarterRequestHash");
             string t_THIS_BarterPlace = FindAliasName("BarterPlace");
@@ -77,6 +78,7 @@ namespace NetWorkedData
 
                 // change the statut from CSV TO WAITING, ACCEPTED, EXPIRED, DEAL, REFRESH, CANCELLED
                 "if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Sync).ToString() +
                 " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
                 " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
                 " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() +
@@ -112,7 +114,7 @@ namespace NetWorkedData
                         " `DM` = \\''.$TIME_SYNC.'\\'," +
                         " `DS` = \\''.$TIME_SYNC.'\\'," +
                         " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
-                        " `" + tPropositions + "` = CONCAT(CONCAT(`" + tPropositions + "`,\\'" + NWDConstants.kFieldSeparatorA + "\\'),\\''.$sCsvList[0].'\\'), " +
+                        " `" + tPropositions + "` = TRIM(\\'" + NWDConstants.kFieldSeparatorA + "\\' FROM CONCAT(CONCAT(`" + tPropositions + "`,\\'" + NWDConstants.kFieldSeparatorA + "\\'),\\''.$sCsvList[0].'\\')), " +
                         " `" + tPropositionsCounter + "` = `" + tPropositionsCounter + "`+1 " +
                         " WHERE `AC`= \\'1\\' " +
                         " AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
@@ -138,7 +140,33 @@ namespace NetWorkedData
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         "// I need update the proposition too !\n" +
-                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\');\n" +
+                                     //   "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\');\n" +
+
+                                        "$tQueryBarterRequest = 'SELECT" +
+                                        " `" + tItemsProposed + "`" +
+                                        " FROM `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "`" +
+                                        " WHERE" +
+                                        " `Reference` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';" +
+                                        "';\n" +
+                                        "myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        "$tResultBarterRequest = $SQL_CON->query($tQueryBarterRequest);\n" +
+                                        "if (!$tResultBarterRequest)\n" +
+                                            "{\n" +
+                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                "error('SERVER');\n" +
+                                            "}\n" +
+                                        "else" +
+                                            "{\n" +
+                                                "if ($tResultBarterRequest->num_rows == 1)\n" +
+                                                    "{\n" +
+                                                        "myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        "$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();\n" +
+                                                        "$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];\n" +
+                                                    "}\n" +
+                                            "}\n" +
+                                        "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
+                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+
                                         "myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
                                     "}\n" +
@@ -188,7 +216,18 @@ namespace NetWorkedData
                 // change the statut from CSV TO FORCE // ADMIN ONLY 
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)\n" +
                     "{\n" +
-                    "//EXECEPTION FOR ADMIN\n" +
+                        "//EXECEPTION FOR ADMIN\n" +
+                    "}\n" +
+
+                // change the statut from CSV TO FORCE NONE  // ADMIN ONLY 
+                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.ForceNone).ToString() + " && $sAdmin == true)\n" +
+                    "{\n" +
+                        "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.None).ToString() + ";\n" +
+                        "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
+                        "$sReplaces[" + t_THIS_Index_ItemsSend + "]='';\n" +
+                        "$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';\n" +
+                        "$sReplaces[" + t_THIS_Index_BarterRequest + "]='';\n" +
+                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // OTHER

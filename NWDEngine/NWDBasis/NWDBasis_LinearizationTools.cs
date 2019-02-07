@@ -719,6 +719,11 @@ namespace NetWorkedData
         /// <param name="sAsssemblyAsCVS">If set to <c>true</c> asssembly as CSV.</param>
 
 
+        public string CSVAssemblyHead()
+        {
+            return string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(-1).ToArray());
+        }
+
         public string CSVAssembly()
         {
             string[] tValues = Assembly();

@@ -78,6 +78,7 @@ namespace NetWorkedData
 			return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDUserTip), typeof(NWDTipKey) };

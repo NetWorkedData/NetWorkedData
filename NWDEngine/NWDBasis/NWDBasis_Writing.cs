@@ -475,7 +475,7 @@ namespace NetWorkedData
             //this.MaxVersion = tMaxVersion;
 
             int tWebModelToUse = WebModelToUse();
-            Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
+            //Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
             WebModel = tWebModelToUse;
 
             this.DS = 0;

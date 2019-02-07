@@ -96,6 +96,12 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserTradeFinder), typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
         {
             NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
