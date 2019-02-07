@@ -29,14 +29,14 @@ namespace NetWorkedData
     public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const int K_BARTER_PROPOSITIONS_MIN = 1;
-        public const int K_BARTER_PROPOSITIONS_MAX = 10;
+        public const int K_BARTER_PROPOSITIONS_PER_REQUEST_MIN = 1;
+        public const int K_BARTER_PROPOSITIONS_PER_REQUEST_MAX = 10;
 
-        public const int K_BARTER_PROPOSITIONS_A_MIN = 1;
-        public const int K_BARTER_PROPOSITIONS_A_MAX = 10;
+        public const int K_BARTER_PROPOSITIONS_PER_USER_MIN = 1;
+        public const int K_BARTER_PROPOSITIONS_PER_USER_MAX = 10;
 
-        public const int K_BARTER_PROPOSITIONS_B_MIN = 1;
-        public const int K_BARTER_PROPOSITIONS_B_MAX = 10;
+        public const int K_BARTER_REQUEST_MIN = 1;
+        public const int K_BARTER_REQUEST_MAX = 5;
         //-------------------------------------------------------------------------------------------------------------
         public NWDBarterPlace()
         {
