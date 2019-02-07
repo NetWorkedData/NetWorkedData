@@ -47,7 +47,6 @@ namespace NetWorkedData
             NWDError.CreateGenericError(tClassName, tTrigramme + "x99", "Error in " + tClassName, "error columns number in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in " + tClassName, "integrity of one datas is false, break in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(tClassName, tTrigramme + "x77", "Error in " + tClassName, "error update log in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> CreatePHPConstant(NWDAppEnvironment sEnvironment)
@@ -106,7 +105,6 @@ namespace NetWorkedData
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(tClassName + "/" + NWD.K_CONSTANTS_FILE, tFileFormatted);
             return rReturn;
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
@@ -350,7 +348,6 @@ namespace NetWorkedData
                 {
                     if (tTypeOfThis.IsGenericType)
                     {
-
                         if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
                         {
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
@@ -530,7 +527,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x77');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -582,7 +582,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x31');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -603,7 +606,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x91');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -620,7 +626,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x31');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -662,8 +671,11 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x31');");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -718,7 +730,10 @@ namespace NetWorkedData
                 tFile.Append((string)tMethodDeclareFunctions.Invoke(null, new object[] { sEnvironment }));
             }
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $admin, $uuid;");
@@ -743,7 +758,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x31');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -756,7 +774,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertResult = $SQL_CON->query($tInsert);");
             tFile.AppendLine("if (!$tInsertResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tInsertResult.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tInsertResult.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x32');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -801,7 +822,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x38');");
             tFile.AppendLine("}");
             //"}" );
@@ -850,7 +874,10 @@ namespace NetWorkedData
 
             tFile.AppendLine("function FlushTrashedDatas" + tClassName + " ()");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("global $SQL_CON, $ENV;");
             tFile.AppendLine("$tQuery = 'DELETE FROM `'.$ENV.'_" + tTableName + "` WHERE XX>0';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
@@ -863,7 +890,10 @@ namespace NetWorkedData
 
             tFile.AppendLine("function GetDatas" + tClassName + "ByReference ($sReference)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $REP;");
@@ -877,7 +907,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x33');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -943,7 +976,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x33');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -972,6 +1008,10 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('GetDatas" + tClassName + " for '.$sAccountReference.' at '.$sTimeStamp.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             //"$tPage = $sPage*$sLimit;" );
             tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
             //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
@@ -993,7 +1033,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x33');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1022,6 +1065,10 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('GetDatasByGameSave" + tClassName + " for '.$sAccountReference.' in '.$sGameSaveReference.' at '.$sTimeStamp.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             //"$tPage = $sPage*$sLimit;" );
             tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
             //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
@@ -1050,7 +1097,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x33');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1099,7 +1149,10 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("error('" + tTrigramme + "x33');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1123,7 +1176,10 @@ namespace NetWorkedData
 
             tFile.AppendLine("function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $admin, $uuid;");
@@ -1157,7 +1213,10 @@ namespace NetWorkedData
             tFile.AppendLine("if (!errorDetected())");
             tFile.AppendLine("{");
             tFile.AppendLine("FlushTrashedDatas" + tClassName + " ();");
-            tFile.AppendLine("myLog('SPECIAL : CLEAN', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('SPECIAL : CLEAN', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("}");
 
@@ -1168,7 +1227,10 @@ namespace NetWorkedData
             tFile.AppendLine("if (!errorDetected())");
             tFile.AppendLine("{");
             tFile.AppendLine("Special" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);");
-            tFile.AppendLine("myLog('SPECIAL : SPECIAL', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('SPECIAL : SPECIAL', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("}");
 
@@ -1180,7 +1242,10 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
             tFile.AppendLine("Create" + tClassName + "Table ();");
-            tFile.AppendLine("myLog('SPECIAL : UPGRADE OR CREATE TABLE', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('SPECIAL : UPGRADE OR CREATE TABLE', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("}");
 
@@ -1192,7 +1257,10 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
             tFile.AppendLine("Defragment" + tClassName + "Table ();");
-            tFile.AppendLine("myLog('SPECIAL : OPTIMIZE AND DEFRAGMENT TABLE', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('SPECIAL : OPTIMIZE AND DEFRAGMENT TABLE', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("}");
 
@@ -1225,7 +1293,10 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('NOT UPDATE, SPECIAL OR CLEAN ACTION ... YOU USE OLDEST TOKEN', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('NOT UPDATE, SPECIAL OR CLEAN ACTION ... YOU USE OLDEST TOKEN', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("if (isset($sJsonDico['" + tClassName + "']))");
             tFile.AppendLine("{");
