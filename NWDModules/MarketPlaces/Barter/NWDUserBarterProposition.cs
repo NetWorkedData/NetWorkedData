@@ -54,8 +54,8 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Barter References", true, true, true)]
-        [NWDAlias("ItemsProposed")]
         [NWDNotEditable]
+        [NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed
         {
             get; set;

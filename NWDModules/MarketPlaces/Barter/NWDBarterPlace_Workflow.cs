@@ -29,6 +29,15 @@ namespace NetWorkedData
     public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const int K_BARTER_PROPOSITIONS_MIN = 1;
+        public const int K_BARTER_PROPOSITIONS_MAX = 10;
+
+        public const int K_BARTER_PROPOSITIONS_A_MIN = 1;
+        public const int K_BARTER_PROPOSITIONS_A_MAX = 10;
+
+        public const int K_BARTER_PROPOSITIONS_B_MIN = 1;
+        public const int K_BARTER_PROPOSITIONS_B_MAX = 10;
+        //-------------------------------------------------------------------------------------------------------------
         public NWDBarterPlace()
         {
             //Debug.Log("NWDBarterPlace Constructor");

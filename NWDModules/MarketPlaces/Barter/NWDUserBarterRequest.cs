@@ -86,26 +86,32 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDNotEditable]
         [NWDAlias("LimitDayTime")]
         public NWDDateTimeUtcType LimitDayTime
         {
             get; set;
         }
+        [NWDNotEditable]
+        [NWDIntSlider(NWDBarterPlace.K_BARTER_PROPOSITIONS_PER_REQUEST_MIN, NWDBarterPlace.K_BARTER_PROPOSITIONS_PER_REQUEST_MAX)]
         [NWDAlias("MaxPropositions")]
+
         public int MaxPropositions
         {
             get; set;
         }
+        [NWDNotEditable]
         [NWDAlias("PropositionsCounter")]
         public int PropositionsCounter
         {
             get; set;
         }
+        [NWDNotEditable]
         [NWDAlias("Propositions")]
         public NWDReferencesListType<NWDUserBarterProposition> Propositions
         {
             get; set;
-        } // ON VA LIMITER LES NOMBRE DE PROPOSITION DANS LE RESULTAT DE LA SYNCHRO! ... MAIS COMMENT FAIRE LA SYNCHRO?
+        }
         [NWDAlias("WinnerProposition")]
         public NWDReferenceType<NWDUserBarterProposition> WinnerProposition
         {

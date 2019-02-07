@@ -63,14 +63,17 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDIntSlider(K_BARTER_REQUEST_MIN, K_BARTER_REQUEST_MAX)]
         public int MaxRequestPerUser
         {
             get; set;
         }
+        [NWDIntSlider(K_BARTER_PROPOSITIONS_PER_USER_MIN, K_BARTER_PROPOSITIONS_PER_USER_MAX)]
         public int MaxPropositionsPerUser
         {
             get; set;
         }
+        [NWDIntSlider(K_BARTER_PROPOSITIONS_PER_REQUEST_MIN, K_BARTER_PROPOSITIONS_PER_REQUEST_MAX)]
         public int MaxPropositionsPerRequest
         {
             get; set;
