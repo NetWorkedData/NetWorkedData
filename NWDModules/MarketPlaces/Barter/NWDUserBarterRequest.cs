@@ -16,7 +16,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UBRR")]
+    [NWDClassTrigrammeAttribute("UBR")]
     [NWDClassDescriptionAttribute("User Barter Request descriptions Class")]
     [NWDClassMenuNameAttribute("User Barter Request")]
     [NWDForceSecureDataAttribute]

@@ -15,7 +15,7 @@ namespace NetWorkedData
     /// NWDConsent class. This class is used to reccord the consent available in the game. 
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ACS")]
+    [NWDClassTrigrammeAttribute("CST")]
     [NWDClassDescriptionAttribute("NWDConsent class. This class is used to reccord the consent available in the game for RGPD")]
     [NWDClassMenuNameAttribute("Consent")]
     public partial class NWDConsent : NWDBasis<NWDConsent>

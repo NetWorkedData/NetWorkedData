@@ -18,7 +18,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("RCP")]
+    [NWDClassTrigrammeAttribute("RCG")]
     [NWDClassDescriptionAttribute("Recipient group descriptions Class")]
     [NWDClassMenuNameAttribute("Recipient Group")]
     public partial class NWDRecipientGroup : NWDBasis<NWDRecipientGroup>

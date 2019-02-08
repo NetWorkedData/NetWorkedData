@@ -11,7 +11,7 @@ using System;
 namespace NetWorkedData
 { //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("TAT")]
+	[NWDClassTrigrammeAttribute ("TPK")]
 	[NWDClassDescriptionAttribute ("Tips And Tricks descriptions Class")]
 	[NWDClassMenuNameAttribute ("Tips And Tricks")]
 	public partial class NWDTipKey :NWDBasis <NWDTipKey>

@@ -28,7 +28,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("WWX")]
+    [NWDClassTrigrammeAttribute("ACK")]
     [NWDClassDescriptionAttribute("Achievement")]
     [NWDClassMenuNameAttribute("Achievement")]
     public partial class NWDAchievementKey : NWDBasis<NWDAchievementKey>

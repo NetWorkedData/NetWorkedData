@@ -19,7 +19,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CDC")]
+    [NWDClassTrigrammeAttribute("CRD")]
     [NWDClassDescriptionAttribute("Credits Company")]
     [NWDClassMenuNameAttribute("Credits Company")]
     public partial class NWDCreditsCompany : NWDBasis<NWDCreditsCompany>

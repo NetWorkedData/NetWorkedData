@@ -16,7 +16,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronize(true)]
-    [NWDClassTrigramme("UBRF")]
+    [NWDClassTrigramme("UBF")]
     [NWDClassDescription("User Barter Finder descriptions Class")]
     [NWDClassMenuName("User Barter Finder")]
     public partial class NWDUserBarterFinder : NWDBasis<NWDUserBarterFinder>

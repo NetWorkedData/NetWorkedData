@@ -12,7 +12,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("BRW")]
+    [NWDClassTrigrammeAttribute("BPC")]
     [NWDClassDescriptionAttribute("Barter Place descriptions Class")]
     [NWDClassMenuNameAttribute("Barter Place")]
     public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>

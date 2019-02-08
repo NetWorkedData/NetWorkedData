@@ -10,7 +10,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UAU")]
+    [NWDClassTrigrammeAttribute("ACS")]
     [NWDClassDescriptionAttribute("Account Consent for RGPD")]
     [NWDClassMenuNameAttribute("Account Consent")]
     public partial class NWDAccountConsent : NWDBasis<NWDAccountConsent>
