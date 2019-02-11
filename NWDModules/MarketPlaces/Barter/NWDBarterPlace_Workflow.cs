@@ -65,6 +65,41 @@ namespace NetWorkedData
             return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string GetLifeTime()
+        {
+            // Return value
+            string rLifeTime = "";
+
+            // Set Trade Life Time
+            DateTime tToday = DateTime.UtcNow;
+            DateTime tLifeTime = tToday.AddSeconds(RequestLifeTime);
+            TimeSpan tSpan = tLifeTime.Subtract(tToday);
+            if (tSpan.TotalSeconds > 0)
+            {
+                if (tSpan.Days > 0)
+                {
+                    rLifeTime = tSpan.Days + " day(s)";
+                }
+                else
+                {
+                    if (tSpan.Hours > 0)
+                    {
+                        rLifeTime = tSpan.Hours + "h ";
+                    }
+                    if (tSpan.Minutes > 0)
+                    {
+                        rLifeTime  += tSpan.Minutes + "m ";
+                    }
+                    if (tSpan.Seconds > 0)
+                    {
+                        rLifeTime += tSpan.Seconds + "s";
+                    }
+                }
+            }
+
+            return rLifeTime;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
