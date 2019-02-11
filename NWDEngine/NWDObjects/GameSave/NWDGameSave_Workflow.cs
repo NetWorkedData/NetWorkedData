@@ -137,6 +137,7 @@ namespace NetWorkedData
             SaveDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDAccountInfos), typeof(NWDGameSave) };

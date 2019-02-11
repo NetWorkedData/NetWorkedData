@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2018 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -7,7 +14,6 @@ using System;
 using System.Reflection;
 using System.IO;
 
-#if UNITY_EDITOR
 using UnityEditor;
 
 //=====================================================================================================================

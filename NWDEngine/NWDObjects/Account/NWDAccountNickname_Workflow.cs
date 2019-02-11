@@ -111,9 +111,6 @@ namespace NetWorkedData
             return rUniqueNickname;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Sync Nickname if needed
-        /// </summary>
         public void SyncNickname()
         {
             // Sync with the server

@@ -4,17 +4,9 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
-using UnityEngine;
-using BasicToolBox;
 #if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
-using SQLite4Unity3d;
 //=====================================================================================================================
 namespace NetWorkedData
 {

@@ -1215,6 +1215,7 @@ namespace NetWorkedData
             tFile.AppendLine("// ban account ?");
             tFile.AppendLine("$ban = false;");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function GetLocalizableString($sString, $sLang='BASE')");
             tFile.AppendLine("{");
             tFile.AppendLine("$tLines = explode('•', $sString);");
@@ -1237,6 +1238,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function UnprotectLocalizableString($sString)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tString =  str_replace('@1#','•',$sString);");
@@ -1245,6 +1247,7 @@ namespace NetWorkedData
             tFile.AppendLine("return $tString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function versionTest($sVersion)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $ENV;");
@@ -1315,10 +1318,12 @@ namespace NetWorkedData
             tFile.AppendLine("return $return;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("// log function");
             tFile.AppendLine("$RRR_LOG = '';");
             tFile.AppendLine("$RRR_LOG_CNT = 0;");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function myLogLineReturn()");
             tFile.AppendLine("{");
             tFile.AppendLine("global $RRR_LOG,$RRR_LOG_CNT;");
@@ -1326,6 +1331,7 @@ namespace NetWorkedData
             tFile.AppendLine("$RRR_LOG.='\\r'.$RRR_LOG_CNT;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function myLog($sString, $sfile, $sfunction, $sline)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $RRR_LOG,$RRR_LOG_CNT;");
@@ -1355,6 +1361,7 @@ namespace NetWorkedData
             tFile.AppendLine("$RRR_LOG.=$sString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function adminHashTest ($sAdminHash, $sAdminKey, $sFrequence)");
             tFile.AppendLine("{");
             tFile.AppendLine("$rReturn = false;");
@@ -1379,6 +1386,7 @@ namespace NetWorkedData
             tFile.AppendLine("return $rReturn;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function referenceRandom ($sPrefix)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $TIME_SYNC;");
@@ -1386,6 +1394,7 @@ namespace NetWorkedData
             tFile.AppendLine("return $sPrefix.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function referenceGenerate ($sPrefix, $sTable, $sColumn)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON;");
@@ -1415,11 +1424,13 @@ namespace NetWorkedData
             tFile.AppendLine("return $tReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("// temporary account ?");
             tFile.AppendLine("// global $ACC_TMP, $ACC_NEED_USER_TRANSFERT;");
             tFile.AppendLine("$ACC_TMP = false;");
             tFile.AppendLine("$ACC_NEED_USER_TRANSFERT = false;");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function AccountAnonymousNeeded($sUserTransfert=true)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $ACC_TMP, $ACC_NEED_USER_TRANSFERT;");
@@ -1446,6 +1457,7 @@ namespace NetWorkedData
             tFile.AppendLine("//      respondRemove('reloaddatas');");
             tFile.AppendLine("//  }");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function AccountAnonymeGenerate($sExit=true)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $ACC_TMP, $TIME_SYNC, $ACC_NEED_USER_TRANSFERT;");
@@ -1464,7 +1476,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQLValue='';");
             tFile.AppendLine("//`Reference`, `DM`, `DS`, `DevSync`, `PreprodSync`, `ProdSync`, `AC`, `AppleNotificationToken`, `Ban`, `DC`, `DD`,");
             tFile.AppendLine("// `Email`, `FacebookID`, `GoogleID`, `GoogleNotificationToken`, `InError`, ");
-            tFile.AppendLine("//`InternalDescription`, `InternalKey`, `MinVersion`, `Password`, `Preview`, `SecretKey`, `Tag`, `UseInEnvironment`, `WebServiceVersion`, `XX`");
+            tFile.AppendLine("//`InternalDescription`, `InternalKey`, `MinVersion`, `Password`, `Preview`, `SecretKey`, `Tag`, `UseInEnvironment`, `WebModel`, `XX`");
             tFile.AppendLine("$tInsertSQL.='INSERT INTO `'.$ENV.'_NWDAccount` (';");
             tFile.AppendLine("$tInsertSQL.='`Reference`, '; $tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($tNewUUID).'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`ServerHash`, ';$tInsertSQLValue.= '\\'\\', ';");
@@ -1511,7 +1523,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQL.='`SecretKey`, '; $tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($tNewSecretKey).'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`Tag`, ';$tInsertSQLValue.= '\\'19\\', '; // server created");
             tFile.AppendLine("$tInsertSQL.='`UseInEnvironment`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            tFile.AppendLine("$tInsertSQL.='`WebServiceVersion`, ';$tInsertSQLValue.= '\\''.$SQL_NWDAccount_WebService.'\\', ';");
+            tFile.AppendLine("$tInsertSQL.='`WebModel`, ';$tInsertSQLValue.= '\\''.$SQL_NWDAccount_WebService.'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`XX` ';$tInsertSQLValue.= '\\'0\\'';");
             tFile.AppendLine("$tInsertSQL.=')';");
             tFile.AppendLine("$tInsertSQL.=' VALUES ('.$tInsertSQLValue.');';");
@@ -1544,6 +1556,7 @@ namespace NetWorkedData
             tFile.AppendLine("return $rReturn;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function CodeRandomSizable (int $sSize)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tMin = 1;");
@@ -1556,6 +1569,7 @@ namespace NetWorkedData
             tFile.AppendLine("return rand ($tMin ,$tMax );");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function RandomString($sLength = 10) {");
             tFile.AppendLine("$tCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';");
             tFile.AppendLine("$tCharactersLength = strlen($tCharacters);");
@@ -1567,6 +1581,7 @@ namespace NetWorkedData
             tFile.AppendLine("return $tRandomString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $TIME_SYNC;");

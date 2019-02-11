@@ -8,23 +8,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
-    {//-------------------------------------------------------------------------------------------------------------
+    {
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
             InsertInIndex();
@@ -178,13 +169,13 @@ namespace NetWorkedData
         {
             NWDUserPreference rReturn = FindFirstByIndex(sDataReference);
             NWDPreferenceKey tKey = NWDPreferenceKey.GetDataByReference(sDataReference);
-            
+
             if (rReturn == null && tKey != null)
             {
                 rReturn = NewData();
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 rReturn.InternalKey = NWDAccountNickname.GetNickname();
-                #endif
+#endif
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.PreferenceKey.SetReference(sDataReference);
                 rReturn.Value.SetValue(tKey.Default.Value);
@@ -194,14 +185,14 @@ namespace NetWorkedData
             if (rReturn == null)
             {
                 rReturn = NewData();
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 rReturn.InternalKey = "NoKeyError - " + NWDAccountNickname.GetNickname();
-                #endif
+#endif
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.PreferenceKey.SetReference(sDataReference);
                 rReturn.SaveData();
             }
-            
+
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

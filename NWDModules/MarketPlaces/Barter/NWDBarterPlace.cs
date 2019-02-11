@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -6,61 +6,10 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
-using UnityEngine;
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Use NWDTradeStatus
-    //public enum NWDBarterStatus
-    //{
-    //    None = 0,
-    //    Active = 1,
-    //    Waiting = 2,
-    //    Deal = 3,
-    //    Accepted = 4,
-    //    Expired = 6,
-    //    Cancel = 9,
-    //}
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-	[Serializable]
-    public class NWDBarterPlaceConnection : NWDConnection<NWDBarterPlace>
-    {
-    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("BRW")]
@@ -68,8 +17,6 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Barter Place")]
     public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem
@@ -98,15 +45,6 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        //[NWDGroupStart("Money Authorization", true, true, true)]
-        //public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
-        //public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
-        //public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
-        //public NWDReferencesListType<NWDKeyword> FilterMoneyKeywords { get; set; }
-        //[NWDGroupEnd]
-
-        //[NWDGroupSeparator]
-
         [NWDGroupStart("Trade Detail", true, true, true)]
         //public NWDReferencesListType<NWDItem> Moneys
         //{
@@ -125,14 +63,23 @@ namespace NetWorkedData
         {
             get; set;
         }
+
+        [NWDIntSlider(K_BARTER_REQUEST_MIN, K_BARTER_REQUEST_MAX)]
+        [NWDAlias("MaxRequestPerUser")]
         public int MaxRequestPerUser
         {
             get; set;
         }
+
+        [NWDIntSlider(K_BARTER_PROPOSITIONS_PER_USER_MIN, K_BARTER_PROPOSITIONS_PER_USER_MAX)]
+        [NWDAlias("MaxPropositionsPerUser")]
         public int MaxPropositionsPerUser
         {
             get; set;
         }
+
+        [NWDIntSlider(K_BARTER_PROPOSITIONS_PER_REQUEST_MIN, K_BARTER_PROPOSITIONS_PER_REQUEST_MAX)]
+        [NWDAlias("MaxPropositionsPerRequest")]
         public int MaxPropositionsPerRequest
         {
             get; set;
@@ -142,64 +89,30 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("Minimum time before cancel")]
+        [NWDAlias("CancelDelay")]
         public int CancelDelay
         {
             get; set;
         }
         [NWDTooltips("Minimum time before choose")]
+        [NWDAlias("WaitingLifeTime")]
         public int WaitingLifeTime
         {
             get; set;
         }
         [NWDTooltips("Maximum time life")]
+        [NWDAlias("RequestLifeTime")]
         public int RequestLifeTime
         {
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDBarterPlace()
-        {
-            //Debug.Log("NWDBarterPlace Constructor");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDBarterPlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
-        public static void MyClassMethod()
-        {
-            // do something with this class
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-            RefreshDelay = 60 * 3;
-            CancelDelay = 60 * 5;
-            MaxRequestPerUser = 3;
-            MaxPropositionsPerUser = 20;
-            MaxPropositionsPerRequest = 10;
-            WaitingLifeTime = 60 * 60 * 1;
-            RequestLifeTime = 60 * 60 * 24;
-        }
         //-------------------------------------------------------------------------------------------------------------
         public string GetLifeTime()
         {
             // Return value
             string rLifeTime = "";
-
+            
             // Set Trade Life Time
             DateTime tToday = DateTime.UtcNow;
             DateTime tLifeTime = tToday.AddSeconds(RequestLifeTime);
@@ -226,85 +139,9 @@ namespace NetWorkedData
                     }
                 }
             }
-
+            
             return rLifeTime;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        //Addons for Edition
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonEdited(bool sNeedBeUpdate)
-        {
-            if (sNeedBeUpdate == true)
-            {
-                // do something
-            }
-            return sNeedBeUpdate;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
-        {
-            // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
-        {
-            // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

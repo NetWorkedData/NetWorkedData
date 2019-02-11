@@ -341,6 +341,7 @@ namespace NetWorkedData
             //========= SYNCHRONIZATION FUNCTIONS FILE
             // if need Account reference I prepare the restriction
             List<string> tAccountReference = new List<string>();
+            List<string> tGameSaveReference = new List<string>();
             List<string> tAccountReferences = new List<string>();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -357,6 +358,11 @@ namespace NetWorkedData
                             {
                                 tAccountReference.Add("`" + tProp.Name + "` LIKE \\''.$SQL_CON->real_escape_string($sAccountReference).'\\' ");
                                 tAccountReferences.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sAccountReferences).'\\') ");
+                            }
+                            if (tSubType == typeof(NWDGameSave))
+                            {
+                                tGameSaveReference.Add("`" + tProp.Name + "` LIKE \\''.$SQL_CON->real_escape_string($sGameSaveReference).'\\' ");
+                                //tGameSaveReference.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sGameSaveReferences).'\\') ");
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
@@ -425,6 +431,10 @@ namespace NetWorkedData
             tFile.AppendLine("unset($sCsvList[4]);//remove PreprodSync");
             tFile.AppendLine("unset($sCsvList[5]);//remove ProdSync");
             tFile.AppendLine("$sDataString = implode('',$sCsvList);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));");
             tFile.AppendLine("if ($tCalculate!=$tIntegrity)");
             tFile.AppendLine("{");
@@ -446,6 +456,10 @@ namespace NetWorkedData
             tFile.AppendLine("unset($sCsvList[4]);//remove PreprodSync");
             tFile.AppendLine("unset($sCsvList[5]);//remove ProdSync");
             tFile.AppendLine("$sDataString = implode('',$sCsvList);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("$tCalculate = str_replace('|', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));");
             tFile.AppendLine("$sCsvArray[$sIndex] = $sValue;");
             tFile.AppendLine("array_pop($sCsvArray);");
@@ -468,6 +482,10 @@ namespace NetWorkedData
             tFile.AppendLine("unset($sCsvList[4]);//remove PreprodSync");
             tFile.AppendLine("unset($sCsvList[5]);//remove ProdSync");
             tFile.AppendLine("$sDataString = implode('',$sCsvList);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("$tCalculate = str_replace('|', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));");
             tFile.AppendLine("foreach(array_keys($sIndexesAndValues) as $tKey)");
             tFile.AppendLine("{");
@@ -528,6 +546,10 @@ namespace NetWorkedData
                 tFile.Append(".$sRow['" + tPropertyName + "']");
             }
             tFile.AppendLine(";");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('sDataServerString : '.$sDataServerString.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("return str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -543,7 +565,10 @@ namespace NetWorkedData
                 tFile.Append(".$sRow['" + tPropertyName + "']");
             }
             tFile.AppendLine(";");
-            tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
+            if (sEnvironment.LogMode == true)
+            {
+                tFile.AppendLine("myLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);");
+            }
             tFile.AppendLine("return str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -567,14 +592,14 @@ namespace NetWorkedData
             tFile.AppendLine("// I calculate the integrity and reinject the good value");
             tFile.AppendLine("$tRow = $tResult->fetch_assoc();");
             //"$tRow['WebServiceVersion'] = $WSBUILD;" );
-            tFile.AppendLine("$tRow['WebServiceVersion'] = $SQL_" + tClassName + "_WebService;");
+            tFile.AppendLine("$tRow['WebModel'] = $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("$tCalculate = Integrity" + tClassName + "Generate ($tRow);");
             tFile.AppendLine("$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);");
-            tFile.AppendLine("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\',");
+            tFile.Append("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\',");
             tFile.Append(" `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\',");
             tFile.Append(" `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' ,");
-            //tSynchronizationFile.Append(" `WebServiceVersion` = \\''.$WSBUILD.'\\'" );
-            tFile.AppendLine(" `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            //tSynchronizationFile.Append(" `WebModel` = \\''.$WSBUILD.'\\'" );
+            tFile.AppendLine(" `WebModel` = \\''.$SQL_" + tClassName + "_WebService.'\\'" + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
@@ -767,7 +792,7 @@ namespace NetWorkedData
             }
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$WSBUILD.'';");
+            tFile.AppendLine("$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebModel` <= '.$WSBUILD.'';");
             tFile.AppendLine("}");
             //"else" );
             //"{" );
@@ -847,7 +872,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -860,6 +885,12 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+
+            MethodInfo tMethodDeclareGet = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpGetCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodDeclareGet != null)
+            {
+                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            }
             tFile.AppendLine("}");
             string tSpecialAdd = string.Empty;
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -907,7 +938,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -920,6 +951,10 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            if (tMethodDeclareGet != null)
+            {
+                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            }
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -952,7 +987,7 @@ namespace NetWorkedData
             tFile.AppendLine("';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             // I do the result operation
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
@@ -966,6 +1001,10 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            if (tMethodDeclareGet != null)
+            {
+                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            }
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -975,6 +1014,68 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+            tFile.AppendLine("function GetDatasByGameSave" + tClassName + " ($sTimeStamp, $sAccountReference, $sGameSaveReference)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;");
+            tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;");
+            tFile.AppendLine("global $REP;");
+            tFile.AppendLine("global $admin;");
+            //"$tPage = $sPage*$sLimit;" );
+            tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
+            //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
+            tFile.Append("(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')");
+            // if need Account reference
+            if (tAccountReference.Count == 0)
+            {
+            }
+            else
+            {
+                tFile.Append("AND (" + string.Join("OR ", tAccountReference.ToArray()) + ") ");
+            }
+            if (tGameSaveReference.Count == 0)
+            {
+            }
+            else
+            {
+                tFile.Append("AND (" + string.Join("OR ", tGameSaveReference.ToArray()) + ") ");
+            }
+            tFile.AppendLine("';");
+            tFile.AppendLine("if ($admin == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
+            tFile.AppendLine("}");
+            // I do the result operation
+            tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
+            tFile.AppendLine("if (!$tResult)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine("error('" + tTrigramme + "x33');");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("while($tRow = $tResult->fetch_row())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            if (tMethodDeclareGet != null)
+            {
+                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            }
+            tFile.AppendLine("}");
+            if (tSpecialAdd != string.Empty)
+            {
+                tFile.AppendLine("$tResult->data_seek(0);while($tRow = $tResult->fetch_assoc()){" + tSpecialAdd + "}");
+            }
+            tFile.AppendLine("mysqli_free_result($tResult);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+
+
+
 
             tFile.AppendLine("function GetDatas" + tClassName + "ByAccounts ($sTimeStamp, $sAccountReferences)");
             tFile.AppendLine("{");
@@ -993,7 +1094,7 @@ namespace NetWorkedData
             {
                 tFile.Append("AND (" + string.Join("OR ", tAccountReferences.ToArray()) + ") ");
             }
-            tFile.AppendLine(" AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';");
+            tFile.AppendLine(" AND `WebModel` <= '.$SQL_" + tClassName + "_WebService.';';");
             // I do the result operation
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -1006,6 +1107,10 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            if (tMethodDeclareGet != null)
+            {
+                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            }
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {

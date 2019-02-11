@@ -5,13 +5,13 @@
 //
 //=====================================================================================================================
 
+#if UNITY_EDITOR
+
 using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 using System;
-
-#if UNITY_EDITOR
 
 using UnityEditor;
 using UnityEditor.Build;

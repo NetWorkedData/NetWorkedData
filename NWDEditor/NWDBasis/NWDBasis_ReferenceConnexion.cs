@@ -4,16 +4,13 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-using SQLite4Unity3d;
-using System.IO;
 using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -29,11 +26,6 @@ namespace NetWorkedData
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sValue);
-            //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sValue);
-            //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-            //{
-            //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            //}
             if (tObject != null)
             {
                 if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
@@ -99,12 +91,7 @@ namespace NetWorkedData
                 tValue = tNextValue;
                 tAutoChange = true;
             }
-            NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tValue);;
-            //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tValue);
-            //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-            //{
-            //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            //}
+            NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tValue);
             if (tAutoChange == true)
             {
                 SetObjectInEdition(tObject);
@@ -115,10 +102,7 @@ namespace NetWorkedData
                 {
                     if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
                     {
-                        //if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-                        //{
-                            SetObjectInEdition(tObject);
-                        //}
+                        SetObjectInEdition(tObject);
                     }
                 }
                 float tHelpBoxHeight = 0;
@@ -192,11 +176,6 @@ namespace NetWorkedData
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
-            //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sProperty.FindPropertyRelative("Reference").stringValue);
-            //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-            //{
-            //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            //}
             if (tObject != null)
             {
                 if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
@@ -241,17 +220,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool kInspectorFoldout = false;
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// References the connection field serialized.
-        /// </summary>
-        /// <param name="sPosition">position.</param>
-        /// <param name="sEntitled">entitled.</param>
-        /// <param name="sProperty">property.</param>
-        /// <param name="sToolsTips">tools tips.</param>
-        /// <param name="sShowInspector">If set to <c>true</c> show inspector.</param>
-        /// <param name="sEditionEnable">If set to <c>true</c> edition enable.</param>
-        /// <param name="sEditButton">If set to <c>true</c> edit button.</param>
-        /// <param name="sNewButton">If set to <c>true</c> new button.</param>
         [NWDAliasMethod(NWDConstants.M_ReferenceConnectionFieldSerialized)]
         public static void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         {
@@ -309,18 +277,6 @@ namespace NetWorkedData
                     tInternalNameList.Add(tKeyValue.Value);
                 }
 
-                //tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-                //tInternalNameList.Add(" ");
-                //var tReferenceListInfo = tType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                //if (tReferenceListInfo != null)
-                //{
-                //    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
-                //}
-                //var tInternalNameListInfo = tType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                //if (tInternalNameListInfo != null)
-                //{
-                //    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
-                //}
                 int tIndex = tReferenceList.IndexOf(tValue);
 
                 var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
@@ -336,11 +292,7 @@ namespace NetWorkedData
                     tAutoChange = true;
                 }
                 NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tFuturValue);
-                //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tFuturValue);
-                //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-                //{
-                //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-                //}
+               
                 if (tAutoChange == true)
                 {
                     SetObjectInEdition(tObject, true, false);
@@ -433,11 +385,6 @@ namespace NetWorkedData
 
                 if (tConnection == false)
                 {
-                    //GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, tLabelStyle);
-                    //tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
-                    ////              GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-                    ////              tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-             
                     NWDConstants.GUIRedButtonBegin();
                     if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
                     {

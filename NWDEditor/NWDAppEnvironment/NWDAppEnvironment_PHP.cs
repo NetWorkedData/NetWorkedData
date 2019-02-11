@@ -471,11 +471,6 @@ namespace NetWorkedData
             StringBuilder tWebServicesAnnexe = new StringBuilder(string.Empty);
             tWebServicesAnnexe.AppendLine("<?php");
             tWebServicesAnnexe.AppendLine(Headlines());
-            //if (LogMode == true)
-            //{
-            //    tWebServicesAnnexe.AppendLine("error_reporting (E_ALL);");
-            //    tWebServicesAnnexe.AppendLine("ini_set ('display_errors', 1);");
-            //}
             tWebServicesAnnexe.AppendLine("// WEBSERVICES INSIDE");
             tWebServicesAnnexe.AppendLine(NWD.K_CommentSeparator);
             tWebServicesAnnexe.AppendLine("if (!errorDetected())");
@@ -516,11 +511,6 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);             tWebServicesAddon.AppendLine("<?php");
             tWebServicesAddon.AppendLine(Headlines());
-            //if (LogMode == true)
-            //{
-            //    tWebServicesAddon.AppendLine("error_reporting (E_ALL);");
-            //    tWebServicesAddon.AppendLine("ini_set ('display_errors', 1);");
-            //}
             tWebServicesAddon.AppendLine("// WEBSERVICES ADDON");
             tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
             tWebServicesAddon.AppendLine("if (!errorDetected())");

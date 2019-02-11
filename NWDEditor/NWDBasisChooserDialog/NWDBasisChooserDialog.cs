@@ -1,11 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2019
+// All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
+//
+//=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Reflection;
-#if UNITY_EDITOR
 using UnityEditor;
-using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -16,7 +20,6 @@ namespace NetWorkedData
         Replace,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //public class NWDBasisChooserDialog <K>: EditorWindow where K : NWDBasis<K>, new()
     public class NWDBasisChooserDialog : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------

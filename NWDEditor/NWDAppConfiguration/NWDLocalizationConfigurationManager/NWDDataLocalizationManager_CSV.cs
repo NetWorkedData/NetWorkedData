@@ -14,14 +14,10 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataLocalizationManager
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Reorder all localizations and clean datas.
-        /// </summary>
         public void ReOrderAllLocalizations()
         {
             string tProgressBarTitle = "NetWorkedData Reorder localization";
@@ -34,13 +30,6 @@ namespace NetWorkedData
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  " + tType.Name + " objects", tOperation / tCountClass);
                 tOperation++;
-                // TODO : Change to remove invoke!
-                //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ReOrderAllLocalizations);
-                //            //var tMethodInfo = tType.GetMethod("ReOrderAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                //if (tMethodInfo != null) 
-                //{
-                //tMethodInfo.Invoke(null, null);
-                //}
                 NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ReOrderAllLocalizations);
 
             }
@@ -48,12 +37,8 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Exports Localizations to csv.
-        /// </summary>
         public void ExportToCSV()
         {
-            //Debug.Log ("ExportToCSV");
             // apply the pending modification : prevent lost modification
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
@@ -72,9 +57,7 @@ namespace NetWorkedData
                 // populate file by class result
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                 {
-                    // TODO : Change to remove invoke!
                     MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
-                    //var tMethodInfo = tType.GetMethod ("ExportLocalizationInCSV", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
                         string tResult = tMethodInfo.Invoke(null, null) as string;
@@ -86,15 +69,10 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Imports Localizations from csv.
-        /// </summary>
         public void ImportFromCSV()
         {
             //Debug.Log ("ImportFromCSV");
             string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", string.Empty, "csv");
-            // more complexe 
-
             if (tPath != null)
             {
                 string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
@@ -107,8 +85,6 @@ namespace NetWorkedData
                 {
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                     {
-                        // TODO : Change to remove invoke!
-                        //var tMethodInfo = tType.GetMethod ("ImportAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                         MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
                         if (tMethodInfo != null)
                         {

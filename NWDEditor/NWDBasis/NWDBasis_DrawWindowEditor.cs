@@ -4,14 +4,6 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
-using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================

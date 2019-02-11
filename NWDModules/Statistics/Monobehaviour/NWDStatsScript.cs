@@ -10,8 +10,8 @@ using System;
 public class NWDStatsScript : MonoBehaviour
 {
     //-------------------------------------------------------------------------------------------------------------
-    public NWDStatKeyConnection StatKeyConnection;
-    private NWDStatKey StatKey;
+    public NWDStatisticKeyConnection StatKeyConnection;
+    private NWDStatisticKey StatKey;
     public bool AutoCountDuration = false;
     public bool AutoExecuteQueue = true;
     public float IncrementValue = 1.0F;

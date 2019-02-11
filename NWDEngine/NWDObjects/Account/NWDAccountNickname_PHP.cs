@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
+using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -17,14 +18,15 @@ namespace NetWorkedData
     public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
-                   "\n " +
-                   "if (UniquePropertyValueFromValue($ENV.'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
-                   "\t{\n" +
-                   "\t\tIntegrityNWDAccountNicknameReevalue($tReference);\n" +
-                   "\t}\n";
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("if (UniquePropertyValueFromValue($ENV.'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("IntegrityNWDAccountNicknameReevalue($tReference);");
+            rReturn.AppendLine("}");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

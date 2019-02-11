@@ -103,7 +103,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserTip> FindByIndex(NWDTip sTip)
+        static public List<NWDUserTip> FindByIndex(NWDTipKey sTip)
         {
             List<NWDUserTip> rReturn = null;
             if (sTip != null)

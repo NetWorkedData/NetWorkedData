@@ -14,14 +14,14 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDAppConfigurationManager : EditorWindow
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDAppConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         static Vector2 ScrollPosition;
-		//-------------------------------------------------------------------------------------------------------------
-		public void OnEnable ()
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnEnable()
         {
             if (IconAndTitle == null)
             {
@@ -134,7 +134,7 @@ namespace NetWorkedData
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
 
-            GUILayout.Label("Databases Editor config for all environements",NWDConstants.kLabelSubTitleStyle);
+            GUILayout.Label("Databases Editor config for all environements", NWDConstants.kLabelSubTitleStyle);
             GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             if (GUILayout.Button("Editor Database File"))
@@ -173,9 +173,9 @@ namespace NetWorkedData
             GUILayout.Space(NWDConstants.kFieldMarge);
             NWDConstants.GUIRedButtonEnd();
         }
-            //-------------------------------------------------------------------------------------------------------------
-        }
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

@@ -27,8 +27,6 @@ namespace NetWorkedData
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        #region Properties
-        //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
@@ -79,9 +77,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeProposalBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
         public tradeProposalBlock tradeProposalBlockDelegate;
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition()
         {
@@ -93,13 +88,15 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
 
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeProposition CreateTradeProposalWith(NWDUserTradeRequest sRequest)
@@ -121,10 +118,6 @@ namespace NetWorkedData
 
             return tProposition;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public void SyncTradeProposal(NWDMessage sMessage = null)
         {
@@ -209,60 +202,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        //Addons for Edition
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonEdited(bool sNeedBeUpdate)
-        {
-            if (sNeedBeUpdate == true)
-            {
-                // do something
-            }
-            return sNeedBeUpdate;
-        }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
@@ -292,13 +232,6 @@ namespace NetWorkedData
                     TradeRequestHash = tRequest.TradeHash;
                 }
             }
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
-        {
-            // Height calculate for the interface addon for editor
-            float tYadd = 20.0f;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -441,6 +374,7 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             string t_THIS_TradeRequest = FindAliasName("TradeRequest");
@@ -456,11 +390,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -6,15 +6,12 @@
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using BasicToolBox;
 using UnityEditor;
-using SQLite4Unity3d;
-using System.IO;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -250,7 +247,6 @@ namespace NetWorkedData
                     && tProp.Name != "ServerHash"
                     && tProp.Name != "InError"
                     && tProp.Name != "ServerLog"
-                    && tProp.Name != "WebServiceVersion"
                     && tProp.Name != "WebModel"
                     && tProp.Name != "ReferenceVersioned"
                     && tProp.Name != "MinVersion"
@@ -563,7 +559,6 @@ namespace NetWorkedData
                     && tProp.Name != "ServerHash"
                     && tProp.Name != "InError"
                     && tProp.Name != "ServerLog"
-                    && tProp.Name != "WebServiceVersion"
                     && tProp.Name != "WebModel"
                     && tProp.Name != "ReferenceVersioned"
                     && tProp.Name != "MinVersion"
@@ -1347,6 +1342,8 @@ namespace NetWorkedData
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity val", Integrity, tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity seq", IntegrityAssembly(), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "head integrity Csv", CSVAssemblyHead(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity Csv", CSVAssembly(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;

@@ -36,16 +36,6 @@ namespace NetWorkedData
             set; get;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAssetBundle()
-        {
-            //Debug.Log("NWDAssetBundle Constructor");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDAssetBundle(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDAssetBundle Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

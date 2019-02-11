@@ -15,7 +15,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("InApp",
                                  "NWDInAppPurchaseWindow window description",
-                                 "NWDInAppPurchaseWindow",
         new Type[] {
             typeof(NWDShop),
             typeof(NWDRack),
@@ -24,15 +23,12 @@ namespace NetWorkedData
             typeof(NWDItem),
             typeof(NWDInAppPack),
             typeof(NWDUserTransaction),
-			/* Add NWDBasis here*/
-		}
-                                 )]
+        })]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDInAppPurchaseWindow : NWDBasisWindow<NWDInAppPurchaseWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/In App Purchase", false, 570)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = GetWindow(typeof(NWDInAppPurchaseWindow));

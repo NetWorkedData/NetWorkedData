@@ -8,16 +8,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -44,7 +34,6 @@ namespace NetWorkedData
         {
             if (PreferenceKey != null)
             {
-                //Debug.Log("InsertInIndex reference =" + Reference);
                 //BTBBenchmark.Start();
                 if (PreferenceKey.GetReference() != null
                 && IsEnable() == true

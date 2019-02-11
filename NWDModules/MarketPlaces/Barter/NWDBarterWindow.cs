@@ -16,7 +16,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("Barter",
 		"Barter window description",
-        "NWDBarterWindow",
 		new Type[] {
 			typeof(NWDBarterPlace), 
 			typeof(NWDUserBarterRequest), 
@@ -26,9 +25,9 @@ namespace NetWorkedData
 		}
 	)]
 	public class NWDBarterWindow : NWDBasisWindow <NWDBarterWindow>
-	{
-		[MenuItem (NWDConstants.K_MENU_BASE+ "Marketplaces/Barter"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 550)]
-		//-------------------------------------------------------------------------------------------------------------
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem (NWDConstants.K_MENU_BASE+ "Marketplaces/Barter"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 550)]
 		public static void MenuMethod ()
 		{
 			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDBarterWindow));

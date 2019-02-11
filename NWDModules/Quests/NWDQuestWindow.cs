@@ -19,7 +19,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Quest",
         "Quest window description",
-        "NWDQuestWindow",
             new Type[] {
             typeof(NWDSetOfQuests),
             typeof(NWDQuest),
@@ -27,15 +26,13 @@ namespace NetWorkedData
             typeof(NWDCharacter),
             typeof(NWDAction),
             typeof(NWDUserQuestAdvancement),
-        typeof(NWDYoghurtLyric),
-			/* Add NWDBasis here*/
+            typeof(NWDYoghurtLyric),
 		}
     )]
     public class NWDQuestWindow : NWDBasisWindow<NWDQuestWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Quests", false, 535)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDQuestWindow));

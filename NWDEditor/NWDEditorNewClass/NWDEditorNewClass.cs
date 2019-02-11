@@ -4,6 +4,7 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -11,7 +12,6 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using System.IO;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData

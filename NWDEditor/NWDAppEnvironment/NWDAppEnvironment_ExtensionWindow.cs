@@ -28,18 +28,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             float tMinWidht = 270.0F;
             float tScrollMarge = 20.0f;
-            //int tColum = 1;
-            //if (sEditorWindow.position.width - tScrollMarge >= tMinWidht * 2)
-            //{
-            //    tColum = 2;
-            //}
             GUILayout.Label("Configuration for " + Environment + " environment", NWDConstants.kLabelTitleStyle);
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.BeginHorizontal();
-            //}
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
             GUILayout.Label("AppName for server action " + Environment, NWDConstants.kLabelSubTitleStyle);
             AppName = EditorGUILayout.TextField("AppName", AppName);
             PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
@@ -89,8 +78,6 @@ namespace NetWorkedData
             MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
             MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
             MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
-            //EditorGUILayout.EndVertical();
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
             GUILayout.Label("Social Params for " + Environment, NWDConstants.kLabelSubTitleStyle);
             FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
@@ -127,12 +114,6 @@ namespace NetWorkedData
                 BuildTimestamp = 0;
             }
             CartridgeColor = EditorGUILayout.ColorField("Cartridge Color", CartridgeColor);
-            //EditorGUILayout.EndVertical();
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.EndHorizontal();
-            //}
-            //EditorGUILayout.Space();
             FormatVerification();
             //BTBBenchmark.Finish();
         }
