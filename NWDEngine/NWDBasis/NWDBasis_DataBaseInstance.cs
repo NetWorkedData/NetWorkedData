@@ -214,7 +214,7 @@ namespace NetWorkedData
             Preview = string.Empty;
 
             int tWebModelToUse = WebModelToUse();
-            Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
+           // Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
             WebModel = tWebModelToUse;
             //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
             Type tType = ClassType();

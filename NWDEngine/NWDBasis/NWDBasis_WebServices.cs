@@ -519,6 +519,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Synchronization WebServices
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ClasseInThisSync)]
         public static List<Type> ClasseInThisSync()
         {
             List<Type> rReturn = null;

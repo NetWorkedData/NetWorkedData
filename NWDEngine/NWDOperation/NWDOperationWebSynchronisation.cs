@@ -100,7 +100,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in sTypeList)
                 {
-                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_OverrideClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
                         foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)

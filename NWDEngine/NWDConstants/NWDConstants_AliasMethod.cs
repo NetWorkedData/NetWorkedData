@@ -24,6 +24,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string M_OverrideClasseInThisSync = "OverrideClasseInThisSync_1zsF4754";
+        public const string M_ClasseInThisSync = "ClasseInThisSync_1zsF4754";
         public const string M_ClassInitialization = "ClassInitialization_df4sDe75";
         public const string M_ErrorRegenerate = "ErrorRegenerate_dzz4Eze79";
         //-------------------------------------------------------------------------------------------------------------
