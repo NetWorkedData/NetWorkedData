@@ -106,10 +106,10 @@ namespace NetWorkedData
         {
             // Create a new Proposal
             NWDUserTradeProposition tProposition = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
             tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tTrade.InternalKey;
-#endif
+            #endif
             tProposition.Tag = NWDBasisTag.TagUserCreated;
             tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
             tProposition.TradeRequest.SetObject(sRequest);

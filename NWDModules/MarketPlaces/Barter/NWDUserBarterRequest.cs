@@ -166,7 +166,7 @@ namespace NetWorkedData
         }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void barterRequestBlock(bool result, NWDOperationResult infos);
+        public delegate void barterRequestBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
         public barterRequestBlock barterRequestBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -192,7 +192,7 @@ namespace NetWorkedData
             ForRelationshipOnly = false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterRequest CreateBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed, Dictionary<string, int> sAsked)
+        public static NWDUserBarterRequest CreateBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed)
         {
             // Get Request Life time
             int tLifetime = sBarterPlace.RequestLifeTime;
@@ -200,12 +200,11 @@ namespace NetWorkedData
             // Create a new Request
             NWDUserBarterRequest tRequest = NewData();
 #if UNITY_EDITOR
-            tRequest.InternalKey = NWDAccountNickname.GetNickname(); // + " - " + sProposed.Name.GetBaseString();
+            tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
 #endif
             tRequest.Tag = NWDBasisTag.TagUserCreated;
             tRequest.BarterPlace.SetObject(sBarterPlace);
             tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
-            //tRequest.ItemsReceived.SetReferenceAndQuantity(sAsked);
             tRequest.BarterStatus = NWDTradeStatus.Active;
             tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
             tRequest.SaveData();
@@ -241,19 +240,23 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
+                // Keep TradeStatus before Clean()
+                NWDTradeStatus tBarterStatus = BarterStatus;
+
+                // Do action with Items & Sync
+                AddOrRemoveItems();
+                
                 if (barterRequestBlockDelegate != null)
                 {
-                    barterRequestBlockDelegate(true, null);
+                    barterRequestBlockDelegate(true, tBarterStatus, null);
                 }
-
-                AddOrRemoveItems();
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 if (barterRequestBlockDelegate != null)
                 {
                     NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    barterRequestBlockDelegate(false, tInfos);
+                    barterRequestBlockDelegate(false, NWDTradeStatus.None, tInfos);
                 }
             };
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
@@ -350,7 +353,6 @@ namespace NetWorkedData
         {
             BarterPlace = null;
             ItemsProposed = null;
-            //ItemsAsked = null;
             LimitDayTime = null;
             BarterStatus = NWDTradeStatus.None;
             SaveData();
