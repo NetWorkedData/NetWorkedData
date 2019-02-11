@@ -16,7 +16,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronize(true)]
-    [NWDClassTrigramme("UTRF")]
+    [NWDClassTrigramme("UTF")]
     [NWDClassDescription("User Trade Finder descriptions Class")]
     [NWDClassMenuName("User Trade Finder")]
     public partial class NWDUserTradeFinder : NWDBasis<NWDUserTradeFinder>

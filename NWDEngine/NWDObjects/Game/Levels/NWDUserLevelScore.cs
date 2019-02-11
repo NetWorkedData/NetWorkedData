@@ -12,7 +12,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("LVS")]
+    [NWDClassTrigrammeAttribute("ULS")]
     [NWDClassDescriptionAttribute("Level's Score descriptions Class")]
     [NWDClassMenuNameAttribute("Level's Score")]
     public partial class NWDUserLevelScore : NWDBasis<NWDUserLevelScore>

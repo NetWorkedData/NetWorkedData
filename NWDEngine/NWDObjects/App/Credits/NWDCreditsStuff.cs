@@ -12,7 +12,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CDS")]
+    [NWDClassTrigrammeAttribute("CRS")]
     [NWDClassDescriptionAttribute("Credits Stuff")]
     [NWDClassMenuNameAttribute("Credits Stuff")]
     public partial class NWDCreditsStuff : NWDBasis<NWDCreditsStuff>

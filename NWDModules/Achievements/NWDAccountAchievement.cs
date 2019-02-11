@@ -12,7 +12,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("WWA")]
+    [NWDClassTrigrammeAttribute("AAC")]
     [NWDClassDescriptionAttribute("Account Achievement")]
     [NWDClassMenuNameAttribute("Account Achievement")]
     public partial class NWDAccountAchievement : NWDBasis<NWDAccountAchievement>

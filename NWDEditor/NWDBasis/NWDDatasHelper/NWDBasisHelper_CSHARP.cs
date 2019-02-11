@@ -20,16 +20,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.St art();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine(ClassNamePHP + NWD.K_LOADER + "();");
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARP()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             // Write data ...
             StringBuilder rReturn = new StringBuilder(string.Empty);
@@ -82,7 +82,7 @@ namespace NetWorkedData
             rReturn.AppendLine("#endif");
             rReturn.AppendLine("}");
             rReturn.AppendLine("}");
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

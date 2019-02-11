@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using UnityEditor;
+using System.Text;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -63,6 +64,20 @@ namespace NetWorkedData
             }
             kNWDEditorConfigurationManagerWindow.ShowUtility();
             kNWDEditorConfigurationManagerWindow.Focus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "/Tools/List of trigrammes and classes", false, 4000)]
+        public static void EditorListOfTrigramme()
+        {
+            Dictionary<string, string> tListClassesTrigramme = new Dictionary<string, string>();
+            StringBuilder tText = new StringBuilder();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+                tListClassesTrigramme.Add(tData.ClassNamePHP, tData.ClassTrigramme);
+                tText.AppendLine(tData.ClassNamePHP + "\t" + tData.ClassTrigramme);
+            }
+            Debug.Log(tText);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

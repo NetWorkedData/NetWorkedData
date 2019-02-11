@@ -13,7 +13,7 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("USG")]
+	[NWDClassTrigrammeAttribute ("UUG")]
 	[NWDClassDescriptionAttribute ("Usage descriptions Class")]
 	[NWDClassMenuNameAttribute ("Usage")]
 	public partial class NWDUserUsage :NWDBasis <NWDUserUsage>

@@ -50,7 +50,7 @@ namespace NetWorkedData
     /// It's a generic class for traditionla game.
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("OWS")]
+    [NWDClassTrigrammeAttribute("UOW")]
     [NWDClassDescriptionAttribute("User Ownership descriptions Class")]
     [NWDClassMenuNameAttribute("User Ownership")]
     public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>

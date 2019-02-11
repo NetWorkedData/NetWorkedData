@@ -19,7 +19,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("QUA")]
+    [NWDClassTrigrammeAttribute("UQA")]
     [NWDClassDescriptionAttribute("Quest User Advancement descriptions Class")]
     [NWDClassMenuNameAttribute("Quest User Advancement")]
     public partial class NWDUserQuestAdvancement : NWDBasis<NWDUserQuestAdvancement>

@@ -20,7 +20,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronize(true)]
-    [NWDClassTrigramme("UTRP")]
+    [NWDClassTrigramme("UTP")]
     [NWDClassDescription("User Trade Proposition descriptions Class")]
     [NWDClassMenuName("User Trade Proposition")]
     [NWDForceSecureDataAttribute]

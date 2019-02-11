@@ -12,7 +12,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("STV")]
+    [NWDClassTrigrammeAttribute("UST")]
     [NWDClassDescriptionAttribute("UserStat")]
     [NWDClassMenuNameAttribute("UserStat")]
     public partial class NWDUserStatistic : NWDBasis<NWDUserStatistic>

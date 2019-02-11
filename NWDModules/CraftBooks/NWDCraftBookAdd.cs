@@ -18,7 +18,7 @@ namespace NetWorkedData
     //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CKA")]
+    [NWDClassTrigrammeAttribute("CBA")]
     [NWDClassDescriptionAttribute("CraftBook Add")]
     [NWDClassMenuNameAttribute("CraftBook Add")]
     //[NWDInternalKeyNotEditableAttribute]

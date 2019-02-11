@@ -46,7 +46,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UTS")]
+    [NWDClassTrigrammeAttribute("UTT")]
     [NWDClassDescriptionAttribute("User Transaction descriptions Class")]
     [NWDClassMenuNameAttribute("User Transaction")]
     [NWDForceSecureDataAttribute]
