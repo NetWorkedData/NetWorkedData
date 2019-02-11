@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -99,104 +99,6 @@ namespace NetWorkedData
         public string BarterRequestHash
         {
             get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterProposition CreateBarterProposalWith(NWDUserBarterRequest sRequest, Dictionary<string, int> sProposed)
-        {
-            // Create a new Proposal
-            NWDUserBarterProposition tProposition = NewData();
-            #if UNITY_EDITOR
-            NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
-            tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
-            #endif
-            tProposition.Tag = NWDBasisTag.TagUserCreated;
-            tProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
-            tProposition.BarterRequest.SetObject(sRequest);
-            tProposition.ItemsSend.SetReferenceAndQuantity(sProposed);
-            tProposition.BarterStatus = NWDTradeStatus.Active;
-            tProposition.BarterRequestHash = sRequest.BarterHash;
-            tProposition.SaveData();
-            
-            return tProposition;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public void SyncBarterProposal(NWDMessage sMessage = null)
-        {
-            List<Type> tLists = new List<Type>() {
-                typeof(NWDUserBarterProposition),
-                typeof(NWDUserBarterRequest),
-                typeof(NWDUserBarterFinder),
-            };
-            
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                // Keep TradeStatus before Clean()
-                NWDTradeStatus tBarterStatus = BarterStatus;
-                
-                // Notify the seller with an Inter Message
-                if (sMessage != null)
-                {
-                    string tSellerReference = BarterRequest.GetObjectAbsolute().Account.GetReference();
-                    NWDUserInterMessage.SendMessage(sMessage, tSellerReference);
-                }
-                
-                // Do action with Items & Sync
-                AddOrRemoveItems();
-                
-                if (barterProposalBlockDelegate != null)
-                {
-                    barterProposalBlockDelegate(true, tBarterStatus, null);
-                }
-            };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                if (barterProposalBlockDelegate != null)
-                {
-                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    barterProposalBlockDelegate(false, NWDTradeStatus.None, tInfos);
-                }
-            };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Cancel()
-        {
-            BarterStatus = NWDTradeStatus.Cancel;
-            SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void Clean()
-        {
-            BarterPlace = null;
-            BarterRequest = null;
-            ItemsProposed = null;
-            BarterRequestHash = null;
-            BarterStatus = NWDTradeStatus.None;
-            SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void AddOrRemoveItems()
-        {
-            if (BarterStatus == NWDTradeStatus.Accepted)
-            {
-                // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                {
-                    NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
-                }
-                
-                // Set Barter Proposition to None, so we can reused an old slot for a new transaction
-                Clean();
-                
-                // Sync NWDUserOwnership
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }
