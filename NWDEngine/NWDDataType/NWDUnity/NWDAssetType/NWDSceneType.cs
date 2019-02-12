@@ -52,7 +52,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             List<string> tScenesInBuildList = new List<string>();
             EditorBuildSettingsScene[] tBuildScenes = EditorBuildSettings.scenes;
@@ -72,6 +72,7 @@ namespace NetWorkedData
                     rReturn = true;
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

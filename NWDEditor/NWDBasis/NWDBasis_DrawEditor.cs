@@ -208,233 +208,236 @@ namespace NetWorkedData
             Type tType = ClassType();
 
             bool tDraw = true;
-            NWDGroupStartAttribute tActualGroupReference = null;
 
-            PropertyInfo[] tPropertiesArray = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            List<PropertyInfo> tPropertiesList = new List<PropertyInfo>();
-            List<PropertyInfo> tPropertieListAddon = new List<PropertyInfo>();
-            foreach (PropertyInfo tProp in tPropertiesArray)
-            {
-                if (tProp.GetCustomAttributes(typeof(NWDAddonAttribute), true).Length > 0)
-                {
-                    tPropertieListAddon.Add(tProp);
-                }
-                else
-                {
-                    tPropertiesList.Add(tProp);
-                }
-            }
-            tPropertiesList.AddRange(tPropertieListAddon);
 
-            foreach (var tProp in tPropertiesList)
-            {
-                if (tProp.Name != "ID"
-                    && tProp.Name != "Reference"
-                    && tProp.Name != "DC"
-                    && tProp.Name != "DM"
-                    && tProp.Name != "DD"
-                    && tProp.Name != "DS"
-                    && tProp.Name != "AC"
-                    && tProp.Name != "XX"
-                    && tProp.Name != "Integrity"
-                    && tProp.Name != "InternalKey"
-                    && tProp.Name != "InternalDescription"
-                    && tProp.Name != "Preview"
-                    && tProp.Name != "DevSync"
-                    && tProp.Name != "PreprodSync"
-                    && tProp.Name != "ProdSync"
-                    && tProp.Name != "Tag"
-                    && tProp.Name != "ServerHash"
-                    && tProp.Name != "InError"
-                    && tProp.Name != "ServerLog"
-                    && tProp.Name != "WebModel"
-                    && tProp.Name != "ReferenceVersioned"
-                    && tProp.Name != "MinVersion"
-                    && tProp.Name != "MaxVersion"
+            tY += NewDrawObjectInspectorHeight();
+            //NWDGroupStartAttribute tActualGroupReference = null;
 
-                   )
-                {
+            //PropertyInfo[] tPropertiesArray = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //List<PropertyInfo> tPropertiesList = new List<PropertyInfo>();
+            //List<PropertyInfo> tPropertieListAddon = new List<PropertyInfo>();
+            //foreach (PropertyInfo tProp in tPropertiesArray)
+            //{
+            //    if (tProp.GetCustomAttributes(typeof(NWDAddonAttribute), true).Length > 0)
+            //    {
+            //        tPropertieListAddon.Add(tProp);
+            //    }
+            //    else
+            //    {
+            //        tPropertiesList.Add(tProp);
+            //    }
+            //}
+            //tPropertiesList.AddRange(tPropertieListAddon);
 
-                    foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
-                    {
-                        if (tActualGroupReference != null)
-                        {
-                            tActualGroupReference = tActualGroupReference.Parent;
-                        }
-                        if (tActualGroupReference != null)
-                        {
-                            tDraw = tActualGroupReference.IsDrawable(BasisHelper().ClassName);
-                        }
-                        else
-                        {
-                            tDraw = true;
-                        }
-                    }
+            //foreach (var tProp in tPropertiesList)
+            //{
+            //    if (tProp.Name != "ID"
+            //        && tProp.Name != "Reference"
+            //        && tProp.Name != "DC"
+            //        && tProp.Name != "DM"
+            //        && tProp.Name != "DD"
+            //        && tProp.Name != "DS"
+            //        && tProp.Name != "AC"
+            //        && tProp.Name != "XX"
+            //        && tProp.Name != "Integrity"
+            //        && tProp.Name != "InternalKey"
+            //        && tProp.Name != "InternalDescription"
+            //        && tProp.Name != "Preview"
+            //        && tProp.Name != "DevSync"
+            //        && tProp.Name != "PreprodSync"
+            //        && tProp.Name != "ProdSync"
+            //        && tProp.Name != "Tag"
+            //        && tProp.Name != "ServerHash"
+            //        && tProp.Name != "InError"
+            //        && tProp.Name != "ServerLog"
+            //        && tProp.Name != "WebModel"
+            //        && tProp.Name != "ReferenceVersioned"
+            //        && tProp.Name != "MinVersion"
+            //        && tProp.Name != "MaxVersion"
 
-                    // draw separator before
-                    foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
-                    {
-                        tY += NWDConstants.kFieldMarge * 2;
-                    }
+            //       )
+            //    {
 
-                    // create a foldout group
-                    foreach (NWDGroupStartAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupStartAttribute), true).Reverse())
-                    {
-                        if (tDraw == true)
-                        {
-                            bool tBold = tReference.mBoldHeader;
-                            bool tReducible = tReference.mReducible;
-                            bool tActualDraw = tReference.mOpen;
-                            tActualDraw = tReference.GetDrawable(BasisHelper().ClassName);
-                            if (tReducible == true)
-                            {
-                                if (tBold == true)
-                                {
-                                    tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else
-                                {
-                                    tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                            }
-                            else
-                            {
-                                if (tActualDraw == true)
-                                {
-                                    if (tBold == true)
-                                    {
-                                        tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    }
-                                    else
-                                    {
-                                        tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    }
-                                }
-                            }
-                            tReference.SetDrawable(BasisHelper().ClassName, tActualDraw);
-                            tDraw = tReference.IsDrawable(BasisHelper().ClassName);
-                        }
-                        tReference.Parent = tActualGroupReference;
-                        tActualGroupReference = tReference;
-                    }
+            //        foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
+            //        {
+            //            if (tActualGroupReference != null)
+            //            {
+            //                tActualGroupReference = tActualGroupReference.Parent;
+            //            }
+            //            if (tActualGroupReference != null)
+            //            {
+            //                tDraw = tActualGroupReference.IsDrawable(BasisHelper().ClassName);
+            //            }
+            //            else
+            //            {
+            //                tDraw = true;
+            //            }
+            //        }
 
-                    if (tDraw)
-                    {
+            //        // draw separator before
+            //        foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
+            //        {
+            //            tY += NWDConstants.kFieldMarge * 2;
+            //        }
 
-                        foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
-                        {
-                            tY += NWDConstants.kFieldMarge * 2;
-                        }
-                        // draw space
-                        foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
-                        {
-                            tY += NWDConstants.kFieldMarge * 3;
-                        }
-                        foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDHeaderAttribute), true))
-                        {
-                            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                        }
-                    }
-                    if (tDraw)
-                    {
-                        {
-                            if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
-                            {
-                                tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
-                            {
-                                tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
-                            {
-                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
-                            {
-                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
-                            {
-                                tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
-                            {
-                                tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                            }
-                            else
-                            {
-                                Type tTypeOfThis = tProp.PropertyType;
-                                if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
-                                {
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis.IsEnum)
-                                {
-                                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis == typeof(bool))
-                                {
-                                    tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis == typeof(int))
-                                {
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis == typeof(long))
-                                {
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis == typeof(float))
-                                {
-                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis == typeof(double))
-                                {
-                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
-                                {
-                                    var tValue = tProp.GetValue(this, null);
-                                    if (tValue == null)
-                                    {
-                                        tValue = Activator.CreateInstance(tTypeOfThis);
-                                    }
-                                    BTBDataType tBTBDataType = (BTBDataType)tValue;
-                                    float tHeight = tBTBDataType.ControlFieldHeight();
-                                    tY += tHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
-                                {
-                                    var tValue = tProp.GetValue(this, null);
-                                    if (tValue == null)
-                                    {
-                                        tValue = Activator.CreateInstance(tTypeOfThis);
-                                    }
-                                    BTBDataTypeInt tBTBDataType = (BTBDataTypeInt)tValue;
-                                    float tHeight = tBTBDataType.ControlFieldHeight();
-                                    tY += tHeight + NWDConstants.kFieldMarge;
-                                }
-                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
-                                {
-                                    var tValue = tProp.GetValue(this, null);
-                                    if (tValue == null)
-                                    {
-                                        tValue = Activator.CreateInstance(tTypeOfThis);
-                                    }
-                                    BTBDataTypeFloat tBTBDataType = (BTBDataTypeFloat)tValue;
-                                    float tHeight = tBTBDataType.ControlFieldHeight();
-                                    tY += tHeight + NWDConstants.kFieldMarge;
-                                }
-                                else
-                                {
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            //        // create a foldout group
+            //        foreach (NWDGroupStartAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupStartAttribute), true).Reverse())
+            //        {
+            //            if (tDraw == true)
+            //            {
+            //                bool tBold = tReference.mBoldHeader;
+            //                bool tReducible = tReference.mReducible;
+            //                bool tActualDraw = tReference.mOpen;
+            //                tActualDraw = tReference.GetDrawable(BasisHelper().ClassName);
+            //                if (tReducible == true)
+            //                {
+            //                    if (tBold == true)
+            //                    {
+            //                        tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else
+            //                    {
+            //                        tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    if (tActualDraw == true)
+            //                    {
+            //                        if (tBold == true)
+            //                        {
+            //                            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        }
+            //                        else
+            //                        {
+            //                            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        }
+            //                    }
+            //                }
+            //                tReference.SetDrawable(BasisHelper().ClassName, tActualDraw);
+            //                tDraw = tReference.IsDrawable(BasisHelper().ClassName);
+            //            }
+            //            tReference.Parent = tActualGroupReference;
+            //            tActualGroupReference = tReference;
+            //        }
+
+            //        if (tDraw)
+            //        {
+
+            //            foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+            //            {
+            //                tY += NWDConstants.kFieldMarge * 2;
+            //            }
+            //            // draw space
+            //            foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
+            //            {
+            //                tY += NWDConstants.kFieldMarge * 3;
+            //            }
+            //            foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDHeaderAttribute), true))
+            //            {
+            //                tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //            }
+            //        }
+            //        if (tDraw)
+            //        {
+            //            {
+            //                if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
+            //                {
+            //                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
+            //                {
+            //                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
+            //                {
+            //                    tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
+            //                {
+            //                    tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
+            //                {
+            //                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
+            //                {
+            //                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                }
+            //                else
+            //                {
+            //                    Type tTypeOfThis = tProp.PropertyType;
+            //                    if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+            //                    {
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis.IsEnum)
+            //                    {
+            //                        tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis == typeof(bool))
+            //                    {
+            //                        tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis == typeof(int))
+            //                    {
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis == typeof(long))
+            //                    {
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis == typeof(float))
+            //                    {
+            //                        tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis == typeof(double))
+            //                    {
+            //                        tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+            //                    {
+            //                        var tValue = tProp.GetValue(this, null);
+            //                        if (tValue == null)
+            //                        {
+            //                            tValue = Activator.CreateInstance(tTypeOfThis);
+            //                        }
+            //                        BTBDataType tBTBDataType = (BTBDataType)tValue;
+            //                        float tHeight = tBTBDataType.ControlFieldHeight();
+            //                        tY += tHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+            //                    {
+            //                        var tValue = tProp.GetValue(this, null);
+            //                        if (tValue == null)
+            //                        {
+            //                            tValue = Activator.CreateInstance(tTypeOfThis);
+            //                        }
+            //                        BTBDataTypeInt tBTBDataType = (BTBDataTypeInt)tValue;
+            //                        float tHeight = tBTBDataType.ControlFieldHeight();
+            //                        tY += tHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+            //                    {
+            //                        var tValue = tProp.GetValue(this, null);
+            //                        if (tValue == null)
+            //                        {
+            //                            tValue = Activator.CreateInstance(tTypeOfThis);
+            //                        }
+            //                        BTBDataTypeFloat tBTBDataType = (BTBDataTypeFloat)tValue;
+            //                        float tHeight = tBTBDataType.ControlFieldHeight();
+            //                        tY += tHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else
+            //                    {
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
             // add final marge
             tY += NWDConstants.kFieldMarge;
             tY += AddonEditorHeight();
@@ -518,525 +521,535 @@ namespace NetWorkedData
 
             EditorGUI.BeginDisabledGroup(sEditionEnable == false);
 
-            PropertyInfo[] tPropertiesArray = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            List<PropertyInfo> tPropertiesList = new List<PropertyInfo>();
-            List<PropertyInfo> tPropertieListAddon = new List<PropertyInfo>();
-            foreach (PropertyInfo tProp in tPropertiesArray)
-            {
-                if (tProp.GetCustomAttributes(typeof(NWDAddonAttribute), true).Length > 0)
-                {
-                    tPropertieListAddon.Add(tProp);
-                }
-                else
-                {
-                    tPropertiesList.Add(tProp);
-                }
-            }
-            tPropertiesList.AddRange(tPropertieListAddon);
+            //PropertyInfo[] tPropertiesArray = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //List<PropertyInfo> tPropertiesList = new List<PropertyInfo>();
+            //List<PropertyInfo> tPropertieListAddon = new List<PropertyInfo>();
+            //foreach (PropertyInfo tProp in tPropertiesArray)
+            //{
+            //    if (tProp.GetCustomAttributes(typeof(NWDAddonAttribute), true).Length > 0)
+            //    {
+            //        tPropertieListAddon.Add(tProp);
+            //    }
+            //    else
+            //    {
+            //        tPropertiesList.Add(tProp);
+            //    }
+            //}
+            //tPropertiesList.AddRange(tPropertieListAddon);
 
-            List<string> tPropertyListInWebModel = new List<string>();
-            tPropertyListInWebModel.AddRange(PropertiesOrderArray(WebModel));
-
-
-            foreach (var tProp in tPropertiesList)
-            {
-                if (tProp.Name != "ID"
-                    && tProp.Name != "Reference"
-                    && tProp.Name != "DC"
-                    && tProp.Name != "DM"
-                    && tProp.Name != "DD"
-                    && tProp.Name != "DS"
-                    && tProp.Name != "AC"
-                    && tProp.Name != "XX"
-                    && tProp.Name != "Integrity"
-                    && tProp.Name != "InternalKey"
-                    && tProp.Name != "InternalDescription"
-                    && tProp.Name != "Preview"
-                    && tProp.Name != "DevSync"
-                    && tProp.Name != "PreprodSync"
-                    && tProp.Name != "ProdSync"
-                    && tProp.Name != "Tag"
-                    && tProp.Name != "ServerHash"
-                    && tProp.Name != "InError"
-                    && tProp.Name != "ServerLog"
-                    && tProp.Name != "WebModel"
-                    && tProp.Name != "ReferenceVersioned"
-                    && tProp.Name != "MinVersion"
-                    && tProp.Name != "MaxVersion"
-
-                   )
-                {
+            //List<string> tPropertyListInWebModel = new List<string>();
+            //tPropertyListInWebModel.AddRange(PropertiesOrderArray(WebModel));
 
 
-                    if (tPropertyListInWebModel.Contains(tProp.Name))
-                    {
+            //foreach (var tProp in tPropertiesList)
+            //{
+            //    if (tProp.Name != "ID"
+            //        && tProp.Name != "Reference"
+            //        && tProp.Name != "DC"
+            //        && tProp.Name != "DM"
+            //        && tProp.Name != "DD"
+            //        && tProp.Name != "DS"
+            //        && tProp.Name != "AC"
+            //        && tProp.Name != "XX"
+            //        && tProp.Name != "Integrity"
+            //        && tProp.Name != "InternalKey"
+            //        && tProp.Name != "InternalDescription"
+            //        && tProp.Name != "Preview"
+            //        && tProp.Name != "DevSync"
+            //        && tProp.Name != "PreprodSync"
+            //        && tProp.Name != "ProdSync"
+            //        && tProp.Name != "Tag"
+            //        && tProp.Name != "ServerHash"
+            //        && tProp.Name != "InError"
+            //        && tProp.Name != "ServerLog"
+            //        && tProp.Name != "WebModel"
+            //        && tProp.Name != "ReferenceVersioned"
+            //        && tProp.Name != "MinVersion"
+            //        && tProp.Name != "MaxVersion"
 
-                    }
-                    else
-                    {
-                    }
-
-                    foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
-                    {
-                        if (tActualGroupReference != null)
-                        {
-                            tActualGroupReference = tActualGroupReference.Parent;
-                        }
-                        if (tActualGroupReference != null)
-                        {
-                            tDraw = tActualGroupReference.IsDrawable(BasisHelper().ClassName);
-                        }
-                        else
-                        {
-                            tDraw = true;
-                        }
-                        if (tDraw == true)
-                        {
-                            EditorGUI.indentLevel--;
-                        }
-                    }
-                    // draw separator before
-                    foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
-                    {
-                        EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
-                        tY += NWDConstants.kFieldMarge * 2;
-                    }
-
-                    // create a foldout group
-                    foreach (NWDGroupStartAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupStartAttribute), true).Reverse())
-                    {
-                        if (tDraw == true)
-                        {
-
-                            bool tBold = tReference.mBoldHeader;
-                            bool tReducible = tReference.mReducible;
-                            bool tActualDraw = tReference.mOpen;
-                            tActualDraw = tReference.GetDrawable(BasisHelper().ClassName);
-                            if (tReducible == true)
-                            {
-                                if (tBold == true)
-                                {
-                                    tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tBoldFoldoutStyle.fixedHeight), tActualDraw, tReference.Content(), tBoldFoldoutStyle);
-                                    tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                                else
-                                {
-                                    tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tFoldoutStyle.fixedHeight), tActualDraw, tReference.Content(), tFoldoutStyle);
-                                    tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                            }
-                            else
-                            {
-                                if (tActualDraw == true)
-                                {
-                                    if (tBold == true)
-                                    {
-                                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mGroupName, tBoldLabelStyle);
-                                        tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    }
-                                    else
-                                    {
-                                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), tReference.mGroupName, tLabelStyle);
-                                        tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    }
-                                }
-                            }
-                            tReference.SetDrawable(BasisHelper().ClassName, tActualDraw);
-                            tDraw = tReference.IsDrawable(BasisHelper().ClassName);
-                            EditorGUI.indentLevel++;
-                        }
-                        tReference.Parent = tActualGroupReference;
-                        tActualGroupReference = tReference;
-                    }
-                    // finish the foldout group management
+            //       )
+            //    {
 
 
-                    if (tDraw)
-                    {
+            //        if (tPropertyListInWebModel.Contains(tProp.Name))
+            //        {
 
-                        foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
-                        {
-                            Rect tRect = EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1));
-                            EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
-                            tY += NWDConstants.kFieldMarge * 2;
-                        }
-                        // draw space
-                        foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
-                        {
-                            tY += NWDConstants.kFieldMarge * 3;
-                        }
-                        foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDHeaderAttribute), true))
-                        {
-                            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mHeader, tBoldLabelStyle);
-                            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                        }
-                    }
-                    // So Iif I nee dto draw somethings … 
-                    if (tDraw ==true)
-                    {
-                        bool tHidden = false;
-                        // get entitled and toolstips
-                        string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
-                        string tToolsTips = string.Empty;
-                        if (tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true).Length > 0)
-                        {
-                            NWDEntitledAttribute tReference = (NWDEntitledAttribute)tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true)[0];
-                            tEntitled = tReference.Entitled;
-                            tToolsTips = tReference.ToolsTips;
-                        }
+            //        }
+            //        else
+            //        {
+            //        }
 
-                        if (tProp.GetCustomAttributes(typeof(NWDNotWorking), true).Length > 0)
-                        {
-                            NWDNotWorking tReference = (NWDNotWorking)tProp.GetCustomAttributes(typeof(NWDNotWorking), true)[0];
+            //        foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
+            //        {
+            //            if (tActualGroupReference != null)
+            //            {
+            //                tActualGroupReference = tActualGroupReference.Parent;
+            //            }
+            //            if (tActualGroupReference != null)
+            //            {
+            //                tDraw = tActualGroupReference.IsDrawable(BasisHelper().ClassName);
+            //            }
+            //            else
+            //            {
+            //                tDraw = true;
+            //            }
+            //            if (tDraw == true)
+            //            {
+            //                EditorGUI.indentLevel--;
+            //            }
+            //        }
+            //        // draw separator before
+            //        foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
+            //        {
+            //            EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
+            //            tY += NWDConstants.kFieldMarge * 2;
+            //        }
 
-                            tEntitled = "[NOT WORKING] "+tEntitled;
-                            tToolsTips = tReference.ToolsTips + " " + tToolsTips;
-                        }
-                        if (tProp.GetCustomAttributes(typeof(NWDInDevelopment), true).Length > 0)
-                        {
-                            NWDInDevelopment tReference = (NWDInDevelopment)tProp.GetCustomAttributes(typeof(NWDInDevelopment), true)[0];
-                            tEntitled = "[IN DEV] " + tEntitled;
-                            tToolsTips = tReference.ToolsTips + " " + tToolsTips;
-                        }
+            //        // create a foldout group
+            //        foreach (NWDGroupStartAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupStartAttribute), true).Reverse())
+            //        {
+            //            if (tDraw == true)
+            //            {
 
-                        if (tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true).Length > 0)
-                        {
-                            NWDTooltipsAttribute tReference = (NWDTooltipsAttribute)tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true)[0];
-                            tToolsTips = tReference.ToolsTips;
-                        } 
-                        bool tDisabled = false;
+            //                bool tBold = tReference.mBoldHeader;
+            //                bool tReducible = tReference.mReducible;
+            //                bool tActualDraw = tReference.mOpen;
+            //                tActualDraw = tReference.GetDrawable(BasisHelper().ClassName);
+            //                if (tReducible == true)
+            //                {
+            //                    if (tBold == true)
+            //                    {
+            //                        tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tBoldFoldoutStyle.fixedHeight), tActualDraw, tReference.Content(), tBoldFoldoutStyle);
+            //                        tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                    else
+            //                    {
+            //                        tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tFoldoutStyle.fixedHeight), tActualDraw, tReference.Content(), tFoldoutStyle);
+            //                        tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    if (tActualDraw == true)
+            //                    {
+            //                        if (tBold == true)
+            //                        {
+            //                            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mGroupName, tBoldLabelStyle);
+            //                            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        }
+            //                        else
+            //                        {
+            //                            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), tReference.mGroupName, tLabelStyle);
+            //                            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        }
+            //                    }
+            //                }
+            //                tReference.SetDrawable(BasisHelper().ClassName, tActualDraw);
+            //                tDraw = tReference.IsDrawable(BasisHelper().ClassName);
+            //                EditorGUI.indentLevel++;
+            //            }
+            //            tReference.Parent = tActualGroupReference;
+            //            tActualGroupReference = tReference;
+            //        }
+            //        // finish the foldout group management
 
-                        if (tPropertyListInWebModel.Contains(tProp.Name))
-                        {
-                            tDisabled = false;
-                        }
-                        else
-                        {
-                            tDisabled = true;
-                            tEntitled = "!!!" + tEntitled + "";
-                        }
+
+            //        if (tDraw)
+            //        {
+
+            //            foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+            //            {
+            //                Rect tRect = EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1));
+            //                EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
+            //                tY += NWDConstants.kFieldMarge * 2;
+            //            }
+            //            // draw space
+            //            foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
+            //            {
+            //                tY += NWDConstants.kFieldMarge * 3;
+            //            }
+            //            foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDHeaderAttribute), true))
+            //            {
+            //                GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mHeader, tBoldLabelStyle);
+            //                tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //            }
+            //        }
+            //        // So Iif I nee dto draw somethings … 
+            //        if (tDraw ==true)
+            //        {
+            //            bool tHidden = false;
+            //            // get entitled and toolstips
+            //            string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
+            //            string tToolsTips = string.Empty;
+            //            if (tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true).Length > 0)
+            //            {
+            //                NWDEntitledAttribute tReference = (NWDEntitledAttribute)tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true)[0];
+            //                tEntitled = tReference.Entitled;
+            //                tToolsTips = tReference.ToolsTips;
+            //            }
+
+            //            if (tProp.GetCustomAttributes(typeof(NWDNotWorking), true).Length > 0)
+            //            {
+            //                NWDNotWorking tReference = (NWDNotWorking)tProp.GetCustomAttributes(typeof(NWDNotWorking), true)[0];
+
+            //                tEntitled = "[NOT WORKING] "+tEntitled;
+            //                tToolsTips = tReference.ToolsTips + " " + tToolsTips;
+            //            }
+            //            if (tProp.GetCustomAttributes(typeof(NWDInDevelopment), true).Length > 0)
+            //            {
+            //                NWDInDevelopment tReference = (NWDInDevelopment)tProp.GetCustomAttributes(typeof(NWDInDevelopment), true)[0];
+            //                tEntitled = "[IN DEV] " + tEntitled;
+            //                tToolsTips = tReference.ToolsTips + " " + tToolsTips;
+            //            }
+
+            //            if (tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true).Length > 0)
+            //            {
+            //                NWDTooltipsAttribute tReference = (NWDTooltipsAttribute)tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true)[0];
+            //                tToolsTips = tReference.ToolsTips;
+            //            } 
+            //            bool tDisabled = false;
+
+            //            if (tPropertyListInWebModel.Contains(tProp.Name))
+            //            {
+            //                tDisabled = false;
+            //            }
+            //            else
+            //            {
+            //                tDisabled = true;
+            //                tEntitled = "!!!" + tEntitled + "";
+            //            }
 
 
-                        if (tProp.GetCustomAttributes(typeof(NWDNotEditableAttribute), true).Length > 0)
-                        {
-                            tDisabled = true;
-                        }
-                        else
-                        {
-                            if (tProp.GetCustomAttributes(typeof(NWDIfAttribute), true).Length > 0)
-                            {
-                                NWDIfAttribute tReference = (NWDIfAttribute)tProp.GetCustomAttributes(typeof(NWDIfAttribute), true)[0];
-                                tDisabled = !tReference.IsDrawable(this);
-                                if (tDisabled && tReference.mVisible == false)
-                                {
-                                    tHidden = true;
-                                }
-                            }
-                        }
-                        if (tProp.GetCustomAttributes(typeof(NWDNotVisible), true).Length > 0)
-                        {
-                               tHidden = true;
-                        }
-                        if (tProp.GetCustomAttributes(typeof(NWDHidden), true).Length > 0)
-                        {
-                            tHidden = true;
-                        }
-                        if (tHidden==false)
-                        {
-                            EditorGUI.BeginDisabledGroup(tDisabled);
-                            GUIContent tContent = new GUIContent(tEntitled, tToolsTips);
-                            if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
-                            {
-                                NWDIntSliderAttribute tSlider = tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true)[0] as NWDIntSliderAttribute;
-                                int tValue = (int)tProp.GetValue(this, null);
-                                int tValueNext = EditorGUI.IntSlider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tSlider.mMin, tSlider.mMax);
-                                tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                if (tValueNext != tValue)
-                                {
-                                    tProp.SetValue(this, tValueNext, null);
-                                    rNeedBeUpdate = true;
-                                }
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
-                            {
-                                string tValue = (string)tProp.GetValue(this, null);
-                                tValue = NWDToolbox.TextUnprotect(tValue);
-                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
-                                //remove EditorGUI.indentLevel to draw next controller without indent 
-                                int tIndentLevel = EditorGUI.indentLevel;
-                                EditorGUI.indentLevel = 0;
-                                string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kLongString), tValue, NWDConstants.kTextAreaStyle);
-                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
-                                if (tValueNext != tValue)
-                                {
-                                    tValueNext = NWDToolbox.TextProtect(tValueNext);
-                                    tProp.SetValue(this, tValueNext, null);
-                                    rNeedBeUpdate = true;
-                                }
-                                EditorGUI.indentLevel = tIndentLevel;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
-                            {
-                                string tValue = (string)tProp.GetValue(this, null);
-                                tValue = NWDToolbox.TextUnprotect(tValue);
-                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
-                                //remove EditorGUI.indentLevel to draw next controller without indent 
-                                int tIndentLevel = EditorGUI.indentLevel;
-                                EditorGUI.indentLevel = 0;
-                                string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
-                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
-                                if (tValueNext != tValue)
-                                {
-                                    tValueNext = NWDToolbox.TextProtect(tValueNext);
-                                    tProp.SetValue(this, tValueNext, null);
-                                    rNeedBeUpdate = true;
-                                }
-                                EditorGUI.indentLevel = tIndentLevel;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
-                            {
-                                NWDFloatSliderAttribute tSlider = tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true)[0] as NWDFloatSliderAttribute;
-                                float tValue = (float)tProp.GetValue(this, null);
-                                float tValueNext = EditorGUI.Slider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tSlider.mMin, tSlider.mMax);
-                                tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                if (tValueNext != tValue)
-                                {
-                                    tProp.SetValue(this, tValueNext, null);
-                                    rNeedBeUpdate = true;
-                                }
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
-                            {
-                                NWDEnumStringAttribute tInfo = tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true)[0] as NWDEnumStringAttribute;
-                                string[] tV = tInfo.mEnumString;
-                                string tValue = (string)tProp.GetValue(this, null);
-                                int tValueInt = Array.IndexOf<string>(tV, tValue);
-                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+            //            if (tProp.GetCustomAttributes(typeof(NWDNotEditableAttribute), true).Length > 0)
+            //            {
+            //                tDisabled = true;
+            //            }
+            //            else
+            //            {
+            //                if (tProp.GetCustomAttributes(typeof(NWDIfAttribute), true).Length > 0)
+            //                {
+            //                    NWDIfAttribute tReference = (NWDIfAttribute)tProp.GetCustomAttributes(typeof(NWDIfAttribute), true)[0];
+            //                    tDisabled = !tReference.IsDrawable(this);
+            //                    if (tDisabled && tReference.mVisible == false)
+            //                    {
+            //                        tHidden = true;
+            //                    }
+            //                }
+            //            }
+            //            if (tProp.GetCustomAttributes(typeof(NWDNotVisible), true).Length > 0)
+            //            {
+            //                   tHidden = true;
+            //            }
+            //            if (tProp.GetCustomAttributes(typeof(NWDHidden), true).Length > 0)
+            //            {
+            //                tHidden = true;
+            //            }
+            //            if (tHidden==false)
+            //            {
+            //                EditorGUI.BeginDisabledGroup(tDisabled);
+            //                GUIContent tContent = new GUIContent(tEntitled, tToolsTips);
+            //                if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
+            //                {
+            //                    NWDIntSliderAttribute tSlider = tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true)[0] as NWDIntSliderAttribute;
+            //                    int tValue = (int)tProp.GetValue(this, null);
+            //                    int tValueNext = EditorGUI.IntSlider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tSlider.mMin, tSlider.mMax);
+            //                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    if (tValueNext != tValue)
+            //                    {
+            //                        tProp.SetValue(this, tValueNext, null);
+            //                        rNeedBeUpdate = true;
+            //                    }
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
+            //                {
+            //                    string tValue = (string)tProp.GetValue(this, null);
+            //                    tValue = NWDToolbox.TextUnprotect(tValue);
+            //                    EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+            //                    //remove EditorGUI.indentLevel to draw next controller without indent 
+            //                    int tIndentLevel = EditorGUI.indentLevel;
+            //                    EditorGUI.indentLevel = 0;
+            //                    string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kLongString), tValue, NWDConstants.kTextAreaStyle);
+            //                    tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
+            //                    if (tValueNext != tValue)
+            //                    {
+            //                        tValueNext = NWDToolbox.TextProtect(tValueNext);
+            //                        tProp.SetValue(this, tValueNext, null);
+            //                        rNeedBeUpdate = true;
+            //                    }
+            //                    EditorGUI.indentLevel = tIndentLevel;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
+            //                {
+            //                    string tValue = (string)tProp.GetValue(this, null);
+            //                    tValue = NWDToolbox.TextUnprotect(tValue);
+            //                    EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+            //                    //remove EditorGUI.indentLevel to draw next controller without indent 
+            //                    int tIndentLevel = EditorGUI.indentLevel;
+            //                    EditorGUI.indentLevel = 0;
+            //                    string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
+            //                    tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
+            //                    if (tValueNext != tValue)
+            //                    {
+            //                        tValueNext = NWDToolbox.TextProtect(tValueNext);
+            //                        tProp.SetValue(this, tValueNext, null);
+            //                        rNeedBeUpdate = true;
+            //                    }
+            //                    EditorGUI.indentLevel = tIndentLevel;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
+            //                {
+            //                    NWDFloatSliderAttribute tSlider = tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true)[0] as NWDFloatSliderAttribute;
+            //                    float tValue = (float)tProp.GetValue(this, null);
+            //                    float tValueNext = EditorGUI.Slider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tSlider.mMin, tSlider.mMax);
+            //                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    if (tValueNext != tValue)
+            //                    {
+            //                        tProp.SetValue(this, tValueNext, null);
+            //                        rNeedBeUpdate = true;
+            //                    }
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
+            //                {
+            //                    NWDEnumStringAttribute tInfo = tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true)[0] as NWDEnumStringAttribute;
+            //                    string[] tV = tInfo.mEnumString;
+            //                    string tValue = (string)tProp.GetValue(this, null);
+            //                    int tValueInt = Array.IndexOf<string>(tV, tValue);
+            //                    EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
 
-                                //remove EditorGUI.indentLevel to draw next controller without indent 
-                                int tIndentLevel = EditorGUI.indentLevel;
-                                EditorGUI.indentLevel = 0;
+            //                    //remove EditorGUI.indentLevel to draw next controller without indent 
+            //                    int tIndentLevel = EditorGUI.indentLevel;
+            //                    EditorGUI.indentLevel = 0;
 
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, tPopupdStyle);
-                                tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                string tValueNext = string.Empty;
-                                if (tValueIntNext < tV.Length && tValueIntNext >= 0)
-                                {
-                                    tValueNext = tV[tValueIntNext];
-                                }
-                                if (tValueNext != tValue)
-                                {
-                                    tProp.SetValue(this, tValueNext, null);
-                                    rNeedBeUpdate = true;
-                                }
-                                EditorGUI.indentLevel = tIndentLevel;
-                            }
-                            else if (tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
-                            {
-                                NWDEnumAttribute tInfo = tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true)[0] as NWDEnumAttribute;
-                                string[] tV = tInfo.mEnumString;
-                                int[] tI = tInfo.mEnumInt;
-                                int tValue = (int)tProp.GetValue(this, null);
-                                int tValueInt = Array.IndexOf<int>(tI, tValue);
-                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+            //                    int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, tPopupdStyle);
+            //                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    string tValueNext = string.Empty;
+            //                    if (tValueIntNext < tV.Length && tValueIntNext >= 0)
+            //                    {
+            //                        tValueNext = tV[tValueIntNext];
+            //                    }
+            //                    if (tValueNext != tValue)
+            //                    {
+            //                        tProp.SetValue(this, tValueNext, null);
+            //                        rNeedBeUpdate = true;
+            //                    }
+            //                    EditorGUI.indentLevel = tIndentLevel;
+            //                }
+            //                else if (tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
+            //                {
+            //                    NWDEnumAttribute tInfo = tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true)[0] as NWDEnumAttribute;
+            //                    string[] tV = tInfo.mEnumString;
+            //                    int[] tI = tInfo.mEnumInt;
+            //                    int tValue = (int)tProp.GetValue(this, null);
+            //                    int tValueInt = Array.IndexOf<int>(tI, tValue);
+            //                    EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
 
-                                //remove EditorGUI.indentLevel to draw next controller without indent 
-                                int tIndentLevel = EditorGUI.indentLevel;
-                                EditorGUI.indentLevel = 0;
+            //                    //remove EditorGUI.indentLevel to draw next controller without indent 
+            //                    int tIndentLevel = EditorGUI.indentLevel;
+            //                    EditorGUI.indentLevel = 0;
 
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, tPopupdStyle);
-                                tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                int tValueNext = 0;
-                                if (tValueIntNext < tI.Length && tValueIntNext >= 0)
-                                {
-                                    tValueNext = tI[tValueIntNext];
-                                }
-                                if (tValueNext != tValue)
-                                {
-                                    tProp.SetValue(this, tValueNext, null);
-                                    rNeedBeUpdate = true;
-                                }
-                                EditorGUI.indentLevel = tIndentLevel;
-                            }
-                            else
-                            {
-                                Type tTypeOfThis = tProp.PropertyType;
-                                //Debug.Log (tTypeOfThis.Name);
+            //                    int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, tPopupdStyle);
+            //                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    int tValueNext = 0;
+            //                    if (tValueIntNext < tI.Length && tValueIntNext >= 0)
+            //                    {
+            //                        tValueNext = tI[tValueIntNext];
+            //                    }
+            //                    if (tValueNext != tValue)
+            //                    {
+            //                        tProp.SetValue(this, tValueNext, null);
+            //                        rNeedBeUpdate = true;
+            //                    }
+            //                    EditorGUI.indentLevel = tIndentLevel;
+            //                }
+            //                else
+            //                {
+            //                    Type tTypeOfThis = tProp.PropertyType;
+            //                    //Debug.Log (tTypeOfThis.Name);
 
-                                if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
-                                {
-                                    string tValue = tProp.GetValue(this, null) as string;
-                                    tValue = NWDToolbox.TextUnprotect(tValue);
-                                    string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
-                                    {
-                                        tValueNext = NWDToolbox.TextProtect(tValueNext);
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis.IsEnum)
-                                {
-                                    Enum tValue = tProp.GetValue(this, null) as Enum;
-                                    Enum tValueNext = tValue;
-                                    if (tProp.GetCustomAttributes(typeof(NWDFlagsEnumAttribute), true).Length > 0)
-                                    {
-                                        tValueNext = EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
-                                    }
-                                    else
-                                    {
-                                        tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
-                                    }
-                                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
-                                    {
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis == typeof(bool))
-                                {
-                                    bool tValue = (bool)tProp.GetValue(this, null);
-                                    bool tValueNext = EditorGUI.Toggle(new Rect(tX, tY, tWidth, tToggleStyle.fixedHeight), tContent, tValue, tToggleStyle);
-                                    tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
-                                    {
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis == typeof(int))
-                                {
-                                    int tValue = (int)tProp.GetValue(this, null);
-                                    int tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
-                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
-                                    {
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis == typeof(long))
-                                {
-                                    long tValue = (long)tProp.GetValue(this, null);
-                                    long tValueNext = EditorGUI.LongField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
-                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
-                                    {
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis == typeof(float))
-                                {
-                                    float tValue = (float)tProp.GetValue(this, null);
-                                    float tValueNext = (float)EditorGUI.FloatField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    float EPSILON = 0;
-                                    if (Math.Abs(tValueNext - tValue) > EPSILON)
-                                    {
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis == typeof(double))
-                                {
-                                    double tValue = (double)tProp.GetValue(this, null);
-                                    double tValueNext = EditorGUI.DoubleField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    float EPSILON = 0;
-                                    if (Math.Abs(tValueNext - tValue) > EPSILON)
-                                    {
-                                        tProp.SetValue(this, tValueNext, null);
-                                        rNeedBeUpdate = true;
-                                    }
-                                }
-                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
-                                {
-                                    var tValue = tProp.GetValue(this, null);
-                                    if (tValue == null)
-                                    {
-                                        tValue = Activator.CreateInstance(tTypeOfThis);
-                                    }
-                                    BTBDataType tBTBDataType = tValue as BTBDataType;
-                                    BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                                                                             tEntitled, tToolsTips) as BTBDataType;
+            //                    if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+            //                    {
+            //                        string tValue = tProp.GetValue(this, null) as string;
+            //                        tValue = NWDToolbox.TextUnprotect(tValue);
+            //                        string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        if (tValueNext != tValue)
+            //                        {
+            //                            tValueNext = NWDToolbox.TextProtect(tValueNext);
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis.IsEnum)
+            //                    {
+            //                        Enum tValue = tProp.GetValue(this, null) as Enum;
+            //                        Enum tValueNext = tValue;
+            //                        if (tProp.GetCustomAttributes(typeof(NWDFlagsEnumAttribute), true).Length > 0)
+            //                        {
+            //                            tValueNext = EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
+            //                        }
+            //                        else
+            //                        {
+            //                            tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
+            //                        }
+            //                        tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        if (tValueNext != tValue)
+            //                        {
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis == typeof(bool))
+            //                    {
+            //                        bool tValue = (bool)tProp.GetValue(this, null);
+            //                        bool tValueNext = EditorGUI.Toggle(new Rect(tX, tY, tWidth, tToggleStyle.fixedHeight), tContent, tValue, tToggleStyle);
+            //                        tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        if (tValueNext != tValue)
+            //                        {
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis == typeof(int))
+            //                    {
+            //                        int tValue = (int)tProp.GetValue(this, null);
+            //                        int tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
+            //                        tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        if (tValueNext != tValue)
+            //                        {
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis == typeof(long))
+            //                    {
+            //                        long tValue = (long)tProp.GetValue(this, null);
+            //                        long tValueNext = EditorGUI.LongField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
+            //                        tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        if (tValueNext != tValue)
+            //                        {
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis == typeof(float))
+            //                    {
+            //                        float tValue = (float)tProp.GetValue(this, null);
+            //                        float tValueNext = (float)EditorGUI.FloatField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        float EPSILON = 0;
+            //                        if (Math.Abs(tValueNext - tValue) > EPSILON)
+            //                        {
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis == typeof(double))
+            //                    {
+            //                        double tValue = (double)tProp.GetValue(this, null);
+            //                        double tValueNext = EditorGUI.DoubleField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                        float EPSILON = 0;
+            //                        if (Math.Abs(tValueNext - tValue) > EPSILON)
+            //                        {
+            //                            tProp.SetValue(this, tValueNext, null);
+            //                            rNeedBeUpdate = true;
+            //                        }
+            //                    }
+            //                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+            //                    {
+            //                        var tValue = tProp.GetValue(this, null);
+            //                        if (tValue == null)
+            //                        {
+            //                            tValue = Activator.CreateInstance(tTypeOfThis);
+            //                        }
+            //                        BTBDataType tBTBDataType = tValue as BTBDataType;
+            //                        BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+            //                                                                                 tEntitled, tToolsTips) as BTBDataType;
 
-                                    if (tBTBDataTypeNext.Value != tBTBDataType.Value)
-                                    {
-                                        //Debug.Log("change in "+tTypeOfThis.Name);
-                                        tProp.SetValue(this, tBTBDataTypeNext, null);
-                                        rNeedBeUpdate = true;
+            //                        if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+            //                        {
+            //                            //Debug.Log("change in "+tTypeOfThis.Name);
+            //                            tProp.SetValue(this, tBTBDataTypeNext, null);
+            //                            rNeedBeUpdate = true;
 
-                                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
-                                    }
-                                    float tHeight = tBTBDataType.ControlFieldHeight();
-                                    tY += tHeight + NWDConstants.kFieldMarge;
+            //                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+            //                        }
+            //                        float tHeight = tBTBDataType.ControlFieldHeight();
+            //                        tY += tHeight + NWDConstants.kFieldMarge;
 
-                                }
-                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
-                                {
-                                    var tValue = tProp.GetValue(this, null);
-                                    if (tValue == null)
-                                    {
-                                        tValue = Activator.CreateInstance(tTypeOfThis);
-                                    }
-                                    BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
-                                    BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                                                                             tEntitled, tToolsTips) as BTBDataTypeInt;
+            //                    }
+            //                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+            //                    {
+            //                        var tValue = tProp.GetValue(this, null);
+            //                        if (tValue == null)
+            //                        {
+            //                            tValue = Activator.CreateInstance(tTypeOfThis);
+            //                        }
+            //                        BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
+            //                        BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+            //                                                                                 tEntitled, tToolsTips) as BTBDataTypeInt;
 
-                                    if (tBTBDataTypeNext.Value != tBTBDataType.Value)
-                                    {
-                                        //Debug.Log("change in "+tTypeOfThis.Name);
-                                        tProp.SetValue(this, tBTBDataTypeNext, null);
-                                        rNeedBeUpdate = true;
+            //                        if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+            //                        {
+            //                            //Debug.Log("change in "+tTypeOfThis.Name);
+            //                            tProp.SetValue(this, tBTBDataTypeNext, null);
+            //                            rNeedBeUpdate = true;
 
-                                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
-                                    }
-                                    float tHeight = tBTBDataType.ControlFieldHeight();
-                                    tY += tHeight + NWDConstants.kFieldMarge;
+            //                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+            //                        }
+            //                        float tHeight = tBTBDataType.ControlFieldHeight();
+            //                        tY += tHeight + NWDConstants.kFieldMarge;
 
-                                }
-                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
-                                {
-                                    var tValue = tProp.GetValue(this, null);
-                                    if (tValue == null)
-                                    {
-                                        tValue = Activator.CreateInstance(tTypeOfThis);
-                                    }
-                                    BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
-                                    BTBDataTypeFloat tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                                                                             tEntitled, tToolsTips) as BTBDataTypeFloat;
+            //                    }
+            //                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+            //                    {
+            //                        var tValue = tProp.GetValue(this, null);
+            //                        if (tValue == null)
+            //                        {
+            //                            tValue = Activator.CreateInstance(tTypeOfThis);
+            //                        }
+            //                        BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
+            //                        BTBDataTypeFloat tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+            //                                                                                 tEntitled, tToolsTips) as BTBDataTypeFloat;
 
-                                    if (tBTBDataTypeNext.Value != tBTBDataType.Value)
-                                    {
-                                        //Debug.Log("change in "+tTypeOfThis.Name);
-                                        tProp.SetValue(this, tBTBDataTypeNext, null);
-                                        rNeedBeUpdate = true;
+            //                        if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+            //                        {
+            //                            //Debug.Log("change in "+tTypeOfThis.Name);
+            //                            tProp.SetValue(this, tBTBDataTypeNext, null);
+            //                            rNeedBeUpdate = true;
 
-                                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
-                                    }
-                                    float tHeight = tBTBDataType.ControlFieldHeight();
-                                    tY += tHeight + NWDConstants.kFieldMarge;
+            //                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+            //                        }
+            //                        float tHeight = tBTBDataType.ControlFieldHeight();
+            //                        tY += tHeight + NWDConstants.kFieldMarge;
 
-                                }
-                                else
-                                {
-                                    string tValue = tProp.GetValue(this, null) as string;
-                                    EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                }
-                            }
+            //                    }
+            //                    else
+            //                    {
+            //                        string tValue = tProp.GetValue(this, null) as string;
+            //                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
+            //                        tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //                    }
+            //                }
 
-                            EditorGUI.EndDisabledGroup();
-                        }
-                    }
-                    //Console.WriteLine("{0}={1}", prop.Name, prop.GetValue(foo, null));
-                }
-            }
-            // add special editor information
-            tY += AddonEditor(new Rect(tX, tY, tWidth, 0.0f));
+            //                EditorGUI.EndDisabledGroup();
+            //            }
+            //        }
+            //        //Console.WriteLine("{0}={1}", prop.Name, prop.GetValue(foo, null));
+            //    }
+            //}
+            //// add special editor information
+            //tY += AddonEditor(new Rect(tX, tY, tWidth, 0.0f));
+
+
+
+            NewDrawObjectInspector(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), sEditionEnable);
+
+
+
+
+
+
 
             if (sWithScrollview == true)
             {
@@ -1818,6 +1831,7 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_CheckError)]
         public void ErrorCheck()
         {
             //  Debug.Log("NWDBasis ErrorCheck()");
@@ -1832,7 +1846,7 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataType tBTBDataType = tValue as BTBDataType;
-                        if (tBTBDataType.IsInError() == true)
+                        if (tBTBDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
@@ -1844,7 +1858,7 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
-                        if (tBTBDataType.IsInError() == true)
+                        if (tBTBDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
@@ -1856,7 +1870,7 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
-                        if (tBTBDataType.IsInError() == true)
+                        if (tBTBDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }

@@ -42,6 +42,8 @@ namespace NetWorkedData
         protected bool InDatabase = false;
         protected bool FromDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
+        [NWDGroupReset()]
+        [NWDGroupStart("Basis")]
         [PrimaryKey, AutoIncrement, NWDNotEditable]
         public int ID
         {
@@ -78,6 +80,7 @@ namespace NetWorkedData
         }
         [Indexed("InternalIndex", 0)]
         //[Indexed("EditorIndex", 0)]
+        [NWDNotEditable]
         public string InternalKey
         {
             get; set;
@@ -86,6 +89,7 @@ namespace NetWorkedData
         {
             return InternalKey;
         }
+        [NWDNotEditable]
         public string InternalDescription
         {
             get; set;
@@ -94,11 +98,13 @@ namespace NetWorkedData
         {
             return InternalDescription;
         }
+        [NWDNotEditable]
         public string Preview
         {
             get; set;
         }
         [Indexed("EditorIndex", 0)]
+        [NWDNotEditable]
         public bool AC
         {
             get; set;
@@ -156,6 +162,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDNotEditable]
         public NWDBasisTag Tag
         {
             get; set;
@@ -170,7 +177,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDGroupEnd()]
+
         [NWDNotEditable]
+        [NWDInspectorGroupOrderAttribute("Basis")]
         public bool InError
         {
             get; set;

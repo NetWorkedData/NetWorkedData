@@ -594,23 +594,23 @@ namespace NetWorkedData
             float tWidth = sInRect.width;
             float tX = sInRect.x;
             float tY = sInRect.y;
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             // draw line 
             EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
             tY += NWDConstants.kFieldMarge * 2;
 
-            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight), "Tools box", NWDConstants.tLabelStyle);
+            tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             // Draw the interface addon for editor
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
@@ -618,8 +618,8 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
@@ -627,15 +627,19 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }
-
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
+            float tY = 0.0f;
+            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

@@ -67,7 +67,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
@@ -86,6 +86,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
 		//-------------------------------------------------------------------------------------------------------------

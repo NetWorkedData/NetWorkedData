@@ -649,6 +649,26 @@ namespace NetWorkedData
         static public GUIStyle kDeleteButtonStyle;
         static public GUIStyle kSeparatorStyle;
         static public GUIStyle kLineStyle;
+
+
+        // for Textfield in NWD inspector
+        public static GUIStyle tLabelStyle;
+        public static GUIStyle tMiniLabelStyle;
+        public static GUIStyle tBoldLabelStyle;
+        public static GUIStyle tHelpBoxStyle;
+        public static GUIStyle tMiniButtonStyle;
+        public static GUIStyle tObjectFieldStyle;
+        public static GUIStyle tTextFieldStyle;
+        public static GUIStyle tFloatFieldStyle;
+        public static GUIStyle tIntFieldStyle;
+        public static GUIStyle tDoubleFieldStyle;
+        public static GUIStyle tLongFieldStyle;
+        public static GUIStyle tFoldoutStyle;
+        public static GUIStyle tColorFieldStyle;
+        public static GUIStyle tPopupdStyle;
+        public static GUIStyle tEnumStyle;
+        public static GUIStyle tToggleStyle;
+        public static GUIStyle tBoldFoldoutStyle;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -665,6 +685,83 @@ namespace NetWorkedData
             {
 
                 StyleLoaded = true;
+
+
+                tLabelStyle = new GUIStyle(EditorStyles.label);
+                tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
+                tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+                tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
+                tHelpBoxStyle.fixedHeight = tHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), 100);
+
+                tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+                tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
+                tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+                tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
+                tFloatFieldStyle.fixedHeight = tFloatFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tIntFieldStyle = new GUIStyle(EditorStyles.numberField);
+                tIntFieldStyle.fixedHeight = tIntFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tLongFieldStyle = new GUIStyle(EditorStyles.numberField);
+                tLongFieldStyle.fixedHeight = tLongFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tDoubleFieldStyle = new GUIStyle(EditorStyles.numberField);
+                tDoubleFieldStyle.fixedHeight = tDoubleFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+                tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tColorFieldStyle = new GUIStyle(EditorStyles.colorField);
+                tColorFieldStyle.fixedHeight = tColorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tPopupdStyle = new GUIStyle(EditorStyles.popup);
+                tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tEnumStyle = new GUIStyle(EditorStyles.popup);
+                tEnumStyle.fixedHeight = tEnumStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tToggleStyle = new GUIStyle(EditorStyles.toggle);
+                tToggleStyle.fixedHeight = tToggleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                tBoldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+                tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
+                tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
                 kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);

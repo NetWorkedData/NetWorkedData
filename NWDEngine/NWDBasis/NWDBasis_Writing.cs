@@ -1013,6 +1013,7 @@ namespace NetWorkedData
             AddonLoadedMe();
 #if UNITY_EDITOR
             // no auto update data
+            ErrorCheck();
 #else
             WebserviceVersionCheckMe();
 #endif

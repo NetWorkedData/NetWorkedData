@@ -22,7 +22,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDNotVersionnableAttribute excluded the NWDBasis<K> from the version systeme restriction. Never use in custom Class!
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDFlagsEnumAttribute : Attribute
     {
     }
@@ -30,7 +30,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDNotVersionnableAttribute excluded the NWDBasis<K> from the version systeme restriction. Never use in custom Class!
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class NWDNotVersionnableAttribute : Attribute
     {
     }
@@ -38,7 +38,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDInternalKeyNotEditableAttribute forbidden the edition of the InternalKey in the editor.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class NWDInternalKeyNotEditableAttribute : Attribute
     {
     }
@@ -46,7 +46,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDInternalKeyNotEditableAttribute forbidden the edition of the InternalKey in the editor.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class NWDForceSecureDataAttribute : Attribute
     {
     }
@@ -54,7 +54,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDEntitledAttribute custom toolstip and entitlement for property. 
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDNotWorking : Attribute
     {
         public string ToolsTips = string.Empty;
@@ -68,7 +68,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class NWDAliasMethod : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -144,7 +144,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDAlias : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDEntitledAttribute custom toolstip and entitlement for property. 
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDInDevelopment : Attribute
     {
         public string ToolsTips = string.Empty;
@@ -193,7 +193,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDEntitledAttribute custom toolstip and entitlement for property. 
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDEntitledAttribute : Attribute
     {
         public string Entitled = string.Empty;
@@ -214,7 +214,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDTooltipsAttribute custom toolstip and entitlement. 
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDTooltipsAttribute : Attribute
     {
         public string ToolsTips = string.Empty;
@@ -223,11 +223,20 @@ namespace NetWorkedData
             this.ToolsTips = sToolsTips;
         }
     }
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDOrderAttribute : Attribute
+    {
+        public int Order = 0;
+        public NWDOrderAttribute(int sOrder)
+        {
+            this.Order = sOrder;
+        }
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDHeaderAttribute add an header in inspector before this property.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDHeaderAttribute : Attribute
     {
         public string mHeader;
@@ -241,7 +250,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDSpaceAttribute add a space before this property.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDSpaceAttribute : Attribute
     {
         public float mSize;
@@ -260,15 +269,43 @@ namespace NetWorkedData
     /// <summary>
     /// NWDGroupResetAttribute create a group befaore this property.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDGroupResetAttribute : Attribute
     {
+    }
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDGroupStartAttribute create a group befaore this property.
+    /// </summary>
+    //[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //public class NWDInspectorOrderAttribute : Attribute
+    //{
+    //    public string mToolsTips = string.Empty;
+    //    public string mGroupOrder = string.Empty;
+    //    public string mOrder = string.Empty;
+    //}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDInspectorGroupOrderAttribute : Attribute
+    {
+        public string mGroupName = string.Empty;
+        public int mGroupOrder = 0;
+        public string mEntitled = string.Empty;
+        public string mToolsTips = string.Empty; 
+        public NWDInspectorGroupOrderAttribute(string sGroupName, int sGroupOrder = 0, string sToolsTips = "", string sEntitled = "")
+        {
+            this.mGroupName = sGroupName;
+            this.mGroupOrder = sGroupOrder;
+            this.mToolsTips = sToolsTips;
+            this.mEntitled = sEntitled;
+        }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDGroupStartAttribute create a group befaore this property.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDGroupStartAttribute : Attribute
     {
         public string mGroupName = string.Empty;
@@ -347,7 +384,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDIfAttribute can hidde the next property if specific condition is true.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDNotVisible : Attribute
     {
     }
@@ -355,7 +392,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDIfAttribute can hidde the next property if specific condition is true.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDHidden : Attribute
     {
         // = NWDNotVisible
@@ -364,7 +401,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDIfAttribute can hidde the next property if specific condition is true.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDIfAttribute : Attribute
     {
         public string mPropertyName;
@@ -382,13 +419,20 @@ namespace NetWorkedData
                 PropertyInfo tInfo = sObject.GetType().GetProperty(mPropertyName, BindingFlags.Public | BindingFlags.Instance);
                 if (tInfo != null)
                 {
+                    //Debug.Log("analyze if " + mPropertyName + " is equal...");
                     List<string> tList = new List<string>(mValues);
                     object tObject = tInfo.GetValue(sObject, null);
                     string tV = tObject.ToString();
+
                     if (tObject.GetType().IsEnum)
                     {
                         int tvv = (int)tObject;
                         tV = tvv.ToString();
+                        //Debug.Log("analyze if " + mPropertyName + " value " + tV + " equal in " + string.Join(",", tList));
+                    }
+                    else
+                    {
+                        //Debug.Log("analyze if " + mPropertyName + " value " + tV + " equal in " + string.Join(",", tList));
                     }
                     if (!tList.Contains(tV))
                     {
@@ -401,6 +445,7 @@ namespace NetWorkedData
                 PropertyInfo tInfo = sObject.GetType().GetProperty(mPropertyName, BindingFlags.Public | BindingFlags.Instance);
                 if (tInfo != null)
                 {
+                    //Debug.Log("analyze if " + mPropertyName + " is in Range...");
                     object tObject = tInfo.GetValue(sObject, null);
 
                     float tValue = 0;
@@ -468,6 +513,27 @@ namespace NetWorkedData
             this.TypeOfCompare = NWDIfType.Equal;
             this.mVisible = sVisible;
         }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDIfAttribute(string sPropertyName, Enum sValue, bool sVisible = true)
+        //{
+        //    this.mPropertyName = sPropertyName;
+        //    this.mValues = new string[] { sValue.ToString() };
+        //    this.TypeOfCompare = NWDIfType.Equal;
+        //    this.mVisible = sVisible;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDIfAttribute(string sPropertyName, Enum[] sValues, bool sVisible = true)
+        //{
+        //    this.mPropertyName = sPropertyName;
+        //    List<string> tValues = new List<string>();
+        //    foreach (Enum ti in sValues)
+        //    {
+        //        tValues.Add(ti.ToString());
+        //    }
+        //    this.mValues = tValues.ToArray();
+        //    this.TypeOfCompare = NWDIfType.Equal;
+        //    this.mVisible = sVisible;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDIfAttribute(string sPropertyName, int sValueMin, int sValueMax, bool sVisible = true)
         {
@@ -511,7 +577,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDGroupEndAttribute close the NWDGroupStartAttribute befaore the next property.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDGroupEndAttribute : Attribute
     {
     }
@@ -519,7 +585,8 @@ namespace NetWorkedData
     /// <summary>
     /// NWDGroupSeparatorAttribute must be use after NWDGroupEndAttribute. It draw separator line.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [Obsolete]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDGroupSeparatorAttribute : Attribute
     {
     }
@@ -527,7 +594,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDSeparatorAttribute draw separator line before property.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDSeparatorAttribute : Attribute
     {
     }
@@ -535,7 +602,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDNotEditableAttribute disable property edition in editor.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDNotEditableAttribute : Attribute
     {
     }
@@ -543,7 +610,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDFloatSliderAttribute draw slider for float property.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDFloatSliderAttribute : Attribute
     {
         public float mMin;
@@ -559,7 +626,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDIntSliderAttribute draw slider for int property.
     /// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDIntSliderAttribute : Attribute
     {
         public int mMin;
@@ -576,7 +643,8 @@ namespace NetWorkedData
     /// NWDEnumAttribute draw popmenu for int property. It will be obsolete and replace by enum type!
     /// </summary>
     //[Obsolete("Use an enum")]
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [Obsolete]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDEnumAttribute : Attribute
     {
         public int[] mEnumInt;
@@ -593,7 +661,7 @@ namespace NetWorkedData
     /// NWDEnumAttribute draw popmenu for string property. It will be obsolete and replace by enum type!
     /// </summary>
     //[Obsolete("Use an enum")]
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDEnumStringAttribute : Attribute
     {
         public string[] mEnumString;
@@ -608,7 +676,7 @@ namespace NetWorkedData
     /// NWDLongStringAttribute draw a bigger textfield in the editor for this property
     /// </summary>
     //[Obsolete("Use Long string type")]
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDLongStringAttribute : Attribute
     {
     }
@@ -617,12 +685,12 @@ namespace NetWorkedData
     /// NWDVeryLongStringAttribute draw a bigger textfield in the editor for this property
     /// </summary>
     //[Obsolete("Use Long string type")]
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDVeryLongStringAttribute : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDAddonAttribute : Attribute
     {
