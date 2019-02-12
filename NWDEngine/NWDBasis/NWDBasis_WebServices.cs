@@ -419,7 +419,7 @@ namespace NetWorkedData
                         // not in editor : playing mode only
                         if (tItem.IsReacheableByAccount())
                         {
-                            tDatas.Add(tItem.DataAssembly(true));
+                            tDatas.Add(tItem.CSVAssembly());
                         }
 #endif 
                     }

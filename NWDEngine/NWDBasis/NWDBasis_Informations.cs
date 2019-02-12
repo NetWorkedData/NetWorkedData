@@ -37,6 +37,7 @@ namespace NetWorkedData
 
         public static string Informations ()
 		{
+#if UNITY_EDITOR
             int tCount = BasisHelper().Datas.Count;
 			if (tCount == 0) {
                 return string.Empty + BasisHelper().ClassNamePHP + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment())+  ")\n";
@@ -45,8 +46,12 @@ namespace NetWorkedData
 			} else {
                 return string.Empty + BasisHelper().ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
+#else
+            return string.Empty;
+#endif
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
