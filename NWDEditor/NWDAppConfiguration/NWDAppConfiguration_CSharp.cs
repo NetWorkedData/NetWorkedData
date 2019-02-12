@@ -51,11 +51,9 @@ namespace NetWorkedData
             rReturn.AppendLine("WebBuild = " + WebBuild + ";");
             rReturn.AppendLine("WebBuildMax = " + WebBuildMax + ";");
             rReturn.AppendLine("DatabasePrefix = \"" + DatabasePrefix + "\";");
-            rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine("EditorPass = \"" + NWDToolbox.SaltCleaner(EditorPass) + "\";");
             rReturn.AppendLine("EditorPassA = \"" + NWDToolbox.SaltCleaner(EditorPassA) + "\";");
             rReturn.AppendLine("EditorPassB = \"" + NWDToolbox.SaltCleaner(EditorPassB) + "\";");
-            rReturn.AppendLine("#endif");
             rReturn.AppendLine("AccountHashSalt = \"" + NWDToolbox.SaltCleaner(AccountHashSalt) + "\";");
             rReturn.AppendLine("AccountHashSaltA = \"" + NWDToolbox.SaltCleaner(AccountHashSaltA) + "\";");
             rReturn.AppendLine("AccountHashSaltB = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
