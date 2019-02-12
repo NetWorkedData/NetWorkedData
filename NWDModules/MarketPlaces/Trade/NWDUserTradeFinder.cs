@@ -184,8 +184,7 @@ namespace NetWorkedData
             NWDUserTradeRequest.PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
@@ -291,9 +290,9 @@ namespace NetWorkedData
         {
             return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
+        #endif
         //-------------------------------------------------------------------------------------------------------------
     }
-#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

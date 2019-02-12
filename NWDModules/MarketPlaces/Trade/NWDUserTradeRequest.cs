@@ -155,9 +155,9 @@ namespace NetWorkedData
 
 			// Create a new Request
 			NWDUserTradeRequest tRequest = NewData();
-#if UNITY_EDITOR
+			#if UNITY_EDITOR
 			tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
-#endif
+			#endif
 			tRequest.Tag = NWDBasisTag.TagUserCreated;
 			tRequest.TradePlace.SetObject(sTradePlace);
 			tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
@@ -312,8 +312,7 @@ namespace NetWorkedData
 			SaveData();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
 		{
@@ -453,9 +452,9 @@ namespace NetWorkedData
 		{
 			return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
 		}
+		#endif
         //-------------------------------------------------------------------------------------------------------------
     }
-#endif
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
