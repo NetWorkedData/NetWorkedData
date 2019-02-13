@@ -1698,21 +1698,21 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHP_StaticRelationshipFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        {
-            //BTBBenchmark.Start();
-            StringBuilder tFile = new StringBuilder(string.Empty);
-            tFile.AppendLine("<?php");
-            tFile.AppendLine(Headlines());
-            tFile.AppendLine("// RELATIONSHIP");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("?>");
-            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_RELATIONSHIP_PHP, tFileFormatted);
-            //BTBBenchmark.Finish();
-        }
+        //private void CreatePHP_StaticRelationshipFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        //{
+        //    //BTBBenchmark.Start();
+        //    StringBuilder tFile = new StringBuilder(string.Empty);
+        //    tFile.AppendLine("<?php");
+        //    tFile.AppendLine(Headlines());
+        //    tFile.AppendLine("// RELATIONSHIP");
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    tFile.AppendLine("");
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    tFile.AppendLine("?>");
+        //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+        //    sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_RELATIONSHIP_PHP, tFileFormatted);
+        //    //BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHP_StaticRequestFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
@@ -2495,22 +2495,22 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHPFlashMyAppFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-        {
-            //BTBBenchmark.Start();
-            // TODO Don't forget to create CSS
-            StringBuilder tFile = new StringBuilder(string.Empty);
-            tFile.AppendLine("<?php");
-            tFile.AppendLine(Headlines());
-            tFile.AppendLine("// FLASH MY APP");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            // TODO REDIRECT TO FlashMyApp.com!!! AND FINISH FLASHMYAPP.COM
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("?>");
-            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FLASH_PHP, tFileFormatted);
-            //BTBBenchmark.Finish();
-        }
+        //private void CreatePHPFlashMyAppFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        //{
+        //    //BTBBenchmark.Start();
+        //    // TODO Don't forget to create CSS
+        //    StringBuilder tFile = new StringBuilder(string.Empty);
+        //    tFile.AppendLine("<?php");
+        //    tFile.AppendLine(Headlines());
+        //    tFile.AppendLine("// FLASH MY APP");
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    // TODO REDIRECT TO FlashMyApp.com!!! AND FINISH FLASHMYAPP.COM
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    tFile.AppendLine("?>");
+        //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+        //    sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_STATIC_FLASH_PHP, tFileFormatted);
+        //    //BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

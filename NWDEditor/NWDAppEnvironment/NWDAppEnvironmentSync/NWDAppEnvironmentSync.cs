@@ -20,6 +20,11 @@ namespace NetWorkedData
     public class NWDAppEnvironmentSync : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDAppEnvironmentSync kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         //-------------------------------------------------------------------------------------------------------------
         Texture2D DevIcon;
@@ -41,8 +46,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentSync SharedInstance()
         {
-            NWDEditorMenu.EnvironementSyncShow();
-            return NWDEditorMenu.kNWDAppEnvironmentSync;
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
+            }
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentSync SharedInstanceFocus()
+        {
+            SharedInstanceFocus().ShowUtility();
+            SharedInstanceFocus().Focus();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()

@@ -15,14 +15,57 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// the App configuration manager window. It's editor window to parameter the NWD App in the project.
+    /// </summary>
     public class NWDAppConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDAppConfigurationManager kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The icon and title.
+        /// </summary>
         GUIContent IconAndTitle;
+        /// <summary>
+        /// The scroll position.
+        /// </summary>
         static Vector2 ScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppConfigurationManager SharedInstance()
+        {
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
+            }
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppConfigurationManager SharedInstanceFocus()
+        {
+            SharedInstanceFocus().ShowUtility();
+            SharedInstanceFocus().Focus();
+            return kSharedInstance;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            // Init Title and icon 
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -44,17 +87,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppConfigurationManager SharedInstance()
-        {
-            NWDEditorMenu.AppConfigurationManagerWindowShow();
-            return NWDEditorMenu.kNWDAppConfigurationManagerWindow;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
-            float tMinWidht = 270.0F;
-            //int tColum = 1;
             // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
@@ -64,16 +99,11 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
+            // begin scroll view
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            // start interface
             GUILayout.Label("WebServices", NWDConstants.kLabelTitleStyle);
             GUILayout.Label("Webservices config for all environements", NWDConstants.kLabelSubTitleStyle);
-            GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.BeginHorizontal();
-            //}
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
@@ -104,8 +134,6 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().WebBuild = 0;
             }
-            //EditorGUILayout.EndVertical();
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
@@ -122,20 +150,16 @@ namespace NetWorkedData
                 }
                 EditorGUI.EndDisabledGroup();
             }
-            //EditorGUILayout.EndVertical();
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.EndHorizontal();
-            //}
+            // Database informations
             GUILayout.Label("Databases", NWDConstants.kLabelTitleStyle);
             GUILayout.Label("Databases parameters", NWDConstants.kLabelSubTitleStyle);
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
+            // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
-
             GUILayout.Label("Databases Editor config for all environements", NWDConstants.kLabelSubTitleStyle);
-            GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
+            //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             if (GUILayout.Button("Editor Database File"))
             {
@@ -147,9 +171,9 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextField("Editor Pass Result", NWDAppConfiguration.SharedInstance().GetEditorPass());
             EditorGUI.EndDisabledGroup();
-
+            // Database account informations
             GUILayout.Label("Databases Accountconfig for all environements (by device)", NWDConstants.kLabelSubTitleStyle);
-            GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
+            //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
             if (GUILayout.Button("Account Database File"))
             {
@@ -161,8 +185,9 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass());
             EditorGUI.EndDisabledGroup();
+            // finish scroll view
             GUILayout.EndScrollView();
-
+            // finish with reccord red button
             NWDConstants.GUILayoutLine();
             NWDConstants.GUIRedButtonBegin();
             GUILayout.Space(NWDConstants.kFieldMarge);

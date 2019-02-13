@@ -18,11 +18,42 @@ namespace NetWorkedData
     public class NWDAppEnvironmentChooser : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The icon and title.
+        /// </summary>
         GUIContent IconAndTitle;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        public static NWDAppEnvironmentChooser kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentChooser SharedInstance()
         {
-            return NWDEditorMenu.kNWDAppEnvironmentChooser;
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
+            }
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentChooser SharedInstanceFocus()
+        {
+            SharedInstanceFocus().ShowUtility();
+            SharedInstanceFocus().Focus();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
@@ -101,9 +132,9 @@ namespace NetWorkedData
                         break;
                 }
                 NWDVersion.UpdateVersionBundle();
-                if (NWDEditorMenu.kNWDAppEnvironmentSync != null)
+                if (NWDAppEnvironmentSync.IsSharedInstance())
                 {
-                    NWDEditorMenu.kNWDAppEnvironmentSync.Repaint();
+                    NWDAppEnvironmentSync.SharedInstance().Repaint();
                 }
             }
             // Show version selected

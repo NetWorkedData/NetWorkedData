@@ -18,8 +18,47 @@ namespace NetWorkedData
     public class NWDLocalizationConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDLocalizationConfigurationManager kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The icon and title.
+        /// </summary>
         GUIContent IconAndTitle;
+        /// <summary>
+        /// The scroll position.
+        /// </summary>
         static Vector2 ScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDLocalizationConfigurationManager SharedInstance()
+        {
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
+            }
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDLocalizationConfigurationManager SharedInstanceFocus()
+        {
+            SharedInstanceFocus().ShowUtility();
+            SharedInstanceFocus().Focus();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
@@ -42,12 +81,6 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDLocalizationConfigurationManager SharedInstance()
-        {
-            NWDEditorMenu.DataLocalizationManager();
-            return NWDEditorMenu.kNWDDataLocalizationManager;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()

@@ -53,31 +53,11 @@ namespace NetWorkedData
         /// <summary>
         /// TheNWD editor NWDPackage preferences window.
         /// </summary>
-        public static NWDEditorConfigurationManager kNWDEditorConfigurationManagerWindow;
         [MenuItem(NWDConstants.K_MENU_EDITOR_PREFERENCES, false, 20)]
         public static void EditorPreferenceShow()
         {
-
-            if (kNWDEditorConfigurationManagerWindow == null)
-            {
-                kNWDEditorConfigurationManagerWindow = EditorWindow.GetWindow(typeof(NWDEditorConfigurationManager)) as NWDEditorConfigurationManager;
-            }
-            kNWDEditorConfigurationManagerWindow.ShowUtility();
-            kNWDEditorConfigurationManagerWindow.Focus();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "/Tools/List of trigrammes and classes", false, 4000)]
-        public static void EditorListOfTrigramme()
-        {
-            Dictionary<string, string> tListClassesTrigramme = new Dictionary<string, string>();
-            StringBuilder tText = new StringBuilder();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
-            {
-                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
-                tListClassesTrigramme.Add(tData.ClassNamePHP, tData.ClassTrigramme);
-                tText.AppendLine(tData.ClassNamePHP + "\t" + tData.ClassTrigramme);
-            }
-            Debug.Log(tText);
+            NWDEditorConfigurationManager.SharedInstance().ShowUtility();
+            NWDEditorConfigurationManager.SharedInstance().Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -124,77 +104,38 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppConfigurationManager kNWDAppConfigurationManagerWindow;
         [MenuItem(NWDConstants.K_MENU_APP_EDIT, false, 60)]
-        /// <summary>
-        /// Menus the method.
-        /// </summary>
         public static void AppConfigurationManagerWindowShow()
         {
-            if (kNWDAppConfigurationManagerWindow == null)
-            {
-                kNWDAppConfigurationManagerWindow = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
-            }
-            kNWDAppConfigurationManagerWindow.ShowUtility();
-            kNWDAppConfigurationManagerWindow.Focus();
+            NWDAppConfigurationManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppEnvironmentConfigurationManager kAppConfigurationManager;
-        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 60)]
         /// <summary>
         /// Menus the method.
         /// </summary>
+        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 60)]
         public static void AppEnvironmentManagerWindowShow()
         {
-            if (kAppConfigurationManager == null)
-            {
-                kAppConfigurationManager = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager)) as NWDAppEnvironmentConfigurationManager;
-            }
-            kAppConfigurationManager.ShowUtility();
-            kAppConfigurationManager.Focus();
+            NWDAppEnvironmentConfigurationManager.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// TheNWD app configuration window.
         /// </summary>
-        public static NWDAppEnvironmentChooser kNWDAppEnvironmentChooser;
         [MenuItem(NWDConstants.K_MENU_ENVIRONMENT, false, 61)]
         public static void EnvironementChooserShow()
         {
-            if (kNWDAppEnvironmentChooser == null)
-            {
-                kNWDAppEnvironmentChooser = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
-            }
-            kNWDAppEnvironmentChooser.ShowUtility();
-            kNWDAppEnvironmentChooser.Focus();
+            NWDAppEnvironmentChooser.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// TheNWD app configuration window.
         /// </summary>
-        public static NWDAppEnvironmentSync kNWDAppEnvironmentSync;
         [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 62)]
         public static void EnvironementSyncShow()
         {
-            if (kNWDAppEnvironmentSync == null)
-            {
-                kNWDAppEnvironmentSync = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
-            }
-            kNWDAppEnvironmentSync.ShowUtility();
-            kNWDAppEnvironmentSync.Focus();
+            NWDAppEnvironmentSync.SharedInstanceFocus();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppEnvironmentSync EnvironementSync()
-        {
-            if (kNWDAppEnvironmentSync == null)
-            {
-                kNWDAppEnvironmentSync = EditorWindow.GetWindow(typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
-            }
-            kNWDAppEnvironmentSync.ShowUtility();
-            kNWDAppEnvironmentSync.Focus();
-            return kNWDAppEnvironmentSync;
-        }
-
         //-------------------------------------------------------------------------------------------------------------
         // LOOP FOR NWDCLASSES MENU 1000 ... 9000
         //-------------------------------------------------------------------------------------------------------------
@@ -253,13 +194,11 @@ namespace NetWorkedData
         //    tWindow.Focus();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDLocalizationConfigurationManager kNWDDataLocalizationManager;
         [MenuItem(NWDConstants.K_MENU_LOCALIZATION_CONFIG, false, 9054)]
         public static void DataLocalizationManager()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager));
-            tWindow.Show();
-            tWindow.Focus();
+            NWDLocalizationConfigurationManager.SharedInstance().Show();
+            NWDLocalizationConfigurationManager.SharedInstance().Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCALIZATION_REORDER, false, 9055)]
@@ -288,7 +227,7 @@ namespace NetWorkedData
             string tPathOriginal = "Assets/" + NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tPathFinal = "Assets/" + NWDDataManager.SharedInstance().DatabaseNameEditor.Replace(".prp", ".prp-save");
             FileUtil.ReplaceFile(tPathOriginal, tPathFinal);
-            EditorUtility.DisplayDialog("Database", "Database was saved in hard asset at \""+tPathFinal+"\"!", "Ok");
+            EditorUtility.DisplayDialog("Database", "Database was saved in hard asset at \"" + tPathFinal + "\"!", "Ok");
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
@@ -296,32 +235,32 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
         public static void DevCreateTablesServer()
         {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment, true, true, NWDOperationSpecial.Upgrade);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment, true, true, NWDOperationSpecial.Upgrade);
             //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_SYNCHRONIZE_DATAS, false, 9102)]
         public static void DevSynchronizeAllData()
         {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_FORCE_SYNCHRONIZE, false, 9103)]
         public static void DevForceSynchronizeAllData()
         {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment, true, true);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment, true, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_RESET_CONNEXION, false, 9140)]
         public static void DevResetUuidAndToken()
         {
-            EnvironementSync().Reset(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_FLUSH_CONNEXION, false, 9141)]
         public static void DevFlushQueue()
         {
-            EnvironementSync().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         // PREPROD
@@ -329,33 +268,33 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9104)]
         public static void PreprodCreateTablesServer()
         {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment, true, true, NWDOperationSpecial.Upgrade); 
-                       //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment, true, true, NWDOperationSpecial.Upgrade);
+            //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
 
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_SYNCHRONIZE_DATAS, false, 9105)]
         public static void PreprodSynchronizeAllData()
         {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_FORCE_SYNCHRONIZE, false, 9106)]
         public static void PreprodForceSynchronizeAllData()
         {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment, true, true);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment, true, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_RESET_CONNEXION, false, 9142)]
         public static void PreprodFlushQueue()
         {
-            EnvironementSync().Reset(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_FLUSH_CONNEXION, false, 9143)]
         public static void PreprodResetUuidAndToken()
         {
-            EnvironementSync().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         //PROD
@@ -369,7 +308,7 @@ namespace NetWorkedData
             //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					    NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment, true, true, NWDOperationSpecial.Upgrade);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment, true, true, NWDOperationSpecial.Upgrade);
             //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
 
             //				}
@@ -382,7 +321,7 @@ namespace NetWorkedData
             //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					    NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment);
             //				}
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -393,20 +332,20 @@ namespace NetWorkedData
             //					NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment, true, true);
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment, true, true);
             //				}
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PROD_RESET_CONNEXION, false, 9144)]
         public static void ProdResetUuidAndToken()
         {
-            EnvironementSync().Reset(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().Reset(NWDAppConfiguration.SharedInstance().ProdEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PROD_FLUSH_CONNEXION, false, 9145)]
         public static void ProdFlushQueue()
         {
-            EnvironementSync().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         //LOCALS
@@ -560,6 +499,59 @@ namespace NetWorkedData
         public static bool TestUnblockRecompile()
         {
             return kBlock;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "/SPECIAL/extract list of file", false, 9999)]
+        public static void ExtractListOfFiles()
+        {
+            string tInitialPath = NWDFindPackage.PathOfPackage();
+            List<string> tResult = FolderFiles(tInitialPath);
+            StringBuilder tString = new StringBuilder();
+            foreach (string tPath in tResult)
+            {
+                tString.AppendLine(tPath);
+            }
+            GUIUtility.systemCopyBuffer = tString.ToString();
+            Debug.Log(tString.ToString());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<string> FolderFiles(string sFolder, string sSubFolder = "", string sSubTab = "")
+        {
+            string tFolder = sFolder + "/" + sSubFolder;
+            tFolder = tFolder.Replace("//", "/");
+            tFolder = tFolder.TrimEnd(new char[] { '/' });
+            DirectoryInfo tDirectory = new DirectoryInfo(tFolder);
+            FileInfo[] tInfo = tDirectory.GetFiles("*.*");
+            List<string> rList = new List<string>();
+            foreach (FileInfo tFile in tInfo)
+            {
+                if (tFile.Extension != ".meta" && tFile.Name[0] != '.')
+                {
+                    rList.Add(sSubTab + "/" + tFile.Name);
+                }
+            }
+            DirectoryInfo[] tSubFoldersArray = tDirectory.GetDirectories();
+            foreach (DirectoryInfo tSubFolder in tSubFoldersArray)
+            {
+                rList.Add(sSubTab + "/" + tSubFolder.Name);
+                rList.AddRange(FolderFiles(sFolder, sSubFolder + "/" + tSubFolder.Name, sSubTab + "\t"));
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "/SPECIAL/List of trigrammes and classes", false, 4000)]
+        public static void EditorListOfTrigramme()
+        {
+            Dictionary<string, string> tListClassesTrigramme = new Dictionary<string, string>();
+            StringBuilder tText = new StringBuilder();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+                tListClassesTrigramme.Add(tData.ClassNamePHP, tData.ClassTrigramme);
+                tText.AppendLine(tData.ClassNamePHP + "\t" + tData.ClassTrigramme);
+            }
+            GUIUtility.systemCopyBuffer = tText.ToString();
+            Debug.Log(tText.ToString());
         }
         //-------------------------------------------------------------------------------------------------------------
     }

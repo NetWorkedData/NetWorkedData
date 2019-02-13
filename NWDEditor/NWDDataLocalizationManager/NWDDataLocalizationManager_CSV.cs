@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
+using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -20,6 +21,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderAllLocalizations()
         {
+            BTBBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Reorder localization";
             float tCountClass = NWDDataManager.SharedInstance().mTypeList.Count + 1;
             float tOperation = 1;
@@ -35,10 +37,12 @@ namespace NetWorkedData
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportToCSV()
         {
+            BTBBenchmark.Start();
             // apply the pending modification : prevent lost modification
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
@@ -67,11 +71,12 @@ namespace NetWorkedData
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportFromCSV()
         {
-            //Debug.Log ("ImportFromCSV");
+            BTBBenchmark.Start();
             string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", string.Empty, "csv");
             if (tPath != null)
             {
@@ -95,6 +100,7 @@ namespace NetWorkedData
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

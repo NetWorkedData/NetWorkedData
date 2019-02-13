@@ -26,6 +26,9 @@ namespace NetWorkedData
             ".png",
             ".jpeg",
             ".mp3",
+            ".mp4",
+            ".aiff",
+            ".aif",
             ".jpeg",
             "", // for folder change
 		};
@@ -37,7 +40,7 @@ namespace NetWorkedData
 		public static AssetMoveResult OnWillMoveAsset (string sOldPath, string sNewPath)
 		{
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
-            if (sOldPath.Contains("Resources"))
+            if (sOldPath.Contains(NWD.K_Resources))
             {
                 string tExtension = Path.GetExtension(sOldPath);
                 if (kExtensionsWatchedList.Contains(tExtension.ToLower()))
@@ -51,7 +54,7 @@ namespace NetWorkedData
 		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions sUnused)
         {
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
-            if (sOldPath.Contains("Resources"))
+            if (sOldPath.Contains(NWD.K_Resources))
             {
                 string tExtension = Path.GetExtension(sOldPath);
                 if (kExtensionsWatchedList.Contains(tExtension.ToLower()))

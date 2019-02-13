@@ -18,8 +18,47 @@ namespace NetWorkedData
     public class NWDEditorConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDEditorConfigurationManager kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The icon and title.
+        /// </summary>
         GUIContent IconAndTitle;
+        /// <summary>
+        /// The scroll position.
+        /// </summary>
         static Vector2 ScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDEditorConfigurationManager SharedInstance()
+        {
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorConfigurationManager)) as NWDEditorConfigurationManager;
+            }
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDEditorConfigurationManager SharedInstanceFocus()
+        {
+            SharedInstanceFocus().ShowUtility();
+            SharedInstanceFocus().Focus();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
@@ -42,12 +81,6 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDEditorConfigurationManager SharedInstance()
-        {
-            NWDEditorMenu.EditorPreferenceShow();
-            return NWDEditorMenu.kNWDEditorConfigurationManagerWindow;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()

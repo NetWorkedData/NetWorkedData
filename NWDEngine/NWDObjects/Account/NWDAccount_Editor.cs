@@ -155,13 +155,13 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccessOrFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (NWDEditorMenu.kNWDAppEnvironmentChooser != null)
+                if (NWDAppEnvironmentSync.IsSharedInstance())
                 {
-                    NWDEditorMenu.kNWDAppEnvironmentChooser.Repaint();
+                    NWDAppEnvironmentSync.SharedInstance().Repaint();
                 };
-                if (NWDEditorMenu.kNWDAppEnvironmentSync != null)
+                if (NWDAppEnvironmentSync.IsSharedInstance())
                 {
-                    NWDEditorMenu.kNWDAppEnvironmentSync.Repaint();
+                    NWDAppEnvironmentSync.SharedInstance().Repaint();
                 };
             };
 

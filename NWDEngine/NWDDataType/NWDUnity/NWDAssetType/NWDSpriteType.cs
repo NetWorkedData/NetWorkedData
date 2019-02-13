@@ -72,7 +72,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (Value.Contains("Resources") == false)
+                if (Value.Contains(NWD.K_Resources) == false)
                 {
                     rReturn = true;
                 }
@@ -152,7 +152,7 @@ namespace NetWorkedData
 							, tTexture2D);
 					}
 				}
-                if (Value.Contains("Resources") == false)
+                if (Value.Contains(NWD.K_Resources) == false)
                 {
                     EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
                 }

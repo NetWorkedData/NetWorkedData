@@ -22,6 +22,8 @@ namespace NetWorkedData
     public partial class NWD
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_Resources = "Resources";
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_DevEnvironment = "K_DevEnvironment";
         public const string K_PreprodEnvironment = "K_PreprodEnvironment";
         public const string K_ProdEnvironment = "K_ProdEnvironment";

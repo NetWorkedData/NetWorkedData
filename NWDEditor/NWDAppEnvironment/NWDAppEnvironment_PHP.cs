@@ -85,8 +85,8 @@ namespace NetWorkedData
                 CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static Functions file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Relationship file generate", tOperation++ / tCountClass);
-                CreatePHP_StaticRelationshipFile(tFilesAndDatas, sWriteOnDisk);
+                //EditorUtility.DisplayProgressBar(tTitle, "Static Relationship file generate", tOperation++ / tCountClass);
+                //CreatePHP_StaticRelationshipFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static Request file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static RequestToken file generate", tOperation++ / tCountClass);
@@ -99,8 +99,8 @@ namespace NetWorkedData
                 CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static Values file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Flash file generate", tOperation++ / tCountClass);
-                CreatePHPFlashMyAppFile(tFilesAndDatas, sWriteOnDisk);
+                //EditorUtility.DisplayProgressBar(tTitle, "Static Flash file generate", tOperation++ / tCountClass);
+                //CreatePHPFlashMyAppFile(tFilesAndDatas, sWriteOnDisk);
             }
             if (sWriteOnDisk == true)
             {

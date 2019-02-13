@@ -17,9 +17,42 @@ namespace NetWorkedData
     public class NWDAppEnvironmentConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The Shared Instance.
+        /// </summary>
+        private static NWDAppEnvironmentConfigurationManager kSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         static Vector2 ScrollPosition;
         static int TabSelected = 0;
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentConfigurationManager SharedInstance()
+        {
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager)) as NWDAppEnvironmentConfigurationManager;
+            }
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentConfigurationManager SharedInstanceFocus()
+        {
+            SharedInstanceFocus().ShowUtility();
+            SharedInstanceFocus().Focus();
+            return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstance()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
@@ -42,12 +75,6 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppEnvironmentConfigurationManager SharedInstance()
-        {
-            NWDEditorMenu.AppEnvironmentManagerWindowShow();
-            return NWDEditorMenu.kAppConfigurationManager;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
