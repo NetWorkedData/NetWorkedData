@@ -74,6 +74,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {
 #if UNITY_ANDROID
