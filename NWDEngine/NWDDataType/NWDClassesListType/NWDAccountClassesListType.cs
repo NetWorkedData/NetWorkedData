@@ -97,7 +97,6 @@ namespace NetWorkedData
         {
             return Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public List<Type> GetClassesTypeList()
         {
@@ -130,6 +129,7 @@ namespace NetWorkedData
             if (kClassesPossibilities == null)
             {
                 kClassesPossibilities = new List<string>();
+                kClassesInvert = new Dictionary<string, Type>();
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
