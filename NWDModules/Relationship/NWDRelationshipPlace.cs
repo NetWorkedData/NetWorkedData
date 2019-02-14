@@ -71,7 +71,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDIntSlider(10,300)]
+        [NWDIntSlider(K_REFRESH_DELAY_MIN, K_REFRESH_DELAY_MAX)]
         public int RefreshDelay
         {
             get; set;

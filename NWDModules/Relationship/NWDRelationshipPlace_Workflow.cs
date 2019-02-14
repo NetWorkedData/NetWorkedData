@@ -33,6 +33,8 @@ namespace NetWorkedData
         const int K_CODE_LENGHT_MAX = 8;
         const int K_EXPIRE_TIME_MIN = 60;
         const int K_EXPIRE_TIME_MAX = 600;
+        const int K_REFRESH_DELAY_MIN = 10;
+        const int K_REFRESH_DELAY_MAX = 600;
         //-------------------------------------------------------------------------------------------------------------
         public NWDRelationshipPlace()
         {
@@ -48,6 +50,7 @@ namespace NetWorkedData
         {
             ExpireTime = K_EXPIRE_TIME_MIN;
             ExpireTime = K_EXPIRE_TIME_MIN;
+            RefreshDelay = K_REFRESH_DELAY_MIN;
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
