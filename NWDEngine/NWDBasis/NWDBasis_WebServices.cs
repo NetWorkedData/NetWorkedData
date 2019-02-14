@@ -538,6 +538,35 @@ namespace NetWorkedData
             //Debug.Log("Return List<Type> containts " + rReturn.Count + " classes");
             return rReturn;
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        public static void SynchronizationFromWebService(BTBOperationBlock sSuccessBlock = null,
+         BTBOperationBlock sErrorBlock = null,
+         BTBOperationBlock sCancelBlock = null,
+         BTBOperationBlock sProgressBlock = null,
+         bool sForce = false,
+         bool sPriority = false)
+        {
+            if (Application.isPlaying == true)
+            {
+                NWDOperationWebSynchronisation.AddOperation("Sync " + BasisHelper().ClassNamePHP , sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, ClasseInThisSync(), sForce, sPriority);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(null, ClasseInThisSync(), false, false, NWDOperationSpecial.None);
+#endif
+            }
+        }
+
+
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         //public static void SynchronizeThisClasse(bool sForce = false)
         //{
@@ -728,11 +757,11 @@ namespace NetWorkedData
             return rReturn;
         }
 #endif
-            //-------------------------------------------------------------------------------------------------------------
-            #endregion
-            //-------------------------------------------------------------------------------------------------------------
-            #region Special delete user
-            //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Special delete user
+        //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_DeleteUser)]
         public static void DeleteUser(NWDAppEnvironment sEnvironment)
         {
