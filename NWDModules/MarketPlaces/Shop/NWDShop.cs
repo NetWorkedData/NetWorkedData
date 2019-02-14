@@ -185,7 +185,7 @@ namespace NetWorkedData
                 NWDUserTransaction bTransaction = null;
 
                 // Check if Pack is enable
-                BuyPackResult bResult = PackEnable(sPack.InternalKey);
+                BuyPackResult bResult = PackEnable(sPack);
 
                 // Pack is enable
                 if (bResult == BuyPackResult.Enable)
@@ -265,14 +265,13 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult PackEnable(string sPackKey)
+        private BuyPackResult PackEnable(NWDPack sPack)
         {
             BuyPackResult rPackEnable = BuyPackResult.NotFound;
 
-            NWDPack tPack = NWDPack.FindFirstDatasByInternalKey(sPackKey);
-            if (tPack != null)
+            if (sPack != null)
             {
-                if (tPack.IsEnable())
+                if (sPack.IsEnable())
                 {
                     rPackEnable = BuyPackResult.Enable;
                 }
