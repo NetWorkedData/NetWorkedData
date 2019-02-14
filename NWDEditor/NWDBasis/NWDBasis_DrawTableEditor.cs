@@ -1100,6 +1100,7 @@ namespace NetWorkedData
             bool tResetTable = false;  //prevent GUIlayout error
             bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
             bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
+            bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
             bool tSyncProd = false; //prevent GUIlayout error
             bool tSyncForceProd = false; //prevent GUIlayout error
             bool tPullProd = false; //prevent GUIlayout error
@@ -1839,6 +1840,14 @@ namespace NetWorkedData
                 {
                     tCreateAllPHPForOnlyThisClass = true;
                 }
+                //if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), EditorStyles.miniButton))
+                //{
+                //    tCreateAllPHPForOnlyThisClass = true;
+                //}
+                if (GUILayout.Button(NWDConstants.K_APP_WS_MODEL_TOOLS, EditorStyles.miniButton))
+                {
+                    tReintegrateOnlyThisClass = true;
+                }
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
                 NWDConstants.GUIRedButtonEnd();
@@ -2276,10 +2285,14 @@ namespace NetWorkedData
 
             if (tCreateAllPHPForOnlyThisClass == true)
             {
-                //CreateAllPHPForOnlyThisClass();
                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+            }
+            if (tReintegrateOnlyThisClass == true)
+            {
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             if (tCreateAllPHPForOnlyThisClassDEV == true)
             {

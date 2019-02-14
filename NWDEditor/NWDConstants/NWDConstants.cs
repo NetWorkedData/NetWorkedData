@@ -371,6 +371,7 @@ namespace NetWorkedData
         public const string K_APP_WS_RESET_WARNING = "Warning WS";
         public const string K_APP_WS_PHP_TOOLS = "Replace WS XXXX";
         public const string K_APP_WS_PHP_DEV_TOOLS = "Replace WS XXXX Dev";
+        public const string K_APP_WS_MODEL_TOOLS = "REINTEGRATE MODEL";
         public const string K_APP_TABLE_ADD_ZONE = "New object";
 
         public const string K_APP_TABLE_ADD_ROW = "Add new object";

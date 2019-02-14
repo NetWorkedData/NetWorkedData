@@ -1027,7 +1027,7 @@ namespace NetWorkedData
                         foreach (string tR in tResultRemove)
                         {
                             BasisHelper().WebModelDegradationList.Add(tR);
-                            Debug.Log ("... il reste "+ tR +  " en trop dans le modele "+ tKey + " de " + BasisHelper().ClassNamePHP);
+                            Debug.Log("... il reste " + tR + " en trop dans le modele " + tKey + " de " + BasisHelper().ClassNamePHP);
                         }
                         // the properties is not increment beetween two versions !!!!!
                         rReturn = true;
@@ -1065,31 +1065,62 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : DEPLACER VERS NWDDATAS
+        public static void ForceOrders(int sWebBuild)
+        {
+            if (BasisHelper().LastWebBuild < sWebBuild)
+            {
+                BasisHelper().LastWebBuild = sWebBuild;
+            }
+            if (BasisHelper().WebServiceWebModel.ContainsKey(sWebBuild))
+            {
+                BasisHelper().WebServiceWebModel.Remove(sWebBuild);
+            }
+            BasisHelper().WebServiceWebModel.Add(sWebBuild, sWebBuild);
+
+            if (BasisHelper().WebModelPropertiesOrder.ContainsKey(sWebBuild))
+            {
+                BasisHelper().WebModelPropertiesOrder.Remove(sWebBuild);
+            }
+            BasisHelper().WebModelPropertiesOrder.Add(sWebBuild, PropertiesOrderArray(sWebBuild));
+
+            if (BasisHelper().WebModelSQLOrder.ContainsKey(sWebBuild))
+            {
+                BasisHelper().WebModelSQLOrder.Remove(sWebBuild);
+            }
+            BasisHelper().WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : DEPLACER VERS NWDDATAS
         public static void PrepareOrders()
         {
-            int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+            ReplaceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : DEPLACER VERS NWDDATAS
+        public static void ReplaceOrders(int sWebBuild)
+        {
             if (BasisHelper().WebModelChanged)
             {
-                BasisHelper().LastWebBuild = tWebBuild;
-                if (BasisHelper().WebModelPropertiesOrder.ContainsKey(tWebBuild) == false)
+                BasisHelper().LastWebBuild = sWebBuild;
+                if (BasisHelper().WebModelPropertiesOrder.ContainsKey(sWebBuild) == false)
                 {
-                    BasisHelper().WebModelPropertiesOrder.Add(tWebBuild, PropertiesOrderArray(tWebBuild));
+                    BasisHelper().WebModelPropertiesOrder.Add(sWebBuild, PropertiesOrderArray(sWebBuild));
                 }
-                if (BasisHelper().WebModelSQLOrder.ContainsKey(tWebBuild) == false)
+                if (BasisHelper().WebModelSQLOrder.ContainsKey(sWebBuild) == false)
                 {
-                    BasisHelper().WebModelSQLOrder.Add(tWebBuild, SLQSelect(tWebBuild));
+                    BasisHelper().WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
                 }
             }
             else
             {
                 //Debug.Log(ClassID() + " doesn't be updated for webservice " + tWebBuild.ToString() + " ... Keep cool");
             }
-            if (BasisHelper().WebServiceWebModel.ContainsKey(tWebBuild))
+            if (BasisHelper().WebServiceWebModel.ContainsKey(sWebBuild))
             {
-                BasisHelper().WebServiceWebModel.Remove(tWebBuild);
+                BasisHelper().WebServiceWebModel.Remove(sWebBuild);
             }
 
-            BasisHelper().WebServiceWebModel.Add(tWebBuild, BasisHelper().LastWebBuild);
+            BasisHelper().WebServiceWebModel.Add(sWebBuild, BasisHelper().LastWebBuild);
             Dictionary<int, int> tNextWebServiceWebModel = new Dictionary<int, int>();
             foreach (KeyValuePair<int, int> tWS_WebModel in BasisHelper().WebServiceWebModel)
             {
