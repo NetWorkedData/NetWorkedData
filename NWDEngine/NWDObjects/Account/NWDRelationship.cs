@@ -261,7 +261,7 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void EnterPinToServer(string sNickname, string sPinCode,
+        /*static public void EnterPinToServer(string sNickname, string sPinCode,
                                             BTBOperationBlock sSuccessBlock = null,
                                             BTBOperationBlock sErrorBlock = null,
                                             BTBOperationBlock sCancelBlock = null,
@@ -274,7 +274,7 @@ namespace NetWorkedData
             sOperation.Nickname = sNickname;
             sOperation.PinCode = sPinCode;
             NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         static public void SynchronizeSlaveDatas(BTBOperationBlock sSuccessBlock = null,
                                                  BTBOperationBlock sErrorBlock = null,
@@ -526,7 +526,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "auto send the pincode to me ", tMiniButtonStyle))
             {
                 BTBConsole.Clear();
-                EnterPinToServer("DevUserForTest", PinCode);
+                //EnterPinToServer("DevUserForTest", PinCode);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
