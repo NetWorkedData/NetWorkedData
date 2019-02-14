@@ -107,6 +107,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDIntSlider(10, 300)]
         public int RefreshDelay
         {
             get; set;
