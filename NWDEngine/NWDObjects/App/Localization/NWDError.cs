@@ -54,7 +54,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Description", true, true, true)] // ok
         [NWDTooltips("Title of error message")]
         public NWDLocalizableStringType Title

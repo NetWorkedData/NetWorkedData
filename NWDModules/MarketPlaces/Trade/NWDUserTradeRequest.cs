@@ -52,7 +52,7 @@ namespace NetWorkedData
 		}
 		[NWDGroupEnd]
 
-		[NWDGroupSeparator]
+		//[NWDGroupSeparator]
 
 		[NWDGroupStart("For Relationship Only", true, true, true)]
 
@@ -68,7 +68,7 @@ namespace NetWorkedData
 		}
 		[NWDGroupEnd]
 
-		[NWDGroupSeparator]
+		//[NWDGroupSeparator]
 
 		[NWDGroupStart("Trade References", true, true, true)]
 		[NWDAlias("ItemsProposed")]
@@ -104,7 +104,7 @@ namespace NetWorkedData
 		}
 		[NWDGroupEnd]
 
-		[NWDGroupSeparator]
+		//[NWDGroupSeparator]
 
 		[NWDGroupStart("Tags", true, true, true)]
 		public NWDReferencesListType<NWDWorld> TagWorlds

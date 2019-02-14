@@ -32,7 +32,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Values")]
         public NWDMultiType Value
         {

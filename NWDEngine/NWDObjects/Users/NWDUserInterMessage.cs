@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDUserInterMessage : NWDBasis<NWDUserInterMessage>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Sender")]
         [NWDTooltips("The Sender account reference")]
         [NWDNeedUserAvatarAttribute()]
@@ -29,7 +29,7 @@ namespace NetWorkedData
         [NWDTooltips("Receipt Acknowledgment : publisher see the meessage was reading")]
         public bool ReceiptAcknowledgment { get; set; }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Receiver")]
         [NWDTooltips("The Receiver account reference")]
         [NWDNeedUserAvatarAttribute()]
@@ -45,7 +45,7 @@ namespace NetWorkedData
         public bool Archived { get; set;}
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Message")]
         [NWDTooltips("The Message")]
@@ -83,7 +83,7 @@ namespace NetWorkedData
         //public bool AttachmentReceived { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Push system")]
         [NWDTooltips("The published message template")]
@@ -98,7 +98,7 @@ namespace NetWorkedData
         public bool Push { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Original Inter User Message")]
         public NWDReferenceType<NWDUserInterMessage> OriginalMessage { get; set;}

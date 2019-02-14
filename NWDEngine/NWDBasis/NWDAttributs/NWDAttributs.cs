@@ -585,11 +585,11 @@ namespace NetWorkedData
     /// <summary>
     /// NWDGroupSeparatorAttribute must be use after NWDGroupEndAttribute. It draw separator line.
     /// </summary>
-    [Obsolete]
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDGroupSeparatorAttribute : Attribute
-    {
-    }
+ //   [Obsolete]
+	//[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    //public class NWDGroupSeparatorAttribute : Attribute
+    //{
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDSeparatorAttribute draw separator line before property.

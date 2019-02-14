@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -46,7 +46,7 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccount> Account {get; set;}
 		public NWDReferenceType<NWDGameSave> GameSave {get; set;}
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Informations")]
         public NWDReferenceType<NWDNews> EventMessage {get; set;
         }

@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -71,7 +71,7 @@ namespace NetWorkedData
         //[NWDGroupStart("Account")]
         //public NWDReferenceType<NWDAccount> Account { get; set; }
         //[NWDGroupEnd()]
-        //[NWDGroupSeparator()]
+        //
         //[NWDGroupStart("Other")]
         //public int Other { get; set; }
 

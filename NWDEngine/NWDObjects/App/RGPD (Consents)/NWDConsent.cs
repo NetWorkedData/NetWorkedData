@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
@@ -35,7 +35,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Consent version")]
         public string KeyOfConsent
         {
@@ -46,7 +46,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Consent default state proposition")]
         public BTBSwitchState DefaultState
         {

@@ -29,14 +29,14 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDKeyword> KeywordList
         {

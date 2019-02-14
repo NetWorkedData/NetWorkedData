@@ -26,11 +26,11 @@ namespace NetWorkedData
         [NWDGroupStartAttribute("Informations", true, true, true)]
         public NWDLocalizableStringType Name { get; set; }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> WorldList { get; set; }
         public NWDReferencesListType<NWDCategory> CategoryList { get; set; }

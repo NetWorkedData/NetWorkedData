@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -25,7 +25,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Items Authorization", true, true, true)]
         public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
@@ -43,7 +43,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Trade Detail", true, true, true)]
         //public NWDReferencesListType<NWDItem> Moneys

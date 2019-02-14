@@ -94,7 +94,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd()]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Relation")]
         public NWDReferenceType<NWDRelationship> Reciprocity
@@ -109,7 +109,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd()]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Reader of datas")]
         //[Indexed("RelationshipIndex", 1)]
@@ -127,7 +127,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd()]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Sync datas")]
         public bool FirstSync
@@ -136,7 +136,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd()]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("PinCode informations")]
         [Indexed("PinIndex", 1)]

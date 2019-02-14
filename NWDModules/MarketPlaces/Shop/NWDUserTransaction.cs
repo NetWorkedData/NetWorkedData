@@ -68,7 +68,7 @@ namespace NetWorkedData
 
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Items in transaction", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsReceived
@@ -81,7 +81,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Place ", true, true, true)]
         public NWDReferenceType<NWDBarterPlace> BarterPlaceReference
@@ -106,7 +106,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Other", true, true, true)]
         public string Platform

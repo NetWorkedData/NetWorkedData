@@ -29,7 +29,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("Reply for previous Dialog (optional)", true, true, true)]
         [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
         public NWDReferencesConditionalType<NWDItemGroup> RequiredItemGroups
@@ -95,7 +95,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("Dialog", true, true, true)]
         [NWDTooltipsAttribute("Select the character who says the dialog")]
         public NWDReferenceType<NWDCharacter> CharacterReference
@@ -178,14 +178,14 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
         public NWDReferencesListType<NWDDialog> NextDialogs
         {
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("Option Quest", true, true, true)]
         [NWDTooltipsAttribute("The quest launched after this dialog")]
         public NWDReferenceType<NWDQuest> NextQuest
@@ -193,7 +193,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("For the quest'sBook", true, true, true)]
         [NWDTooltipsAttribute("The resume to write in the quest book (optional)")]
         public NWDLocalizableTextType Resume

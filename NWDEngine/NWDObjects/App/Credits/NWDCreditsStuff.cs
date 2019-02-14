@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
@@ -28,7 +28,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Members")]
         public NWDPrefabType MemberPrefab
         {
@@ -39,7 +39,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Show options")]
         public NWDColorType Tint
         {

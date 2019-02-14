@@ -66,7 +66,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("Counters", "Quest Counter", true, true, true)]
         public int AcceptCounter
         {
@@ -89,7 +89,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
+       
         [NWDGroupStartAttribute("Counter of gloab quest sequence", "", true, true, true)]
         public int FinishCounter
         {

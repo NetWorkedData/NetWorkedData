@@ -38,7 +38,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Development addons", true, true, true)]
         /// <summary>
         /// Gets or sets the annexe value.

@@ -75,7 +75,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Barter References", true, true, true)]
         [NWDNotEditable]

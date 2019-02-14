@@ -45,7 +45,7 @@ namespace NetWorkedData
         [NWDAlias("FriendLastSynchronization")]
         public NWDDateTimeUtcType FriendLastSynchronization  {  get; set; }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Relationship informations", true, true, true)]
         [NWDAlias("RelationshipStatus")]
         public NWDRelationshipStatus RelationshipStatus { get; set; }

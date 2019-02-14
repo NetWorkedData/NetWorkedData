@@ -67,21 +67,21 @@ namespace NetWorkedData
         public string Name { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Acquisition", true, true, true)]
         public bool FirstAcquisitionNotify { get; set; }
         public NWDDateTimeType FirstAcquisitionDate { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Extensions", true, true, true)]
         public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
         public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Development addons", true, true, true)]
         public string JSON { get; set; }

@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
@@ -32,14 +32,14 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Member post")]
         public NWDLocalizableStringType Office
         {
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Member Actor")]
         public NWDReferencesListType<NWDCharacter> CharacterList
         {

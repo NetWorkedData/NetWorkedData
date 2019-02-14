@@ -52,7 +52,7 @@ namespace NetWorkedData
         //}
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
         [NWDEntitled("Title", "Title of the quest in the description")]
@@ -74,7 +74,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Type of quest", true, true, true)]
         [NWDTooltips("Determine if quest is replayable or not")]
@@ -100,7 +100,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Availability schedule", true, true, true)]
         [NWDTooltips("Determine the availability schedule of this quest")]
@@ -110,7 +110,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Items required to start quest", true, true, true)]
         [NWDTooltips("Required itemGroup")]
@@ -132,7 +132,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDDialog> RequiredDialogsList { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Quest First Dialog", true, true, true)]
         [NWDEntitled("Normal Dialog")]
@@ -142,7 +142,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Items wanted to finish quest", true, true, true)]
         [NWDTooltips("Wanted itemGroup (not removable when quest success)")]
@@ -173,7 +173,7 @@ namespace NetWorkedData
         } // to start with ListOfItemsAsked
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Quest auto reward", true, true, true)]
         [NWDTooltips("The list of auto increment rewards at success of quest")]
@@ -183,7 +183,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Quest reward by choose ", true, true, true)]
         //public NWDReferencesQuantityType<NWDItemPack> RewardsItemPack

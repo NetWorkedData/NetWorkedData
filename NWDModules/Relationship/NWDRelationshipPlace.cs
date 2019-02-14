@@ -46,7 +46,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Classes Shared in relationship", true, true, true)]
         [NWDTooltips("Classes Shared")]
         [NWDAlias("ClassesSharedToStartRelation")]

@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -35,21 +35,21 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Domain")]
         public NWDPreferencesDomain Domain
         {
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Default value")]
         public NWDMultiType Default
         {
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Notify change for account or user preference")]
         public bool NotifyChange
         {

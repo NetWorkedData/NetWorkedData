@@ -39,13 +39,13 @@ namespace NetWorkedData
         public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Localization Options")]
         public NWDLanguageType Language { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn { get; set; }
@@ -58,7 +58,7 @@ namespace NetWorkedData
         public string GoogleNotificationToken { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Game Options")]
         public bool SFX { get; set; }
@@ -68,7 +68,7 @@ namespace NetWorkedData
         public NWDLocalizableStringType MusicVolumeLangu { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Last Game Informations")]
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }

@@ -84,7 +84,7 @@ namespace NetWorkedData
         public NWDLocalizableLongTextType Description { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> WorldList { get; set; }
@@ -93,7 +93,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Notifications", true, true, true)]
         public NWDItemNotification FirstAcquisitionNotification { get; set; }
@@ -102,7 +102,7 @@ namespace NetWorkedData
         public NWDItemNotification NoMoreItemNotification { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Rarity", true, true, true)]
         [NWDFloatSliderAttribute(0.0F, 1.0F)]
@@ -110,7 +110,7 @@ namespace NetWorkedData
         public float Rarity { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Usage", true, true, true)]
         //[NWDNotEditableAttribute]
@@ -125,7 +125,7 @@ namespace NetWorkedData
         public float DelayBeforeReUse { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Craft Usage", true, true, true)]
         public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
@@ -144,14 +144,14 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Extensions", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity { get; set; }
         public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Assets", true, true, true)]
         [NWDHeaderAttribute("Textures")]
@@ -171,13 +171,13 @@ namespace NetWorkedData
         public NWDPrefabType EffectPrefab { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
         public string JSON { get; set; }
         public string KeysValues { get; set; }
         //[NWDGroupEndAttribute]
-        //[NWDGroupSeparatorAttribute]
+        //
         //[NWDGroupStartAttribute ("Precalculate", true, true, true)]
         //[NWDNotEditableAttribute]
         //[NWDGroupEndAttribute]

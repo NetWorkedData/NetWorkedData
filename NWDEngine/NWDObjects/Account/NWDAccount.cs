@@ -28,7 +28,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Account sign-in/up")]
         /// <summary>
         /// Gets or sets the SecretKey to restaure anonymous account.
@@ -80,7 +80,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Account push notification")]
         /// <summary>
         /// Gets or sets the apple notification token for message.
@@ -102,7 +102,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Account ban")]
         /// <summary>
         /// Gets or sets a value indicating whether this account <see cref="NWDEditor.NWDAccount"/> is banned.

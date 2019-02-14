@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Player Informations")]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -55,7 +55,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn
         {

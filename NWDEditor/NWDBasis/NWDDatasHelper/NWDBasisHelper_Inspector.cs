@@ -631,10 +631,10 @@ namespace NetWorkedData
                         {
                             tProperty.Separator = true;
                         }
-                        foreach (NWDGroupSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
-                        {
-                            tProperty.Separator = true;
-                        }
+                        //foreach (NWDGroupSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
+                        //{
+                        //    tProperty.Separator = true;
+                        //}
 
                         foreach (NWDGroupStartAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupStartAttribute), true))
                         {

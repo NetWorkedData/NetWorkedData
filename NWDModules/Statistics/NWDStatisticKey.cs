@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -53,7 +53,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Use parent stats")]
         public NWDReferenceType<NWDStatisticKey> Parent
         {
@@ -65,7 +65,7 @@ namespace NetWorkedData
         }
 
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Counter format (#x# is the value)")]
         public float InitCounter
         {
@@ -87,7 +87,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Total format (#x# is the value)")]
         public float InitTotal
         {
@@ -109,7 +109,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Average format (#x# is the value)")]
         public float InitAverage
         {
@@ -135,7 +135,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Average with parent format (#x# is the value)")]
         public float InitAverageWithParent
         {
@@ -161,7 +161,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Last format (#x# is the value)")]
         public float InitLast
         {
@@ -183,7 +183,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Max format (#x# is the value)")]
         public float InitMax
         {
@@ -205,7 +205,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Min format (#x# is the value)")]
         public float InitMin
         {

@@ -43,7 +43,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Recipe attribut", true, true, true)] // ok
         public bool OrderIsImportant
@@ -68,7 +68,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
         public NWDPrefabType SuccessParticles
@@ -89,7 +89,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
         [NWDNotEditableAttribute]

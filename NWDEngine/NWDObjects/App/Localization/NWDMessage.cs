@@ -25,12 +25,12 @@ namespace NetWorkedData
         public string Domain { get; set; }
         public string Code { get; set; }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Description", true, true, true)]
         public NWDLocalizableStringType Title { get; set; }
         public NWDLocalizableTextType Message { get; set; }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("User choose", true, true, true)]
         public bool HasValidButton { get; set; }
         public NWDLocalizableStringType ValidText { get; set; }

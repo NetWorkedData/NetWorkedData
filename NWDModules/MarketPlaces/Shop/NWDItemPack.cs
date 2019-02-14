@@ -61,13 +61,13 @@ namespace NetWorkedData
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Items in this Item Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItem> Items { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }

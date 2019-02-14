@@ -61,14 +61,14 @@ namespace NetWorkedData
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
         public int Quantity { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Item to Pay for this Pack", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
@@ -76,7 +76,7 @@ namespace NetWorkedData
         public bool EnableFreePack { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
@@ -85,7 +85,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        
 
         [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
         [NWDTooltips("Availability schedule of this Pack")]

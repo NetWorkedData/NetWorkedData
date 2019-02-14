@@ -1496,7 +1496,7 @@ namespace NetWorkedData
                 if (WebModel != tWebServiceVersionNew)
                 {
 
-                    Debug.Log(" set from " + WebModel + " To " + tWebServiceVersionNew);
+                   // Debug.Log(" set from " + WebModel + " To " + tWebServiceVersionNew);
                     WebModel = tWebServiceVersionNew;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();

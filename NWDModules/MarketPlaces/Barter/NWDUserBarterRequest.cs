@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -40,7 +40,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("For Relationship Only", true, true, true)]
 
@@ -56,7 +56,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Barter References", true, true, true)]
         [NWDAlias("ItemsProposed")]
@@ -119,7 +119,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Tags", true, true, true)]
         public NWDReferencesListType<NWDWorld> TagWorlds

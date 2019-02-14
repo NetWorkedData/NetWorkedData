@@ -30,7 +30,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Usage", true, true, true)] // ok
         public bool CraftOnlyMax
         {
@@ -41,7 +41,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
         [NWDHeaderAttribute("Active Recipient")]
         public NWDPrefabType ActiveParticles
@@ -77,7 +77,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Item(s) use as recipient", true, true, true)] // ok
         public NWDReferencesListType<NWDItem> ItemList
         {

@@ -59,7 +59,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Environment", true, true, true)]
         [NWDTooltips("This version can be used to build dev environement")]
         public bool ActiveDev
@@ -77,7 +77,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Options", true, true, true)]
         [NWDTooltips("This version block data push")]
         public bool BlockDataUpdate
@@ -90,7 +90,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Alert depriciated", true, true, true)]
         [NWDTooltips("Alert App is depriciated Title")]
         public NWDLocalizableStringType AlertTitle
@@ -108,7 +108,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Links", true, true, true)]
 
         [NWDTooltips("Recommendation Subject")]
@@ -137,7 +137,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Links by 'Flash By App' module ", true, true, true)]
         //[NWDNotEditable]
         [NWDTooltips("ID to download App in MacOS AppStore")]

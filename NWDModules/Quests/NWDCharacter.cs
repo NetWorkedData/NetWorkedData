@@ -25,7 +25,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Identity", true, true, true)]
         public NWDLocalizableStringType civility { get; set; }
@@ -35,7 +35,7 @@ namespace NetWorkedData
         public NWDLocalizableStringType NickName { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Dialog tempo", true, true, true)]
 
@@ -48,7 +48,7 @@ namespace NetWorkedData
         public float TripleDotLatence { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStartAttribute("Render", true, true, true)]
         public NWDSpriteType Portrait { get; set; }

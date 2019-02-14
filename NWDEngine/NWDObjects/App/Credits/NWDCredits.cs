@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
@@ -28,21 +28,21 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Your stuff")]
         public NWDReferencesListType<NWDCreditsStuff> StuffList
         {
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Associated companies")]
         public NWDReferencesListType<NWDCreditsCompany> CompanyList
         {
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Legal Informations")]
         public NWDLocalizableTextType LegalFooter
         {
@@ -53,7 +53,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd()]
-        [NWDGroupSeparator()]
+        
         [NWDGroupStart("Options")]
         public float ScrollSpeed
         {

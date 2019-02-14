@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -40,7 +40,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Optional Scene", true, true, false)]
         [NWDTooltips("An additional scene to use, it's optional and not used in standard process.")]
         public NWDSceneType UseScene

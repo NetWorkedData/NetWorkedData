@@ -37,7 +37,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Scene", true, true, false)]
         [NWDTooltips("An additional scene to use, it's optional and not used in standard process.")]
         public NWDSceneType UseScene

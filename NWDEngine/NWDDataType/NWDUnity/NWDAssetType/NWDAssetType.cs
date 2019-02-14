@@ -44,7 +44,7 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
         /// <param name="sOldPath">S old path.</param>
         /// <param name="sNewPath">S new path.</param>
-        [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
+        //[NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
         public bool ChangeAssetPath (string sOldPath, string sNewPath) 
         {
 			//Debug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);

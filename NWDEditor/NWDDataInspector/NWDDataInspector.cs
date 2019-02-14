@@ -128,12 +128,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Data(object sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
-            if (tMethodInfo != null)
+            if (sTarget != null)
             {
-                tMethodInfo.Invoke(sTarget, null);
-            }
+                MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(sTarget, null);
+                }
 
+            }
             if (sResetStack == true)
             {
                 mObjectsList = new List<object>();

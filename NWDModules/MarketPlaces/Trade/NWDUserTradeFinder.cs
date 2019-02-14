@@ -43,7 +43,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Filters", true, true, true)]
         public NWDReferencesListType<NWDItem> FilterItems
@@ -68,7 +68,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Results", true, true, true)]
         [NWDAlias("TradeRequestsList")]

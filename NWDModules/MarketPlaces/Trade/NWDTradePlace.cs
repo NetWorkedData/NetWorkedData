@@ -63,7 +63,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         [NWDGroupStart("Items Authorization", true, true, true)]
         public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
@@ -81,7 +81,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+       
 
         //[NWDGroupSeparator]
 

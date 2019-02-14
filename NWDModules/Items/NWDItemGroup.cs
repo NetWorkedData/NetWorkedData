@@ -66,7 +66,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
+        
         [NWDGroupStartAttribute("Item(s) in this group", true, true, true)] // ok
         public NWDReferencesListType<NWDItem> ItemList
         {

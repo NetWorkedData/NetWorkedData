@@ -48,7 +48,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDGroupSeparator]
+       
         [NWDGroupStart("Relationship informations", true, true, true)]
         [NWDAlias("RelationshipStatus")]
         public NWDRelationshipStatus RelationshipStatus
