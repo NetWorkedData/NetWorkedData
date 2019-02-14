@@ -15,11 +15,9 @@ using UnityEngine;
 using SQLite4Unity3d;
 using BasicToolBox;
 using SQLite.Attribute;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -51,7 +49,14 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> {typeof(NWDUserRelationship), typeof(NWDRelationshipPlace)};
+            // Todo : list the all classe shared in App 
+            List<Type> tClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDRelationshipPlace) };
+            foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.FindDatas())
+            {
+                tClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
+                tClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());
+            }
+            return tClasses;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserRelationship CreateNewRelationshipWith(NWDRelationshipPlace sPlace)
@@ -102,7 +107,7 @@ namespace NetWorkedData
             }
 
             // Sync NWDUserRelationship
-            SynchronizationFromWebService(tSuccess, tFailed);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserRelationship) }, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void EnterCodePin(string sPinCode)
@@ -111,7 +116,7 @@ namespace NetWorkedData
             RelationshipCode = sPinCode;
             SaveData();
             
-            /*BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 if (relationshipBlockDelegate != null)
                 {
@@ -126,7 +131,7 @@ namespace NetWorkedData
                     NWDOperationResult tResult = bResult as NWDOperationResult;
                     relationshipBlockDelegate(true, tResult);
                 }
-            };*/
+            };
             
             string tUserNickName = BTBConstants.K_MINUS;
             foreach (NWDAccountNickname user in NWDAccountNickname.FindDatas())
@@ -139,7 +144,7 @@ namespace NetWorkedData
             }
             
             // Sync NWDUserRelationship
-            SynchronizationFromWebService(RelationshipSuccessBlock, RelationshipFailedBlock);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserRelationship) }, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WaitingResponse()
@@ -162,7 +167,7 @@ namespace NetWorkedData
             };
             
             // Sync NWDUserRelationship
-            SynchronizationFromWebService(tSuccess, tFailed);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserRelationship) }, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AcceptRelationship()
@@ -170,7 +175,7 @@ namespace NetWorkedData
             RelationshipStatus = NWDRelationshipStatus.AcceptFriend;
             SaveData();
             
-            /*BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 if (relationshipBlockDelegate != null)
                 {
@@ -185,10 +190,10 @@ namespace NetWorkedData
                     NWDOperationResult tResult = bResult as NWDOperationResult;
                     relationshipBlockDelegate(true, tResult);
                 }
-            };*/
+            };
             
             // Sync NWDUserRelationship
-            SynchronizationFromWebService(RelationshipSuccessBlock, RelationshipFailedBlock);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserRelationship) }, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RefuseRelationship()
@@ -196,7 +201,7 @@ namespace NetWorkedData
             RelationshipStatus = NWDRelationshipStatus.RefuseFriend;
             SaveData();
             
-            /*BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 if (relationshipBlockDelegate != null)
                 {
@@ -211,24 +216,14 @@ namespace NetWorkedData
                     NWDOperationResult tResult = bResult as NWDOperationResult;
                     relationshipBlockDelegate(true, tResult);
                 }
-            };*/
+            };
             
             // Sync NWDUserRelationship
-            SynchronizationFromWebService(RelationshipSuccessBlock, RelationshipFailedBlock);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserRelationship) }, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
         {
-            NWDUserRelationship[] tOwnerList = FindDatas();
-            foreach (NWDUserRelationship tOwner in tOwnerList)
-            {
-                if (tOwner.RelationshipStatus == NWDRelationshipStatus.Valid)
-                {
-                    tOwner.RelationshipStatus = NWDRelationshipStatus.Sync;
-                    tOwner.SaveData();
-                }
-            }
-            
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 if (synchronizeBlockDelegate != null)
@@ -247,25 +242,7 @@ namespace NetWorkedData
             };
             
             // Sync NWDUserRelationship
-            SynchronizationFromWebService(tSuccess, tFailed);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void RelationshipFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
-        {
-            if (relationshipBlockDelegate != null)
-            {
-                NWDOperationResult tResult = sResult as NWDOperationResult;
-                relationshipBlockDelegate(true, tResult);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void RelationshipSuccessBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
-        {
-            if (relationshipBlockDelegate != null)
-            {
-                NWDOperationResult tResult = sResult as NWDOperationResult;
-                relationshipBlockDelegate(false, tResult);
-            }
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserRelationship) }, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

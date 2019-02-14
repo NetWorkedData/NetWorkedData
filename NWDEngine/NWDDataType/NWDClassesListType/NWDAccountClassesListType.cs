@@ -97,6 +97,20 @@ namespace NetWorkedData
         {
             return Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public List<Type> GetClassesTypeList()
+        {
+            List<Type> rReturn = new List<Type>();
+            foreach (string tString in GetClasses())
+            {
+                if (kClassesInvert.ContainsKey(tString))
+                {
+                    rReturn.Add(kClassesInvert[tString]);
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public string[] GetSortedClasses()
         {
@@ -109,6 +123,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static List<string> kClassesPossibilities;
         //-------------------------------------------------------------------------------------------------------------
+        static Dictionary<string, Type> kClassesInvert;
+        //-------------------------------------------------------------------------------------------------------------
         public List<string> ClassesPossibilities()
         {
             if (kClassesPossibilities == null)
@@ -120,6 +136,7 @@ namespace NetWorkedData
                     if (tHelper != null)
                     {
                         kClassesPossibilities.Add(tHelper.ClassNamePHP);
+                        kClassesInvert.Add(tHelper.ClassNamePHP, tType);
                     }
                 }
                 kClassesPossibilities.Sort();

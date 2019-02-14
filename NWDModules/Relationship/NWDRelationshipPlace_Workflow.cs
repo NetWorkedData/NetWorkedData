@@ -53,7 +53,13 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserRelationship), typeof(NWDRelationshipPlace)};
+            List<Type> tClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDAccountRelationship), typeof(NWDRelationshipPlace) };
+            foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.FindDatas())
+            {
+                tClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
+                tClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());
+            }
+            return tClasses;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
