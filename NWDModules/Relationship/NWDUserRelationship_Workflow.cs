@@ -164,6 +164,15 @@ namespace NetWorkedData
             SynchronizationFromWebService(RelationshipSuccessBlock, RelationshipFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RemoveRelationship()
+        {
+            RelationshipStatus = NWDRelationshipStatus.Delete;
+            SaveData();
+            
+            // Sync NWDUserRelationship
+            SynchronizationFromWebService(RelationshipSuccessBlock, RelationshipFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void RefuseRelationship()
         {
             RelationshipStatus = NWDRelationshipStatus.RefuseFriend;

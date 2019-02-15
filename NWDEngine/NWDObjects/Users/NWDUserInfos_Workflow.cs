@@ -34,16 +34,48 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDUserInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserInfos GetUserInfosOrCreate()
         {
+            if (kCurrent != null)
+            {
+                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
+                {
+                    kCurrent = null;
+                }
+            }
+            
+            if (kCurrent == null)
+            {
+                NWDUserInfos tUserInfos = GetFirstData(NWDAccount.GetCurrentAccountReference());
+                if (tUserInfos == null)
+                {
+                    NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+                    tUserInfos = NewData();
+                    #if UNITY_EDITOR
+                    tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                    #endif
+                    tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
+                    tUserInfos.SaveData();
+                }
+                kCurrent = tUserInfos;
+            }
+            
+            return kCurrent;
+            
+            /*
             NWDUserInfos tUserInfos = null;
             foreach (NWDUserInfos k in FindDatas())
             {
@@ -61,7 +93,13 @@ namespace NetWorkedData
                 tUserInfos.Tag = NWDBasisTag.TagUserCreated;
                 tUserInfos.SaveData();
             }
-            return tUserInfos;
+            return tUserInfos;*/
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            SynchronizationFromWebService();
+            //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()

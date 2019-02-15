@@ -173,9 +173,9 @@ namespace NetWorkedData
             if (rReturn == null && tKey != null)
             {
                 rReturn = NewData();
-#if UNITY_EDITOR
-                rReturn.InternalKey = NWDAccountNickname.GetNickname();
-#endif
+                #if UNITY_EDITOR
+                rReturn.InternalKey = NWDAccountNickname.GetNickname() + " - " + tKey.Title.GetBaseString();
+                #endif
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.PreferenceKey.SetReference(sDataReference);
                 rReturn.Value.SetValue(tKey.Default.Value);
@@ -185,9 +185,9 @@ namespace NetWorkedData
             if (rReturn == null)
             {
                 rReturn = NewData();
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 rReturn.InternalKey = "NoKeyError - " + NWDAccountNickname.GetNickname();
-#endif
+                #endif
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.PreferenceKey.SetReference(sDataReference);
                 rReturn.SaveData();
