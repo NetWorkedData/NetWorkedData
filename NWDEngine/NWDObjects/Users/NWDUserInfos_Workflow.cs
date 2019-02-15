@@ -61,7 +61,6 @@ namespace NetWorkedData
                 NWDUserInfos tUserInfos = GetFirstData(NWDAccount.GetCurrentAccountReference());
                 if (tUserInfos == null)
                 {
-                    NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                     tUserInfos = NewData();
                     #if UNITY_EDITOR
                     tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
@@ -74,32 +73,11 @@ namespace NetWorkedData
             }
             
             return kCurrent;
-            
-            /*
-            NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos k in FindDatas())
-            {
-                if (k.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
-                {
-                    tUserInfos = k;
-                    break;
-                }
-            }
-            if (tUserInfos == null)
-            {
-                tUserInfos = NewData();
-                tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
-                tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                tUserInfos.SaveData();
-            }
-            return tUserInfos;*/
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
         {
             SynchronizationFromWebService();
-            //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
