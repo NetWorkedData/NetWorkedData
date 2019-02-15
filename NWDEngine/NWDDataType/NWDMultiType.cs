@@ -61,11 +61,11 @@ namespace NetWorkedData
         {
             if (string.IsNullOrEmpty(sValue))
             {
-                Value = ((int)NWDMultiTypeEnum.AnString).ToString() + NWDConstants.kFieldSeparatorD + string.Empty;
+                SetStringValue(string.Empty);
             }
             else
             {
-                Value = ((int)NWDMultiTypeEnum.AnString).ToString() + NWDConstants.kFieldSeparatorD + sValue;
+                SetStringValue(sValue);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
