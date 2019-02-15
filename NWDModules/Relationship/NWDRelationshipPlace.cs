@@ -23,6 +23,7 @@ namespace NetWorkedData
         AcceptFriend = 22,
         Valid = 30, // no sent
         Sync = 40,
+        SyncForce = 44,
         Delete = 80,
         CodeInvalid =87, // no sent
         AllreadyFriend = 88, // no sent

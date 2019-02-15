@@ -155,12 +155,18 @@ namespace NetWorkedData
                     else
                     {
                         // verif if value is conforme for localization
-                        if (tProp.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
+                        if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
                         {
-                            NWDLocalizableType tValueBTBDataType = (NWDLocalizableType)tValue;
+                            BTBDataType tValueBTBDataType = (BTBDataType)tValue;
                             tValueBTBDataType.BaseVerif();
                             tProp.SetValue(this, tValue, null);
                         }
+                        //if (tProp.PropertyType.IsSubclassOf(typeof(NWDMultiType)))
+                        //{
+                        //    NWDMultiType tValueBTBDataType = (NWDMultiType)tValue;
+                        //    tValueBTBDataType.BaseVerif();
+                        //    tProp.SetValue(this, tValue, null);
+                        //}
                     }
                 }
             }

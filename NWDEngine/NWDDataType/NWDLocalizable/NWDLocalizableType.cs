@@ -145,7 +145,7 @@ namespace NetWorkedData
             Value = NWDDataLocalizationManager.kBaseDev+NWDConstants.kFieldSeparatorB;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void BaseVerif()
+        public override void BaseVerif()
         {
             // Need to check with a new dictionary each time
             kSplitDico = new Dictionary<string, string>();

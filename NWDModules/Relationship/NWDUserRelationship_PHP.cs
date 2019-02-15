@@ -76,6 +76,7 @@ namespace NetWorkedData
                 "$tServerLimitDayTime = '';\n" +
                 "$tFriendLastSynchronization = 0;\n" +
                 "$tServerAccount = '';\n" +
+                "$tServerGameSave = '';\n" +
                 "$tServerFriendAccount = '';\n" +
                 "$tServerFriendGameSave = '';\n" +
                 "$tServerID = '';\n" +
@@ -87,6 +88,7 @@ namespace NetWorkedData
                 " `" + tRelationPlace + "`," +
                 " `" + tLimitDayTime + "`," +
                 " `" + tAccount + "`," +
+                " `" + tGameSave + "`," +
                 " `" + tFriendAccount + "`," +
                 " `" + tFriendGameSave + "`," +
                 " `" + tFriendLastSynchronization + "`," +
@@ -113,6 +115,7 @@ namespace NetWorkedData
                                    "$tServerCode = $tRowStatus['" + tRelationshipCode + "'];\n" +
                                    "$tServerLimitDayTime = $tRowStatus['" + tLimitDayTime + "'];\n" +
                                    "$tServerAccount = $tRowStatus['" + tAccount + "'];\n" +
+                                   "$tServerGameSave = $tRowStatus['" + tGameSave + "'];\n" +
                                    "$tFriendLastSynchronization = $tRowStatus['" + tFriendLastSynchronization + "'];\n" +
                                    "$tFriendUserRelationShip = $tRowStatus['" + tFriendUserRelationShip + "'];\n" +
                                    "$tServerFriendAccount = $tRowStatus['" + tFriendAccount + "'];\n" +
@@ -220,96 +223,150 @@ namespace NetWorkedData
                 "$sCsvList[" + t_Index_RelationshipCode + "] != '' &&" +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.None).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryFriend = 'SELECT `Reference` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
-                        "WHERE `AC`= \\'1\\' " +
-                        "AND `" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
-                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
-                        "AND `" + tAccount + "` != \\''.$SQL_CON->real_escape_string($tServerAccount).'\\' " +
+                        "$tQueryRequestor = 'SELECT `" + tAccount + "`, `" + tGameSave + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                        "WHERE " +
+                        "`" + tRelationshipHash + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
+                        "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
+                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                        "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                        "AND `AC` = 1 " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
-                        "';\n" +
-                        "$tResultFriend = $SQL_CON->query($tQueryFriend);\n" +
-                        "if (!$tResultFriend)\n" +
+                        ";';\n" +
+
+                        //"myLog(' search account and gamesave of this code  : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+
+                        "$tResultRequestor = $SQL_CON->query($tQueryRequestor);\n" +
+                        "if (!$tResultRequestor)\n" +
                             "{\n" +
-                                    "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                    "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER');\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
-                                "if ($tResultFriend->num_rows == 1)\n" +
+                                "if ($tResultRequestor->num_rows == 1)\n" +
                                     "{\n" +
-                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.AllreadyFriend).ToString() + ";\n" +
-                                        "$sReplaces[" + t_Index_RelationshipHash + "]= '' ;\n" +
-                                        "$sReplaces[" + t_Index_RelationshipCode + "]= 0 ;\n" +
-                                        "$sReplaces[" + t_Index_FriendUserRelationShip + "] = '';\n" +
-                                        "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
-                                        "$sReplaces[" + t_Index_FriendGameSave + "] = '';\n" +
-                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                                        "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                                    "}\n" +
-                                "else" +
-                                    "{\n" +
-                                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
-                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
-                                        "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + "\\', " +
-                                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\', " +
-                                        "`" + tRelationshipHash + "` = \\'\\', " +
-                                        "`" + tRelationshipCode + "` = \\'\\', " +
-                                        "`" + tFriendLastSynchronization + "` = \\'0\\', " +
-                                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\', " +
-                                        "`" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
-                                        "WHERE " +
-                                        "`" + tRelationshipHash + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
-                                        "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
-                                        "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
-                                        "AND `AC` = 1 " +
-                                        "AND `WebModel` <= '.$WSBUILD.' " +
-                                        ";';\n" +
-                                        "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
-                                        "if (!$tResultCancelable)\n" +
+                                        "while($tRowRequestor = $tResultRequestor->fetch_assoc())\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER');\n" +
+                                                "$tAccountRequestor = $tRowRequestor['" + tAccount + "'];\n" +
+                                                "$tGameSaveRequestor = $tRowRequestor['" + tGameSave + "'];\n" +
+                                            "}\n" +
+                                        "$tQueryFriend = 'SELECT `Reference` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                                        "WHERE " +
+                                        "(" +
+                                        "`AC`= \\'1\\' " +
+                                        "AND `" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($tAccountRequestor).'\\' " +
+                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($tGameSaveRequestor).'\\' " +
+                                        "AND `" + tAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
+                                        "AND `" + tGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                                        "AND `WebModel` <= '.$WSBUILD.' " +
+                                        ")" +
+                                        "OR " +
+                                        "(" +
+                                        "`AC`= \\'1\\' " +
+                                        "AND `" + tAccount + "` = \\''.$SQL_CON->real_escape_string($tAccountRequestor).'\\' " +
+                                        "AND `" + tGameSave + "` = \\''.$SQL_CON->real_escape_string($tGameSaveRequestor).'\\' " +
+                                        "AND `" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
+                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                                        "AND `WebModel` <= '.$WSBUILD.' " +
+                                        ")" +
+                                        "';\n" +
+
+                                        //"myLog(' search all ready friends  : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+
+                                        "$tResultFriend = $SQL_CON->query($tQueryFriend);\n" +
+                                        "if (!$tResultFriend)\n" +
+                                            "{\n" +
+                                                    "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                    "error('SERVER');\n" +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
-                                                "$tNumberOfRow = 0;\n" +
-                                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
-                                                "if ($tNumberOfRow == 1)\n" +
+                                                "if ($tResultFriend->num_rows > 0)\n" +
                                                     "{\n" +
-                                                        "$tQueryIntegrity = 'SELECT `Reference` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.AllreadyFriend).ToString() + ";\n" +
+                                                        "$sReplaces[" + t_Index_RelationshipHash + "]= '' ;\n" +
+                                                        "$sReplaces[" + t_Index_RelationshipCode + "]= 0 ;\n" +
+                                                        "$sReplaces[" + t_Index_FriendUserRelationShip + "] = '';\n" +
+                                                        "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
+                                                        "$sReplaces[" + t_Index_FriendGameSave + "] = '';\n" +
+                                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
+                                                        "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
+                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                                    "}\n" +
+                                                "else" +
+                                                    "{\n" +
+                                                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
+                                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
+                                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                                        "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + "\\', " +
+                                                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\', " +
+                                                        "`" + tRelationshipHash + "` = \\'\\', " +
+                                                        "`" + tRelationshipCode + "` = \\'\\', " +
+                                                        "`" + tFriendLastSynchronization + "` = \\'0\\', " +
+                                                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\', " +
+                                                        "`" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
                                                         "WHERE " +
-                                                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
-                                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
-                                                        "AND `" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                                        "`" + tRelationshipHash + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
+                                                        "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
+                                                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                                                        "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                                                        "AND `AC` = 1 " +
+                                                        "AND `WebModel` <= '.$WSBUILD.' " +
                                                         ";';\n" +
-                                                        "$tResultIntegrity = $SQL_CON->query($tQueryIntegrity);\n" +
-                                                        "if (!$tResultIntegrity)\n" +
+                                                        "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+                                                        "if (!$tResultCancelable)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryIntegrity.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                                                                 "error('SERVER');\n" +
                                                             "}\n" +
-                                                        "else\n" +
+                                                        "else" +
                                                             "{\n" +
-                                                                "while($tRowIntegrity = $tResultIntegrity->fetch_row())\n" +
+                                                                "$tNumberOfRow = 0;\n" +
+                                                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                                                "if ($tNumberOfRow == 1)\n" +
                                                                     "{\n" +
-                                                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue($tRowIntegrity[0]);\n" +
-                                                                        "$sReplaces[" + t_Index_FriendUserRelationShip + "]= $tRowIntegrity[0];\n" +
+                                                                        "$tQueryIntegrity = 'SELECT `Reference` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                                                                        "WHERE " +
+                                                                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
+                                                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                                                        "AND `" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                                                        ";';\n" +
+                                                                        "$tResultIntegrity = $SQL_CON->query($tQueryIntegrity);\n" +
+                                                                        "if (!$tResultIntegrity)\n" +
+                                                                            "{\n" +
+                                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryIntegrity.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                                "error('SERVER');\n" +
+                                                                            "}\n" +
+                                                                        "else\n" +
+                                                                            "{\n" +
+                                                                                "while($tRowIntegrity = $tResultIntegrity->fetch_row())\n" +
+                                                                                    "{\n" +
+                                                                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue($tRowIntegrity[0]);\n" +
+                                                                                        "$sReplaces[" + t_Index_FriendUserRelationShip + "]= $tRowIntegrity[0];\n" +
+                                                                                    "}\n" +
+                                                                            "}\n" +
+                                                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.WaitingValidation).ToString() + ";\n" +
+                                                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
+                                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                                                    "}\n" +
+                                                                "else\n" +
+                                                                    "{\n" +
+                                                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.CodeInvalid).ToString() + ";\n" +
+                                                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
+                                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                                                     "}\n" +
                                                             "}\n" +
-                                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.WaitingValidation).ToString() + ";\n" +
-                                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                                                    "}\n" +
-                                                "else\n" +
-                                                    "{\n" +
-                                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.CodeInvalid).ToString() + ";\n" +
-                                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                                     "}\n" +
                                             "}\n" +
+                                    "}\n" +
+                                "else\n" +
+                                    "{\n" +
+                                        "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.CodeInvalid).ToString() + ";\n" +
+                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
+                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                     "}\n" +
                             "}\n" +
                     "}\n" +
@@ -480,12 +537,67 @@ namespace NetWorkedData
                         "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
-                // SYNC 
-                "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Sync).ToString() + " && " +
+
+                // change the statut from waiting to expired if sync 
+                "else if (($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Sync).ToString() + " OR $sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.SyncForce).ToString() + ")  && " +
+                "$tServerStatut == " + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + ")\n" +
+                    "{\n" +
+                        "myLog('###OK IS EXPIRED?###', __FILE__, __FUNCTION__, __LINE__);\n" +
+
+                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "`DM` = \\''.$TIME_SYNC.'\\', " +
+                        "`DS` = \\''.$TIME_SYNC.'\\', " +
+                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.Expired).ToString() + "\\', " +
+                        "`" + tFriendUserRelationShip + "` = \\'\\', " +
+                        "`" + tRelationshipHash + "` = \\'\\', " +
+                        "`" + tRelationshipCode + "` = \\'\\', " +
+                        "`" + tFriendLastSynchronization + "` = \\'0\\', " +
+                        "`" + tFriendAccount + "` = \\'\\', " +
+                        "`" + tFriendGameSave + "` = \\'\\' " +
+                        "WHERE " +
+                        "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
+                        "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
+                        "AND `AC` = 1 " +
+                        "AND `WebModel` <= '.$WSBUILD.' " +
+                        ";';\n" +
+                        "$tResultRefuse = $SQL_CON->query($tQueryRefuse);\n" +
+                        "if (!$tResultRefuse)\n" +
+                            "{\n" +
+                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER');\n" +
+                            "}\n" +
+                        "else" +
+                            "{\n" +
+                                "$tNumberOfRow = 0;\n" +
+                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "if ($tNumberOfRow > 0)\n" +
+                                    "{\n" +
+                                        "$sReplaces[" + t_Index_RelationStatus + "] = " + ((int)NWDRelationshipStatus.Expired).ToString() + ";\n" +
+                                        "$sReplaces[" + t_Index_RelationshipHash + "] = '';\n" +
+                                        "$sReplaces[" + t_Index_RelationshipCode + "] = '';\n" +
+                                        "$sReplaces[" + t_Index_FriendUserRelationShip + "] = '';\n" +
+                                        "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
+                                        "$sReplaces[" + t_Index_FriendGameSave + "] = '';\n" +
+                                        "$sReplaces[" + t_Index_FriendLastSynchronization + "] = 0;\n" +
+                                        "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
+                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                    "}\n" +
+                                "else" +
+                                    "{\n" +
+                                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                                        "return;\n" +
+                                    "}\n" +
+                            "}\n" +
+                        "" +
+                    "}\n" +
+                
+
+                    // SYNC 
+                "else if (($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Sync).ToString() + " OR $sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.SyncForce).ToString() + ")  && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.Valid).ToString() + ")\n" +
                     "{\n" +
-
-                        // TODO Sync datas Return!
                         // the last sync is  $tFriendLastSynchronization
                         "$tQueryPlace = 'SELECT `" + tClassesSharedToStartRelation + "`, `" + tClassesShared + "` FROM `'.$ENV.'_" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "` " +
                         "WHERE `AC`= \\'1\\' " +
@@ -515,6 +627,10 @@ namespace NetWorkedData
                                         "$tClasses[] = '" + NWDAccountNickname.BasisHelper().ClassNamePHP + "';\n" +
                                         "$tClasses[] = '" + NWDAccountInfos.BasisHelper().ClassNamePHP + "';\n" +
                                         "$tClasses = array_unique ($tClasses);\n" +
+                                        "if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.SyncForce).ToString() + ")\n" +
+                                        "{\n" +
+                                        "$tFriendLastSynchronization=0;\n" +
+                                        "}\n" +
                                         "foreach ($tClasses as $tClass)\n" +
                                             "{\n" +
                                                 "myLog('will include : '.$tClass.'!', __FILE__, __FUNCTION__, __LINE__);\n" +
