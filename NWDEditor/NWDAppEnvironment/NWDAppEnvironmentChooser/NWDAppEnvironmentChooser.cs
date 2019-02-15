@@ -39,8 +39,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentChooser SharedInstanceFocus()
         {
-            SharedInstanceFocus().ShowUtility();
-            SharedInstanceFocus().Focus();
+            SharedInstance().ShowUtility();
+            SharedInstance().Focus();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
