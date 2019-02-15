@@ -28,19 +28,19 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string tRelationStatus = NWDUserRelationship.FindAliasName("RelationshipStatus");
-            string tRelationPlace = NWDUserRelationship.FindAliasName("RelationPlace");
-            string tRelationshipHash = NWDUserRelationship.FindAliasName("RelationshipHash");
-            string tRelationshipCode = NWDUserRelationship.FindAliasName("RelationshipCode");
-            string tLimitDayTime = NWDUserRelationship.FindAliasName("LimitDayTime");
-            string tFriendLastSynchronization = NWDUserRelationship.FindAliasName("FriendLastSynchronization");
+            string tRelationStatus = FindAliasName("RelationshipStatus");
+            string tRelationPlace = FindAliasName("RelationPlace");
+            string tRelationshipHash = FindAliasName("RelationshipHash");
+            string tRelationshipCode = FindAliasName("RelationshipCode");
+            string tLimitDayTime = FindAliasName("LimitDayTime");
+            string tFriendLastSynchronization = FindAliasName("FriendLastSynchronization");
 
-            string tFriendAccount = NWDUserRelationship.FindAliasName("FriendAccount");
-            string tFriendGameSave = NWDUserRelationship.FindAliasName("FriendGameSave");
+            string tFriendAccount = FindAliasName("FriendAccount");
+            string tFriendGameSave = FindAliasName("FriendGameSave");
 
-            string tAccount = NWDUserRelationship.FindAliasName("Account");
-            string tGameSave = NWDUserRelationship.FindAliasName("GameSave");
-            string tFriendUserRelationShip = NWDUserRelationship.FindAliasName("FriendUserRelationShip");
+            string tAccount = FindAliasName("Account");
+            string tGameSave = FindAliasName("GameSave");
+            string tFriendUserRelationShip = FindAliasName("FriendUserRelationShip");
 
             int t_Index_RelationStatus = CSV_IndexOf(tRelationStatus);
             int t_Index_RelationPlace = CSV_IndexOf(tRelationPlace);

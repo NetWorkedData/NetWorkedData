@@ -60,7 +60,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                rReturn = tPref.GetEnter().GetValue();
+                rReturn = tPref.GetEnter().GetStringValue();
             }
             return rReturn;
         }
