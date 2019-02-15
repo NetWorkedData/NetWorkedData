@@ -28,10 +28,10 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDItemNotification : int
     {
-        NoNotification      =   0,
-        Notification        =   1,
-        SmallNotification   =   2,
-        BigNotification     =   3,
+        NoNotification = 0,
+        Notification = 1,
+        SmallNotification = 2,
+        BigNotification = 3,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -75,60 +75,120 @@ namespace NetWorkedData
         // Your properties
         [NWDGroupStartAttribute("Description", true, true, true)]
         [NWDTooltips("The name usable in game for 0 or 1 object")]
-        public NWDLocalizableStringType Name { get; set; }
+        public NWDLocalizableStringType Name
+        {
+            get; set;
+        }
         [NWDTooltips("The name usable in game for 2 and more objects")]
-        public NWDLocalizableStringType PluralName { get; set; }
+        public NWDLocalizableStringType PluralName
+        {
+            get; set;
+        }
         [NWDTooltips("The sub name in game")]
-        public NWDLocalizableStringType SubName { get; set; }
+        public NWDLocalizableStringType SubName
+        {
+            get; set;
+        }
         [NWDTooltips("The description of object in game")]
-        public NWDLocalizableLongTextType Description { get; set; }
+        public NWDLocalizableLongTextType Description
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
-        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
-        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
-        public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
+        public NWDReferencesListType<NWDWorld> WorldList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDCategory> CategoryList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> FamilyList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> KeywordList
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Notifications", true, true, true)]
-        public NWDItemNotification FirstAcquisitionNotification { get; set; }
-        public NWDItemNotification AddItemNotification { get; set; }
-        public NWDItemNotification RemoveItemNotification { get; set; }
-        public NWDItemNotification NoMoreItemNotification { get; set; }
+        public NWDItemNotification FirstAcquisitionNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification AddItemNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification RemoveItemNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification NoMoreItemNotification
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Rarity", true, true, true)]
         [NWDFloatSliderAttribute(0.0F, 1.0F)]
         [NWDEntitledAttribute("Rarity : float [0,1]")]
-        public float Rarity { get; set; }
+        public float Rarity
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Usage", true, true, true)]
         //[NWDNotEditableAttribute]
         [NWDTooltips("Item is countable or not?")]
-        public bool Uncountable { get; set; }
+        public bool Uncountable
+        {
+            get; set;
+        }
         [NWDTooltips("Item is never visible by the player")]
-        public bool HiddenInGame { get; set; }
+        public bool HiddenInGame
+        {
+            get; set;
+        }
         [NWDTooltips("Item is usable or not?")]
-        public bool Usable { get; set; }
-        public float DelayBeforeUse { get; set; }
-        public float DurationOfUse { get; set; }
-        public float DelayBeforeReUse { get; set; }
+        public bool Usable
+        {
+            get; set;
+        }
+        public float DelayBeforeUse
+        {
+            get; set;
+        }
+        public float DurationOfUse
+        {
+            get; set;
+        }
+        public float DelayBeforeReUse
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Craft Usage", true, true, true)]
-        public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
+        public NWDReferencesListType<NWDItemGroup> ItemGroupList
+        {
+            get; set;
+        }
         //public float DelayBeforeCraft
         //{
         //    get; set;
@@ -141,41 +201,86 @@ namespace NetWorkedData
         //{
         //    get; set;
         //}
-        public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList { get; set; }
+        public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Extensions", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity { get; set; }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Assets", true, true, true)]
         [NWDHeaderAttribute("Textures")]
-        public NWDTextureType PrimaryTexture { get; set; }
-        public NWDTextureType SecondaryTexture { get; set; }
-        public NWDTextureType TertiaryTexture { get; set; }
+        public NWDTextureType PrimaryTexture
+        {
+            get; set;
+        }
+        public NWDTextureType SecondaryTexture
+        {
+            get; set;
+        }
+        public NWDTextureType TertiaryTexture
+        {
+            get; set;
+        }
         [NWDHeaderAttribute("Colors")]
-        public NWDColorType PrimaryColor { get; set; }
-        public NWDColorType SecondaryColor { get; set; }
-        public NWDColorType TertiaryColor { get; set; }
+        public NWDColorType PrimaryColor
+        {
+            get; set;
+        }
+        public NWDColorType SecondaryColor
+        {
+            get; set;
+        }
+        public NWDColorType TertiaryColor
+        {
+            get; set;
+        }
         [NWDHeaderAttribute("Prefabs")]
-        public NWDPrefabType PrimaryPrefab { get; set; }
-        public NWDPrefabType SecondaryPrefab { get; set; }
-        public NWDPrefabType TertiaryPrefab { get; set; }
+        public NWDPrefabType PrimaryPrefab
+        {
+            get; set;
+        }
+        public NWDPrefabType SecondaryPrefab
+        {
+            get; set;
+        }
+        public NWDPrefabType TertiaryPrefab
+        {
+            get; set;
+        }
 
         [NWDTooltips("Particules effect used overlay render (for special item)")]
-        public NWDPrefabType EffectPrefab { get; set; }
+        public NWDPrefabType EffectPrefab
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
-        
+
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
-        public string JSON { get; set; }
-        public string KeysValues { get; set; }
+        public string JSON
+        {
+            get; set;
+        }
+        public string KeysValues
+        {
+            get; set;
+        }
         //[NWDGroupEndAttribute]
         //
         //[NWDGroupStartAttribute ("Precalculate", true, true, true)]
@@ -228,6 +333,14 @@ namespace NetWorkedData
         public void MyInstanceMethod()
         {
             // do something with this object
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            //ForRelationshipOnly = false;
+            Uncountable = false;
+            HiddenInGame = false;
+            Usable = true;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetDiscovered(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
@@ -373,7 +486,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
-            Debug.Log("AddonEditor");
+            //Debug.Log("AddonEditor");
             // Draw the interface addon for editor
             float tWidth = sInRect.width;
             float tX = sInRect.x;
@@ -401,16 +514,16 @@ namespace NetWorkedData
                 tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
-                {
-                    NWDUserOwnership.AddItemToOwnership(this, 1);
-                }
-                tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            {
+                NWDUserOwnership.AddItemToOwnership(this, 1);
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
-                {
-                    NWDUserOwnership.AddItemToOwnership(this, -1);
-                }
-                tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, -1);
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

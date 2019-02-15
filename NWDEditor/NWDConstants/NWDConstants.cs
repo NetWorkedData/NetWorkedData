@@ -34,6 +34,7 @@ namespace NetWorkedData
 
         public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
         public static string K_APP_CONFIGURATION_TITLE = "NWD App";
+        public static string K_DATA_SELECTOR_TITLE = "NWD Selector";
         public static string K_LOCALIZATION_CONFIGURATION_TITLE = "NWD Localization";
         public static string K_EDITOR_CONFIGURATION_TITLE = "NWD Editor";
 
@@ -273,6 +274,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_DELETE_CANCEL = "Cancel";
 
         public const string K_APP_BASIS_NEW_REFERENCE = "New reference";
+        public const string K_APP_BASIS_NEW_SHORT_REFERENCE = "New short ref";
         public const string K_APP_BASIS_NEW_REFERENCE_WARNING = "Warning";
         public const string K_APP_BASIS_NEW_REFERENCE_MESSAGE = "Do you want to change the reference of this object?";
         public const string K_APP_BASIS_NEW_REFERENCE_OK = "Change it's reference";
@@ -607,6 +609,9 @@ namespace NetWorkedData
         static public GUIStyle kLineStyle;
 
 
+        static public GUIStyle kSelectorTileStyle;
+
+
         // for Textfield in NWD inspector
         public static GUIStyle tLabelStyle;
         public static GUIStyle tMiniLabelStyle;
@@ -625,6 +630,14 @@ namespace NetWorkedData
         public static GUIStyle tEnumStyle;
         public static GUIStyle tToggleStyle;
         public static GUIStyle tBoldFoldoutStyle;
+
+
+
+        // Draw internal informations
+        public static GUIStyle kRowStyleLeft;
+        public static GUIStyle kRowStyleCenter;
+        public static GUIStyle kRowStyleRight;
+        public static GUIStyle kRowStyleForInfos;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -641,6 +654,23 @@ namespace NetWorkedData
             {
 
                 StyleLoaded = true;
+
+
+
+
+         kRowStyleLeft = new GUIStyle(EditorStyles.label);
+        kRowStyleLeft.alignment = TextAnchor.MiddleLeft;
+        kRowStyleCenter = new GUIStyle(EditorStyles.label);
+        kRowStyleCenter.alignment = TextAnchor.MiddleCenter;
+         kRowStyleRight = new GUIStyle(EditorStyles.label);
+        kRowStyleRight.alignment = TextAnchor.MiddleRight;
+         kRowStyleForInfos = new GUIStyle(EditorStyles.label);
+        kRowStyleForInfos.richText = true;
+
+                kSelectorTileStyle = new GUIStyle(EditorStyles.label);
+                kSelectorTileStyle.fixedHeight = kSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
+                kSelectorTileStyle.alignment = TextAnchor.LowerCenter;
 
 
                 tLabelStyle = new GUIStyle(EditorStyles.label);

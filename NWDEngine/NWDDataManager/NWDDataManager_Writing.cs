@@ -361,6 +361,19 @@ namespace NetWorkedData
                     }
                     break;
             }
+
+#if UNITY_EDITOR
+            // no auto update data
+            if (sObject != null)
+            {
+                MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sObject.GetType(), NWDConstants.M_CheckError);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(sObject, null);
+                }
+
+            }
+#endif
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -448,8 +461,8 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion Update Data
-        #region Delete Data
+#endregion Update Data
+#region Delete Data
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Delete data in database.
@@ -591,7 +604,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion Delete Data
+#endregion Delete Data
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

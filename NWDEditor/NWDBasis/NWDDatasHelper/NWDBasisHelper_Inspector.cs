@@ -94,7 +94,7 @@ namespace NetWorkedData
             if (Property != null)
             {
                 bool tDraw = true;
-                bool tNotEditable= NotEditable;
+                bool tNotEditable = NotEditable;
                 foreach (NWDIfAttribute tReference in Property.GetCustomAttributes(typeof(NWDIfAttribute), true))
                 {
                     if (tReference.IsDrawable(sObject) == false)
@@ -594,8 +594,13 @@ namespace NetWorkedData
                 NWDConstants.LoadStyles();
                 Dictionary<NWDBasisHelperElement, string> PropertiesForGroupName = new Dictionary<NWDBasisHelperElement, string>();
                 List<string> tPropertyListInWebModel = new List<string>();
-                tPropertyListInWebModel.AddRange(WebModelPropertiesOrder[WebServiceWebModel[NWDAppConfiguration.SharedInstance().WebBuild]]);
-
+                if (WebServiceWebModel.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                {
+                    if (WebModelPropertiesOrder.ContainsKey(WebServiceWebModel[NWDAppConfiguration.SharedInstance().WebBuild]))
+                    {
+                        tPropertyListInWebModel.AddRange(WebModelPropertiesOrder[WebServiceWebModel[NWDAppConfiguration.SharedInstance().WebBuild]]);
+                    }
+                }
                 Type tType = ClassType;
                 InspectorHelper = new NWDBasisHelperGroup();
                 InspectorHelper.FromGroup = InspectorHelper;

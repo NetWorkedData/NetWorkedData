@@ -100,6 +100,18 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string NewShortReference()
+        {
+            string rReturn = string.Empty;
+            bool tValid = false;
+            while (tValid == false)
+            {
+                rReturn = BasisHelper().ClassTrigramme + BTBConstants.K_MINUS + BTBConstants.K_MINUS + UnityEngine.Random.Range(1, 999999).ToString();
+                tValid = TestReference(rReturn);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //		/// <summary>
         //		/// Updates the reference without change repercsusion security.
         //		/// </summary>
@@ -155,6 +167,22 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// New reference. If account dependent this UUID of Player Account is integrate in Reference generation
+        /// </summary>
+        /// <returns>The reference.</returns>
+        public string NewShortReferenceReference()
+        {
+            if (AccountDependent() == true)
+            {
+                return NewReferenceFromUUID(NWDAccount.GetCurrentAccountReference());
+            }
+            else
+            {
+                return NewReferenceFromUUID(string.Empty);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// Regenerates the reference.
         /// </summary>
         public void RegenerateNewReference()
@@ -164,9 +192,7 @@ namespace NetWorkedData
             string tNewReference = NewReference();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                // TODO : Change to remove invoke!
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
-                //var tMethodInfo = tType.GetMethod("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
@@ -174,13 +200,30 @@ namespace NetWorkedData
             }
             Reference = tNewReference;
             UpdateData();
-
-            //UpdateObjectInListOfEdition(this);
-            
             LoadFromDatabase();
             SortEditorTableDatas();
             RestaureDataInEditionByReference(tNewReference);
-
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+#endif
+        }
+        public void RegenerateNewShortReference()
+        {
+#if UNITY_EDITOR
+            string tOldReference = Reference;
+            string tNewReference = NewShortReference();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
+                }
+            }
+            Reference = tNewReference;
+            UpdateData();
+            LoadFromDatabase();
+            SortEditorTableDatas();
+            RestaureDataInEditionByReference(tNewReference);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
 #endif

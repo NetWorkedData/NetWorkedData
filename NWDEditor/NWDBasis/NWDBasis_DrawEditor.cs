@@ -1787,7 +1787,7 @@ namespace NetWorkedData
             }
 
 
-            if (GUI.Button(new Rect(tX + tButtonWidth * 2 + NWDConstants.kFieldMarge * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tButtonWidth * 1 + NWDConstants.kFieldMarge * 1, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_DELETE_WARNING,
                         NWDConstants.K_APP_BASIS_DELETE_MESSAGE,
@@ -1802,6 +1802,16 @@ namespace NetWorkedData
                 }
             }
             //tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX + tButtonWidth * 2 + NWDConstants.kFieldMarge * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, tMiniButtonStyle))
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
+                        NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
+                        NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
+                        NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL))
+                {
+                    RegenerateNewShortReference();
+                }
+            }
             if (GUI.Button(new Rect(tX + tButtonWidth * 3 + NWDConstants.kFieldMarge * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_NEW_REFERENCE, tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
@@ -1887,6 +1897,8 @@ namespace NetWorkedData
             {
                 InError = tErrorResult;
             }
+
+            RowAnalyze();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
