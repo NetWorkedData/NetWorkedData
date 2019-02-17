@@ -26,7 +26,7 @@ namespace NetWorkedData
         typeof(NWDAccountAvatar),
         typeof(NWDAccountPreference),
         typeof(NWDAccountConsent),
-        typeof(NWDRelationship),
+        typeof(NWDAccountRelationship),
 		}
     )]
     public class NWDAccountWindow : NWDBasisWindow<NWDAccountWindow>

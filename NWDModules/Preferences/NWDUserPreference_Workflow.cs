@@ -19,12 +19,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserPreference()
         {
-            //Debug.Log("NWDUserPreferences Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserPreference(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDUserPreferences Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -43,16 +41,44 @@ namespace NetWorkedData
             if (rObject == null)
             {
                 rObject = NewData();
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 rObject.InternalKey = sInternalKey;
                 rObject.InternalDescription = sInternalDescription;
-#endif
+                #endif
                 rObject.Value = sDefaultValue;
                 rObject.Tag = NWDBasisTag.TagUserCreated;
                 rObject.SaveData();
             }
             return rObject;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        /*public static NWDUserPreference GetByPreferenceKeyOrCreate(NWDPreferenceKey sPreferenceKey, NWDMultiType sDefaultValue)
+        {
+            NWDUserPreference rObject = null;
+            NWDUserPreference[] tUserPreferences = FindDatas();
+            foreach (NWDUserPreference k in tUserPreferences)
+            {
+                if (k.PreferenceKey.GetObject().Equals(sPreferenceKey))
+                {
+                    rObject = k;
+                    break;
+                }
+            }
+            
+            if (rObject == null)
+            {
+                rObject = NewData();
+                #if UNITY_EDITOR
+                rObject.InternalKey = sPreferenceKey.Title.GetBaseString();
+                rObject.InternalDescription = sPreferenceKey.Description.GetBaseString();
+                #endif
+                rObject.Value = sDefaultValue;
+                rObject.Tag = NWDBasisTag.TagUserCreated;
+                rObject.SaveData();
+            }
+            
+            return rObject;
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         public void AddEnter(NWDMultiType sValue)
         {

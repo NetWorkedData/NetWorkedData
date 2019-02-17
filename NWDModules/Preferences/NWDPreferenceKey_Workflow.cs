@@ -21,13 +21,11 @@ namespace NetWorkedData
         public const string K_PREFERENCE_CHANGED_KEY = "K_PREFERENCE_CHANGED_KEY_8zQr95er"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         public NWDPreferenceKey()
-        {
-            //Debug.Log("NWDStatKey Constructor");
+        {   
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDPreferenceKey(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDStatKey Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD

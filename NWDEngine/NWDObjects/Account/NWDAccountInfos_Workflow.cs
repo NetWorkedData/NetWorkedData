@@ -22,12 +22,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -76,7 +74,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
         {
-            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
+            SynchronizationFromWebService();
+            //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()

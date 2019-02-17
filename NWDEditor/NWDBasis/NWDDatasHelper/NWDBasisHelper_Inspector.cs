@@ -347,7 +347,10 @@ namespace NetWorkedData
                                 tH += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                             }
                             string tValue = Property.GetValue(sObject, null) as string;
-                            tValue = NWDToolbox.TextUnprotect(tValue);
+                            if (string.IsNullOrEmpty(tValue) == false)
+                            {
+                                tValue = NWDToolbox.TextUnprotect(tValue);    
+                            }
                             string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tH), Content(), tValue, NWDConstants.tTextFieldStyle);
                             tY += tH;
                             if (tValueNext != tValue)

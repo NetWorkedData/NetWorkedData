@@ -34,34 +34,50 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDUserInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserInfos GetUserInfosOrCreate()
         {
-            NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos k in FindDatas())
+            if (kCurrent != null)
             {
-                if (k.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
+                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
                 {
-                    tUserInfos = k;
-                    break;
+                    kCurrent = null;
                 }
             }
-            if (tUserInfos == null)
+            
+            if (kCurrent == null)
             {
-                tUserInfos = NewData();
-                tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
-                tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                tUserInfos.SaveData();
+                NWDUserInfos tUserInfos = GetFirstData(NWDAccount.GetCurrentAccountReference());
+                if (tUserInfos == null)
+                {
+                    tUserInfos = NewData();
+                    #if UNITY_EDITOR
+                    tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                    #endif
+                    tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
+                    tUserInfos.SaveData();
+                }
+                kCurrent = tUserInfos;
             }
-            return tUserInfos;
+            
+            return kCurrent;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            SynchronizationFromWebService();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
