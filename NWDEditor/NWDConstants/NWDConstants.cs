@@ -610,6 +610,7 @@ namespace NetWorkedData
 
 
         static public GUIStyle kSelectorTileStyle;
+        static public GUIStyle kSelectorRowStyle;
 
 
         // for Textfield in NWD inspector
@@ -667,11 +668,19 @@ namespace NetWorkedData
          kRowStyleForInfos = new GUIStyle(EditorStyles.label);
         kRowStyleForInfos.richText = true;
 
-                kSelectorTileStyle = new GUIStyle(EditorStyles.label);
-                kSelectorTileStyle.fixedHeight = kSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
+                kSelectorTileStyle.fontSize = 14;
                 kSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
+                kSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
                 kSelectorTileStyle.alignment = TextAnchor.LowerCenter;
+                kSelectorTileStyle.fixedHeight = kSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
+                kSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
+                kSelectorRowStyle.fontSize = 14;
+                kSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
+                kSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
+                kSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
+                kSelectorRowStyle.fixedHeight = kSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 tLabelStyle = new GUIStyle(EditorStyles.label);
                 tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);

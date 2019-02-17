@@ -61,7 +61,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
-            Debug.Log("RowAnalyze");
+            //Debug.Log("RowAnalyze");
             TestIntegrityResult = TestIntegrity();
             TestWebserviceVersionIsValid = WebserviceVersionIsValid();
 

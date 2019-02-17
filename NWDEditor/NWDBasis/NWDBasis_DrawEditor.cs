@@ -1379,7 +1379,7 @@ namespace NetWorkedData
             string tPreFabGameObject = string.Empty;
             if (pObj != null)
             {
-                if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
+               // if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
                 {
                     tPreFabGameObject = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabObject(pObj));
                 }
@@ -1899,6 +1899,8 @@ namespace NetWorkedData
             }
 
             RowAnalyze();
+
+            RepaintTableEditor();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

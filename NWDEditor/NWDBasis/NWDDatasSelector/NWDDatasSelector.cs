@@ -120,7 +120,8 @@ namespace NetWorkedData
             Tag = sTag;
             SelectedBlock = sSelectedBlock;
             Filter();
-            SelectorWindow = EditorWindow.GetWindow(typeof(NWDDatasSelectorWindow)) as NWDDatasSelectorWindow;
+            SelectorWindow = ScriptableObject.CreateInstance(typeof(NWDDatasSelectorWindow)) as NWDDatasSelectorWindow;
+            //SelectorWindow = EditorWindow.GetWindow(typeof(NWDDatasSelectorWindow)) as NWDDatasSelectorWindow;
             SelectorWindow.SelectorBasis = this;
             SelectorWindow.ShowUtility();
             SelectorWindow.Focus();
@@ -209,45 +210,74 @@ namespace NetWorkedData
                 Filter();
             }
             float tNextZoom = EditorGUILayout.Slider("Zoom",kZoom, 1.0F, 2.0F);
-            if (Math.Abs(kZoom - tNextZoom) > 0.1F)
+            if (Math.Abs(kZoom - tNextZoom) > 0.001F)
             {
                 kZoom = tNextZoom;
                 NWDConstants.kSelectorTileStyle.fixedHeight = kZoom*100;
                 NWDConstants.kSelectorTileStyle.fixedWidth = kZoom*100;
             }
-            int tColumn = (int)Math.Floor((SelectorWindow.position.width - NWDConstants.BoxMarge) / NWDConstants.kSelectorTileStyle.fixedWidth);
+
+            NWDConstants.GUILayoutSeparator();
 
             SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button(new GUIContent("none"), NWDConstants.kSelectorTileStyle))
+            if (kZoom <= 1)
             {
-                if (SelectedBlock != null)
-                {
-                    SelectedBlock(null);
-                }
-                SelectorWindow.Close();
-            }
-            int tIternation = 0;
-            foreach (K tItem in ResultList)
-            {
-                tIternation++;
-                if (tIternation >= tColumn)
-                {
-                    tIternation = 0;
-                    GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal();
-                }
-                GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
-                if (GUILayout.Button(Content, NWDConstants.kSelectorTileStyle))
+                if (GUILayout.Button(new GUIContent("none"), NWDConstants.kSelectorRowStyle))
                 {
                     if (SelectedBlock != null)
                     {
-                        SelectedBlock(tItem);
+                        SelectedBlock(null);
                     }
                     SelectorWindow.Close();
                 }
+                foreach (K tItem in ResultList)
+                {
+                    GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
+                    if (GUILayout.Button(Content, NWDConstants.kSelectorRowStyle))
+                    {
+                        if (SelectedBlock != null)
+                        {
+                            SelectedBlock(tItem);
+                        }
+                        SelectorWindow.Close();
+                    }
+                }
             }
-            GUILayout.EndHorizontal();
+            else
+            {
+                float tWidth = (SelectorWindow.position.width - NWDConstants.BoxMarge);
+                int tColumn = (int)Math.Floor(tWidth / NWDConstants.kSelectorTileStyle.fixedWidth);
+                GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
+                if (GUILayout.Button(new GUIContent("none"), NWDConstants.kSelectorTileStyle))
+                {
+                    if (SelectedBlock != null)
+                    {
+                        SelectedBlock(null);
+                    }
+                    SelectorWindow.Close();
+                }
+                int tIternation = 0;
+                foreach (K tItem in ResultList)
+                {
+                    tIternation++;
+                    if (tIternation >= tColumn)
+                    {
+                        tIternation = 0;
+                        GUILayout.EndHorizontal();
+                        GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
+                    }
+                    GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
+                    if (GUILayout.Button(Content, NWDConstants.kSelectorTileStyle))
+                    {
+                        if (SelectedBlock != null)
+                        {
+                            SelectedBlock(tItem);
+                        }
+                        SelectorWindow.Close();
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
             GUILayout.EndScrollView();
         }
         //-------------------------------------------------------------------------------------------------------------
