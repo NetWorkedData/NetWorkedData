@@ -110,13 +110,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreviewTexture2D()
         {
-            Debug.Log("ReloadPreviewTexture2D");
+
             PreviewTextureIsLoaded = true;
             PreviewTexture = null;
             PreviewObject = null;
             if (string.IsNullOrEmpty(Preview) == false)
             {
-                PreviewObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
+                if (PreviewObject is GameObject)
+                {
+                    Debug.Log("ReloadPreviewTexture2D use gameobject");
+                    ((GameObject)PreviewObject).transform.localRotation = Quaternion.Euler(-180,-180,-180);
+                }
+                    PreviewObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
                 if (PreviewObject != null)
                 {
                     PreviewTexture = AssetPreview.GetAssetPreview(PreviewObject);
@@ -217,6 +222,8 @@ namespace NetWorkedData
             Rect tFinalRect = new Rect(sInRect.position.x, tY, sInRect.width, tY - sInRect.position.y);
             return tFinalRect;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        Editor gameObjectEditor;
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_DrawObjectEditor)]
         public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
@@ -379,7 +386,19 @@ namespace NetWorkedData
             Texture2D tTexture2D = GetPreviewTexture2D();
             if (tTexture2D != null)
             {
-                EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
+               EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
+                //if (PreviewObject != null)
+                //{
+                //    //if (gameObjectEditor == null)
+                //    //{
+                //        gameObjectEditor = Editor.CreateEditor(PreviewObject);
+                //    //}
+                //    //else
+                //    //{
+                //    //    //gameObjectEditor.
+                //    //}
+                //    gameObjectEditor.OnInteractivePreviewGUI(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), EditorStyles.whiteLabel);
+                //}
             }
 
             GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tBoldLabelStyle.fixedHeight), BasisHelper().ClassNamePHP + "'s Object", NWDConstants.tBoldLabelStyle);
@@ -445,7 +464,6 @@ namespace NetWorkedData
 
             tX = NWDConstants.kFieldMarge;
 
-            tX = NWDConstants.kFieldMarge;
             tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
 
             UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, NWDConstants.tBoldLabelStyle.fixedHeight),
@@ -468,7 +486,6 @@ namespace NetWorkedData
                 RepaintTableEditor();
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
-
 
             bool tInternalKeyEditable = true;
 
