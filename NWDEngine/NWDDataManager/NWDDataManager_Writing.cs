@@ -185,7 +185,7 @@ namespace NetWorkedData
                     {
                         //Debug.Log("NWDDataManager InsertData() PoolThread");
 #if UNITY_EDITOR
-                        RepaintWindowForData(sObject.GetType());
+                        RepaintWindowsInManager(sObject.GetType());
 #endif
                         ThreadPool.QueueUserWorkItem(InsertDataExecute, sObject);
                     }
@@ -196,7 +196,7 @@ namespace NetWorkedData
                         if (kInsertDataQueueMain.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
-                            RepaintWindowForData(sObject.GetType());
+                            RepaintWindowsInManager(sObject.GetType());
 #endif
                             kInsertDataQueueMain.Add(sObject);
                         }
@@ -208,7 +208,7 @@ namespace NetWorkedData
                         if (kInsertDataQueuePool.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
-                            RepaintWindowForData(sObject.GetType());
+                            RepaintWindowsInManager(sObject.GetType());
 #endif
                             kInsertDataQueuePool.Add(sObject);
                         }
@@ -330,7 +330,7 @@ namespace NetWorkedData
                     {
                         //Debug.Log("NWDDataManager UpdateData() PoolThread");
 #if UNITY_EDITOR
-                        RepaintWindowForData(sObject.GetType());
+                        RepaintWindowsInManager(sObject.GetType());
 #endif
                         ThreadPool.QueueUserWorkItem(UpdateDataExecute, sObject);
 
@@ -342,7 +342,7 @@ namespace NetWorkedData
                         if (kUpdateDataQueueMain.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
-                            RepaintWindowForData(sObject.GetType());
+                            RepaintWindowsInManager(sObject.GetType());
 #endif
                             kUpdateDataQueueMain.Add(sObject);
                         }
@@ -354,7 +354,7 @@ namespace NetWorkedData
                         if (kUpdateDataQueuePool.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
-                            RepaintWindowForData(sObject.GetType());
+                            RepaintWindowsInManager(sObject.GetType());
 #endif
                             kUpdateDataQueuePool.Add(sObject);
                         }
@@ -487,7 +487,7 @@ namespace NetWorkedData
                     {
                         //Debug.Log("NWDDataManager DeleteData() PoolThread");
 #if UNITY_EDITOR
-                        RepaintWindowForData(sObject.GetType());
+                        RepaintWindowsInManager(sObject.GetType());
 #endif
                         ThreadPool.QueueUserWorkItem(DeleteDataExecute, sObject);
                     }
@@ -498,7 +498,7 @@ namespace NetWorkedData
                         if (kDeleteDataQueueMain.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
-                            RepaintWindowForData(sObject.GetType());
+                            RepaintWindowsInManager(sObject.GetType());
 #endif
                             kDeleteDataQueueMain.Add(sObject);
                         }
@@ -510,7 +510,7 @@ namespace NetWorkedData
                         if (kDeleteDataQueuePool.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
-                            RepaintWindowForData(sObject.GetType());
+                            RepaintWindowsInManager(sObject.GetType());
 #endif
                             kDeleteDataQueuePool.Add(sObject);
                         }

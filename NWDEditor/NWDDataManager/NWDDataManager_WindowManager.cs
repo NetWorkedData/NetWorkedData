@@ -68,17 +68,17 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RepaintWindowForData(Type sType)
-        {
-            //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-            if (mTypeWindowDico.ContainsKey(sType))
-            {
-                foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
-                {
-                    tWindow.Repaint();
-                }
-            }
-        }
+        //public void RepaintWindowForData(Type sType)
+        //{
+        //    //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
+        //    if (mTypeWindowDico.ContainsKey(sType))
+        //    {
+        //        foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
+        //        {
+        //            tWindow.Repaint();
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

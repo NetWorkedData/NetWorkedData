@@ -639,6 +639,11 @@ namespace NetWorkedData
         public static GUIStyle kRowStyleCenter;
         public static GUIStyle kRowStyleRight;
         public static GUIStyle kRowStyleForInfos;
+
+        public static GUIStyle tWarningBoxStyle;
+        public static GUIStyle tTitleLabelStyle;
+
+        public static GUIStyle tMiniLabelStyleCenter;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -656,10 +661,26 @@ namespace NetWorkedData
 
                 StyleLoaded = true;
 
+               tMiniLabelStyleCenter = new GUIStyle(EditorStyles.miniLabel);
+                tMiniLabelStyleCenter.fixedHeight = tMiniLabelStyleCenter.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                tMiniLabelStyleCenter.alignment = TextAnchor.MiddleCenter;
+
+                tTitleLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+                tTitleLabelStyle.alignment = TextAnchor.MiddleCenter;
+                tTitleLabelStyle.fontSize = 14;
+                tTitleLabelStyle.fixedHeight = tTitleLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                tTitleLabelStyle.richText = true;
 
 
+                tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
+                tWarningBoxStyle.normal.background = new Texture2D(1, 1);
+                tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
+                tWarningBoxStyle.normal.background.Apply();
+                tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
+                tWarningBoxStyle.richText = true;
+                //tWarningBoxStyle.fixedHeight = tWarningBoxStyle.CalcHeight(tCC, tWidth);
 
-         kRowStyleLeft = new GUIStyle(EditorStyles.label);
+                kRowStyleLeft = new GUIStyle(EditorStyles.label);
         kRowStyleLeft.alignment = TextAnchor.MiddleLeft;
         kRowStyleCenter = new GUIStyle(EditorStyles.label);
         kRowStyleCenter.alignment = TextAnchor.MiddleCenter;
