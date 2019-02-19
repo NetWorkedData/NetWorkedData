@@ -35,7 +35,7 @@ namespace NetWorkedData
             NWDTypeLauncher.Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ClassLoaded = false; 
+        public bool ClassLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
         public string ClassName = string.Empty;
@@ -76,6 +76,8 @@ namespace NetWorkedData
         public bool SaltValid = false;
         //-------------------------------------------------------------------------------------------------------------
         public bool mSettingsShowing = false;
+
+        public bool RowAnalyzed = false;
         //-------------------------------------------------------------------------------------------------------------
         private Texture2D Texture = null;
         public Texture2D TextureOfClass()
@@ -84,7 +86,7 @@ namespace NetWorkedData
             if (Texture == null)
             {
                 Texture2D rTexture = null;
-                string[] sGUIDs = AssetDatabase.FindAssets( ClassNamePHP + " t:texture2D");
+                string[] sGUIDs = AssetDatabase.FindAssets(ClassNamePHP + " t:texture2D");
                 foreach (string tGUID in sGUIDs)
                 {
                     //Debug.Log("TextureOfClass GUID " + tGUID);
@@ -201,7 +203,7 @@ namespace NetWorkedData
                 //BTBBenchmark.Start("Declare() step D");
                 // create GUI object
 #if UNITY_EDITOR
-               // tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
+                // tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
 #endif
                 //BTBBenchmark.Finish("Declare() step D");
                 //BTBBenchmark.Start("Declare() step E");
@@ -233,7 +235,7 @@ namespace NetWorkedData
         public void PrefLoad()
         {
             if (string.IsNullOrEmpty(SaltStart) || string.IsNullOrEmpty(SaltEnd))
-                {
+            {
                 //Debug.Log("Generate Salt for " + ClassNamePHP);
                 SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
@@ -246,6 +248,17 @@ namespace NetWorkedData
             //SaltStart = SaltA;
             //SaltEnd = SaltB;
             //SaltValid = true;
+        }
+        public void RowAnalyze()
+        {
+            if (RowAnalyzed == false)
+            {
+                foreach (NWDTypeClass tData in Datas)
+                {
+                    tData.AnalyzeData();
+                }
+                RowAnalyzed = true;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void SaltRegenerate()
@@ -1553,11 +1566,17 @@ namespace NetWorkedData
         {
             NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
             tTypeInfos = BasisHelper();
+            tTypeInfos.RowAnalyzed = false;
+           BTBBenchmark.Start("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
             // Reset the Handler of datas index
-            tTypeInfos.ResetDatas();
 
+            //BTBBenchmark.Start("reset " + tTypeInfos.ClassNamePHP);
+            tTypeInfos.ResetDatas();
+           // BTBBenchmark.Finish("reset " + tTypeInfos.ClassNamePHP);
+
+           // BTBBenchmark.Start("create " + tTypeInfos.ClassNamePHP);
             CreateTable();
-            //BTBBenchmark.Start();
+           // BTBBenchmark.Finish("create " + tTypeInfos.ClassNamePHP);
             //Debug.Log("NWDBasis<K> LoadFromDatabase()");
             // select the good database
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
@@ -1567,24 +1586,73 @@ namespace NetWorkedData
             }
             if (tSQLiteConnection != null)
             {
-                // Create all instance from database
-                IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-                // Prepare the datas
+                //BTBBenchmark.Start("sql "+ tTypeInfos.ClassNamePHP);
+                //IEnumerable tEnumerable = tSQLiteConnection.Table<K>();
+                //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
+                //// Prepare the datas
+                //int tCount = 0;
+                //if (tEnumerable != null)
+                //{
+                //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
+                //    foreach (NWDBasis<K> tItem in tEnumerable)
+                //    {
+                //       tCount++;
+                //       tItem.LoadedFromDatabase();
+                //    }
+                //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
+                //}
+                //Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
+
+
+
+                //BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
+                //TableQuery<K> tSelect = tSQLiteConnection.Table<K>();
+                //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
+                //// Prepare the datas
+                //if (tSelect != null)
+                //{
+                //    BTBBenchmark.Start("array " + tTypeInfos.ClassNamePHP);
+                //    K[] tArray = tSelect.ToArray();
+                //    BTBBenchmark.Finish("array " + tTypeInfos.ClassNamePHP);
+                //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
+                //    for (int tI = 0; tI < tArray.Length; tI++)
+                //    {
+                //        NWDBasis<K> tItem = tArray[tI];
+                //       tItem.LoadedFromDatabase();
+                //    }
+                //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
+                //    Debug.Log(tTypeInfos.ClassNamePHP + " use " + tArray.Length + " objects");
+                //}
+
+               // BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
+                List<K>tSelect = tSQLiteConnection.Query<K>("SELECT * FROM "+ tTypeInfos.ClassNamePHP);
+               // BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
                 int tCount = 0;
-                if (tEnumerable != null)
+                // Prepare the datas
+                if (tSelect != null)
                 {
-                    foreach (NWDBasis<K> tItem in tEnumerable)
+                  //  BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
+                    foreach (NWDBasis<K> tItem in tSelect)
                     {
                         tCount++;
                         tItem.LoadedFromDatabase();
                     }
+                   // BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
+                   // Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
                 }
+
+
+
+
+
+
+
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
 #if UNITY_EDITOR
             RepaintTableEditor();
 #endif
-            //BTBBenchmark.Finish();
+            BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool DataIntegrityState()

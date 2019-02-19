@@ -96,6 +96,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<Type> GetClassesTypeList()
         {
+            ClassesPossibilities();
             List<Type> rReturn = new List<Type>();
             foreach (string tString in GetClasses())
             {

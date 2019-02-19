@@ -1846,7 +1846,7 @@ namespace SQLite4Unity3d
 
         public IEnumerable<T> ExecuteDeferredQuery<T>(TableMapping map)
         {
-            if (this._conn.Trace) Debug.WriteLine("Executing Query: " + this);
+            //if (this._conn.Trace) Debug.WriteLine("Executing Query: " + this);
 
             IntPtr stmt = Prepare();
             try
@@ -1876,7 +1876,7 @@ namespace SQLite4Unity3d
                             var val = ReadCol(stmt, i, colType, cols[i].ColumnType);
                             cols[i].SetValue(obj, val);
                         }
-                        OnInstanceCreated(obj);
+                        //OnInstanceCreated(obj);
                         yield return (T)obj;
 
                     }

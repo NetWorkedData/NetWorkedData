@@ -372,7 +372,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             // Determine the default mode
-             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             bool rReturn = false;
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
@@ -509,20 +509,20 @@ namespace NetWorkedData
         public override void InsertDataProceed()
         {
             //BTBBenchmark.Start();
-           // Debug.Log("NWDBasis<K> InsertDataProceed()");
+            // Debug.Log("NWDBasis<K> InsertDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
                 //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
-                                                                                                //this.DataAssembly(true),
-                                                                                                //this.IntegrityValue());
+                //this.DataAssembly(true),
+                //this.IntegrityValue());
             }
             else
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
                 //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
-                                                                                                //this.DataAssembly(true),
-                                                                                                //this.IntegrityValue());
+                //this.DataAssembly(true),
+                //this.IntegrityValue());
             }
             //BTBBenchmark.Finish();
         }
@@ -614,7 +614,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             // Determine the default mode
-             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
@@ -657,7 +657,7 @@ namespace NetWorkedData
             UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
             this.AddonUpdatedMe(); // call override method
             this.AddonIndexMe();
-                                   //UpdateObjectInListOfEdition(this);
+            //UpdateObjectInListOfEdition(this);
 
             BasisHelper().UpdateData(this);
 
@@ -724,7 +724,7 @@ namespace NetWorkedData
                 if (this.WebModel != tWS)
                 {
                     //this.AddonVersionMe(); // call override method
- //Debug.Log(" set from " + WebModel + " To " + tWS);
+                    //Debug.Log(" set from " + WebModel + " To " + tWS);
                     this.WebModel = tWS;
                 }
             }
@@ -740,15 +740,15 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
                 //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
-                                                                                                //this.DataAssembly(true),
-                                                                                                //this.IntegrityValue());
+                //this.DataAssembly(true),
+                //this.IntegrityValue());
             }
             else
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
                 //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
-                                                                                                //this.DataAssembly(true),
-                                                                                                //this.IntegrityValue());
+                //this.DataAssembly(true),
+                //this.IntegrityValue());
             }
             //BTBBenchmark.Finish();
         }
@@ -756,7 +756,7 @@ namespace NetWorkedData
         public override void UpdateDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-           //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -1009,6 +1009,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion Update Data
         #region Load Data
+
+        public override void AnalyzeData()
+        {
+           ErrorCheck();
+           WebserviceVersionCheckMe();
+           RowAnalyze();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void LoadedFromDatabase()
         {
@@ -1016,11 +1023,20 @@ namespace NetWorkedData
             InDatabase = true;
             FromDatabase = true;
             WritingPending = NWDWritingPending.InDatabase;
-            AddonLoadedMe();
+            //AddonLoadedMe();
 #if UNITY_EDITOR
-            // no auto update data
-            ErrorCheck();
-            RowAnalyze();
+            //// no auto update data
+            //bool tCheckData = false;
+            ////if (Application.isPlaying == false)
+            ////{
+            ////    tCheckData = true;
+            ////}
+            //if (tCheckData == true)
+            //{
+            //    ErrorCheck();
+            //    WebserviceVersionCheckMe();
+            //}
+            ////RowAnalyze();
 #else
             WebserviceVersionCheckMe();
 #endif
@@ -1059,7 +1075,7 @@ namespace NetWorkedData
         //    //BTBBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
-#endregion Load Data
+        #endregion Load Data
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

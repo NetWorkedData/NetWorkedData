@@ -228,7 +228,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_DrawObjectEditor)]
         public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
-           // RowAnalyze();
+            BasisHelper().RowAnalyze();
             float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
             float tX = NWDConstants.kFieldMarge;
             float tY = NWDConstants.kFieldMarge;
