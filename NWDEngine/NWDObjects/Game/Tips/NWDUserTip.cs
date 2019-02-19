@@ -21,7 +21,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UTP")]
+    [NWDClassTrigrammeAttribute("UTK")]
     [NWDClassDescriptionAttribute("User Tips descriptions Class")]
     [NWDClassMenuNameAttribute("User Tips")]
     public partial class NWDUserTip : NWDBasis<NWDUserTip>

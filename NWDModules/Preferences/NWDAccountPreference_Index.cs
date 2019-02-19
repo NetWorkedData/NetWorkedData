@@ -16,7 +16,7 @@ namespace NetWorkedData
     public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDAccountPreference>> kIndex = new Dictionary<string, List<NWDAccountPreference>>();
         private List<NWDAccountPreference> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

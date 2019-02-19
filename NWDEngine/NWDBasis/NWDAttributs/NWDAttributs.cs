@@ -643,24 +643,24 @@ namespace NetWorkedData
     /// NWDEnumAttribute draw popmenu for int property. It will be obsolete and replace by enum type!
     /// </summary>
     //[Obsolete("Use an enum")]
-    [Obsolete]
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDEnumAttribute : Attribute
-    {
-        public int[] mEnumInt;
-        public string[] mEnumString;
+    //[Obsolete]
+    //[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    //public class NWDEnumAttribute : Attribute
+    //{
+    //    public int[] mEnumInt;
+    //    public string[] mEnumString;
 
-        public NWDEnumAttribute(int[] sEnumInt, string[] sEnumString)
-        {
-            this.mEnumInt = sEnumInt;
-            this.mEnumString = sEnumString;
-        }
-    }
+    //    public NWDEnumAttribute(int[] sEnumInt, string[] sEnumString)
+    //    {
+    //        this.mEnumInt = sEnumInt;
+    //        this.mEnumString = sEnumString;
+    //    }
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDEnumAttribute draw popmenu for string property. It will be obsolete and replace by enum type!
     /// </summary>
-    [Obsolete("Use an enum")]
+    //[Obsolete("Use an enum")]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDEnumStringAttribute : Attribute
     {
@@ -676,7 +676,6 @@ namespace NetWorkedData
     /// NWDLongStringAttribute draw a bigger textfield in the editor for this property
     /// </summary>
     //[Obsolete("Use Long string type")]
-    [Obsolete]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDLongStringAttribute : Attribute
     {
@@ -686,7 +685,6 @@ namespace NetWorkedData
     /// NWDVeryLongStringAttribute draw a bigger textfield in the editor for this property
     /// </summary>
     //[Obsolete("Use Long string type")]
-    [Obsolete]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDVeryLongStringAttribute : Attribute
     {

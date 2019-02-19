@@ -36,7 +36,7 @@ namespace NetWorkedData
             RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDItemRarity>> kIndex = new Dictionary<string, List<NWDItemRarity>>();
         private List<NWDItemRarity> kIndexList;
         // lors du changement si kIndexList !=  de kIndexItemReverse[item.ref + gamesave.ref] => on a changer l'item ou le gamesave 

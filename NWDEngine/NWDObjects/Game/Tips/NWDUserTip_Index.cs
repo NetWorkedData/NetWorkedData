@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDUserTip : NWDBasis<NWDUserTip>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserTip>> kIndex = new Dictionary<string, List<NWDUserTip>>();
         private List<NWDUserTip> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

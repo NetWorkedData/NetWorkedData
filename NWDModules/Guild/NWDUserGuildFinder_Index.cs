@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDUserGuildFinder : NWDBasis<NWDUserGuildFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserGuildFinder>> kIndex = new Dictionary<string, List<NWDUserGuildFinder>>();
         private List<NWDUserGuildFinder> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

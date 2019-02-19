@@ -755,7 +755,9 @@ namespace NetWorkedData
                 tValueList.Insert(tNewIndex, tP);
             }
 
-            string[] tNextValueArray = tValueList.Distinct().ToArray();
+            tValueList.Distinct();
+            tValueList.Remove(NWDConstants.kFieldSeparatorA);
+            string[] tNextValueArray = tValueList.ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray) + tNewReferenceQuantity;
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
             tTemporary.Value = tNextValue;

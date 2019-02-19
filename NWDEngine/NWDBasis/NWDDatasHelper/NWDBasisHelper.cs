@@ -1567,7 +1567,7 @@ namespace NetWorkedData
             NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
             tTypeInfos = BasisHelper();
             tTypeInfos.RowAnalyzed = false;
-           BTBBenchmark.Start("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
+           //BTBBenchmark.Start("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
             // Reset the Handler of datas index
 
             //BTBBenchmark.Start("reset " + tTypeInfos.ClassNamePHP);
@@ -1652,7 +1652,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             RepaintTableEditor();
 #endif
-            BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
+            //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool DataIntegrityState()

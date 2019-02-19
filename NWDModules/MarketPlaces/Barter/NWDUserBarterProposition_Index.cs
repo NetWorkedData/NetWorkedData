@@ -20,7 +20,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserBarterProposition>> kIndex = new Dictionary<string, List<NWDUserBarterProposition>>();
         private List<NWDUserBarterProposition> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

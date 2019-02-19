@@ -23,7 +23,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
@@ -140,7 +140,7 @@ namespace NetWorkedData
             File.WriteAllText(tPath, rReturnFormatted);
             AssetDatabase.ImportAsset(tPath);
             AssetDatabase.Refresh();
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

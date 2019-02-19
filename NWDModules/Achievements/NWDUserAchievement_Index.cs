@@ -16,7 +16,7 @@ namespace NetWorkedData
     public partial class NWDUserAchievement : NWDBasis<NWDUserAchievement>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserAchievement>> kIndex = new Dictionary<string, List<NWDUserAchievement>>();
         private List<NWDUserAchievement> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

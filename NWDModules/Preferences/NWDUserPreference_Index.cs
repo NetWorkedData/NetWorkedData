@@ -26,7 +26,7 @@ namespace NetWorkedData
             RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDUserPreference>> kIndex = new Dictionary<string, List<NWDUserPreference>>();
         private List<NWDUserPreference> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

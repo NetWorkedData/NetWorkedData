@@ -20,7 +20,7 @@ namespace NetWorkedData
     public partial class NWDUserGuildSubcription : NWDBasis<NWDUserGuildSubcription>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserGuildSubcription>> kIndex = new Dictionary<string, List<NWDUserGuildSubcription>>();
         private List<NWDUserGuildSubcription> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

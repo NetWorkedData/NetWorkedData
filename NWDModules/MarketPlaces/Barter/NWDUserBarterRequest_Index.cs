@@ -16,7 +16,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterRequest : NWDBasis<NWDUserBarterRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserBarterRequest>> kIndex = new Dictionary<string, List<NWDUserBarterRequest>>();
         private List<NWDUserBarterRequest> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ namespace NetWorkedData
     public partial class NWDUserLevelScore : NWDBasis<NWDUserLevelScore>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserLevelScore>> kIndex = new Dictionary<string, List<NWDUserLevelScore>>();
         private List<NWDUserLevelScore> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

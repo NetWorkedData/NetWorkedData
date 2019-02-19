@@ -18,7 +18,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string CreateAppConfigurationCsharp(NWDAppEnvironment sSelectedEnvironment)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tPropertyName = "null";
             if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
@@ -125,7 +125,7 @@ namespace NetWorkedData
             rReturn.AppendLine("#endif");
             rReturn.AppendLine(tPropertyName + ".LoadPreferences ();");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

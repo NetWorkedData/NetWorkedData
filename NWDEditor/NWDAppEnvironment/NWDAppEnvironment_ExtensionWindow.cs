@@ -26,8 +26,8 @@ namespace NetWorkedData
         public void DrawInEditor(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
-            float tMinWidht = 270.0F;
-            float tScrollMarge = 20.0f;
+            //float tMinWidht = 270.0F;
+            //float tScrollMarge = 20.0f;
             GUILayout.Label("Configuration for " + Environment + " environment", NWDConstants.kLabelTitleStyle);
             GUILayout.Label("AppName for server action " + Environment, NWDConstants.kLabelSubTitleStyle);
             AppName = EditorGUILayout.TextField("AppName", AppName);

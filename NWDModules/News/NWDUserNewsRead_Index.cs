@@ -36,7 +36,7 @@ namespace NetWorkedData
             RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserNewsRead>> kIndex = new Dictionary<string, List<NWDUserNewsRead>>();
         private List<NWDUserNewsRead> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

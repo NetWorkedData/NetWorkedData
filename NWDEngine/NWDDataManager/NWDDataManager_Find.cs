@@ -70,6 +70,7 @@ namespace NetWorkedData
 		public void ReloadAllObjects ()
         {
             BTBBenchmark.Start();
+            long tStartMemory = System.GC.GetTotalMemory(true);
             NWDTypeLauncher.DataLoaded = false;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             NWDTypeLauncher.ClassesExpected = mTypeList.Count();
@@ -87,6 +88,9 @@ namespace NetWorkedData
             EditorRefresh();
 #endif
             BTBBenchmark.Finish();
+            long tFinishMemory = System.GC.GetTotalMemory(true);
+            long tDataMemory = (tFinishMemory - tStartMemory) / 1024 / 1024;
+            NWDDebug.Log("#### ReloadAllObjects engine memory = " + tDataMemory.ToString() + "Mo");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RestaureObjectInEdition()

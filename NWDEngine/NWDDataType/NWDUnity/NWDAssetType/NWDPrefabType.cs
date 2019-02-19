@@ -191,14 +191,25 @@ namespace NetWorkedData
             UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, (UnityEngine.Object)tObject, typeof(GameObject), false);
 			tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
+                string tPreFabGameObject = AssetDatabase.GetAssetPath(pObj);
+                PrefabAssetType tAssetType = PrefabUtility.GetPrefabAssetType(pObj);
+                if (tAssetType == PrefabAssetType.Model ||
+                    tAssetType == PrefabAssetType.Regular ||
+                    tAssetType == PrefabAssetType.Variant)
+                {
+
+                    tTemporary.Value = NWDAssetType.kAssetDelimiter + tPreFabGameObject + NWDAssetType.kAssetDelimiter;
+                }
+
                 //if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) 
                 //if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
-                if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
-                {
-					//tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabInstanceHandle(pObj)) + NWDAssetType.kAssetDelimiter;
-                    tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabObject(pObj)) + NWDAssetType.kAssetDelimiter;
-                }
-			} else {
+                //if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
+                //{
+                ////tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabInstanceHandle(pObj)) + NWDAssetType.kAssetDelimiter;
+                //    tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabObject(pObj)) + NWDAssetType.kAssetDelimiter;
+                //}
+            }
+            else {
 				tTemporary.Value = string.Empty;
 			}
 			EditorGUI.EndDisabledGroup ();

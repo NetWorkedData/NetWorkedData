@@ -509,7 +509,8 @@ namespace NetWorkedData
                 tValueList.Insert(tNewIndex, tP);
             }
 
-            //string[] tNextValueArray = tValueList.Distinct().ToArray(); // not distinct IT'S AN ARRAY!
+            tValueList.Distinct();
+            tValueList.Remove(NWDConstants.kFieldSeparatorA);
             string[] tNextValueArray = tValueList.ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray)+tNewReference;
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
@@ -532,6 +533,8 @@ namespace NetWorkedData
                     {
                         tValueList.Remove(tDeleteReference);
                     }
+                    tValueList.Distinct();
+                    tValueList.Remove(NWDConstants.kFieldSeparatorA);
                     tNextValueArray = tValueList.ToArray();
                     tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
                     tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);

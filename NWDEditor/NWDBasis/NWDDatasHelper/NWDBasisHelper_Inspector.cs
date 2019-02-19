@@ -114,10 +114,10 @@ namespace NetWorkedData
                     {
                         tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                     }
-                    else if (Property.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
-                    {
-                        tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                    }
+                    //else if (Property.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
+                    //{
+                    //    tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    //}
                     else
                     {
                         Type tTypeOfThis = Property.PropertyType;
@@ -301,33 +301,33 @@ namespace NetWorkedData
                         }
                         //EditorGUI.indentLevel = tIndentLevel;
                     }
-                    else if (Property.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
-                    {
-                        NWDEnumAttribute tInfo = Property.GetCustomAttributes(typeof(NWDEnumAttribute), true)[0] as NWDEnumAttribute;
-                        string[] tV = tInfo.mEnumString;
-                        int[] tI = tInfo.mEnumInt;
-                        int tValue = (int)Property.GetValue(sObject, null);
-                        int tValueInt = Array.IndexOf<int>(tI, tValue);
-                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), Content());
+                    //else if (Property.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
+                    //{
+                    //    NWDEnumAttribute tInfo = Property.GetCustomAttributes(typeof(NWDEnumAttribute), true)[0] as NWDEnumAttribute;
+                    //    string[] tV = tInfo.mEnumString;
+                    //    int[] tI = tInfo.mEnumInt;
+                    //    int tValue = (int)Property.GetValue(sObject, null);
+                    //    int tValueInt = Array.IndexOf<int>(tI, tValue);
+                    //    EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), Content());
 
-                        //remove EditorGUI.indentLevel to draw next controller without indent 
-                        int tIndentLevel = EditorGUI.indentLevel;
-                        EditorGUI.indentLevel = 0;
+                    //    //remove EditorGUI.indentLevel to draw next controller without indent 
+                    //    int tIndentLevel = EditorGUI.indentLevel;
+                    //    EditorGUI.indentLevel = 0;
 
-                        int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, NWDConstants.tPopupdStyle);
-                        tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                        int tValueNext = 0;
-                        if (tValueIntNext < tI.Length && tValueIntNext >= 0)
-                        {
-                            tValueNext = tI[tValueIntNext];
-                        }
-                        if (tValueNext != tValue)
-                        {
-                            Property.SetValue(sObject, tValueNext, null);
-                            //rNeedBeUpdate = true;
-                        }
-                        EditorGUI.indentLevel = tIndentLevel;
-                    }
+                    //    int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, NWDConstants.tPopupdStyle);
+                    //    tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    //    int tValueNext = 0;
+                    //    if (tValueIntNext < tI.Length && tValueIntNext >= 0)
+                    //    {
+                    //        tValueNext = tI[tValueIntNext];
+                    //    }
+                    //    if (tValueNext != tValue)
+                    //    {
+                    //        Property.SetValue(sObject, tValueNext, null);
+                    //        //rNeedBeUpdate = true;
+                    //    }
+                    //    EditorGUI.indentLevel = tIndentLevel;
+                    //}
                     else
                     {
                         Type tTypeOfThis = Property.PropertyType;

@@ -443,9 +443,11 @@ namespace NetWorkedData
                 tValueList.Insert(tNewIndex, tP);
             }
 
-			string[] tNextValueArray = tValueList.Distinct ().ToArray ();
+            tValueList.Distinct();
+            tValueList.Remove(NWDConstants.kFieldSeparatorA);
+            string[] tNextValueArray = tValueList.ToArray();
             string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray)+tNewReference;
-			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
+            tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 			tTemporary.Value = tNextValue;
 
 			EditorGUI.EndDisabledGroup ();
@@ -461,10 +463,12 @@ namespace NetWorkedData
                 if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle)) {
 					foreach (string tDeleteReference in tValueListERROR) {
 						tValueList.Remove (tDeleteReference);
-					}
-					tNextValueArray = tValueList.Distinct ().ToArray ();
-					tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
-					tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
+                    }
+                    tValueList.Distinct();
+                    tValueList.Remove(NWDConstants.kFieldSeparatorA);
+                    tNextValueArray = tValueList.ToArray();
+                    tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
+                    tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 					tTemporary.Value = tNextValue;
                 }
                 NWDConstants.GUIRedButtonEnd();
