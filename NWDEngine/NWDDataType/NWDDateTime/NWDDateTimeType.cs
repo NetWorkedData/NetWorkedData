@@ -48,10 +48,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(0));
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public static string[] kDays = new string[] {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string[] kDays = new string[] {
 			"01", 
 			"02",
 			"03",

@@ -59,6 +59,15 @@ namespace NetWorkedData
             Value = NWDToolbox.FloatRangeZero();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetFloat(float sStart, float sEnd)
         {
             //if (sStart<=sEnd)

@@ -59,10 +59,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void LinearizeList(List<object> sList)
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void LinearizeList(List<object> sList)
 		{
 			Value = NWDToolbox.JsonToString(BTBMiniJSON.Json.Serialize(sList));
 		}

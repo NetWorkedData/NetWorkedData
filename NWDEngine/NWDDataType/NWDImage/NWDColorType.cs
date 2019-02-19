@@ -54,8 +54,17 @@ namespace NetWorkedData
         {
             Value = NWDToolbox.ColorZero();
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public Color GetColor ()
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Color GetColor ()
 		{
             //Color tColor = new Color ();
             //ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out tColor);

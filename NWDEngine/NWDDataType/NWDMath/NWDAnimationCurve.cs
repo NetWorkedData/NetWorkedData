@@ -59,6 +59,15 @@ namespace NetWorkedData
             Value = NWDToolbox.AnimationCurveZero();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetAnimationCurve(AnimationCurve sCurve)
         {
             Value = NWDToolbox.AnimationCurveToString(sCurve);

@@ -51,6 +51,15 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public int ToInt()
         {
             int rVersionInteger = 0;
