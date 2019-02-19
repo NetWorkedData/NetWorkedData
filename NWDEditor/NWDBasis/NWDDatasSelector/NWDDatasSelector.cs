@@ -129,8 +129,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Initialization()
         {
-            NWDConstants.kSelectorTileStyle.fixedHeight = kZoom * 100;
-            NWDConstants.kSelectorTileStyle.fixedWidth = kZoom * 100;
             // Tag management
             foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
             {

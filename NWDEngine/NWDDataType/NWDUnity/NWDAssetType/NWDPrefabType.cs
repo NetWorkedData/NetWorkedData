@@ -43,21 +43,36 @@ namespace NetWorkedData
 			} else {
 				Value = sValue;
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public GameObject ToPrefab ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GameObject ToPrefabConnected(GameObject sParent = null)
+        {
+            GameObject rReturn = null;
+            GameObject tPrefab = ToPrefab();
+            if (tPrefab != null)
+            {
+                rReturn = PrefabUtility.InstantiatePrefab(tPrefab) as GameObject;
+                if (sParent != null)
+                {
+                    rReturn.transform.SetParent(sParent.transform);
+                    rReturn.transform.localPosition = Vector3.zero;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+            public GameObject ToPrefab ()
 		{
 			GameObject tObject = null;
             if (Value != null && Value != string.Empty)
             {
                 string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-
 #if UNITY_EDITOR
                 tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
 #else
                 tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
                 tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
-                #endif
+#endif
                 //Debug.LogWarning("tObject at path " + tPath);
             }
 			return tObject;
@@ -68,7 +83,7 @@ namespace NetWorkedData
 			GameObject rReturn = null;
 			GameObject tPrefab = ToPrefab ();
 			if (tPrefab != null) {
-				rReturn = UnityEngine.Object.Instantiate (ToPrefab ());
+				rReturn = UnityEngine.Object.Instantiate (tPrefab);
 				if (sParent != null) {
 					rReturn.transform.SetParent (sParent.transform);
 				}

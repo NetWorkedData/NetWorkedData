@@ -224,9 +224,7 @@ namespace NetWorkedData
             else
             {
                 Type tType = mObjectInEdition.GetType();
-                // TODO : Change to remove invoke!
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-                //var tMethodInfo = tType.GetMethod ("DrawObjectEditor", BindingFlags.Public | BindingFlags.Instance);
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });

@@ -564,6 +564,9 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> InsertDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
+#if UNITY_EDITOR
+            RowAnalyze();
+#endif 
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -787,6 +790,9 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> UpdateDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
+#if UNITY_EDITOR
+            RowAnalyze();
+#endif 
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -996,8 +1002,8 @@ namespace NetWorkedData
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR
-            RepaintTableEditor();
-#endif
+            RowAnalyze();
+#endif 
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1014,6 +1020,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             // no auto update data
             ErrorCheck();
+            RowAnalyze();
 #else
             WebserviceVersionCheckMe();
 #endif
