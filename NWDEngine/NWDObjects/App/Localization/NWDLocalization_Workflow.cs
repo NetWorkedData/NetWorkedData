@@ -85,24 +85,27 @@ namespace NetWorkedData
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             }
             int tI = 0;
-            while (tI <= 10)
+            if (GlobalLocalizerKeys!=null)
             {
-                tI++;
-                int tJ = 0;
-                foreach (NWDLocalization tObject in GlobalLocalizerKeys)
+                while (tI <= 10)
                 {
-                    if (sText.Contains(tObject.KeyValue))
+                    tI++;
+                    int tJ = 0;
+                    foreach (NWDLocalization tObject in GlobalLocalizerKeys)
                     {
-                        tJ++;
-                        if (string.IsNullOrEmpty(tObject.InternalKey) == false)
+                        if (sText.Contains(tObject.KeyValue))
                         {
-                            rText = rText.Replace(tObject.InternalKey, tBstart + tObject.TextValue.GetLanguageString(sLanguage) + tBend);
+                            tJ++;
+                            if (string.IsNullOrEmpty(tObject.InternalKey) == false)
+                            {
+                                rText = rText.Replace(tObject.InternalKey, tBstart + tObject.TextValue.GetLanguageString(sLanguage) + tBend);
+                            }
                         }
                     }
-                }
-                if (tJ == 0)
-                {
-                    break;
+                    if (tJ == 0)
+                    {
+                        break;
+                    }
                 }
             }
             return rText;

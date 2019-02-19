@@ -484,46 +484,102 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
+        static int kOwnershipAddValue;
+        //-------------------------------------------------------------------------------------------------------------
+        static int kOwnershipSetValue;
+        //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
+
             //Debug.Log("AddonEditor");
             // Draw the interface addon for editor
             float tWidth = sInRect.width;
             float tX = sInRect.x;
             float tY = sInRect.y;
 
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
 
             NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
             if (tOwnership != null)
             {
-                GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
-                tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
+                GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
             }
             else
             {
-                GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
-                tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
             }
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
+            tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Reset to zero", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.SetItemToOwnership(this, 0);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", NWDConstants.tMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, 1);
             }
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add 10 to ownsership", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, 10);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add 100 to ownsership", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, 100);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", NWDConstants.tMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, -1);
             }
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Remove 10 to ownsership", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, -10);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Remove 100 to ownsership", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, -100);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+            int tAddWidth = 30;
+            kOwnershipAddValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDConstants.kFieldMarge, NWDConstants.tMiniButtonStyle.fixedHeight), " Value to add", kOwnershipAddValue);
+            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, kOwnershipAddValue);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+            kOwnershipSetValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDConstants.kFieldMarge, NWDConstants.tMiniButtonStyle.fixedHeight), " Value to set", kOwnershipSetValue);
+            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Set", NWDConstants.tMiniButtonStyle))
+            {
+                NWDUserOwnership.SetItemToOwnership(this, kOwnershipSetValue);
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -531,19 +587,10 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tY = 0.0f;
-
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += 3 * (NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+            tY += 3 * (NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

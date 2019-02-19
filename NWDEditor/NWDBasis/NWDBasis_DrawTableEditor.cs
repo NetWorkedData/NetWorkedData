@@ -411,14 +411,14 @@ namespace NetWorkedData
                 }
                 if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalName) == false)
                 {
-                    if (tObject.InternalKey.Contains(BasisHelper().m_SearchInternalName) == false)
+                    if (tObject.InternalKey.ToLower().Contains(BasisHelper().m_SearchInternalName.ToLower()) == false)
                     {
                         tOccurence = false;
                     }
                 }
                 if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalDescription) == false)
                 {
-                    if (tObject.InternalDescription.Contains(BasisHelper().m_SearchInternalDescription) == false)
+                    if (tObject.InternalDescription.ToLower().Contains(BasisHelper().m_SearchInternalDescription.ToLower()) == false)
                     {
                         tOccurence = false;
                     }
@@ -581,6 +581,7 @@ namespace NetWorkedData
         /// </summary>
         public static void DrawTableEditor(EditorWindow sEditorWindow)
         {
+            BasisHelper().RowAnalyze();
             GUIStyle tRightLabel = new GUIStyle(EditorStyles.boldLabel);
             tRightLabel.alignment = TextAnchor.MiddleRight;
 

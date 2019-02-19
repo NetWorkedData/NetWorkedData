@@ -274,16 +274,16 @@ namespace NetWorkedData
         /// <summary>
         /// Applies all modifications which waiting in the updateQueue.
         /// </summary>
-        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
-        public static void ApplyAllModifications()
-        {
-            NWDDataManager.SharedInstance().DataQueueExecute();
-#if UNITY_EDITOR
-            //LoadTableEditor();
-            LoadFromDatabase();
-            FilterTableEditor();
-#endif
-        }
+//        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
+//        public static void ApplyAllModifications()
+//        {
+//            NWDDataManager.SharedInstance().DataQueueExecute();
+//#if UNITY_EDITOR
+//            //LoadTableEditor();
+//            LoadFromDatabase();
+//            FilterTableEditor();
+//#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Duplicates the instance. This dupplication create a copy of the instance but generate a new reference and integrity
