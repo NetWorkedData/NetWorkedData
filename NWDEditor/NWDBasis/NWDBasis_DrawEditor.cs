@@ -228,6 +228,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_DrawObjectEditor)]
         public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
+           // RowAnalyze();
             float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
             float tX = NWDConstants.kFieldMarge;
             float tY = NWDConstants.kFieldMarge;
@@ -949,6 +950,7 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataType tBTBDataType = tValue as BTBDataType;
+                        tBTBDataType.BaseVerif();
                         if (tBTBDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;

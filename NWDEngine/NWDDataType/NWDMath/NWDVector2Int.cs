@@ -59,6 +59,15 @@ namespace NetWorkedData
             Value = NWDToolbox.Vector2IntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetVectorInt(Vector2Int sVector)
         {
             Value = NWDToolbox.Vector2IntToString(sVector);

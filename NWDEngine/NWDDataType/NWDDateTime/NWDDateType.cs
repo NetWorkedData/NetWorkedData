@@ -49,10 +49,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(0));
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetDateTime(DateTime sDatetime)
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetDateTime(DateTime sDatetime)
         {
             sDatetime = sDatetime.ToLocalTime();
             Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+

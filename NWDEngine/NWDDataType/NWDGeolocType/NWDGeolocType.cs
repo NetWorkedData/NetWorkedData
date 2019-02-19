@@ -56,6 +56,15 @@ namespace NetWorkedData
             Value = NWDToolbox.FloatToString(0.0F) + NWDConstants.kFieldSeparatorA + NWDToolbox.FloatToString(0.0F);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Latitudes the longitude.
         /// </summary>

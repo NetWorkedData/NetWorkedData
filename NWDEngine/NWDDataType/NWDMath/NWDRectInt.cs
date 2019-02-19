@@ -59,6 +59,15 @@ namespace NetWorkedData
             Value = NWDToolbox.RectIntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetRectInt(RectInt sRectInt)
         {
             //Value = sRectInt.x + NWDConstants.kFieldSeparatorA +

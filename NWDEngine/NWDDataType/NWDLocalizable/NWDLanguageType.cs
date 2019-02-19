@@ -49,9 +49,18 @@ namespace NetWorkedData
             Value = "en";
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
+        public override float ControlFieldHeight ()
 		{
             float rReturn = NWDConstants.kFieldMarge+NWDConstants.kPopupdStyle.fixedHeight;
 			return rReturn;

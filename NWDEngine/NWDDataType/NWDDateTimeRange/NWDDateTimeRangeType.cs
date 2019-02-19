@@ -60,11 +60,20 @@ namespace NetWorkedData
         {
             Value = string.Empty;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Results if "now" is in range.
-		/// </summary>
-		/// <returns><c>true</c>, if now was resulted, <c>false</c> otherwise.</returns>
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Results if "now" is in range.
+        /// </summary>
+        /// <returns><c>true</c>, if now was resulted, <c>false</c> otherwise.</returns>
         public bool AvailableNow ()
 		{
             return AvailableDateTime (DateTime.Now);
