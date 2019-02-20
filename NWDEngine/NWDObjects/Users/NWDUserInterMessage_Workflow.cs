@@ -23,12 +23,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInterMessage()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInterMessage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -80,16 +78,14 @@ namespace NetWorkedData
             tInterMessage.ReplaceItems = sReplaceItems;
             tInterMessage.ReplaceItemPacks = sReplaceItemPack;
             tInterMessage.ReplacePacks = sReplacePacks;
-
-            // Push System
-            //TODO : set a push system here, not implemented yet
-
             #if UNITY_EDITOR
             tInterMessage.InternalKey = NWDAccountNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
             #endif
-
             tInterMessage.Tag = NWDBasisTag.TagUserCreated;
             tInterMessage.SaveData();
+
+            // Push System
+            //TODO : set a push system here, not implemented yet
 
             // Send message
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserInterMessage) }, sSuccessBlock, sErrorBlock);

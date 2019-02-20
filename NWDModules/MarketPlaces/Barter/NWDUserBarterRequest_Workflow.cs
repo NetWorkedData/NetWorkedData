@@ -56,11 +56,33 @@ namespace NetWorkedData
 
             // Create a new Request
             NWDUserBarterRequest tRequest = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
-#endif
+            #endif
             tRequest.Tag = NWDBasisTag.TagUserCreated;
             tRequest.BarterPlace.SetObject(sBarterPlace);
+            tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
+            tRequest.BarterStatus = NWDTradeStatus.Active;
+            tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
+            tRequest.SaveData();
+
+            return tRequest;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserBarterRequest CreateFriendBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed, string sAccountReference)
+        {
+            // Get Request Life time
+            int tLifetime = sBarterPlace.RequestLifeTime;
+
+            // Create a new Request
+            NWDUserBarterRequest tRequest = NewData();
+            #if UNITY_EDITOR
+            tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
+            #endif
+            tRequest.Tag = NWDBasisTag.TagUserCreated;
+            tRequest.BarterPlace.SetObject(sBarterPlace);
+            tRequest.RelationshipAccountReferences = sAccountReference;
+            tRequest.ForRelationshipOnly = true;
             tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
             tRequest.BarterStatus = NWDTradeStatus.Active;
             tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
@@ -119,7 +141,7 @@ namespace NetWorkedData
         {
             switch (BarterStatus)
             {
-                case NWDTradeStatus.Active:
+                case NWDTradeStatus.Waiting:
                     {
                         // Remove NWDItem from NWDUserOwnership
                         Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();

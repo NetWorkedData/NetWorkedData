@@ -97,8 +97,8 @@ namespace NetWorkedData
             {
                 AppleNotificationToken = "%" + System.BitConverter.ToString(tToken).Replace('-', '%');
             }
-
-#elif UNITY_STANDALONE_OSX
+                
+#elif UNITY_STANDALONE_OSX  
             OSLastSignIn = NWDOperatingSystem.OSX;
             // TODO register notification token
 
