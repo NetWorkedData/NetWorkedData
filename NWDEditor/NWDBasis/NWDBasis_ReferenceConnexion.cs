@@ -174,7 +174,7 @@ namespace NetWorkedData
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-            float rReturn = tPopupdStyle.fixedHeight;
+            float rReturn = NWDConstants.kDatasSelectorRowStyle.fixedHeight;
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
             if (tObject != null)
             {
@@ -237,6 +237,8 @@ namespace NetWorkedData
                 float tY = sPosition.y;
                 float tWidth = sPosition.width;
 
+                bool tAutoChange = false;
+
                 GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
                 tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
@@ -251,48 +253,53 @@ namespace NetWorkedData
                 tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 // test if connection is ok or ko
-                bool tConnection = true;
-                if (tValue != null && tValue != string.Empty)
-                {
-                    if (NWDBasis<K>.GetDataByReference(tValue) == null)
-                    {
-                        tConnection = false;
-                    }
-                }
+                //bool tConnection = true;
+                //if (tValue != null && tValue != string.Empty)
+                //{
+                //    if (NWDBasis<K>.GetDataByReference(tValue) == null)
+                //    {
+                //        tConnection = false;
+                //    }
+                //}
 
                 // editable? 
-                EditorGUI.BeginDisabledGroup(!tConnection);
+                //EditorGUI.BeginDisabledGroup(!tConnection);
 
                 // find class and invoke methods
                 //Type tType = ClassType();
-                List<string> tReferenceList = new List<string>();
-                List<string> tInternalNameList = new List<string>();
+                //List<string> tReferenceList = new List<string>();
+                //List<string> tInternalNameList = new List<string>();
 
-                tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-                tInternalNameList.Add(NWDConstants.kFieldNone);
+                //tReferenceList.Add(NWDConstants.kFieldSeparatorA);
+                //tInternalNameList.Add(NWDConstants.kFieldNone);
 
-                foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i => i.Value))
+                //foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i => i.Value))
+                //{
+                //    tReferenceList.Add(tKeyValue.Key);
+                //    tInternalNameList.Add(tKeyValue.Value);
+                //}
+
+                //int tIndex = tReferenceList.IndexOf(tValue);
+
+                //var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
+                //var tButtonRect = new Rect(tX + sPosition.width - tButtonWidth, tY, tButtonWidth, tMiniButtonStyle.fixedHeight);
+                //tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                //int rIndex = EditorGUI.Popup(tPopupRect, sEntitled, tIndex, tInternalNameList.ToArray(), EditorStyles.popup);
+                //if (rIndex != tIndex)
+                //{
+                //    string tNextValue = tReferenceList.ElementAt(rIndex);
+                //    tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
+                //    tFuturValue = tNextValue;
+                //    tAutoChange = true;
+                //}
+
+                tFuturValue = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), tLabelContent, tValue);
+
+                NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tFuturValue);
+                if (tValue != tFuturValue)
                 {
-                    tReferenceList.Add(tKeyValue.Key);
-                    tInternalNameList.Add(tKeyValue.Value);
-                }
-
-                int tIndex = tReferenceList.IndexOf(tValue);
-
-                var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
-                var tButtonRect = new Rect(tX + sPosition.width - tButtonWidth, tY, tButtonWidth, tMiniButtonStyle.fixedHeight);
-                tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                int rIndex = EditorGUI.Popup(tPopupRect, sEntitled, tIndex, tInternalNameList.ToArray(), EditorStyles.popup);
-                bool tAutoChange = false;
-                if (rIndex != tIndex)
-                {
-                    string tNextValue = tReferenceList.ElementAt(rIndex);
-                    tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
-                    tFuturValue = tNextValue;
                     tAutoChange = true;
                 }
-                NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tFuturValue);
-               
                 if (tAutoChange == true)
                 {
                     SetObjectInEdition(tObject, true, false);
@@ -301,13 +308,13 @@ namespace NetWorkedData
                 {
                     if (sEditButton == true)
                     {
-                        if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
-                        {
-                            //if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-                            //{
-                                SetObjectInEdition(tObject, true, true);
-                            //}
-                        }
+                        //if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
+                        //{
+                        //    //if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                        //    //{
+                        //        SetObjectInEdition(tObject, true, true);
+                        //    //}
+                        //}
                     }
                     float tHelpBoxHeight = 0;
                     if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
@@ -351,22 +358,22 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (sNewButton == true)
-                    {
-                        if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_NEW, EditorStyles.miniButton))
-                        {
-                            //							tObject = NewInstance ();
-                            //							tObject.UpdateMe (true);
-                            //							AddObjectInListOfEdition (tObject);
+                    //if (sNewButton == true)
+                    //{
+                    //    if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_NEW, EditorStyles.miniButton))
+                    //    {
+                    //        //							tObject = NewInstance ();
+                    //        //							tObject.UpdateMe (true);
+                    //        //							AddObjectInListOfEdition (tObject);
 
-                            tObject = NWDBasis<K>.NewData();
-                            tObject.UpdateData(true);
+                    //        tObject = NWDBasis<K>.NewData();
+                    //        tObject.UpdateData(true);
 
-                            tFuturValue = tObject.Reference;
-                            SetObjectInEdition(tObject, true, true);
-                            NWDDataManager.SharedInstance().RepaintWindowsInManager(tObject.GetType());
-                        }
-                    }
+                    //        tFuturValue = tObject.Reference;
+                    //        SetObjectInEdition(tObject, true, true);
+                    //        NWDDataManager.SharedInstance().RepaintWindowsInManager(tObject.GetType());
+                    //    }
+                    //}
                 }
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -381,18 +388,18 @@ namespace NetWorkedData
 
 
 
-                EditorGUI.EndDisabledGroup();
+                //EditorGUI.EndDisabledGroup();
 
-                if (tConnection == false)
-                {
-                    NWDConstants.GUIRedButtonBegin();
-                    if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
-                    {
-                        sProperty.FindPropertyRelative("Reference").stringValue = string.Empty;
-                    }
-                    NWDConstants.GUIRedButtonEnd();
-                    tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
-                }
+                //if (tConnection == false)
+                //{
+                //    NWDConstants.GUIRedButtonBegin();
+                //    if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
+                //    {
+                //        sProperty.FindPropertyRelative("Reference").stringValue = string.Empty;
+                //    }
+                //    NWDConstants.GUIRedButtonEnd();
+                //    tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                //}
 
 
 
