@@ -88,7 +88,7 @@ namespace NetWorkedData
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionFieldSerialized);
                 if (tMethodInfo != null)
 				{
-					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector, tReferenceConnection.Editable, tReferenceConnection.EditButton, tReferenceConnection.NewButton});
+					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector});
 				}
 			}
 		}

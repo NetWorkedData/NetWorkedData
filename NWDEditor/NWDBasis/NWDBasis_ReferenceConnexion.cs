@@ -221,7 +221,7 @@ namespace NetWorkedData
         public static bool kInspectorFoldout = false;
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_ReferenceConnectionFieldSerialized)]
-        public static void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
+        public static void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
         {
 
             GUIContent tLabelContent = new GUIContent(sEntitled);
@@ -306,16 +306,7 @@ namespace NetWorkedData
                 }
                 if (tObject != null)
                 {
-                    if (sEditButton == true)
-                    {
-                        //if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
-                        //{
-                        //    //if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-                        //    //{
-                        //        SetObjectInEdition(tObject, true, true);
-                        //    //}
-                        //}
-                    }
+
                     float tHelpBoxHeight = 0;
                     if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
                     {
@@ -352,7 +343,7 @@ namespace NetWorkedData
                                                            tY,
                                                            sPosition.width - tMargeInspector - tBorder,
                                                            sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                            tObject.DrawObjectInspector(tRectToDawInspector, false, sEditionEnable);
+                            tObject.DrawObjectInspector(tRectToDawInspector, false, true);
                         }
                     }
                 }
