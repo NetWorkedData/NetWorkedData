@@ -52,7 +52,7 @@ namespace NetWorkedData
         public static float kIntWidth = 36.0f;
         public static float kConWidth = 42.0f;
         public static float kIconWidth = 36.0f;
-        public static float kEditWidth = 16.0f;
+        public static float kEditWidth = 36.0f;
         public static float kEditWidthHalf = 8.0f;
         public static float kEditWidthMini = 12.0f;
         public static float kEditWidthMiniHalf = 6.0f;
@@ -615,6 +615,7 @@ namespace NetWorkedData
         static public GUIStyle kSelectorRowDarkStyle;
 
         static public GUIStyle kDatasSelectorRowStyle;
+        static public GUIStyle kDatasSelectorRowErrorStyle;
 
         // for Textfield in NWD inspector
         public static GUIStyle tLabelStyle;
@@ -647,6 +648,10 @@ namespace NetWorkedData
         public static GUIStyle tTitleLabelStyle;
 
         public static GUIStyle tMiniLabelStyleCenter;
+
+        public static GUIContent tEditContent;
+        public static GUIContent tNewContent;
+        public static GUIContent tCleanContent;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -661,6 +666,14 @@ namespace NetWorkedData
             //Debug.Log ("STATIC STEConstants LoadStyles()");
             if (StyleLoaded == false)
             {
+
+                //tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+
+                //tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
+
+                tEditContent = new GUIContent("edit");
+                tNewContent = new GUIContent("new");
+                tCleanContent = new GUIContent("clean");
 
                 StyleLoaded = true;
 
@@ -694,6 +707,7 @@ namespace NetWorkedData
 
 
                 kDatasSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
+                kDatasSelectorRowStyle.richText = true;
                 kDatasSelectorRowStyle.fontSize = 12;
                 kDatasSelectorRowStyle.wordWrap = false;
                 kDatasSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
@@ -701,6 +715,9 @@ namespace NetWorkedData
                 kDatasSelectorRowStyle.border = new RectOffset(2, 2, 2, 2);
                 kDatasSelectorRowStyle.fixedHeight = kDatasSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
+
+                kDatasSelectorRowErrorStyle = new GUIStyle(kDatasSelectorRowStyle);
+                kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
 
                 kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
                 kSelectorTileStyle.fontSize = 14;

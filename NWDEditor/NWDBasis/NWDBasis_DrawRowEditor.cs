@@ -287,7 +287,7 @@ namespace NetWorkedData
 			// draw informations
             //float tHeightInfo = RowInformation (rRect);
 
-            string tStringReference = "<" + Reference + ">";
+            string tStringReference = "[" + Reference + "]";
             // prepare prefab 
             //GameObject tObject = null;
             //if (Preview != null && Preview != string.Empty)

@@ -183,26 +183,26 @@ namespace NetWorkedData
         {
             //			Debug.Log ("Je suis dans l'invocation de hauteur");
 
-            int tConnection = 0;
-            if (Value != null && Value != string.Empty)
-            {
-                if (NWDBasis<K>.GetDataByReference(Value) == null)
-                {
-                    tConnection = 1;
-                }
-            }
-            float tHeight = NWDConstants.kDatasSelectorRowStyle.fixedHeight + tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
-                                                                                   NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+            //int tConnection = 0;
+            //if (Value != null && Value != string.Empty)
+            //{
+            //    if (NWDBasis<K>.GetDataByReference(Value) == null)
+            //    {
+            //        tConnection = 1;
+            //    }
+            //}
+            //float tHeight = NWDConstants.kDatasSelectorRowStyle.fixedHeight + tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
+            //                                                                       NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
-            // test if error in reference and add button height
-            if (Value != null && Value != string.Empty)
-            {
-                if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
-                {
-                    tHeight = tHeight + NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-                }
-            }
-            return tHeight;
+            //// test if error in reference and add button height
+            //if (Value != null && Value != string.Empty)
+            //{
+            //    if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
+            //    {
+            //        tHeight = tHeight + NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //    }
+            //}
+            return NWDConstants.kDatasSelectorRowStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
@@ -219,42 +219,38 @@ namespace NetWorkedData
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
 
-            float tEditWidth = NWDConstants.kEditWidth;
+            //float tEditWidth = NWDConstants.kEditWidth;
 
-            bool tConnection = true;
-            if (Value != null && Value != string.Empty)
-            {
-                if (NWDBasis<K>.GetDataByReference(Value) == null)
-                {
-                    tConnection = false;
-                }
-            }
+            //bool tConnection = true;
+            //if (Value != null && Value != string.Empty)
+            //{
+            //    if (NWDBasis<K>.GetDataByReference(Value) == null)
+            //    {
+            //        tConnection = false;
+            //    }
+            //}
 
-            EditorGUI.BeginDisabledGroup(!tConnection);
+            //EditorGUI.BeginDisabledGroup(!tConnection);
 
 
-            tTemporary.Value = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tTemporary.Value);
+            tTemporary.Value = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), tContent, tTemporary.Value);
 
-            //Debug.Log("Field selection : " + tTemporary.Value + " ...  initial : "+Value);
-
-            if (string.IsNullOrEmpty(tTemporary.Value) == false)
-            {
-                GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-                if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))
-                {
-                    NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(tTemporary.Value), false);
-                }
-            }
-            else
-            {
-                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-                if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tNewContent, NWDConstants.kPopupButtonStyle))
-                {
-                    NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
-                    tTemporary.Value = tNewObject.Reference;
-                    NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
-                }
-            }
+            //if (string.IsNullOrEmpty(tTemporary.Value) == false)
+            //{
+            //    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kMiniButtonStyle.fixedHeight), NWDConstants.tEditContent, NWDConstants.kMiniButtonStyle))
+            //    {
+            //        NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(tTemporary.Value), false);
+            //    }
+            //}
+            //else
+            //{
+            //    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kMiniButtonStyle.fixedHeight), NWDConstants.tNewContent, NWDConstants.kMiniButtonStyle))
+            //    {
+            //        NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
+            //        tTemporary.Value = tNewObject.Reference;
+            //        NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+            //    }
+            //}
 
 
 
@@ -314,24 +310,24 @@ namespace NetWorkedData
             //}
 
             tY = tY + NWDConstants.kFieldMarge + NWDConstants.kDatasSelectorRowStyle.fixedHeight;
-            EditorGUI.EndDisabledGroup();
+            //EditorGUI.EndDisabledGroup();
 
-            if (tConnection == false)
-            {
-                tTemporary.Value = Value;
+            //if (tConnection == false)
+            //{
+            //    tTemporary.Value = Value;
 
-                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, NWDConstants.kRedLabelStyle);
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
-                //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-                //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-                NWDConstants.GUIRedButtonBegin();
-                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
-                {
-                    tTemporary.Value = string.Empty;
-                }
-                NWDConstants.GUIRedButtonEnd();
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
-            }
+            //    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, NWDConstants.kRedLabelStyle);
+            //    tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
+            //    //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+            //    //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+            //    NWDConstants.GUIRedButtonBegin();
+            //    if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
+            //    {
+            //        tTemporary.Value = string.Empty;
+            //    }
+            //    NWDConstants.GUIRedButtonEnd();
+            //    tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
+            //}
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------

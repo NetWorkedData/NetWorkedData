@@ -764,11 +764,25 @@ namespace NetWorkedData
             if (BasisHelper().DatasByReference.ContainsKey(sReference))
             {
                 NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
-                rReturn = new GUIContent(tObject.InternalKey, tObject.GetPreviewTexture2D(), tObject.Reference);
+                if (string.IsNullOrEmpty(tObject.InternalKey))
+                {
+                    rReturn = new GUIContent( "<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.GetPreviewTexture2D(), tObject.InternalDescription);
+                }
+                else
+                {
+                    rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.GetPreviewTexture2D(), tObject.InternalDescription);
+                }
             }
             else
             {
-                rReturn = new GUIContent("none");
+                if (string.IsNullOrEmpty(sReference))
+                {
+                    rReturn = new GUIContent("none");
+                }
+                else
+                {
+                    rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
+                }
             }
             return rReturn;
         }
