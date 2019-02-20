@@ -59,6 +59,7 @@ namespace NetWorkedData
         public static float kLangWidth = 50.0f;
         public static float kEnumWidth = 70.0f;
         public static float kConnectionIndent = 10.0f;
+        public static float kUpDownWidth = 18.0f;
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
         public const string K_SYNC_ALERT_TITLE = "ALERT PRODUCTION";
@@ -652,6 +653,8 @@ namespace NetWorkedData
         public static GUIContent tEditContent;
         public static GUIContent tNewContent;
         public static GUIContent tCleanContent;
+        public static GUIContent tUpContent;
+        public static GUIContent tDownContent;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -674,6 +677,8 @@ namespace NetWorkedData
                 tEditContent = new GUIContent("edit");
                 tNewContent = new GUIContent("new");
                 tCleanContent = new GUIContent("clean");
+                tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
+                tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
 
                 StyleLoaded = true;
 

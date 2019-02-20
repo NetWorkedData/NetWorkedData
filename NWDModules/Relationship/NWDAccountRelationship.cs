@@ -47,6 +47,49 @@ namespace NetWorkedData
         {
             get; set;
         }
+
+        // TODO REMOVE THESE!!!!
+        public NWDReferenceType<NWDItem> Test
+        {
+            get; set;
+        }
+        public NWDReferenceFreeType<NWDItem> TestFree
+        {
+            get; set;
+        }
+        //public NWDReferenceHashType<NWDItem> TestHash
+        //{
+        //    get; set;
+        //}
+        public NWDReferencesAmountType<NWDItem> TestAmount
+        {
+            get; set;
+        }
+        public NWDReferencesArrayType<NWDItem> TestArray
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDItem> TestList
+        {
+            get; set;
+        }
+        public NWDReferencesAverageType<NWDItem> TestAverage
+        {
+            get; set;
+        }
+        public NWDReferencesConditionalType<NWDItem> TestConditional
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> TestQuantity
+        {
+            get; set;
+        }
+        public NWDReferencesRangeType<NWDItem> TestRange
+        {
+            get; set;
+        }
+
         [NWDGroupEnd]
        
         [NWDGroupStart("Relationship informations", true, true, true)]

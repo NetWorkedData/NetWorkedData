@@ -102,7 +102,7 @@ namespace NetWorkedData
         public NWDBasisTag Tag;
         List<K> ResultList = new List<K>();
         string ActualSelection;
-        static public string Field(Rect sRect, GUIContent sContent, string sReference)
+        static public string Field(Rect sRect, GUIContent sContent, string sReference, float sInsertion = 0)
         {
             string tReference = sReference;
             int tID = GUIUtility.GetControlID(sContent, FocusType.Keyboard, sRect);
@@ -120,7 +120,7 @@ namespace NetWorkedData
                 }
             }
             Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
-            Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDConstants.kEditWidth - NWDConstants.kFieldMarge, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
+            Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDConstants.kEditWidth - NWDConstants.kFieldMarge - sInsertion, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
             Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDConstants.kEditWidth, sRect.position.y, NWDConstants.kEditWidth, NWDConstants.kMiniButtonStyle.fixedHeight);
 
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
