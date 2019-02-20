@@ -42,6 +42,12 @@ namespace NetWorkedData
         //string InfosCard = string.Empty;
         //string InfosCardCustom = string.Empty;
         Rect CardRect;
+
+        Vector2 CardTopLeft;
+        Vector2 CardTopRight;
+        Vector2 CardBottomLeft;
+        Vector2 CardBottomRight;
+
         Rect CardTypeRect;
         Rect CardReferenceRect;
         Rect CardInternalKeyRect;
@@ -61,15 +67,16 @@ namespace NetWorkedData
             // I analyze the properties of data.
             if (Data != null)
             {
-                // TODO : Change to remove invoke!
-                Type tType = Data.GetType();
-                //var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_NodeCardAnalyze);
+                Data.NodeCardAnalyze(this);
+                //// TODO : Change to remove invoke!
+                //Type tType = Data.GetType();
+                ////var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_NodeCardAnalyze);
 
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(Data, new object[] { this });
-                }
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(Data, new object[] { this });
+                //}
             }
             else
             {
@@ -185,8 +192,14 @@ namespace NetWorkedData
             //Infos = "";//Data.GetType().AssemblyQualifiedName;
             //InfosCard = " " + Column + " x " + Line + "\n";
             //InfosCardCustom = "";
-
+            //Width = 250;
+            //Height = 250;
             CardRect = new Rect(tX, tY, Width, Height);
+
+            CardTopLeft = new Vector2(CardRect.xMin, CardRect.yMax);
+            CardTopRight = new Vector2(CardRect.xMax, CardRect.yMax);
+            CardBottomLeft = new Vector2(CardRect.xMin, CardRect.yMin);
+            CardBottomRight = new Vector2(CardRect.xMax, CardRect.yMin);
 
             IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge + NWDConstants.kEditWidthHalf, CardRect.y + NWDConstants.kFieldMarge, NWDConstants.kIconWidth, NWDConstants.kIconWidth);
 
@@ -224,147 +237,120 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawCard()
+        public void DrawCard(Rect sVisibleRect)
         {
-            // Debug.Log("NWDNodeCard DrawCard()");
 
-            GUI.Box(CardRect, " ", EditorStyles.helpBox);
-            //GUI.DrawTexture(CardRect, NWDConstants.kImageNodalCard);
-
-            /// if selected redraw twice or three time this card background
-            if (NWDDataInspector.ObjectInEdition() == Data)
+            if (sVisibleRect.Contains(CardTopLeft) ||
+                sVisibleRect.Contains(CardTopRight) ||
+                sVisibleRect.Contains(CardBottomLeft) ||
+                sVisibleRect.Contains(CardBottomRight)
+            )
             {
-                //var tTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                //tTexture.SetPixel(0, 0, new Color(1.0F, 1.0F, 1.0F, 0.5F));
-                //GUIStyle tStyle = new GUIStyle(EditorStyles.helpBox);
-                //tStyle.normal.background = tTexture;
-
-                Color tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
-                GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
-                GUI.backgroundColor = tOldColor;
-            }
-            //else
-            //{
-            //    // draw background
-            //    GUI.Box(CardRect, " ", EditorStyles.helpBox);
-            //}
-
-            //EditorGUI.DrawRect(new Rect(CardRect.x + 1, CardRect.y + 1, CardRect.width-2, CardRect.height-2), Color.gray);
-            if (ClassTexture != null)
-            {
-                //EditorGUI.DrawPreviewTexture(IconRect, ClassTexture);
-                GUI.DrawTexture(IconRect, ClassTexture);
-            }
-
-            GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
-            GUI.Label(CardReferenceRect, ReferenceString);
-            //GUI.Label(CardInternalKeyRect, InternalKeyString);
-            GUI.Label(CardInternalKeyRect, Data.InternalKeyValue());
-
-            // Draw informations box with the color of informations
-            Color tOldBackgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = InformationsColor;
-            GUI.Box(InfoRect, " ", EditorStyles.helpBox);
-            GUI.backgroundColor = tOldBackgroundColor;
-            // add button to edit data
-            GUIContent tButtonContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-            if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth - NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
-            {
-                NWDDataInspector.InspectNetWorkedData(Data, true, true);
-            }
-            // add button to center node on this data
-            GUIContent tNodeContent = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
-            if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
-            {
-                NWDDataInspector.InspectNetWorkedData(Data, true, true);
-                ParentDocument.SetData(Data);
-            }
-            // add custom draw in information rect
-            // TODO : Change to remove invoke!
-            Type tType = Data.GetType();
-            var tMethodInfo = tType.GetMethod("AddOnNodeDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect, ParentDocument.ReGroupProperties });
-            }
-            // add connection
-            foreach (NWDNodeConnection tConnection in ConnectionList)
-            {
-                GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
-                tBox.alignment = TextAnchor.MiddleLeft;
-                Type tTypeProperty = tConnection.Property.GetValue(Data, null).GetType();
-                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-
-                if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
+                // Debug.Log("NWDNodeCard DrawCard() rect = " + CardRect.ToString());
+                GUI.Box(CardRect, " ", EditorStyles.helpBox);
+                if (NWDDataInspector.ObjectInEdition() == Data)
                 {
-                    NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
-                    if (tSubCard != null)
-                    {
-                        // TODO : Change to remove invoke!
-                        // draw properties distinct
-                        GUI.Box(tConnection.Rectangle, string.Empty, tBox);
-                        // add special infos in this property draw
-                        NWDTypeClass tSubData = tSubCard.Data;
-                        Type tSubType = tSubData.GetType();
-                        var tSubMethodInfo = tSubType.GetMethod("AddOnNodePropertyDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                        //MethodInfo tSubMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_AddOnNodePropertyDraw);
-
-                        if (tSubMethodInfo != null)
-                        {
-                            tSubMethodInfo.Invoke(tSubData, new object[] { tConnection.PropertyName, new Rect(tConnection.Rectangle.x+NWDConstants.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height) });
-                        }
-                        // Add button to edit this data
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
-                        {
-                            NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
-                        }
-                        // add button to center node on this data
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
-                        {
-                            NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
-                            ParentDocument.SetData(tSubCard.Data);
-                        }
-                    }
-                    else
-                    {
-                        GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
-                    }
+                    Color tOldColor = GUI.backgroundColor;
+                    GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
+                    GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
+                    GUI.backgroundColor = tOldColor;
                 }
-                else
+                if (ClassTexture != null)
                 {
-                    // draw properties group
-                    GUI.Box(tConnection.Rectangle, tConnection.PropertyName, tBox);
+                    GUI.DrawTexture(IconRect, ClassTexture);
                 }
 
-                if (tConnection.AddButton == true)
-                {
+                GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
+                GUI.Label(CardReferenceRect, ReferenceString);
+                GUI.Label(CardInternalKeyRect, Data.InternalKeyValue());
 
-                    if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDConstants.kEditWidth - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                // Draw informations box with the color of informations
+                Color tOldBackgroundColor = GUI.backgroundColor;
+                GUI.backgroundColor = InformationsColor;
+                GUI.Box(InfoRect, " ", EditorStyles.helpBox);
+                GUI.backgroundColor = tOldBackgroundColor;
+                // add button to edit data
+                if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditIconSide - NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tEditContentIcon, NWDConstants.StyleMiniButton))
+                {
+                    NWDDataInspector.InspectNetWorkedData(Data, true, true);
+                }
+                // add button to center node on this data
+                if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditIconSide * 2 - NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNodeContentIcon, NWDConstants.StyleMiniButton))
+                {
+                    NWDDataInspector.InspectNetWorkedData(Data, true, true);
+                    ParentDocument.SetData(Data);
+                }
+             
+               Data.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
+              
+                foreach (NWDNodeConnection tConnection in ConnectionList)
+                {
+                    GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+                    tBox.alignment = TextAnchor.MiddleLeft;
+                    Type tTypeProperty = tConnection.Property.GetValue(Data, null).GetType();
+
+                    if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
                     {
-                        // TODO : Change to remove invoke!
-                        //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
-                        // call the method EditorAddNewObject();
-                        // TODO : Change to remove invoke!
-                        //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
-                        var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                        if (tMethodProperty != null)
+                        NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
+                        if (tSubCard != null)
                         {
-                            tMethodProperty.Invoke(tConnection.Property.GetValue(Data, null), null);
-                            // Ok I update the data
-                            Type tDataType = Data.GetType();
-                            // TODO : Change to remove invoke!
-                            var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                            if (tDataTypeUpdate != null)
+                            // draw properties distinct
+                            GUI.Box(tConnection.Rectangle, string.Empty, tBox);
+                            // add special infos in this property draw
+                            NWDTypeClass tSubData = tSubCard.Data;
+                            tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDConstants.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height));
+                            // Add button to edit this data
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditIconSide + NWDConstants.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tEditContentIcon, NWDConstants.StyleMiniButton))
                             {
-                                //Debug.Log("UpdateMe is Ok ");
-                                tDataTypeUpdate.Invoke(Data, new object[] { true });
-                                ParentDocument.ReAnalyze();
+                                NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
+                            }
+                            // add button to center node on this data
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditIconSide + NWDConstants.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNodeContentIcon, NWDConstants.StyleMiniButton))
+                            {
+                                NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
+                                ParentDocument.SetData(tSubCard.Data);
                             }
                         }
                         else
                         {
-                            //Debug.Log("NO tMethodProperty ");
+                            GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
+                        }
+                    }
+                    else
+                    {
+                        // draw properties group
+                        GUI.Box(tConnection.Rectangle, tConnection.PropertyName, tBox);
+                    }
+
+                    if (tConnection.AddButton == true)
+                    {
+
+                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDConstants.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNewContentIcon, NWDConstants.StyleMiniButton))
+                        {
+                            // TODO : Change to remove invoke!
+                            //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
+                            // call the method EditorAddNewObject();
+                            // TODO : Change to remove invoke!
+                            //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
+                            var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                            if (tMethodProperty != null)
+                            {
+                                tMethodProperty.Invoke(tConnection.Property.GetValue(Data, null), null);
+                                // Ok I update the data
+                                Type tDataType = Data.GetType();
+                                // TODO : Change to remove invoke!
+                                var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                if (tDataTypeUpdate != null)
+                                {
+                                    //Debug.Log("UpdateMe is Ok ");
+                                    tDataTypeUpdate.Invoke(Data, new object[] { true });
+                                    ParentDocument.ReAnalyze();
+                                }
+                            }
+                            else
+                            {
+                                //Debug.Log("NO tMethodProperty ");
+                            }
                         }
                     }
                 }

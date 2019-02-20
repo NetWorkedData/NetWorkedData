@@ -1,19 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Reflection;
 using UnityEditor;
-using System.Text;
-using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -81,6 +79,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDDatasSelectorWindow SelectorWindow;
         //-------------------------------------------------------------------------------------------------------------
+        public static float kZoom = 1.0F;
+        public static Dictionary<int, string> ControllerResult = new Dictionary<int, string>();
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void OnGUI()
         {
         }
@@ -90,12 +91,9 @@ namespace NetWorkedData
     public class NWDDatasSelector<K> : NWDDatasSelectorBasis where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        static float kZoom = 1.0F;
-        //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper Helper;
         List<int> TagIntList = new List<int>();
         List<string> TagStringList = new List<string>();
-        static Dictionary<int, string> ControllerResult = new Dictionary<int, string>();
         //-------------------------------------------------------------------------------------------------------------
         public string InternalResearch = "";
         public string DescriptionResearch = "";

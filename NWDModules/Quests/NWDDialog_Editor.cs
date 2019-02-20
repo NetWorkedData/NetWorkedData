@@ -200,7 +200,6 @@ namespace NetWorkedData
                     GUI.backgroundColor = tBackgroundColor;
                 }
             }
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)

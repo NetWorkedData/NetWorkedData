@@ -53,6 +53,7 @@ namespace NetWorkedData
         public static float kConWidth = 42.0f;
         public static float kIconWidth = 36.0f;
         public static float kEditWidth = 36.0f;
+        public static float kEditIconSide = 16.0f;
         public static float kEditWidthHalf = 8.0f;
         public static float kEditWidthMini = 12.0f;
         public static float kEditWidthMiniHalf = 6.0f;
@@ -650,9 +651,13 @@ namespace NetWorkedData
 
         public static GUIStyle tMiniLabelStyleCenter;
 
+        public static GUIContent tNodeContentIcon;
         public static GUIContent tEditContent;
+        public static GUIContent tEditContentIcon;
         public static GUIContent tNewContent;
+        public static GUIContent tNewContentIcon;
         public static GUIContent tCleanContent;
+        public static GUIContent tCleanContentIcon;
         public static GUIContent tUpContent;
         public static GUIContent tDownContent;
         //-------------------------------------------------------------------------------------------------------------
@@ -674,9 +679,13 @@ namespace NetWorkedData
 
                 //tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
 
+                tNodeContentIcon = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
                 tEditContent = new GUIContent("edit");
+                tEditContentIcon = new GUIContent(NWDConstants.kImageTabReduce, "edit");
                 tNewContent = new GUIContent("new");
+                tNewContentIcon = new GUIContent(NWDConstants.kImageNew, "new");
                 tCleanContent = new GUIContent("clean");
+                tCleanContentIcon = new GUIContent(NWDConstants.kImageAction, "clean");
                 tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
                 tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
 
@@ -720,9 +729,13 @@ namespace NetWorkedData
                 kDatasSelectorRowStyle.border = new RectOffset(2, 2, 2, 2);
                 kDatasSelectorRowStyle.fixedHeight = kDatasSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-
                 kDatasSelectorRowErrorStyle = new GUIStyle(kDatasSelectorRowStyle);
                 kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
+
+
+
+
+
 
                 kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
                 kSelectorTileStyle.fontSize = 14;

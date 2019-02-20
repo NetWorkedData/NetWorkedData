@@ -22,19 +22,25 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_NodeCardAnalyze)]
-        public void NodeCardAnalyze(NWDNodeCard sCard)
+        //[NWDAliasMethod(NWDConstants.M_NodeCardAnalyze)]
+        public override void  NodeCardAnalyze(NWDNodeCard sCard)
         {
-            //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
+            //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + BasisHelper().ClassNamePHP);
             // insert informations
             sCard.ClassTexture = BasisHelper().TextureOfClass();
             sCard.ReferenceString = Reference;
             sCard.TypeString = BasisHelper().ClassNamePHP;
             sCard.InternalKeyString = InternalKey;
+
             sCard.Width = AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth());
+            //sCard.Width = 250.0F;
             sCard.ParentDocument.SetWidth(AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth()));
+
             sCard.InformationsHeight = AddOnNodeDrawHeight(sCard.Width);
+            //sCard.InformationsHeight = 250.0F;
             sCard.ParentDocument.SetInformationsHeight(sCard.InformationsHeight);
+
+
             sCard.InformationsColor = AddOnNodeColor();
             // data must be analyzed
             // data is in a preview card?
@@ -98,7 +104,7 @@ namespace NetWorkedData
                                     if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
                                     {
                                         // TODO : Change to remove invoke!
-                                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeOfThis, NWDConstants.M_EditorGetObjects);
+                                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_EditorGetObjects);
                                         //var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                                         if (tMethodInfo != null)
                                         {
@@ -165,34 +171,31 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddOnNodeDrawWidth(float sDocumentWidth)
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
         {
             return 250.0f;
-            //return sDocumentWidth;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddOnNodeDrawHeight(float sCardWidth)
+        public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             return 130.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
             GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
+        public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
         {
             GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
             tBox.alignment = TextAnchor.MiddleLeft;
             GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
-
             //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
             //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
-
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual Color AddOnNodeColor()
+        public override Color AddOnNodeColor()
         {
             return Color.white;
         }
