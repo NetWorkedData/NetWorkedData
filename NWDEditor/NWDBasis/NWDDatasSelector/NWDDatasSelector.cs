@@ -21,8 +21,10 @@ namespace NetWorkedData
     public class NWDDatasSelectorWindow : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public int ID=-1; 
         GUIContent IconAndTitle;
         public Vector2 ScrollPosition;
+        public bool ScrollInit = false;
         public NWDDatasSelectorBasis SelectorBasis;
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
@@ -51,13 +53,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnLostFocus()
         {
-            //if (SelectorBasis != null)
-            //{
-            //    if (SelectorBasis.SelectedBlock != null)
-            //    {
-            //        SelectorBasis.SelectedBlock(null);
-            //    }
-            //}
+            if (SelectorBasis != null)
+            {
+                if (SelectorBasis.SelectedBlock != null)
+                {
+                    SelectorBasis.SelectedBlock(ID, false, false, null);
+                }
+            }
             Close();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -74,7 +76,7 @@ namespace NetWorkedData
     public class NWDDatasSelectorBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void NWDDatasSelectorBlock(NWDTypeClass sSelection);
+        public delegate void NWDDatasSelectorBlock(int sID, bool sChange, bool sNone, NWDTypeClass sSelection);
         public NWDDatasSelectorBlock SelectedBlock;
         //-------------------------------------------------------------------------------------------------------------
         public NWDDatasSelectorWindow SelectorWindow;
@@ -93,25 +95,98 @@ namespace NetWorkedData
         public NWDBasisHelper Helper;
         List<int> TagIntList = new List<int>();
         List<string> TagStringList = new List<string>();
+        static Dictionary<int, string> ControllerResult = new Dictionary<int, string>();
         //-------------------------------------------------------------------------------------------------------------
         public string InternalResearch = "";
         public string DescriptionResearch = "";
         public NWDBasisTag Tag;
         List<K> ResultList = new List<K>();
+        string ActualSelection;
+        static public string Field(Rect sRect, GUIContent sContent, string sReference)
+        {
+            string tReference = sReference;
+            int tID = GUIUtility.GetControlID(sContent, FocusType.Keyboard, sRect);
+            //Debug.Log("Field with selection : " + sReference + " control id : " + tID.ToString());
+
+            Event tEvent = Event.current;
+            EventType tEventType = tEvent.type;
+            if (tEventType != EventType.Repaint)
+            {
+                if (ControllerResult.ContainsKey(tID))
+                {
+                    tReference = ControllerResult[tID];
+                    ControllerResult.Remove(tID);
+                    GUI.changed = true;
+                }
+            }
+            Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
+            tEntitlement = EditorGUI.IndentedRect(tEntitlement);
+            GUI.Label(tEntitlement, sContent, EditorStyles.label);
+
+            GUIContent sDataLabel = NWDBasis<K>.GetGuiContent(sReference);
+            if (GUI.Button(new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width- EditorGUIUtility.labelWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), sDataLabel, NWDConstants.kDatasSelectorRowStyle))
+            {
+                ShowNow(tID, "", "", NWDBasisTag.NoTag, delegate (int sID, bool sChange, bool sNone, NWDTypeClass sSelection)
+                {
+                    if (sChange == true)
+                    {
+                        string bResult = string.Empty;
+                        if (sNone == true)
+                        {
+                            bResult = string.Empty;
+                        }
+                        else
+                        {
+                            if (sSelection != null)
+                            {
+                                bResult = sSelection.ReferenceValue();
+                            }
+                        }
+                        if (ControllerResult.ContainsKey(sID))
+                        {
+                            ControllerResult.Remove(sID);
+                        }
+                        ControllerResult.Add(sID, bResult);
+                    }
+                }, sReference);
+            }
+            return tReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public void ShowNow(int sID, string sInitialInternalResearch = "",
+                                string sInitialDescriptionResearch = "",
+                                NWDBasisTag sTag = NWDBasisTag.NoTag,
+                                NWDDatasSelectorBlock sSelectedBlock = null,
+                                string sSelection = "")
+        {
+            NWDDatasSelector<K> rReturn = new NWDDatasSelector<K>();
+            rReturn.Show(sID, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+        }
         //-------------------------------------------------------------------------------------------------------------
         static public void ShowNow(string sInitialInternalResearch = "",
                                 string sInitialDescriptionResearch = "",
                                 NWDBasisTag sTag = NWDBasisTag.NoTag,
-                                NWDDatasSelectorBlock sSelectedBlock = null)
+                                NWDDatasSelectorBlock sSelectedBlock = null,
+                                string sSelection = "")
         {
             NWDDatasSelector<K> rReturn = new NWDDatasSelector<K>();
-            rReturn.Show(sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock);
+            rReturn.Show(-2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Show(string sInitialInternalResearch = "",
                             string sInitialDescriptionResearch = "",
                             NWDBasisTag sTag = NWDBasisTag.NoTag,
-                            NWDDatasSelectorBlock sSelectedBlock = null)
+                            NWDDatasSelectorBlock sSelectedBlock = null,
+                            string sSelection = "")
+        {
+            Show(-2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+            public void Show(int sID, string sInitialInternalResearch = "",
+                            string sInitialDescriptionResearch = "",
+                            NWDBasisTag sTag = NWDBasisTag.NoTag,
+                            NWDDatasSelectorBlock sSelectedBlock = null,
+                            string sSelection = "")
         {
             Initialization();
             Helper = NWDBasis<K>.BasisHelper();
@@ -119,10 +194,20 @@ namespace NetWorkedData
             DescriptionResearch = sInitialDescriptionResearch;
             Tag = sTag;
             SelectedBlock = sSelectedBlock;
+            if (sSelection != null)
+            {
+                ActualSelection = sSelection;
+            }
+            else
+            {
+                ActualSelection = "";
+            }
             Filter();
             SelectorWindow = ScriptableObject.CreateInstance(typeof(NWDDatasSelectorWindow)) as NWDDatasSelectorWindow;
             //SelectorWindow = EditorWindow.GetWindow(typeof(NWDDatasSelectorWindow)) as NWDDatasSelectorWindow;
             SelectorWindow.SelectorBasis = this;
+            SelectorWindow.ScrollInit = false;
+            SelectorWindow.ID = sID;
             SelectorWindow.ShowUtility();
             SelectorWindow.Focus();
         }
@@ -185,8 +270,8 @@ namespace NetWorkedData
         public override void OnGUI()
         {
             NWDConstants.LoadStyles();
-            // TODO : create filter
-
+            Vector2 tSelectionVector = SelectorWindow.ScrollPosition;
+            //Debug.Log("OnGUI with selection : " + ActualSelection);
             string tNewInternalResearch = EditorGUILayout.TextField("Internal filter", InternalResearch);
             if (tNewInternalResearch != InternalResearch)
             {
@@ -207,12 +292,12 @@ namespace NetWorkedData
                 Tag = tNewTag;
                 Filter();
             }
-            float tNextZoom = EditorGUILayout.Slider("Zoom",kZoom, 1.0F, 2.0F);
+            float tNextZoom = EditorGUILayout.Slider("Zoom", kZoom, 1.0F, 2.0F);
             if (Math.Abs(kZoom - tNextZoom) > 0.001F)
             {
                 kZoom = tNextZoom;
-                NWDConstants.kSelectorTileStyle.fixedHeight = kZoom*100;
-                NWDConstants.kSelectorTileStyle.fixedWidth = kZoom*100;
+                NWDConstants.kSelectorTileStyle.fixedHeight = kZoom * 100;
+                NWDConstants.kSelectorTileStyle.fixedWidth = kZoom * 100;
             }
 
             NWDConstants.GUILayoutSeparator();
@@ -224,18 +309,29 @@ namespace NetWorkedData
                 {
                     if (SelectedBlock != null)
                     {
-                        SelectedBlock(null);
+                        SelectedBlock(SelectorWindow.ID, true, true, null);
                     }
                     SelectorWindow.Close();
                 }
                 foreach (K tItem in ResultList)
                 {
                     GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
-                    if (GUILayout.Button(Content, NWDConstants.kSelectorRowStyle))
+                    GUIStyle tSytle = NWDConstants.kSelectorRowStyle;
+                    if (ActualSelection == tItem.ReferenceValue())
+                    {
+                        tSytle = NWDConstants.kSelectorRowDarkStyle;
+                        if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
+                        {
+                        Rect tLastRect = GUILayoutUtility.GetLastRect();
+                        tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
+                        //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
+                        }
+                    }
+                    if (GUILayout.Button(Content, tSytle))
                     {
                         if (SelectedBlock != null)
                         {
-                            SelectedBlock(tItem);
+                            SelectedBlock(SelectorWindow.ID, true, false, tItem);
                         }
                         SelectorWindow.Close();
                     }
@@ -250,7 +346,7 @@ namespace NetWorkedData
                 {
                     if (SelectedBlock != null)
                     {
-                        SelectedBlock(null);
+                        SelectedBlock(SelectorWindow.ID, true, true, null);
                     }
                     SelectorWindow.Close();
                 }
@@ -265,11 +361,22 @@ namespace NetWorkedData
                         GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
                     }
                     GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
-                    if (GUILayout.Button(Content, NWDConstants.kSelectorTileStyle))
+                    GUIStyle tSytle = NWDConstants.kSelectorTileStyle;
+                    if (ActualSelection == tItem.ReferenceValue())
+                    {
+                        tSytle = NWDConstants.kSelectorTileDarkStyle;
+                        if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
+                        {
+                        Rect tLastRect = GUILayoutUtility.GetLastRect();
+                        tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
+                        //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
+                        }
+                    }
+                    if (GUILayout.Button(Content, tSytle))
                     {
                         if (SelectedBlock != null)
                         {
-                            SelectedBlock(tItem);
+                            SelectedBlock(SelectorWindow.ID, true, false, tItem);
                         }
                         SelectorWindow.Close();
                     }
@@ -277,6 +384,13 @@ namespace NetWorkedData
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndScrollView();
+
+            if (SelectorWindow.ScrollInit == false&& Event.current.type == EventType.Repaint)
+            {
+                SelectorWindow.ScrollInit = true;
+                SelectorWindow.ScrollPosition = tSelectionVector;
+                //Debug.Log("SelectorWindow.ScrollPosition init at " + SelectorWindow.ScrollPosition.ToString());
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

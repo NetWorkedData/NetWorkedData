@@ -349,7 +349,7 @@ namespace NetWorkedData
                             string tValue = Property.GetValue(sObject, null) as string;
                             if (string.IsNullOrEmpty(tValue) == false)
                             {
-                                tValue = NWDToolbox.TextUnprotect(tValue);    
+                                tValue = NWDToolbox.TextUnprotect(tValue);
                             }
                             string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tH), Content(), tValue, NWDConstants.tTextFieldStyle);
                             tY += tH;
@@ -757,6 +757,21 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public static GUIContent GetGuiContent(string sReference)
+        {
+            GUIContent rReturn = null;
+            if (BasisHelper().DatasByReference.ContainsKey(sReference))
+            {
+                NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
+                rReturn = new GUIContent(tObject.InternalKey, tObject.GetPreviewTexture2D(), tObject.Reference);
+            }
+            else
+            {
+                rReturn = new GUIContent("none");
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight()
         {
