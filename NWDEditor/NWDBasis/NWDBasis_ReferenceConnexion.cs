@@ -294,7 +294,7 @@ namespace NetWorkedData
                 //}
 
                 tFuturValue = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), tLabelContent, tValue);
-
+                tY += NWDConstants.kDatasSelectorRowStyle.fixedHeight + NWDConstants.kFieldMarge;
                 NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tFuturValue);
                 if (tValue != tFuturValue)
                 {
