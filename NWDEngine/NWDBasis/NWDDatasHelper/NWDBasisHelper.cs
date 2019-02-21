@@ -159,6 +159,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
+        public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>();
 
         //-------------------------------------------------------------------------------------------------------------
         public static void Declare(Type sType, bool sClassSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
@@ -173,6 +174,7 @@ namespace NetWorkedData
                 NWDBasisHelper tTypeInfos = null;
                 if (TypesDictionary.ContainsKey(sType))
                 {
+                    Debug.LogWarning(sType.Name + " allready in TypesDictionary");
                     tTypeInfos = TypesDictionary[sType];
                 }
                 else
@@ -192,6 +194,14 @@ namespace NetWorkedData
                 TableMapping tTableMapping = new TableMapping(sType);
                 string rClassName = tTableMapping.TableName;
                 tTypeInfos.ClassNamePHP = rClassName;
+                if (StringsDictionary.ContainsKey(rClassName))
+                {
+                    Debug.LogWarning(rClassName+ " allready in StringsDictionary!");
+                }
+                else
+                {
+                    StringsDictionary.Add(rClassName, tTypeInfos);
+                }
                 //BTBBenchmark.Finish("Declare() step B");
                 //BTBBenchmark.Start("Declare() step C");
                 // insert attributs infos
@@ -291,6 +301,16 @@ namespace NetWorkedData
                     tTypeInfos = TypesDictionary[sType];
                 }
             }
+            return tTypeInfos;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDBasisHelper FindTypeInfos(string sTypeName)
+        {
+            NWDBasisHelper tTypeInfos = null;
+                if (StringsDictionary.ContainsKey(sTypeName))
+                {
+                    tTypeInfos = StringsDictionary[sTypeName];
+                }
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------

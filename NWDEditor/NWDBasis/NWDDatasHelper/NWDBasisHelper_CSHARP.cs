@@ -35,50 +35,51 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine("public void " + ClassNamePHP + NWD.K_LOADER + "()");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("NWDBasisHelper tDatas = null;");
-            rReturn.AppendLine("tDatas = NWDBasisHelper.FindTypeInfos(typeof(" + ClassNamePHP + "));");
-            rReturn.AppendLine("if (tDatas!=null)");
+            rReturn.AppendLine("NWDBasisHelper tBasisHelper = null;");
+            rReturn.AppendLine("// = NWDBasisHelper.FindTypeInfos(typeof(" + ClassNamePHP + "));");
+            rReturn.AppendLine("tBasisHelper = NWDBasisHelper.FindTypeInfos(\""+ ClassNamePHP + "\");");
+            rReturn.AppendLine("if (tBasisHelper!=null)");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("tDatas.SaltStart = \"" + SaltStart.Replace("}", "").Replace("{", "") + "\";");
-            rReturn.AppendLine("tDatas.SaltEnd = \"" + SaltEnd.Replace("}", "").Replace("{", "") + "\";");
-            rReturn.AppendLine("tDatas.SaltValid = true;"); // salt was reccord because loaded :-p
-            rReturn.AppendLine("tDatas.LastWebBuild = " + LastWebBuild + ";");
-            rReturn.AppendLine("tDatas.WebModelPropertiesOrder.Clear();");
+            rReturn.AppendLine("tBasisHelper.SaltStart = \"" + SaltStart.Replace("}", "").Replace("{", "") + "\";");
+            rReturn.AppendLine("tBasisHelper.SaltEnd = \"" + SaltEnd.Replace("}", "").Replace("{", "") + "\";");
+            rReturn.AppendLine("tBasisHelper.SaltValid = true;"); // salt was reccord because loaded :-p
+            rReturn.AppendLine("tBasisHelper.LastWebBuild = " + LastWebBuild + ";");
+            rReturn.AppendLine("tBasisHelper.WebModelPropertiesOrder.Clear();");
             foreach (KeyValuePair<int, List<string>> tKeyValue in WebModelPropertiesOrder.OrderBy(x => x.Key))
             {
                 if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (tApp.WSList[tKeyValue.Key] == true)
                     {
-                        rReturn.AppendLine("tDatas.WebModelPropertiesOrder.Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
+                        rReturn.AppendLine("tBasisHelper.WebModelPropertiesOrder.Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
                     }
                 }
             }
-            rReturn.AppendLine("tDatas.WebServiceWebModel.Clear();");
+            rReturn.AppendLine("tBasisHelper.WebServiceWebModel.Clear();");
             foreach (KeyValuePair<int, int> tKeyValue in WebServiceWebModel.OrderBy(x => x.Key))
             {
                 if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (tApp.WSList[tKeyValue.Key] == true)
                     {
-                        rReturn.AppendLine("tDatas.WebServiceWebModel.Add(" + tKeyValue.Key + ", " + tKeyValue.Value + ");");
+                        rReturn.AppendLine("tBasisHelper.WebServiceWebModel.Add(" + tKeyValue.Key + ", " + tKeyValue.Value + ");");
                     }
                 }
             }
             rReturn.AppendLine("#if UNITY_EDITOR");
-            rReturn.AppendLine("tDatas.WebModelSQLOrder.Clear();");
+            rReturn.AppendLine("tBasisHelper.WebModelSQLOrder.Clear();");
             foreach (KeyValuePair<int, string> tKeyValue in WebModelSQLOrder.OrderBy(x => x.Key))
             {
                 if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (tApp.WSList[tKeyValue.Key] == true)
                     {
-                        rReturn.AppendLine("tDatas.WebModelSQLOrder.Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+                        rReturn.AppendLine("tBasisHelper.WebModelSQLOrder.Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
                     }
                 }
             }
-            rReturn.AppendLine("tDatas.WebModelChanged = " + ClassNamePHP + ".ModelChanged();");
-            rReturn.AppendLine("tDatas.WebModelDegraded = " + ClassNamePHP + ".ModelDegraded();");
+            rReturn.AppendLine("tBasisHelper.WebModelChanged = " + ClassNamePHP + ".ModelChanged();");
+            rReturn.AppendLine("tBasisHelper.WebModelDegraded = " + ClassNamePHP + ".ModelDegraded();");
             rReturn.AppendLine("#endif");
             rReturn.AppendLine("}");
             rReturn.AppendLine("}");
