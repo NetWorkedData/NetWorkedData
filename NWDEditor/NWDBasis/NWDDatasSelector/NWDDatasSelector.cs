@@ -1,19 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Reflection;
 using UnityEditor;
-using System.Text;
-using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -21,7 +19,7 @@ namespace NetWorkedData
     public class NWDDatasSelectorWindow : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        public int ID=-1; 
+        public int ID = -1;
         GUIContent IconAndTitle;
         public Vector2 ScrollPosition;
         public bool ScrollInit = false;
@@ -81,6 +79,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDDatasSelectorWindow SelectorWindow;
         //-------------------------------------------------------------------------------------------------------------
+        public static float kZoom = 1.0F;
+        public static Dictionary<int, string> ControllerResult = new Dictionary<int, string>();
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void OnGUI()
         {
         }
@@ -90,19 +91,16 @@ namespace NetWorkedData
     public class NWDDatasSelector<K> : NWDDatasSelectorBasis where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        static float kZoom = 1.0F;
-        //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper Helper;
         List<int> TagIntList = new List<int>();
         List<string> TagStringList = new List<string>();
-        static Dictionary<int, string> ControllerResult = new Dictionary<int, string>();
         //-------------------------------------------------------------------------------------------------------------
         public string InternalResearch = "";
         public string DescriptionResearch = "";
         public NWDBasisTag Tag;
         List<K> ResultList = new List<K>();
         string ActualSelection;
-        static public string Field(Rect sRect, GUIContent sContent, string sReference)
+        static public string Field(Rect sRect, GUIContent sContent, string sReference, float sInsertion = 0)
         {
             string tReference = sReference;
             int tID = GUIUtility.GetControlID(sContent, FocusType.Keyboard, sRect);
@@ -120,35 +118,79 @@ namespace NetWorkedData
                 }
             }
             Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
+            Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDConstants.kEditWidth - NWDConstants.kFieldMarge - sInsertion, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
+            Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDConstants.kEditWidth, sRect.position.y, NWDConstants.kEditWidth, NWDConstants.kMiniButtonStyle.fixedHeight);
+
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
             GUI.Label(tEntitlement, sContent, EditorStyles.label);
 
             GUIContent sDataLabel = NWDBasis<K>.GetGuiContent(sReference);
-            if (GUI.Button(new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width- EditorGUIUtility.labelWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), sDataLabel, NWDConstants.kDatasSelectorRowStyle))
+            if (string.IsNullOrEmpty(sReference) == false && NWDBasis<K>.GetDataByReference(sReference) == null)
             {
-                ShowNow(tID, "", "", NWDBasisTag.NoTag, delegate (int sID, bool sChange, bool sNone, NWDTypeClass sSelection)
+                GUI.Label(tField, sDataLabel, NWDConstants.kDatasSelectorRowErrorStyle);
+
+                NWDConstants.GUIRedButtonBegin();
+                if (GUI.Button(tEditRect, NWDConstants.tCleanContent, NWDConstants.kMiniButtonStyle))
                 {
-                    if (sChange == true)
+                    if (ControllerResult.ContainsKey(tID))
                     {
-                        string bResult = string.Empty;
-                        if (sNone == true)
-                        {
-                            bResult = string.Empty;
-                        }
-                        else
-                        {
-                            if (sSelection != null)
-                            {
-                                bResult = sSelection.ReferenceValue();
-                            }
-                        }
-                        if (ControllerResult.ContainsKey(sID))
-                        {
-                            ControllerResult.Remove(sID);
-                        }
-                        ControllerResult.Add(sID, bResult);
+                        ControllerResult.Remove(tID);
                     }
-                }, sReference);
+                    ControllerResult.Add(tID, string.Empty);
+                }
+                NWDConstants.GUIRedButtonEnd();
+            }
+            else
+            {
+                if (GUI.Button(tField, sDataLabel, NWDConstants.kDatasSelectorRowStyle))
+                {
+                    ShowNow(tID, "", "", NWDBasisTag.NoTag, delegate (int sID, bool sChange, bool sNone, NWDTypeClass sSelection)
+                    {
+                        if (sChange == true)
+                        {
+                            string bResult = string.Empty;
+                            if (sNone == true)
+                            {
+                                bResult = string.Empty;
+                            }
+                            else
+                            {
+                                if (sSelection != null)
+                                {
+                                    bResult = sSelection.ReferenceValue();
+                                }
+                            }
+                            if (ControllerResult.ContainsKey(sID))
+                            {
+                                ControllerResult.Remove(sID);
+                            }
+                            ControllerResult.Add(sID, bResult);
+                        }
+                    }, sReference);
+                }
+                if (string.IsNullOrEmpty(sReference) == false)
+                {
+
+                    if (GUI.Button(tEditRect, NWDConstants.tEditContent, NWDConstants.kMiniButtonStyle))
+                    {
+                        NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(sReference), false);
+                    }
+                }
+                else
+                {
+                    if (GUI.Button(tEditRect, NWDConstants.tNewContent, NWDConstants.kMiniButtonStyle))
+                    {
+                        NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
+                        if (ControllerResult.ContainsKey(tID))
+                        {
+                            ControllerResult.Remove(tID);
+                        }
+                        ControllerResult.Add(tID, tNewObject.Reference);
+                        NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+
+                        //NWDDataManager.SharedInstance().RepaintWindowsInManager(tNewObject.GetType());
+                    }
+                }
             }
             return tReference;
         }
@@ -182,11 +224,11 @@ namespace NetWorkedData
             Show(-2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
         }
         //-------------------------------------------------------------------------------------------------------------
-            public void Show(int sID, string sInitialInternalResearch = "",
-                            string sInitialDescriptionResearch = "",
-                            NWDBasisTag sTag = NWDBasisTag.NoTag,
-                            NWDDatasSelectorBlock sSelectedBlock = null,
-                            string sSelection = "")
+        public void Show(int sID, string sInitialInternalResearch = "",
+                        string sInitialDescriptionResearch = "",
+                        NWDBasisTag sTag = NWDBasisTag.NoTag,
+                        NWDDatasSelectorBlock sSelectedBlock = null,
+                        string sSelection = "")
         {
             Initialization();
             Helper = NWDBasis<K>.BasisHelper();
@@ -322,9 +364,9 @@ namespace NetWorkedData
                         tSytle = NWDConstants.kSelectorRowDarkStyle;
                         if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
                         {
-                        Rect tLastRect = GUILayoutUtility.GetLastRect();
-                        tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
-                        //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
+                            Rect tLastRect = GUILayoutUtility.GetLastRect();
+                            tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
+                            //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
                         }
                     }
                     if (GUILayout.Button(Content, tSytle))
@@ -367,9 +409,9 @@ namespace NetWorkedData
                         tSytle = NWDConstants.kSelectorTileDarkStyle;
                         if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
                         {
-                        Rect tLastRect = GUILayoutUtility.GetLastRect();
-                        tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
-                        //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
+                            Rect tLastRect = GUILayoutUtility.GetLastRect();
+                            tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
+                            //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
                         }
                     }
                     if (GUILayout.Button(Content, tSytle))
@@ -385,7 +427,7 @@ namespace NetWorkedData
             }
             GUILayout.EndScrollView();
 
-            if (SelectorWindow.ScrollInit == false&& Event.current.type == EventType.Repaint)
+            if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
             {
                 SelectorWindow.ScrollInit = true;
                 SelectorWindow.ScrollPosition = tSelectionVector;

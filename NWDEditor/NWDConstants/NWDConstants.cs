@@ -52,13 +52,15 @@ namespace NetWorkedData
         public static float kIntWidth = 36.0f;
         public static float kConWidth = 42.0f;
         public static float kIconWidth = 36.0f;
-        public static float kEditWidth = 16.0f;
+        public static float kEditWidth = 36.0f;
+        public static float kEditIconSide = 16.0f;
         public static float kEditWidthHalf = 8.0f;
         public static float kEditWidthMini = 12.0f;
         public static float kEditWidthMiniHalf = 6.0f;
         public static float kLangWidth = 50.0f;
         public static float kEnumWidth = 70.0f;
         public static float kConnectionIndent = 10.0f;
+        public static float kUpDownWidth = 18.0f;
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
         public const string K_SYNC_ALERT_TITLE = "ALERT PRODUCTION";
@@ -615,6 +617,7 @@ namespace NetWorkedData
         static public GUIStyle kSelectorRowDarkStyle;
 
         static public GUIStyle kDatasSelectorRowStyle;
+        static public GUIStyle kDatasSelectorRowErrorStyle;
 
         // for Textfield in NWD inspector
         public static GUIStyle tLabelStyle;
@@ -647,6 +650,16 @@ namespace NetWorkedData
         public static GUIStyle tTitleLabelStyle;
 
         public static GUIStyle tMiniLabelStyleCenter;
+
+        public static GUIContent tNodeContentIcon;
+        public static GUIContent tEditContent;
+        public static GUIContent tEditContentIcon;
+        public static GUIContent tNewContent;
+        public static GUIContent tNewContentIcon;
+        public static GUIContent tCleanContent;
+        public static GUIContent tCleanContentIcon;
+        public static GUIContent tUpContent;
+        public static GUIContent tDownContent;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -661,6 +674,20 @@ namespace NetWorkedData
             //Debug.Log ("STATIC STEConstants LoadStyles()");
             if (StyleLoaded == false)
             {
+
+                //tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+
+                //tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
+
+                tNodeContentIcon = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
+                tEditContent = new GUIContent("edit");
+                tEditContentIcon = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+                tNewContent = new GUIContent("new");
+                tNewContentIcon = new GUIContent(NWDConstants.kImageNew, "new");
+                tCleanContent = new GUIContent("clean");
+                tCleanContentIcon = new GUIContent(NWDConstants.kImageAction, "clean");
+                tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
+                tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
 
                 StyleLoaded = true;
 
@@ -694,12 +721,20 @@ namespace NetWorkedData
 
 
                 kDatasSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
+                kDatasSelectorRowStyle.richText = true;
                 kDatasSelectorRowStyle.fontSize = 12;
                 kDatasSelectorRowStyle.wordWrap = false;
                 kDatasSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
                 kDatasSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
                 kDatasSelectorRowStyle.border = new RectOffset(2, 2, 2, 2);
                 kDatasSelectorRowStyle.fixedHeight = kDatasSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+                kDatasSelectorRowErrorStyle = new GUIStyle(kDatasSelectorRowStyle);
+                kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
+
+
+
+
 
 
                 kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);

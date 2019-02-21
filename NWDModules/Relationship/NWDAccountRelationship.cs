@@ -47,6 +47,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+
         [NWDGroupEnd]
        
         [NWDGroupStart("Relationship informations", true, true, true)]

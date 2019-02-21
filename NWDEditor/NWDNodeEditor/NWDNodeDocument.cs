@@ -15,6 +15,7 @@ using System.Reflection;
 using System.IO;
 
 using UnityEditor;
+using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -150,6 +151,7 @@ namespace NetWorkedData
         /// </summary>
         public void DrawPreferences()
         {
+            //BTBBenchmark.Start();
             bool tChanged = false;
             float tY = NWDConstants.kFieldMarge;
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
@@ -157,27 +159,27 @@ namespace NetWorkedData
 
             // root object zone
             GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
-                      "Root object", EditorStyles.boldLabel);
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+                      "Root object", NWDConstants.tBoldLabelStyle);
+            tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, NWDConstants.tMiniButtonStyle))
             {
                 NWDNodeEditor.SetObjectInNodeWindow((NWDTypeClass)NWDDataInspector.ShareInstance().mObjectInEdition);
                 ReAnalyze();
             }
-            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
 
             // Analyze object zone
 
             GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
-                      "Analyze object", EditorStyles.boldLabel);
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+                      "Analyze object", NWDConstants.tBoldLabelStyle);
+            tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
 
-            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_SHOW_ALL, EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_ALL, NWDConstants.tMiniButtonStyle))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -187,7 +189,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_MASK_ALL, EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_MASK_ALL, NWDConstants.tMiniButtonStyle))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -198,10 +200,10 @@ namespace NetWorkedData
                 ReAnalyze();
             }
 
-            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
-            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_ANALYZE_ALL, EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_ALL, NWDConstants.tMiniButtonStyle))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -211,7 +213,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_ANALYZE_NONE, EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_NONE, NWDConstants.tMiniButtonStyle))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -221,33 +223,33 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), ReGroupProperties, NWDConstants.K_EDITOR_NODE_GROUP_PROPERTIES);
+            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tToggleStyle.fixedHeight), ReGroupProperties, NWDConstants.K_EDITOR_NODE_GROUP_PROPERTIES);
             if (tReGroupProperties != ReGroupProperties)
             {
                 ReGroupProperties = tReGroupProperties;
                 EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
                 ReAnalyze();
             }
-            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
+            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
             if (tUsedOnlyProperties != UsedOnlyProperties)
             {
                 UsedOnlyProperties = tUsedOnlyProperties;
                 EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
                 ReAnalyze();
             }
-            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
+            tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
 
             // Localization Zone
 
             GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
-                      "Localization test", EditorStyles.boldLabel);
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+                      "Localization test", NWDConstants.tBoldLabelStyle);
+            tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -270,15 +272,9 @@ namespace NetWorkedData
 
 
 
-
-
-
-
-
-
             float tXA = NWDConstants.kFieldMarge;
             float tWidthB = 20.0F;
-            float tWidthA = MargeWidth - NWDConstants.kEditWidth - tWidthB - NWDConstants.kFieldMarge * 4;
+            float tWidthA = MargeWidth - NWDConstants.kEditIconSide - tWidthB - NWDConstants.kFieldMarge * 4;
             float tXB = tWidthA + NWDConstants.kFieldMarge * 2;
             //Debug.Log("MargeWidth = " + MargeWidth.ToString());
             //Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
@@ -287,69 +283,80 @@ namespace NetWorkedData
             //Debug.Log("tXB = " + tXB.ToString());
             //Debug.Log("tWidthB = " + tWidthB.ToString());
 
-            GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), NWDConstants.K_EDITOR_NODE_LIST, EditorStyles.boldLabel);
-            // to show
-            int tCounter = 0;
-            Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
-            foreach (KeyValuePair<string, bool> tKeyValue in tShowTheseClassesCopy)
-            {
-                tCounter++;
-                //Debug.Log("tWidthA loop = " + tWidthA.ToString());
-                bool tNew = EditorGUI.Toggle(new Rect(tXA, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthA, HeightProperty), tKeyValue.Key, tKeyValue.Value);
-                if (ShowTheseClasses[tKeyValue.Key] != tNew)
-                {
-                    tChanged = true;
-                }
-                ShowTheseClasses[tKeyValue.Key] = tNew;
-            }
+            //GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), NWDConstants.K_EDITOR_NODE_LIST, EditorStyles.boldLabel);
 
-            // to analyze...
-            tCounter = 0;
-            Dictionary<string, bool> tAnalyzeTheseClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
-            foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
+            bool tReduce = EditorPrefs.GetBool("NodeSelectClass", true);
+            bool tNextReduce = EditorGUI.Foldout(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), tReduce, NWDConstants.K_EDITOR_NODE_LIST);
+                if (tNextReduce != tReduce)
             {
-                tCounter++;
-                bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), string.Empty, tKeyValue.Value);
-                if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
-                {
-                    tChanged = true;
-                }
-                AnalyzeTheseClasses[tKeyValue.Key] = tNew;
+                EditorPrefs.SetBool("NodeSelectClass", tNextReduce);
             }
-            // to add new...
-            tCounter = 0;
-            Type tTypeToCreate = null;
-            foreach (Type tType in TypeList)
+            if (tNextReduce == true)
             {
-                tCounter++;
-                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-                if (GUI.Button(new Rect(MargeWidth - NWDConstants.kEditWidth - NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                // to show
+                int tCounter = 0;
+                Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
+                foreach (KeyValuePair<string, bool> tKeyValue in tShowTheseClassesCopy)
                 {
-                    tTypeToCreate = tType;
+                    tCounter++;
+                    //Debug.Log("tWidthA loop = " + tWidthA.ToString());
+                    bool tNew = EditorGUI.Toggle(new Rect(tXA, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthA, HeightProperty), tKeyValue.Key, tKeyValue.Value);
+                    if (ShowTheseClasses[tKeyValue.Key] != tNew)
+                    {
+                        tChanged = true;
+                    }
+                    ShowTheseClasses[tKeyValue.Key] = tNew;
                 }
-            }
-            // I must creat new object (prevent collection modified)
-            if (tTypeToCreate != null)
-            {
-            // TODO : Change to remove invoke!
-                //Debug.Log("try NewObject " + tTypeToCreate.Name);
-                var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tDataTypeNewObject != null)
+
+                // to analyze...
+                tCounter = 0;
+                Dictionary<string, bool> tAnalyzeTheseClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
+                foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
                 {
-                    //Debug.Log("NewObject is Ok ");
-                    object tObject = tDataTypeNewObject.Invoke(null, null);
-                    NWDDataInspector.InspectNetWorkedData(tObject);
-                    this.SetData(tObject as NWDTypeClass, true);
+                    tCounter++;
+                    bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), string.Empty, tKeyValue.Value);
+                    if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
+                    {
+                        tChanged = true;
+                    }
+                    AnalyzeTheseClasses[tKeyValue.Key] = tNew;
+                }
+                // to add new...
+                tCounter = 0;
+                Type tTypeToCreate = null;
+                foreach (Type tType in TypeList)
+                {
+                    tCounter++;
+                    //GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
+                    if (GUI.Button(new Rect(MargeWidth - NWDConstants.kEditIconSide - NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNewContentIcon, NWDConstants.StyleMiniButton))
+                    {
+                        tTypeToCreate = tType;
+                    }
+                }
+                // I must creat new object (prevent collection modified)
+                if (tTypeToCreate != null)
+                {
+                    // TODO : Change to remove invoke!
+                    //Debug.Log("try NewObject " + tTypeToCreate.Name);
+                    var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tDataTypeNewObject != null)
+                    {
+                        //Debug.Log("NewObject is Ok ");
+                        object tObject = tDataTypeNewObject.Invoke(null, null);
+                        NWDDataInspector.InspectNetWorkedData(tObject);
+                        this.SetData(tObject as NWDTypeClass, true);
+                        ReAnalyze();
+                    }
+                }
+
+
+                if (tChanged == true)
+                {
+                    SavePreferences();
                     ReAnalyze();
                 }
             }
-
-
-            if (tChanged == true)
-            {
-                SavePreferences();
-                ReAnalyze();
-            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -388,6 +395,7 @@ namespace NetWorkedData
         public void SetInformationsHeight(float sInformationsHeight)
         {
             InformationsHeight = Mathf.Max(InformationsHeight, sInformationsHeight);
+            //InformationsHeight = 250;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -406,6 +414,7 @@ namespace NetWorkedData
         public void SetWidth(float sWidth)
         {
             Width = Mathf.Max(Width, sWidth);
+            //Width = 250;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -611,13 +620,15 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The draw.</returns>
         /// <param name="sViewRect">S view rect.</param>
-        public void Draw(Rect sViewRect)
+        public void Draw(Rect sViewRect, Rect sVisibleRect)
         {
+            //BTBBenchmark.Start();
             DrawCanvas(sViewRect);
             DrawBackgroundLine();
-            DrawCard();
+            DrawCard(sVisibleRect);
             DrawForwardPlot();
             DrawPreferences();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -626,6 +637,7 @@ namespace NetWorkedData
         /// <param name="sViewRect">S view rect.</param>
         public void DrawCanvas(Rect sViewRect)
         {
+            //BTBBenchmark.Start();
             int tFraction = 20;
             Rect sDocumentRect = Dimension();
             float tW = Mathf.Max(sDocumentRect.width, sViewRect.width);
@@ -664,6 +676,7 @@ namespace NetWorkedData
             {
                 Handles.DrawLine(new Vector2(MargeWidth, Margin / 2.0F + i * tHeiMar), new Vector2(MargeWidth + tColumnMax * tWidMar, Margin / 2.0F + i * tHeiMar));
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -671,21 +684,26 @@ namespace NetWorkedData
         /// </summary>
         public void DrawBackgroundLine()
         {
+            //BTBBenchmark.Start();
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.DrawBackgroundLine();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Draws the card.
         /// </summary>
-        public void DrawCard()
+        public void DrawCard(Rect sVisibleRect)
         {
+            //BTBBenchmark.Start();
+            //Debug.Log(sVisibleRect.ToString());
             foreach (NWDNodeCard tCard in AllCards)
             {
-                tCard.DrawCard();
+                tCard.DrawCard(sVisibleRect);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -693,10 +711,12 @@ namespace NetWorkedData
         /// </summary>
         public void DrawForwardPlot()
         {
+            //BTBBenchmark.Start();
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.DrawForwardPlot();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

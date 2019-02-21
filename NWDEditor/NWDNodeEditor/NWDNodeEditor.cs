@@ -225,7 +225,8 @@ namespace NetWorkedData
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             mScrollPosition = GUI.BeginScrollView(tScrollViewRect,mScrollPosition,Document.Dimension());
-            Document.Draw(tScrollViewRect);
+            Rect tVisibleRect = new Rect(mScrollPosition.x, mScrollPosition.y, position.width+ mScrollPosition.x, position.height+ mScrollPosition.y);
+            Document.Draw(tScrollViewRect, tVisibleRect);
             GUI.EndScrollView();
 
 
