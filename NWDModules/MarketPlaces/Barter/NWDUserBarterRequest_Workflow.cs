@@ -1,6 +1,6 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -18,6 +18,7 @@ using SQLite.Attribute;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -25,17 +26,17 @@ namespace NetWorkedData
     public partial class NWDUserBarterRequest : NWDBasis<NWDUserBarterRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void barterRequestBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
+        public delegate void barterRequestBlock(bool error, NWDTradeStatus status, NWDOperationResult infos);
         public barterRequestBlock barterRequestBlockDelegate;
+        public delegate void synchronizeBlock(bool error, NWDOperationResult result);
+        public static synchronizeBlock synchronizeBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserBarterRequest()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserBarterRequest(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -69,7 +70,7 @@ namespace NetWorkedData
             return tRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterRequest CreateFriendBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed, string sAccountReference)
+        public static NWDUserBarterRequest CreateFriendBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed, NWDUserRelationship sRelationship)
         {
             // Get Request Life time
             int tLifetime = sBarterPlace.RequestLifeTime;
@@ -81,7 +82,7 @@ namespace NetWorkedData
             #endif
             tRequest.Tag = NWDBasisTag.TagUserCreated;
             tRequest.BarterPlace.SetObject(sBarterPlace);
-            tRequest.RelationshipAccountReferences = sAccountReference;
+            tRequest.UserRelationship.SetObject(sRelationship);
             tRequest.ForRelationshipOnly = true;
             tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
             tRequest.BarterStatus = NWDTradeStatus.Active;
@@ -107,7 +108,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterRequest()
         {
-            List<Type> tLists = new List<Type>() {
+            /*List<Type> tLists = new List<Type>() {
                 typeof(NWDUserBarterProposition),
                 typeof(NWDUserBarterRequest),
                 typeof(NWDUserBarterFinder),
@@ -123,7 +124,7 @@ namespace NetWorkedData
                 
                 if (barterRequestBlockDelegate != null)
                 {
-                    barterRequestBlockDelegate(true, tBarterStatus, null);
+                    barterRequestBlockDelegate(false, tBarterStatus, null);
                 }
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
@@ -131,10 +132,13 @@ namespace NetWorkedData
                 if (barterRequestBlockDelegate != null)
                 {
                     NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    barterRequestBlockDelegate(false, NWDTradeStatus.None, tInfos);
+                    barterRequestBlockDelegate(true, NWDTradeStatus.None, tInfos);
                 }
-            };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            };*/
+
+            // Sync NWDUserBarterRequest
+            //NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddOrRemoveItems()
@@ -185,6 +189,15 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void CancelRequest()
+        {
+            BarterStatus = NWDTradeStatus.Cancel;
+            SaveData();
+
+            // Sync NWDUserBarterRequest
+            SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool UserCanBuy()
         {
             bool rCanBuy = false;
@@ -218,13 +231,31 @@ namespace NetWorkedData
             return rCanBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Cancel()
+        void BarterRequestFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
         {
-            BarterStatus = NWDTradeStatus.Cancel;
-            SaveData();
+            if (barterRequestBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                barterRequestBlockDelegate(true, NWDTradeStatus.None, tResult);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void Clean()
+        void BarterRequestSuccessBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            // Keep TradeStatus before Clean()
+            NWDTradeStatus tBarterStatus = BarterStatus;
+
+            // Do action with Items & Sync
+            AddOrRemoveItems();
+
+            if (barterRequestBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                barterRequestBlockDelegate(false, tBarterStatus, tResult);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void Clean()
         {
             BarterPlace = null;
             ItemsProposed = null;

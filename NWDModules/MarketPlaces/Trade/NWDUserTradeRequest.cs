@@ -185,11 +185,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SyncTradeRequest()
 		{
-			List<Type> tLists = new List<Type>() {
+			/*List<Type> tLists = new List<Type>() {
 				typeof(NWDUserTradeProposition),
 				typeof(NWDUserTradeRequest),
 				typeof(NWDUserTradeFinder),
-			};
+			};*/
 
 			BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
 			{
@@ -212,8 +212,11 @@ namespace NetWorkedData
 					tradeRequestBlockDelegate(false, NWDTradeStatus.None, tInfos);
 				}
 			};
-			NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
-		}
+
+            // Sync NWDUserTradeRequest
+            //NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            SynchronizationFromWebService(tSuccess, tFailed);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void AddOrRemoveItems()
 		{

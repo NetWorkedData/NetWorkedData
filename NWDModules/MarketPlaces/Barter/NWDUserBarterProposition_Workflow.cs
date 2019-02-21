@@ -23,22 +23,21 @@ namespace NetWorkedData
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void barterProposalBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
+        public delegate void barterProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult infos);
         public barterProposalBlock barterProposalBlockDelegate;
+        //-------------------------------------------------------------------------------------------------------------
+        private NWDMessage Message;
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserBarterProposition()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserBarterProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
@@ -51,10 +50,10 @@ namespace NetWorkedData
         {
             // Create a new Proposal
             NWDUserBarterProposition tProposition = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
             tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
-#endif
+            #endif
             tProposition.Tag = NWDBasisTag.TagUserCreated;
             tProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
             tProposition.BarterRequest.SetObject(sRequest);
@@ -68,13 +67,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterProposal(NWDMessage sMessage = null)
         {
-            List<Type> tLists = new List<Type>() {
+            /*List<Type> tLists = new List<Type>() {
                 typeof(NWDUserBarterProposition),
                 typeof(NWDUserBarterRequest),
                 typeof(NWDUserBarterFinder),
             };
 
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 // Keep TradeStatus before Clean()
                 NWDTradeStatus tBarterStatus = BarterStatus;
@@ -91,27 +90,67 @@ namespace NetWorkedData
                 
                 if (barterProposalBlockDelegate != null)
                 {
-                    barterProposalBlockDelegate(true, tBarterStatus, null);
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    barterProposalBlockDelegate(false, tBarterStatus, tResult);
                 }
             };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 if (barterProposalBlockDelegate != null)
                 {
-                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    barterProposalBlockDelegate(false, NWDTradeStatus.None, tInfos);
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    barterProposalBlockDelegate(true, NWDTradeStatus.None, tResult);
                 }
-            };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            };*/
+
+            // Keep Message for futur used
+            Message = sMessage;
+
+            // Sync NWDUserBarterProposal
+            //NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            SynchronizationFromWebService(BarterProposalSuccessBlock, BarterProposalFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Cancel()
+        public void CancelProposal()
         {
             BarterStatus = NWDTradeStatus.Cancel;
             SaveData();
+
+            SynchronizationFromWebService(BarterProposalSuccessBlock, BarterProposalFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void Clean()
+        void BarterProposalFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            if (barterProposalBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                barterProposalBlockDelegate(true, NWDTradeStatus.None, tResult);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void BarterProposalSuccessBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            // Keep TradeStatus before Clean()
+            NWDTradeStatus tBarterStatus = BarterStatus;
+
+            // Notify the seller with an Inter Message
+            if (Message != null)
+            {
+                string tSellerReference = BarterRequest.GetObjectAbsolute().Account.GetReference();
+                NWDUserInterMessage.SendMessage(Message, tSellerReference);
+            }
+
+            // Do action with Items & Sync
+            AddOrRemoveItems();
+
+            if (barterProposalBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                barterProposalBlockDelegate(false, tBarterStatus, tResult);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void Clean()
         {
             BarterPlace = null;
             BarterRequest = null;
@@ -121,7 +160,7 @@ namespace NetWorkedData
             SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void AddOrRemoveItems()
+        void AddOrRemoveItems()
         {
             if (BarterStatus == NWDTradeStatus.Accepted)
             {
