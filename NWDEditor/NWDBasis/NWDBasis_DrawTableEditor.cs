@@ -961,7 +961,10 @@ namespace NetWorkedData
                             if (tSelected.XX == 0 && tSelected.TestIntegrity())
                             {
                                 //int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
-                                BasisHelper().EditorTableDatasSelected[tSelected] = !BasisHelper().EditorTableDatasSelected[tSelected];
+                                if (BasisHelper().EditorTableDatasSelected.ContainsKey(tSelected))
+                                {
+                                    BasisHelper().EditorTableDatasSelected[tSelected] = !BasisHelper().EditorTableDatasSelected[tSelected];
+                                }
                                 Event.current.Use();
                             }
                         }

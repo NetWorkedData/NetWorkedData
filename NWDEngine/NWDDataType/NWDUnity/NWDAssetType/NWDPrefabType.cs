@@ -45,6 +45,7 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public GameObject ToPrefabConnected(GameObject sParent = null)
         {
             GameObject rReturn = null;
@@ -60,8 +61,9 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
-            public GameObject ToPrefab ()
+        public GameObject ToPrefab ()
 		{
 			GameObject tObject = null;
             if (Value != null && Value != string.Empty)

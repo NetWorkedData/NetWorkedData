@@ -1012,9 +1012,14 @@ namespace NetWorkedData
 
         public override void AnalyzeData()
         {
-           ErrorCheck();
-           WebserviceVersionCheckMe();
-           RowAnalyze();
+
+#if UNITY_EDITOR
+            ErrorCheck();
+#endif
+            WebserviceVersionCheckMe();
+#if UNITY_EDITOR
+            RowAnalyze();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void LoadedFromDatabase()

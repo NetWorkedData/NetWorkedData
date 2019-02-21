@@ -126,10 +126,10 @@ namespace NetWorkedData
             // Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             // Deselect all object
             Selection.activeObject = null;
-            #endif
+#endif
 
             // I prepare the data
             DataUploadPrepare();
@@ -144,10 +144,10 @@ namespace NetWorkedData
                 //Request.timeout = kTimeOutOfRequest;
                 Request.timeout = Environment.WebTimeOut;
 
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Request.timeout = Environment.EditorWebTimeOut;
-                #endif
-                
+#endif
+
                 // I prepare the header 
                 // I put the header in my request
                 InsertHeaderInRequest();
@@ -157,7 +157,7 @@ namespace NetWorkedData
 
                 // Debug Show Header Uploaded
                 DebugShowHeaderUploaded(tWWWForm.data);
-                
+
                 // Notification of an Upload start
                 BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
 
@@ -189,7 +189,7 @@ namespace NetWorkedData
                 if (Request.isNetworkError || Request.isHttpError)
                 {
 #if UNITY_EDITOR
-                    Debug.Log(Request.error + "\n" + Request.downloadHandler.text +"\n");
+                    Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n");
 #endif
                     RequestError();
                 }
@@ -213,7 +213,7 @@ namespace NetWorkedData
 
                         // Debug Show Header Download
                         DebugShowHeaderDownloaded(tDataConverted);
-                        
+
                         // Debug Show Header Up vs Down
                         DebugShowHeaderTotal(tDataConverted);
 
@@ -360,11 +360,11 @@ namespace NetWorkedData
                                             // Notification of an Error
                                             if (ResultInfos.errorDesc != null)
                                             {
-                                                #if UNITY_EDITOR
+#if UNITY_EDITOR
                                                 ResultInfos.errorDesc.ShowNativeAlert();
-                                                #else
+#else
                                                 ResultInfos.errorDesc.PostNotificationError();
-                                                #endif
+#endif
                                             }
 
                                             // Request Failed, send Invoke
@@ -464,7 +464,7 @@ namespace NetWorkedData
                                     ResultInfos.SetErrorCode("MAINTENANCE");
                                     if (ResultInfos.errorDesc != null)
                                     {
-                                        #if UNITY_EDITOR
+#if UNITY_EDITOR
                                         ResultInfos.errorDesc.ShowNativeAlert();
 #else
                                         ResultInfos.errorDesc.PostNotificationError();
@@ -478,7 +478,7 @@ namespace NetWorkedData
                                 ResultInfos.SetErrorCode("OBSOLETE");
                                 if (ResultInfos.errorDesc != null)
                                 {
-                                    #if UNITY_EDITOR
+#if UNITY_EDITOR
                                     ResultInfos.errorDesc.ShowNativeAlert();
 #else
                                     ResultInfos.errorDesc.PostNotificationError();
@@ -488,7 +488,7 @@ namespace NetWorkedData
                             }
                         }
                     }
-                        
+
                     // Save preference localy
                     Environment.SavePreferences();
 
@@ -570,11 +570,11 @@ namespace NetWorkedData
         public override void DestroyThisOperation()
         {
             Statut = BTBOperationState.Destroy;
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
-            #else
+#else
             Destroy (GameObjectToSpawn);
-            #endif
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         static string OSKey = "os";
@@ -583,9 +583,7 @@ namespace NetWorkedData
         static string UUIDKey = "uuid";
         static string RequestTokenKey = "token";
         static string HashKey = "hash";
-        #if UNITY_EDITOR
         static string AdminHashKey = "adminHash";
-        #endif
         //-------------------------------------------------------------------------------------------------------------
         public string OS;
         public string Lang;
@@ -639,12 +637,19 @@ namespace NetWorkedData
             // create hash security
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
             HeaderParams.Add(HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
-
 #if UNITY_EDITOR
-            // add hash for admin
             if (Application.isPlaying == false && Application.isEditor == true)
             {
                 HeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
+
+            }
+#else
+            if (NWDAppConfiguration.SharedInstance().AdminInPLayer())
+            {
+                if (string.IsNullOrEmpty(Environment.AdminKey) == false)
+                {
+                    HeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
+                }
             }
 #endif
 
@@ -779,13 +784,13 @@ namespace NetWorkedData
             {
                 tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            
+
             string tDebugResponseHeader = string.Empty;
             foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
             {
                 tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            
+
             NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
                          "-------------------\n" +
                          "<b>Request URl :</b> " + Request.url + "\n" +
