@@ -88,6 +88,7 @@ namespace NetWorkedData
 
             GUILayout.Label("Admin Key for " + Environment, NWDConstants.kLabelSubTitleStyle);
             AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
+            AdminInPlayer = EditorGUILayout.Toggle("Admin In Player", AdminInPlayer);
 
             GUILayout.Label("Token Historic limit for " + Environment, NWDConstants.kLabelSubTitleStyle);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);

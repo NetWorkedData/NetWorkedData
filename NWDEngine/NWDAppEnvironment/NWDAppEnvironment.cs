@@ -61,6 +61,8 @@ namespace NetWorkedData
         public string ServerPassword = string.Empty;
         public string ServerBase = "myDatabase";
         public string AdminKey = string.Empty;
+        public string AdminKeyHash = string.Empty;
+        public bool AdminInPlayer = false;
         public bool LogMode = true;
 #endif
         public int SaltFrequency = 300;
@@ -131,8 +133,13 @@ namespace NetWorkedData
 				AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
 			}
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void FormatVerification ()
+        //-------------------------------------------------------------------------------------------------------------
+        public string AdminKeyHashGenerate()
+        {
+            return BTBSecurityTools.GenerateSha("455"+AdminKey+"gytf");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void FormatVerification ()
 		{
 			// Debug.Log ("VerifySecurity");
 			// clean the salts

@@ -27,7 +27,7 @@ namespace NetWorkedData
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
                 {
-                    rReturn.AppendLine(tPropertyName+".Selected = true;");
+                    rReturn.AppendLine(tPropertyName + ".Selected = true;");
                     rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Dev) + "\";");
                 }
                 else
@@ -108,7 +108,12 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + ".ServerUser = \"" + ServerUser.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".ServerPassword = \"" + ServerPassword.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".ServerBase = \"" + ServerBase.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + ".AdminKey = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
+            if (AdminInPlayer == false)
+            {
+                rReturn.AppendLine(tPropertyName + ".AdminKey = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
+                rReturn.AppendLine(tPropertyName + ".AdminKeyHash = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
+                rReturn.AppendLine(tPropertyName + ".AdminInPlayer = " + AdminInPlayer.ToString().ToLower() + ";");
+            }
             rReturn.AppendLine(tPropertyName + ".RescueEmail = \"" + RescueEmail.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".TokenHistoric = " + TokenHistoric.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".MailHost =  \"" + MailHost + " \";");
@@ -123,6 +128,13 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + ".MailFrom =  \"" + MailFrom + " \";");
             rReturn.AppendLine(tPropertyName + ".MailReplyTo =  \"" + MailReplyTo + " \";");
             rReturn.AppendLine("#endif");
+            if (AdminInPlayer == true)
+            {
+                // write bypass in player mode
+                rReturn.AppendLine(tPropertyName + ".AdminKey = \"" + AdminKey.Replace("\"", "\\\"") + "\";");
+                rReturn.AppendLine(tPropertyName + ".AdminKeyHash = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
+                rReturn.AppendLine(tPropertyName + ".AdminInPlayer = " + AdminInPlayer.ToString().ToLower() + ";");
+            }
             rReturn.AppendLine(tPropertyName + ".LoadPreferences ();");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
             //BTBBenchmark.Finish();

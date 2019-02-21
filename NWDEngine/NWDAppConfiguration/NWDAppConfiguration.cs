@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using UnityEngine;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -313,6 +314,36 @@ namespace NetWorkedData
         public bool IsDevEnvironement()
         {
             return DevEnvironment.Selected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool AdminInPLayer()
+        {
+            bool rReturn = false;
+            NWDAppEnvironment tEnvironment = SelectedEnvironment();
+            if (tEnvironment.AdminInPlayer == true)
+            {
+                if (string.IsNullOrEmpty(tEnvironment.AdminKey) == false)
+                {
+                    if (string.IsNullOrEmpty(tEnvironment.AdminKeyHash) == false)
+                    {
+                        if (tEnvironment.AdminKeyHash == tEnvironment.AdminKeyHashGenerate())
+                        {
+                            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+                            //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
+                            //{
+                                foreach (NWDAccounTest tAccount in NWDAccount.GetTestsAccounts())
+                                {
+                                    if (tAccount.Reference == tEnvironment.PlayerAccountReference)
+                                    {
+                                        rReturn = true;
+                                    }
+                                }
+                            //}
+                        }
+                    }
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment[] AllEnvironements()
