@@ -562,7 +562,7 @@ namespace NetWorkedData
                     tContent = new GUIContent("   ");
                 }
 
-                int tIndex = 0;
+                //int tIndex = 0;
                 NWDRange tQ = new NWDRange(string.Empty);
                 string tV = string.Empty;
                 string tLine = tValueList.ElementAt(i);

@@ -566,7 +566,7 @@ namespace NetWorkedData
                 {
                     tContent = new GUIContent("   ");
                 }
-                int tIndex = 0;
+                //int tIndex = 0;
                 NWDAverage tQ = new NWDAverage(string.Empty);
                 string tV = string.Empty;
                 string tLine = tValueList.ElementAt(i);
