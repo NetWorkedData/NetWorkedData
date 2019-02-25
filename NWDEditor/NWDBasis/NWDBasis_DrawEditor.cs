@@ -108,36 +108,44 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture2D ReloadPreviewTexture2D()
+        public Texture2D ReloadPreview()
         {
-
-            PreviewTextureIsLoaded = true;
             PreviewTexture = null;
             PreviewObject = null;
             if (string.IsNullOrEmpty(Preview) == false)
             {
+                PreviewObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
                 if (PreviewObject is GameObject)
                 {
-                    Debug.Log("ReloadPreviewTexture2D use gameobject");
-                    ((GameObject)PreviewObject).transform.localRotation = Quaternion.Euler(-180,-180,-180);
+                    Debug.Log("change rotation");
+                    ((GameObject)PreviewObject).transform.rotation = Quaternion.Euler(-180, -180, -180);
                 }
-                    PreviewObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
                 if (PreviewObject != null)
                 {
                     PreviewTexture = AssetPreview.GetAssetPreview(PreviewObject);
+                    PreviewTextureIsLoaded = true;
                 }
             }
-            return AssetPreview.GetAssetPreview(PreviewObject);
+            return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture2D GetPreviewTexture2D()
+        public Texture2D PreviewTexture2D()
         {
-            if (PreviewTextureIsLoaded == false)
-            {
-                ReloadPreviewTexture2D();
-            }
-            return AssetPreview.GetAssetPreview(PreviewObject);
+            //if (PreviewTextureIsLoaded == false)
+            //{
+                ReloadPreview();
+            //}
+            return PreviewTexture;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        //public Texture2D GetPreviewTexture2D()
+        //{
+        //    if (PreviewTextureIsLoaded == false)
+        //    {
+        //        ReloadPreviewTexture2D();
+        //    }
+        //    return AssetPreview.GetAssetPreview(PreviewObject);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Vector2 sOrigin)
         {
@@ -146,7 +154,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Rect sRect)
         {
-            Texture2D tTexture = GetPreviewTexture2D();
+            Texture2D tTexture = PreviewTexture2D();
             if (tTexture != null)
             {
                 EditorGUI.DrawPreviewTexture(sRect, tTexture);
@@ -384,7 +392,7 @@ namespace NetWorkedData
             EditorGUI.DrawRect(new Rect(0, tY - NWDConstants.kFieldMarge, sInRect.width, sInRect.height), NWDConstants.kIdentityColor);
 
             tY += NWDConstants.kFieldMarge;
-            Texture2D tTexture2D = GetPreviewTexture2D();
+            Texture2D tTexture2D = PreviewTexture2D();
             if (tTexture2D != null)
             {
                EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
@@ -401,6 +409,12 @@ namespace NetWorkedData
                 //    gameObjectEditor.OnInteractivePreviewGUI(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), EditorStyles.whiteLabel);
                 //}
             }
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY + tImageWidth + NWDConstants.kFieldMarge, tImageWidth, NWDConstants.tMiniButtonStyle.fixedHeight),"Reload",NWDConstants.tMiniButtonStyle))
+            {
+                Debug.Log("Reload");
+                ReloadPreview();
+            }
+            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tBoldLabelStyle.fixedHeight), BasisHelper().ClassNamePHP + "'s Object", NWDConstants.tBoldLabelStyle);
             tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -482,7 +496,7 @@ namespace NetWorkedData
             {
                 Preview = tPreFabGameObject;
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
-                ReloadPreviewTexture2D();
+                PreviewTexture2D();
                 RowAnalyze();
                 RepaintTableEditor();
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);

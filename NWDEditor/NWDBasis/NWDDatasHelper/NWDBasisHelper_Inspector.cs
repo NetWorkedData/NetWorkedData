@@ -766,11 +766,11 @@ namespace NetWorkedData
                 NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
                 if (string.IsNullOrEmpty(tObject.InternalKey))
                 {
-                    rReturn = new GUIContent( "<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.GetPreviewTexture2D(), tObject.InternalDescription);
+                    rReturn = new GUIContent( "<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
                 }
                 else
                 {
-                    rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.GetPreviewTexture2D(), tObject.InternalDescription);
+                    rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
                 }
             }
             else

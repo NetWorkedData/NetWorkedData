@@ -357,7 +357,7 @@ namespace NetWorkedData
                 }
                 foreach (K tItem in ResultList)
                 {
-                    GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
+                    GUIContent Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
                     GUIStyle tSytle = NWDConstants.kSelectorRowStyle;
                     if (ActualSelection == tItem.ReferenceValue())
                     {
@@ -402,7 +402,7 @@ namespace NetWorkedData
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
                     }
-                    GUIContent Content = new GUIContent(tItem.InternalKey, tItem.GetPreviewTexture2D(), tItem.InternalDescription);
+                    GUIContent Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
                     GUIStyle tSytle = NWDConstants.kSelectorTileStyle;
                     if (ActualSelection == tItem.ReferenceValue())
                     {

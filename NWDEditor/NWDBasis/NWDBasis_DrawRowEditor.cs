@@ -382,7 +382,7 @@ namespace NetWorkedData
             GUILayout.Label(tStringReference, NWDConstants.kRowStyleRight, GUILayout.Width(NWDConstants.kReferenceWidth));
             // Draw prefab preview
             //Texture2D tTexture2D = AssetPreview.GetAssetPreview(tObject);
-            Texture2D tTexture2D = GetPreviewTexture2D();
+            Texture2D tTexture2D = PreviewTexture2D();
             if (tTexture2D != null)
             {
                 EditorGUI.DrawPreviewTexture(new Rect(tRectPreview.x, tRectPreview.y - 3, NWDConstants.kPrefabWidth, NWDConstants.kPrefabWidth), tTexture2D);
