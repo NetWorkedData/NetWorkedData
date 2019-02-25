@@ -125,17 +125,15 @@ namespace NetWorkedData
 		}
 		//[NWDGroupEnd]
 		//-------------------------------------------------------------------------------------------------------------
-		public delegate void tradeRequestBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
+		public delegate void tradeRequestBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
 		public tradeRequestBlock tradeRequestBlockDelegate;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDUserTradeRequest()
 		{
-
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDUserTradeRequest(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
 		{
-
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Initialization()
@@ -155,9 +153,9 @@ namespace NetWorkedData
 
 			// Create a new Request
 			NWDUserTradeRequest tRequest = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
 			tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
-#endif
+            #endif
 			tRequest.Tag = NWDBasisTag.TagUserCreated;
 			tRequest.TradePlace.SetObject(sTradePlace);
 			tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
@@ -185,37 +183,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SyncTradeRequest()
 		{
-			/*List<Type> tLists = new List<Type>() {
-				typeof(NWDUserTradeProposition),
-				typeof(NWDUserTradeRequest),
-				typeof(NWDUserTradeFinder),
-			};*/
-
-			BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-			{
-				// Keep TradeStatus before Clean()
-				NWDTradeStatus tTradeStatus = TradeStatus;
-
-				// Do action with Items & Sync
-				AddOrRemoveItems();
-
-				if (tradeRequestBlockDelegate != null)
-				{
-					tradeRequestBlockDelegate(true, tTradeStatus, null);
-				}
-			};
-			BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-			{
-				if (tradeRequestBlockDelegate != null)
-				{
-					NWDOperationResult tInfos = bInfos as NWDOperationResult;
-					tradeRequestBlockDelegate(false, NWDTradeStatus.None, tInfos);
-				}
-			};
-
             // Sync NWDUserTradeRequest
-            //NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
-            SynchronizationFromWebService(tSuccess, tFailed);
+            SynchronizationFromWebService(TradeRequestSuccessBlock, TradeRequestFailedBlock);
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void AddOrRemoveItems()
@@ -263,8 +232,8 @@ namespace NetWorkedData
 			}
 
 			// Sync NWDUserOwnership
-			NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
-		}
+            SynchronizationFromWebService();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public bool UserCanBuy()
 		{
@@ -299,13 +268,40 @@ namespace NetWorkedData
 			return rCanBuy;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void Cancel()
+		public void CancelRequest()
 		{
 			TradeStatus = NWDTradeStatus.Cancel;
 			SaveData();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		private void Clean()
+
+            // Sync NWDUserTradeRequest
+            SynchronizationFromWebService(TradeRequestSuccessBlock, TradeRequestFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void TradeRequestFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            if (tradeRequestBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                tradeRequestBlockDelegate(true, NWDTradeStatus.None, tResult);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void TradeRequestSuccessBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            // Keep TradeStatus before Clean()
+            NWDTradeStatus tTradeStatus = TradeStatus;
+
+            // Do action with Items & Sync
+            AddOrRemoveItems();
+
+            if (tradeRequestBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                tradeRequestBlockDelegate(false, tTradeStatus, null);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void Clean()
 		{
 			TradePlace = null;
 			ItemsProposed = null;

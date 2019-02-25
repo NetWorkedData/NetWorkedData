@@ -65,9 +65,9 @@ namespace NetWorkedData
         {
             // Create a new Proposal
             NWDUserRelationship tRelationship = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tRelationship.InternalKey = NWDAccountNickname.GetNickname() + " - " + sPlace.InternalKey;
-#endif
+            #endif
             tRelationship.Tag = NWDBasisTag.TagUserCreated;
             tRelationship.RelationPlace.SetObject(sPlace);
             tRelationship.SaveData();

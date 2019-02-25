@@ -44,8 +44,6 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-       
-
         [NWDGroupStart("Trade References", true, true, true)]
         [NWDAlias("TradeRequest")]
         public NWDReferenceType<NWDUserTradeRequest> TradeRequest
@@ -75,28 +73,27 @@ namespace NetWorkedData
         }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void tradeProposalBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
+        public delegate void tradeProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
         public tradeProposalBlock tradeProposalBlockDelegate;
+        //-------------------------------------------------------------------------------------------------------------
+        private NWDMessage Message;
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition) };
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeProposition CreateTradeProposalWith(NWDUserTradeRequest sRequest)
@@ -121,51 +118,55 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncTradeProposal(NWDMessage sMessage = null)
         {
-            List<Type> tLists = new List<Type>() {
-                typeof(NWDUserTradeProposition),
-                typeof(NWDUserTradeRequest),
-                typeof(NWDUserTradeFinder),
-            };
+            // Keep Message for futur used
+            Message = sMessage;
 
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                // Keep TradeStatus before Clean()
-                NWDTradeStatus tTradeStatus = TradeStatus;
-
-                // Notify the seller with an Inter Message
-                if (sMessage != null)
-                {
-                    string tSellerReference = TradeRequest.GetObjectAbsolute().Account.GetReference();
-                    NWDUserInterMessage.SendMessage(sMessage, tSellerReference);
-                }
-
-                // Do action with Items & Sync
-                AddOrRemoveItems();
-
-                // Notify Callback
-                if (tradeProposalBlockDelegate != null)
-                {
-                    tradeProposalBlockDelegate(true, tTradeStatus, null);
-                }
-            };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                if (tradeProposalBlockDelegate != null)
-                {
-                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    tradeProposalBlockDelegate(false, NWDTradeStatus.None, tInfos);
-                }
-            };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            // Sync NWDUserTradeProposal
+            SynchronizationFromWebService(TradeProposalSuccessBlock, TradeProposalFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Cancel()
+        public void CancelProposal()
         {
             TradeStatus = NWDTradeStatus.Cancel;
             SaveData();
+
+            // Sync NWDUserTradeProposal
+            SynchronizationFromWebService(TradeProposalSuccessBlock, TradeProposalFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void Clean()
+        void TradeProposalFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            if (tradeProposalBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                tradeProposalBlockDelegate(true, NWDTradeStatus.None, tResult);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void TradeProposalSuccessBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
+        {
+            // Keep TradeStatus before Clean()
+            NWDTradeStatus tTradeStatus = TradeStatus;
+
+            // Notify the seller with an Inter Message
+            if (Message != null)
+            {
+                string tSellerReference = TradeRequest.GetObjectAbsolute().Account.GetReference();
+                NWDUserInterMessage.SendMessage(Message, tSellerReference);
+            }
+
+            // Do action with Items & Sync
+            AddOrRemoveItems();
+
+            // Notify Callback
+            if (tradeProposalBlockDelegate != null)
+            {
+                NWDOperationResult tResult = sResult as NWDOperationResult;
+                tradeProposalBlockDelegate(false, tTradeStatus, tResult);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void Clean()
         {
             TradePlace.Flush();
             TradeRequest.Flush();
@@ -176,7 +177,7 @@ namespace NetWorkedData
             SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void AddOrRemoveItems()
+        void AddOrRemoveItems()
         {
             if (TradeStatus == NWDTradeStatus.Accepted)
             {
@@ -198,7 +199,7 @@ namespace NetWorkedData
                 Clean();
 
                 // Sync NWDUserOwnership
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
+                SynchronizationFromWebService();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

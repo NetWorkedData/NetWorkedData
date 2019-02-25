@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterRequest : NWDBasis<NWDUserBarterRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void barterRequestBlock(bool error, NWDTradeStatus status, NWDOperationResult infos);
+        public delegate void barterRequestBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
         public barterRequestBlock barterRequestBlockDelegate;
         public delegate void synchronizeBlock(bool error, NWDOperationResult result);
         public static synchronizeBlock synchronizeBlockDelegate;
@@ -47,7 +47,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition), typeof(NWDUserBarterFinder) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterRequest CreateBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed)
@@ -108,36 +108,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterRequest()
         {
-            /*List<Type> tLists = new List<Type>() {
-                typeof(NWDUserBarterProposition),
-                typeof(NWDUserBarterRequest),
-                typeof(NWDUserBarterFinder),
-            };
-
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                // Keep TradeStatus before Clean()
-                NWDTradeStatus tBarterStatus = BarterStatus;
-
-                // Do action with Items & Sync
-                AddOrRemoveItems();
-                
-                if (barterRequestBlockDelegate != null)
-                {
-                    barterRequestBlockDelegate(false, tBarterStatus, null);
-                }
-            };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                if (barterRequestBlockDelegate != null)
-                {
-                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    barterRequestBlockDelegate(true, NWDTradeStatus.None, tInfos);
-                }
-            };*/
-
             // Sync NWDUserBarterRequest
-            //NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
             SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -186,7 +157,7 @@ namespace NetWorkedData
             }
 
             // Sync NWDUserOwnership
-            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
+            SynchronizationFromWebService();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CancelRequest()

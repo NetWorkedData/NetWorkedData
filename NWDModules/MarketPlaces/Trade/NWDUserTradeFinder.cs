@@ -43,8 +43,6 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-       
-
         [NWDGroupStart("Filters", true, true, true)]
         public NWDReferencesListType<NWDItem> FilterItems
         {
@@ -68,8 +66,6 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-       
-
         [NWDGroupStart("Results", true, true, true)]
         [NWDAlias("TradeRequestsList")]
         public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList
@@ -78,28 +74,25 @@ namespace NetWorkedData
         }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void tradeFinderBlock(bool result, NWDOperationResult infos);
+        public delegate void tradeFinderBlock(bool error, NWDOperationResult result);
         public tradeFinderBlock tradeFinderBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserTradeFinder), typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition) };
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
@@ -151,31 +144,27 @@ namespace NetWorkedData
             // Clean the Trade Place Finder Result
             CleanResult();
 
-            List<Type> tLists = new List<Type>() {
-                typeof(NWDUserTradeProposition),
-                typeof(NWDUserTradeRequest),
-                typeof(NWDUserTradeFinder),
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (tradeFinderBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    tradeFinderBlockDelegate(false, tResult);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (tradeFinderBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    tradeFinderBlockDelegate(true, tResult);
+                }
             };
 
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                if (tradeFinderBlockDelegate != null)
-                {
-                    tradeFinderBlockDelegate(true, null);
-                }
-            };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                if (tradeFinderBlockDelegate != null)
-                {
-                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    tradeFinderBlockDelegate(false, tInfos);
-                }
-            };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+            SynchronizationFromWebService(tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void CleanResult()
+        void CleanResult()
         {
             TradeRequestsList = null;
             SaveData();

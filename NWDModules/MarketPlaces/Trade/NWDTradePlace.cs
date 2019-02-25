@@ -63,8 +63,6 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
 
-       
-
         [NWDGroupStart("Items Authorization", true, true, true)]
         public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> FilterCategories
@@ -80,8 +78,6 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-
-       
 
         //[NWDGroupSeparator]
 
@@ -124,12 +120,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace()
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -142,12 +136,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void MyClassMethod()
-        {
-            // do something with this class
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetLifeTime()

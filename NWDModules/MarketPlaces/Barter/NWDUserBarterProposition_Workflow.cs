@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void barterProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult infos);
+        public delegate void barterProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
         public barterProposalBlock barterProposalBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         private NWDMessage Message;
@@ -43,7 +43,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition), typeof(NWDUserBarterFinder) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterProposition CreateBarterProposalWith(NWDUserBarterRequest sRequest, Dictionary<string, int> sProposed)
@@ -67,47 +67,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterProposal(NWDMessage sMessage = null)
         {
-            /*List<Type> tLists = new List<Type>() {
-                typeof(NWDUserBarterProposition),
-                typeof(NWDUserBarterRequest),
-                typeof(NWDUserBarterFinder),
-            };
-
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
-            {
-                // Keep TradeStatus before Clean()
-                NWDTradeStatus tBarterStatus = BarterStatus;
-
-                // Notify the seller with an Inter Message
-                if (sMessage != null)
-                {
-                    string tSellerReference = BarterRequest.GetObjectAbsolute().Account.GetReference();
-                    NWDUserInterMessage.SendMessage(sMessage, tSellerReference);
-                }
-
-                // Do action with Items & Sync
-                AddOrRemoveItems();
-                
-                if (barterProposalBlockDelegate != null)
-                {
-                    NWDOperationResult tResult = bResult as NWDOperationResult;
-                    barterProposalBlockDelegate(false, tBarterStatus, tResult);
-                }
-            };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
-            {
-                if (barterProposalBlockDelegate != null)
-                {
-                    NWDOperationResult tResult = bResult as NWDOperationResult;
-                    barterProposalBlockDelegate(true, NWDTradeStatus.None, tResult);
-                }
-            };*/
-
             // Keep Message for futur used
             Message = sMessage;
 
             // Sync NWDUserBarterProposal
-            //NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
             SynchronizationFromWebService(BarterProposalSuccessBlock, BarterProposalFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -175,7 +138,7 @@ namespace NetWorkedData
                 Clean();
 
                 // Sync NWDUserOwnership
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
+                SynchronizationFromWebService();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
