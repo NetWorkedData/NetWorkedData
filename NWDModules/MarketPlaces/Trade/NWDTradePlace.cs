@@ -36,9 +36,10 @@ namespace NetWorkedData
         Expired = 6,
         Cancel = 8,
         Cancelled = 9,
-        Refresh = 10,
 
-        Sync = 40,
+        NoDeal = 20,
+
+        Refresh = 40,
 
         Force = 99, // admin only 
         ForceNone = 999, // admin only 

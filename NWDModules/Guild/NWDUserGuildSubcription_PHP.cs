@@ -78,11 +78,10 @@ namespace NetWorkedData
 
                 // change the statut from CSV TO WAITING, ACCEPTED, EXPIRED, DEAL, REFRESH, CANCELLED
                 "if ($sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Sync).ToString() +
+                " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() +
-                " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() + ")\n" +
                     "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
