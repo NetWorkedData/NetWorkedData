@@ -95,6 +95,7 @@ namespace NetWorkedData
                 "if ($sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
+                " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.NoDeal).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() +
                 " || $sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() +
                 ")\n" +
