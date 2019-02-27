@@ -107,7 +107,7 @@ namespace NetWorkedData
                     "}\n" +
 
                 // change the statut from CSV TO ACTIVE 
-                "else if ($sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+                "else if ($sCsvList[" + t_THIS_Index_GuildStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                     "{\n" +
                         "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserGuild.BasisHelper().ClassNamePHP + "` SET " +
