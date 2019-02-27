@@ -160,7 +160,7 @@ namespace NetWorkedData
 			tRequest.TradePlace.SetObject(sTradePlace);
 			tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
 			tRequest.ItemsAsked.SetReferenceAndQuantity(sAsked);
-			tRequest.TradeStatus = NWDTradeStatus.Active;
+			tRequest.TradeStatus = NWDTradeStatus.Submit;
 			tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
 			tRequest.SaveData();
 
@@ -191,7 +191,7 @@ namespace NetWorkedData
 		{
 			switch (TradeStatus)
 			{
-				case NWDTradeStatus.Active:
+				case NWDTradeStatus.Submit:
 					{
 						// Remove NWDItem from NWDUserOwnership
 						Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
@@ -362,7 +362,7 @@ namespace NetWorkedData
 				"return;\n" +
 				"}\n" +
 				// change the statut from CSV TO ACTIVE 
-				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
 				"$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
 				"{\n" +
 				"$sReplaces[" + t_THIS_Index_TradeHash + "] = $TIME_SYNC;\n" +

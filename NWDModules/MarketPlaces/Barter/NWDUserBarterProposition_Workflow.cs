@@ -49,20 +49,69 @@ namespace NetWorkedData
         public static NWDUserBarterProposition CreateBarterProposalWith(NWDUserBarterRequest sRequest, Dictionary<string, int> sProposed)
         {
             // Create a new Proposal
-            NWDUserBarterProposition tProposition = NewData();
+            NWDUserBarterProposition rProposition = NewData();
             #if UNITY_EDITOR
             NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
-            tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
+            rProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
             #endif
-            tProposition.Tag = NWDBasisTag.TagUserCreated;
-            tProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
-            tProposition.BarterRequest.SetObject(sRequest);
-            tProposition.ItemsSend.SetReferenceAndQuantity(sProposed);
-            tProposition.BarterStatus = NWDTradeStatus.Active;
-            tProposition.BarterRequestHash = sRequest.BarterHash;
-            tProposition.SaveData();
+            rProposition.Tag = NWDBasisTag.TagUserCreated;
+            rProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
+            rProposition.BarterRequest.SetObject(sRequest);
+            rProposition.ItemsSend.SetReferenceAndQuantity(sProposed);
+            rProposition.BarterStatus = NWDTradeStatus.Submit;
+            rProposition.BarterRequestHash = sRequest.BarterHash;
+            rProposition.SaveData();
             
-            return tProposition;
+            return rProposition;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserBarterProposition CreateRefuseBarterProposalWith(NWDUserBarterRequest sRequest)
+        {
+            // Create a new Proposal
+            NWDUserBarterProposition rProposition = NewData();
+            #if UNITY_EDITOR
+            NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
+            rProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
+            #endif
+            rProposition.Tag = NWDBasisTag.TagUserCreated;
+            rProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
+            rProposition.BarterRequest.SetObject(sRequest);
+            rProposition.BarterStatus = NWDTradeStatus.NoDeal;
+            rProposition.BarterRequestHash = sRequest.BarterHash;
+            rProposition.SaveData();
+
+
+            return rProposition;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static int GetNumberOfProposalSentFor(NWDUserBarterRequest sRequest)
+        {
+            int rCpt = 0;
+            foreach(NWDUserBarterProposition k in FindDatas())
+            {
+                NWDUserBarterRequest tBarterRequest = k.BarterRequest.GetObjectAbsolute();
+                if (tBarterRequest != null && tBarterRequest.Equals(sRequest))
+                {
+                    rCpt++;
+                }
+            }
+
+            return rCpt;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDUserBarterProposition> FindProposalWith(NWDBarterPlace sBarterPlace)
+        {
+            List<NWDUserBarterProposition> rUserBartersProposal = new List<NWDUserBarterProposition>();
+            foreach (NWDUserBarterProposition k in FindDatas())
+            {
+                NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                if (tPlace != null && tPlace.Equals(sBarterPlace))
+                {
+                    rUserBartersProposal.Add(k);
+                }
+            }
+
+            return rUserBartersProposal;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterProposal(NWDMessage sMessage = null)
@@ -129,6 +178,21 @@ namespace NetWorkedData
             {
                 // Add NWDItem to NWDUserOwnership
                 Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                {
+                    NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                }
+
+                // Set Barter Proposition to None, so we can reused an old slot for a new transaction
+                Clean();
+
+                // Sync NWDUserOwnership
+                SynchronizationFromWebService();
+            }
+            else if(BarterStatus == NWDTradeStatus.Expired)
+            {
+                // Add NWDItem to NWDUserOwnership
+                Dictionary<NWDItem, int> tProposed = ItemsSend.GetObjectAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);

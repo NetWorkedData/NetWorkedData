@@ -56,18 +56,18 @@ namespace NetWorkedData
             int tLifetime = sBarterPlace.RequestLifeTime;
 
             // Create a new Request
-            NWDUserBarterRequest tRequest = NewData();
+            NWDUserBarterRequest rRequest = NewData();
             #if UNITY_EDITOR
-            tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
+            rRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
             #endif
-            tRequest.Tag = NWDBasisTag.TagUserCreated;
-            tRequest.BarterPlace.SetObject(sBarterPlace);
-            tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
-            tRequest.BarterStatus = NWDTradeStatus.Active;
-            tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
-            tRequest.SaveData();
+            rRequest.Tag = NWDBasisTag.TagUserCreated;
+            rRequest.BarterPlace.SetObject(sBarterPlace);
+            rRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
+            rRequest.BarterStatus = NWDTradeStatus.Submit;
+            rRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
+            rRequest.SaveData();
 
-            return tRequest;
+            return rRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterRequest CreateFriendBarterRequestWith(NWDBarterPlace sBarterPlace, Dictionary<string, int> sProposed, NWDUserRelationship sRelationship)
@@ -76,34 +76,69 @@ namespace NetWorkedData
             int tLifetime = sBarterPlace.RequestLifeTime;
 
             // Create a new Request
-            NWDUserBarterRequest tRequest = NewData();
+            NWDUserBarterRequest rRequest = NewData();
             #if UNITY_EDITOR
-            tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
+            rRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
             #endif
-            tRequest.Tag = NWDBasisTag.TagUserCreated;
-            tRequest.BarterPlace.SetObject(sBarterPlace);
-            tRequest.UserRelationship.SetObject(sRelationship);
-            tRequest.ForRelationshipOnly = true;
-            tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
-            tRequest.BarterStatus = NWDTradeStatus.Active;
-            tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
-            tRequest.SaveData();
+            rRequest.Tag = NWDBasisTag.TagUserCreated;
+            rRequest.BarterPlace.SetObject(sBarterPlace);
+            rRequest.UserRelationship.SetObject(sRelationship);
+            rRequest.ForRelationshipOnly = true;
+            rRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
+            rRequest.BarterStatus = NWDTradeStatus.Submit;
+            rRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
+            rRequest.SaveData();
 
-            return tRequest;
+            return rRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterRequest[] FindRequestsWith(NWDBarterPlace sBarterPlace)
+        public static NWDUserBarterRequest[] FindRequestsReceivedWith(NWDBarterPlace sBarterPlace)
         {
-            List<NWDUserBarterRequest> tUserBartersRequest = new List<NWDUserBarterRequest>();
-            foreach (NWDUserBarterRequest k in FindDatas())
+            List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
+            NWDUserRelationship[] tRelationships = NWDUserRelationship.FindDatas();
+            foreach (NWDUserRelationship k in tRelationships)
             {
-                if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
+                if (k.RelationshipStatus == NWDRelationshipStatus.Valid)
                 {
-                    tUserBartersRequest.Add(k);
+                    NWDUserBarterRequest[] tFound = FindRequestsSentWith(sBarterPlace, k.FriendAccount.GetReference(), k.FriendGameSave.GetObject());
+                    foreach (NWDUserBarterRequest j in tFound)
+                    {
+                        rUserBartersRequest.Add(j);
+                    }
                 }
             }
 
-            return tUserBartersRequest.ToArray();
+            return rUserBartersRequest.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserBarterRequest[] FindRequestsSentWith(NWDBarterPlace sBarterPlace, string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
+            foreach (NWDUserBarterRequest k in FindDatas(sAccountReference, sGameSave))
+            {
+                if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
+                {
+                    rUserBartersRequest.Add(k);
+                }
+            }
+
+            return rUserBartersRequest.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static int GetNumberOfRequestSentFor(NWDBarterPlace sBarterPlace, NWDUserRelationship sRelationship)
+        {
+            int rCpt = 0;
+            foreach (NWDUserBarterRequest k in FindDatas())
+            {
+                NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                if (tPlace != null && tPlace.Equals(sBarterPlace) &&
+                    k.UserRelationship.GetObject().Equals(sRelationship))
+                {
+                    rCpt++;
+                }
+            }
+
+            return rCpt;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterRequest()
@@ -200,6 +235,28 @@ namespace NetWorkedData
             }
 
             return rCanBuy;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public int GetNumberOfPropositions()
+        {
+            int rCpt = 0;
+
+            if (PropositionsCounter > 0)
+            {
+                NWDUserBarterProposition[] tPropositions = NWDUserBarterProposition.FindDatas();
+                foreach(NWDUserBarterProposition k in Propositions.GetObjectsAbsolute())
+                {
+                    foreach(NWDUserBarterProposition j in tPropositions)
+                    {
+                        if (k.Equals(j))
+                        {
+                            rCpt++;
+                        }
+                    }
+                }
+            }
+
+            return rCpt;
         }
         //-------------------------------------------------------------------------------------------------------------
         void BarterRequestFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
