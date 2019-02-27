@@ -80,19 +80,23 @@ namespace NetWorkedData
                         {
                             if (tTypeOfThis.IsGenericType)
                             {
-                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                                if (
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)) ||
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+                                //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceFreeType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceConditionalType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
 
-
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceConditionalType<>)
-
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
+                                    //|| tTypeOfThis == typeof(NWDJsonType)
+                                   //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
+                                   //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
 
                                    )
                                 {

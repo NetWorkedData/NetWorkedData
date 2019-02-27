@@ -31,7 +31,7 @@ namespace NetWorkedData
     /// NWDReferenceFreeType used to put a reference in value. Use properties with simple name, like 'Account', 'Spot', 'Bonus' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceFreeType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferenceFreeType<K> : NWDReferenceSimple where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceFreeType()
@@ -200,19 +200,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

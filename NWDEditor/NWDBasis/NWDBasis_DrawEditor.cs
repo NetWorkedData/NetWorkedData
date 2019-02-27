@@ -117,7 +117,7 @@ namespace NetWorkedData
                 PreviewObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
                 if (PreviewObject is GameObject)
                 {
-                    Debug.Log("change rotation");
+                    //Debug.Log("change rotation");
                     ((GameObject)PreviewObject).transform.rotation = Quaternion.Euler(-180, -180, -180);
                 }
                 if (PreviewObject != null)

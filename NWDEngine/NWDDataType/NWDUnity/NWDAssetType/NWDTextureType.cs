@@ -43,9 +43,31 @@ namespace NetWorkedData
 			} else {
 				Value = sValue;
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public Texture2D ToTexture ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+//        public Texture2D ToTextureAsync(Texture2D sInterim, NWDOperationAssetDelegate<Texture2D> sDelegate)
+//        {
+//            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+//#if UNITY_EDITOR
+//#else
+//                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+//#endif
+//            NWDOperationAsset<Texture2D> tOperation = NWDOperationAsset<Texture2D>.AddOperation(tPath, sInterim, false, sDelegate);
+//            return tOperation.Interim;
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationAssetDelegate<Sprite> sDelegate)
+//        {
+//            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+//#if UNITY_EDITOR
+//#else
+//                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+//#endif
+        //    NWDOperationAsset<Sprite> tOperation = NWDOperationAsset<Sprite>.AddOperation(tPath, sInterim, false, sDelegate);
+        //    return tOperation.Interim;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public Texture2D ToTexture ()
 		{
 			Texture2D rTexture = null;
             if (!string.IsNullOrEmpty(Value))

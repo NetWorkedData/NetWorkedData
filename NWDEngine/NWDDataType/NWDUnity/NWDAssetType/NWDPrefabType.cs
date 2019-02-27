@@ -63,6 +63,14 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
+        public GameObject ToGameObjectAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            NWDOperationAsset tOperation = NWDOperationAsset.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public GameObject ToPrefab ()
 		{
 			GameObject tObject = null;
@@ -71,16 +79,53 @@ namespace NetWorkedData
                 string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
 #if UNITY_EDITOR
                 tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
+                Resources.LoadAsync(tPath, typeof(GameObject));
 #else
                 tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                Debug.Log("ToPrefab() path = " + tPath);
                 tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
 #endif
                 //Debug.LogWarning("tObject at path " + tPath);
             }
-			return tObject;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public GameObject ToGameObject (GameObject sParent = null)
+            return tObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+//        private GameObject ResultPrefab;
+//        private GameObject ResultGameObject;
+//        //private bool ResultGameObjectIsDone;
+//        //-------------------------------------------------------------------------------------------------------------
+//        public GameObject ToPrefabAsync(GameObject sProvisoire)
+//        {
+//            if (ResultPrefab == null)
+//            {
+//                ResultGameObject = UnityEngine.Object.Instantiate(sProvisoire) as GameObject;
+//                StartCoroutine(LoadCharacters());
+//            }
+//            else
+//            {
+//                ResultGameObject = UnityEngine.Object.Instantiate(ResultPrefab) as GameObject;
+//            }
+//            return ResultGameObject;
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public ResourceRequest ToPrefabAsyncRequest()
+//        {
+//            ResourceRequest tResourceRequest = null;
+//            if (Value != null && Value != string.Empty)
+//            {
+//                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+//#if UNITY_EDITOR
+//                tResourceRequest = Resources.LoadAsync(tPath, typeof(GameObject));
+//#else
+//                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+//                tResourceRequest = Resources.LoadAsync(tPath, typeof(GameObject));
+//#endif
+        //        //Debug.LogWarning("tObject at path " + tPath);
+        //    }
+        //    return tResourceRequest;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public GameObject ToGameObject (GameObject sParent = null)
 		{
 			GameObject rReturn = null;
 			GameObject tPrefab = ToPrefab ();

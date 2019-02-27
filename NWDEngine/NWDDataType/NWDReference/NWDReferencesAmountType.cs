@@ -31,7 +31,7 @@ namespace NetWorkedData
     /// NWDReferencesAmountType used to put a reference with float in value. Use properties with name, like 'ItemAmount', 'SpotAmount', 'BonusAmount' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesAmountType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferencesAmountType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesAmountType()
@@ -597,20 +597,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

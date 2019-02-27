@@ -31,7 +31,7 @@ namespace NetWorkedData
     /// NWDReferencesListType used to put a reference with float in value. Use properties with name, like 'ItemList', 'SpotList', 'BonusList' , etc.
     /// </summary>
 	[SerializeField]
-	public class NWDReferencesListType<K>: BTBDataType where K : NWDBasis <K>, new()
+	public class NWDReferencesListType<K>: NWDReferenceMultiple where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDReferencesListType ()
@@ -362,17 +362,17 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-		{
-			string rReturn = "NO";
-			if (Value != null) {
-				if (Value.Contains (sOldReference)) {
-					Value = Value.Replace (sOldReference, sNewReference);
-					rReturn = "YES";
-				}
-			}
-			return rReturn;
-		}
+		//public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+		//{
+		//	string rReturn = "NO";
+		//	if (Value != null) {
+		//		if (Value.Contains (sOldReference)) {
+		//			Value = Value.Replace (sOldReference, sNewReference);
+		//			rReturn = "YES";
+		//		}
+		//	}
+		//	return rReturn;
+		//}
 		//-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

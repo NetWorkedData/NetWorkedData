@@ -17,6 +17,7 @@ using BasicToolBox;
 
 using UnityEngine;
 using System.Text;
+using System.Security.Cryptography;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,9 +30,7 @@ namespace NetWorkedData
     public partial class NWDToolbox
     {
         //-------------------------------------------------------------------------------------------------------------
-
         #region class method
-
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Protect the text for the separator usage.
