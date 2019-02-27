@@ -55,8 +55,19 @@ namespace NetWorkedData
 				//Debug.Log ("BTBDataType ChangeAssetPath YES I DID", DebugResult.Success);
 			}
 			return rChange;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GameObject ToSpriteAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+#if UNITY_EDITOR
+#else
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+#endif
+            NWDOperationAsset tOperation = NWDOperationAsset.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

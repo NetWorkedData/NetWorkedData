@@ -244,6 +244,7 @@ namespace NetWorkedData
                                                             " `DM` = \\''.$TIME_SYNC.'\\'," +
                                                             " `DS` = \\''.$TIME_SYNC.'\\'," +
                                                             " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
+                                                            " `" + tLimitDayTime + "` = '.$TIME_SYNC.', " +
                                                             " `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                                             " WHERE `AC`= \\'1\\' " +
                                                             " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' " +

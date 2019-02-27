@@ -42,7 +42,7 @@ namespace NetWorkedData
     /// NWDReferenceConditionalType used to put a reference with float in value. Use properties with name, like 'ItemConditional', 'SpotConditional', 'BonusConditional' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceConditionalType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferenceConditionalType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public string Reference;

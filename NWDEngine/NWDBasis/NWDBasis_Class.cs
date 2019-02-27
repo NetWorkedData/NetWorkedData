@@ -682,13 +682,14 @@ namespace NetWorkedData
                             }
                         }
                         else if (
-                        tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
-                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
-                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
-                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesConditionalType<>)
-                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesConditionalType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
                         )
                         {
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];

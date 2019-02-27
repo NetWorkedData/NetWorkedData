@@ -28,7 +28,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-	public class NWDJsonType : BTBDataType
+	public class NWDJsonType : NWDReferenceMultiple
     {
         //-------------------------------------------------------------------------------------------------------------
         const int kCONST_NUMBER_OF_LINE = 40;
@@ -104,16 +104,31 @@ namespace NetWorkedData
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            string tNextValue = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value, NWDConstants.kTextAreaStyle);
-            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
-            {
-                // test if valide
-            }
+            string tNextValue = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value.Replace("{","\n{").Replace("}", "}\n"), NWDConstants.kTextAreaStyle);
+            //if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
+            //{
+            //    // test if valide
+            //}
             EditorGUI.indentLevel = tIndentLevel;
 
-            tTemporary.Value = tNextValue; 
+            tTemporary.Value = tNextValue.Replace("\n{", "{").Replace("}\n", "}"); 
 			return tTemporary;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------

@@ -38,8 +38,9 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public BTBOperationController WebOperationQueue = new BTBOperationController ();
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public BTBOperationController AssetOperationQueue = new BTBOperationController();
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			//Debug.Log ("AddWebRequestAllSynchronization");
 			return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);

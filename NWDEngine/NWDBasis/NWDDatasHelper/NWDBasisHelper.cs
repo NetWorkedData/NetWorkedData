@@ -38,6 +38,7 @@ namespace NetWorkedData
         public bool ClassLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
+        public Type ConnexionType = null;
         public string ClassName = string.Empty;
         public string ClassNamePHP = string.Empty;
         public bool ClassSynchronize;

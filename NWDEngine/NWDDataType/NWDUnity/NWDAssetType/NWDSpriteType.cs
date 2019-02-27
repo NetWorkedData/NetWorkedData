@@ -43,9 +43,20 @@ namespace NetWorkedData
 			} else {
 				Value = sValue;
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public Sprite ToSprite ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+//        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationAssetDelegate<Sprite> sDelegate)
+//        {
+//            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+//#if UNITY_EDITOR
+//#else
+//                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+//#endif
+        //    NWDOperationAsset<Sprite> tOperation = NWDOperationAsset<Sprite>.AddOperation(tPath, sInterim, false, sDelegate);
+        //    return tOperation.Interim;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite ToSprite ()
 		{
             Sprite rSprite = null;
 			if (!string.IsNullOrEmpty(Value))

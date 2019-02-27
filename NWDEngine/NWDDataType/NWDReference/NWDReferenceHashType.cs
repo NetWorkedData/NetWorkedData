@@ -31,7 +31,7 @@ namespace NetWorkedData
     /// NWDReferenceHashType used to put a reference in value. Use properties with simple name, like 'Account', 'Spot', 'Bonus' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceHashType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferenceHashType<K> : NWDReferenceSimple where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceHashType()
@@ -200,20 +200,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

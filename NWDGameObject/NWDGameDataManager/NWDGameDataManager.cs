@@ -391,25 +391,23 @@ namespace NetWorkedData
         /// </summary>
         void Awake()
         {
-            Debug.Log("NWDGameDataManager Awake ()");
-
+            //Debug.Log("NWDGameDataManager Awake ()");
             SceneManager.sceneLoaded += OnSceneLoaded;
-
-            Debug.Log("<b>NWDGameDataManager Awake() </b>");
+//Debug.Log("<b>NWDGameDataManager Awake() </b>");
             if (Application.isEditor == true)
             {
                 if (Application.isPlaying == true)
                 {
-                    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                    //Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
                 }
                 else
                 {
-                    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                    //Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
                 }
             }
             else
             {
-                Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+                //Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
@@ -440,21 +438,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log("<b>NWDGameDataManager Scene Loaded() </b>");
+            //Debug.Log("<b>NWDGameDataManager Scene Loaded() </b>");
             if (Application.isEditor == true)
             {
                 if (Application.isPlaying == true)
                 {
-                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                    //Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
                 }
                 else
                 {
-                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                    //Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
                 }
             }
             else
             {
-                Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+                //Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
         }
             //-------------------------------------------------------------------------------------------------------------
@@ -520,7 +518,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void NewsCheck()
         {
-            Debug.Log("NewsCheck");
+            //Debug.Log("NewsCheck");
             NWDNews.Check();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -533,12 +531,12 @@ namespace NetWorkedData
             ApplicationStandBy = !sHasFocus;
             if (ApplicationStandBy == false)
             {
-                Debug.Log("OnApplicationFocus Focus is ON");
+                //Debug.Log("OnApplicationFocus Focus is ON");
                 //NWDNews.InstallAllNotifications(false);
             }
             else
             {
-                Debug.Log("OnApplicationFocus Focus is OFF");
+                //Debug.Log("OnApplicationFocus Focus is OFF");
                 //NWDNews.InstallAllNotifications(true);
             }
         }
@@ -552,12 +550,12 @@ namespace NetWorkedData
             ApplicationStandBy = sPauseStatus;
             if (ApplicationStandBy == false)
             {
-                Debug.Log("OnApplicationPause Pause is OFF");
+                //Debug.Log("OnApplicationPause Pause is OFF");
                 NWDNews.InstallAllNotifications(false);
             }
             else
             {
-                Debug.Log("OnApplicationPause Pause is ON");
+                //Debug.Log("OnApplicationPause Pause is ON");
                 NWDNews.InstallAllNotifications(true);
             }
         }
@@ -579,7 +577,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.SetHorizontalValue(sPurcent);
@@ -588,7 +586,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = false;

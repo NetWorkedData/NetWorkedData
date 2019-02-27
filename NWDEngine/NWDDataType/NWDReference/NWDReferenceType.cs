@@ -27,11 +27,49 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDReferenceSimple : BTBDataType
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        {
+            string rReturn = "NO";
+            if (Value != null)
+            {
+                if (Value.Contains(sOldReference))
+                {
+                    Value = Value.Replace(sOldReference, sNewReference);
+                    rReturn = "YES";
+                }
+            }
+            return rReturn;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDReferenceMultiple : BTBDataType
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        {
+            string rReturn = "NO";
+            if (Value != null)
+            {
+                if (Value.Contains(sOldReference))
+                {
+                    Value = Value.Replace(sOldReference, sNewReference);
+                    rReturn = "YES";
+                }
+            }
+            return rReturn;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDReferenceType used to put a reference in value. Use properties with simple name, like 'Account', 'Spot', 'Bonus' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferenceType<K> : NWDReferenceSimple where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceType()
@@ -90,7 +128,7 @@ namespace NetWorkedData
             K tObject = NWDBasis<K>.FindDataByReference(Value, sAccountReference) as K;
             if (tObject != null)
             {
-                return new K[] {tObject};
+                return new K[] { tObject };
             }
             else
             {
@@ -200,20 +238,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
