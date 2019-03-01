@@ -29,7 +29,7 @@ namespace NetWorkedData
     public enum NWDTradeStatus
     {
         None = 0,
-        Active = 1,
+        Submit = 1,
         Waiting = 2,
         Deal = 3,
         Accepted = 4,

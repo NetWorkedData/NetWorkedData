@@ -29,48 +29,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDAlias("TradePlace")]
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupStart("Trade References", true, true, true)]
         [NWDAlias("TradeRequest")]
-        public NWDReferenceType<NWDUserTradeRequest> TradeRequest
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
         [NWDAlias("ItemsProposed")]
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed
-        {
-            get; set;
-        }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
         [NWDAlias("ItemsAsked")]
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked
-        {
-            get; set;
-        }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
         [NWDAlias("TradeStatus")]
-        public NWDTradeStatus TradeStatus
-        {
-            get; set;
-        }
+        public NWDTradeStatus TradeStatus { get; set; }
         [NWDNotEditable]
         [NWDAlias("TradeRequestHash")]
-        public string TradeRequestHash
-        {
-            get; set;
-        }
+        public string TradeRequestHash { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
@@ -99,21 +75,21 @@ namespace NetWorkedData
         public static NWDUserTradeProposition CreateTradeProposalWith(NWDUserTradeRequest sRequest)
         {
             // Create a new Proposal
-            NWDUserTradeProposition tProposition = NewData();
+            NWDUserTradeProposition rProposition = NewData();
             #if UNITY_EDITOR
             NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
-            tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tTrade.InternalKey;
+            rProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tTrade.InternalKey;
             #endif
-            tProposition.Tag = NWDBasisTag.TagUserCreated;
-            tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
-            tProposition.TradeRequest.SetObject(sRequest);
-            tProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
-            tProposition.ItemsAsked.SetReferenceAndQuantity(sRequest.ItemsAsked.GetReferenceAndQuantity());
-            tProposition.TradeStatus = NWDTradeStatus.Active;
-            tProposition.TradeRequestHash = sRequest.TradeHash;
-            tProposition.SaveData();
+            rProposition.Tag = NWDBasisTag.TagUserCreated;
+            rProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
+            rProposition.TradeRequest.SetObject(sRequest);
+            rProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
+            rProposition.ItemsAsked.SetReferenceAndQuantity(sRequest.ItemsAsked.GetReferenceAndQuantity());
+            rProposition.TradeStatus = NWDTradeStatus.Submit;
+            rProposition.TradeRequestHash = sRequest.TradeHash;
+            rProposition.SaveData();
 
-            return tProposition;
+            return rProposition;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncTradeProposal(NWDMessage sMessage = null)
@@ -312,7 +288,7 @@ namespace NetWorkedData
                 "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                 "}\n" +
                 // change the statut from CSV TO ACTIVE 
-                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                 "{\n" +
                 "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` SET " +

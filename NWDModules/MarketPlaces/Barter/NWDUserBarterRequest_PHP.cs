@@ -106,7 +106,7 @@ namespace NetWorkedData
                     "}\n" +
 
                 // change the statut from CSV TO ACTIVE 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                     "{\n" +
                         "$tQueryBarterPlace = 'SELECT" +
