@@ -92,7 +92,7 @@ namespace NetWorkedData
         
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
-        [NWDNotEditableAttribute]
+        //[NWDNotEditableAttribute]
         //public string RecipeHash
         //{
         //    get; set;

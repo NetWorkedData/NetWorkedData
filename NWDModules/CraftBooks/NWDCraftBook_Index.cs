@@ -51,6 +51,7 @@ namespace NetWorkedData
             List<NWDCraftBook> rReturn = new List<NWDCraftBook>();
             foreach (string tHash in IndexKeyForItem(sRecipient, sItems))
             {
+                Debug.Log("tHash : " + tHash);
                 if (kIndex.ContainsKey(tHash))
                 {
                     foreach (NWDCraftBook Craft in kIndex[tHash])
@@ -91,14 +92,14 @@ namespace NetWorkedData
                 {
                     if (sOrderIsImportant == false)
                     {
-                        foreach (string tSign in GetSignature(sItemGroupIngredient.GetSortedReferences()))
+                        foreach (string tSign in GetSignature(sItemGroupIngredient.GetSortedReferences(), false))
                         {
                             rReturn.Add(("A*" + tRecipient.Reference + "*" + tSign).Replace("ITM", ""));
                         }
                     }
                     else
                     {
-                        foreach (string tSign in GetSignature(sItemGroupIngredient.GetReferences()))
+                        foreach (string tSign in GetSignature(sItemGroupIngredient.GetReferences(), true))
                         {
                             rReturn.Add(("B*" + tRecipient.Reference + "*" + tSign).Replace("ITM", ""));
                         }
@@ -108,37 +109,50 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        static string[] GetSignature(string[] sItemGroupIngredient)
+        static string[] GetSignature(string[] sItemGroupIngredient, bool sOrderIsImportant)
         {
             Debug.Log("GetSignature()");
-            List<string> Final = new List<string>();
+            List< List<string>> Final = new List<List<string>>();
             foreach (string tA in sItemGroupIngredient)
             {
                 NWDItemGroup tItemGroup = NWDItemGroup.GetDataByReference(tA);
                 if (tItemGroup != null)
                 {
                     NWDItem[] tItems = tItemGroup.ItemList.GetObjectsAbsolute();
-                    List<string> FinalIntermediares = new List<string>();
+                    List<List<string>> FinalIntermediares = new List<List<string>>();
                     foreach (NWDItem tItem in tItems)
                     {
                         if (Final.Count > 0)
                         {
                             // continue loop
-                            foreach (string tPreview in Final)
+                            foreach (List<string> tPreview in Final)
                             {
-                                FinalIntermediares.Add(tPreview + BTBConstants.K_HASHTAG + tItem.Reference);
+                                List<string> tNewList = new List<string>(tPreview);
+                                tNewList.Add(tItem.Reference);
+                                FinalIntermediares.Add(tNewList);
                             }
                         }
                         else
                         {
                             // start loop
-                            FinalIntermediares.Add(tItem.Reference);
+                            List<string> tNewList = new List<string>();
+                            tNewList.Add(tItem.Reference);
+                            FinalIntermediares.Add(tNewList);
                         }
                     }
                     Final = FinalIntermediares;
                 }
             }
-            return Final.ToArray();
+            List<string> rResult = new List<string>();
+            foreach (List<string> tLL in Final)
+            {
+                if (sOrderIsImportant == false)
+                {
+                    tLL.Sort();
+                }
+                rResult.Add((string.Join(BTBConstants.K_HASHTAG, tLL)).Replace("ITM", ""));
+            }
+            return rResult.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()

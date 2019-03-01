@@ -30,15 +30,19 @@ namespace NetWorkedData
             tCountClass = tCountClass + sTypeList.Count * 2;
             if (sCreateAll == true)
             {
-                tCountClass = tCountClass + 26;
+                tCountClass = tCountClass + 25;
             }
             else
             {
-                tCountClass = tCountClass + 15;
+                tCountClass = tCountClass + 5;
             }
             if (sWriteOnDisk == false)
             {
-                tCountClass = tCountClass + 2;
+                tCountClass = tCountClass + 1;
+            }
+            else
+            {
+                tCountClass = tCountClass + 3;
             }
             string tTitle = Environment + " PHP Creation";
             EditorUtility.DisplayProgressBar(tTitle, "Start", tOperation++ / tCountClass);
