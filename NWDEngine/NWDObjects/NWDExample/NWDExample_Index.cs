@@ -44,6 +44,8 @@ namespace NetWorkedData
         private void InsertInIndex()
         {
             if (Something.GetReference() != null
+                && GameSave!=null
+                && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
                 && IsEnable() == true
                 && IsTrashed() == false
                 && TestIntegrity() == true)

@@ -247,7 +247,8 @@ namespace NetWorkedData
                         "$tQueryDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "`'.$ENV.'Sync` = \\''.$sCsvList[" + t_THIS_Index_WinnerProposition + "].'\\', " +
+                        "`"+ t_THIS_WinnerProposition + "` = \\''.$TIME_SYNC.'\\', " +
                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Deal).ToString() + "\\' " +
                         "WHERE " +
                         "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +

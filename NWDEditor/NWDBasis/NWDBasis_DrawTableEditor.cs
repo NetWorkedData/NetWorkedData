@@ -1105,6 +1105,7 @@ namespace NetWorkedData
             bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
             bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
             bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
+            bool tDeleteOldModelOnlyThisClass = false; //prevent GUIlayout error
             bool tSyncProd = false; //prevent GUIlayout error
             bool tSyncForceProd = false; //prevent GUIlayout error
             bool tPullProd = false; //prevent GUIlayout error
@@ -1852,6 +1853,10 @@ namespace NetWorkedData
                 {
                     tReintegrateOnlyThisClass = true;
                 }
+                if (GUILayout.Button(NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, EditorStyles.miniButton))
+                {
+                    tDeleteOldModelOnlyThisClass = true;
+                }
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
                 NWDConstants.GUIRedButtonEnd();
@@ -2296,6 +2301,11 @@ namespace NetWorkedData
             if (tReintegrateOnlyThisClass == true)
             {
                 ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
+            if (tDeleteOldModelOnlyThisClass == true)
+            {
+                DeleteOldsModels();
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             if (tCreateAllPHPForOnlyThisClassDEV == true)

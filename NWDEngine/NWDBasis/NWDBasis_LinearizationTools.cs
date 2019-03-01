@@ -152,6 +152,8 @@ namespace NetWorkedData
             if (BasisHelper().WebModelPropertiesOrder.Count == 0)
             {
                 BasisHelper().WebModelPropertiesOrder.Add(0, rReturnList);
+                BasisHelper().WebServiceWebModel.Add(0, 0);
+                BasisHelper().WebModelSQLOrder.Add(0, SLQSelect(0));
             }
 #endif
             return rReturnList;
@@ -535,85 +537,88 @@ namespace NetWorkedData
                 if (tValue.Count() > tI)
                 {
                     PropertyInfo tPropertyInfo = tType.GetProperty(tKey[tI], BindingFlags.Public | BindingFlags.Instance);
-                    Type tTypeOfThis = tPropertyInfo.PropertyType;
-                    string tValueString = tValue[tI] as string;
+                    if (tPropertyInfo != null)
+                    {
+                        Type tTypeOfThis = tPropertyInfo.PropertyType;
+                        string tValueString = tValue[tI] as string;
 
-                    if (tTypeOfThis.IsEnum)
-                    {
-                        // sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), data["sign"].ToString(), true);
-                        int tValueInsert = 0;
-                        int.TryParse(tValueString, out tValueInsert);
-                        tPropertyInfo.SetValue(this, tValueInsert, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
-                    {
-                        BTBDataType tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
-                        tObject.SetValue(tValueString);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
-                    {
-                        BTBDataTypeInt tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
-                        long tTemp = 0;
-                        long.TryParse(tValueString, out tTemp);
-                        tObject.SetLong(tTemp);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
-                    {
-                        BTBDataTypeFloat tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeFloat;
-                        double tTemp = 0;
-                        double.TryParse(tValueString, out tTemp);
-                        tObject.SetDouble(tTemp);
-                        tPropertyInfo.SetValue(this, tObject, null);
-                    }
-                    // Do for Standard type
-                    else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
-                    {
-                        tPropertyInfo.SetValue(this, tValueString, null);
-                    }
-                    else if (tTypeOfThis == typeof(bool))
-                    {
-                        bool tValueInsert = false;
-                        int tTemp = 0;
-                        int.TryParse(tValueString, out tTemp);
-                        if (tTemp > 0)
+                        if (tTypeOfThis.IsEnum)
                         {
-                            tValueInsert = true;
+                            // sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), data["sign"].ToString(), true);
+                            int tValueInsert = 0;
+                            int.TryParse(tValueString, out tValueInsert);
+                            tPropertyInfo.SetValue(this, tValueInsert, null);
                         }
-                        tPropertyInfo.SetValue(this, tValueInsert, null);
-                    }
-                    else if (tTypeOfThis == typeof(int))
-                    {
-                        int tValueInsert = 0;
-                        int.TryParse(tValueString, out tValueInsert);
-                        tPropertyInfo.SetValue(this, tValueInsert, null);
-                    }
-                    else if (tTypeOfThis == typeof(long))
-                    {
-                        long tValueInsert = 0;
-                        long.TryParse(tValueString, out tValueInsert);
-                        tPropertyInfo.SetValue(this, tValueInsert, null);
-                    }
-                    else if (tTypeOfThis == typeof(float))
-                    {
-                        // TODO: bug with dot, comma
-                        //Debug.Log("float tValueString = " + tValueString);
-                        float tValueInsert = 0;
-                        float.TryParse(tValueString, out tValueInsert);
-                        tPropertyInfo.SetValue(this, tValueInsert, null);
-                    }
-                    else if (tTypeOfThis == typeof(double))
-                    {
-                        // TODO: bug with dot, comma
-                        //Debug.Log("float tValueString = " + tValueString);
-                        double tValueInsert = 0;
-                        double.TryParse(tValueString, out tValueInsert);
-                        tPropertyInfo.SetValue(this, tValueInsert, null);
-                    }
-                    else
-                    {
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        {
+                            BTBDataType tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
+                            tObject.SetValue(tValueString);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        {
+                            BTBDataTypeInt tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
+                            long tTemp = 0;
+                            long.TryParse(tValueString, out tTemp);
+                            tObject.SetLong(tTemp);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        {
+                            BTBDataTypeFloat tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeFloat;
+                            double tTemp = 0;
+                            double.TryParse(tValueString, out tTemp);
+                            tObject.SetDouble(tTemp);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
+                        // Do for Standard type
+                        else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                        {
+                            tPropertyInfo.SetValue(this, tValueString, null);
+                        }
+                        else if (tTypeOfThis == typeof(bool))
+                        {
+                            bool tValueInsert = false;
+                            int tTemp = 0;
+                            int.TryParse(tValueString, out tTemp);
+                            if (tTemp > 0)
+                            {
+                                tValueInsert = true;
+                            }
+                            tPropertyInfo.SetValue(this, tValueInsert, null);
+                        }
+                        else if (tTypeOfThis == typeof(int))
+                        {
+                            int tValueInsert = 0;
+                            int.TryParse(tValueString, out tValueInsert);
+                            tPropertyInfo.SetValue(this, tValueInsert, null);
+                        }
+                        else if (tTypeOfThis == typeof(long))
+                        {
+                            long tValueInsert = 0;
+                            long.TryParse(tValueString, out tValueInsert);
+                            tPropertyInfo.SetValue(this, tValueInsert, null);
+                        }
+                        else if (tTypeOfThis == typeof(float))
+                        {
+                            // TODO: bug with dot, comma
+                            //Debug.Log("float tValueString = " + tValueString);
+                            float tValueInsert = 0;
+                            float.TryParse(tValueString, out tValueInsert);
+                            tPropertyInfo.SetValue(this, tValueInsert, null);
+                        }
+                        else if (tTypeOfThis == typeof(double))
+                        {
+                            // TODO: bug with dot, comma
+                            //Debug.Log("float tValueString = " + tValueString);
+                            double tValueInsert = 0;
+                            double.TryParse(tValueString, out tValueInsert);
+                            tPropertyInfo.SetValue(this, tValueInsert, null);
+                        }
+                        else
+                        {
 
+                        }
                     }
                 }
             }
@@ -1076,18 +1081,24 @@ namespace NetWorkedData
                 BasisHelper().WebServiceWebModel.Remove(sWebBuild);
             }
             BasisHelper().WebServiceWebModel.Add(sWebBuild, sWebBuild);
-
             if (BasisHelper().WebModelPropertiesOrder.ContainsKey(sWebBuild))
             {
                 BasisHelper().WebModelPropertiesOrder.Remove(sWebBuild);
             }
             BasisHelper().WebModelPropertiesOrder.Add(sWebBuild, PropertiesOrderArray(sWebBuild));
-
             if (BasisHelper().WebModelSQLOrder.ContainsKey(sWebBuild))
             {
                 BasisHelper().WebModelSQLOrder.Remove(sWebBuild);
             }
             BasisHelper().WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DeleteOldsModels()
+        {
+            BasisHelper().WebServiceWebModel.Clear();
+            BasisHelper().WebModelPropertiesOrder.Clear();
+            BasisHelper().WebModelSQLOrder.Clear();
+            ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : DEPLACER VERS NWDDATAS

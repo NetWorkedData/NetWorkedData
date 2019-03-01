@@ -110,7 +110,9 @@ namespace NetWorkedData
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
             rReturn.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturn.AppendLine("{");
-            foreach (Type tType in NWDTypeLauncher.AllTypes)
+            List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
+            tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
+            foreach (Type tType in tAllTypes)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
@@ -121,7 +123,7 @@ namespace NetWorkedData
             rReturn.AppendLine("return true;");
             rReturn.AppendLine("}");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-            foreach (Type tType in NWDTypeLauncher.AllTypes)
+            foreach (Type tType in tAllTypes)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)

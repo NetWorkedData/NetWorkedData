@@ -165,7 +165,7 @@ namespace NetWorkedData
         public void CheckMyItems()
         {
             List<NWDItem> tActualItems = ItemList.GetObjectsList();
-            foreach (NWDItem tItem in NWDItem.FindDatas())
+            foreach (NWDItem tItem in NWDItem.BasisHelper().Datas)
             {
                 if (tActualItems.Contains(tItem))
                 {
@@ -178,6 +178,14 @@ namespace NetWorkedData
                         // oh item group not contains me! WHYYYYYYYY
                         tItem.ItemGroupList.AddObject(this);
                         tItem.UpdateData();
+                        foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
+                            {
+                            if (tCraftbook.ItemGroupIngredient.ContainsObject(this))
+                            {
+                                tCraftbook.RecalculMe();
+                                tCraftbook.UpdateDataIfModified();
+                            }
+                        }
                     }
                 }
                 else
@@ -187,6 +195,14 @@ namespace NetWorkedData
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItem.ItemGroupList.RemoveObjects(new NWDItemGroup[] { this });
                         tItem.UpdateData();
+                        foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
+                        {
+                            if (tCraftbook.ItemGroupIngredient.ContainsObject(this))
+                            {
+                                tCraftbook.RecalculMe();
+                                tCraftbook.UpdateDataIfModified();
+                            }
+                        }
                     }
                     else
                     {

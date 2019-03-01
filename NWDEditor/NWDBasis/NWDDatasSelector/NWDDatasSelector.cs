@@ -91,7 +91,7 @@ namespace NetWorkedData
     public class NWDDatasSelector<K> : NWDDatasSelectorBasis where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBasisHelper Helper;
+        public List<NWDTypeClass> Datas = null;
         List<int> TagIntList = new List<int>();
         List<string> TagStringList = new List<string>();
         //-------------------------------------------------------------------------------------------------------------
@@ -214,6 +214,19 @@ namespace NetWorkedData
             NWDDatasSelector<K> rReturn = new NWDDatasSelector<K>();
             rReturn.Show(-2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        static public void SelectNow(List<NWDTypeClass> sDatas, string sInitialInternalResearch = "",
+                                string sInitialDescriptionResearch = "",
+                                NWDBasisTag sTag = NWDBasisTag.NoTag,
+                                NWDDatasSelectorBlock sSelectedBlock = null,
+                                string sSelection = "")
+        {
+            NWDDatasSelector<K> rReturn = new NWDDatasSelector<K>();
+            rReturn.Datas = sDatas;
+            rReturn.Show(-2, sInitialInternalResearch, sInitialDescriptionResearch, sTag, sSelectedBlock, sSelection);
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         public void Show(string sInitialInternalResearch = "",
                             string sInitialDescriptionResearch = "",
@@ -231,7 +244,10 @@ namespace NetWorkedData
                         string sSelection = "")
         {
             Initialization();
-            Helper = NWDBasis<K>.BasisHelper();
+            if (Datas == null)
+            {
+                Datas = NWDBasis<K>.BasisHelper().Datas;
+            }
             InternalResearch = sInitialInternalResearch;
             DescriptionResearch = sInitialDescriptionResearch;
             Tag = sTag;
@@ -277,7 +293,7 @@ namespace NetWorkedData
             {
                 tDesLower = DescriptionResearch.ToLower();
             }
-            foreach (K tItem in NWDBasis<K>.BasisHelper().Datas)
+            foreach (K tItem in Datas)
             {
                 bool tInclude = true;
                 if (tItem.InternalKey.ToLower().Contains(tIntLower) == false)
