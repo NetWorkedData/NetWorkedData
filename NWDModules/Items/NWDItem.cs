@@ -501,13 +501,20 @@ namespace NetWorkedData
             tY += NWDConstants.kFieldMarge * 2;
 
             NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
+
+
             if (tOwnership != null)
             {
-                GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
+                GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!"); tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Select Ownership", NWDConstants.tMiniButtonStyle))
+                {
+                    NWDDataInspector.InspectNetWorkedData(tOwnership);
+                }
             }
             else
             {
                 GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
+
             }
             tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
