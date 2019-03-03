@@ -20,30 +20,6 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-	[Serializable]
-    public class NWDUserOwnershipConnection : NWDConnection<NWDUserOwnership>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
     /// NWD ownership. This class connect the item to the account. The item is decripted in NWDItem, but some informations
     /// specific to this ownership are available only here. For example : the quantity of this item in chest, the first 
     /// acquisition statut or some particular values (A, B, C, etc.).
@@ -67,21 +43,15 @@ namespace NetWorkedData
         public string Name { get; set; }
         [NWDGroupEnd]
 
-       
-
         [NWDGroupStart("Acquisition", true, true, true)]
         public bool FirstAcquisitionNotify { get; set; }
         public NWDDateTimeType FirstAcquisitionDate { get; set; }
         [NWDGroupEnd]
 
-       
-
         [NWDGroupStart("Extensions", true, true, true)]
         public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
         public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
         [NWDGroupEnd]
-
-       
 
         [NWDGroupStart("Development addons", true, true, true)]
         public string JSON { get; set; }
@@ -122,11 +92,10 @@ namespace NetWorkedData
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
             NWDUserOwnership rOwnership = FindFirstByIndex(sItemReference);
-
             if (rOwnership == null)
             {
                 rOwnership = NewData(kWritingMode);
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 NWDItem tItem = NWDItem.GetDataByReference(sItemReference);
                 if (tItem != null)
                 {
@@ -140,7 +109,7 @@ namespace NetWorkedData
                     }
                 }
                 rOwnership.InternalDescription = NWDAccountNickname.GetNickname();
-                #endif
+#endif
                 rOwnership.Item.SetReference(sItemReference);
                 rOwnership.Tag = NWDBasisTag.TagUserCreated;
                 rOwnership.Quantity = 0;
@@ -203,20 +172,66 @@ namespace NetWorkedData
                 FirstAcquisitionDate.SetDateTime(DateTime.Now);
                 FirstAcquisitionNotify = true;
                 NWDItem tItem = Item.GetObject();
-                if (tItem != null && tItem.FirstAcquisitionNotification!= NWDItemNotification.NoNotification)
+                if (tItem != null && tItem.FirstAcquisitionNotification != NWDItemNotification.NoNotification)
                 {
                     BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_FirstAcquisitionNotificationKey);
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        private void UncountableVerify(NWDItem sItem)
+        {
+            if (sItem.Uncountable == true)
+            {
+                if (Quantity > 0)
+                {
+                    Quantity = 1;
+                }
+                else
+                {
+                    Quantity = 0;
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> OwnershipIntersection(List<NWDItem> sItemsList, int sQuantity = 1)
+        {
+            List<NWDItem> rReturn = new List<NWDItem>();
+            foreach (NWDItem tItem in sItemsList)
+            {
+                if (tItem != null)
+                {
+                    if (ContainsItem(tItem, sQuantity))
+                    {
+                        rReturn.Add(tItem);
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            int tOldQuantity = rOwnershipToUse.Quantity;
             rOwnershipToUse.Quantity = sQuantity;
+            rOwnershipToUse.UncountableVerify(sItem);
+            rOwnershipToUse.FirstAcquisitionMethod();
             if (sQuantity != 0)
             {
                 rOwnershipToUse.FirstAcquisitionMethod();
+            }
+            if (sItem != null && sItem.AddItemNotification != NWDItemNotification.NoNotification && sQuantity > tOldQuantity)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_AddNotificationKey);
+            }
+            if (sItem != null && sItem.RemoveItemNotification != NWDItemNotification.NoNotification && sQuantity < tOldQuantity)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_RemoveNotificationKey);
+            }
+            if (sItem != null && sItem.NoMoreItemNotification != NWDItemNotification.NoNotification && rOwnershipToUse.Quantity <= 0)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_NoMoreNotificationKey);
             }
             rOwnershipToUse.UpdateData();
             return rOwnershipToUse;
@@ -242,18 +257,27 @@ namespace NetWorkedData
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
             rOwnershipToUse.Quantity += sQuantity;
-            if (sQuantity > 0)
+            rOwnershipToUse.UncountableVerify(sItem);
+            rOwnershipToUse.FirstAcquisitionMethod();
+            if (sItem != null && sItem.AddItemNotification != NWDItemNotification.NoNotification && sQuantity > 0)
             {
-                rOwnershipToUse.FirstAcquisitionMethod();
+                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_AddNotificationKey);
+            }
+            if (sItem != null && sItem.RemoveItemNotification != NWDItemNotification.NoNotification && sQuantity < 0)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_RemoveNotificationKey);
+            }
+            if (sItem != null && sItem.NoMoreItemNotification != NWDItemNotification.NoNotification && rOwnershipToUse.Quantity <= 0)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_NoMoreNotificationKey);
             }
             rOwnershipToUse.UpdateData();
-
-            NWDItem tItem = rOwnershipToUse.Item.GetObject();
-            if (tItem != null && tItem.AddItemNotification != NWDItemNotification.NoNotification)
-            {
-                BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_AddNotificationKey);
-            }
             return rOwnershipToUse;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
+        {
+            return AddItemToOwnership(sItem, -sQuantity);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsAndQuantity)
@@ -262,41 +286,10 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tQte.Key);
-                    rOwnershipToUse.Quantity += tQte.Value;
-                    if (rOwnershipToUse.Quantity > 0)
-                    {
-                        rOwnershipToUse.FirstAcquisitionMethod();
-                    }
-                    rOwnershipToUse.UpdateData();
-                    NWDItem tItem = rOwnershipToUse.Item.GetObject();
-                    if (tItem != null && tItem.AddItemNotification != NWDItemNotification.NoNotification)
-                    {
-                        BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_AddNotificationKey);
-                    }
+                    NWDItem tItem = NWDItem.GetDataByReference(tQte.Key);
+                    AddItemToOwnership(tItem, tQte.Value);
                 }
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
-        {
-            NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            rOwnershipToUse.Quantity -= sQuantity;
-            if (rOwnershipToUse.Quantity < 0)
-            {
-                rOwnershipToUse.FirstAcquisitionMethod();
-            }
-            rOwnershipToUse.UpdateData();
-            NWDItem tItem = rOwnershipToUse.Item.GetObject();
-            if (tItem != null && tItem.RemoveItemNotification != NWDItemNotification.NoNotification)
-            {
-                BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_RemoveNotificationKey);
-            }
-            if (tItem != null && tItem.NoMoreItemNotification != NWDItemNotification.NoNotification && rOwnershipToUse.Quantity <= 0)
-            {
-                BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_NoMoreNotificationKey);
-            }
-            return rOwnershipToUse;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RemoveItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsAndQuantity)
@@ -305,22 +298,8 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tQte.Key);
-                    rOwnershipToUse.Quantity -= tQte.Value;
-                    if (rOwnershipToUse.Quantity < 0)
-                    {
-                        rOwnershipToUse.FirstAcquisitionMethod();
-                    }
-                    rOwnershipToUse.UpdateData();
-                    NWDItem tItem = rOwnershipToUse.Item.GetObject();
-                    if (tItem != null && tItem.RemoveItemNotification != NWDItemNotification.NoNotification)
-                    {
-                        BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_RemoveNotificationKey);
-                    }
-                    if (tItem != null && tItem.NoMoreItemNotification != NWDItemNotification.NoNotification && rOwnershipToUse.Quantity <= 0)
-                    {
-                        BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_NoMoreNotificationKey);
-                    }
+                    NWDItem tItem = NWDItem.GetDataByReference(tQte.Key);
+                    AddItemToOwnership(tItem, -tQte.Value);
                 }
             }
         }
@@ -351,13 +330,27 @@ namespace NetWorkedData
             if (sItem != null)
             {
                 NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-                if (rOwnershipToUse.Quantity < sQuantity)
+                if (sItem.Uncountable == false)
                 {
-                    rReturn = false;
+                    if (rOwnershipToUse.Quantity < sQuantity)
+                    {
+                        rReturn = false;
+                    }
+                    else if (sQuantity == 0 && rOwnershipToUse.Quantity > 0)
+                    {
+                        rReturn = false;
+                    }
                 }
-                else if (sQuantity == 0 && rOwnershipToUse.Quantity > 0)
+                else
                 {
-                    rReturn = false;
+                    if (rOwnershipToUse.Quantity < 1)
+                    {
+                        rReturn = false;
+                    }
+                    else if (sQuantity == 0 && rOwnershipToUse.Quantity > 0)
+                    {
+                        rReturn = false;
+                    }
                 }
             }
             return rReturn;
@@ -394,6 +387,17 @@ namespace NetWorkedData
                 int tQ = 0;
                 foreach (NWDItem tItem in sItemGroup.ItemList.GetObjects())
                 {
+                    if (tItem.Uncountable == true)
+                    {
+                        if (sQuantity > 0)
+                        {
+                            sQuantity = 1;
+                        }
+                        else
+                        {
+                            sQuantity = 0;
+                        }
+                    }
                     NWDUserOwnership tOwnership = OwnershipForItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
                     if (tQ >= sQuantity)
@@ -401,7 +405,7 @@ namespace NetWorkedData
                         if (sQuantity >= 0)
                         {
                             rReturn = true;
-                            break;
+                            //break; // must continue to check uncountable items
                         }
                     }
                 }
@@ -499,9 +503,7 @@ namespace NetWorkedData
         public bool CheckOwnershipAndItemValidity()
         {
             bool rReturn = false;
-
             NWDItem tNWDItem = Item.GetObject();
-
             // Check if item is not null
             if (tNWDItem != null)
             {
@@ -511,70 +513,12 @@ namespace NetWorkedData
                     rReturn = true;
                 }
             }
-
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonLoadedMe()
-        {
-            // do something when object is loaded
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-            //InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-            // not insert in index because integrity is not reevaluate!
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public override void AddonUpdatedMeFromWeb()
-        //{
-        //    // do something when object will be updated
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when untrahs me. Can be ovverride in herited Class.
-        /// </summary>
-        public override void AddonDeleteMe()
-        {
-        }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -643,8 +587,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
