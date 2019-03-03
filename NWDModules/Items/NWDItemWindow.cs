@@ -23,6 +23,8 @@ namespace NetWorkedData
             typeof(NWDItemProperty),
             typeof(NWDItemGroup),
             typeof(NWDUserOwnership),
+            typeof(NWDItemSlot),
+            typeof(NWDUserItemSlot),
 			/* Add NWDBasis here*/
 		}
     )]
