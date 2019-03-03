@@ -170,25 +170,25 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     if (Application.isEditor == true)
                     {
-                        Debug.Log(" I AM IN EDITOR");
+                       //Debug.Log(" I AM IN EDITOR");
                         if (Application.isPlaying == true)
                         {
-                            Debug.Log(" <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                           //Debug.Log(" <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
                         }
                         else
                         {
-                            Debug.Log(" <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                           //Debug.Log(" <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
                         }
                     }
                     else
                     {
-                        Debug.Log(" <color=r-red>I AM NOT IN EDITOR</color>");
+                        //Debug.Log(" <color=r-red>I AM NOT IN EDITOR</color>");
                     }
 
                     if (Application.isEditor && Application.isPlaying == false)
                     {
                         tEditorByPass = true;
-                        Debug.Log("NWD => Preload Datas bypass by editor");
+                        //Debug.Log("NWD => Preload Datas bypass by editor");
                     }
 #endif
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)

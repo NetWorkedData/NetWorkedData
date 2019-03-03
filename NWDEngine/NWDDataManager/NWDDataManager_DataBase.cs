@@ -33,7 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
-             //BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             if (kConnectedToDatabase == false && kConnectedToDatabaseIsProgress == false)
             {
                 kConnectedToDatabaseIsProgress = true;
@@ -122,10 +122,8 @@ namespace NetWorkedData
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
                 || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
-                    Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor);
-                    Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
-                    Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
-                    Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
+                    Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
+                    Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount + " : " + tAccountPass);
                 }
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 // RESET TOKEN SYNC OF USER 'S DATAS TO ZERO!
@@ -157,7 +155,7 @@ namespace NetWorkedData
                     // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
                     // TODO : Detruire fichier et reinstaller ? 
                 }
-                
+
                 while (SQLiteConnectionAccount.IsOpen() == false)
                 {
                     Debug.LogWarning("SQLiteConnectionAccount is not opened!");
@@ -413,7 +411,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReInitializeTable(Type sType, bool sAccountConnected)
         {
-                EmptyTable(sType, sAccountConnected);
+            EmptyTable(sType, sAccountConnected);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetTable(Type sType, bool sAccountConnected)

@@ -174,17 +174,17 @@ namespace NetWorkedData
         {
             kCheckReinstall.Clear();
             int tNow = Mathf.CeilToInt((float)BTBDateHelper.ConvertToTimestamp(DateTime.Now) / (float)60);
-            Debug.Log("NWDNews Check() timestamp seconds");
+            //Debug.Log("NWDNews Check() timestamp seconds");
             foreach (KeyValuePair<int, List<NWDNews>> tKeyValue in kCheckLoopDictionary)
             {
-                Debug.Log("NWDNews Check() kCheckLoopDictionary[" + tKeyValue.Key + "] : "+ tKeyValue.Value.Count);
+                //Debug.Log("NWDNews Check() kCheckLoopDictionary[" + tKeyValue.Key + "] : "+ tKeyValue.Value.Count);
             }
 
             if (kCheckLoopDictionary.ContainsKey(tNow))
             {
                 foreach (NWDNews tNew in kCheckLoopDictionary[tNow])
                 {
-                    Debug.Log("NWDNews Check() FIND Timestamp List");
+                    //Debug.Log("NWDNews Check() FIND Timestamp List");
                     tNew.NotifyInGame();
                     if (tNew.EventType == NWDNewsType.InGameNotificationRecurrent)
                     {
@@ -195,10 +195,10 @@ namespace NetWorkedData
             }
             foreach (NWDNews tNew in kCheckScheduled)
             {
-                Debug.Log("NWDNews Check() check schedule ?");
+                //Debug.Log("NWDNews Check() check schedule ?");
                 if (tNew.ScheduleDateTime.AvailableNow())
                 {
-                    Debug.Log("NWDNews Check() FIND schedule");
+                    //Debug.Log("NWDNews Check() FIND schedule");
                     tNew.NotifyInGame();
                 }
             }

@@ -1032,7 +1032,7 @@ namespace NetWorkedData
                         foreach (string tR in tResultRemove)
                         {
                             BasisHelper().WebModelDegradationList.Add(tR);
-                            Debug.Log("... il reste " + tR + " en trop dans le modele " + tKey + " de " + BasisHelper().ClassNamePHP);
+                            //Debug.Log("... il reste " + tR + " en trop dans le modele " + tKey + " de " + BasisHelper().ClassNamePHP);
                         }
                         // the properties is not increment beetween two versions !!!!!
                         rReturn = true;
