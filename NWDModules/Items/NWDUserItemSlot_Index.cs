@@ -119,7 +119,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public List<NWDUserItemSlot> FindByIndex(string sSomething)
         {
-            List<NWDUserItemSlot> rReturn = null;
+            List<NWDUserItemSlot> rReturn = new List<NWDUserItemSlot>();
             if (sSomething != null)
             {
                 string tKey = sSomething;
