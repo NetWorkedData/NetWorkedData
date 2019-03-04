@@ -382,12 +382,13 @@ namespace NetWorkedData
             GUILayout.Label(tStringReference, NWDConstants.kRowStyleRight, GUILayout.Width(NWDConstants.kReferenceWidth));
             // Draw prefab preview
             //Texture2D tTexture2D = AssetPreview.GetAssetPreview(tObject);
-            Texture2D tTexture2D = PreviewTexture2D();
-            if (tTexture2D != null)
-            {
-                EditorGUI.DrawPreviewTexture(new Rect(tRectPreview.x, tRectPreview.y - 3, NWDConstants.kPrefabWidth, NWDConstants.kPrefabWidth), tTexture2D);
-            }
-			// draw line to delimit the rect
+            //Texture2D tTexture2D = PreviewTexture2D();
+            //if (tTexture2D != null)
+            //{
+            //    EditorGUI.DrawPreviewTexture(new Rect(tRectPreview.x, tRectPreview.y - 3, NWDConstants.kPrefabWidth, NWDConstants.kPrefabWidth), tTexture2D);
+            //}
+            DrawPreviewTexture2D(new Rect(tRectPreview.x, tRectPreview.y - 3, NWDConstants.kPrefabWidth, NWDConstants.kPrefabWidth));
+            // draw line to delimit the rect
             tRect = new Rect (tRect.x-NWDConstants.kRowOutMarge, tRect.y+tRowHeight+NWDConstants.kRowLineStroke, tWidthUsed+1024, NWDConstants.kRowLineStroke);
             EditorGUI.DrawRect (tRect, NWDConstants.kRowColorLine);
 			// finish line

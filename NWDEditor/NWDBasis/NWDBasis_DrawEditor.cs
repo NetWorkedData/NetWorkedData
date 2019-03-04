@@ -157,7 +157,8 @@ namespace NetWorkedData
             Texture2D tTexture = PreviewTexture2D();
             if (tTexture != null)
             {
-                EditorGUI.DrawPreviewTexture(sRect, tTexture);
+               // EditorGUI.DrawPreviewTexture(sRect, tTexture);
+                GUI.DrawTexture(sRect, tTexture, ScaleMode.ScaleToFit, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -392,23 +393,26 @@ namespace NetWorkedData
             EditorGUI.DrawRect(new Rect(0, tY - NWDConstants.kFieldMarge, sInRect.width, sInRect.height), NWDConstants.kIdentityColor);
 
             tY += NWDConstants.kFieldMarge;
-            Texture2D tTexture2D = PreviewTexture2D();
-            if (tTexture2D != null)
-            {
-               EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
-                //if (PreviewObject != null)
-                //{
-                //    //if (gameObjectEditor == null)
-                //    //{
-                //        gameObjectEditor = Editor.CreateEditor(PreviewObject);
-                //    //}
-                //    //else
-                //    //{
-                //    //    //gameObjectEditor.
-                //    //}
-                //    gameObjectEditor.OnInteractivePreviewGUI(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), EditorStyles.whiteLabel);
-                //}
-            }
+            //Texture2D tTexture2D = PreviewTexture2D();
+            //if (tTexture2D != null)
+            //{
+            //   EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
+            //    //if (PreviewObject != null)
+            //    //{
+            //    //    //if (gameObjectEditor == null)
+            //    //    //{
+            //    //        gameObjectEditor = Editor.CreateEditor(PreviewObject);
+            //    //    //}
+            //    //    //else
+            //    //    //{
+            //    //    //    //gameObjectEditor.
+            //    //    //}
+            //    //    gameObjectEditor.OnInteractivePreviewGUI(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), EditorStyles.whiteLabel);
+            //    //}
+            //}
+
+            DrawPreviewTexture2D(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth));
+                
             if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY + tImageWidth + NWDConstants.kFieldMarge, tImageWidth, NWDConstants.tMiniButtonStyle.fixedHeight),"Reload",NWDConstants.tMiniButtonStyle))
             {
                 Debug.Log("Reload");
