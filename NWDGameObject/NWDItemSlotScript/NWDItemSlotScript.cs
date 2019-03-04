@@ -21,11 +21,13 @@ namespace NetWorkedData
         public Image SpritePlugged;
         public NWDItemSlotConnection ItemSlotConnection;
         public int SlotIndex = 0;
+        public bool IsUsed;
         //-------------------------------------------------------------------------------------------------------------
         public NWDItemSlotEvent EventAction;
         //-------------------------------------------------------------------------------------------------------------
         public void PlugAction()
         {
+            //Debug.Log("NWDItemSlotScript PlugAction()");
             NWDItemSlot tItemSlot = ItemSlotConnection.GetObject();
             if (tItemSlot != null && EventAction!=null)
             {
@@ -36,8 +38,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PlugInstall()
         {
+            //Debug.Log("NWDItemSlotScript PlugInstall()");
             NWDItemSlot tItemSlot = ItemSlotConnection.GetObject();
-            Sprite tSprite = null;
+            SpritePlugged.sprite = null;
             if (tItemSlot != null)
             {
                 NWDUserItemSlot tUserItemSlot = NWDUserItemSlot.FindFirstByIndex(tItemSlot.Reference);
@@ -47,15 +50,30 @@ namespace NetWorkedData
                     if (SlotIndex < tItemList.Count)
                     {
                         NWDItem tItem = tItemList[SlotIndex];
-                        tSprite = tItem.PrimaryTexture.ToSprite();
+                        if (tItem != tItemSlot.ItemNone.GetObject())
+                        {
+                            IsUsed = true;
+                        }
+                        else
+                        {
+                            IsUsed = false;
+                        }
+                        tItem.SecondarySprite.ToSpriteAsync(null, delegate (Sprite sInterim, Sprite sResult)
+                        {
+                            SpritePlugged.sprite = sResult;
+                        });
+                        tItem.PrimaryTexture.ToTexure2DAsync(null, delegate (Texture2D sInterim, Texture2D sResult)
+                        {
+                            //SpritePlugged.sprite = sResult;
+                        });
                     }
                 }
-            }
-            SpritePlugged.sprite = tSprite;
+            };
         }
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
+            //Debug.Log("NWDItemSlotScript Start()");
             PlugInstall();
         }
         //-------------------------------------------------------------------------------------------------------------
