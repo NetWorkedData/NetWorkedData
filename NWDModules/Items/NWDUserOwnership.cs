@@ -255,23 +255,27 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
         {
-            NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            rOwnershipToUse.Quantity += sQuantity;
-            rOwnershipToUse.UncountableVerify(sItem);
-            rOwnershipToUse.FirstAcquisitionMethod();
-            if (sItem != null && sItem.AddItemNotification != NWDItemNotification.NoNotification && sQuantity > 0)
+            NWDUserOwnership rOwnershipToUse = null;
+            if (sItem != null)
             {
-                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_AddNotificationKey);
+                rOwnershipToUse = OwnershipForItem(sItem);
+                rOwnershipToUse.Quantity += sQuantity;
+                rOwnershipToUse.UncountableVerify(sItem);
+                rOwnershipToUse.FirstAcquisitionMethod();
+                if (sItem != null && sItem.AddItemNotification != NWDItemNotification.NoNotification && sQuantity > 0)
+                {
+                    BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_AddNotificationKey);
+                }
+                if (sItem != null && sItem.RemoveItemNotification != NWDItemNotification.NoNotification && sQuantity < 0)
+                {
+                    BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_RemoveNotificationKey);
+                }
+                if (sItem != null && sItem.NoMoreItemNotification != NWDItemNotification.NoNotification && rOwnershipToUse.Quantity <= 0)
+                {
+                    BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_NoMoreNotificationKey);
+                }
+                rOwnershipToUse.UpdateData();
             }
-            if (sItem != null && sItem.RemoveItemNotification != NWDItemNotification.NoNotification && sQuantity < 0)
-            {
-                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_RemoveNotificationKey);
-            }
-            if (sItem != null && sItem.NoMoreItemNotification != NWDItemNotification.NoNotification && rOwnershipToUse.Quantity <= 0)
-            {
-                BTBNotificationManager.SharedInstance().PostNotification(sItem, NWDItem.K_NoMoreNotificationKey);
-            }
-            rOwnershipToUse.UpdateData();
             return rOwnershipToUse;
         }
         //-------------------------------------------------------------------------------------------------------------

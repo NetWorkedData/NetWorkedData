@@ -72,7 +72,7 @@ namespace NetWorkedData
             if (!string.IsNullOrEmpty(Path))
             {
                 Parent.Controller[QueueName].ActualOperation = this;
-                ResourceRequest ResourceRequest = Resources.LoadAsync<GameObject>(Path);
+                ResourceRequest ResourceRequest = Resources.LoadAsync<Texture>(Path);
                 //Operation progress
                 Statut = BTBOperationState.InProgress;
                 // Put Sync in progress

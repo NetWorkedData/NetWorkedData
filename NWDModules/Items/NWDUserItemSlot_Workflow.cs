@@ -87,57 +87,57 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void CheckList()
+        private List<NWDItem> CheckedList(NWDItemSlot sSlot, NWDItem sNoneItem)
         {
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
-            List<NWDItem> tList = ItemsUsed.GetObjectsList();
-            if (tSlot != null)
+            List<NWDItem> rList = ItemsUsed.GetObjectsList();
+            if (sSlot != null)
             {
-                NWDItem tNoneItem = tSlot.ItemNone.GetObject();
-                if (tNoneItem != null)
+                while (rList.Count <= sSlot.Number)
                 {
-                    while (tList.Count <= tSlot.Number)
-                    {
-                        tList.Add(tNoneItem);
-                    }
-                    ItemsUsed.SetObjects(tList.ToArray());
-                    while (tList.Count > tSlot.Number)
-                    {
-                        RemoveItem(tList.Count-1);
-                    }
+                    rList.Add(sNoneItem);
                 }
+                while (rList.Count > sSlot.Number)
+                {
+                    if (sSlot.RemoveFromOwnership == true)
+                    {
+                        NWDUserOwnership.AddItemToOwnership(rList[rList.Count - 1], 1);
+                    }
+                    RemoveItem(rList.Count - 1);
+                }
+                ItemsUsed.SetObjects(rList.ToArray());
             }
+            return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AddItem(NWDItem sItem, int sIndex)
         {
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
             bool rReturn = false;
-            List<NWDItem> tList = ItemsUsed.GetObjectsList();
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
             if (tSlot != null)
             {
                 NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                List<NWDItem> tList = CheckedList(tSlot, tNoneItem);
+                // index is possibles
                 if (sIndex < tList.Count)
                 {
-                    if (tList[sIndex] != null && tList[sIndex] != tNoneItem)
+                    if (tSlot.RemoveFromOwnership == true)
                     {
-                        NWDUserOwnership.AddItemToOwnership(tList[sIndex], 1);
+                        if (tList[sIndex] != null && tList[sIndex] != tNoneItem)
+                        {
+                            NWDUserOwnership.AddItemToOwnership(tList[sIndex], 1);
+                        }
                     }
                     if (sItem != null)
                     {
-                        NWDUserOwnership.RemoveItemToOwnership(sItem, 1);
+                        if (tSlot.RemoveFromOwnership == true)
+                        {
+                            NWDUserOwnership.RemoveItemToOwnership(sItem, 1);
+                        }
                         tList[sIndex] = sItem;
                     }
                     else
                     {
                         tList[sIndex] = tNoneItem;
-                    }
-                    if (tNoneItem != null)
-                    {
-                        while (tList.Count < tSlot.Number)
-                        {
-                            tList.Add(tNoneItem);
-                        }
                     }
                     ItemsUsed.SetObjects(tList.ToArray());
                     UpdateDataIfModified();
@@ -149,54 +149,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool RemoveItem(int sIndex)
         {
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
-            bool rReturn = false;
-            List<NWDItem> tList = ItemsUsed.GetObjectsList();
-            if (tSlot != null)
-            {
-                if (sIndex < tList.Count)
-                {
-                    NWDItem tNoneItem = tSlot.ItemNone.GetObject();
-                    if (tList[sIndex] != null && tList[sIndex] != tNoneItem)
-                    {
-                        NWDUserOwnership.AddItemToOwnership(tList[sIndex], 1);
-                    }
-                    if (tNoneItem != null)
-                    {
-                        tList[sIndex] = tNoneItem;
-                        while (tList.Count < tSlot.Number)
-                        {
-                            tList.Add(tNoneItem);
-                        }
-                    }
-                    else
-                    {
-                        tList.RemoveAt(sIndex);
-                    }
-                    ItemsUsed.SetObjects(tList.ToArray());
-                    UpdateDataIfModified();
-                    rReturn = true;
-                }
-            }
-            return rReturn;
+            return AddItem(null, sIndex);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDItem GetItem(int sIndex)
         {
             NWDItem rReturn = null;
-            List<NWDItem> tList = ItemsUsed.GetObjectsList();
-            if (sIndex < tList.Count)
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            if (tSlot != null)
             {
-                rReturn = tList[sIndex];
-                NWDItemSlot tSlot = ItemSlot.GetObject();
-                if (rReturn == tSlot.ItemNone.GetObject())
+                NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                List<NWDItem> tList = CheckedList(tSlot, tNoneItem);
+                if (sIndex < tList.Count)
                 {
-                    rReturn = null;
+                    rReturn = tList[sIndex];
+                    if (rReturn == tSlot.ItemNone.GetObject())
+                    {
+                        rReturn = null;
+                    }
                 }
-            }
-            else
-            {
-                rReturn = null;
             }
             return rReturn;
         }
@@ -241,7 +212,12 @@ namespace NetWorkedData
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
 #if UNITY_EDITOR
-            CheckList();
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            if (tSlot != null)
+            {
+                NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                CheckedList(tSlot, tNoneItem);
+            }
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
