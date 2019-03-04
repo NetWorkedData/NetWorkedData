@@ -34,6 +34,12 @@ namespace NetWorkedData
             PublicationDate.SetDateTime(DateTime.Now);
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserInterMessage) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void SendMessage(NWDMessage sMessage,
                                        string sReceiver,
                                        BTBOperationBlock sSuccessBlock = null,
@@ -73,13 +79,13 @@ namespace NetWorkedData
 
             // Set Message and insert the Replaceable object
             tInterMessage.Message.SetObject(sMessage);
-            tInterMessage.ReplaceSenderNickname = NWDAccountNickname.GetNickname();
+            tInterMessage.ReplaceSenderNickname = NWDUserNickname.GetNickname();
             tInterMessage.ReplaceCharacters = sReplaceCharacters;
             tInterMessage.ReplaceItems = sReplaceItems;
             tInterMessage.ReplaceItemPacks = sReplaceItemPack;
             tInterMessage.ReplacePacks = sReplacePacks;
             #if UNITY_EDITOR
-            tInterMessage.InternalKey = NWDAccountNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
+            tInterMessage.InternalKey = NWDUserNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
             #endif
             tInterMessage.Tag = NWDBasisTag.TagUserCreated;
             tInterMessage.SaveData();
@@ -172,14 +178,14 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountNickname PublisherNickname()
+        public NWDUserNickname PublisherNickname()
         {
-            return NWDAccountNickname.GetFirstData(Sender.GetReference());
+            return NWDUserNickname.GetFirstData(Sender.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountNickname ReceiverNickname()
+        public NWDUserNickname ReceiverNickname()
         {
-            return NWDAccountNickname.GetFirstData(Receiver.GetReference());
+            return NWDUserNickname.GetFirstData(Receiver.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
@@ -203,7 +209,7 @@ namespace NetWorkedData
             }
 
             // Replace Tag by user Nickname
-            string rText = NWDAccountNickname.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
 
             // Replace Tag by sender Nickname
             rText = rText.Replace("#SenderNickname#", tBstart + ReplaceSenderNickname + tBend);

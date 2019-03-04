@@ -31,6 +31,8 @@ namespace NetWorkedData
         public delegate void synchronizeBlock(bool error, NWDOperationResult result);
         public static synchronizeBlock synchronizeBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
+        private NWDMessage Message;
+        //-------------------------------------------------------------------------------------------------------------
         public NWDUserBarterRequest()
         {
         }
@@ -55,10 +57,11 @@ namespace NetWorkedData
             // Get Request Life time
             int tLifetime = sBarterPlace.RequestLifeTime;
 
-            // Create a new Request
-            NWDUserBarterRequest rRequest = NewData();
+            // Create a new Proposal
+            NWDUserBarterRequest rRequest = FindEmptySlot();
+
             #if UNITY_EDITOR
-            rRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
+            rRequest.InternalKey = NWDUserNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
             #endif
             rRequest.Tag = NWDBasisTag.TagUserCreated;
             rRequest.BarterPlace.SetObject(sBarterPlace);
@@ -75,10 +78,11 @@ namespace NetWorkedData
             // Get Request Life time
             int tLifetime = sBarterPlace.RequestLifeTime;
 
-            // Create a new Request
-            NWDUserBarterRequest rRequest = NewData();
+            // Create a new request
+            NWDUserBarterRequest rRequest = FindEmptySlot();
+
             #if UNITY_EDITOR
-            rRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
+            rRequest.InternalKey = NWDUserNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
             #endif
             rRequest.Tag = NWDBasisTag.TagUserCreated;
             rRequest.BarterPlace.SetObject(sBarterPlace);
@@ -92,7 +96,7 @@ namespace NetWorkedData
             return rRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterRequest[] FindRequestsReceivedWith(NWDBarterPlace sBarterPlace)
+        public static List<NWDUserBarterRequest> FindRequestsReceivedWith(NWDBarterPlace sBarterPlace)
         {
             List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
             NWDUserRelationship[] tRelationships = NWDUserRelationship.FindDatas();
@@ -100,7 +104,7 @@ namespace NetWorkedData
             {
                 if (k.RelationshipStatus == NWDRelationshipStatus.Valid)
                 {
-                    NWDUserBarterRequest[] tFound = FindRequestsSentWith(sBarterPlace, k.FriendAccount.GetReference(), k.FriendGameSave.GetObject());
+                    List<NWDUserBarterRequest> tFound = FindRequestsSentWith(sBarterPlace, k.FriendAccount.GetReference(), k.FriendGameSave.GetObject());
                     foreach (NWDUserBarterRequest j in tFound)
                     {
                         rUserBartersRequest.Add(j);
@@ -108,10 +112,10 @@ namespace NetWorkedData
                 }
             }
 
-            return rUserBartersRequest.ToArray();
+            return rUserBartersRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterRequest[] FindRequestsSentWith(NWDBarterPlace sBarterPlace, string sAccountReference = null, NWDGameSave sGameSave = null)
+        public static List<NWDUserBarterRequest> FindRequestsSentWith(NWDBarterPlace sBarterPlace, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
             foreach (NWDUserBarterRequest k in FindDatas(sAccountReference, sGameSave))
@@ -122,7 +126,7 @@ namespace NetWorkedData
                 }
             }
 
-            return rUserBartersRequest.ToArray();
+            return rUserBartersRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static int GetNumberOfRequestSentFor(NWDBarterPlace sBarterPlace, NWDUserRelationship sRelationship)
@@ -139,6 +143,47 @@ namespace NetWorkedData
             }
 
             return rCpt;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RefreshAndSynchronizeDatas()
+        {
+            RefreshDatas();
+            SynchronizeDatas();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RefreshDatas()
+        {
+            foreach (NWDUserBarterRequest k in FindDatas())
+            {
+                if (k.BarterStatus == NWDTradeStatus.Waiting)
+                {
+                    k.BarterStatus = NWDTradeStatus.Refresh;
+                    k.SaveData();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (synchronizeBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    synchronizeBlockDelegate(false, tResult);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (synchronizeBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    synchronizeBlockDelegate(true, tResult);
+                }
+            };
+
+            // Sync NWDUserBarterRequest
+            SynchronizationFromWebService(tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterRequest()
@@ -195,6 +240,51 @@ namespace NetWorkedData
             SynchronizationFromWebService();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RefuseRequest(NWDMessage sMessage = null)
+        {
+            BarterStatus = NWDTradeStatus.NoDeal;
+            SaveData();
+
+            // Keep Message for futur used
+            Message = sMessage;
+
+            // Sync NWDUserBarterRequest
+            SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AcceptRequest(NWDMessage sMessage = null, NWDUserBarterProposition sProposition = null)
+        {
+            NWDUserBarterProposition tProposition = sProposition;
+            if (tProposition == null)
+            {
+                NWDUserBarterProposition[] tPropositions = Propositions.GetObjectsAbsolute();
+                if (tPropositions.Length == 1)
+                {
+                    tProposition = tPropositions[0];
+                }
+            }
+
+            // Check if proposition in not null
+            if (tProposition == null)
+            {
+                if (barterRequestBlockDelegate != null)
+                {
+                    barterRequestBlockDelegate(false, NWDTradeStatus.None, null);
+                }
+                return;
+            }
+
+            BarterStatus = NWDTradeStatus.Deal;
+            WinnerProposition.SetObject(tProposition);
+            SaveData();
+
+            // Keep Message for futur used
+            Message = sMessage;
+
+            // Sync NWDUserBarterRequest
+            SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void CancelRequest()
         {
             BarterStatus = NWDTradeStatus.Cancel;
@@ -204,40 +294,7 @@ namespace NetWorkedData
             SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool UserCanBuy()
-        {
-            bool rCanBuy = false;
-
-            // Check Pack Cost
-            foreach (KeyValuePair<NWDItem, int> pair in ItemsReceived.GetObjectAndQuantity())
-            {
-                // Get Item Cost data
-                NWDItem tNWDItem = pair.Key;
-                int tItemQte = pair.Value;
-
-                rCanBuy = true;
-
-                if (NWDUserOwnership.OwnershipForItemExists(tNWDItem))
-                {
-                    if (NWDUserOwnership.OwnershipForItem(tNWDItem).Quantity < tItemQte)
-                    {
-                        // User don't have enough item
-                        rCanBuy = false;
-                        break;
-                    }
-                }
-                else
-                {
-                    // User don't have the selected item
-                    rCanBuy = false;
-                    break;
-                }
-            }
-
-            return rCanBuy;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public int GetNumberOfPropositions()
+        /*public int GetNumberOfPropositions()
         {
             int rCpt = 0;
 
@@ -257,7 +314,7 @@ namespace NetWorkedData
             }
 
             return rCpt;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         void BarterRequestFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
         {
@@ -273,6 +330,17 @@ namespace NetWorkedData
             // Keep TradeStatus before Clean()
             NWDTradeStatus tBarterStatus = BarterStatus;
 
+            // Notify the seller with an Inter Message
+            if (Message != null)
+            {
+                NWDUserBarterProposition tWinner = WinnerProposition.GetObjectAbsolute();
+                if (tWinner != null)
+                {
+                    NWDUserInterMessage.SendMessage(Message, tWinner.Account.GetReference());
+                }
+            }
+
+
             // Do action with Items & Sync
             AddOrRemoveItems();
 
@@ -285,11 +353,34 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Clean()
         {
-            BarterPlace = null;
-            ItemsProposed = null;
-            LimitDayTime = null;
+            BarterPlace.Flush();
+            ItemsProposed.Flush();
+            LimitDayTime.Flush();
             BarterStatus = NWDTradeStatus.None;
             SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDUserBarterRequest FindEmptySlot()
+        {
+            NWDUserBarterRequest rSlot = null;
+
+            // Search for a empty NWDUserBarterRequest Slot
+            foreach (NWDUserBarterRequest k in FindDatas())
+            {
+                if (k.BarterStatus == NWDTradeStatus.None)
+                {
+                    rSlot = k;
+                    break;
+                }
+            }
+
+            // Create a new Proposal if null
+            if (rSlot == null)
+            {
+                rSlot = NewData();
+            }
+
+            return rSlot;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -75,10 +75,11 @@ namespace NetWorkedData
         public static NWDUserTradeProposition CreateTradeProposalWith(NWDUserTradeRequest sRequest)
         {
             // Create a new Proposal
-            NWDUserTradeProposition rProposition = NewData();
+            NWDUserTradeProposition rProposition = FindEmptySlot();
+
             #if UNITY_EDITOR
             NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
-            rProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tTrade.InternalKey;
+            rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tTrade.InternalKey;
             #endif
             rProposition.Tag = NWDBasisTag.TagUserCreated;
             rProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
@@ -127,8 +128,11 @@ namespace NetWorkedData
             // Notify the seller with an Inter Message
             if (Message != null)
             {
-                string tSellerReference = TradeRequest.GetObjectAbsolute().Account.GetReference();
-                NWDUserInterMessage.SendMessage(Message, tSellerReference);
+                NWDUserTradeRequest tTrade = TradeRequest.GetObjectAbsolute();
+                if (tTrade != null)
+                {
+                    NWDUserInterMessage.SendMessage(Message, tTrade.Account.GetReference());
+                }
             }
 
             // Do action with Items & Sync
@@ -177,6 +181,29 @@ namespace NetWorkedData
                 // Sync NWDUserOwnership
                 SynchronizationFromWebService();
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDUserTradeProposition FindEmptySlot()
+        {
+            NWDUserTradeProposition rSlot = null;
+
+            // Search for a empty NWDUserTradeProposition Slot
+            foreach (NWDUserTradeProposition k in FindDatas())
+            {
+                if (k.TradeStatus == NWDTradeStatus.None)
+                {
+                    rSlot = k;
+                    break;
+                }
+            }
+
+            // Create a new Proposal if null
+            if (rSlot == null)
+            {
+                rSlot = NewData();
+            }
+
+            return rSlot;
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

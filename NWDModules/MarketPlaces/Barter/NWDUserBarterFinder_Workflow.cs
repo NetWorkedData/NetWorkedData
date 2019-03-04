@@ -42,7 +42,7 @@ namespace NetWorkedData
             return new List<Type> { typeof(NWDUserBarterFinder), typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserBarterRequest[] FindPropositionsWith(NWDBarterPlace sBarterPlace)
+        public static List<NWDUserBarterRequest> FindPropositionsWith(NWDBarterPlace sBarterPlace)
         {
             //TODO: use index
             NWDUserBarterFinder[] tUserBartersFinder = FindDatas();
@@ -50,13 +50,13 @@ namespace NetWorkedData
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
                 {
-                    return k.BarterRequestsList.GetObjectsAbsolute();
+                    return k.BarterRequestsList.GetObjectsAbsoluteList();
                 }
             }
 
             CreateBarterFinderWith(sBarterPlace);
 
-            return new NWDUserBarterRequest[0];
+            return new List<NWDUserBarterRequest>();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterFinder GetBarterFinderWith(NWDBarterPlace sBarterPlace)

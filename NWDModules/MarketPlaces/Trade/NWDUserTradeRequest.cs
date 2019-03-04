@@ -151,34 +151,35 @@ namespace NetWorkedData
 			// Get Request Life time
 			int tLifetime = sTradePlace.RequestLifeTime;
 
-			// Create a new Request
-			NWDUserTradeRequest tRequest = NewData();
-            #if UNITY_EDITOR
-			tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
-            #endif
-			tRequest.Tag = NWDBasisTag.TagUserCreated;
-			tRequest.TradePlace.SetObject(sTradePlace);
-			tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
-			tRequest.ItemsAsked.SetReferenceAndQuantity(sAsked);
-			tRequest.TradeStatus = NWDTradeStatus.Submit;
-			tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
-			tRequest.SaveData();
+            // Create a new Proposal
+            NWDUserTradeRequest rRequest = FindEmptySlot();
 
-			return tRequest;
+            #if UNITY_EDITOR
+            rRequest.InternalKey = NWDUserNickname.GetNickname() + " - " + sTradePlace.InternalKey;
+            #endif
+			rRequest.Tag = NWDBasisTag.TagUserCreated;
+			rRequest.TradePlace.SetObject(sTradePlace);
+			rRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
+			rRequest.ItemsAsked.SetReferenceAndQuantity(sAsked);
+			rRequest.TradeStatus = NWDTradeStatus.Submit;
+			rRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
+			rRequest.SaveData();
+
+			return rRequest;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDUserTradeRequest[] FindRequestsWith(NWDTradePlace sTradePlace)
 		{
-			List<NWDUserTradeRequest> tUserTradesRequest = new List<NWDUserTradeRequest>();
+			List<NWDUserTradeRequest> rUserTradesRequest = new List<NWDUserTradeRequest>();
 			foreach (NWDUserTradeRequest k in FindDatas())
 			{
 				if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
 				{
-					tUserTradesRequest.Add(k);
+					rUserTradesRequest.Add(k);
 				}
 			}
 
-			return tUserTradesRequest.ToArray();
+			return rUserTradesRequest.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SyncTradeRequest()
@@ -303,14 +304,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Clean()
 		{
-			TradePlace = null;
-			ItemsProposed = null;
-			ItemsAsked = null;
-			LimitDayTime = null;
+            TradePlace.Flush();
+            ItemsProposed.Flush();
+            ItemsAsked.Flush();
+            LimitDayTime.Flush();
 			TradeStatus = NWDTradeStatus.None;
 			SaveData();
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDUserTradeRequest FindEmptySlot()
+        {
+            NWDUserTradeRequest rSlot = null;
+
+            // Search for a empty NWDUserTradeRequest Slot
+            foreach (NWDUserTradeRequest k in FindDatas())
+            {
+                if (k.TradeStatus == NWDTradeStatus.None)
+                {
+                    rSlot = k;
+                    break;
+                }
+            }
+
+            // Create a new Proposal if null
+            if (rSlot == null)
+            {
+                rSlot = NewData();
+            }
+
+            return rSlot;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]

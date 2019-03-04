@@ -25,6 +25,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public delegate void barterProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
         public barterProposalBlock barterProposalBlockDelegate;
+        public delegate void synchronizeBlock(bool error, NWDOperationResult result);
+        public static synchronizeBlock synchronizeBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         private NWDMessage Message;
         //-------------------------------------------------------------------------------------------------------------
@@ -49,10 +51,11 @@ namespace NetWorkedData
         public static NWDUserBarterProposition CreateBarterProposalWith(NWDUserBarterRequest sRequest, Dictionary<string, int> sProposed)
         {
             // Create a new Proposal
-            NWDUserBarterProposition rProposition = NewData();
+            NWDUserBarterProposition rProposition = FindEmptySlot();
+
             #if UNITY_EDITOR
             NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
-            rProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
+            rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tBarter.InternalKey;
             #endif
             rProposition.Tag = NWDBasisTag.TagUserCreated;
             rProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
@@ -68,10 +71,11 @@ namespace NetWorkedData
         public static NWDUserBarterProposition CreateRefuseBarterProposalWith(NWDUserBarterRequest sRequest)
         {
             // Create a new Proposal
-            NWDUserBarterProposition rProposition = NewData();
+            NWDUserBarterProposition rProposition = FindEmptySlot();
+
             #if UNITY_EDITOR
             NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
-            rProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tBarter.InternalKey;
+            rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tBarter.InternalKey;
             #endif
             rProposition.Tag = NWDBasisTag.TagUserCreated;
             rProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
@@ -111,7 +115,49 @@ namespace NetWorkedData
                 }
             }
 
+
             return rUserBartersProposal;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RefreshAndSynchronizeDatas()
+        {
+            RefreshDatas();
+            SynchronizeDatas();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RefreshDatas()
+        {
+            foreach (NWDUserBarterProposition k in FindDatas())
+            {
+                if (k.BarterStatus == NWDTradeStatus.Waiting)
+                {
+                    //k.BarterStatus = NWDTradeStatus.Refresh;
+                    //k.SaveData();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (synchronizeBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    synchronizeBlockDelegate(false, tResult);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (synchronizeBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    synchronizeBlockDelegate(true, tResult);
+                }
+            };
+
+            // Sync NWDUserBarterProposition
+            SynchronizationFromWebService(tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterProposal(NWDMessage sMessage = null)
@@ -148,8 +194,11 @@ namespace NetWorkedData
             // Notify the seller with an Inter Message
             if (Message != null)
             {
-                string tSellerReference = BarterRequest.GetObjectAbsolute().Account.GetReference();
-                NWDUserInterMessage.SendMessage(Message, tSellerReference);
+                NWDUserBarterRequest tBarter = BarterRequest.GetObjectAbsolute();
+                if (tBarter != null)
+                {
+                    NWDUserInterMessage.SendMessage(Message, tBarter.Account.GetReference());
+                }
             }
 
             // Do action with Items & Sync
@@ -164,10 +213,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Clean()
         {
-            BarterPlace = null;
-            BarterRequest = null;
-            ItemsProposed = null;
-            BarterRequestHash = null;
+            BarterPlace.Flush();
+            BarterRequest.Flush();
+            ItemsProposed.Flush();
+            BarterRequestHash = string.Empty;
             BarterStatus = NWDTradeStatus.None;
             SaveData();
         }
@@ -204,6 +253,29 @@ namespace NetWorkedData
                 // Sync NWDUserOwnership
                 SynchronizationFromWebService();
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDUserBarterProposition FindEmptySlot()
+        {
+            NWDUserBarterProposition rSlot = null;
+
+            // Search for a empty NWDUserBarterProposal Slot
+            foreach (NWDUserBarterProposition k in FindDatas())
+            {
+                if (k.BarterStatus == NWDTradeStatus.None)
+                {
+                    rSlot = k;
+                    break;
+                }
+            }
+
+            // Create a new Proposal if null
+            if (rSlot == null)
+            {
+                rSlot = NewData();
+            }
+
+            return rSlot;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

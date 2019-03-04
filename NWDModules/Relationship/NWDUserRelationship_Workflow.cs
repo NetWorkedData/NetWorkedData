@@ -52,27 +52,27 @@ namespace NetWorkedData
         public static List<Type> OverrideClasseInThisSync()
         {
             // Todo : list the all classe shared in App 
-            List<Type> tClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDRelationshipPlace) };
+            List<Type> rClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDRelationshipPlace) };
             foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.FindDatas())
             {
-                tClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
-                tClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());
+                rClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
+                rClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());
             }
-            return tClasses;
+            return rClasses;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserRelationship CreateNewRelationshipWith(NWDRelationshipPlace sPlace)
         {
             // Create a new Proposal
-            NWDUserRelationship tRelationship = NewData();
+            NWDUserRelationship rRelationship = NewData();
             #if UNITY_EDITOR
-            tRelationship.InternalKey = NWDAccountNickname.GetNickname() + " - " + sPlace.InternalKey;
+            rRelationship.InternalKey = NWDAccountNickname.GetNickname() + " - " + sPlace.InternalKey;
             #endif
-            tRelationship.Tag = NWDBasisTag.TagUserCreated;
-            tRelationship.RelationPlace.SetObject(sPlace);
-            tRelationship.SaveData();
+            rRelationship.Tag = NWDBasisTag.TagUserCreated;
+            rRelationship.RelationPlace.SetObject(sPlace);
+            rRelationship.SaveData();
             
-            return tRelationship;
+            return rRelationship;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AskPinCodeFromServer()
@@ -182,18 +182,26 @@ namespace NetWorkedData
             SynchronizationFromWebService(RelationshipSuccessBlock, RelationshipFailedBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeDatas()
+        public static void RefreshAndSynchronizeDatas()
         {
-            NWDUserRelationship[] tOwnerList = FindDatas();
-            foreach (NWDUserRelationship tOwner in tOwnerList)
+            RefreshDatas();
+            SynchronizeDatas();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RefreshDatas()
+        {
+            foreach (NWDUserRelationship k in FindDatas())
             {
-                if (tOwner.RelationshipStatus == NWDRelationshipStatus.Valid)
+                if (k.RelationshipStatus == NWDRelationshipStatus.Valid)
                 {
-                    tOwner.RelationshipStatus = NWDRelationshipStatus.Sync;
-                    tOwner.SaveData();
+                    k.RelationshipStatus = NWDRelationshipStatus.Sync;
+                    k.SaveData();
                 }
             }
-            
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
             {
                 if (synchronizeBlockDelegate != null)
