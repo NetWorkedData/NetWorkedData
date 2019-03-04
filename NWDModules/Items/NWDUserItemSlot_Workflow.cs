@@ -29,6 +29,31 @@ namespace NetWorkedData
         {
             return new List<Type> { typeof(NWDItemSlot), typeof(NWDUserItemSlot), typeof(NWDItem), typeof(NWDUserOwnership) };
         }
+        //------------------------------------------------------------------------------------------------------------- 
+        public static NWDUserItemSlot UserSlotForSlot(string sItemReference)
+        {
+            NWDUserItemSlot rOwnership = FindFirstByIndex(sItemReference);
+            if (rOwnership == null)
+            {
+                NWDItemSlot tSlot = NWDItemSlot.GetDataByReference(sItemReference);
+                if (tSlot != null)
+                {
+                    rOwnership = NewData(kWritingMode);
+                    rOwnership.ItemSlot.SetReference(sItemReference);
+                    rOwnership.Tag = NWDBasisTag.TagUserCreated;
+                    NWDItem tItemNone = tSlot.ItemNone.GetObject();
+                    if (tItemNone != null)
+                    {
+                        for (int tI = 0; tI < tSlot.Number; tI++)
+                        {
+                            rOwnership.ItemsUsed.AddObject(tItemNone);
+                        }
+                    }
+                    rOwnership.UpdateData(true, kWritingMode);
+                }
+            }
+            return rOwnership;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -50,21 +75,113 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
         }
-        public static NWDUserItemSlot UserSlotForSlot(string sItemReference)
+        //-------------------------------------------------------------------------------------------------------------
+        public List<NWDItem> ItemPossibilities()
         {
-            NWDUserItemSlot rOwnership = FindFirstByIndex(sItemReference);
-            if (rOwnership == null)
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            List<NWDItem> rResult = new List<NWDItem>();
+            if (tSlot != null)
             {
-                NWDItemSlot tSlot = NWDItemSlot.GetDataByReference(sItemReference);
-                if (tSlot != null)
+                rResult = tSlot.ItemPossibilities();
+            }
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void CheckList()
+        {
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            List<NWDItem> tList = ItemsUsed.GetObjectsList();
+            if (tSlot != null)
+            {
+                NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                if (tNoneItem != null)
                 {
-                    rOwnership = NewData(kWritingMode);
-                    rOwnership.ItemSlot.SetReference(sItemReference);
-                    rOwnership.Tag = NWDBasisTag.TagUserCreated;
-                    rOwnership.UpdateData(true, kWritingMode);
+                    while (tList.Count < tSlot.Number)
+                    {
+                        tList.Add(tNoneItem);
+                    }
+                    ItemsUsed.SetObjects(tList.ToArray());
                 }
             }
-            return rOwnership;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool AddItem(NWDItem sItem, int sIndex)
+        {
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            bool rReturn = false;
+            List<NWDItem> tList = ItemsUsed.GetObjectsList();
+            if (tSlot != null)
+            {
+                if (sIndex < tList.Count)
+                {
+                    if (sItem != null)
+                    {
+                        tList[sIndex] = sItem;
+                    }
+                    NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                    if (tNoneItem != null)
+                    {
+                        while (tList.Count < tSlot.Number)
+                        {
+                            tList.Add(tNoneItem);
+                        }
+                    }
+                    ItemsUsed.SetObjects(tList.ToArray());
+                    UpdateDataIfModified();
+                    rReturn = true;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool RemoveItem(int sIndex)
+        {
+            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            bool rReturn = false;
+            List<NWDItem> tList = ItemsUsed.GetObjectsList();
+            if (tSlot != null)
+            {
+                if (sIndex < tList.Count)
+                {
+                    NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                    if (tNoneItem != null)
+                    {
+                        tList[sIndex] = tNoneItem;
+                        while (tList.Count < tSlot.Number)
+                        {
+                            tList.Add(tNoneItem);
+                        }
+                    }
+                    else
+                    {
+                        tList.RemoveAt(sIndex);
+                    }
+                    ItemsUsed.SetObjects(tList.ToArray());
+                    UpdateDataIfModified();
+                    rReturn = true;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDItem GetItem(int sIndex)
+        {
+            NWDItem rReturn = null;
+            List<NWDItem> tList = ItemsUsed.GetObjectsList();
+            if (sIndex < tList.Count)
+            {
+                rReturn = tList[sIndex];
+                NWDItemSlot tSlot = ItemSlot.GetObject();
+                if (rReturn == tSlot.ItemNone.GetObject())
+                {
+                    rReturn = null;
+                }
+            }
+            else
+            {
+                rReturn = null;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -103,8 +220,12 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            Debug.Log("AddonUpdateMe");
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
+#if UNITY_EDITOR
+            CheckList();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

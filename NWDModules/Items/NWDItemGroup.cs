@@ -174,6 +174,22 @@ namespace NetWorkedData
             CheckMyItems();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public List<NWDItem> OwnershipIntersection(int sQuantity = 1)
+        {
+            List<NWDItem> rReturn = new List<NWDItem>();
+            foreach (NWDItem tItem in ItemList.GetObjects())
+            {
+                if (tItem != null)
+                {
+                    if (NWDUserOwnership.ContainsItem(tItem, sQuantity))
+                    {
+                        rReturn.Add(tItem);
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void CheckMyItems()
         {
             List<NWDItem> tActualItems = ItemList.GetObjectsList();
