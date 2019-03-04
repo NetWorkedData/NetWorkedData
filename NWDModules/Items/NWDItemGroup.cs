@@ -48,6 +48,18 @@ namespace NetWorkedData
 	[Serializable]
     public class NWDItemGroupConnection : NWDConnection<NWDItemGroup>
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public bool Contains(NWDItem sItem, bool sNotConnectedResult = false)
+        {
+            bool rReturn = sNotConnectedResult;
+            NWDItemGroup tItemGroup = GetObject();
+            if (tItemGroup != null)
+            {
+                rReturn = tItemGroup.ItemList.ContainsObject(sItem);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]

@@ -18,13 +18,13 @@ namespace NetWorkedData
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("ITS")]
     [NWDClassDescriptionAttribute("Slot for item definition")]
-    [NWDClassMenuNameAttribute("Item Plot")]
+    [NWDClassMenuNameAttribute("Item Slot")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDItemSlot : NWDBasis<NWDItemSlot>
     {
         //-------------------------------------------------------------------------------------------------------------
 		public int Number {get; set;}
-		public NWDReferencesListType<NWDItem> ItemLIst {get; set;}
+		public NWDReferenceType<NWDItemGroup> ItemGroup {get; set;}
         public bool RemoveFromOwnership { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }

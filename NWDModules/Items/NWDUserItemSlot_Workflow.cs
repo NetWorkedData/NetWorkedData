@@ -50,6 +50,22 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
         }
+        public static NWDUserItemSlot UserSlotForSlot(string sItemReference)
+        {
+            NWDUserItemSlot rOwnership = FindFirstByIndex(sItemReference);
+            if (rOwnership == null)
+            {
+                NWDItemSlot tSlot = NWDItemSlot.GetDataByReference(sItemReference);
+                if (tSlot != null)
+                {
+                    rOwnership = NewData(kWritingMode);
+                    rOwnership.ItemSlot.SetReference(sItemReference);
+                    rOwnership.Tag = NWDBasisTag.TagUserCreated;
+                    rOwnership.UpdateData(true, kWritingMode);
+                }
+            }
+            return rOwnership;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

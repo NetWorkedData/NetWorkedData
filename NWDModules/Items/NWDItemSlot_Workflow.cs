@@ -48,22 +48,26 @@ namespace NetWorkedData
             bool rReturn = false;
             NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(sItem.Reference);
             NWDUserItemSlot tUserSlot = NWDUserItemSlot.FindFirstByIndex(Reference);
-            if (ItemLIst.ContainsObject(sItem))
+            NWDItemGroup tItemGroup = ItemGroup.GetObject();
+            if (tItemGroup != null)
             {
-                if (tOwnership.Quantity > 0)
+                if (tItemGroup.ItemList.ContainsObject(sItem))
                 {
-                    if (tUserSlot.ItemsUsed.GetObjectsList().Count < Number)
+                    if (tOwnership.Quantity > 0)
                     {
-                        tUserSlot.ItemsUsed.AddObject(sItem);
-                        if (RemoveFromOwnership == true)
+                        if (tUserSlot.ItemsUsed.GetObjectsList().Count < Number)
                         {
-                            if (sItem.Uncountable == false)
+                            tUserSlot.ItemsUsed.AddObject(sItem);
+                            if (RemoveFromOwnership == true)
                             {
-                                NWDUserOwnership.RemoveItemToOwnership(sItem, 1);
+                                if (sItem.Uncountable == false)
+                                {
+                                    NWDUserOwnership.RemoveItemToOwnership(sItem, 1);
+                                }
                             }
+                            tUserSlot.UpdateData();
+                            rReturn = true;
                         }
-                        tUserSlot.UpdateData();
-                        rReturn = true;
                     }
                 }
             }
