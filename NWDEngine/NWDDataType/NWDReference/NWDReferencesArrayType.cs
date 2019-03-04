@@ -231,7 +231,14 @@ namespace NetWorkedData
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
             {
-                tList.Add(tObject.Reference);
+                if (tObject != null)
+                {
+                    tList.Add(tObject.Reference);
+                }
+                else
+                {
+                    tList.Add(string.Empty);
+                }
             }
             SetReferences(tList.ToArray());
         }
@@ -242,6 +249,10 @@ namespace NetWorkedData
             {
                 AddReferences(new string[] { sObject.Reference });
             }
+            else
+            {
+                AddReferences(new string[] { string.Empty });
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddObjects(K[] sObjects)
@@ -249,7 +260,14 @@ namespace NetWorkedData
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
             {
-                tList.Add(tObject.Reference);
+                if (tObject != null)
+                {
+                    tList.Add(tObject.Reference);
+                }
+                else
+                {
+                    tList.Add(string.Empty);
+                }
             }
             AddReferences(tList.ToArray());
         }

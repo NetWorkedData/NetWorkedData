@@ -60,10 +60,7 @@ namespace NetWorkedData
         public GameObject ToAssetAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-#if UNITY_EDITOR
-#else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
-#endif
+            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationAsset tOperation = NWDOperationAsset.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }

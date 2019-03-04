@@ -40,7 +40,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            RemoveFromOwnership = true;
+            FromOwnership = true;
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDItem> ItemPossibilities()
@@ -70,6 +70,22 @@ namespace NetWorkedData
         {
             NWDUserItemSlot tUserSlot = NWDUserItemSlot.FindFirstByIndex(Reference);
             return tUserSlot.GetItem(sIndex);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        const int K_NUMBER_MIN = 1;
+        const int K_NUMBER_MAX = 32;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            Debug.Log("AddonUpdateMe");
+            if (Number < K_NUMBER_MIN)
+            {
+                Number = K_NUMBER_MIN;
+            }
+            else if (Number > K_NUMBER_MAX)
+            {
+                Number = K_NUMBER_MAX;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

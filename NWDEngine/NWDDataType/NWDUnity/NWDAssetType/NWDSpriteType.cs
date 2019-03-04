@@ -48,10 +48,7 @@ namespace NetWorkedData
         public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-#if UNITY_EDITOR
-#else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
-#endif
+            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }
