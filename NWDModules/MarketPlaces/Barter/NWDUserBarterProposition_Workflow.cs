@@ -84,7 +84,6 @@ namespace NetWorkedData
             rProposition.BarterRequestHash = sRequest.BarterHash;
             rProposition.SaveData();
 
-
             return rProposition;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -131,8 +130,8 @@ namespace NetWorkedData
             {
                 if (k.BarterStatus == NWDTradeStatus.Waiting)
                 {
-                    //k.BarterStatus = NWDTradeStatus.Refresh;
-                    //k.SaveData();
+                    k.BarterStatus = NWDTradeStatus.Refresh;
+                    k.SaveData();
                 }
             }
         }

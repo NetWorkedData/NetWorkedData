@@ -273,6 +273,7 @@ namespace NetWorkedData
                                                 ResultInfos.SetErrorCode("RQT98");
                                             }
                                         }
+
                                         // Request in Progress, send Invoke
                                         ProgressInvoke(1.0f, ResultInfos);
 
@@ -343,7 +344,7 @@ namespace NetWorkedData
                                                 if (ResultInfos.errorDesc != null)
                                                 {
                                                     if (ResultInfos.errorCode == "ACC98" ||
-                                                       ResultInfos.errorCode == "ACC99")
+                                                        ResultInfos.errorCode == "ACC99")
                                                     {
                                                         // Notification of an Account Banned
                                                         BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));

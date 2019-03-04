@@ -240,18 +240,6 @@ namespace NetWorkedData
             SynchronizationFromWebService();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RefuseRequest(NWDMessage sMessage = null)
-        {
-            BarterStatus = NWDTradeStatus.NoDeal;
-            SaveData();
-
-            // Keep Message for futur used
-            Message = sMessage;
-
-            // Sync NWDUserBarterRequest
-            SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void AcceptRequest(NWDMessage sMessage = null, NWDUserBarterProposition sProposition = null)
         {
             NWDUserBarterProposition tProposition = sProposition;
@@ -289,6 +277,18 @@ namespace NetWorkedData
         {
             BarterStatus = NWDTradeStatus.Cancel;
             SaveData();
+
+            // Sync NWDUserBarterRequest
+            SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RefuseRequest(NWDMessage sMessage = null)
+        {
+            BarterStatus = NWDTradeStatus.NoDeal;
+            SaveData();
+
+            // Keep Message for futur used
+            Message = sMessage;
 
             // Sync NWDUserBarterRequest
             SynchronizationFromWebService(BarterRequestSuccessBlock, BarterRequestFailedBlock);
