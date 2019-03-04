@@ -153,13 +153,14 @@ namespace NetWorkedData
 				if (tObject == null) {
 					tRessource = false;
 				} else {
-
-					Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
-					if (tTexture2D != null) {
-						EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY+NWDConstants.kFieldMarge+tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
-							, tTexture2D);
-					}
-				}
+					//Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
+					//if (tTexture2D != null) {
+					//	EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY+NWDConstants.kFieldMarge+tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
+					//		, tTexture2D);
+					//}
+                    GUI.DrawTexture(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize),
+                     tObject.texture, ScaleMode.ScaleToFit, true);
+                }
                 if (Value.Contains(NWD.K_Resources) == false)
                 {
                     EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);

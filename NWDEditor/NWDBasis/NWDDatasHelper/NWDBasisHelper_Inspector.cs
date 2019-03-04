@@ -620,10 +620,8 @@ namespace NetWorkedData
                     {
                         string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
                         NWDBasisHelperElement tProperty = new NWDBasisHelperElement();
-                        tProperty.Name = tEntitled;
                         tProperty.Tooltips = "Edit the property : " + tEntitled;
                         tProperty.Property = tProp;
-                        tProperty.Order = tGroup.Elements.Count();
 
                         foreach (NWDGroupResetAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupResetAttribute), true))
                         {
@@ -681,6 +679,10 @@ namespace NetWorkedData
                             tProperty.WebModelError = true;
                             tProperty.Name = "!!!" + tProperty.Name + "!!!";
                         }
+                        tProperty.Order = tGroup.Elements.Count();
+                        //tProperty.Name = "(" + tProperty.Order + ")" + tEntitled;
+
+                        tProperty.Name = tEntitled;
                         foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
                         {
                             tProperty.SpaceBefore += NWDConstants.kFieldMarge;
