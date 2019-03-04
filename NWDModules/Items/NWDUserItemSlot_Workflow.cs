@@ -96,11 +96,15 @@ namespace NetWorkedData
                 NWDItem tNoneItem = tSlot.ItemNone.GetObject();
                 if (tNoneItem != null)
                 {
-                    while (tList.Count < tSlot.Number)
+                    while (tList.Count <= tSlot.Number)
                     {
                         tList.Add(tNoneItem);
                     }
                     ItemsUsed.SetObjects(tList.ToArray());
+                    while (tList.Count > tSlot.Number)
+                    {
+                        RemoveItem(tList.Count-1);
+                    }
                 }
             }
         }
@@ -112,13 +116,22 @@ namespace NetWorkedData
             List<NWDItem> tList = ItemsUsed.GetObjectsList();
             if (tSlot != null)
             {
+                NWDItem tNoneItem = tSlot.ItemNone.GetObject();
                 if (sIndex < tList.Count)
                 {
+                    if (tList[sIndex] != null && tList[sIndex] != tNoneItem)
+                    {
+                        NWDUserOwnership.AddItemToOwnership(tList[sIndex], 1);
+                    }
                     if (sItem != null)
                     {
+                        NWDUserOwnership.RemoveItemToOwnership(sItem, 1);
                         tList[sIndex] = sItem;
                     }
-                    NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                    else
+                    {
+                        tList[sIndex] = tNoneItem;
+                    }
                     if (tNoneItem != null)
                     {
                         while (tList.Count < tSlot.Number)
@@ -144,6 +157,10 @@ namespace NetWorkedData
                 if (sIndex < tList.Count)
                 {
                     NWDItem tNoneItem = tSlot.ItemNone.GetObject();
+                    if (tList[sIndex] != null && tList[sIndex] != tNoneItem)
+                    {
+                        NWDUserOwnership.AddItemToOwnership(tList[sIndex], 1);
+                    }
                     if (tNoneItem != null)
                     {
                         tList[sIndex] = tNoneItem;

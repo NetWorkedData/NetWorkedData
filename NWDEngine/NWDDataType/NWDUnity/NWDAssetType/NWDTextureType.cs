@@ -45,7 +45,7 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture ToAssetAsync(Texture sInterim, NWDOperationTextureDelegate sDelegate)
+        public Texture ToTexureAsync(Texture sInterim, NWDOperationTextureDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
 #if UNITY_EDITOR
@@ -56,7 +56,39 @@ namespace NetWorkedData
             return tOperation.Interim;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture2D ToTexture ()
+        public Texture2D ToTexure2DAsync(Texture2D sInterim, NWDOperationTexture2DDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+#if UNITY_EDITOR
+#else
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+#endif
+            NWDOperationTexture2D tOperation = NWDOperationTexture2D.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Texture ToTexture()
+        {
+            Texture rTexture = null;
+            if (!string.IsNullOrEmpty(Value))
+            {
+                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+#if UNITY_EDITOR
+                rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture)) as Texture;
+#else
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                rTexture = Resources.Load(tPath, typeof(Texture)) as Texture;
+#endif
+                //Debug.LogWarning("rTexture at path " + tPath);
+                if (rTexture == null)
+                {
+                    //Debug.LogWarning("rTexture is null at path " + tPath);
+                }
+            }
+            return rTexture;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Texture2D ToTexture2D ()
 		{
 			Texture2D rTexture = null;
             if (!string.IsNullOrEmpty(Value))
@@ -79,7 +111,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Sprite ToSprite ()
 		{
-			Texture2D tSpriteTexture = ToTexture ();
+			Texture2D tSpriteTexture = ToTexture2D ();
 			Sprite rSprite = null;
 			if (tSpriteTexture != null) {
 				rSprite = Sprite.Create (tSpriteTexture, new Rect (0, 0, tSpriteTexture.width, tSpriteTexture.height), new Vector2 (0.5f, 0.5f));
