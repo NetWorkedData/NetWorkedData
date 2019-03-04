@@ -508,6 +508,7 @@ namespace NetWorkedData
         public static float kRowHeightSpace = 5.0f;
         //static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
         public static Color kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
+        public static Color kRowColorDatasSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
         public static Color kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
         public static Color kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
         public static Color kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
@@ -747,12 +748,11 @@ namespace NetWorkedData
 
                 kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
                 kSelectorTileDarkStyle.fontSize = 14;
-                kSelectorTileDarkStyle.normal.textColor = Color.red;
+                //kSelectorTileDarkStyle.normal.textColor = Color.blue;
                 kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
                 kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
                 kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
                 kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
 
                 kSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
                 kSelectorRowStyle.fontSize = 14;
@@ -761,13 +761,13 @@ namespace NetWorkedData
                 kSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
                 kSelectorRowStyle.fixedHeight = kSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-
-                kSelectorRowDarkStyle = new GUIStyle(EditorStyles.label);
+                kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
                 kSelectorRowDarkStyle.fontSize = 14;
+                //kSelectorRowDarkStyle.normal.textColor = Color.blue;
                 kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
                 kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
                 kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowDarkStyle.fixedHeight = kSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 tLabelStyle = new GUIStyle(EditorStyles.label);
                 tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);

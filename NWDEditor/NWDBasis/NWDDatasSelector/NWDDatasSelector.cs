@@ -356,6 +356,8 @@ namespace NetWorkedData
                 kZoom = tNextZoom;
                 NWDConstants.kSelectorTileStyle.fixedHeight = kZoom * 100;
                 NWDConstants.kSelectorTileStyle.fixedWidth = kZoom * 100;
+                NWDConstants.kSelectorTileDarkStyle.fixedHeight = kZoom * 100;
+                NWDConstants.kSelectorTileDarkStyle.fixedWidth = kZoom * 100;
             }
 
             NWDConstants.GUILayoutSeparator();
@@ -384,14 +386,28 @@ namespace NetWorkedData
                             tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
                             //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
                         }
-                    }
-                    if (GUILayout.Button(Content, tSytle))
-                    {
-                        if (SelectedBlock != null)
+                        Color tBakColor = GUI.backgroundColor;
+                        GUI.backgroundColor = NWDConstants.kRowColorDatasSelected;
+                        if (GUILayout.Button(Content, tSytle))
                         {
-                            SelectedBlock(SelectorWindow.ID, true, false, tItem);
+                            if (SelectedBlock != null)
+                            {
+                                SelectedBlock(SelectorWindow.ID, true, false, tItem);
+                            }
+                            SelectorWindow.Close();
                         }
-                        SelectorWindow.Close();
+                        GUI.backgroundColor = tBakColor;
+                    }
+                    else
+                    {
+                        if (GUILayout.Button(Content, tSytle))
+                        {
+                            if (SelectedBlock != null)
+                            {
+                                SelectedBlock(SelectorWindow.ID, true, false, tItem);
+                            }
+                            SelectorWindow.Close();
+                        }
                     }
                 }
             }
@@ -429,14 +445,28 @@ namespace NetWorkedData
                             tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
                             //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
                         }
-                    }
-                    if (GUILayout.Button(Content, tSytle))
-                    {
-                        if (SelectedBlock != null)
+                        Color tBakColor = GUI.backgroundColor;
+                        GUI.backgroundColor = NWDConstants.kRowColorDatasSelected;
+                        if (GUILayout.Button(Content, tSytle))
                         {
-                            SelectedBlock(SelectorWindow.ID, true, false, tItem);
+                            if (SelectedBlock != null)
+                            {
+                                SelectedBlock(SelectorWindow.ID, true, false, tItem);
+                            }
+                            SelectorWindow.Close();
                         }
-                        SelectorWindow.Close();
+                        GUI.backgroundColor = tBakColor;
+                    }
+                    else
+                    {
+                        if (GUILayout.Button(Content, tSytle))
+                        {
+                            if (SelectedBlock != null)
+                            {
+                                SelectedBlock(SelectorWindow.ID, true, false, tItem);
+                            }
+                            SelectorWindow.Close();
+                        }
                     }
                 }
                 GUILayout.EndHorizontal();

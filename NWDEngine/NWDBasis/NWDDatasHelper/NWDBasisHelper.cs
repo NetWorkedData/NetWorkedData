@@ -1671,6 +1671,7 @@ namespace NetWorkedData
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
 #if UNITY_EDITOR
+            FilterTableEditor();
             RepaintTableEditor();
 #endif
             //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
