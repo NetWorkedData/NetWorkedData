@@ -223,6 +223,19 @@ namespace NetWorkedData
 
 
         [NWDGroupStartAttribute("Assets", true, true, true)]
+        [NWDHeaderAttribute("Sprites")]
+        public NWDSpriteType PrimarySprite
+        {
+            get; set;
+        }
+        public NWDSpriteType SecondarySprite
+        {
+            get; set;
+        }
+        public NWDSpriteType TertiarySprite
+        {
+            get; set;
+        }
         [NWDHeaderAttribute("Textures")]
         public NWDTextureType PrimaryTexture
         {

@@ -57,7 +57,7 @@ namespace NetWorkedData
 			return rChange;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public GameObject ToSpriteAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
+        public GameObject ToAssetAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
 #if UNITY_EDITOR

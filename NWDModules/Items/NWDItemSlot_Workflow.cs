@@ -43,58 +43,33 @@ namespace NetWorkedData
             RemoveFromOwnership = true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool AddItem(NWDItem sItem)
+        public List<NWDItem> ItemPossibilities()
         {
-            bool rReturn = false;
-            NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(sItem.Reference);
-            NWDUserItemSlot tUserSlot = NWDUserItemSlot.FindFirstByIndex(Reference);
-            NWDItemGroup tItemGroup = ItemGroup.GetObject();
-            if (tItemGroup != null)
+            List<NWDItem> rItemsPossibilities = ItemGroup.GetObject().OwnershipIntersection();
+            NWDItem tItemNone = ItemNone.GetObject();
+            if (tItemNone != null)
             {
-                if (tItemGroup.ItemList.ContainsObject(sItem))
-                {
-                    if (tOwnership.Quantity > 0)
-                    {
-                        if (tUserSlot.ItemsUsed.GetObjectsList().Count < Number)
-                        {
-                            tUserSlot.ItemsUsed.AddObject(sItem);
-                            if (RemoveFromOwnership == true)
-                            {
-                                if (sItem.Uncountable == false)
-                                {
-                                    NWDUserOwnership.RemoveItemToOwnership(sItem, 1);
-                                }
-                            }
-                            tUserSlot.UpdateData();
-                            rReturn = true;
-                        }
-                    }
-                }
+                rItemsPossibilities.Insert(0, tItemNone);
             }
-            return rReturn;
+            return rItemsPossibilities;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool RemoveItem(NWDItem sItem)
+        public bool UserAddItem(NWDItem sItem, int sIndex)
         {
-            bool rReturn = false;
             NWDUserItemSlot tUserSlot = NWDUserItemSlot.FindFirstByIndex(Reference);
-            if (tUserSlot != null)
-            {
-                if (tUserSlot.ItemsUsed.ContainsObject(sItem))
-                {
-                    tUserSlot.ItemsUsed.RemoveObjects(new NWDItem[] { sItem });
-                    if (RemoveFromOwnership == true)
-                    {
-                        if (sItem.Uncountable == false)
-                        {
-                            NWDUserOwnership.AddItemToOwnership(sItem, 1);
-                        }
-                    }
-                    tUserSlot.UpdateData();
-                    rReturn = true;
-                }
-            }
-            return rReturn;
+            return tUserSlot.AddItem(sItem, sIndex);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool UserRemoveItem(int sIndex)
+        {
+            NWDUserItemSlot tUserSlot = NWDUserItemSlot.FindFirstByIndex(Reference);
+            return tUserSlot.RemoveItem(sIndex);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDItem UserGetItem(int sIndex)
+        {
+            NWDUserItemSlot tUserSlot = NWDUserItemSlot.FindFirstByIndex(Reference);
+            return tUserSlot.GetItem(sIndex);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -45,16 +45,16 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
-//        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationAssetDelegate<Sprite> sDelegate)
-//        {
-//            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-//#if UNITY_EDITOR
-//#else
-//                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
-//#endif
-        //    NWDOperationAsset<Sprite> tOperation = NWDOperationAsset<Sprite>.AddOperation(tPath, sInterim, false, sDelegate);
-        //    return tOperation.Interim;
-        //}
+        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+#if UNITY_EDITOR
+#else
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+#endif
+            NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public Sprite ToSprite ()
 		{

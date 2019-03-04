@@ -23,9 +23,22 @@ namespace NetWorkedData
     public partial class NWDItemSlot : NWDBasis<NWDItemSlot>
     {
         //-------------------------------------------------------------------------------------------------------------
-		public int Number {get; set;}
-		public NWDReferenceType<NWDItemGroup> ItemGroup {get; set;}
-        public bool RemoveFromOwnership { get; set; }
+        public int Number
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDItemGroup> ItemGroup
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDItem> ItemNone
+        {
+            get; set;
+        }
+        public bool RemoveFromOwnership
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
