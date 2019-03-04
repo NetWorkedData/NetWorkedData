@@ -196,33 +196,6 @@ namespace NetWorkedData
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Addon method just after loaded from database.
-        /// </summary>
-        public override void AddonLoadedMe()
-        {
-            // do something when object was loaded
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before unload from memory.
-        /// </summary>
-        public override void AddonUnloadMe()
-        {
-            // do something when object will be unload
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before insert.
-        /// </summary>
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
         /// Addon method just before update.
         /// </summary>
         public override void AddonUpdateMe()
@@ -234,92 +207,13 @@ namespace NetWorkedData
             NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
             if (tSlot != null)
             {
-                NWDItem tNoneItem = tSlot.ItemNone.GetObjectAbsolute();
-                CheckedList(tSlot, tNoneItem);
+                if (tSlot.ItemNone != null)
+                {
+                    NWDItem tNoneItem = tSlot.ItemNone.GetObjectAbsolute();
+                    CheckedList(tSlot, tNoneItem);
+                }   
             }
 #endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated.
-        /// </summary>
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated me from Web.
-        /// </summary>
-        //public override void AddonUpdatedMeFromWeb()
-        //{
-        //    // do something when object finish to be updated from CSV from WebService response
-        //    // TODO verif if method is call in good place in good timing
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before dupplicate.
-        /// </summary>
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before enable.
-        /// </summary>
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before disable.
-        /// </summary>
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before put in trash.
-        /// </summary>
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before remove from trash.
-        /// </summary>
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addons the delete me.
-        /// </summary>
-        public override void AddonDeleteMe()
-        {
-            // do something when object will be delete from local base
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonSyncForce()
-        {
-            return false;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
-        {
-            // do something when object will be web service upgrade
-            // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
