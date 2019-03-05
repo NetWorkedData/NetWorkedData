@@ -167,6 +167,7 @@ namespace NetWorkedData
                             ControllerResult.Add(sID, bResult);
                         }
                     }, sReference);
+                    GUIUtility.ExitGUI();
                 }
                 if (string.IsNullOrEmpty(sReference) == false)
                 {
