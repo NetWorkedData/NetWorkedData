@@ -129,16 +129,33 @@ namespace NetWorkedData
             return rUserBartersRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static int GetNumberOfRequestSentFor(NWDBarterPlace sBarterPlace, NWDUserRelationship sRelationship)
+        public static int GetNumberOfRequestSentFor(NWDBarterPlace sBarterPlace, NWDUserRelationship sRelationship = null)
         {
             int rCpt = 0;
-            foreach (NWDUserBarterRequest k in FindDatas())
+
+            if (sRelationship == null)
             {
-                NWDBarterPlace tPlace = k.BarterPlace.GetObject();
-                if (tPlace != null && tPlace.Equals(sBarterPlace) &&
-                    k.UserRelationship.GetObject().Equals(sRelationship))
+                // Count all Request sent by user
+                foreach (NWDUserBarterRequest k in FindDatas())
                 {
-                    rCpt++;
+                    NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                    if (tPlace != null && tPlace.Equals(sBarterPlace))
+                    {
+                        rCpt++;
+                    }
+                }
+            }
+            else
+            {
+                // Count all Request sent by user for a given relationship
+                foreach (NWDUserBarterRequest k in FindDatas())
+                {
+                    NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                    if (tPlace != null && tPlace.Equals(sBarterPlace) &&
+                        k.UserRelationship.GetObject().Equals(sRelationship))
+                    {
+                        rCpt++;
+                    }
                 }
             }
 

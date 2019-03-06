@@ -128,15 +128,15 @@ namespace NetWorkedData
         private static NWDUserTradeFinder CreateTradeFinderWith(NWDTradePlace sTradePlace)
         {
             // No NWD Finder Object found, we create one
-            NWDUserTradeFinder tFinder = NewData();
+            NWDUserTradeFinder rFinder = NewData();
 #if UNITY_EDITOR
-            tFinder.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
+            rFinder.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
 #endif
-            tFinder.Tag = NWDBasisTag.TagUserCreated;
-            tFinder.TradePlace.SetObject(sTradePlace);
-            tFinder.SaveData();
+            rFinder.Tag = NWDBasisTag.TagUserCreated;
+            rFinder.TradePlace.SetObject(sTradePlace);
+            rFinder.SaveData();
 
-            return tFinder;
+            return rFinder;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SyncTradeFinder()
@@ -166,7 +166,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void CleanResult()
         {
-            TradeRequestsList = null;
+            TradeRequestsList.Flush();
             SaveData();
 
             // Remove stranger data request

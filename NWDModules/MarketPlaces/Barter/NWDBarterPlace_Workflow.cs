@@ -33,26 +33,24 @@ namespace NetWorkedData
         public const int K_BARTER_PROPOSITIONS_PER_REQUEST_MAX = 10;
 
         public const int K_BARTER_PROPOSITIONS_PER_USER_MIN = 1;
-        public const int K_BARTER_PROPOSITIONS_PER_USER_MAX = 10;
+        public const int K_BARTER_PROPOSITIONS_PER_USER_MAX = 5;
 
-        public const int K_BARTER_REQUEST_MIN = 1;
-        public const int K_BARTER_REQUEST_MAX = 5;
+        public const int K_BARTER_REQUEST_PER_USER_MIN = 1;
+        public const int K_BARTER_REQUEST_PER_USER_MAX = 5;
         //-------------------------------------------------------------------------------------------------------------
         public NWDBarterPlace()
         {
-            //Debug.Log("NWDBarterPlace Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBarterPlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
             RefreshDelay = 60 * 3;
             CancelDelay = 60 * 5;
-            MaxRequestPerUser = K_BARTER_REQUEST_MAX;
+            MaxRequestPerUser = K_BARTER_REQUEST_PER_USER_MAX;
             MaxPropositionsPerUser = K_BARTER_PROPOSITIONS_PER_USER_MAX;
             MaxPropositionsPerRequest = K_BARTER_PROPOSITIONS_PER_REQUEST_MAX;
             WaitingLifeTime = 60 * 60 * 1;

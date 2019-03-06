@@ -27,7 +27,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Localization", true, true, true)]
         [NWDTooltips("The localizable value")]
-        public NWDLocalizableTextType TextValue
+        public NWDLocalizableLongTextType TextValue
         {
             get; set;
         }

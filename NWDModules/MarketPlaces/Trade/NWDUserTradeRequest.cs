@@ -192,7 +192,7 @@ namespace NetWorkedData
 		{
 			switch (TradeStatus)
 			{
-				case NWDTradeStatus.Submit:
+				case NWDTradeStatus.Waiting:
 					{
 						// Remove NWDItem from NWDUserOwnership
 						Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
