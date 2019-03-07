@@ -133,12 +133,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTransaction()
         {
-            //Debug.Log("NWDTransaction Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTransaction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTransaction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -157,11 +155,10 @@ namespace NetWorkedData
         {
             // Set a NWDTransaction
             NWDUserTransaction rTransaction = NewData();
-
-#if UNITY_EDITOR
-            rTransaction.InternalKey = sItem.Name.GetBaseString();
-            rTransaction.InternalDescription = NWDAccountNickname.GetNickname();
-#endif
+            #if UNITY_EDITOR
+            rTransaction.InternalKey = NWDUserNickname.GetNickname() + " - " + sItem.Name.GetBaseString();
+            #endif
+            rTransaction.Tag = NWDBasisTag.TagUserCreated;
             rTransaction.ShopReference.SetReference(sShop.Reference);
             rTransaction.RackReference.SetReference(sRack.Reference);
             rTransaction.PackReference.SetReference(sPack.Reference);
