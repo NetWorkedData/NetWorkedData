@@ -336,8 +336,10 @@ namespace NetWorkedData
             }
             RecipeHashesArray.SetReferences(IndexKeyByItem(OrderIsImportant, RecipientGroup, ItemGroupIngredient));
 
+#if UNITY_EDITOR
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDDataInspector.ActiveRepaint();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
