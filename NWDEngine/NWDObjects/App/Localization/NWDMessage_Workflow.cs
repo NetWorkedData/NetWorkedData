@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
-            string rText = NWDAccountNickname.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
             rText = NWDLocalization.Enrichment(rText, sLanguage, sBold);
             return rText;
         }
