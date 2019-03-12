@@ -78,7 +78,7 @@ namespace NetWorkedData
                             rAdvancement.InternalKey = tQuestBaseName;
                         }
                     }
-                    rAdvancement.InternalDescription = NWDAccountNickname.GetNickname() + " - " + NWDAccountNickname.GetUniqueNickname();
+                    rAdvancement.InternalDescription = NWDUserNickname.GetNickname() + " - " + NWDUserNickname.GetUniqueNickname();
                     //--------------
 #endif
                     //--------------

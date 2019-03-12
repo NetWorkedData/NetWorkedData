@@ -66,13 +66,18 @@ namespace NetWorkedData
             // Create a new Proposal
             NWDUserRelationship rRelationship = NewData();
             #if UNITY_EDITOR
-            rRelationship.InternalKey = NWDAccountNickname.GetNickname() + " - " + sPlace.InternalKey;
+            rRelationship.InternalKey = NWDUserNickname.GetNickname() + " - " + sPlace.InternalKey;
             #endif
             rRelationship.Tag = NWDBasisTag.TagUserCreated;
             rRelationship.RelationPlace.SetObject(sPlace);
             rRelationship.SaveData();
             
             return rRelationship;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static int GetNumberOfFriends()
+        {
+            return FindDatas().Length;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AskPinCodeFromServer()
@@ -99,7 +104,7 @@ namespace NetWorkedData
             };
 
             string tUserNickName = BTBConstants.K_MINUS;
-            foreach (NWDAccountNickname user in NWDAccountNickname.FindDatas())
+            foreach (NWDUserNickname user in NWDUserNickname.FindDatas())
             {
                 tUserNickName = user.Nickname;
                 if (user.IsSynchronized())
@@ -119,7 +124,7 @@ namespace NetWorkedData
             SaveData();
 
             string tUserNickName = BTBConstants.K_MINUS;
-            foreach (NWDAccountNickname user in NWDAccountNickname.FindDatas())
+            foreach (NWDUserNickname user in NWDUserNickname.FindDatas())
             {
                 tUserNickName = user.Nickname;
                 if (user.IsSynchronized())

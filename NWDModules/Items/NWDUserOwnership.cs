@@ -108,7 +108,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-                rOwnership.InternalDescription = NWDAccountNickname.GetNickname();
+                rOwnership.InternalDescription = NWDUserNickname.GetNickname();
 #endif
                 rOwnership.Item.SetReference(sItemReference);
                 rOwnership.Tag = NWDBasisTag.TagUserCreated;

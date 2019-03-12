@@ -79,7 +79,7 @@ namespace NetWorkedData
             // No NWD Finder Object found, we create one
             NWDUserBarterFinder tFinder = NewData();
 #if UNITY_EDITOR
-            tFinder.InternalKey = NWDAccountNickname.GetNickname();
+            tFinder.InternalKey = NWDUserNickname.GetNickname();
 #endif
             tFinder.Tag = NWDBasisTag.TagUserCreated;
             tFinder.BarterPlace.SetObject(sBarterPlace);
