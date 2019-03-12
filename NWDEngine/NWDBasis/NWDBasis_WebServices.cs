@@ -318,27 +318,29 @@ namespace NetWorkedData
             if (sForceAll == true)
             {
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
-                //tResults = tSQLiteConnection.Table<K>().Where(x => x.DM >= tLastSynchronization);
-                foreach (K tO in BasisHelper().Datas)
+                if (sSpecial != NWDOperationSpecial.Pull)
                 {
-                    bool tAddEnv = true;
-                    if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tO.DevSync < 0)
+                    foreach (K tO in BasisHelper().Datas)
                     {
-                        tAddEnv = false;
-                    }
-                    if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tO.PreprodSync < 0)
-                    {
-                        tAddEnv = false;
-                    }
-                    if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tO.ProdSync < 0)
-                    {
-                        tAddEnv = false;
-                    }
-                    if (tAddEnv == true)
-                    {
-                        //if (tO.DM >= tLastSynchronization)
+                        bool tAddEnv = true;
+                        if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tO.DevSync < 0)
                         {
-                            tResults.Add(tO);
+                            tAddEnv = false;
+                        }
+                        if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tO.PreprodSync < 0)
+                        {
+                            tAddEnv = false;
+                        }
+                        if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tO.ProdSync < 0)
+                        {
+                            tAddEnv = false;
+                        }
+                        if (tAddEnv == true)
+                        {
+                            //if (tO.DM >= tLastSynchronization)
+                            {
+                                tResults.Add(tO);
+                            }
                         }
                     }
                 }
