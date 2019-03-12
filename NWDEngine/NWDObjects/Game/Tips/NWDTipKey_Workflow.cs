@@ -19,10 +19,10 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDTipKey :NWDBasis <NWDTipKey>
+    public partial class NWDTipKey : NWDBasis<NWDTipKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static List<NWDTipKey> ListForRandom;
+        static List<NWDTipKey> ListForRandom = new List<NWDTipKey>();
         //-------------------------------------------------------------------------------------------------------------
         public NWDTipKey()
         {
@@ -41,41 +41,146 @@ namespace NetWorkedData
             SubTitle = new NWDLocalizableStringType();
             Message = new NWDLocalizableTextType();
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public static List<NWDTipKey> PrepareListForRandom ()
-		{
-			ListForRandom = new List<NWDTipKey> ();
-            foreach (NWDTipKey tObject in NWDTipKey.FindDatas()) 
-			{
-				/* I list the object compatible with request
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDTipKey> PrepareListForRandom()
+        {
+            ListForRandom.Clear();
+            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            {
+                /* I list the object compatible with request
 			 	* I insert in the list  each object (Frequency) times
 			 	* I return the List
 				*/
-				for (int i = 0; i < tObject.Weighting; i++) 
-				{
-					ListForRandom.Add (tObject);
-				}
-			}
-			return ListForRandom;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDTipKey SelectRandomTips (bool sAbsoluteRemove = true)
-		{
-			NWDTipKey rReturn = null;
-			// I select the tick by random 
-			int tCount = ListForRandom.Count-1;
-			int tIndex  = UnityEngine.Random.Range (0, tCount);
-			if (tIndex >=0 && tIndex <= tCount) {
-				rReturn = ListForRandom [tIndex];
-				if (sAbsoluteRemove == false) {
-					ListForRandom.RemoveAt (tIndex);
-				} else {
-					while (ListForRandom.Contains (rReturn)) {
-						ListForRandom.Remove (rReturn);
-					}
-				}
-			}
-			return rReturn;
+                for (int i = 0; i < tObject.Weighting; i++)
+                {
+                    ListForRandom.Add(tObject);
+                }
+            }
+            return ListForRandom;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDTipKey> PrepareListForRandom(NWDWorld sWorld)
+        {
+            ListForRandom.Clear();
+            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            {
+                bool tAdd = true;
+                if (sWorld != null && tObject.WorldList.ContainsReference(sWorld.Reference) == false)
+                {
+                    tAdd = false;
+                }
+                if (tAdd == true)
+                {
+                    for (int i = 0; i < tObject.Weighting; i++)
+                    {
+                        ListForRandom.Add(tObject);
+                    }
+                }
+            }
+            return ListForRandom;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDTipKey> PrepareListForRandom(NWDCategory sCategory)
+        {
+            ListForRandom.Clear();
+            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            {
+                bool tAdd = true;
+
+                if (sCategory != null)
+                {
+                    bool tValid = false;
+                    foreach (NWDCategory tCat in tObject.CategoryList.GetObjects())
+                    {
+                        if (tCat.Containts(sCategory))
+                        {
+                            tValid = true;
+                            break;
+                        }
+                    }
+                    if (tValid == false)
+                    {
+                        tAdd = false;
+                    }
+                }
+                if (tAdd == true)
+                {
+                    for (int i = 0; i < tObject.Weighting; i++)
+                    {
+                        ListForRandom.Add(tObject);
+                    }
+                }
+            }
+            return ListForRandom;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDTipKey> PrepareListForRandom(NWDWorld sWorld, NWDCategory sCategory, NWDFamily sFamily, NWDKeyword sKeyword)
+        {
+            ListForRandom.Clear();
+            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            {
+                bool tAdd = true;
+                if (sWorld != null && tObject.WorldList.ContainsReference(sWorld.Reference) == false)
+                {
+                    tAdd = false;
+                }
+                if (sCategory != null)
+                {
+                    bool tValid = false;
+                    foreach (NWDCategory tCat in tObject.CategoryList.GetObjects())
+                    {
+                        if (tCat.Containts(sCategory))
+                        {
+                            tValid = true;
+                            break;
+                        }
+                    }
+                    if (tValid == false)
+                    {
+                        tAdd = false;
+                    }
+                }
+                if (sFamily != null && tObject.FamilyList.ContainsReference(sFamily.Reference) == false)
+                {
+                    tAdd = false;
+                }
+                if (sKeyword != null && tObject.KeywordList.ContainsReference(sKeyword.Reference) == false)
+                {
+                    tAdd = false;
+                }
+                if (tAdd == true)
+                {
+                    for (int i = 0; i < tObject.Weighting; i++)
+                    {
+                        ListForRandom.Add(tObject);
+                    }
+                }
+            }
+            return ListForRandom;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDTipKey SelectRandomTips(bool sAbsoluteRemove = true)
+        {
+            NWDTipKey rReturn = null;
+            // I select the tick by random 
+            int tCount = ListForRandom.Count - 1;
+            int tIndex = UnityEngine.Random.Range(0, tCount);
+            if (tIndex >= 0 && tIndex <= tCount)
+            {
+                rReturn = ListForRandom[tIndex];
+                if (sAbsoluteRemove == false)
+                {
+                    ListForRandom.RemoveAt(tIndex);
+                }
+                else
+                {
+                    while (ListForRandom.Contains(rReturn))
+                    {
+                        ListForRandom.Remove(rReturn);
+                    }
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]

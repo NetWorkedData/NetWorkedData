@@ -610,7 +610,7 @@ namespace NetWorkedData
             UpdateData(true, sWritingMode, true);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true)
+        public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
             //BTBBenchmark.Start();
             // Determine the default mode
@@ -652,10 +652,15 @@ namespace NetWorkedData
                     Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                     break;
             }
-
-            this.AddonUpdateMe(); // call override method
+            if (sWithCallBack)
+            {
+                this.AddonUpdateMe(); // call override method
+            }
             UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
-            this.AddonUpdatedMe(); // call override method
+            if (sWithCallBack)
+            {
+                this.AddonUpdatedMe(); // call override method
+            }
             this.AddonIndexMe();
             //UpdateObjectInListOfEdition(this);
 
@@ -794,6 +799,19 @@ namespace NetWorkedData
             RowAnalyze();
 #endif 
             //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool UpdateDataIfModifiedWithoutCallBack()
+        {
+            //BTBBenchmark.Start();
+            bool tReturn = false;
+            if (this.Integrity != this.IntegrityValue())
+            {
+                tReturn = true;
+                UpdateData(true, NWDWritingMode.ByDefaultLocal , false, false);
+            }
+            //BTBBenchmark.Finish();
+            return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateDataIfModified(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
