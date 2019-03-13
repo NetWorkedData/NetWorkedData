@@ -14,14 +14,9 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[Serializable]
-    //public class NWDCraftBookConnection : NWDConnection<NWDCraftBook>
-    //{
-    //}
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis<NWDItem>
     {
-        //[NWDNotEditable]
+        [NWDNotEditable]
         public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment
         {
             get; set;
@@ -29,7 +24,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CBK")]
+    [NWDClassTrigrammeAttribute("CFB")]
     [NWDClassDescriptionAttribute("CraftBook Recipes descriptions Class")]
     [NWDClassMenuNameAttribute("CraftBook")]
     public partial class NWDCraftBook : NWDBasis<NWDCraftBook>
@@ -50,7 +45,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDRecipientGroup> RecipientGroup
+        public NWDReferenceType<NWDCraftRecipient> RecipientGroup
         {
             get; set;
         }
@@ -62,7 +57,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferencesListType<NWDCraftBookAdd> AdditionalReward
+        public NWDReferencesListType<NWDCraftReward> AdditionalReward
         {
             get; set;
         }

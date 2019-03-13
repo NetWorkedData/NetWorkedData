@@ -34,25 +34,6 @@ namespace NetWorkedData
         BigNotification = 3,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
 	[Serializable]
     public class NWDItemConnection : NWDConnection<NWDItem>
     {
@@ -97,12 +78,7 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
 
 
-
         [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList
-        {
-            get; set;
-        }
         public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
@@ -118,6 +94,20 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
 
 
+        [NWDGroupStartAttribute("Geograpphical", true, true, true)]
+        public NWDReferencesListType<NWDWorld> WorldList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDSector> SectorList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDArea> AreaList
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
 
         [NWDGroupStartAttribute("Notifications", true, true, true)]
         public NWDItemNotification FirstAcquisitionNotification
@@ -153,13 +143,13 @@ namespace NetWorkedData
 
         [NWDGroupStartAttribute("Usage", true, true, true)]
         //[NWDNotEditableAttribute]
-        [NWDTooltips("Item is countable or not?")]
-        public bool Uncountable
+        [NWDTooltips("Item is never visible by the player")]
+        public bool HiddenInGame
         {
             get; set;
         }
-        [NWDTooltips("Item is never visible by the player")]
-        public bool HiddenInGame
+        [NWDTooltips("Item is countable or not?")]
+        public bool Uncountable
         {
             get; set;
         }
@@ -168,53 +158,35 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDInDevelopment]
+        [NWDNotEditable]
+        [Obsolete]
         public float DelayBeforeUse
         {
             get; set;
         }
+        [NWDInDevelopment]
+        [NWDNotEditable]
+        [Obsolete]
         public float DurationOfUse
         {
             get; set;
         }
+        [NWDInDevelopment]
+        [NWDNotEditable]
+        [Obsolete]
         public float DelayBeforeReUse
         {
             get; set;
         }
         [NWDGroupEndAttribute]
 
-
-
-        [NWDGroupStartAttribute("Craft Usage", true, true, true)]
-        public NWDReferencesListType<NWDItemGroup> ItemGroupList
-        {
-            get; set;
-        }
-        //public float DelayBeforeCraft
-        //{
-        //    get; set;
-        //}
-        //public float DurationOfCraft
-        //{
-        //    get; set;
-        //}
-        //public float DelayOfImmunity
-        //{
-        //    get; set;
-        //}
-        public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-
-
-
         [NWDGroupStartAttribute("Extensions", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity
+        public NWDReferencesListType<NWDParameter> ParameterList
         {
             get; set;
         }
@@ -376,15 +348,15 @@ namespace NetWorkedData
         public override void AddonUpdatedMe()
         {
             // do something when object finish to be updated
-            CheckMeFromItemGroups();
-            CheckMeFromRecipientGroup();
+            //CheckMeFromItemGroups();
+            //CheckMeFromRecipientGroup();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDuplicateMe()
         {
             // do something when object will be dupplicate
-            ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
-            RecipientGroupList = new NWDReferencesListType<NWDRecipientGroup>();
+            //ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
+            //RecipientGroupList = new NWDReferencesListType<NWDRecipientGroup>();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEnableMe()
@@ -411,78 +383,77 @@ namespace NetWorkedData
         {
             //Debug.Log("AddonDeleteMe()");
             // do something when object will be delete from local base
-            ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
-            CheckMeFromItemGroups();
-            CheckMeFromRecipientGroup();
+            //CheckMeFromItemGroups();
+            //CheckMeFromRecipientGroup();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CheckMeFromItemGroups()
-        {
-            List<NWDItemGroup> tActualItemGroup = ItemGroupList.GetObjectsList();
-            foreach (NWDItemGroup tItemGroup in NWDItemGroup.FindDatas())
-            {
-                if (tActualItemGroup.Contains(tItemGroup))
-                {
-                    if (tItemGroup.ItemList.GetObjectsList().Contains(this) == true)
-                    {
-                        // ok It's contains me
-                    }
-                    else
-                    {
-                        // oh item group not contains me! WHYYYYYYYY
-                        tItemGroup.ItemList.AddObject(this);
-                        tItemGroup.UpdateData();
-                    }
-                }
-                else
-                {
-                    if (tItemGroup.ItemList.GetObjectsList().Contains(this))
-                    {
-                        // Oh This ItemGroup contains me but I not refere it ... remove me from it
-                        tItemGroup.ItemList.RemoveObjects(new NWDItem[] { this });
-                        tItemGroup.UpdateData();
-                    }
-                    else
-                    {
-                        // ok i'ts not contains me!
-                    }
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void CheckMeFromRecipientGroup()
-        {
-            List<NWDRecipientGroup> tActualRecipient = RecipientGroupList.GetObjectsList();
-            foreach (NWDRecipientGroup tRecipient in NWDRecipientGroup.FindDatas())
-            {
-                if (tActualRecipient.Contains(tRecipient))
-                {
-                    if (tRecipient.ItemList.GetObjectsList().Contains(this) == true)
-                    {
-                        // ok It's contains me
-                    }
-                    else
-                    {
-                        // oh item group not contains me! WHYYYYYYYY
-                        tRecipient.ItemList.AddObject(this);
-                        tRecipient.UpdateData();
-                    }
-                }
-                else
-                {
-                    if (tRecipient.ItemList.GetObjectsList().Contains(this))
-                    {
-                        // Oh This ItemGroup contains me but I not refere it ... remove me from it
-                        tRecipient.ItemList.RemoveObjects(new NWDItem[] { this });
-                        tRecipient.UpdateData();
-                    }
-                    else
-                    {
-                        // ok i'ts not contains me!
-                    }
-                }
-            }
-        }
+        //public void CheckMeFromItemGroups()
+        //{
+        //    List<NWDItemGroup> tActualItemGroup = ItemGroupList.GetObjectsList();
+        //    foreach (NWDItemGroup tItemGroup in NWDItemGroup.FindDatas())
+        //    {
+        //        if (tActualItemGroup.Contains(tItemGroup))
+        //        {
+        //            if (tItemGroup.ItemList.GetObjectsList().Contains(this) == true)
+        //            {
+        //                // ok It's contains me
+        //            }
+        //            else
+        //            {
+        //                // oh item group not contains me! WHYYYYYYYY
+        //                tItemGroup.ItemList.AddObject(this);
+        //                tItemGroup.UpdateData();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (tItemGroup.ItemList.GetObjectsList().Contains(this))
+        //            {
+        //                // Oh This ItemGroup contains me but I not refere it ... remove me from it
+        //                tItemGroup.ItemList.RemoveObjects(new NWDItem[] { this });
+        //                tItemGroup.UpdateData();
+        //            }
+        //            else
+        //            {
+        //                // ok i'ts not contains me!
+        //            }
+        //        }
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void CheckMeFromRecipientGroup()
+        //{
+        //    List<NWDRecipientGroup> tActualRecipient = RecipientGroupList.GetObjectsList();
+        //    foreach (NWDRecipientGroup tRecipient in NWDRecipientGroup.FindDatas())
+        //    {
+        //        if (tActualRecipient.Contains(tRecipient))
+        //        {
+        //            if (tRecipient.ItemList.GetObjectsList().Contains(this) == true)
+        //            {
+        //                // ok It's contains me
+        //            }
+        //            else
+        //            {
+        //                // oh item group not contains me! WHYYYYYYYY
+        //                tRecipient.ItemList.AddObject(this);
+        //                tRecipient.UpdateData();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (tRecipient.ItemList.GetObjectsList().Contains(this))
+        //            {
+        //                // Oh This ItemGroup contains me but I not refere it ... remove me from it
+        //                tRecipient.ItemList.RemoveObjects(new NWDItem[] { this });
+        //                tRecipient.UpdateData();
+        //            }
+        //            else
+        //            {
+        //                // ok i'ts not contains me!
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------

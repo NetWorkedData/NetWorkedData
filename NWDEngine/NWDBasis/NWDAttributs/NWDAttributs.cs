@@ -105,7 +105,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-                if (kCache.ContainsKey(sType) ==false)
+                if (kCache.ContainsKey(sType) == false)
                 {
                     kCache.Add(sType, new Dictionary<string, MethodInfo>());
                 }
@@ -119,7 +119,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static MethodInfo GetMethodPublicInstance(Type sType, string sAlias)
         {
-            return GetMethod(sType, sAlias,BindingFlags.Public | BindingFlags.Instance);
+            return GetMethod(sType, sAlias, BindingFlags.Public | BindingFlags.Instance);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static MethodInfo GetMethodPublicStaticFlattenHierarchy(Type sType, string sAlias)
@@ -292,7 +292,7 @@ namespace NetWorkedData
         public string mGroupName = string.Empty;
         public int mGroupOrder = 0;
         public string mEntitled = string.Empty;
-        public string mToolsTips = string.Empty; 
+        public string mToolsTips = string.Empty;
         public NWDInspectorGroupOrderAttribute(string sGroupName, int sGroupOrder = 0, string sToolsTips = "", string sEntitled = "")
         {
             this.mGroupName = sGroupName;
@@ -300,6 +300,28 @@ namespace NetWorkedData
             this.mToolsTips = sToolsTips;
             this.mEntitled = sEntitled;
         }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDGroupStartAttribute create a group befaore this property.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDInformationAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string mText = string.Empty;
+        public string mToolsTips = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDInformationAttribute(string sText)
+        {
+            mText = sText;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GUIContent Content()
+        {
+            return new GUIContent(mText, mToolsTips);
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -585,8 +607,8 @@ namespace NetWorkedData
     /// <summary>
     /// NWDGroupSeparatorAttribute must be use after NWDGroupEndAttribute. It draw separator line.
     /// </summary>
- //   [Obsolete]
-	//[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    //   [Obsolete]
+    //[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     //public class NWDGroupSeparatorAttribute : Attribute
     //{
     //}

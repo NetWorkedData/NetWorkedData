@@ -124,6 +124,7 @@ namespace NetWorkedData
         public string m_SearchAccount = string.Empty;
         public string m_SearchGameSave = string.Empty;
         public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
+        public NWDBasisCkeckList m_SearchCheckList = NWDBasisCkeckList.Nothing;
 
         public Vector2 m_ScrollPositionList;
 

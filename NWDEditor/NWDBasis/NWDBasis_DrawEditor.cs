@@ -781,6 +781,23 @@ namespace NetWorkedData
             }
             tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
+            if (BasisHelper().kAccountDependent == false)
+            {
+                NWDBasisCkeckList tCkeckList = (NWDBasisCkeckList)EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight), CkeckList);
+                tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                if (tCkeckList != CkeckList)
+                {
+                    CkeckList = tCkeckList;
+                    DM = NWDToolbox.Timestamp();
+                    UpdateIntegrity();
+                    UpdateData(true, NWDWritingMode.ByEditorDefault);
+                    RowAnalyze();
+                    RepaintTableEditor();
+                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                }
+            }
+
 
 
             //  Action Zone + Warning Zone Height
@@ -796,6 +813,11 @@ namespace NetWorkedData
 
             EditorGUI.EndDisabledGroup();
             /*Rect tPropertyRect =*/
+
+
+
+
+
             DrawObjectInspector(tRectProperty, sWithScrollview, tCanBeEdit);
 
 

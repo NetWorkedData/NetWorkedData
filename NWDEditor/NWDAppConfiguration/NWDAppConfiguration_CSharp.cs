@@ -100,6 +100,8 @@ namespace NetWorkedData
             rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Device Created\");"); // 18
             rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Server Created\");"); // 19
             rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"User Created\");"); // 20
+
+            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"TO DELETE\");"); // 21
             rReturn.AppendLine("//Environments restaure\n");
             rReturn.Append(DevEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.Append(PreprodEnvironment.CreateAppConfigurationCsharp(sEnvironment));

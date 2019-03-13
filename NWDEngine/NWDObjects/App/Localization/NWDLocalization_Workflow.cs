@@ -46,14 +46,14 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDLocalization CreateLocalizationAnnexe(string sKey, string sDefault)
-        {
-            NWDLocalization rReturn = NewData();
-            rReturn.InternalKey = sKey;
-            rReturn.AnnexeValue = new NWDMultiType(sDefault);
-            rReturn.UpdateData();
-            return rReturn;
-        }
+        //public static NWDLocalization CreateLocalizationAnnexe(string sKey, string sDefault)
+        //{
+        //    NWDLocalization rReturn = NewData();
+        //    rReturn.InternalKey = sKey;
+        //    //rReturn.AnnexeValue = new NWDMultiType(sDefault);
+        //    rReturn.UpdateData();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static string GetLocalText(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {

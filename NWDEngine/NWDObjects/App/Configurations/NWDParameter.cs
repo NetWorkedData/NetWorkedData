@@ -29,8 +29,17 @@ namespace NetWorkedData
     public partial class NWDParameter : NWDBasis<NWDParameter>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Value(s)", true, true, true)]
-        public NWDLocalizableType LocalizableString
+        [NWDGroupStartAttribute("Informations", true, true, true)]
+        public NWDLocalizableTextType Name
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDCategory> CategoryList
+        {
+            get; set;
+        }
+        [NWDTooltips("The description item. Usable to be ownershipped")]
+        public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }

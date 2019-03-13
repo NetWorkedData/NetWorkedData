@@ -82,13 +82,13 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        static string[] IndexKeyByItem(bool sOrderIsImportant, NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
+        static string[] IndexKeyByItem(bool sOrderIsImportant, NWDReferenceType<NWDCraftRecipient> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {
             List<string> rReturn = new List<string>();
-            NWDRecipientGroup tRecipientGroup = sRecipientGroup.GetObject();
+            NWDCraftRecipient tRecipientGroup = sRecipientGroup.GetObject();
             if (tRecipientGroup != null)
             {
-                foreach (NWDItem tRecipient in tRecipientGroup.ItemList.GetObjectsAbsolute())
+                foreach (NWDItem tRecipient in tRecipientGroup.ItemGroup.GetObjectAbsolute().ItemList.GetObjectsAbsolute())
                 {
                     if (sOrderIsImportant == false)
                     {

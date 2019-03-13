@@ -35,13 +35,13 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDCraftBookAdd), typeof(NWDCraftBook), typeof(NWDRecipientGroup) };
+            return new List<Type> { typeof(NWDCraftReward), typeof(NWDCraftBook), typeof(NWDCraftRecipient) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesQuantityType<NWDItem> GetAdditionalItem(NWDReferencesQuantityType<NWDItem> sItemInCraft)
         {
             NWDReferencesQuantityType<NWDItem> rReturn = new NWDReferencesQuantityType<NWDItem>();
-            foreach (NWDCraftBookAdd tAdd in AdditionalReward.GetObjects())
+            foreach (NWDCraftReward tAdd in AdditionalReward.GetObjects())
             {
                 if (tAdd.ItemConditional.IsValid(sItemInCraft))
                 {
@@ -321,7 +321,7 @@ namespace NetWorkedData
             }
             if (RecipientGroup == null)
             {
-                RecipientGroup = new NWDReferenceType<NWDRecipientGroup>();
+                RecipientGroup = new NWDReferenceType<NWDCraftRecipient>();
             }
             if (ItemGroupIngredient == null)
             {

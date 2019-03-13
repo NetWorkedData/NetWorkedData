@@ -209,7 +209,9 @@ namespace NetWorkedData
             }
 
             // Replace Tag by user Nickname
-            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDLocalization.Enrichment(sText, sLanguage, sBold);
+            rText = NWDUserNickname.Enrichment(rText, sLanguage, sBold);
+            rText = NWDAccountNickname.Enrichment(rText, sLanguage, sBold);
 
             // Replace Tag by sender Nickname
             rText = rText.Replace("#SenderNickname#", tBstart + ReplaceSenderNickname + tBend);

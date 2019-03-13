@@ -345,7 +345,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         string Enrichment(string sText)
         {
-            return NWDUserNickname.Enrichment(NWDLocalization.Enrichment(sText));
+            string rText = NWDLocalization.Enrichment(sText);
+            rText = NWDUserNickname.Enrichment(rText);
+            rText = NWDAccountNickname.Enrichment(rText);
+            return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -11,12 +11,12 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[Serializable]
+    [Serializable]
     public class NWDFamilyConnection : NWDConnection<NWDFamily>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("FAM")]
     [NWDClassDescriptionAttribute("This class is used to reccord the family available in the game")]
     [NWDClassMenuNameAttribute("Family")]
@@ -24,19 +24,72 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Informations", true, true, true)]
-        public NWDLocalizableStringType Name { get; set; }
+        public NWDLocalizableStringType Name
+        {
+            get; set;
+        }
+        [NWDTooltips("The description item. Usable to be ownershipped")]
+        public NWDReferenceType<NWDItem> DescriptionItem
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
-        
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+
+        [NWDGroupStartAttribute("Properties associated", true, true, true)]
+        public NWDReferencesListType<NWDParameter> ParameterList
+        {
+            get; set;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // !!!!!!!!!!!!!
         [NWDGroupEndAttribute]
-        
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
-        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
-        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
-        public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
-        //[NWDGroupEndAttribute]
+        [NWDGroupStartAttribute("Old - REMOVE", true, true, true)]
+        [NWDNotEditable]
+        [Obsolete]
+        public NWDReferencesListType<NWDWorld> WorldList
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [Obsolete]
+        public NWDReferencesListType<NWDCategory> CategoryList
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [Obsolete]
+        public NWDReferencesListType<NWDFamily> FamilyList
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [Obsolete]
+        public NWDReferencesListType<NWDKeyword> KeywordList
+        {
+            get; set;
+        }
+
+        // !!!!!!!!!!!!!
+
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         public NWDFamily()
         {

@@ -13,19 +13,19 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class NWDCategoryConnection : NWDConnection<NWDCategory>
+    public class NWDAreaConnection : NWDConnection<NWDArea>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CAT")]
-    [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
-    [NWDClassMenuNameAttribute("Category")]
-    public partial class NWDCategory : NWDBasis<NWDCategory>
+    [NWDClassTrigrammeAttribute("AREA")]
+    [NWDClassDescriptionAttribute("This class is used to reccord the world/univers/island available in the game")]
+    [NWDClassMenuNameAttribute("Area")]
+    public partial class NWDArea : NWDBasis<NWDArea>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        [NWDTooltips("The name of this Category")]
+        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDTooltips("The name of this world")]
         public NWDLocalizableStringType Name
         {
             get; set;
@@ -37,62 +37,45 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Arrangement", true, true, true)]
-        public NWDReferencesListType<NWDCategory> ParentCategoryList
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
         }
-        [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> ChildrenCategoryList
+        public NWDReferencesListType<NWDFamily> FamilyList
         {
             get; set;
         }
-        [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> CascadeCategoryList
-        {
-            get; set;
-        }
-
-
-
-
-
-
-
-
-
-
-        // !!!!!!!!!!!!!
-        [NWDGroupEndAttribute]
-        [NWDGroupStartAttribute("Old - REMOVE", true, true, true)]
-        [NWDNotEditable]
-        [Obsolete]
         public NWDReferencesListType<NWDKeyword> KeywordList
         {
             get; set;
         }
-        [NWDNotEditable]
-        [Obsolete]
-        public NWDReferenceType<NWDCategory> CategoryParent
+        [NWDGroupEndAttribute]
+
+        [NWDGroupStartAttribute("Universe Arrangement", true, true, true)]
+        public NWDReferencesListType<NWDArea> ParentAreaList
         {
             get; set;
         }
-        // !!!!!!!!!!!!!
-
-
-
-
-
-
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCategory()
+        [NWDNotEditable]
+        public NWDReferencesListType<NWDArea> ChildAreaList
         {
-            //Debug.Log("NWDCategory Constructor");
+            get; set;
+        }
+        [NWDNotEditable]
+        public NWDReferencesListType<NWDArea> CascadeAreaList
+        {
+            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCategory(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDArea()
         {
-            //Debug.Log("NWDCategory Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDArea Constructor");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDArea(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDArea Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -103,57 +86,46 @@ namespace NetWorkedData
         private void CascadeAnalyzePrevent()
         {
             // upgrade model
-            if (ParentCategoryList == null)
+            if (ParentAreaList == null)
             {
-                ParentCategoryList = new NWDReferencesListType<NWDCategory>();
+                ParentAreaList = new NWDReferencesListType<NWDArea>();
             }
-            if (ChildrenCategoryList == null)
+            if (ChildAreaList == null)
             {
-                ChildrenCategoryList = new NWDReferencesListType<NWDCategory>();
+                ChildAreaList = new NWDReferencesListType<NWDArea>();
             }
-            if (CascadeCategoryList == null)
+            if (CascadeAreaList == null)
             {
-                CascadeCategoryList = new NWDReferencesListType<NWDCategory>();
+                CascadeAreaList = new NWDReferencesListType<NWDArea>();
             }
-            if (CategoryParent.GetObject() != null)
+            if (ParentAreaList.ContainsObject(this) == true)
             {
-                if (ParentCategoryList.ContainsObject(CategoryParent.GetObject()) == false)
-                {
-                    ParentCategoryList.AddObject(CategoryParent.GetObject());
-                }
-            }
-            // prevent basic circularity
-            if (CategoryParent.ContainsObject(this) == true)
-            {
-                CategoryParent.Default();
-            }
-            if (ParentCategoryList.ContainsObject(this) == true)
-            {
-                ParentCategoryList.RemoveObjects(new NWDCategory[] { this });
+                ParentAreaList.RemoveObjects(new NWDArea[] { this });
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         // analyze the cascade of children
         private void CascadeAnalyze(bool tUpdate = false)
         {
+            CascadeAnalyzePrevent();
             bool tTest = true;
             while (tTest == true)
             {
                 tTest = false;
                 // restaure the good parents
-                ChildrenCategoryList.Flush();
-                List<NWDCategory> tChildrensDirect = GetChildrensDirect();
-                ChildrenCategoryList.AddObjects(tChildrensDirect.ToArray());
+                ChildAreaList.Flush();
+                List<NWDArea> tChildrensDirect = GetChildrensDirect();
+                ChildAreaList.AddObjects(tChildrensDirect.ToArray());
 
-                CascadeCategoryList.Flush();
-                List<NWDCategory> tCascade = GetCascade();
-                CascadeCategoryList.AddObjects(tCascade.ToArray());
+                CascadeAreaList.Flush();
+                List<NWDArea> tCascade = GetCascade();
+                CascadeAreaList.AddObjects(tCascade.ToArray());
 
-                foreach (NWDCategory tP in tCascade)
+                foreach (NWDArea tP in tCascade)
                 {
-                    if (ParentCategoryList.ContainsObject(tP))
+                    if (ParentAreaList.ContainsObject(tP))
                     {
-                        ParentCategoryList.RemoveObjects(new NWDCategory[] { tP });
+                        ParentAreaList.RemoveObjects(new NWDArea[] { tP });
                         tTest = true;
                         break;
                     }
@@ -169,12 +141,12 @@ namespace NetWorkedData
         {
             CascadeAnalyzePrevent();
             //List<NWDCategory> tParentsDirect = GetParentsDirect();
-            List<NWDCategory> tParents = GetParents();
-            foreach (NWDCategory tParent in tParents)
+            List<NWDArea> tParents = GetParents();
+            foreach (NWDArea tParent in tParents)
             {
-                if (tParent.ParentCategoryList.ContainsObject(this))
+                if (tParent.ParentAreaList.ContainsObject(this))
                 {
-                    ParentCategoryList.RemoveObjects(new NWDCategory[] { tParent });
+                    ParentAreaList.RemoveObjects(new NWDArea[] { tParent });
                 }
             }
             // test de cicrcularité
@@ -190,19 +162,19 @@ namespace NetWorkedData
         // update parent evrywhere
         private void ParentsUpdate()
         {
-            List<NWDCategory> tChildrenFound = new List<NWDCategory>();
+            List<NWDArea> tChildrenFound = new List<NWDArea>();
 
             // add know children
-            foreach (NWDCategory tData in ParentCategoryList.GetObjects())
+            foreach (NWDArea tData in ParentAreaList.GetObjects())
             {
                 tChildrenFound.Add(tData);
             }
             // analyze children lost by change
-            foreach (NWDCategory tData in BasisHelper().Datas)
+            foreach (NWDArea tData in BasisHelper().Datas)
             {
                 if (tData != null)
                 {
-                    if (tData.ChildrenCategoryList.ContainsObject(this))
+                    if (tData.ChildAreaList.ContainsObject(this))
                     {
                         if (tChildrenFound.Contains(tData) == false)
                         {
@@ -211,25 +183,25 @@ namespace NetWorkedData
                     }
                 }
             }
-            foreach (NWDCategory tData in tChildrenFound)
+            foreach (NWDArea tData in tChildrenFound)
             {
                 tData.CascadeAnalyze(true);
             }
-            foreach (NWDCategory tData in tChildrenFound)
+            foreach (NWDArea tData in tChildrenFound)
             {
                 tData.ParentsUpdate();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private List<NWDCategory> GetParentsDirect()
+        private List<NWDArea> GetParentsDirect()
         {
-            List<NWDCategory> rReturn = ParentCategoryList.GetObjectsList();
+            List<NWDArea> rReturn = ParentAreaList.GetObjectsList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private List<NWDCategory> GetParents()
+        private List<NWDArea> GetParents()
         {
-            List<NWDCategory> rReturn = new List<NWDCategory>();
+            List<NWDArea> rReturn = new List<NWDArea>();
             ParentsFinder(rReturn, this);
             if (rReturn.Contains(this))
             {
@@ -238,13 +210,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void ParentsFinder(List<NWDCategory> sList, NWDCategory sCat)
+        private static void ParentsFinder(List<NWDArea> sList, NWDArea sArea)
         {
-            if (sList.Contains(sCat) == false)
+            if (sList.Contains(sArea) == false)
             {
-                sList.Add(sCat);
+                sList.Add(sArea);
                 // analyze children
-                foreach (NWDCategory tData in sCat.ParentCategoryList.GetObjects())
+                foreach (NWDArea tData in sArea.ParentAreaList.GetObjects())
                 {
                     if (tData != null)
                     {
@@ -257,15 +229,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private List<NWDCategory> GetChildrensDirect()
+        private List<NWDArea> GetChildrensDirect()
         {
-            List<NWDCategory> rReturn = new List<NWDCategory>();
+            List<NWDArea> rReturn = new List<NWDArea>();
             // analyze children
-            foreach (NWDCategory tData in BasisHelper().Datas)
+            foreach (NWDArea tData in BasisHelper().Datas)
             {
+                tData.CascadeAnalyzePrevent();
                 if (tData != null)
                 {
-                    if (tData.ParentCategoryList.ContainsObject(this))
+                    if (tData.ParentAreaList.ContainsObject(this))
                     {
                         if (rReturn.Contains(tData) == false)
                         {
@@ -277,16 +250,16 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private List<NWDCategory> GetCascade()
+        private List<NWDArea> GetCascade()
         {
-            List<NWDCategory> rReturn = new List<NWDCategory>();
+            List<NWDArea> rReturn = new List<NWDArea>();
             ChildrenFinder(rReturn, this);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private List<NWDCategory> GetChildrens()
+        private List<NWDArea> GetChildrens()
         {
-            List<NWDCategory> rReturn = new List<NWDCategory>();
+            List<NWDArea> rReturn = new List<NWDArea>();
             ChildrenFinder(rReturn, this);
             if (rReturn.Contains(this))
             {
@@ -295,17 +268,18 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void ChildrenFinder(List<NWDCategory> sList, NWDCategory sCat)
+        private static void ChildrenFinder(List<NWDArea> sList, NWDArea sArea)
         {
-            if (sList.Contains(sCat) == false)
+            if (sList.Contains(sArea) == false)
             {
-                sList.Add(sCat);
+                sList.Add(sArea);
                 // analyze children
-                foreach (NWDCategory tData in BasisHelper().Datas)
+                foreach (NWDArea tData in BasisHelper().Datas)
                 {
+                    tData.CascadeAnalyzePrevent();
                     if (tData != null)
                     {
-                        if (tData.ParentCategoryList.ContainsObject(sCat))
+                        if (tData.ParentAreaList.ContainsObject(sArea))
                         {
                             if (sList.Contains(tData) == false)
                             {
@@ -317,27 +291,27 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool Containts(NWDCategory sCategory)
+        public bool Containts(NWDArea sArea)
         {
             bool rReturn = false;
-            if (sCategory == this)
+            if (sArea == this)
             {
                 rReturn = true;
             }
             else
             {
-                rReturn = CascadeCategoryList.ContainsObject(sCategory);
+                rReturn = CascadeAreaList.ContainsObject(sArea);
             }
             return rReturn;
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public static bool CategoryIsContaintedIn(NWDCategory sCategory, List<NWDCategory> sCategoriesList)
+        public static bool CategoryIsContaintedIn(NWDArea sArea, List<NWDArea> sAreasList)
         {
             bool rReturn = false;
-            foreach (NWDCategory tCategory in sCategoriesList)
+            foreach (NWDArea tCategory in sAreasList)
             {
-                if (tCategory.Containts(sCategory))
+                if (tCategory.Containts(sArea))
                 {
                     rReturn = true;
                     break;
@@ -355,6 +329,7 @@ namespace NetWorkedData
         {
             UpdateCascade();
         }
+
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -23,22 +23,14 @@ namespace NetWorkedData
     public partial class NWDKeyword : NWDBasis<NWDKeyword>
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDInformation("Use the internal key as keyword. If you need more complex classification use Category or Family!")]
         [NWDGroupStartAttribute("Informations", true, true, true)]
         public NWDLocalizableStringType Name
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
-        
-        [NWDGroupStartAttribute("Description", true, true, true)]
+        [NWDTooltips("The description item. Usable to be ownershipped")]
         public NWDReferenceType<NWDItem> DescriptionItem
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-        
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDKeyword> KeywordList
         {
             get; set;
         }

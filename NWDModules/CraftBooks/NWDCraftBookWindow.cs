@@ -15,8 +15,8 @@ namespace NetWorkedData
         "Craft edition",
             new Type[] {
             typeof(NWDCraftBook),
-            typeof(NWDCraftBookAdd),
-            typeof(NWDRecipientGroup),
+            typeof(NWDCraftReward),
+            typeof(NWDCraftRecipient),
             typeof(NWDItemGroup),
             typeof(NWDItem),
 		}

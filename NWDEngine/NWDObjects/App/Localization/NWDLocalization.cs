@@ -26,6 +26,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Localization", true, true, true)]
+        [NWDInformation("Use Dialog or Message for more complex localization.")]
         [NWDTooltips("The localizable value")]
         public NWDLocalizableLongTextType TextValue
         {
@@ -36,18 +37,18 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        //[NWDGroupEndAttribute]
 
         
-        [NWDGroupStartAttribute("Development addons", true, true, true)]
-        /// <summary>
-        /// Gets or sets the annexe value.
-        /// </summary>
-        /// <value>The annexe value.</value>
-        public NWDMultiType AnnexeValue
-        {
-            get; set;
-        }
+        //[NWDGroupStartAttribute("Development addons", true, true, true)]
+        ///// <summary>
+        ///// Gets or sets the annexe value.
+        ///// </summary>
+        ///// <value>The annexe value.</value>
+        //public NWDMultiType AnnexeValue
+        //{
+        //    get; set;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------

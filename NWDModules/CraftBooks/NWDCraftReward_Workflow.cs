@@ -12,15 +12,15 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCraftBookAdd : NWDBasis<NWDCraftBookAdd>
+    public partial class NWDCraftReward : NWDBasis<NWDCraftReward>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCraftBookAdd()
+        public NWDCraftReward()
         {
             //Debug.Log("NWDCraftBookAdd Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCraftBookAdd(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDCraftReward(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDCraftBookAdd Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
@@ -32,7 +32,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDCraftBookAdd), typeof(NWDCraftBook), typeof(NWDRecipientGroup) };
+            return new List<Type> { typeof(NWDCraftReward), typeof(NWDCraftBook), typeof(NWDCraftRecipient) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -41,13 +41,13 @@ namespace NetWorkedData
         public NWDReferencesQuantityType<NWDItem> GetItemRewards()
         {
             NWDReferencesQuantityType<NWDItem> tListOfItemInBag = new NWDReferencesQuantityType<NWDItem>();
-            if (RewardsNumber <= 0)
+            if (Quantity <= 0)
             {
-                tListOfItemInBag.AddReferencesQuantity(ItemsRewards);
+                tListOfItemInBag.AddReferencesQuantity(ItemBatch);
             }
             else
             {
-                tListOfItemInBag.AddObjectsList(ItemsRewards.GetObjectsByRandom(RewardsNumber));
+                tListOfItemInBag.AddObjectsList(ItemBatch.GetObjectsByRandom(Quantity));
             }
             return tListOfItemInBag;
         }

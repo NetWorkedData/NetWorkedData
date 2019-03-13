@@ -12,22 +12,30 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[Serializable]
-    //public class NWDCraftBookAddConnection : NWDConnection<NWDCraftBookAdd>
-    //{
-    //}
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CBA")]
-    [NWDClassDescriptionAttribute("CraftBook Add")]
-    [NWDClassMenuNameAttribute("CraftBook Add")]
+    [NWDClassTrigrammeAttribute("CFW")]
+    [NWDClassDescriptionAttribute("Craft Reward")]
+    [NWDClassMenuNameAttribute("Craft Reward")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDCraftBookAdd : NWDBasis<NWDCraftBookAdd>
+    public partial class NWDCraftReward : NWDBasis<NWDCraftReward>
     {
-       //-------------------------------------------------------------------------------------------------------------
-		public NWDReferencesConditionalType<NWDItem> ItemConditional {get; set;}
-		public NWDReferencesQuantityType<NWDItem> ItemsRewards {get; set;}
-		public int RewardsNumber {get; set;}
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDGroupStartAttribute("Reward Batch and Quantity", true, true, true)]
+        [NWDTooltips("Item conditional to win this reward")]
+        public NWDReferencesConditionalType<NWDItem> ItemConditional
+        {
+            get; set;
+        }
+        [NWDTooltips("Item and quantity in the Bacth for random reward")]
+        public NWDReferencesQuantityType<NWDItem> ItemBatch
+        {
+            get; set;
+        }
+        [NWDTooltips("Quantity to get randomly from Batch")]
+        public int Quantity
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

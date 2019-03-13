@@ -18,10 +18,12 @@ namespace NetWorkedData
         "NWDClassificationWindow",
         new Type[] {
             typeof(NWDWorld),
-            typeof(NWDDistrict),
+            typeof(NWDSector),
+            typeof(NWDArea),
+            typeof(NWDKeyword),
             typeof(NWDCategory),
             typeof(NWDFamily),
-            typeof(NWDKeyword),
+            typeof(NWDParameter),
 			/* Add NWDBasis here*/
 		}
     )]

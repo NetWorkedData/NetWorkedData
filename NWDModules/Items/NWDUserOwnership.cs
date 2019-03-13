@@ -35,28 +35,64 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Ownership", true, true, true)]
-        [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        public NWDReferenceType<NWDItem> Item { get; set; }
-        public int Quantity { get; set; }
-        public string Name { get; set; }
+        public NWDReferenceType<NWDItem> Item { get; set;
+        }
+        [NWDGroupEnd]
+        [NWDGroupStart("Quantity ", true, true, true)]
+        public int Quantity
+        {
+            get; set;
+        }
+        //TODO used used in slot or in another system
+        //TODO create method use and unuse one!
+        //TODO directly dependence from usable in Item
+        public int Used
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupStart("Acquisition", true, true, true)]
-        public bool FirstAcquisitionNotify { get; set; }
-        public NWDDateTimeType FirstAcquisitionDate { get; set; }
+        public bool Discovered
+        {
+            get; set;
+        }
+        public NWDDateTimeType DiscoveredDate
+        {
+            get; set;
+        }
         [NWDGroupEnd]
+        [NWDGroupStart("Customisation ", true, true, true)]
+        public string Name
+        {
+            get; set;
+        }
 
-        [NWDGroupStart("Extensions", true, true, true)]
-        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
+
+
+
+        // !!!!!!!!!!!!!
+
         [NWDGroupEnd]
-
-        [NWDGroupStart("Development addons", true, true, true)]
-        public string JSON { get; set; }
-        public string KeysValues { get; set; }
+        [NWDGroupStart("OLD-RENAME ", true, true, true)]
+        [Obsolete]
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList
+        {
+            get; set;
+        }
+        //public NWDReferencesQuantityType<NWDItemProperty> ParameterQuantity { get; set; }
         //[NWDGroupEnd]
+
+        //[NWDGroupStart("Development addons", true, true, true)]
+        //public string JSON { get; set; }
+        //public string KeysValues { get; set; }
+        //[NWDGroupEnd]
+
+        // !!!!!!!!!!!!!
+
+
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -152,7 +188,7 @@ namespace NetWorkedData
         public static bool OwnershipForItemExists(string sItemReference)
         {
             NWDUserOwnership rOwnership = OwnershipForItem(sItemReference);
-            return rOwnership.FirstAcquisitionNotify;
+            return rOwnership.Discovered;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -167,10 +203,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void FirstAcquisitionMethod()
         {
-            if (FirstAcquisitionNotify == false)
+            if (Discovered == false)
             {
-                FirstAcquisitionDate.SetDateTime(DateTime.Now);
-                FirstAcquisitionNotify = true;
+                DiscoveredDate.SetDateTime(DateTime.Now);
+                Discovered = true;
                 NWDItem tItem = Item.GetObject();
                 if (tItem != null && tItem.FirstAcquisitionNotification != NWDItemNotification.NoNotification)
                 {
@@ -240,13 +276,13 @@ namespace NetWorkedData
         public static bool IsDiscovered(NWDItem sItem)
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            return rOwnershipToUse.FirstAcquisitionNotify;
+            return rOwnershipToUse.Discovered;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetDiscovered(NWDItem sItem, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            if (rOwnershipToUse.FirstAcquisitionNotify == false)
+            if (rOwnershipToUse.Discovered == false)
             {
                 rOwnershipToUse.FirstAcquisitionMethod();
                 rOwnershipToUse.UpdateData(true, sWritingMode);
@@ -501,7 +537,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-            FirstAcquisitionNotify = false;
+            Discovered = false;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool CheckOwnershipAndItemValidity()

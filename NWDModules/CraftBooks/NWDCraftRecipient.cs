@@ -13,15 +13,15 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class NWDRecipientGroupConnection : NWDConnection<NWDRecipientGroup>
+    public class NWDCraftRecipientConnection : NWDConnection<NWDCraftRecipient>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("RCG")]
-    [NWDClassDescriptionAttribute("Recipient group descriptions Class")]
-    [NWDClassMenuNameAttribute("Recipient Group")]
-    public partial class NWDRecipientGroup : NWDBasis<NWDRecipientGroup>
+    [NWDClassTrigrammeAttribute("CFR")]
+    [NWDClassDescriptionAttribute("Craft Recipient descriptions Class")]
+    [NWDClassMenuNameAttribute("Craft Recipient")]
+    public partial class NWDCraftRecipient : NWDBasis<NWDCraftRecipient>
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Description Item", true, true, true)] // ok
@@ -79,7 +79,11 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         
         [NWDGroupStartAttribute("Item(s) use as recipient", true, true, true)] // ok
-        public NWDReferencesListType<NWDItem> ItemList
+        //public NWDReferencesListType<NWDItem> ItemList
+        //{
+        //    get; set;
+        //}
+        public NWDReferenceType<NWDItemGroup> ItemGroup
         {
             get; set;
         }

@@ -31,6 +31,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
+            // Get First nickname found and return a new string
+            return Enrichment(sText, GetFirstData(), sLanguage, sBold);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //TODO : clean
+        public static string Enrichment(string sText, NWDUserNickname sNickname, string sLanguage = null , bool sBold = true)
+        {
             string rText = sText;
             string tBstart = "<b>";
             string tBend = "</b>";
@@ -44,20 +51,19 @@ namespace NetWorkedData
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             }
             // Replace the nickname
-            NWDUserNickname tNicknameObject = NWDUserNickname.GetFirstData();
             string tNickname = string.Empty;
             string tNicknameID = string.Empty;
-            if (tNicknameObject != null)
+            if (sNickname != null)
             {
-                tNickname = tNicknameObject.Nickname;
-                tNicknameID = tNicknameObject.UniqueNickname;
+                tNickname = sNickname.Nickname;
+                tNicknameID = sNickname.UniqueNickname;
             }
             // Replace the old tag nickname
             //rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
             //rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
             // Replace the new tag nickname
-            rText = rText.Replace("#Nickname#", tBstart + tNickname + tBend);
-            rText = rText.Replace("#UniqueNickname#", tBstart + tNicknameID + tBend);
+            rText = rText.Replace("#AccountNickname#", tBstart + tNickname + tBend);
+            rText = rText.Replace("#UniqueAccountNickname#", tBstart + tNicknameID + tBend);
             //// Replace the standard tag nickname
             //rText = rText.Replace("{Nickname}", tBstart + tNickname + tBend);
             //rText = rText.Replace("{UniqueNickname}", tBstart + tNicknameID + tBend);

@@ -46,6 +46,7 @@ namespace NetWorkedData
             return Enrichment(sText, GetFirstData(), sLanguage, sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
+        //TODO : clean
         public static string Enrichment(string sText, NWDAccountNickname sNickname, string sLanguage = null, bool sBold = true)
         {
             string rText = sText;
@@ -73,8 +74,8 @@ namespace NetWorkedData
             }
 
             // Replace the old tag nickname
-            rText = rText.Replace("#Nickname#", tBstart + tNickname + tBend);
-            rText = rText.Replace("#UniqueNickname#", tBstart + tNicknameID + tBend);
+            rText = rText.Replace("#AccountNickname#", tBstart + tNickname + tBend);
+            rText = rText.Replace("#UniqueAccountNickname#", tBstart + tNicknameID + tBend);
 
             return rText;
         }

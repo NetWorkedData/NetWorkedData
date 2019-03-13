@@ -430,6 +430,13 @@ namespace NetWorkedData
                         tOccurence = false;
                     }
                 }
+                if (BasisHelper().m_SearchCheckList != NWDBasisCkeckList.Nothing)
+                {
+                    if (tObject.CkeckList.HasFlag(BasisHelper().m_SearchCheckList) == false)
+                    {
+                        tOccurence = false;
+                    }
+                }
                 if (tOccurence == true)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tObject) == false)
@@ -744,6 +751,9 @@ namespace NetWorkedData
                                                                 tTagIntList.ToArray(),
                                                                         GUILayout.Width(tSearchWidth));
 
+            BasisHelper().m_SearchCheckList = (NWDBasisCkeckList)EditorGUILayout.EnumFlagsField(NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST,
+                                                                BasisHelper().m_SearchCheckList,
+                                                                GUILayout.Width(tSearchWidth));
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();

@@ -32,6 +32,53 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Flags]
+    public enum NWDBasisCkeckList: int
+    {
+        Nothing = 0,
+
+        Translate = 1 << 0,
+        Asset = 1 << 1,
+        Description = 1 << 2,
+        Test = 1 << 3,
+
+        Validated = ~0
+    } 
+//    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//#if UNITY_EDITOR
+//    [CustomPropertyDrawer(typeof(NWDBasisCkeckList))]
+//    public class NWDBasisCkeckListDrawer : PropertyDrawer
+//    {
+//        //-------------------------------------------------------------------------------------------------------------
+//        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+//        {
+//            Enum targetEnum = GetBaseProperty<Enum>(property);
+//            string propName = property.name;
+//            EditorGUI.BeginProperty(position, label, property);
+//            Enum enumNew = EditorGUI.EnumFlagsField(position, propName, targetEnum);
+//            property.intValue = (int)Convert.ChangeType(enumNew, targetEnum.GetType());
+//            EditorGUI.EndProperty();
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        static T GetBaseProperty<T>(SerializedProperty prop)
+//        {
+//            // Separate the steps it takes to get to this property
+//            string[] separatedPaths = prop.propertyPath.Split('.');
+
+//            // Go down to the root of this serialized property
+//            System.Object reflectionTarget = prop.serializedObject.targetObject as object;
+//            // Walk down the path to get the target object
+//            foreach (var path in separatedPaths)
+//            {
+//                FieldInfo fieldInfo = reflectionTarget.GetType().GetField(path);
+//                reflectionTarget = fieldInfo.GetValue(reflectionTarget);
+//            }
+//            return (T)reflectionTarget;
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//    }
+//#endif
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWD basis the base object of the NetWorkedData framework. This object can be synchronize, modified, update, connect with other NWDBasis <K> Object, etc.
     /// And this object's class can be connect with GameObject by properties autogenerate
@@ -61,17 +108,21 @@ namespace NetWorkedData
         {
             return Reference;
         }
-        //[NWDNotEditable]
-        //public NWDVersionType MinVersion // TODO REMOVE 
-        //{
-        //    get; set;
-        //}
-        //[NWDNotEditable]
-        //public NWDVersionType MaxVersion
-        //{
-        //    get; set;
-        //}
-        [Indexed("GetIndex", 0)]
+        public NWDBasisCkeckList CkeckList
+        {
+            get; set;
+        }
+    //[NWDNotEditable]
+    //public NWDVersionType MinVersion // TODO REMOVE 
+    //{
+    //    get; set;
+    //}
+    //[NWDNotEditable]
+    //public NWDVersionType MaxVersion
+    //{
+    //    get; set;
+    //}
+    [Indexed("GetIndex", 0)]
         //[Indexed("EditorIndex", 0)]
         [NWDNotEditable]
         public int WebModel // TODO RENAME TO WebModel

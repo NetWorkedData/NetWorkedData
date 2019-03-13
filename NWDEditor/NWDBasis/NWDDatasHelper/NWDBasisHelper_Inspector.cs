@@ -68,6 +68,7 @@ namespace NetWorkedData
     {
         public PropertyInfo Property;
         public NWDBasisHelperGroup Group;
+        public GUIContent Information;
         public string Name;
         public int Order = 0;
         public int Indent = 0;
@@ -108,6 +109,10 @@ namespace NetWorkedData
                 }
                 if (tDraw == true)
                 {
+                    if (Information != null)
+                    {
+                        tY += 100;
+                    }
                     EditorGUI.BeginDisabledGroup(tNotEditable);
                     // check this propertyheight
                     if (Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
@@ -274,6 +279,11 @@ namespace NetWorkedData
                 }
                 if (tDraw == true)
                 {
+                    if (Information != null)
+                    {
+                        GUI.Label(new Rect(tX, tY, tWidth, 100), Information, NWDConstants.tHelpBoxStyle);
+                    }
+
                     EditorGUI.BeginDisabledGroup(tNotEditable);
                     if (Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
                     {
@@ -636,6 +646,11 @@ namespace NetWorkedData
                         foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
                         {
                             tProperty.Separator = true;
+                        }
+
+                        foreach (NWDInformationAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInformationAttribute), true))
+                        {
+                            tProperty.Information = tInsideReference.Content();
                         }
                         //foreach (NWDGroupSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
                         //{

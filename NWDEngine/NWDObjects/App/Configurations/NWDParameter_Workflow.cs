@@ -32,17 +32,6 @@ namespace NetWorkedData
             //Debug.Log("NWDParameter Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetLocalString(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
-        {
-            NWDParameter tObject = NWDBasis<NWDParameter>.FindFirstDatasByInternalKey(sKey) as NWDParameter;
-            string rReturn = sDefault;
-            if (tObject != null)
-            {
-                rReturn = tObject.LocalizableString.GetLocalString();
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
