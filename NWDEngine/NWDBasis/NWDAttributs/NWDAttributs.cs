@@ -51,9 +51,6 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDEntitledAttribute custom toolstip and entitlement for property. 
-    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDNotWorking : Attribute
     {
@@ -65,6 +62,14 @@ namespace NetWorkedData
         public NWDNotWorking(string sToolsTips = "[NOT WORKING]")
         {
             this.ToolsTips = sToolsTips;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDCertified : Attribute
+    {
+        public NWDCertified()
+        {
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

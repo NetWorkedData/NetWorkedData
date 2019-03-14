@@ -12,24 +12,27 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("LVL")]
-    [NWDClassDescriptionAttribute("Level descriptions Class")]
-    [NWDClassMenuNameAttribute("Level")]
     public partial class NWDLevel : NWDBasis<NWDLevel>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableTextType Title
+        public NWDLevel()
         {
-            get; set;
+            //Debug.Log("NWDLevel Constructor");
         }
-        public int Order
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDLevel(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            get; set;
+            //Debug.Log("NWDLevel Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-        public NWDJsonType JSON
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
         {
-            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserLevelScore), typeof(NWDLevel) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -12,26 +12,9 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("LVL")]
-    [NWDClassDescriptionAttribute("Level descriptions Class")]
-    [NWDClassMenuNameAttribute("Level")]
-    public partial class NWDLevel : NWDBasis<NWDLevel>
+	[Serializable]
+    public class NWDLevelConnection : NWDConnection<NWDLevel>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableTextType Title
-        {
-            get; set;
-        }
-        public int Order
-        {
-            get; set;
-        }
-        public NWDJsonType JSON
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -38,7 +38,7 @@ namespace NetWorkedData
         {
             return (float)UpdateDelayInSeconds;
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         public static void PrepareUpdate(int sUpdateDelayInSeconds, List<Type> sOtherData)
         {
             //Debug.Log("NWDUserNetWorking Static StartUpdate()");

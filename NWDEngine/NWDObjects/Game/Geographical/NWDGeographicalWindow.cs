@@ -6,33 +6,34 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
-using System.Collections.Generic;
+using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("LVL")]
-    [NWDClassDescriptionAttribute("Level descriptions Class")]
-    [NWDClassMenuNameAttribute("Level")]
-    public partial class NWDLevel : NWDBasis<NWDLevel>
+    [NWDTypeWindowParamAttribute("Geographical",
+        "Create sector and area to sort and order your game, objects, items, etc.",
+        new Type[] {
+            typeof(NWDWorld),
+            typeof(NWDSector),
+            typeof(NWDArea),
+			/* Add NWDBasis here*/
+		}
+    )]
+    public class NWDGeographicalWindow : NWDBasisWindow<NWDGeographicalWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableTextType Title
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Geographical", false, 221)]
+        public static void MenuMethod()
         {
-            get; set;
-        }
-        public int Order
-        {
-            get; set;
-        }
-        public NWDJsonType JSON
-        {
-            get; set;
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDGeographicalWindow));
+            tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

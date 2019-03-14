@@ -650,6 +650,25 @@ namespace NetWorkedData
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
+
+
+            if (BasisHelper().kAccountDependent == false)
+            {
+                NWDBasisCkeckList tCkeckList = (NWDBasisCkeckList)EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight), "Check List", CkeckList);
+                tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                if (tCkeckList != CkeckList)
+                {
+                    CkeckList = tCkeckList;
+                    DM = NWDToolbox.Timestamp();
+                    UpdateIntegrity();
+                    UpdateData(true, NWDWritingMode.ByEditorDefault);
+                    RowAnalyze();
+                    RepaintTableEditor();
+                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                }
+            }
+
             bool tDisableProd = false;
             if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
             {
@@ -780,23 +799,6 @@ namespace NetWorkedData
                 RepaintTableEditor();
             }
             tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            if (BasisHelper().kAccountDependent == false)
-            {
-                NWDBasisCkeckList tCkeckList = (NWDBasisCkeckList)EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight), CkeckList);
-                tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                if (tCkeckList != CkeckList)
-                {
-                    CkeckList = tCkeckList;
-                    DM = NWDToolbox.Timestamp();
-                    UpdateIntegrity();
-                    UpdateData(true, NWDWritingMode.ByEditorDefault);
-                    RowAnalyze();
-                    RepaintTableEditor();
-                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
-                }
-            }
 
 
 

@@ -6,49 +6,52 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
+using UnityEditor;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+using UnityEngine.UI;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CAT")]
-    [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
-    [NWDClassMenuNameAttribute("Category")]
-    public partial class NWDCategory : NWDBasis<NWDCategory>
+    [CustomEditor(typeof(NWDAutoFill))]
+    public class NWDAutoFillEditor : Editor
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        [NWDTooltips("The name of this Category")]
-        public NWDLocalizableStringType Name
+        public override void OnInspectorGUI()
         {
-            get; set;
-        }
-        [NWDTooltips("The description item. Usable to be ownershipped")]
-        public NWDReferenceType<NWDItem> DescriptionItem
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-
-        [NWDGroupStartAttribute("Arrangement", true, true, true)]
-        public NWDReferencesListType<NWDCategory> ParentCategoryList
-        {
-            get; set;
-        }
-        [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> ChildrenCategoryList
-        {
-            get; set;
-        }
-        [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> CascadeCategoryList
-        {
-            get; set;
+            NWDAutoFill tTarget = (NWDAutoFill)target;
+            DrawDefaultInspector();
+            //if (GUILayout.Button("AutoFill copy"))
+            {
+                NWDLocalization tLocalization = tTarget.LocalizationReference.GetObject();
+                if (tLocalization != null)
+                {
+                    tTarget.LocalizeEditor();
+                }
+            }
+            if (GUILayout.Button("AutoFill anim restart"))
+            {
+                tTarget.StartFilling();
+            }
+            EditorGUI.BeginDisabledGroup(tTarget.IsRunning() == false);
+            if (GUILayout.Button("Fast Fill"))
+            {
+                tTarget.FastSpeed();
+            }
+            if (GUILayout.Button("Normal Fill"))
+            {
+                tTarget.NormalSpeed();
+            }
+            EditorGUI.EndDisabledGroup();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

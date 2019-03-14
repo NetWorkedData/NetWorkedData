@@ -27,19 +27,29 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronizeAttribute (false)]
-	[NWDClassTrigrammeAttribute ("RQT")]
-	[NWDClassDescriptionAttribute ("RequestToken descriptions Class")]
-	[NWDClassMenuNameAttribute ("RequestToken")]
-	public partial class NWDRequestToken : NWDBasis <NWDRequestToken>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceHashType<NWDAccount> UUIDHash { get; set; } // TODO: A virer
-		public NWDReferenceHashType<NWDAccount> AccountReferenceHash { get; set; }
-		public string Token { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDRequestToken()
+    [NWDClassServerSynchronizeAttribute(false)]
+    [NWDClassTrigrammeAttribute("RQT")]
+    [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
+    [NWDClassMenuNameAttribute("RequestToken")]
+    public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [Indexed("AccountIndex", 0)]
+        public NWDReferenceHashType<NWDAccount> UUIDHash
+        {
+            get; set;
+        } 
+        // TODO: A virer
+        public NWDReferenceHashType<NWDAccount> AccountReferenceHash
+        {
+            get; set;
+        }
+        public string Token
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDRequestToken()
         {
             //Debug.Log("NWDRequestToken Constructor");
         }
@@ -48,7 +58,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDRequestToken Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

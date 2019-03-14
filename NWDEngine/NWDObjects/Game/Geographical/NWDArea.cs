@@ -13,14 +13,14 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CAT")]
-    [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
-    [NWDClassMenuNameAttribute("Category")]
-    public partial class NWDCategory : NWDBasis<NWDCategory>
+    [NWDClassTrigrammeAttribute("AREA")]
+    [NWDClassDescriptionAttribute("This class is used to reccord the world/univers/island available in the game")]
+    [NWDClassMenuNameAttribute("Area")]
+    public partial class NWDArea : NWDBasis<NWDArea>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        [NWDTooltips("The name of this Category")]
+        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDTooltips("The name of this world")]
         public NWDLocalizableStringType Name
         {
             get; set;
@@ -32,18 +32,33 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Arrangement", true, true, true)]
-        public NWDReferencesListType<NWDCategory> ParentCategoryList
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDCategory> CategoryList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> FamilyList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> KeywordList
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupStartAttribute("Universe Arrangement", true, true, true)]
+        public NWDReferencesListType<NWDArea> ParentAreaList
         {
             get; set;
         }
         [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> ChildrenCategoryList
+        public NWDReferencesListType<NWDArea> ChildAreaList
         {
             get; set;
         }
         [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> CascadeCategoryList
+        public NWDReferencesListType<NWDArea> CascadeAreaList
         {
             get; set;
         }

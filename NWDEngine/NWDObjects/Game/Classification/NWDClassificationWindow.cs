@@ -15,15 +15,10 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Classification",
         "Create objects to sort and order your game, objects, items, etc.",
-        "NWDClassificationWindow",
         new Type[] {
-            typeof(NWDWorld),
-            typeof(NWDSector),
-            typeof(NWDArea),
             typeof(NWDKeyword),
             typeof(NWDCategory),
             typeof(NWDFamily),
-            typeof(NWDParameter),
 			/* Add NWDBasis here*/
 		}
     )]

@@ -28,7 +28,11 @@ namespace NetWorkedData
     public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesListType<NWDAccount> Account
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
         {
             get; set;
         }

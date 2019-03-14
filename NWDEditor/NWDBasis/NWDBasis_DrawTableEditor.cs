@@ -750,10 +750,12 @@ namespace NetWorkedData
                                                                 (int)BasisHelper().m_SearchTag, tTagStringList.ToArray(),
                                                                 tTagIntList.ToArray(),
                                                                         GUILayout.Width(tSearchWidth));
-
-            BasisHelper().m_SearchCheckList = (NWDBasisCkeckList)EditorGUILayout.EnumFlagsField(NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST,
+            if (BasisHelper().kAccountDependent == false)
+            {
+                BasisHelper().m_SearchCheckList = (NWDBasisCkeckList)EditorGUILayout.EnumFlagsField(NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST,
                                                                 BasisHelper().m_SearchCheckList,
                                                                 GUILayout.Width(tSearchWidth));
+            }
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();

@@ -252,7 +252,7 @@ namespace NetWorkedData
             float tX = sX;
             float tY = sY;
 
-            EditorGUI.indentLevel = Indent;
+           // EditorGUI.indentLevel = Indent;
 
             if (Separator == true)
             {
@@ -263,7 +263,6 @@ namespace NetWorkedData
 
             if (Property != null)
             {
-
                 bool tDraw = true;
                 bool tNotEditable = NotEditable;
                 foreach (NWDIfAttribute tReference in Property.GetCustomAttributes(typeof(NWDIfAttribute), true))
@@ -279,25 +278,37 @@ namespace NetWorkedData
                 }
                 if (tDraw == true)
                 {
+                    //  draw informations? and add height in size operation?
                     if (Information != null)
                     {
-                        GUI.Label(new Rect(tX, tY, tWidth, 100), Information, NWDConstants.tHelpBoxStyle);
+                        float  tInformationsHeight = NWDConstants.tHelpBoxStyle.CalcHeight(Information, tWidth);
+                        GUI.Label(new Rect(tX, tY, tWidth, tInformationsHeight), Information, NWDConstants.tHelpBoxStyle);
+                        tY += tInformationsHeight +NWDConstants.kFieldMarge;
                     }
+                    // prepare positions and size
+                    float tXField = sX + EditorGUIUtility.labelWidth;
+                    float tWidthField = tWidth - EditorGUIUtility.labelWidth;
+                    // create rects for label and field
+                    float tIndent = Indent * NWDConstants.kFieldIndent;
+                    Rect tEntitlementRect = new Rect(tX + tIndent, tY, EditorGUIUtility.labelWidth - tIndent, NWDConstants.kPropertyLabelStyle.fixedHeight);
+                    Rect tFieldRect = new Rect(tXField, tY, tWidthField, NWDConstants.kPropertyLabelStyle.fixedHeight);
 
+                    // begin editable field?
                     EditorGUI.BeginDisabledGroup(tNotEditable);
+
+                    //swicth case of type
                     if (Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
                     {
+                        EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                        tFieldRect.height = NWDConstants.tPopupdStyle.fixedHeight;
                         NWDEnumStringAttribute tInfo = Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true)[0] as NWDEnumStringAttribute;
                         string[] tV = tInfo.mEnumString;
                         string tValue = (string)Property.GetValue(sObject, null);
                         int tValueInt = Array.IndexOf<string>(tV, tValue);
-                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), Content());
-
                         //remove EditorGUI.indentLevel to draw next controller without indent 
-                        int tIndentLevel = EditorGUI.indentLevel;
-                        //EditorGUI.indentLevel = 0;
-
-                        int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, NWDConstants.tPopupdStyle);
+                        //int tIndentLevel = EditorGUI.indentLevel;
+                        EditorGUI.indentLevel = 0;
+                        int tValueIntNext = EditorGUI.Popup(tFieldRect, string.Empty, tValueInt, tV, NWDConstants.tPopupdStyle);
                         tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                         string tValueNext = string.Empty;
                         if (tValueIntNext < tV.Length && tValueIntNext >= 0)
@@ -343,6 +354,8 @@ namespace NetWorkedData
                         Type tTypeOfThis = Property.PropertyType;
                         if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                         {
+
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
                             float tH = 0;
                             if (Property.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
                             {
@@ -361,7 +374,8 @@ namespace NetWorkedData
                             {
                                 tValue = NWDToolbox.TextUnprotect(tValue);
                             }
-                            string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tH), Content(), tValue, NWDConstants.tTextFieldStyle);
+                            tFieldRect.height = tH;
+                            string tValueNext = EditorGUI.TextField(tFieldRect, tValue, NWDConstants.tTextFieldStyle);
                             tY += tH;
                             if (tValueNext != tValue)
                             {
@@ -372,15 +386,17 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsEnum)
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                            tFieldRect.height = NWDConstants.tEnumStyle.fixedHeight;
                             Enum tValue = Property.GetValue(sObject, null) as Enum;
                             Enum tValueNext = tValue;
                             if (Property.GetCustomAttributes(typeof(NWDFlagsEnumAttribute), true).Length > 0)
                             {
-                                tValueNext = EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDConstants.tEnumStyle.fixedHeight), Content(), tValue, NWDConstants.tEnumStyle);
+                                tValueNext = EditorGUI.EnumFlagsField(tFieldRect, tValue, NWDConstants.tEnumStyle);
                             }
                             else
                             {
-                                tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, NWDConstants.tEnumStyle.fixedHeight), Content(), tValue, NWDConstants.tEnumStyle);
+                                tValueNext = EditorGUI.EnumPopup(tFieldRect, tValue, NWDConstants.tEnumStyle);
                             }
                             tY += NWDConstants.tEnumStyle.fixedHeight + NWDConstants.kFieldMarge;
                             if (tValueNext != tValue)
@@ -392,8 +408,11 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis == typeof(bool))
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                            tFieldRect.height = NWDConstants.tToggleStyle.fixedHeight;
+
                             bool tValue = (bool)Property.GetValue(sObject, null);
-                            bool tValueNext = EditorGUI.Toggle(new Rect(tX, tY, tWidth, NWDConstants.tToggleStyle.fixedHeight), Content(), tValue, NWDConstants.tToggleStyle);
+                            bool tValueNext = EditorGUI.Toggle(tFieldRect, tValue, NWDConstants.tToggleStyle);
                             tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
                             if (tValueNext != tValue)
                             {
@@ -404,17 +423,18 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis == typeof(int))
                         {
-
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                            tFieldRect.height = NWDConstants.tIntFieldStyle.fixedHeight;
                             int tValue = (int)Property.GetValue(sObject, null);
                             int tValueNext = tValue;
                             if (Property.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
                             {
                                 NWDIntSliderAttribute tSlider = Property.GetCustomAttributes(typeof(NWDIntSliderAttribute), true)[0] as NWDIntSliderAttribute;
-                                tValueNext = EditorGUI.IntSlider(new Rect(tX, tY, tWidth, NWDConstants.tIntFieldStyle.fixedHeight), Content(), tValue, tSlider.mMin, tSlider.mMax);
+                                tValueNext = EditorGUI.IntSlider(tFieldRect, tValue, tSlider.mMin, tSlider.mMax);
                             }
                             else
                             {
-                                tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, NWDConstants.tIntFieldStyle.fixedHeight), Content(), tValue, NWDConstants.tIntFieldStyle);
+                                tValueNext = EditorGUI.IntField(tFieldRect, tValue, NWDConstants.tIntFieldStyle);
                             }
                             tY += NWDConstants.tIntFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                             if (tValueNext != tValue)
@@ -426,9 +446,11 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis == typeof(long))
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                            tFieldRect.height = NWDConstants.tLongFieldStyle.fixedHeight;
                             long tValue = (long)Property.GetValue(sObject, null);
                             long tValueNext = tValue;
-                            tValueNext = EditorGUI.LongField(new Rect(tX, tY, tWidth, NWDConstants.tLongFieldStyle.fixedHeight), Content(), tValue, NWDConstants.tLongFieldStyle);
+                            tValueNext = EditorGUI.LongField(tFieldRect, tValue, NWDConstants.tLongFieldStyle);
                             tY += NWDConstants.tLongFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                             if (tValueNext != tValue)
                             {
@@ -439,16 +461,18 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis == typeof(float))
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                            tFieldRect.height = NWDConstants.tFloatFieldStyle.fixedHeight;
                             float tValue = (float)Property.GetValue(sObject, null);
                             float tValueNext = tValue;
                             if (Property.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
                             {
                                 NWDFloatSliderAttribute tSlider = Property.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true)[0] as NWDFloatSliderAttribute;
-                                tValueNext = EditorGUI.Slider(new Rect(tX, tY, tWidth, NWDConstants.tFloatFieldStyle.fixedHeight), Content(), tValue, tSlider.mMin, tSlider.mMax);
+                                tValueNext = EditorGUI.Slider(tFieldRect, tValue, tSlider.mMin, tSlider.mMax);
                             }
                             else
                             {
-                                tValueNext = EditorGUI.FloatField(new Rect(tX, tY, tWidth, NWDConstants.tFloatFieldStyle.fixedHeight), Content(), tValue, NWDConstants.tFloatFieldStyle);
+                                tValueNext = EditorGUI.FloatField(tFieldRect, tValue, NWDConstants.tFloatFieldStyle);
                             }
                             tY += NWDConstants.tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                             if (tValueNext != tValue)
@@ -460,8 +484,11 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis == typeof(double))
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+                            tFieldRect.height = NWDConstants.tDoubleFieldStyle.fixedHeight;
+
                             double tValue = (double)Property.GetValue(sObject, null);
-                            double tValueNext = EditorGUI.DoubleField(new Rect(tX, tY, tWidth, NWDConstants.tDoubleFieldStyle.fixedHeight), Content(), tValue, NWDConstants.tDoubleFieldStyle);
+                            double tValueNext = EditorGUI.DoubleField(tFieldRect, tValue, NWDConstants.tDoubleFieldStyle);
                             tY += NWDConstants.tDoubleFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                             if (tValueNext != tValue)
                             {
@@ -472,6 +499,9 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                         {
+
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
@@ -479,7 +509,7 @@ namespace NetWorkedData
                             }
                             BTBDataType tBTBDataType = tValue as BTBDataType;
                             BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight),
-                                                                                     Name, Tooltips) as BTBDataType;
+                                                                                      "  ", Tooltips) as BTBDataType;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -493,6 +523,8 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
@@ -500,7 +532,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
                             BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDConstants.tIntFieldStyle.fixedHeight),
-                                                                                     Name, Tooltips) as BTBDataTypeInt;
+                                                                                     "  ", Tooltips) as BTBDataTypeInt;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -514,6 +546,8 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
                         {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
@@ -521,7 +555,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
                             BTBDataTypeFloat tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDConstants.tFloatFieldStyle.fixedHeight),
-                                                                                     Name, Tooltips) as BTBDataTypeFloat;
+                                                                                     "  ", Tooltips) as BTBDataTypeFloat;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -692,7 +726,7 @@ namespace NetWorkedData
                         {
                             tProperty.Enable = false;
                             tProperty.WebModelError = true;
-                            tProperty.Name = "!!!" + tProperty.Name + "!!!";
+                            tProperty.Name = "<color=orange>!!!</color>" + tProperty.Name + "<color=orange>!!!</color>";
                         }
                         tProperty.Order = tGroup.Elements.Count();
                         //tProperty.Name = "(" + tProperty.Order + ")" + tEntitled;
@@ -712,11 +746,11 @@ namespace NetWorkedData
                         }
                         foreach (NWDNotWorking tReference in tProp.GetCustomAttributes(typeof(NWDNotWorking), true))
                         {
-                            tProperty.Name = "[NOT WORKING] " + tProperty.Name;
+                            tProperty.Name = "<color=red>[NOT WORKING]</color> " + tProperty.Name;
                         }
                         foreach (NWDInDevelopment tReference in tProp.GetCustomAttributes(typeof(NWDInDevelopment), true))
                         {
-                            tProperty.Name = "[IN DEV] " + tProperty.Name;
+                            tProperty.Name = "<color=red>[IN DEV]</color> " + tProperty.Name;
                         }
                         foreach (NWDOrderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDOrderAttribute), true))
                         {
@@ -734,6 +768,16 @@ namespace NetWorkedData
                         else
                         {
                             tGroup.Elements.Add(tProperty);
+                        }
+
+                        bool tCertified = false;
+                        foreach (NWDCertified tReference in tProp.GetCustomAttributes(typeof(NWDCertified), true))
+                        {
+                            tCertified = true;
+                        }
+                        if (tCertified == false)
+                        {
+                            tProperty.Name = "<i> <color=orange>•</color>" + tProperty.Name + "</i>";
                         }
                     }
                 }

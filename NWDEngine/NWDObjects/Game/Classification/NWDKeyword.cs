@@ -11,11 +11,6 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[Serializable]
-    public class NWDKeywordConnection : NWDConnection<NWDKeyword>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("KWD")]
     [NWDClassDescriptionAttribute("This class is used to reccord the keyword available in the game")]
@@ -33,20 +28,6 @@ namespace NetWorkedData
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDKeyword()
-        {
-            //Debug.Log("NWDKeyword Constructor");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDKeyword(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDKeyword Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
         }
         //-------------------------------------------------------------------------------------------------------------
     }

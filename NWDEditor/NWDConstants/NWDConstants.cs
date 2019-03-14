@@ -45,6 +45,7 @@ namespace NetWorkedData
         public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         public static float kFieldMarge = 5.0f;
+        public static float kFieldIndent = 15.0f;
         //-------------------------------------------------------------------------------------------------------------
         public static int kLongString = 5;
         public static int kVeryLongString = 15;
@@ -597,6 +598,10 @@ namespace NetWorkedData
 
 
         static public GUIStyle kLabelStyle;
+
+
+        static public GUIStyle kPropertyLabelStyle;
+
         static public GUIStyle kLabelTitleStyle;
         static public GUIStyle kLabelSubTitleStyle;
         static public GUIStyle kLabelRightStyle;
@@ -790,6 +795,7 @@ namespace NetWorkedData
 
                 tTextFieldStyle = new GUIStyle(EditorStyles.textField);
                 tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                tTextFieldStyle.richText = true;
 
                 tFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
                 tFloatFieldStyle.fixedHeight = tFloatFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
@@ -882,6 +888,7 @@ namespace NetWorkedData
                 kLabelStyle = new GUIStyle(EditorStyles.label);
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
+
                 kLabelTitleStyle = new GUIStyle(EditorStyles.label);
                 kLabelTitleStyle.fontSize = 14;
                 kLabelTitleStyle.fontStyle = FontStyle.Bold;
@@ -892,6 +899,7 @@ namespace NetWorkedData
                 kLabelTitleStyle.padding = new RectOffset(6, 2, 16, 2);
                 kLabelTitleStyle.margin = new RectOffset(0, 0, 1, 1);
                 kLabelTitleStyle.fixedHeight = kLabelTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kLabelTitleStyle.richText = true;
 
                 kLabelSubTitleStyle = new GUIStyle(EditorStyles.label);
                 kLabelSubTitleStyle.fontSize = 12;
@@ -924,6 +932,7 @@ namespace NetWorkedData
 
                 kTextFieldStyle = new GUIStyle(EditorStyles.textField);
                 kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+                //kTextFieldStyle.richText = true;
 
                 //kTextAreaStyle = new GUIStyle(EditorStyles.textArea);
                 kTextAreaStyle = new GUIStyle(EditorStyles.textField);
@@ -964,6 +973,11 @@ namespace NetWorkedData
                 kLineStyle.padding = new RectOffset(0, 0, 0, 0);
                 kLineStyle.margin = new RectOffset(0, 0, 0, 0);
                 kLineStyle.fixedHeight = 1.0f;
+
+
+                kPropertyLabelStyle = new GUIStyle(EditorStyles.label);
+                kPropertyLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kPropertyLabelStyle.richText = true;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

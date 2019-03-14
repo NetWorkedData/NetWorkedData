@@ -7,29 +7,25 @@
 //
 //=====================================================================================================================
 using System;
-using System.Collections.Generic;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("LVL")]
-    [NWDClassDescriptionAttribute("Level descriptions Class")]
-    [NWDClassMenuNameAttribute("Level")]
-    public partial class NWDLevel : NWDBasis<NWDLevel>
+    public partial class NWDFamily : NWDBasis<NWDFamily>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableTextType Title
+        public NWDFamily()
         {
-            get; set;
+            //Debug.Log("NWDFamily Constructor");
         }
-        public int Order
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDFamily(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            get; set;
+            //Debug.Log("NWDFamily Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-        public NWDJsonType JSON
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
         {
-            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

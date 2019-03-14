@@ -122,7 +122,7 @@ namespace NetWorkedData
             Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDConstants.kEditWidth, sRect.position.y, NWDConstants.kEditWidth, NWDConstants.kMiniButtonStyle.fixedHeight);
 
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
-            GUI.Label(tEntitlement, sContent, EditorStyles.label);
+            GUI.Label(tEntitlement, sContent, NWDConstants.kPropertyLabelStyle);
 
             GUIContent sDataLabel = NWDBasis<K>.GetGuiContent(sReference);
             if (string.IsNullOrEmpty(sReference) == false && NWDBasis<K>.GetDataByReference(sReference) == null)

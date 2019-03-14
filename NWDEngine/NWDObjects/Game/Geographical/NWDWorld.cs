@@ -12,16 +12,35 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDWordType: int
+    {
+        Kingdom,
+        Empire,
+        Republic,
+        Anarchic,
+
+        None
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CAT")]
-    [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
-    [NWDClassMenuNameAttribute("Category")]
-    public partial class NWDCategory : NWDBasis<NWDCategory>
+    [NWDClassTrigrammeAttribute("WRD")]
+    [NWDClassDescriptionAttribute("This class is used to reccord the world/univers/island available in the game")]
+    [NWDClassMenuNameAttribute("World")]
+    public partial class NWDWorld : NWDBasis<NWDWorld>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        [NWDTooltips("The name of this Category")]
+        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDTooltips("The name of this world")]
+        public NWDWordType WordType
+        {
+            get; set;
+        }
         public NWDLocalizableStringType Name
+        {
+            get; set;
+        }
+        [NWDTooltips("The subname of this world or description tags")]
+        public NWDLocalizableStringType SubName
         {
             get; set;
         }
@@ -32,18 +51,28 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Arrangement", true, true, true)]
-        public NWDReferencesListType<NWDCategory> ParentCategoryList
+        [NWDGroupStartAttribute("Geographical", true, true, true)]
+        public NWDReferencesListType<NWDSector> SectorList
         {
             get; set;
         }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupStartAttribute("Political Universe", true, true, true)]
         [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> ChildrenCategoryList
+        public NWDReferencesListType<NWDCharacter> CharacterList
         {
             get; set;
         }
-        [NWDNotEditable]
-        public NWDReferencesListType<NWDCategory> CascadeCategoryList
+        public NWDReferencesListType<NWDWorld> FriendWorldList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDWorld> NeutralWorldList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDWorld> EnemyWorldList
         {
             get; set;
         }

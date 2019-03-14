@@ -43,7 +43,7 @@ namespace NetWorkedData
                     kCurrent = null;
                 }
             }
-            
+
             if (kCurrent == null)
             {
                 NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
@@ -58,7 +58,7 @@ namespace NetWorkedData
                 }
                 kCurrent = tAccountInfos;
             }
-            
+
             return kCurrent;
         }
         //-------------------------------------------------------------------------------------------------------------
