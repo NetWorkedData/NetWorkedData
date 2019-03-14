@@ -177,6 +177,11 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().CreatePHPAllClass(false, false);
         }
+        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_MODELS_RESET, false, 9001)]
+        public static void ModelsReset()
+        {
+            NWDDataManager.SharedInstance().ModelResetAllClass();
+        }
         //-------------------------------------------------------------------------------------------------------------
         //		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]
         //		public static void CreateCSharp ()

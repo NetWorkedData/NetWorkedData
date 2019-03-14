@@ -147,15 +147,21 @@ namespace NetWorkedData
                 rReturnList.Add("WebModel");
                 rReturnList.Add("Integrity");
             }
-#if UNITY_EDITOR
-            // reinit this table of value if not init  
-            if (BasisHelper().WebModelPropertiesOrder.Count == 0)
-            {
-                BasisHelper().WebModelPropertiesOrder.Add(0, rReturnList);
-                BasisHelper().WebServiceWebModel.Add(0, 0);
-                BasisHelper().WebModelSQLOrder.Add(0, SLQSelect(0));
-            }
-#endif
+//#if UNITY_EDITOR
+//            // reinit this table of value if not init  
+//            if (BasisHelper().WebModelPropertiesOrder.ContainsKey(0) == false)
+//            {
+//                BasisHelper().WebModelPropertiesOrder.Add(0, rReturnList);
+//            //}
+//            if (BasisHelper().WebServiceWebModel.ContainsKey(0) == false)
+//            {
+//                BasisHelper().WebServiceWebModel.Add(0, 0);
+//            }
+//            //if (BasisHelper().WebModelSQLOrder.ContainsKey(0) == false)
+//            //{
+//                BasisHelper().WebModelSQLOrder.Add(0, SLQSelect(0));
+//            }
+//#endif
             return rReturnList;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -994,6 +1000,26 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         // TODO : DEPLACER VERS NWDDATAS
+        [NWDAliasMethod(NWDConstants.M_ModelAnalyze)]
+        public static void ModelAnalyze()
+        {
+            if (BasisHelper().WebModelPropertiesOrder.ContainsKey(0) == false)
+            {
+                BasisHelper().WebModelPropertiesOrder.Add(0, PropertiesOrderArray(0));
+            }
+            if (BasisHelper().WebServiceWebModel.ContainsKey(0) == false)
+            {
+                BasisHelper().WebServiceWebModel.Add(0, 0);
+            }
+            if (BasisHelper().WebModelSQLOrder.ContainsKey(0) == false)
+            {
+                BasisHelper().WebModelSQLOrder.Add(0, SLQSelect(0));
+            }
+
+            BasisHelper().WebModelDegraded = ModelDegraded();
+            BasisHelper().WebModelChanged = ModelChanged();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static bool ModelDegraded()
         {
             bool rReturn = false;
@@ -1093,6 +1119,7 @@ namespace NetWorkedData
             BasisHelper().WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ModelReset)]
         public static void DeleteOldsModels()
         {
             BasisHelper().WebServiceWebModel.Clear();

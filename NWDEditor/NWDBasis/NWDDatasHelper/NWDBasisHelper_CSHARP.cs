@@ -78,8 +78,9 @@ namespace NetWorkedData
                     }
                 }
             }
-            rReturn.AppendLine("tBasisHelper.WebModelChanged = " + ClassNamePHP + ".ModelChanged();");
-            rReturn.AppendLine("tBasisHelper.WebModelDegraded = " + ClassNamePHP + ".ModelDegraded();");
+            rReturn.AppendLine("tBasisHelper.ModelAnalyze();");
+            rReturn.AppendLine("//tBasisHelper.WebModelChanged = " + ClassNamePHP + ".ModelChanged();");
+            rReturn.AppendLine("//tBasisHelper.WebModelDegraded = " + ClassNamePHP + ".ModelDegraded();");
             rReturn.AppendLine("#endif");
             rReturn.AppendLine("}");
             rReturn.AppendLine("}");

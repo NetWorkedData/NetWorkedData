@@ -430,9 +430,9 @@ namespace NetWorkedData
                         tOccurence = false;
                     }
                 }
-                if (BasisHelper().m_SearchCheckList != NWDBasisCkeckList.Nothing)
+                if (BasisHelper().m_SearchCheckList != NWDBasisCheckList.Nothing)
                 {
-                    if (tObject.CkeckList.HasFlag(BasisHelper().m_SearchCheckList) == false)
+                    if (tObject.CheckList.HasFlag(BasisHelper().m_SearchCheckList) == false)
                     {
                         tOccurence = false;
                     }
@@ -752,7 +752,7 @@ namespace NetWorkedData
                                                                         GUILayout.Width(tSearchWidth));
             if (BasisHelper().kAccountDependent == false)
             {
-                BasisHelper().m_SearchCheckList = (NWDBasisCkeckList)EditorGUILayout.EnumFlagsField(NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST,
+                BasisHelper().m_SearchCheckList = (NWDBasisCheckList)EditorGUILayout.EnumFlagsField(NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST,
                                                                 BasisHelper().m_SearchCheckList,
                                                                 GUILayout.Width(tSearchWidth));
             }

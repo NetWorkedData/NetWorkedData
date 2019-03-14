@@ -120,11 +120,14 @@ namespace NetWorkedData
             {
                 if (tData != null)
                 {
-                    if (tData.ChildrenCategoryList.ContainsObject(this))
+                    if (tData.ChildrenCategoryList != null)
                     {
-                        if (tChildrenFound.Contains(tData) == false)
+                        if (tData.ChildrenCategoryList.ContainsObject(this))
                         {
-                            tChildrenFound.Add(tData);
+                            if (tChildrenFound.Contains(tData) == false)
+                            {
+                                tChildrenFound.Add(tData);
+                            }
                         }
                     }
                 }
@@ -183,11 +186,14 @@ namespace NetWorkedData
             {
                 if (tData != null)
                 {
-                    if (tData.ParentCategoryList.ContainsObject(this))
+                    if (tData.ParentCategoryList != null)
                     {
-                        if (rReturn.Contains(tData) == false)
+                        if (tData.ParentCategoryList.ContainsObject(this))
                         {
-                            rReturn.Add(tData);
+                            if (rReturn.Contains(tData) == false)
+                            {
+                                rReturn.Add(tData);
+                            }
                         }
                     }
                 }
@@ -223,13 +229,15 @@ namespace NetWorkedData
                 {
                     if (tData != null)
                     {
-                        if (tData.ParentCategoryList.ContainsObject(sCat))
+                        if (tData.ParentCategoryList!=null)
                         {
-                            if (sList.Contains(tData) == false)
+                            if (tData.ParentCategoryList.ContainsObject(sCat))
                             {
-                                ChildrenFinder(sList, tData);
-                            }
-                        }
+                                if (sList.Contains(tData) == false)
+                                {
+                                    ChildrenFinder(sList, tData);
+                                }
+                            } }
                     }
                 }
             }

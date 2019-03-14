@@ -654,12 +654,12 @@ namespace NetWorkedData
 
             if (BasisHelper().kAccountDependent == false)
             {
-                NWDBasisCkeckList tCkeckList = (NWDBasisCkeckList)EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight), "Check List", CkeckList);
+                NWDBasisCheckList tCheckList = (NWDBasisCheckList)EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDConstants.tTextFieldStyle.fixedHeight), "Check List", CheckList);
                 tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                if (tCkeckList != CkeckList)
+                if (tCheckList != CheckList)
                 {
-                    CkeckList = tCkeckList;
+                    CheckList = tCheckList;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);

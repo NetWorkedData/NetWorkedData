@@ -221,7 +221,7 @@ namespace NetWorkedData
             }
             if (BasisHelper().kAccountDependent == false)
             {
-                if (CkeckList.HasFlag(NWDBasisCkeckList.Validated) == false)
+                if (CheckList.HasFlag(NWDBasisCheckList.Validated) == false)
                 {
                     tStringRow = "<color=orange>[WIP]</color> " + tStringRow;
                 }

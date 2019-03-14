@@ -213,7 +213,24 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ExportWebSites()
+        public void ModelResetAllClass()
+        {
+            string tProgressBarTitle = "NetWorkedData Models Resets";
+            float tCountClass = mTypeList.Count + 1;
+            float tOperation = 1;
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset Model index", tOperation / tCountClass);
+            tOperation++;
+            foreach (Type tType in mTypeList)
+            {
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset " + tType.Name + " model", tOperation / tCountClass);
+                tOperation++;
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ModelReset);
+            }
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+            EditorUtility.ClearProgressBar();
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            public void ExportWebSites()
         {
             string tPath = EditorUtility.SaveFolderPanel("Export WebSite(s)", "", "NetWorkedDataServer");
             string tFolder = NWDAppConfiguration.SharedInstance().WebFolder;

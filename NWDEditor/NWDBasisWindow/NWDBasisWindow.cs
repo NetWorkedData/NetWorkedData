@@ -239,6 +239,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
+            // TODO : check why error on recreate desktop space
             NWDDataManager.SharedInstance().RemoveWindowFromManager(this);
         }
         //-------------------------------------------------------------------------------------------------------------

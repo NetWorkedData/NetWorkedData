@@ -124,7 +124,7 @@ namespace NetWorkedData
         public string m_SearchAccount = string.Empty;
         public string m_SearchGameSave = string.Empty;
         public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
-        public NWDBasisCkeckList m_SearchCheckList = NWDBasisCkeckList.Nothing;
+        public NWDBasisCheckList m_SearchCheckList = NWDBasisCheckList.Nothing;
 
         public Vector2 m_ScrollPositionList;
 
@@ -556,11 +556,14 @@ namespace NetWorkedData
 
         public List<NWDTypeClass> EditorTableDatas = new List<NWDTypeClass>(); // NWDTypeClass
         public Dictionary<NWDTypeClass, bool> EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
-#endif
         // TODO Futur 
 
-
-
+        //-------------------------------------------------------------------------------------------------------------
+        public void ModelAnalyze()
+        {
+            NWDAliasMethod.InvokeClassMethod(ClassType, NWDConstants.M_ModelAnalyze);
+        }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {

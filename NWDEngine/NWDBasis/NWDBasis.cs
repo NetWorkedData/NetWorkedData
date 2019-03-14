@@ -33,7 +33,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Flags]
-    public enum NWDBasisCkeckList: int
+    public enum NWDBasisCheckList: int
     {
         Nothing = 0,
 
@@ -108,7 +108,7 @@ namespace NetWorkedData
         {
             return Reference;
         }
-        public NWDBasisCkeckList CkeckList
+        public NWDBasisCheckList CheckList
         {
             get; set;
         }
