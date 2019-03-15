@@ -22,12 +22,10 @@ namespace NetWorkedData
                                  "NWDGameSaveWindow", // NWDUserWindow
         new Type[] {
         typeof(NWDAccount),
-        typeof(NWDAccountInfos),
+        typeof(NWDUserInfos),
         typeof(NWDGameSave),
-        //typeof(NWDUserOwnership),
-		/* Add NWDBasis here*/
 		}
-                                )]
+    )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDGameSaveWindow : NWDBasisWindow<NWDGameSaveWindow>
     {

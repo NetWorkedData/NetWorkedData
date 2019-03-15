@@ -229,10 +229,20 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_SAVE_DATABASE, false, 9071)]
         public static void SaveDatabase()
         {
+            DateTime tDateTime = DateTime.UtcNow;
+            string tDateTimeFormated = tDateTime.Year + "-" + tDateTime.Month + "-" + tDateTime.Day + "_" + tDateTime.Hour + "-" + tDateTime.Minute + "-" + tDateTime.Second + "_UTC";
+            string tBDDName = NWDDataManager.SharedInstance().DatabaseNameEditor.Replace(".prp", "_" + tDateTimeFormated + ".prp-save");
+
             string tPathOriginal = "Assets/" + NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
-            string tPathFinal = "Assets/" + NWDDataManager.SharedInstance().DatabaseNameEditor.Replace(".prp", ".prp-save");
+            string tPathFinal = "DatabaseSaved/" + tBDDName;
+
+            if (!Directory.Exists("DatabaseSaved"))
+            {
+                Directory.CreateDirectory("DatabaseSaved");
+            }
+
             FileUtil.ReplaceFile(tPathOriginal, tPathFinal);
-            EditorUtility.DisplayDialog("Database", "Database was saved in hard asset at \"" + tPathFinal + "\"!", "Ok");
+            EditorUtility.DisplayDialog("Database", "Database saved in directory: \"DatabaseSaved\"\n\n" + tBDDName + "\n\nDate: " + tDateTimeFormated, "Ok");
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
