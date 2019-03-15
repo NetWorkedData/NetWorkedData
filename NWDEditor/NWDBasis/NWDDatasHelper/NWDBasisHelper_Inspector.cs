@@ -198,6 +198,17 @@ namespace NetWorkedData
                             float tHeight = tBTBDataType.ControlFieldHeight();
                             tY += tHeight + NWDConstants.kFieldMarge;
                         }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        {
+                            var tValue = Property.GetValue(sObject, null);
+                            if (tValue == null)
+                            {
+                                tValue = Activator.CreateInstance(tTypeOfThis);
+                            }
+                            BTBDataTypeEnum tBTBDataType = (BTBDataTypeEnum)tValue;
+                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            tY += tHeight + NWDConstants.kFieldMarge;
+                        }
                         else
                         {
                             tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -252,7 +263,7 @@ namespace NetWorkedData
             float tX = sX;
             float tY = sY;
 
-           // EditorGUI.indentLevel = Indent;
+            // EditorGUI.indentLevel = Indent;
 
             if (Separator == true)
             {
@@ -281,9 +292,9 @@ namespace NetWorkedData
                     //  draw informations? and add height in size operation?
                     if (Information != null)
                     {
-                        float  tInformationsHeight = NWDConstants.tHelpBoxStyle.CalcHeight(Information, tWidth);
+                        float tInformationsHeight = NWDConstants.tHelpBoxStyle.CalcHeight(Information, tWidth);
                         GUI.Label(new Rect(tX, tY, tWidth, tInformationsHeight), Information, NWDConstants.tHelpBoxStyle);
-                        tY += tInformationsHeight +NWDConstants.kFieldMarge;
+                        tY += tInformationsHeight + NWDConstants.kFieldMarge;
                     }
                     // prepare positions and size
                     float tXField = sX + EditorGUIUtility.labelWidth;
@@ -567,6 +578,50 @@ namespace NetWorkedData
                             float tHeight = tBTBDataType.ControlFieldHeight();
                             tY += tHeight + NWDConstants.kFieldMarge;
                         }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+
+                            var tValue = Property.GetValue(sObject, null);
+                            if (tValue == null)
+                            {
+                                tValue = Activator.CreateInstance(tTypeOfThis);
+                            }
+                            BTBDataTypeEnum tBTBDataType = tValue as BTBDataTypeEnum;
+                            BTBDataTypeEnum tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDConstants.tFloatFieldStyle.fixedHeight),
+                                                                                     "  ", Tooltips) as BTBDataTypeEnum;
+
+                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            {
+                                ((BTBDataTypeEnum)tValue).Value = tBTBDataTypeNext.Value;
+                                Property.SetValue(sObject, tValue, null);
+                                NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
+                            }
+                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            tY += tHeight + NWDConstants.kFieldMarge;
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        {
+                            EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
+
+                            var tValue = Property.GetValue(sObject, null);
+                            if (tValue == null)
+                            {
+                                tValue = Activator.CreateInstance(tTypeOfThis);
+                            }
+                            BTBDataTypeMask tBTBDataType = tValue as BTBDataTypeMask;
+                            BTBDataTypeMask tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDConstants.tFloatFieldStyle.fixedHeight),
+                                                                                     Property.Name, Tooltips) as BTBDataTypeMask;
+
+                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            {
+                                ((BTBDataTypeMask)tValue).Value = tBTBDataTypeNext.Value;
+                                Property.SetValue(sObject, tValue, null);
+                                NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
+                            }
+                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            tY += tHeight + NWDConstants.kFieldMarge;
+                        }
                         else
                         {
                             string tValue = Property.GetValue(sObject, null) as string;
@@ -583,7 +638,7 @@ namespace NetWorkedData
                 {
                     Rect tRect = EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1));
                     EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
-                    tY += NWDConstants.kFieldMarge * 2;
+                    tY += 1 + NWDConstants.kFieldMarge * 2;
                 }
                 if (Group.Reducible == true)
                 {
@@ -664,7 +719,15 @@ namespace NetWorkedData
                     {
                         string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
                         NWDBasisHelperElement tProperty = new NWDBasisHelperElement();
-                        tProperty.Tooltips = "Edit the property : " + tEntitled;
+                        if (tProp.PropertyType.IsGenericType)
+                        {
+                            //Debug.Log(tProp.PropertyType.Name);
+                            tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name.Replace("`1", "<" + tProp.PropertyType.GenericTypeArguments[0].Name + ">") + "\n\n" + tEntitled;
+                        }
+                        else
+                        {
+                            tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name + "\n\n" + tEntitled;
+                        }
                         tProperty.Property = tProp;
 
                         foreach (NWDGroupResetAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupResetAttribute), true))
@@ -760,8 +823,17 @@ namespace NetWorkedData
                         {
                             foreach (NWDInspectorGroupOrderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupOrderAttribute), true))
                             {
-                                // find group by nama At ends
-                                //Debug.Log("try to add in another group");
+                                tProperty.Order = tReference.mGroupOrder;
+                                if (string.IsNullOrEmpty(tReference.mEntitled) == false)
+                                {
+                                    tProperty.Name = tReference.mEntitled;
+                                }
+                                if (string.IsNullOrEmpty(tReference.mToolsTips) == false)
+                                {
+                                    tProperty.Tooltips = tReference.mToolsTips;
+                                }
+                                tProperty.Order = tReference.mGroupOrder;
+
                                 PropertiesForGroupName.Add(tProperty, tReference.mGroupName);
                             }
                         }
@@ -769,7 +841,6 @@ namespace NetWorkedData
                         {
                             tGroup.Elements.Add(tProperty);
                         }
-
                         bool tCertified = false;
                         foreach (NWDCertified tReference in tProp.GetCustomAttributes(typeof(NWDCertified), true))
                         {
@@ -778,6 +849,7 @@ namespace NetWorkedData
                         if (tCertified == false)
                         {
                             tProperty.Name = "<i> <color=orange>•</color>" + tProperty.Name + "</i>";
+                            tProperty.Tooltips += "\n\nNot certified by attribut";
                         }
                     }
                 }
@@ -827,7 +899,7 @@ namespace NetWorkedData
                 NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
                 if (string.IsNullOrEmpty(tObject.InternalKey))
                 {
-                    rReturn = new GUIContent( "<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                    rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
                 }
                 else
                 {

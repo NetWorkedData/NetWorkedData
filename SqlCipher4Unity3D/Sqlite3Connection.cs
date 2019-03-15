@@ -1725,6 +1725,14 @@ namespace SQLite4Unity3d
             {
                 return BTBDataTypeFloat.SQLType;
             }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+            {
+                return BTBDataTypeEnum.SQLType;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeMask)))
+            {
+                return BTBDataTypeMask.SQLType;
+            }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
             throw new NotSupportedException("Don't know about " + clrType);
@@ -2056,6 +2064,24 @@ namespace SQLite4Unity3d
                 }
                 return SQLite3.BindDouble(stmt, index, tValue.ToDouble());
             }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeEnum)))
+            {
+                BTBDataTypeEnum tValue = (BTBDataTypeEnum)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeEnum;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToLong());
+            }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeMask)))
+            {
+                BTBDataTypeMask tValue = (BTBDataTypeMask)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeMask;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToLong());
+            }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
             throw new NotSupportedException("Cannot store type: " + value.GetType());
@@ -2135,6 +2161,18 @@ namespace SQLite4Unity3d
             {
                 BTBDataTypeFloat tObject = Activator.CreateInstance(clrType) as BTBDataTypeFloat;
                 tObject.SetDouble(SQLite3.ColumnDouble(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+            {
+                BTBDataTypeEnum tObject = Activator.CreateInstance(clrType) as BTBDataTypeEnum;
+                tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeMask)))
+            {
+                BTBDataTypeMask tObject = Activator.CreateInstance(clrType) as BTBDataTypeMask;
+                tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
                 return tObject;
             }
             //---------- ADD IDEMOBI FINISH ------------

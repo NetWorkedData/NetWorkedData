@@ -987,9 +987,33 @@ namespace NetWorkedData
             GUILayout.Label(string.Empty, kSeparatorStyle);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static Rect GUISeparator(Rect sRect)
+        {
+            sRect.height = kSeparatorStyle.fixedHeight;
+            GUI.Label(sRect,string.Empty, kSeparatorStyle);
+            sRect.y+= kSeparatorStyle.fixedHeight;
+            return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void GUILayoutLine()
         {
             GUILayout.Label(string.Empty, kLineStyle);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect GUILine(Rect sRect)
+        {
+            sRect.height = kLineStyle.fixedHeight;
+            GUI.Label(sRect, string.Empty, kLineStyle);
+            sRect.y += kLineStyle.fixedHeight;
+            return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect GUIColorLine(Rect sRect)
+        {
+            Rect tRect = EditorGUI.IndentedRect(new Rect(sRect.x, sRect.y + NWDConstants.kFieldMarge, sRect.width, 1));
+            EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
+            sRect.y += 1+ NWDConstants.kFieldMarge * 2;
+            return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         static Color kOldColor;
