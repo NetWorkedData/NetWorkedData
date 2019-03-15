@@ -228,6 +228,7 @@ namespace NetWorkedData
             this.ToolsTips = sToolsTips;
         }
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDOrderAttribute : Attribute
     {
@@ -717,20 +718,20 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAddonAttribute : Attribute
-    {
-        //public string AddonGroup;
-        public NWDAddonAttribute()
-        {
-            //this.AddonGroup = "";
-        }
-        //public NWDAddonAttribute(string sAddonGroup = "")
-        //{
-        //    this.AddonGroup = sAddonGroup;
-        //}
-    }
+    //[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    ////+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //public class NWDAddonAttribute : Attribute
+    //{
+    //    //public string AddonGroup;
+    //    public NWDAddonAttribute()
+    //    {
+    //        //this.AddonGroup = "";
+    //    }
+    //    //public NWDAddonAttribute(string sAddonGroup = "")
+    //    //{
+    //    //    this.AddonGroup = sAddonGroup;
+    //    //}
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
