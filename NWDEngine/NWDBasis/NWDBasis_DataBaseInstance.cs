@@ -92,6 +92,21 @@ namespace NetWorkedData
             this.InsertData();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override string ReferenceValue()
+        {
+            return Reference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string InternalKeyValue()
+        {
+            return InternalKey;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string InternalDescriptionValue()
+        {
+            return InternalDescription;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// New instance.
         /// </summary>

@@ -22,7 +22,7 @@ namespace NetWorkedData
     public partial class NWDUserGuildFinder : NWDBasis<NWDUserGuildFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Guild Detail", true, true, true)]
+        [NWDInspectorGroupStart("Guild Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -41,9 +41,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Results", true, true, true)]
+        [NWDInspectorGroupStart("Results", true, true, true)]
         [NWDAlias("GuildRequestsList")]
         public NWDReferencesListType<NWDUserGuild> GuildRequestsList
         {

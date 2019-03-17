@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDUserRelationship : NWDBasis<NWDUserRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("User Relationship Detail", true, true, true)]
+        [NWDInspectorGroupStart("User Relationship Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         [NWDAlias("Account")]
         public NWDReferenceType<NWDAccount> Account  {  get; set;
@@ -44,9 +44,9 @@ namespace NetWorkedData
         [NWDNotEditable]
         [NWDAlias("FriendLastSynchronization")]
         public NWDDateTimeUtcType FriendLastSynchronization  {  get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Relationship informations", true, true, true)]
+        [NWDInspectorGroupStart("Relationship informations", true, true, true)]
         [NWDAlias("RelationshipStatus")]
         public NWDRelationshipStatus RelationshipStatus { get; set; }
         [NWDNotEditable]

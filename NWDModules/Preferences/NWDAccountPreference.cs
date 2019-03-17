@@ -18,15 +18,15 @@ namespace NetWorkedData
     public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Connection")]
+        [NWDInspectorGroupStart("Connection")]
         public NWDReferenceType<NWDAccount> Account {get; set; }
         public NWDReferenceType<NWDPreferenceKey> PreferenceKey
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Values")]
+        [NWDInspectorGroupStart("Values")]
         public NWDMultiType Value
         {
             get; set;

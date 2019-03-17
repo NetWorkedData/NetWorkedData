@@ -57,14 +57,14 @@ namespace NetWorkedData
     public partial class NWDTradePlace : NWDBasis<NWDTradePlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Items Authorization", true, true, true)]
+        [NWDInspectorGroupStart("Items Authorization", true, true, true)]
         public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> FilterCategories
         {
@@ -78,11 +78,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
         //[NWDGroupSeparator]
 
-        [NWDGroupStart("Trade Detail", true, true, true)]
+        [NWDInspectorGroupStart("Trade Detail", true, true, true)]
         [NWDAlias("ForRelationshipOnly")]
         public bool ForRelationshipOnly
         {

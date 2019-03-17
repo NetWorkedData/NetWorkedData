@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDUserGuild : NWDBasis<NWDUserGuild>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Guild Detail", true, true, true)]
+        [NWDInspectorGroupStart("Guild Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -38,9 +38,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;

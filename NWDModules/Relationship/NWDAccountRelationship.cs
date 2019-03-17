@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDAccountRelationship : NWDBasis<NWDAccountRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("User Relationship Detail", true, true, true)]
+        [NWDInspectorGroupStart("User Relationship Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -48,9 +48,9 @@ namespace NetWorkedData
             get; set;
         }
 
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Relationship informations", true, true, true)]
+        [NWDInspectorGroupStart("Relationship informations", true, true, true)]
         [NWDAlias("RelationshipStatus")]
         public NWDRelationshipStatus RelationshipStatus
         {

@@ -25,7 +25,7 @@ namespace NetWorkedData
     public partial class NWDCreditsCompany : NWDBasis<NWDCreditsCompany>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Informations")]
+        [NWDInspectorGroupStart("Informations")]
         public NWDLocalizableStringType Title
         {
             get; set;

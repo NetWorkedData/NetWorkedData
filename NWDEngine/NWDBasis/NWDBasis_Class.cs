@@ -31,6 +31,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        static NWDBasis()
+        {
+            //Debug.Log("NWDBasis Static Class Constructor()");
+            NWDTypeLauncher.Launcher();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_ClassDeclare)]
         public static void ClassDeclare()
         {

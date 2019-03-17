@@ -31,7 +31,7 @@ namespace NetWorkedData
     public partial class NWDStatisticKey : NWDBasis<NWDStatisticKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Information")]
+        [NWDInspectorGroupStart("Information")]
         public NWDLocalizableStringType Title
         {
             get; set;
@@ -52,9 +52,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Use parent stats")]
+        [NWDInspectorGroupStart("Use parent stats")]
         public NWDReferenceType<NWDStatisticKey> Parent
         {
             get; set;
@@ -64,9 +64,9 @@ namespace NetWorkedData
             get; set;
         }
 
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Counter format (#x# is the value)")]
+        [NWDInspectorGroupStart("Counter format (#x# is the value)")]
         public float InitCounter
         {
             get; set;
@@ -86,9 +86,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Total format (#x# is the value)")]
+        [NWDInspectorGroupStart("Total format (#x# is the value)")]
         public float InitTotal
         {
             get; set;
@@ -108,9 +108,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Average format (#x# is the value)")]
+        [NWDInspectorGroupStart("Average format (#x# is the value)")]
         public float InitAverage
         {
             get; set;
@@ -134,9 +134,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Average with parent format (#x# is the value)")]
+        [NWDInspectorGroupStart("Average with parent format (#x# is the value)")]
         public float InitAverageWithParent
         {
             get; set;
@@ -160,9 +160,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Last format (#x# is the value)")]
+        [NWDInspectorGroupStart("Last format (#x# is the value)")]
         public float InitLast
         {
             get; set;
@@ -182,9 +182,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Max format (#x# is the value)")]
+        [NWDInspectorGroupStart("Max format (#x# is the value)")]
         public float InitMax
         {
             get; set;
@@ -204,9 +204,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Min format (#x# is the value)")]
+        [NWDInspectorGroupStart("Min format (#x# is the value)")]
         public float InitMin
         {
             get; set;

@@ -21,7 +21,7 @@ namespace NetWorkedData
     public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDHeader("Player Informations")]
+        [NWDInspectorHeader("Player Informations")]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;

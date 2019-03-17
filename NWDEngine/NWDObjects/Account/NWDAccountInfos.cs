@@ -25,7 +25,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
 
-        [NWDGroupStart("Player Informations")]
+        [NWDInspectorGroupStart("Player Informations")]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;
@@ -54,9 +54,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Push notification Options")]
+        [NWDInspectorGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn
         {
             get; set;

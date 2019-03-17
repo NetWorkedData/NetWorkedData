@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDAction : NWDBasis<NWDAction>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Optional", true, true, false)]
+        [NWDInspectorGroupStart("Optional", true, true, false)]
         [NWDTooltips("An additional message, it's optional and not used in standard process.")]
         public string Message
         {
@@ -39,9 +39,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Optional Scene", true, true, false)]
+        [NWDInspectorGroupStart("Optional Scene", true, true, false)]
         [NWDTooltips("An additional scene to use, it's optional and not used in standard process.")]
         public NWDSceneType UseScene
         {

@@ -31,23 +31,23 @@ namespace NetWorkedData
     public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Player Informations")]
+        [NWDInspectorGroupStart("Player Informations")]
         [NWDTooltips("")]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDReferenceType<NWDUserAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Localization Options")]
+        [NWDInspectorGroupStart("Localization Options")]
         public NWDLanguageType Language { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Push notification Options")]
+        [NWDInspectorGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn { get; set; }
         public bool AcceptTradePush { get; set; }
         public bool AcceptBarterPush { get; set; }
@@ -56,21 +56,21 @@ namespace NetWorkedData
         public bool AcceptUserInterMessagePush { get; set; }
         public string AppleNotificationToken { get; set; }
         public string GoogleNotificationToken { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Game Options")]
+        [NWDInspectorGroupStart("Game Options")]
         public bool SFX { get; set; }
         public float SFXVolume { get; set; }
         public bool Music { get; set; }
         public float MusicVolume { get; set; }
         public NWDLocalizableStringType MusicVolumeLangu { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Last Game Informations")]
+        [NWDInspectorGroupStart("Last Game Informations")]
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
         public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
         public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }

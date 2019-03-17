@@ -19,7 +19,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
        
-        [NWDGroupStart("Sender")]
+        [NWDInspectorGroupStart("Sender")]
         [NWDTooltips("The Sender account reference")]
         [NWDNeedUserAvatarAttribute()]
         [NWDNeedAccountNicknameAttribute()]
@@ -28,9 +28,9 @@ namespace NetWorkedData
         public NWDDateTimeType PublicationDate {get; set;}
         [NWDTooltips("Receipt Acknowledgment : publisher see the meessage was reading")]
         public bool ReceiptAcknowledgment { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Receiver")]
+        [NWDInspectorGroupStart("Receiver")]
         [NWDTooltips("The Receiver account reference")]
         [NWDNeedUserAvatarAttribute()]
         [NWDNeedAccountNicknameAttribute()]
@@ -43,11 +43,11 @@ namespace NetWorkedData
         public bool Read {get; set;}
         [NWDTooltips("Don't trash message, just archived to hide the message")]
         public bool Archived { get; set;}
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Message")]
+        [NWDInspectorGroupStart("Message")]
         [NWDTooltips("The Message")]
         public NWDReferenceType<NWDMessage> Message { get; set; }
 
@@ -81,11 +81,11 @@ namespace NetWorkedData
                               "")]
         public NWDReferencesQuantityType<NWDPack> ReplacePacks { get; set; }
         //public bool AttachmentReceived { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Push system")]
+        [NWDInspectorGroupStart("Push system")]
         [NWDTooltips("The published message template")]
         public NWDReferenceType<NWDMessage> PushMessage { get; set; }
         [NWDTooltips("The message in jsons for Android pushing")]
@@ -96,11 +96,11 @@ namespace NetWorkedData
         public NWDDateTimeType PushDate { get; set; }
         [NWDTooltips("The message was pushed")]
         public bool Push { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Original Inter User Message")]
+        [NWDInspectorGroupStart("Original Inter User Message")]
         public NWDReferenceType<NWDUserInterMessage> OriginalMessage { get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }

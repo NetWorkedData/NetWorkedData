@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         //public bool DiscoverItYourSelf { get; set; }
-        [NWDGroupStartAttribute("Informations", true, true, true)] //ok
+        [NWDInspectorGroupStartAttribute("Informations", true, true, true)] //ok
         [NWDTooltips("Type and priority of error")]
         public NWDErrorType Type
         {
@@ -53,9 +53,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("Description", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Description", true, true, true)] // ok
         [NWDTooltips("Title of error message")]
         public NWDLocalizableStringType Title
         {

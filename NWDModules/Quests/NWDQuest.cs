@@ -33,7 +33,7 @@ namespace NetWorkedData
     public partial class NWDQuest : NWDBasis<NWDQuest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds
         {
             get; set;
@@ -50,11 +50,11 @@ namespace NetWorkedData
         //{
         //    get; set;
         //}
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
         [NWDEntitled("Title", "Title of the quest in the description")]
         public NWDLocalizableStringType Title
         {
@@ -72,11 +72,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Type of quest", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Type of quest", true, true, true)]
         [NWDTooltips("Determine if quest is replayable or not")]
         public NWDQuestType Type
         {
@@ -98,21 +98,21 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Availability schedule", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Availability schedule", true, true, true)]
         [NWDTooltips("Determine the availability schedule of this quest")]
         public NWDDateTimeScheduleType AvailabilitySchedule
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Items required to start quest", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Items required to start quest", true, true, true)]
         [NWDTooltips("Required itemGroup")]
         public NWDReferencesConditionalType<NWDItemGroup> RequiredItemGroups
         {
@@ -130,21 +130,21 @@ namespace NetWorkedData
         }
         [NWDTooltips("If you have not the requiered item")]
         public NWDReferencesListType<NWDDialog> RequiredDialogsList { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Quest First Dialog", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Quest First Dialog", true, true, true)]
         [NWDEntitled("Normal Dialog")]
         public NWDReferencesListType<NWDDialog> AvailableDialogsList
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Items wanted to finish quest", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Items wanted to finish quest", true, true, true)]
         [NWDTooltips("Wanted itemGroup (not removable when quest success)")]
         public NWDReferencesConditionalType<NWDItemGroup> DesiredItemGroups
         {
@@ -171,21 +171,21 @@ namespace NetWorkedData
         {
             get; set;
         } // to start with ListOfItemsAsked
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Quest auto reward", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Quest auto reward", true, true, true)]
         [NWDTooltips("The list of auto increment rewards at success of quest")]
         public NWDReferencesQuantityType<NWDItem> RewardsItems
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
        
 
-        [NWDGroupStartAttribute("Quest reward by choose ", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Quest reward by choose ", true, true, true)]
         //public NWDReferencesQuantityType<NWDItemPack> RewardsItemPack
         //{
         //    get; set;

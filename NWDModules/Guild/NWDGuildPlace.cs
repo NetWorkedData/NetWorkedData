@@ -36,13 +36,13 @@ namespace NetWorkedData
     public partial class NWDGuildPlace : NWDBasis<NWDGuildPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEnd]
-        [NWDGroupStart("Guild Detail", true, true, true)]
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Guild Detail", true, true, true)]
         [NWDIntSlider(K_Guild_REQUEST_MIN, K_Guild_REQUEST_MAX)]
         [NWDAlias("MaxMember")]
         public int MaxMember

@@ -99,7 +99,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Informations")]
+        [NWDInspectorGroupStart("Informations")]
         public NWDLocalizableStringType Title
         {
             get; set;
@@ -117,9 +117,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Type of Event")]
+        [NWDInspectorGroupStart("Type of Event")]
         public NWDNewsType EventType
         {
             get; set;

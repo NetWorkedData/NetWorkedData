@@ -18,18 +18,18 @@ namespace NetWorkedData
     public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Items Authorization", true, true, true)]
+        [NWDInspectorGroupStart("Items Authorization", true, true, true)]
         public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
         public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
         public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Barter Detail", true, true, true)]
+        [NWDInspectorGroupStart("Barter Detail", true, true, true)]
         //public NWDReferencesListType<NWDItem> Moneys
         //{
         //    get; set;

@@ -25,7 +25,7 @@ namespace NetWorkedData
     public partial class NWDUserQuestAdvancement : NWDBasis<NWDUserQuestAdvancement>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Advancement information", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Advancement information", true, true, true)]
         [NWDTooltips("Account, reference, last dialogue see and state of the quest")]
         public NWDReferenceType<NWDAccount> AccountReference
         {
@@ -65,9 +65,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
        
-        [NWDGroupStartAttribute("Counters", "Quest Counter", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Counters", "Quest Counter", true, true, true)]
         public int AcceptCounter
         {
             get; set;
@@ -88,9 +88,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
        
-        [NWDGroupStartAttribute("Counter of gloab quest sequence", "", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Counter of gloab quest sequence", "", true, true, true)]
         public int FinishCounter
         {
             get; set;

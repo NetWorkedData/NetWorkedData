@@ -30,7 +30,7 @@ namespace NetWorkedData
 	public partial class NWDInAppPack :NWDBasis <NWDInAppPack>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Specific Store ID", true, true, true)]
         public string AppleID { get; set; }
 		public string GoogleID { get; set; }
 		public string UnityID { get; set; }

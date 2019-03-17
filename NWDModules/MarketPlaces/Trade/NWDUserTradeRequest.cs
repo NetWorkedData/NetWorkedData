@@ -35,7 +35,7 @@ namespace NetWorkedData
 	public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[NWDGroupStart("Trade Detail", true, true, true)]
+		[NWDInspectorGroupStart("Trade Detail", true, true, true)]
 		[Indexed("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> Account
 		{
@@ -50,11 +50,11 @@ namespace NetWorkedData
 		{
 			get; set;
 		}
-		[NWDGroupEnd]
+		[NWDInspectorGroupEnd]
 
 		//[NWDGroupSeparator]
 
-		[NWDGroupStart("For Relationship Only", true, true, true)]
+		[NWDInspectorGroupStart("For Relationship Only", true, true, true)]
 
 		[NWDAlias("ForRelationshipOnly")]
 		public bool ForRelationshipOnly
@@ -66,11 +66,11 @@ namespace NetWorkedData
 		{
 			get; set;
 		}
-		[NWDGroupEnd]
+		[NWDInspectorGroupEnd]
 
 		//[NWDGroupSeparator]
 
-		[NWDGroupStart("Trade References", true, true, true)]
+		[NWDInspectorGroupStart("Trade References", true, true, true)]
 		[NWDAlias("ItemsProposed")]
 		public NWDReferencesQuantityType<NWDItem> ItemsProposed
 		{
@@ -102,11 +102,11 @@ namespace NetWorkedData
 		{
 			get; set;
 		}
-		[NWDGroupEnd]
+		[NWDInspectorGroupEnd]
 
 		//[NWDGroupSeparator]
 
-		[NWDGroupStart("Tags", true, true, true)]
+		[NWDInspectorGroupStart("Tags", true, true, true)]
 		public NWDReferencesListType<NWDWorld> TagWorlds
 		{
 			get; set;

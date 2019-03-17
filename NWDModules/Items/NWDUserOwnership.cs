@@ -34,13 +34,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Ownership", true, true, true)]
+        [NWDInspectorGroupStart("Ownership", true, true, true)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDReferenceType<NWDItem> Item { get; set;
         }
-        [NWDGroupEnd]
-        [NWDGroupStart("Quantity ", true, true, true)]
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Quantity ", true, true, true)]
         public int Quantity
         {
             get; set;
@@ -52,9 +52,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Acquisition", true, true, true)]
+        [NWDInspectorGroupStart("Acquisition", true, true, true)]
         public bool Discovered
         {
             get; set;
@@ -63,8 +63,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
-        [NWDGroupStart("Customisation ", true, true, true)]
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Customisation ", true, true, true)]
         public string Name
         {
             get; set;
@@ -75,8 +75,8 @@ namespace NetWorkedData
 
         // !!!!!!!!!!!!!
 
-        [NWDGroupEnd]
-        [NWDGroupStart("OLD-RENAME ", true, true, true)]
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("OLD-RENAME ", true, true, true)]
         [Obsolete]
         public NWDReferencesArrayType<NWDUserOwnership> OwnershipList
         {

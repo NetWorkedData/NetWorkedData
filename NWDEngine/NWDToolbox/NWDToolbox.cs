@@ -32,6 +32,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region class method
         //-------------------------------------------------------------------------------------------------------------
+        public static Texture2D TextureFromColor(Color sColor)
+        {
+            Texture2D rResult = new Texture2D(1, 1);
+            rResult.SetPixel(0, 0, sColor);
+            rResult.Apply();
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color MixColor(Color sColorA, Color sColorB)
+        {
+            Color rResult = new Color(sColorA.r + sColorB.r* sColorB.a,
+             sColorA.g + sColorB.g * sColorB.a,
+                 sColorA.b + sColorB.b * sColorB.a,
+              sColorA.a);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Protect the text for the separator usage.
         /// </summary>

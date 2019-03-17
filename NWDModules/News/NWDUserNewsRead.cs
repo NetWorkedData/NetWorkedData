@@ -42,12 +42,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Informations")]
+        [NWDInspectorGroupStart("Informations")]
         public NWDReferenceType<NWDAccount> Account {get; set;}
 		public NWDReferenceType<NWDGameSave> GameSave {get; set;}
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Informations")]
+        [NWDInspectorGroupStart("Informations")]
         public NWDReferenceType<NWDNews> EventMessage {get; set;
         }
         public bool IsInstalled

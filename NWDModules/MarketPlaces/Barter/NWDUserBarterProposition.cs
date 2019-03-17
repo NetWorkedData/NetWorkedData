@@ -53,7 +53,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Barter Detail", true, true, true)]
+        [NWDInspectorGroupStart("Barter Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -73,11 +73,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Barter References", true, true, true)]
+        [NWDInspectorGroupStart("Barter References", true, true, true)]
         [NWDNotEditable]
         [NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed

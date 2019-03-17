@@ -23,23 +23,23 @@ namespace NetWorkedData
     public partial class NWDUserBarterRequest : NWDBasis<NWDUserBarterRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Barter Detail", true, true, true)]
+        [NWDInspectorGroupStart("Barter Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDAlias("BarterPlace")]
         public NWDReferenceType<NWDBarterPlace> BarterPlace { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("For Relationship Only", true, true, true)]
+        [NWDInspectorGroupStart("For Relationship Only", true, true, true)]
 
         [NWDAlias("ForRelationshipOnly")]
         public bool ForRelationshipOnly { get; set; }
         [NWDAlias("RelationshipAccountReferences")]
         public NWDReferenceType<NWDUserRelationship> UserRelationship { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Barter References", true, true, true)]
+        [NWDInspectorGroupStart("Barter References", true, true, true)]
         [NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
         [NWDAlias("ItemsSuggested")]
@@ -67,9 +67,9 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDUserBarterProposition> Propositions { get; set; }
         [NWDAlias("WinnerProposition")]
         public NWDReferenceType<NWDUserBarterProposition> WinnerProposition { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Tags", true, true, true)]
+        [NWDInspectorGroupStart("Tags", true, true, true)]
         public NWDReferencesListType<NWDWorld> TagWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> TagCategories { get; set; }
         public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }

@@ -29,7 +29,7 @@ namespace NetWorkedData
     public partial class NWDUserGuildSubcription : NWDBasis<NWDUserGuildSubcription>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Guild Detail", true, true, true)]
+        [NWDInspectorGroupStart("Guild Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -49,7 +49,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
         [NWDAlias("GuildStatus")]
         public NWDGuildStatus GuildStatus
         {

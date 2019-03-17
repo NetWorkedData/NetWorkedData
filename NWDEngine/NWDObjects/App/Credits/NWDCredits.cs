@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDCredits : NWDBasis<NWDCredits>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Your credits, your company")]
+        [NWDInspectorGroupStart("Your credits, your company")]
         public NWDLocalizableStringType Title
         {
             get; set;
@@ -27,23 +27,23 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Your stuff")]
+        [NWDInspectorGroupStart("Your stuff")]
         public NWDReferencesListType<NWDCreditsStuff> StuffList
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Associated companies")]
+        [NWDInspectorGroupStart("Associated companies")]
         public NWDReferencesListType<NWDCreditsCompany> CompanyList
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Legal Informations")]
+        [NWDInspectorGroupStart("Legal Informations")]
         public NWDLocalizableTextType LegalFooter
         {
             get; set;
@@ -52,9 +52,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Options")]
+        [NWDInspectorGroupStart("Options")]
         public float ScrollSpeed
         {
             get; set;

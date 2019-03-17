@@ -611,7 +611,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeMask tBTBDataType = tValue as BTBDataTypeMask;
                             BTBDataTypeMask tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDConstants.tFloatFieldStyle.fixedHeight),
-                                                                                     Property.Name, Tooltips) as BTBDataTypeMask;
+                                                                                     " ", Tooltips) as BTBDataTypeMask;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -722,25 +722,25 @@ namespace NetWorkedData
                         if (tProp.PropertyType.IsGenericType)
                         {
                             //Debug.Log(tProp.PropertyType.Name);
-                            tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name.Replace("`1", "<" + tProp.PropertyType.GenericTypeArguments[0].Name + ">") + "\n\n" + tEntitled;
+                            tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name.Replace("`1", "<" + tProp.PropertyType.GenericTypeArguments[0].Name + ">") + "\n\n";
                         }
                         else
                         {
-                            tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name + "\n\n" + tEntitled;
+                            tProperty.Tooltips = "Property : " + tProp.Name + "\nType : " + tProp.PropertyType.Name + "\n\n";
                         }
                         tProperty.Property = tProp;
 
-                        foreach (NWDGroupResetAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupResetAttribute), true))
+                        foreach (NWDInspectorGroupResetAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupResetAttribute), true))
                         {
                             tGroup.Elements.Sort((x, y) => x.Order.CompareTo(y.Order));
                             tGroup = InspectorHelper;
                         }
-                        foreach (NWDGroupEndAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
+                        foreach (NWDInspectorGroupEndAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupEndAttribute), true))
                         {
                             tGroup.Elements.Sort((x, y) => x.Order.CompareTo(y.Order));
                             tGroup = tGroup.FromGroup;
                         }
-                        foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+                        foreach (NWDInspectorSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorSeparatorAttribute), true))
                         {
                             tProperty.Separator = true;
                         }
@@ -754,7 +754,7 @@ namespace NetWorkedData
                         //    tProperty.Separator = true;
                         //}
 
-                        foreach (NWDGroupStartAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupStartAttribute), true))
+                        foreach (NWDInspectorGroupStartAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupStartAttribute), true))
                         {
                             NWDBasisHelperElement tElement = new NWDBasisHelperElement();
                             tElement.Order = tGroup.Elements.Count();
@@ -801,7 +801,7 @@ namespace NetWorkedData
                         }
                         foreach (NWDTooltipsAttribute tReference in tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true))
                         {
-                            tProperty.Tooltips = tReference.ToolsTips;
+                            tProperty.Tooltips+= tReference.ToolsTips;
                         }
                         foreach (NWDNotEditableAttribute tReference in tProp.GetCustomAttributes(typeof(NWDNotEditableAttribute), true))
                         {
@@ -830,7 +830,7 @@ namespace NetWorkedData
                                 }
                                 if (string.IsNullOrEmpty(tReference.mToolsTips) == false)
                                 {
-                                    tProperty.Tooltips = tReference.mToolsTips;
+                                    tProperty.Tooltips+= tReference.mToolsTips;
                                 }
                                 tProperty.Order = tReference.mGroupOrder;
 

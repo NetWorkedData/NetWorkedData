@@ -62,29 +62,29 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description Item", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Description Item", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
         
 
-		[NWDGroupStartAttribute("Racks",true, true, true)]
+		[NWDInspectorGroupStartAttribute("Racks",true, true, true)]
 		public NWDReferencesListType<NWDRack> DailyRack { get; set; }
 		public NWDReferencesListType<NWDRack> WeeklyRack { get; set; }
 		public NWDReferencesListType<NWDRack> MonthlyRack { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
         
 
-        [NWDGroupStartAttribute("Special Racks", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Special Racks", true, true, true)]
         public NWDDateTimeType SpecialDateStart { get; set; }
         public NWDDateTimeType SpecialDateEnd { get; set; }
         public NWDReferencesListType<NWDRack> SpecialRack { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
         
 
-        [NWDGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }

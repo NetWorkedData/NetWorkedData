@@ -25,6 +25,35 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDBasisEditorDatasSortType : int
+    {
+        None,
+        BySelectAscendant,
+        BySelectDescendant,
+        ByIDAscendant,
+        ByIDDescendant,
+        ByPrefabAscendant,
+        ByPrefabDescendant,
+        ByInternalKeyAscendant,
+        ByInternalKeyDescendant,
+        BySyncAscendant,
+        BySyncDescendant,
+        ByDevSyncAscendant,
+        ByDevSyncDescendant,
+        ByPreProdSyncAscendant,
+        ByPreProdSyncDescendant,
+        ByProdSyncAscendant,
+        ByProdSyncDescendant,
+        ByStatutAscendant,
+        ByStatutDescendant,
+        ByReferenceAscendant,
+        ByReferenceDescendant,
+        ByChecklistAscendant,
+        ByChecklistDescendant,
+        ByModelAscendant,
+        ByModelDescendant,
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
@@ -116,7 +145,12 @@ namespace NetWorkedData
         public Vector2 ObjectEditorScrollPosition = Vector2.zero;
         public bool kSyncAndMoreInformations = false;
 
-
+        // TODO move in basichelper
+        public bool mRowActions = true;
+        // TODO move in basichelper
+        public bool mTableActions = true;
+        public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
+        public float RowZoom = 1.0F;
         public string m_SearchReference = string.Empty;
         public string m_SearchInternalName = string.Empty;
         public string m_SearchInternalDescription = string.Empty;
@@ -124,7 +158,7 @@ namespace NetWorkedData
         public string m_SearchAccount = string.Empty;
         public string m_SearchGameSave = string.Empty;
         public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
-        public NWDBasisCheckList m_SearchCheckList = NWDBasisCheckList.Nothing;
+        public NWDBasisCheckList m_SearchCheckList = new NWDBasisCheckList();
 
         public Vector2 m_ScrollPositionList;
 
@@ -133,7 +167,7 @@ namespace NetWorkedData
         public int m_ItemPerPageSelection = 0;
 
         public string[] m_ItemPerPageOptions = new string[] {
-            "15", "20", "30", "40", "50", "100", "200",
+            "15", "20", "30", "40", "50", "100", "200", "300", "400", "500"
         };
         public int m_PageSelected = 0;
         public int m_MaxPage = 0;
@@ -261,6 +295,7 @@ namespace NetWorkedData
             //SaltEnd = SaltB;
             //SaltValid = true;
         }
+        //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
             if (RowAnalyzed == false)
@@ -270,6 +305,98 @@ namespace NetWorkedData
                     tData.AnalyzeData();
                 }
                 RowAnalyzed = true;
+                SortType = (NWDBasisEditorDatasSortType)EditorPrefs.GetInt(ClassNamePHP + "_SortEditor");
+                SortEditorTableDatas();
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void SortEditorTableDatas()
+        {
+            EditorPrefs.SetInt(ClassNamePHP+"_SortEditor",(int)SortType);
+            switch (SortType)
+            {
+                case NWDBasisEditorDatasSortType.None:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByIDAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByIDDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByPrefabAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByPrefabDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByInternalKeyAscendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => string.Compare(x.DatasMenu(), y.DatasMenu(), StringComparison.OrdinalIgnoreCase));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByInternalKeyDescendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => string.Compare(y.DatasMenu(), x.DatasMenu(), StringComparison.OrdinalIgnoreCase));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.BySyncAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.BySyncDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByDevSyncAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByDevSyncDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByPreProdSyncAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByPreProdSyncDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByProdSyncAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByProdSyncDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByStatutAscendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByStatutDescendant:
+                    {
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByReferenceAscendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => string.Compare(x.ReferenceValue(), y.ReferenceValue(), StringComparison.OrdinalIgnoreCase));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByReferenceDescendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => string.Compare(y.ReferenceValue(), x.ReferenceValue(), StringComparison.OrdinalIgnoreCase));
+
+                    }
+                    break;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

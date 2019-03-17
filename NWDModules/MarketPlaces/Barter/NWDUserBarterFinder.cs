@@ -22,7 +22,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterFinder : NWDBasis<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Barter Detail", true, true, true)]
+        [NWDInspectorGroupStart("Barter Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -41,11 +41,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Filters", true, true, true)]
+        [NWDInspectorGroupStart("Filters", true, true, true)]
         public NWDReferencesListType<NWDItem> FilterItems
         {
             get; set;
@@ -66,11 +66,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDGroupStart("Results", true, true, true)]
+        [NWDInspectorGroupStart("Results", true, true, true)]
         [NWDAlias("BarterRequestsList")]
         public NWDReferencesListType<NWDUserBarterRequest> BarterRequestsList
         {

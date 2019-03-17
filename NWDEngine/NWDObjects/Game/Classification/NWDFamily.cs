@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDFamily : NWDBasis<NWDFamily>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
         public NWDLocalizableStringType Name
         {
             get; set;
@@ -28,9 +28,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Properties associated", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Properties associated", true, true, true)]
         public NWDReferencesListType<NWDParameter> ParameterList
         {
             get; set;

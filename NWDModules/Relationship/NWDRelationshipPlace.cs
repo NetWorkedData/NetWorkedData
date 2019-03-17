@@ -41,14 +41,14 @@ namespace NetWorkedData
     public partial class NWDRelationshipPlace : NWDBasis<NWDRelationshipPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Classes Shared in relationship", true, true, true)]
+        [NWDInspectorGroupStart("Classes Shared in relationship", true, true, true)]
         [NWDTooltips("Classes Shared")]
         [NWDAlias("ClassesSharedToStartRelation")]
         public NWDAccountClassesListType ClassesSharedToStartRelation

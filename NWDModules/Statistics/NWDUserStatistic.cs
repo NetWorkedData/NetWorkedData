@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDUserStatistic : NWDBasis<NWDUserStatistic>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Connections")]
+        [NWDInspectorGroupStart("Connections")]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;
@@ -31,9 +31,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Values")]
+        [NWDInspectorGroupStart("Values")]
         public double Total
         {
             get; set;

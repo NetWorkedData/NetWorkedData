@@ -27,15 +27,15 @@ namespace NetWorkedData
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Trade Detail", true, true, true)]
+        [NWDInspectorGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDAlias("TradePlace")]
         public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStart("Trade References", true, true, true)]
+        [NWDInspectorGroupStart("Trade References", true, true, true)]
         [NWDAlias("TradeRequest")]
         public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
         [NWDAlias("ItemsProposed")]

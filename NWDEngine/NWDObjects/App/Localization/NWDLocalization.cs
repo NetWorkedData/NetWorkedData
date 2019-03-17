@@ -25,7 +25,7 @@ namespace NetWorkedData
     public partial class NWDLocalization : NWDBasis<NWDLocalization>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Localization", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Localization", true, true, true)]
         [NWDInformation("Use Dialog or Message for more complex localization.")]
         [NWDTooltips("The localizable value")]
         public NWDLocalizableLongTextType TextValue

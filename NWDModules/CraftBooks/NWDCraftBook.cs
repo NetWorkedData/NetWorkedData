@@ -30,17 +30,17 @@ namespace NetWorkedData
     public partial class NWDCraftBook : NWDBasis<NWDCraftBook>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Description", true, true, true)] // ok
         //[NWDNotEditable]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
         
 
-        [NWDGroupStartAttribute("Recipe attribut", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Recipe attribut", true, true, true)] // ok
         public bool OrderIsImportant
         {
             get; set;
@@ -61,11 +61,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
         
 
-        [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
+        [NWDInspectorGroupStartAttribute("FX (Special Effects)", true, true, true)]
         public NWDPrefabType SuccessParticles
         {
             get; set;
@@ -82,11 +82,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
         
 
-        [NWDGroupStartAttribute("Development addons", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Development addons", true, true, true)]
         //[NWDNotEditableAttribute]
         //public string RecipeHash
         //{

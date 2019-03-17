@@ -19,7 +19,7 @@ namespace NetWorkedData
 	public partial class NWDUserUsage :NWDBasis <NWDUserUsage>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[NWDGroupStartAttribute("Informations",true, true, true)] // ok
+		[NWDInspectorGroupStartAttribute("Informations",true, true, true)] // ok
 		[Indexed ("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave

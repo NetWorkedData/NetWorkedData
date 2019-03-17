@@ -21,7 +21,7 @@ namespace NetWorkedData
     public partial class NWDConsent : NWDBasis<NWDConsent>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Consent description")]
+        [NWDInspectorGroupStart("Consent description")]
         public NWDLocalizableStringType Title
         {
             get; set;
@@ -34,9 +34,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Consent version")]
+        [NWDInspectorGroupStart("Consent version")]
         public string KeyOfConsent
         {
             get; set;
@@ -45,9 +45,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Consent default state proposition")]
+        [NWDInspectorGroupStart("Consent default state proposition")]
         public BTBSwitchState DefaultState
         {
             get; set;

@@ -24,14 +24,14 @@ namespace NetWorkedData
     public partial class NWDCraftRecipient : NWDBasis<NWDCraftRecipient>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description Item", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Description Item", true, true, true)] // ok
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("Usage", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Usage", true, true, true)] // ok
         public bool CraftOnlyMax
         {
             get; set;
@@ -40,10 +40,10 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
-        [NWDHeaderAttribute("Active Recipient")]
+        [NWDInspectorGroupStartAttribute("FX (Special Effects)", true, true, true)]
+        [NWDInspectorHeaderAttribute("Active Recipient")]
         public NWDPrefabType ActiveParticles
         {
             get; set;
@@ -53,7 +53,7 @@ namespace NetWorkedData
             get; set;
         }
 
-        [NWDHeaderAttribute("Add Item")]
+        [NWDInspectorHeaderAttribute("Add Item")]
         public NWDPrefabType AddParticles
         {
             get; set;
@@ -63,7 +63,7 @@ namespace NetWorkedData
             get; set;
         }
 
-        [NWDHeaderAttribute("Disactive Recipient")]
+        [NWDInspectorHeaderAttribute("Disactive Recipient")]
         public NWDPrefabType DisactiveParticles
         {
             get; set;
@@ -76,9 +76,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("Item(s) use as recipient", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Item(s) use as recipient", true, true, true)] // ok
         //public NWDReferencesListType<NWDItem> ItemList
         //{
         //    get; set;

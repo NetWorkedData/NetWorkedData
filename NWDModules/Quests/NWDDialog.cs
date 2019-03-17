@@ -22,15 +22,15 @@ namespace NetWorkedData
     public partial class NWDDialog : NWDBasis<NWDDialog>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Availability schedule ", true, true, true)]
         [NWDTooltips("Availability schedule of this Dialog")]
         public NWDDateTimeScheduleType AvailabilitySchedule
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
        
-        [NWDGroupStartAttribute("Reply for previous Dialog (optional)", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Reply for previous Dialog (optional)", true, true, true)]
         [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
         public NWDReferencesConditionalType<NWDItemGroup> RequiredItemGroups
         {
@@ -94,9 +94,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStartAttribute("Dialog", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Dialog", true, true, true)]
         [NWDTooltipsAttribute("Select the character who says the dialog")]
         public NWDReferenceType<NWDCharacter> CharacterReference
         {
@@ -177,24 +177,24 @@ namespace NetWorkedData
         public NWDReferenceType<NWDYoghurtLyric> YoghurtLyric {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
        
-        [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
+        [NWDInspectorGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
         public NWDReferencesListType<NWDDialog> NextDialogs
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
        
-        [NWDGroupStartAttribute("Option Quest", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Option Quest", true, true, true)]
         [NWDTooltipsAttribute("The quest launched after this dialog")]
         public NWDReferenceType<NWDQuest> NextQuest
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
        
-        [NWDGroupStartAttribute("For the quest'sBook", true, true, true)]
+        [NWDInspectorGroupStartAttribute("For the quest'sBook", true, true, true)]
         [NWDTooltipsAttribute("The resume to write in the quest book (optional)")]
         public NWDLocalizableTextType Resume
         {

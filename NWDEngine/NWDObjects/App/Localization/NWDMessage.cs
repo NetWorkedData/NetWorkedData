@@ -21,17 +21,17 @@ namespace NetWorkedData
     public partial class NWDMessage : NWDBasis<NWDMessage>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
         public string Domain { get; set; }
         public string Code { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("Description", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Description", true, true, true)]
         public NWDLocalizableStringType Title { get; set; }
         public NWDLocalizableTextType Message { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("User choose", true, true, true)]
+        [NWDInspectorGroupStartAttribute("User choose", true, true, true)]
         public bool HasValidButton { get; set; }
         public NWDLocalizableStringType ValidText { get; set; }
         public NWDReferenceType<NWDAction> ValidAction { get; set; }

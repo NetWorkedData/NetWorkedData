@@ -20,7 +20,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //      [NWDTooltips("The name of message post to all observer objects. Example 'Raining', 'Start Quest Music', etc.")]
         //public string ActionName {get; set;}
-        [NWDGroupStart("Optional", true, true, false)]
+        [NWDInspectorGroupStart("Optional", true, true, false)]
         [NWDTooltips("An additional message, it's optional and not used in standard process.")]
         public string Message
         {
@@ -36,9 +36,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Scene", true, true, false)]
+        [NWDInspectorGroupStart("Scene", true, true, false)]
         [NWDTooltips("An additional scene to use, it's optional and not used in standard process.")]
         public NWDSceneType UseScene
         {

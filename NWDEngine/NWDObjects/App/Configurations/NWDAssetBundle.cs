@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDAssetBundle : NWDBasis<NWDAssetBundle>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Bundle Unity3D loader")]
+        [NWDInspectorGroupStart("Bundle Unity3D loader")]
         public string BundleName
         {
             set; get;

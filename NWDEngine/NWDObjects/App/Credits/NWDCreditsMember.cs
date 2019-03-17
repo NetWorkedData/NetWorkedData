@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDCreditsMember : NWDBasis<NWDCreditsMember>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Member Informations")]
+        [NWDInspectorGroupStart("Member Informations")]
         public NWDLocalizableStringType Lastname
         {
             get; set;
@@ -31,16 +31,16 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Member post")]
+        [NWDInspectorGroupStart("Member post")]
         public NWDLocalizableStringType Office
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Member Actor")]
+        [NWDInspectorGroupStart("Member Actor")]
         public NWDReferencesListType<NWDCharacter> CharacterList
         {
             get; set;

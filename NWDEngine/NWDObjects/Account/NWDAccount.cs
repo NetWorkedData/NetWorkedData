@@ -21,15 +21,15 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis<NWDAccount>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Account statut")]
+        [NWDInspectorGroupStart("Account statut")]
         [NWDTooltips("The statut of this account in process of test (normal and default is 'InGame')")]
         public NWDAccountEnvironment UseInEnvironment
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Account sign-in/up")]
+        [NWDInspectorGroupStart("Account sign-in/up")]
         /// <summary>
         /// Gets or sets the SecretKey to restaure anonymous account.
         /// </summary>
@@ -79,9 +79,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Account push notification")]
+        [NWDInspectorGroupStart("Account push notification")]
         /// <summary>
         /// Gets or sets the apple notification token for message.
         /// </summary>
@@ -101,9 +101,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Account ban")]
+        [NWDInspectorGroupStart("Account ban")]
         /// <summary>
         /// Gets or sets a value indicating whether this account <see cref="NWDEditor.NWDAccount"/> is banned.
         /// </summary>

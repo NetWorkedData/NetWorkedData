@@ -16,14 +16,14 @@ namespace NetWorkedData
     public partial class NWDAccountConsent : NWDBasis<NWDAccountConsent>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Account")]
+        [NWDInspectorGroupStart("Account")]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Consent")]
+        [NWDInspectorGroupStart("Consent")]
         public NWDReferenceType<NWDConsent> Consent
         {
             get; set;
@@ -32,9 +32,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("User's choise")]
+        [NWDInspectorGroupStart("User's choise")]
         public BTBSwitchState Authorization
         {
             get; set;

@@ -62,7 +62,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("WRD")]
     [NWDClassDescriptionAttribute("This class is used to reccord the world/univers/island available in the game")]
@@ -70,7 +69,7 @@ namespace NetWorkedData
     public partial class NWDWorld : NWDBasis<NWDWorld>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
         [NWDTooltips("The name of this world")]
         public NWDWordType WorldType
         {
@@ -90,16 +89,16 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Geographical", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Geographical", true, true, true)]
         public NWDReferencesListType<NWDSector> SectorList
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Political Universe", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Political Universe", true, true, true)]
         public NWDWordGovernmentType Government
         {
             get; set;

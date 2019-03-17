@@ -25,7 +25,7 @@ namespace NetWorkedData
     public partial class NWDPreferenceKey : NWDBasis<NWDPreferenceKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Information")]
+        [NWDInspectorGroupStart("Information")]
         public NWDLocalizableStringType Title
         {
             get; set;
@@ -34,23 +34,23 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Domain")]
+        [NWDInspectorGroupStart("Domain")]
         public NWDPreferencesDomain Domain
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Default value")]
+        [NWDInspectorGroupStart("Default value")]
         public NWDMultiType Default
         {
             get; set;
         }
-        [NWDGroupEnd]
+        [NWDInspectorGroupEnd]
        
-        [NWDGroupStart("Notify change for account or user preference")]
+        [NWDInspectorGroupStart("Notify change for account or user preference")]
         public bool NotifyChange
         {
             get; set; 

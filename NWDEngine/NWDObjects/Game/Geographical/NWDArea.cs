@@ -19,7 +19,7 @@ namespace NetWorkedData
     public partial class NWDArea : NWDBasis<NWDArea>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
         [NWDTooltips("The name of this world")]
         public NWDLocalizableStringType Name
         {
@@ -30,9 +30,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
@@ -45,9 +45,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
 
-        [NWDGroupStartAttribute("Universe Arrangement", true, true, true)]
+        [NWDInspectorGroupStartAttribute("Universe Arrangement", true, true, true)]
         public NWDReferencesListType<NWDArea> ParentAreaList
         {
             get; set;

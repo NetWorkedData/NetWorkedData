@@ -19,8 +19,8 @@ namespace NetWorkedData
     public partial class NWDUserAvatar : NWDBasis<NWDUserAvatar>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupReset]
-        [NWDGroupStart("Account and final render")]
+        [NWDInspectorGroupReset]
+        [NWDInspectorGroupStart("Account and final render")]
         [NWDTooltips("The account reference of user")]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }

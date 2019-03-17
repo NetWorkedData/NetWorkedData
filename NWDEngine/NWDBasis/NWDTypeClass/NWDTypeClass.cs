@@ -12,7 +12,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public abstract class NWDTypeClass
+    public partial class NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         public virtual string InternalKeyValue()

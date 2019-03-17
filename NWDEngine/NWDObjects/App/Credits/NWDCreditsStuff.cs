@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDCreditsStuff : NWDBasis<NWDCreditsStuff>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Stuff description")]
+        [NWDInspectorGroupStart("Stuff description")]
         public NWDLocalizableStringType Title
         {
             get; set;
@@ -27,9 +27,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Members")]
+        [NWDInspectorGroupStart("Members")]
         public NWDPrefabType MemberPrefab
         {
             get; set;
@@ -38,9 +38,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEnd()]
+        [NWDInspectorGroupEnd()]
         
-        [NWDGroupStart("Show options")]
+        [NWDInspectorGroupStart("Show options")]
         public NWDColorType Tint
         {
             get; set;

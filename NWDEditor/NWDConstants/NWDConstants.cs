@@ -40,11 +40,10 @@ namespace NetWorkedData
 
         public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "NWD Environments";
 
-
-
         public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         public static float kFieldMarge = 5.0f;
+        public static float kScrollbar = 20f;
         public static float kFieldIndent = 15.0f;
         //-------------------------------------------------------------------------------------------------------------
         public static int kLongString = 5;
@@ -310,6 +309,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_SEARCH_ZONE = "Search";
         public const string K_APP_TABLE_FILTER_ZONE = "Filters";
+        public const string K_APP_TABLE_ENABLE_ZONE = "Show";
         public const string K_APP_TABLE_SHORTCUT_ZONE_A = "Tape 's' to select.";
         public const string K_APP_TABLE_SHORTCUT_ZONE_B = "Use arrows to navigate throw lines or pages.";
         public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";
@@ -338,6 +338,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_DISACTIVE = "Disactive";
         public const string K_APP_TABLE_DUPPLICATE = "Dupplicate";
         public const string K_APP_TABLE_UPDATE = "Update";
+        public const string K_APP_TABLE_EXPORT_TRANSLATION = "Export localization";
         public const string K_APP_TABLE_DELETE_WARNING = "Warning";
         public const string K_APP_TABLE_DELETE_BUTTON = "Delete";
         public const string K_APP_TABLE_DELETE_NO_OBJECT = "No object to delete !?";
@@ -349,6 +350,9 @@ namespace NetWorkedData
         public const string K_APP_TABLE_DELETE_NO = "No";
 
         public const string K_APP_TABLE_TRASH_ZONE = "Trash";
+        public const string K_APP_TABLE_UNTRASH_ZONE = "Untrash";
+        public const string K_APP_TABLE_REINTEGRATE_ZONE = "Reintegrate";
+
         public const string K_APP_TABLE_TRASH_NO_OBJECT = "No object to put in trash !?";
         public const string K_APP_TABLE_TRASH_ONE_OBJECT = "Do you want to put in trash this object?";
         public const string K_APP_TABLE_TRASH_X_OBJECT_A = "Do you want to put in trash these ";
@@ -356,6 +360,24 @@ namespace NetWorkedData
         public const string K_APP_TABLE_TRASH_ALERT = "Warning";
         public const string K_APP_TABLE_TRASH_YES = "Yes";
         public const string K_APP_TABLE_TRASH_NO = "No";
+
+
+        public const string K_APP_TABLE_UNTRASH_NO_OBJECT = "No object to get out of trash !?";
+        public const string K_APP_TABLE_UNTRASH_ONE_OBJECT = "Do you want to get out of trash this object?";
+        public const string K_APP_TABLE_UNTRASH_X_OBJECT_A = "Do you want to get out of trash these ";
+        public const string K_APP_TABLE_UNTRASH_X_OBJECT_B = " objects?";
+        public const string K_APP_TABLE_UNTRASH_ALERT = "Warning";
+        public const string K_APP_TABLE_UNTRASH_YES = "Yes";
+        public const string K_APP_TABLE_UNTRASH_NO = "No";
+
+
+        public const string K_APP_TABLE_REINTEGRATE_NO_OBJECT = "No object to reintegrate !?";
+        public const string K_APP_TABLE_REINTEGRATE_ONE_OBJECT = "Do you want to reintegrate this object?";
+        public const string K_APP_TABLE_REINTEGRATE_X_OBJECT_A = "Do you want to reintegrate these ";
+        public const string K_APP_TABLE_REINTEGRATE_X_OBJECT_B = " objects?";
+        public const string K_APP_TABLE_REINTEGRATE_ALERT = "Warning";
+        public const string K_APP_TABLE_REINTEGRATE_YES = "Yes";
+        public const string K_APP_TABLE_REINTEGRATE_NO = "No";
 
         public const string K_APP_TABLE_RESET_WARNING = "Warning Table";
         public const string K_APP_TABLE_RESET_ZONE = "Reset table";
@@ -389,7 +411,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SHOW_TRASHED_DATAS = "Trashed datas";
         public const string K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS = "Corrupted datas";
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_TABLE_HEADER_SELECT = " ";
+        public const string K_APP_TABLE_HEADER_SELECT = "•";
         public const string K_APP_TABLE_HEADER_ID = "ID";
         public const string K_APP_TABLE_HEADER_PREFAB = "PrF";
         public const string K_APP_TABLE_HEADER_DESCRIPTION = "Row informations";
@@ -506,7 +528,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Row design
         public static float kRowOutMarge = 25.0f;
-        public static float kRowHeight = 30.0f;
+        public static float kRowHeight = 40.0f;
+        public static float kRowHeaderHeight = 30.0f;
         public static float kRowHeightImage = 20.0f;
         public static float kRowHeightSpace = 5.0f;
         //static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
@@ -518,12 +541,14 @@ namespace NetWorkedData
         public static Color kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
         public static float kRowLineStroke = 1.0f;
         public static Color kRowColorLine = new Color(0.0f, 0.0f, 0.0f, 0.25f);
+        public static Color kTabHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.5f);
         //-------------------------------------------------------------------------------------------------------------
         // Columns Size
         public static float kOriginWidth = 1.0f;
         public static float kSelectWidth = 20.0f;
         public static float kIDWidth = 45.0f;
-        public static float kPrefabWidth = 30.0f;
+        public static float KTableIconWidth = 40.0f;
+        public static float kPrefabWidth = kRowHeight;
         public static float kDescriptionMinWidth = 200.0f;
         public static float kDiskWidth = 40.0f;
         public static float kSyncWidth = 40.0f;
@@ -578,6 +603,11 @@ namespace NetWorkedData
         public static Texture2D kImageDiskInsert = NWDFindPackage.PackageEditorTexture("NWDDiskInsert.png");
         public static Texture2D kImageDiskDelete = NWDFindPackage.PackageEditorTexture("NWDDiskDelete.png");
         public static Texture2D kImageDiskDatabase = NWDFindPackage.PackageEditorTexture("NWDDiskDatabase.png");
+
+
+        public static Texture2D kImageCheckValid = NWDFindPackage.PackageEditorTexture("NWDCheckValid.psd");
+        public static Texture2D kImageCheckWorkInProgress = NWDFindPackage.PackageEditorTexture("NWDCheckWorkInProgress.psd");
+        public static Texture2D kImageCheckWarning = NWDFindPackage.PackageEditorTexture("NWDCheckWarning.psd");
 
 
         public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForbidden.png");
@@ -669,6 +699,62 @@ namespace NetWorkedData
         public static GUIContent tCleanContentIcon;
         public static GUIContent tUpContent;
         public static GUIContent tDownContent;
+
+
+
+
+
+        public static float KTableSearchLabelWidth = 80.0F;
+        public static float KTableSearchWidth = 120.0F;
+        public static float KTableSearchFieldWidth = 200.0F;
+        public static float KTableReferenceWidth = 160.0F;
+        public static float KTableRowWebModelWidth = 60.0F;
+        public static int KTablePageMarge = 5;
+
+        public static GUIStyle KTableAreaColorDark;
+
+        public static GUIStyle KTableSearchTitle;
+        public static GUIStyle KTableSearchMask;
+        public static GUIStyle KTableSearchButton;
+        public static GUIStyle KTableSearchLabel;
+        public static GUIStyle KTableSearchToggle;
+        public static GUIStyle KTableSearchEnum;
+        public static GUIStyle KTableSearchDescription;
+        public static GUIStyle KTableSearchClassIcon;
+        public static GUIStyle KTableSearchIcon;
+        public static GUIStyle KTableSearchTextfield;
+
+
+        public static GUIStyle KTableClassToolbar;
+        public static GUIStyle KTableClassPopup;
+
+        public static GUIStyle KTableHeaderSelect;
+        public static GUIStyle KTableHeaderId;
+        public static GUIStyle KTableHeaderPrefab;
+        public static GUIStyle KTableHeaderInformations;
+        public static GUIStyle KTableHeaderIcon;
+        public static GUIStyle KTableHeaderStatut;
+        public static GUIStyle KTableHeaderReference;
+
+        public static GUIStyle KTableRowSelect;
+        public static GUIStyle KTableRowId;
+        public static GUIStyle KTableRowPrefab;
+        public static GUIStyle KTableRowInformations;
+        public static GUIStyle KTableRowIcon;
+        public static GUIStyle KTableRowStatut;
+        public static GUIStyle KTableRowReference;
+
+
+        //public static GUIStyle KTableRowNormal;
+        //public static GUIStyle KTableRowNormalSelected;
+        //public static GUIStyle KTableRowTrashed;
+        //public static GUIStyle KTableRowTrashedSelected;
+        //public static GUIStyle KTableRowDisabled;
+        //public static GUIStyle KTableRowDisabledSelected;
+        //public static GUIStyle KTableRowCorrupted;
+        //public static GUIStyle KTableRowCorruptedSelected;
+        //public static GUIStyle KTableRowDowngraded;
+        //public static GUIStyle KTableRowDowngradedSelected;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -700,7 +786,7 @@ namespace NetWorkedData
 
                 StyleLoaded = true;
 
-               tMiniLabelStyleCenter = new GUIStyle(EditorStyles.miniLabel);
+                tMiniLabelStyleCenter = new GUIStyle(EditorStyles.miniLabel);
                 tMiniLabelStyleCenter.fixedHeight = tMiniLabelStyleCenter.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
                 tMiniLabelStyleCenter.alignment = TextAnchor.MiddleCenter;
 
@@ -720,13 +806,13 @@ namespace NetWorkedData
                 //tWarningBoxStyle.fixedHeight = tWarningBoxStyle.CalcHeight(tCC, tWidth);
 
                 kRowStyleLeft = new GUIStyle(EditorStyles.label);
-        kRowStyleLeft.alignment = TextAnchor.MiddleLeft;
-        kRowStyleCenter = new GUIStyle(EditorStyles.label);
-        kRowStyleCenter.alignment = TextAnchor.MiddleCenter;
-         kRowStyleRight = new GUIStyle(EditorStyles.label);
-        kRowStyleRight.alignment = TextAnchor.MiddleRight;
-         kRowStyleForInfos = new GUIStyle(EditorStyles.label);
-        kRowStyleForInfos.richText = true;
+                kRowStyleLeft.alignment = TextAnchor.MiddleLeft;
+                kRowStyleCenter = new GUIStyle(EditorStyles.label);
+                kRowStyleCenter.alignment = TextAnchor.MiddleCenter;
+                kRowStyleRight = new GUIStyle(EditorStyles.label);
+                kRowStyleRight.alignment = TextAnchor.MiddleRight;
+                kRowStyleForInfos = new GUIStyle(EditorStyles.label);
+                kRowStyleForInfos.richText = true;
 
 
                 kDatasSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
@@ -828,29 +914,6 @@ namespace NetWorkedData
                 tBoldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
                 tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
                 tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
@@ -979,6 +1042,86 @@ namespace NetWorkedData
                 kPropertyLabelStyle = new GUIStyle(EditorStyles.label);
                 kPropertyLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 kPropertyLabelStyle.richText = true;
+
+
+                KTableClassToolbar = new GUIStyle(GUI.skin.button);
+                KTableClassToolbar. CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                KTableClassPopup = new GUIStyle(EditorStyles.popup);
+                KTableClassPopup.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
+                KTableAreaColorDark = new GUIStyle(EditorStyles.label);
+                KTableSearchIcon = new GUIStyle(EditorStyles.label);
+                KTableSearchTitle = new GUIStyle(EditorStyles.helpBox);
+                KTableSearchDescription = new GUIStyle(EditorStyles.helpBox);
+                KTableSearchClassIcon = new GUIStyle(EditorStyles.helpBox);
+                KTableSearchTextfield = new GUIStyle(EditorStyles.textField);
+                KTableSearchToggle = new GUIStyle(EditorStyles.toggle);
+                KTableSearchEnum = new GUIStyle(EditorStyles.popup);
+                KTableSearchMask = new GUIStyle(EditorStyles.layerMaskField);
+                KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
+                KTableSearchLabel = new GUIStyle(EditorStyles.label);
+
+                KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
+
+                float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
+                KTableSearchTitle.fixedHeight = tTableSearchHeight;
+                KTableSearchTextfield.fixedHeight = tTableSearchHeight;
+                KTableSearchToggle.fixedHeight = tTableSearchHeight;
+                KTableSearchEnum.fixedHeight = tTableSearchHeight;
+                KTableSearchMask.fixedHeight = tTableSearchHeight;
+                KTableSearchButton.fixedHeight = tTableSearchHeight;
+                KTableSearchLabel.fixedHeight = tTableSearchHeight;
+
+                if (EditorGUIUtility.isProSkin)
+                {
+                    KTableAreaColorDark.normal.background = NWDToolbox.TextureFromColor(new Color(0.0f, 0.0f, 0.0f, 0.35f));
+                }
+                else
+                {
+                    KTableAreaColorDark.normal.background = NWDToolbox.TextureFromColor(new Color(0.0f, 0.0f, 0.0f, 0.55f));
+                }
+                KTableAreaColorDark.padding = new RectOffset(0, 0, 5, 5);
+                KTableAreaColorDark.margin = new RectOffset(0, 0, 0, 0);
+                KTableSearchTitle.alignment = TextAnchor.MiddleCenter;
+                KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
+
+                KTableHeaderSelect = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderPrefab = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderId = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderIcon = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderInformations = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderStatut = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderReference = new GUIStyle(EditorStyles.helpBox);
+
+                KTableHeaderSelect.alignment = TextAnchor.MiddleCenter;
+                KTableHeaderPrefab.alignment = TextAnchor.MiddleCenter;
+                KTableHeaderId.alignment = TextAnchor.MiddleCenter;
+                KTableHeaderIcon.alignment = TextAnchor.MiddleCenter;
+                KTableHeaderInformations.alignment = TextAnchor.MiddleCenter;
+                KTableHeaderStatut.alignment = TextAnchor.MiddleCenter;
+                KTableHeaderReference.alignment = TextAnchor.MiddleCenter;
+
+                KTableRowSelect = new GUIStyle(EditorStyles.label);
+                KTableRowPrefab = new GUIStyle(EditorStyles.label);
+                KTableRowId = new GUIStyle(EditorStyles.label);
+                KTableRowIcon = new GUIStyle(EditorStyles.label);
+                KTableRowInformations = new GUIStyle(EditorStyles.label);
+                KTableRowStatut = new GUIStyle(EditorStyles.label);
+                KTableRowReference = new GUIStyle(EditorStyles.label);
+
+
+                KTableRowIcon.richText=true;
+                KTableRowInformations.richText = true;
+                KTableRowStatut.richText = true;
+                KTableRowStatut.alignment = TextAnchor.UpperCenter;
+
+                KTableRowIcon.alignment = TextAnchor.MiddleCenter;
+                KTableRowIcon.padding = new RectOffset(10, 10, 10, 10);
+                KTableRowInformations.richText = true;
+                KTableRowInformations.wordWrap = true;
+                KTableRowId.alignment = TextAnchor.UpperRight;
+                KTableRowReference.alignment = TextAnchor.UpperRight;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -990,8 +1133,8 @@ namespace NetWorkedData
         public static Rect GUISeparator(Rect sRect)
         {
             sRect.height = kSeparatorStyle.fixedHeight;
-            GUI.Label(sRect,string.Empty, kSeparatorStyle);
-            sRect.y+= kSeparatorStyle.fixedHeight;
+            GUI.Label(sRect, string.Empty, kSeparatorStyle);
+            sRect.y += kSeparatorStyle.fixedHeight;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1008,11 +1151,11 @@ namespace NetWorkedData
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Rect GUIColorLine(Rect sRect)
+        public static Rect InspectorDrawSeparator(Rect sRect)
         {
             Rect tRect = EditorGUI.IndentedRect(new Rect(sRect.x, sRect.y + NWDConstants.kFieldMarge, sRect.width, 1));
             EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
-            sRect.y += 1+ NWDConstants.kFieldMarge * 2;
+            sRect.y += 1 + NWDConstants.kFieldMarge * 2;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------

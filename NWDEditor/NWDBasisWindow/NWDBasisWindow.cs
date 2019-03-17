@@ -261,35 +261,30 @@ namespace NetWorkedData
         {
             NWDConstants.LoadStyles();
             // prepare the style
-            //GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
-            GUIStyle tToolbarStyle = new GUIStyle(GUI.skin.button);
-            //GUIStyle tToolbarStyle = new GUIStyle(EditorStyles.toolbar);
-            //GUIStyle tToolbarStyle = NWDEditorConstants.ToolbarStyle;
-            //tToolbarStyle.alignment = TextAnchor.MiddleLeft;
-            GUIStyle tPopupStyle = new GUIStyle(EditorStyles.popup);
             // get width of window
             float tWidthUsed = EditorGUIUtility.currentViewWidth;
             // determine height
-            float tHeight = 0;
+            float tHeight = 40;
             //tHeight+=tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
-            if (mTabContentList.Length > 1)
-            {
-                if (tWidthUsed > TabsTotalWidthExpected)
-                {
-                    tHeight += tToolbarStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
-                }
-                else
-                {
-                    tHeight += tPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
-                }
-                tHeight += NWDConstants.kFieldMarge * 2;
-            }
+            //if (mTabContentList.Length > 1)
+            //{
+            //    if (tWidthUsed > TabsTotalWidthExpected)
+            //    {
+            //        tHeight += tToolbarStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
+            //    }
+            //    else
+            //    {
+            //        tHeight += tPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
+            //    }
+            //    tHeight += NWDConstants.kFieldMarge * 2;
+            //}
             // draw background for toolbar
 
 
             EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDConstants.KTAB_BAR_BACK_COLOR);
             EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), NWDConstants.KTAB_BAR_LINE_COLOR);
             EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F), NWDConstants.KTAB_BAR_HIGHLIGHT_COLOR);
+
             //if (mDescriptionKey != "")
             //{
             //    EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
@@ -303,16 +298,16 @@ namespace NetWorkedData
             // check if tab ids necessary
             if (mTabContentList.Length > 1)
             {
-                GUILayout.Space(NWDConstants.kFieldMarge);
                 if (tWidthUsed > TabsTotalWidthExpected)
                 {
-                    tTabSelected = GUILayout.Toolbar(mTabSelected, mTabContentList, GUILayout.Height(tHeight));
+                    Rect tRectTab = new Rect(NWDConstants.kFieldMarge, NWDConstants.kFieldMarge, tWidthUsed - NWDConstants.kFieldMarge * 2, tHeight - NWDConstants.kFieldMarge*2);
+                    tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList);
                 }
                 else
                 {
-                    tTabSelected = EditorGUILayout.Popup(mTabSelected, mTabContentList);
+                    Rect tRectTab = new Rect(NWDConstants.kFieldMarge, NWDConstants.kFieldMarge, tWidthUsed - NWDConstants.kFieldMarge * 2, tHeight - NWDConstants.kFieldMarge * 2);
+                    tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList);
                 }
-                GUILayout.Space(NWDConstants.kFieldMarge);
             }
 
             bool tAutoselect = false;
@@ -342,7 +337,6 @@ namespace NetWorkedData
                     //SetClassInEdition (tType);
                 }
                 mTabSelected = tTabSelected;
-                GUILayout.Space(5.0f);
                 NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
             }
 

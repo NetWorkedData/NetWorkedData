@@ -62,14 +62,14 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        [NWDGroupStartAttribute("Description Item", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Description Item", true, true, true)] // ok
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEndAttribute]
         
-        [NWDGroupStartAttribute("Item(s) in this group", true, true, true)] // ok
+        [NWDInspectorGroupStartAttribute("Item(s) in this group", true, true, true)] // ok
         public NWDReferencesListType<NWDItem> ItemList
         {
             get; set;
