@@ -8,6 +8,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -53,12 +54,12 @@ namespace NetWorkedData
         const int KChecklistWorkInProgress = 2;
         const int KChecklistWarning = 3;
 
-        const int AnalyzeStateEnable = 0;
-        const int AnalyzeStateDisable = 1;
-        const int AnalyzeStateTrashed = 2;
-        const int AnalyzeStateWarning = 3;
-        const int AnalyzeStateModelError = 8;
-        const int AnalyzeStateCorrupted = 9;
+        const int KAnalyzeStateEnable = 0;
+        const int KAnalyzeStateDisable = 1;
+        const int KAnalyzeStateTrashed = 2;
+        const int KAnalyzeStateWarning = 3;
+        const int KAnalyzeStateModelError = 8;
+        const int KAnalyzeStateCorrupted = 9;
 
         //-------------------------------------------------------------------------------------------------------------
         public static void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
@@ -663,7 +664,7 @@ namespace NetWorkedData
                 ImageChecklist = null;
             }
             StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_OK;
-            AnalyzeStateInfos = AnalyzeStateEnable;
+            AnalyzeStateInfos = KAnalyzeStateEnable;
             if (TestWebserviceVersionIsValid)
             {
                 if (TestIntegrityResult == false)
@@ -671,14 +672,14 @@ namespace NetWorkedData
                     tBoxColor = NWDConstants.kRowColorError;
                     StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
                     StringRow = "<color=#a52a2aff>" + StringRow + "</color>";
-                    AnalyzeStateInfos = AnalyzeStateCorrupted;
+                    AnalyzeStateInfos = KAnalyzeStateCorrupted;
                 }
                 else if (XX > 0)
                 {
                     tBoxColor = NWDConstants.kRowColorTrash;
                     StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
                     StringRow = "<color=#444444ff>" + StringRow + "</color>";
-                    AnalyzeStateInfos = AnalyzeStateTrashed;
+                    AnalyzeStateInfos = KAnalyzeStateTrashed;
                 }
                 else
                 {
@@ -687,7 +688,7 @@ namespace NetWorkedData
                         tBoxColor = NWDConstants.kRowColorDisactive;
                         StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
                         StringRow = "<color=#555555ff>" + StringRow + "</color>";
-                        AnalyzeStateInfos = AnalyzeStateDisable;
+                        AnalyzeStateInfos = KAnalyzeStateDisable;
                     }
                     else
                     {
@@ -700,13 +701,13 @@ namespace NetWorkedData
                 tBoxColor = NWDConstants.kRowColorWarning;
                 StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR;
                 StringRow = "<color=#cc6600ff>" + StringRow + "</color>";
-                AnalyzeStateInfos = AnalyzeStateModelError;
+                AnalyzeStateInfos = KAnalyzeStateModelError;
             }
             if (InError == true)
             {
                 ImageChecklist = NWDConstants.kImageCheckWarning;
                 AnalyzeChecklist = KChecklistWarning;
-                AnalyzeStateInfos = AnalyzeStateWarning;
+                AnalyzeStateInfos = KAnalyzeStateWarning;
             }
             StringRow = StringRow.Replace("()", string.Empty);
             while (StringRow.Contains("  "))
@@ -797,7 +798,8 @@ namespace NetWorkedData
             EditorGUI.DrawRect(tRectRow, tBoxColor);
             if (IsObjectInEdition(this) == true)
             {
-                EditorGUI.DrawRect(tRectRow, NWDConstants.kRowColorSelected);
+                Rect tRectRowSelected = new Rect(tRectRow.x, tRectRow.y +2, tRectRow.width, tRectRow.height-2);
+                EditorGUI.DrawRect(tRectRowSelected, NWDConstants.kRowColorSelected);
             }
             //GUI.Label(tRectRow, "TEST " + sRow.ToString());
             if (tRectRow.Contains(sMouseClickPosition))

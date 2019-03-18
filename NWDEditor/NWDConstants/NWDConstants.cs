@@ -542,7 +542,7 @@ namespace NetWorkedData
         public static float kRowLineStroke = 1.0f;
         public static Color kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
         public static Color kRowColorLine = new Color(0.0f, 0.0f, 0.0f, 0.25f);
-        public static Color kTabHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+        public static Color kTabHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.35f);
         //-------------------------------------------------------------------------------------------------------------
         // Columns Size
         public static float kOriginWidth = 1.0f;
