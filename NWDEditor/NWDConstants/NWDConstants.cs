@@ -540,6 +540,7 @@ namespace NetWorkedData
         public static Color kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
         public static Color kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
         public static float kRowLineStroke = 1.0f;
+        public static Color kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
         public static Color kRowColorLine = new Color(0.0f, 0.0f, 0.0f, 0.25f);
         public static Color kTabHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.5f);
         //-------------------------------------------------------------------------------------------------------------
@@ -710,6 +711,7 @@ namespace NetWorkedData
         public static float KTableReferenceWidth = 160.0F;
         public static float KTableRowWebModelWidth = 60.0F;
         public static int KTablePageMarge = 5;
+        public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6;
 
         public static GUIStyle KTableAreaColorDark;
 

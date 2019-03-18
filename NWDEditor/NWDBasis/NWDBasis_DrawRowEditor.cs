@@ -32,7 +32,7 @@ namespace NetWorkedData
         public int AnalyzeModel = 0;
         public string ModelInfos = string.Empty;
         protected string ChecklistInfos = string.Empty;
-        protected Texture2D ImageChecklist = NWDConstants.kImageSyncRequired;
+        protected Texture2D ImageChecklist = NWDConstants.kImageSyncWaiting;
         public int AnalyzeChecklist = 0;
         public int AnalyzeID = 0;
         public bool AnalyzeSelected = false;
@@ -73,7 +73,7 @@ namespace NetWorkedData
             Rect tRect = new Rect(sRect.x, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kSelectWidth, sRect.height - NWDConstants.kFieldMarge * 2);
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDConstants.KTableHeaderSelect))
             {
-                Debug.Log("sort by selected toggle");
+                //Debug.Log("sort by selected toggle");
                 // Update select in real time
                 foreach (NWDTypeClass tData in BasisHelper().Datas)
                 {
@@ -99,7 +99,7 @@ namespace NetWorkedData
             tRect.width = NWDConstants.kIDWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDConstants.KTableHeaderId))
             {
-                Debug.Log("sort by ID toggle");
+                //Debug.Log("sort by ID toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
@@ -119,7 +119,7 @@ namespace NetWorkedData
             tRect.width = NWDConstants.kPrefabWidth * sZoom;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDConstants.KTableHeaderPrefab))
             {
-                Debug.Log("sort by prefab toggle");
+                //Debug.Log("sort by prefab toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPrefabAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabDescendant;
@@ -151,7 +151,7 @@ namespace NetWorkedData
             }
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, NWDConstants.KTableHeaderInformations))
             {
-                Debug.Log("sort by internal key toggle");
+                //Debug.Log("sort by internal key toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByInternalKeyAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
@@ -171,7 +171,7 @@ namespace NetWorkedData
             tRect.width = NWDConstants.KTableRowWebModelWidth;
             if (GUI.Button(tRect, "webservice", NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by disk webservice");
+                //Debug.Log("sort by disk webservice");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
@@ -191,7 +191,7 @@ namespace NetWorkedData
             tRect.width = NWDConstants.KTableIconWidth;
             if (GUI.Button(tRect, "Check", NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by disk checklist");
+                //Debug.Log("sort by disk checklist");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
@@ -211,12 +211,12 @@ namespace NetWorkedData
             tRect.width = NWDConstants.KTableIconWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DISK, NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by disk toggle ???");
+                //Debug.Log("sort by disk toggle ???");
             }
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by synchro toggle");
+                //Debug.Log("sort by synchro toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
@@ -235,7 +235,7 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by dev sync toggle");
+                //Debug.Log("sort by dev sync toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
@@ -254,7 +254,7 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by preprod sync toggle");
+                //Debug.Log("sort by preprod sync toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
@@ -273,7 +273,7 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO, NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by prod sync toggle");
+                //Debug.Log("sort by prod sync toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
@@ -293,7 +293,7 @@ namespace NetWorkedData
             tRect.width = NWDConstants.KTableSearchWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_STATUT, NWDConstants.KTableHeaderStatut))
             {
-                Debug.Log("sort by statut toggle");
+                //Debug.Log("sort by statut toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
@@ -313,7 +313,7 @@ namespace NetWorkedData
             tRect.width = NWDConstants.KTableReferenceWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_REFERENCE + " ", NWDConstants.KTableHeaderReference))
             {
-                Debug.Log("sort by reference toggle");
+                //Debug.Log("sort by reference toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByReferenceAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceDescendant;
@@ -658,6 +658,10 @@ namespace NetWorkedData
                     AnalyzeChecklist = KChecklistValid;
                 }
             }
+            else
+            {
+                ImageChecklist = null;
+            }
             StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_OK;
             AnalyzeStateInfos = AnalyzeStateEnable;
             if (TestWebserviceVersionIsValid)
@@ -787,8 +791,8 @@ namespace NetWorkedData
         public Rect DrawRowInEditor(Vector2 sMouseClickPosition, EditorWindow sEditorWindow, bool sSelectAndClick, int sRow, float sZoom)
         {
             Rect tRectRow = new Rect(0, NWDConstants.kRowHeight * sRow * sZoom, sEditorWindow.position.width, NWDConstants.kRowHeight * sZoom);
-            Rect tRectRowLine = new Rect(0, NWDConstants.kRowHeight * sRow * sZoom, sEditorWindow.position.width, 1);
-            Rect tRectRowLineB = new Rect(0, NWDConstants.kRowHeight * (sRow + 1) * sZoom, sEditorWindow.position.width, 1);
+            Rect tRectRowLineWhite = new Rect(0, NWDConstants.kRowHeight * sRow * sZoom +1, sEditorWindow.position.width, 1);
+            Rect tRectRowLineBLack = new Rect(0, NWDConstants.kRowHeight * (sRow + 1) * sZoom, sEditorWindow.position.width, 1);
             Rect tRect = new Rect(NWDConstants.kFieldMarge, NWDConstants.kRowHeight * sRow * sZoom, 0, NWDConstants.kRowHeight * sZoom);
             EditorGUI.DrawRect(tRectRow, tBoxColor);
             if (IsObjectInEdition(this) == true)
@@ -877,8 +881,8 @@ namespace NetWorkedData
             tRect.width = NWDConstants.KTableReferenceWidth;
             GUI.Label(tRect, tStringReference, NWDConstants.KTableRowReference);
             // finish line
-            EditorGUI.DrawRect(tRectRowLine, NWDConstants.kRowColorLine);
-            EditorGUI.DrawRect(tRectRowLineB, NWDConstants.kRowColorLine);
+            EditorGUI.DrawRect(tRectRowLineWhite, NWDConstants.kRowColorLineWhite);
+            EditorGUI.DrawRect(tRectRowLineBLack, NWDConstants.kRowColorLine);
             return tRectRow;
         }
         //-------------------------------------------------------------------------------------------------------------

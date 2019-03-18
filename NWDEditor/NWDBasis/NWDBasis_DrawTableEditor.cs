@@ -493,7 +493,7 @@ namespace NetWorkedData
             tRect.y += tRect.height + NWDConstants.kFieldMarge;
 
 
-            EditorGUI.BeginDisabledGroup(GameSaveDependent());
+            EditorGUI.BeginDisabledGroup(AccountDependent());
             BasisHelper().m_SearchCheckList = (NetWorkedData.NWDBasisCheckList)BasisHelper().m_SearchCheckList.ControlField(tRect, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
             EditorGUI.EndDisabledGroup();
             tRect.y += tRect.height + NWDConstants.kFieldMarge;
@@ -966,14 +966,23 @@ namespace NetWorkedData
                 // Start Colmun
                 tRect.x = tRectTable.x;
                 tRect.y = tRectTable.y;
+                NWDConstants.GUIRedButtonBegin();
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_RESET_WARNING, NWDConstants.KTableSearchTitle);
                 tRect.y += tRect.height + NWDConstants.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton))
+                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton))
+                //{
+                //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                //    tBasisInspector.mTypeInEdition = ClassType();
+                //    Selection.activeObject = tBasisInspector;
+                //}
+                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton))
                 {
-                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                    tBasisInspector.mTypeInEdition = ClassType();
-                    Selection.activeObject = tBasisInspector;
+                    GUI.FocusControl(null);
+                    RecalculateAllIntegrities();
                 }
+                NWDConstants.GUIRedButtonEnd();
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+
                 // Change Colmun
                 tRect.x += tRect.width + NWDConstants.kFieldMarge;
                 tRect.y = tRectTable.y;
@@ -1442,7 +1451,12 @@ namespace NetWorkedData
         public static void DrawTableEditor(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
-            Rect tRect = new Rect(0, 0, sEditorWindow.position.width, 0);
+            Rect tWindowRect = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
+            if (tWindowRect.width < NWDConstants.KTableMinWidth)
+            {
+                tWindowRect.width = NWDConstants.KTableMinWidth;
+            }
+            Rect tRect = new Rect(0, 0, tWindowRect.width, 0);
             // offset the tab bar 
             tRect.y += 50;
 
@@ -1511,15 +1525,15 @@ namespace NetWorkedData
 
             Rect tRectForTop = DrawTableEditorTop(tRect);
             tRect.y += tRectForTop.height;
-            Rect tRectForBottom = DrawTableEditorBottom(new Rect(0, 0, sEditorWindow.position.width, sEditorWindow.position.height));
+            Rect tRectForBottom = DrawTableEditorBottom(new Rect(0, 0, tWindowRect.width, tWindowRect.height));
             // ===========================================
             // ===========================================
             /// DRAW SCROLLVIEW
             if (NWDTypeLauncher.DataLoaded == false)
             {
                 //TODO : draw not loading
-                float tScrollHeight = sEditorWindow.position.height - tRect.y  - tRectForBottom.height - NWDConstants.kRowHeaderHeight - NWDConstants.kFieldMarge;
-                Rect tScrollRect = new Rect(0, tRect.y + NWDConstants.kRowHeaderHeight, sEditorWindow.position.width, tScrollHeight);
+                float tScrollHeight = tWindowRect.height - tRect.y  - tRectForBottom.height - NWDConstants.kRowHeaderHeight - NWDConstants.kFieldMarge;
+                Rect tScrollRect = new Rect(0, tRect.y + NWDConstants.kRowHeaderHeight, tWindowRect.width, tScrollHeight);
                 GUI.Label(tScrollRect, NWDConstants.K_APP_TABLE_DATAS_ARE_LOADING_ZONE, NWDConstants.KTableSearchTitle);
             }
             else
@@ -1542,11 +1556,11 @@ namespace NetWorkedData
                 // TODO get put this line!
                 //NWDConstants.kRowHeaderHeight = NWDConstants.KTableSearchToggle.fixedHeight;
 
-                float tScrollHeight = sEditorWindow.position.height - tRect.y - tPagesBarHeight - tRectForBottom.height - NWDConstants.kRowHeaderHeight - NWDConstants.kFieldMarge;
-                Rect tScrollHeader = new Rect(0, tRect.y, sEditorWindow.position.width, NWDConstants.kRowHeaderHeight);
-                Rect tScrollRect = new Rect(0, tRect.y + NWDConstants.kRowHeaderHeight, sEditorWindow.position.width, tScrollHeight);
-                Rect tScrollContentRect = new Rect(0, 0, sEditorWindow.position.width - NWDConstants.kScrollbar, tIndexRowInPage * tRowHeight);
-                Rect tScrollHeaderBottom = new Rect(0, tRect.y + NWDConstants.kRowHeaderHeight + tScrollHeight, sEditorWindow.position.width, NWDConstants.kRowHeaderHeight);
+                float tScrollHeight = tWindowRect.height - tRect.y - tPagesBarHeight - tRectForBottom.height - NWDConstants.kRowHeaderHeight - NWDConstants.kFieldMarge;
+                Rect tScrollHeader = new Rect(0, tRect.y, tWindowRect.width, NWDConstants.kRowHeaderHeight);
+                Rect tScrollRect = new Rect(0, tRect.y + NWDConstants.kRowHeaderHeight, tWindowRect.width, tScrollHeight);
+                Rect tScrollContentRect = new Rect(0, 0, tWindowRect.width - NWDConstants.kScrollbar, tIndexRowInPage * tRowHeight);
+                Rect tScrollHeaderBottom = new Rect(0, tRect.y + NWDConstants.kRowHeaderHeight + tScrollHeight, tWindowRect.width, NWDConstants.kRowHeaderHeight);
                 // draw headers
                 DrawHeaderInEditor(tScrollHeader, tScrollRect, BasisHelper().RowZoom);
                 DrawHeaderBottomInEditor(tScrollHeaderBottom, tScrollRect);
