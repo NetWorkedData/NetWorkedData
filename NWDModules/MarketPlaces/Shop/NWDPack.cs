@@ -57,37 +57,37 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Description Item", true, true, true)]
+        [NWDInspectorGroupStart("Description Item", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Item Pack in this Pack", true, true, true)]
+        [NWDInspectorGroupStart("Item Pack in this Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
         public int Quantity { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Item to Pay for this Pack", true, true, true)]
+        [NWDInspectorGroupStart("Item to Pay for this Pack", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
         public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
         public bool EnableFreePack { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Availability schedule ", true, true, true)]
+        [NWDInspectorGroupStart("Availability schedule ", true, true, true)]
         [NWDTooltips("Availability schedule of this Pack")]
         public NWDDateTimeScheduleType AvailabilitySchedule { get; set; }
         //[NWDGroupEndAttribute]

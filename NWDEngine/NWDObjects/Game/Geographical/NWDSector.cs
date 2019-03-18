@@ -41,7 +41,7 @@ namespace NetWorkedData
     public partial class NWDSector : NWDBasis<NWDSector>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStart("Informations", true, true, true)]
         [NWDTooltips("The name of this world")]
         public NWDSectorLevel SectorLevel
         {
@@ -65,9 +65,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
         public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
@@ -80,9 +80,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Universe Arrangement", true, true, true)]
+        [NWDInspectorGroupStart("Universe Arrangement", true, true, true)]
         public NWDReferencesListType<NWDSector> ParentSectorList
         {
             get; set;
@@ -97,9 +97,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Geographical", true, true, true)]
+        [NWDInspectorGroupStart("Geographical", true, true, true)]
         public NWDReferencesListType<NWDSector> BorderSectorList
         {
             get; set;

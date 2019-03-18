@@ -35,15 +35,12 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [Indexed("AccountIndex", 0)]
+        [NWDCertified]
         public NWDReferenceHashType<NWDAccount> UUIDHash
         {
             get; set;
-        } 
-        // TODO: A virer
-        public NWDReferenceHashType<NWDAccount> AccountReferenceHash
-        {
-            get; set;
         }
+        [NWDCertified]
         public string Token
         {
             get; set;

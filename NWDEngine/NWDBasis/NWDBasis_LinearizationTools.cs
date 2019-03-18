@@ -577,6 +577,22 @@ namespace NetWorkedData
                             tObject.SetDouble(tTemp);
                             tPropertyInfo.SetValue(this, tObject, null);
                         }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        {
+                            BTBDataTypeEnum tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeEnum;
+                            long tTemp = 0;
+                            long.TryParse(tValueString, out tTemp);
+                            tObject.SetLong(tTemp);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        {
+                            BTBDataTypeMask tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeMask;
+                            long tTemp = 0;
+                            long.TryParse(tValueString, out tTemp);
+                            tObject.SetLong(tTemp);
+                            tPropertyInfo.SetValue(this, tObject, null);
+                        }
                         // Do for Standard type
                         else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                         {
@@ -769,50 +785,61 @@ namespace NetWorkedData
                     {
                         tValue = string.Empty;
                     }
-                    if (tTypeOfThis.IsEnum)
-                    {
-                        int tInt = (int)tValue;
-                        tValueString = tInt.ToString();
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
-                    {
-                        tValueString = tValue.ToString();
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
-                    {
-                        tValueString = NWDToolbox.LongToString(((BTBDataTypeInt)tValue).Value);
-                    }
-                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
-                    {
-                        tValueString = NWDToolbox.DoubleToString(((BTBDataTypeFloat)tValue).Value);
-                    }
-                    else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
-                    {
-                        tValueString = tValue.ToString();
-                    }
-                    else if (tTypeOfThis == typeof(bool))
-                    {
-                        tValueString = NWDToolbox.BoolToIntString((bool)tValue);
-                    }
-                    else if (tTypeOfThis == typeof(int))
-                    {
-                        tValueString = NWDToolbox.IntToString((int)tValue);
-                    }
-                    else if (tTypeOfThis == typeof(long))
-                    {
-                        tValueString = NWDToolbox.LongToString((long)tValue);
-                    }
-                    else if (tTypeOfThis == typeof(float))
-                    {
-                        tValueString = NWDToolbox.FloatToString((float)tValue);
-                    }
-                    else if (tTypeOfThis == typeof(double))
-                    {
-                        tValueString = NWDToolbox.DoubleToString((double)tValue);
-                    }
                     else
                     {
-                        tValueString = tValue.ToString();
+                        if (tTypeOfThis.IsEnum)
+                        {
+                            int tInt = (int)tValue;
+                            tValueString = tInt.ToString();
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        {
+                            tValueString = tValue.ToString();
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        {
+                            tValueString = NWDToolbox.LongToString(((BTBDataTypeInt)tValue).Value);
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        {
+                            tValueString = NWDToolbox.DoubleToString(((BTBDataTypeFloat)tValue).Value);
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        {
+                            tValueString = NWDToolbox.LongToString(((BTBDataTypeEnum)tValue).Value);
+                        }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        {
+                            tValueString = NWDToolbox.LongToString(((BTBDataTypeMask)tValue).Value);
+                        }
+                        else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                        {
+                            tValueString = tValue.ToString();
+                        }
+                        else if (tTypeOfThis == typeof(bool))
+                        {
+                            tValueString = NWDToolbox.BoolToIntString((bool)tValue);
+                        }
+                        else if (tTypeOfThis == typeof(int))
+                        {
+                            tValueString = NWDToolbox.IntToString((int)tValue);
+                        }
+                        else if (tTypeOfThis == typeof(long))
+                        {
+                            tValueString = NWDToolbox.LongToString((long)tValue);
+                        }
+                        else if (tTypeOfThis == typeof(float))
+                        {
+                            tValueString = NWDToolbox.FloatToString((float)tValue);
+                        }
+                        else if (tTypeOfThis == typeof(double))
+                        {
+                            tValueString = NWDToolbox.DoubleToString((double)tValue);
+                        }
+                        else
+                        {
+                            tValueString = tValue.ToString();
+                        }
                     }
                     tValueString = NWDToolbox.TextCSVProtect(tValueString);
                     rReturnList.Add(tValueString);

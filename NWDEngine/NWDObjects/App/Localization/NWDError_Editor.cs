@@ -55,6 +55,7 @@ namespace NetWorkedData
                 // add-on edited
                 tError.AddonEdited(true);
                 // reccord
+                //tError.NotNullChecker();
                 tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tError);
             }

@@ -22,7 +22,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Account statut")]
-        [NWDTooltips("The statut of this account in process of test (normal and default is 'InGame')")]
+        [NWDTooltips("The statut of this account in process of test (normal and default are 'InGame')")]
+        [NWDCertified]
         public NWDAccountEnvironment UseInEnvironment
         {
             get; set;
@@ -35,6 +36,7 @@ namespace NetWorkedData
         /// </summary>
         /// <value>The login.</value>
         [NWDTooltips("The secret key to re-authentify the anonyme account")]
+        [NWDInDevelopment("Need to be test in production")]
         public string SecretKey
         {
             get; set;
@@ -45,6 +47,7 @@ namespace NetWorkedData
         /// </summary>
         /// <value>The login is an email.</value>
         [NWDTooltips("Hash of email for the appropriate environment")]
+        [NWDCertified]
         public string Email
         {
             get; set;
@@ -55,6 +58,7 @@ namespace NetWorkedData
         /// </summary>
         /// <value>The password.</value>
         [NWDTooltips("Hash of password for the appropriate environment")]
+        [NWDCertified]
         public string Password
         {
             get; set;
@@ -108,7 +112,8 @@ namespace NetWorkedData
         /// Gets or sets a value indicating whether this account <see cref="NWDEditor.NWDAccount"/> is banned.
         /// </summary>
         /// <value><c>true</c> if ban; otherwise, <c>false</c>.</value>
-        [NWDTooltips("If account is ban set the unix timestamp of ban's date")]
+        [NWDTooltips("If account is banned set the unix timestamp of ban's date")]
+        [NWDCertified]
         public int Ban
         {
             get; set;

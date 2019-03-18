@@ -242,6 +242,14 @@ namespace NetWorkedData
                     {
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
+                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                    {
+                        columnNamesFinalList.Add("`" + tName + "`");
+                    }
+                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeMask)))
+                    {
+                        columnNamesFinalList.Add("`" + tName + "`");
+                    }
                     else if (tColumnType == typeof(string))
                     {
                         columnNamesFinalList.Add("`" + tName + "`(24)");

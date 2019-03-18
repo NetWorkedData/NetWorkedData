@@ -255,6 +255,14 @@ namespace NetWorkedData
                 {
                     // int is default 0, not null!
                 }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                {
+                    // int is default 0, not null!
+                }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                {
+                    // int is default 0, not null!
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

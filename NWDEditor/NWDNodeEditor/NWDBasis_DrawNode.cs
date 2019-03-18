@@ -76,95 +76,106 @@ namespace NetWorkedData
                     foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
                         Type tTypeOfThis = tProp.PropertyType;
-                        if (tTypeOfThis != null)
+
+                        if (tProp.GetCustomAttributes(typeof(NWDHidden), true).Length > 0
+                         || tProp.GetCustomAttributes(typeof(NWDNotVisible), true).Length > 0
+                         //|| tProp.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0
+                            )
                         {
-                            if (tTypeOfThis.IsGenericType)
+                            // hidden this property
+                        }
+                        else
+                        {
+                            if (tTypeOfThis != null)
                             {
-                                if (
-                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)) ||
-                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
-                                //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceFreeType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceConditionalType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
-
-                                    //|| tTypeOfThis == typeof(NWDJsonType)
-                                   //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
-                                   //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
-
-                                   )
+                                if (tTypeOfThis.IsGenericType)
                                 {
+                                    if (
+                                tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)) ||
+                                tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+                                       //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceFreeType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceConditionalType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
 
+                                       //|| tTypeOfThis == typeof(NWDJsonType)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
+                                       //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
 
-
-
-                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                    if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
+                                       )
                                     {
-                                        // TODO : Change to remove invoke!
-                                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_EditorGetObjects);
-                                        //var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                                        if (tMethodInfo != null)
+
+
+
+
+                                        Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                                        if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
                                         {
-                                            var tVar = tProp.GetValue(this, null);
-                                            if (tVar != null)
+                                            // TODO : Change to remove invoke!
+                                            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_EditorGetObjects);
+                                            //var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                            if (tMethodInfo != null)
                                             {
-                                                object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
-                                                bool tButtonAdd = true;
-                                                int tObjectCounter = 0;
-                                                foreach (object tObj in tObjects)
+                                                var tVar = tProp.GetValue(this, null);
+                                                if (tVar != null)
                                                 {
-                                                    if (tObj != null)
+                                                    object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
+                                                    bool tButtonAdd = true;
+                                                    int tObjectCounter = 0;
+                                                    foreach (object tObj in tObjects)
                                                     {
-                                                        tObjectCounter++;
+                                                        if (tObj != null)
+                                                        {
+                                                            tObjectCounter++;
+                                                        }
                                                     }
-                                                }
 
-                                                NWDNodeConnectionReferenceType tConType = NWDNodeConnectionReferenceType.None;
+                                                    NWDNodeConnectionReferenceType tConType = NWDNodeConnectionReferenceType.None;
 
-                                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) && tObjectCounter > 0)
-                                                {
-                                                    tButtonAdd = false;
-                                                }
+                                                    if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) && tObjectCounter > 0)
+                                                    {
+                                                        tButtonAdd = false;
+                                                    }
 
-                                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
-                                                {
-                                                    tConType = NWDNodeConnectionReferenceType.ReferenceType;
-                                                }
-                                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>))
-                                                {
-                                                    tConType = NWDNodeConnectionReferenceType.ReferencesListType;
-                                                }
-                                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
-                                                {
-                                                    tConType = NWDNodeConnectionReferenceType.ReferenceQuantityType;
-                                                }
-                                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
-                                                {
-                                                    tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
-                                                }
-                                                else
-                                                {
-                                                    tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
-                                                }
+                                                    if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                                                    {
+                                                        tConType = NWDNodeConnectionReferenceType.ReferenceType;
+                                                    }
+                                                    else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>))
+                                                    {
+                                                        tConType = NWDNodeConnectionReferenceType.ReferencesListType;
+                                                    }
+                                                    else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
+                                                    {
+                                                        tConType = NWDNodeConnectionReferenceType.ReferenceQuantityType;
+                                                    }
+                                                    else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
+                                                    {
+                                                        tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
+                                                    }
+                                                    else
+                                                    {
+                                                        tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
+                                                    }
 
-                                                List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tConType, tObjects, tButtonAdd);
-                                                foreach (NWDNodeCard tNewCard in tNewCards)
-                                                {
-                                                    tNewCard.Analyze(sCard.ParentDocument);
+                                                    List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tConType, tObjects, tButtonAdd);
+                                                    foreach (NWDNodeCard tNewCard in tNewCards)
+                                                    {
+                                                        tNewCard.Analyze(sCard.ParentDocument);
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    else
-                                    {
-                                        // don't analyze this classes NWDBasis ...
+                                        else
+                                        {
+                                            // don't analyze this classes NWDBasis ...
+                                        }
                                     }
                                 }
                             }

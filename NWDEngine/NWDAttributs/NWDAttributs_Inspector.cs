@@ -20,12 +20,12 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInspectorHeaderAttribute : Attribute
+    public class NWDInspectorHeader : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string mHeader;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDInspectorHeaderAttribute(string sHeader)
+        public NWDInspectorHeader(string sHeader)
         {
             this.mHeader = sHeader;
         }
@@ -33,12 +33,12 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInspectorGroupResetAttribute : Attribute
+    public class NWDInspectorGroupReset : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInspectorGroupStartAttribute : Attribute
+    public class NWDInspectorGroupStart : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string mGroupName = string.Empty;
@@ -46,7 +46,7 @@ namespace NetWorkedData
         public bool mBoldHeader;
         public bool mReducible;
         public bool mOpen;
-        public NWDInspectorGroupStartAttribute Parent;
+        public NWDInspectorGroupStart Parent;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public NWDInspectorGroupStartAttribute(string sGroupName, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
+        public NWDInspectorGroupStart(string sGroupName, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
         {
             this.mGroupName = sGroupName;
             this.mBoldHeader = sBoldHeader;
@@ -89,7 +89,7 @@ namespace NetWorkedData
             this.mReducible = sReducible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDInspectorGroupStartAttribute(string sGroupName, string sToolsTips, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
+        public NWDInspectorGroupStart(string sGroupName, string sToolsTips, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
         {
             this.mGroupName = sGroupName;
             this.mToolsTips = sToolsTips;
@@ -106,12 +106,12 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInspectorGroupEndAttribute : Attribute
+    public class NWDInspectorGroupEnd : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInspectorGroupOrderAttribute : Attribute
+    public class NWDInspectorGroupOrder : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string mGroupName = string.Empty;
@@ -119,7 +119,7 @@ namespace NetWorkedData
         public string mEntitled = string.Empty;
         public string mToolsTips = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDInspectorGroupOrderAttribute(string sGroupName, int sGroupOrder = 0, string sToolsTips = "", string sEntitled = "")
+        public NWDInspectorGroupOrder(string sGroupName, int sGroupOrder = 0, string sToolsTips = "", string sEntitled = "")
         {
             this.mGroupName = sGroupName;
             this.mGroupOrder = sGroupOrder;
@@ -130,12 +130,12 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInspectorSeparatorAttribute : Attribute
+    public class NWDInspectorSeparator : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDNotEditableAttribute : Attribute
+    public class NWDNotEditable : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -197,13 +197,13 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDInformationAttribute : Attribute
+    public class NWDInformation : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string mText = string.Empty;
         public string mToolsTips = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDInformationAttribute(string sText)
+        public NWDInformation(string sText)
         {
             mText = sText;
         }
@@ -216,17 +216,17 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDSpaceAttribute : Attribute
+    public class NWDSpace : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public float mSize;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDSpaceAttribute()
+        public NWDSpace()
         {
             this.mSize = 10.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDSpaceAttribute(float sSize)
+        public NWDSpace(float sSize)
         {
             this.mSize = sSize;
         }
@@ -234,18 +234,18 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDEntitledAttribute : Attribute
+    public class NWDEntitled : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string Entitled = string.Empty;
         public string ToolsTips = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDEntitledAttribute(string sEntitled)
+        public NWDEntitled(string sEntitled)
         {
             this.Entitled = sEntitled;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDEntitledAttribute(string sEntitled, string sToolsTips)
+        public NWDEntitled(string sEntitled, string sToolsTips)
         {
             this.Entitled = sEntitled;
             this.ToolsTips = sToolsTips;
@@ -254,12 +254,12 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDTooltipsAttribute : Attribute
+    public class NWDTooltips : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string ToolsTips = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTooltipsAttribute(string sToolsTips)
+        public NWDTooltips(string sToolsTips)
         {
             this.ToolsTips = sToolsTips;
         }
@@ -267,12 +267,12 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDOrderAttribute : Attribute
+    public class NWDOrder : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public int Order = 0;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOrderAttribute(int sOrder)
+        public NWDOrder(int sOrder)
         {
             this.Order = sOrder;
         }
@@ -286,7 +286,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDIfAttribute : Attribute
+    public class NWDIf : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string mPropertyName;
@@ -354,7 +354,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, string sValue, bool sVisible = true)
+        public NWDIf(string sPropertyName, string sValue, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValue };
@@ -362,7 +362,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, string[] sValues, bool sVisible = true)
+        public NWDIf(string sPropertyName, string[] sValues, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = sValues;
@@ -370,7 +370,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, bool sValue, bool sVisible = true)
+        public NWDIf(string sPropertyName, bool sValue, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValue.ToString() };
@@ -378,7 +378,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, int sValue, bool sVisible = true)
+        public NWDIf(string sPropertyName, int sValue, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValue.ToString() };
@@ -386,7 +386,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, int[] sValues, bool sVisible = true)
+        public NWDIf(string sPropertyName, int[] sValues, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             List<string> tValues = new List<string>();
@@ -399,7 +399,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, int sValueMin, int sValueMax, bool sVisible = true)
+        public NWDIf(string sPropertyName, int sValueMin, int sValueMax, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValueMin.ToString(), sValueMax.ToString() };
@@ -407,7 +407,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, float sValue, bool sVisible = true)
+        public NWDIf(string sPropertyName, float sValue, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValue.ToString() };
@@ -415,7 +415,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, float[] sValues, bool sVisible = true)
+        public NWDIf(string sPropertyName, float[] sValues, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             List<string> tValues = new List<string>();
@@ -428,7 +428,7 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIfAttribute(string sPropertyName, float sValueMin, float sValueMax, bool sVisible = true)
+        public NWDIf(string sPropertyName, float sValueMin, float sValueMax, bool sVisible = true)
         {
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValueMin.ToString(), sValueMax.ToString() };
@@ -439,13 +439,13 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDFloatSliderAttribute : Attribute
+    public class NWDFloatSlider : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public float mMin;
         public float mMax;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDFloatSliderAttribute(float sMin, float sMax)
+        public NWDFloatSlider(float sMin, float sMax)
         {
             this.mMin = sMin;
             this.mMax = sMax;
@@ -454,13 +454,13 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDIntSliderAttribute : Attribute
+    public class NWDIntSlider : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public int mMin;
         public int mMax;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIntSliderAttribute(int sMin, int sMax)
+        public NWDIntSlider(int sMin, int sMax)
         {
             this.mMin = sMin;
             this.mMax = sMax;
@@ -469,12 +469,12 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDEnumStringAttribute : Attribute
+    public class NWDEnumString : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public string[] mEnumString;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDEnumStringAttribute(string[] sEnumString)
+        public NWDEnumString(string[] sEnumString)
         {
             this.mEnumString = sEnumString;
         }
@@ -482,20 +482,20 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDLongStringAttribute : Attribute
+    public class NWDLongString : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDVeryLongStringAttribute : Attribute
+    public class NWDVeryLongString : Attribute
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public class NWDFlagsEnumAttribute : Attribute
+    public class NWDFlagsEnum : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDFlagsEnumAttribute()
+        public NWDFlagsEnum()
         {
         }
         //-------------------------------------------------------------------------------------------------------------

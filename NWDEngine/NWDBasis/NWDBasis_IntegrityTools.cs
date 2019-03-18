@@ -148,6 +148,22 @@ namespace NetWorkedData
                             tValueBTBDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeEnum tValueBTBDataType = (BTBDataTypeEnum)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeMask tValueBTBDataType = (BTBDataTypeMask)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
                         else
                         {
                         }

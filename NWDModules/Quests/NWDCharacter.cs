@@ -18,26 +18,26 @@ namespace NetWorkedData
     public partial class NWDCharacter : NWDBasis<NWDCharacter>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> WorldList { get; set; }
         public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
         public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
         public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDInspectorGroupStartAttribute("Identity", true, true, true)]
+        [NWDInspectorGroupStart("Identity", true, true, true)]
         public NWDLocalizableStringType civility { get; set; }
         public NWDLocalizableStringType Job { get; set; }
         public NWDLocalizableStringType FirstName { get; set; }
         public NWDLocalizableStringType LastName { get; set; }
         public NWDLocalizableStringType NickName { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDInspectorGroupStartAttribute("Dialog tempo", true, true, true)]
+        [NWDInspectorGroupStart("Dialog tempo", true, true, true)]
 
         public float SentenceSpeed { get; set; }
         public float DotLatence { get; set; }
@@ -46,11 +46,11 @@ namespace NetWorkedData
         public float ExclamationLatence { get; set; }
         public float InterrogationLatence { get; set; }
         public float TripleDotLatence { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
        
 
-        [NWDInspectorGroupStartAttribute("Render", true, true, true)]
+        [NWDInspectorGroupStart("Render", true, true, true)]
         public NWDSpriteType Portrait { get; set; }
         public NWDSpriteType NormalState { get; set; }
         public NWDSpriteType AfraidState { get; set; }

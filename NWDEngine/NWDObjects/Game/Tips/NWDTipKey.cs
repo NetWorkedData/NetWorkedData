@@ -17,21 +17,21 @@ namespace NetWorkedData
 	public partial class NWDTipKey :NWDBasis <NWDTipKey>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[NWDInspectorGroupStartAttribute("Classification", false , true ,true)]
+		[NWDInspectorGroupStart("Classification", false , true ,true)]
         public NWDReferencesListType<NWDWorld> WorldList { get; set; }
         public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
         public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
         public NWDReferencesListType<NWDKeyword>  KeywordList { get; set; }
-		[NWDInspectorGroupEndAttribute]
-		[NWDInspectorGroupStartAttribute("Tips and Tricks", false , true ,true)]
+		[NWDInspectorGroupEnd]
+		[NWDInspectorGroupStart("Tips and Tricks", false , true ,true)]
 		public NWDLocalizableStringType Title { get; set; }
 		public NWDLocalizableStringType SubTitle { get; set; }
 		public NWDLocalizableTextType Message { get; set; }
 		public NWDSpriteType Icon { get; set; }
-		[NWDInspectorHeaderAttribute("Items required to be visible")]
+		[NWDInspectorHeader("Items required to be visible")]
         public NWDReferencesConditionalType<NWDItem> ItemConditional{ get; set; }
-		[NWDInspectorHeaderAttribute("Weighting")]
-		[NWDIntSliderAttribute(1,9)]
+		[NWDInspectorHeader("Weighting")]
+		[NWDIntSlider(1,9)]
 		public int Weighting { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
     }

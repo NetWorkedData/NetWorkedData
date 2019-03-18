@@ -50,6 +50,7 @@ namespace NetWorkedData
         /// The tab selected.
         /// </summary>
         private int mTabSelected = 0;
+        public  bool TabSort = false;
 
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -154,6 +155,10 @@ namespace NetWorkedData
             }
             TabsTotalWidthExpected = TabWidthMax * tCounter * 8;
             // return result in array
+            if (TabSort == true)
+            {
+                tTabContentList.Sort((GUIContent x, GUIContent y) => string.Compare(x.text, y.text, StringComparison.OrdinalIgnoreCase));
+            }
             mTabContentList = tTabContentList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -194,7 +199,7 @@ namespace NetWorkedData
                 if (tNWDBasisWindowParamAttribute.TypeList == null)
                 {
                     mTabTypeList = NWDDataManager.SharedInstance().mTypeList.ToArray();
-                    Array.Sort(mTabTypeList, (x, y) => String.Compare(x.Name, y.Name));
+                    TabSort = true;
                 }
                 else
                 {

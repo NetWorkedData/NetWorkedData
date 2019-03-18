@@ -19,7 +19,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInformation("Use the internal key as keyword. If you need more complex classification use Category or Family!")]
-        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStart("Informations", true, true, true)]
         public NWDLocalizableStringType Name
         {
             get; set;

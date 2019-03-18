@@ -51,31 +51,31 @@ namespace NetWorkedData
         [NWDTooltips("The Message")]
         public NWDReferenceType<NWDMessage> Message { get; set; }
 
-        [NWDTooltipsAttribute("Select nickname to use in message by these tags" +
+        [NWDTooltips("Select nickname to use in message by these tags" +
                       "\n •for Nickname : #SenderNickname# …" +
                       "")]
         public string ReplaceSenderNickname { get; set; }
 
-        [NWDTooltipsAttribute("Select characters to use in message by these tags" +
+        [NWDTooltips("Select characters to use in message by these tags" +
                       "\n •for Fistname : #F0# #F1# …" +
                       "\n •for Lastname : #L0# #L1# …" +
                       "\n •for Nickname : #N0# #N1# …" +
                       "")]
         public NWDReferencesListType<NWDCharacter> ReplaceCharacters { get; set; }
 
-        [NWDTooltipsAttribute("Select Items to use in message by these tags" +
+        [NWDTooltips("Select Items to use in message by these tags" +
                               "\n •for item name #I0# #I1# …" +
                               "\n •for quantity and item name #xI0# #xI1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItem> ReplaceItems { get; set; }
 
-        [NWDTooltipsAttribute("Select Item Packs to use item to describe the Item Packs in message by these tags" +
+        [NWDTooltips("Select Item Packs to use item to describe the Item Packs in message by these tags" +
                               "\n •for item to describe name #G0# #G1# …" +
                               "\n •for quantity and item to describe name #xG0# #xG1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItemPack> ReplaceItemPacks { get; set; }
 
-        [NWDTooltipsAttribute("Select Packs to use item to describe the Pack in message by these tags" +
+        [NWDTooltips("Select Packs to use item to describe the Pack in message by these tags" +
                               "\n •for item to describe name #P0# #P1# …" +
                               "\n •for quantity and item to describe name #xP0# #xP1# …" +
                               "")]

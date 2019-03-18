@@ -113,7 +113,14 @@ namespace NetWorkedData
                         tNewConnection.Parent = this;
                     //}
                     tNewConnection.Property = sProperty;
-                    tNewConnection.AddButton = sButtonAdd;
+                    if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
+                    {
+                        tNewConnection.AddButton = false;
+                    }
+                    else
+                    {
+                        tNewConnection.AddButton = sButtonAdd;
+                    }
                     //int tLine = 0;
                 }
                 foreach (NWDTypeClass tObject in sObjectsArray)
@@ -125,7 +132,14 @@ namespace NetWorkedData
                         tNewConnection.ConType = sConType;
                         tNewConnection.Parent = this;
                         tNewConnection.Property = sProperty;
-                        tNewConnection.AddButton = sButtonAdd;
+                        if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
+                        {
+                            tNewConnection.AddButton = false;
+                        }
+                        else
+                        {
+                            tNewConnection.AddButton = sButtonAdd;
+                        }
                         ConnectionList.Add(tNewConnection);
                     }
                     // Card exist?
@@ -280,8 +294,19 @@ namespace NetWorkedData
                     NWDDataInspector.InspectNetWorkedData(Data, true, true);
                     ParentDocument.SetData(Data);
                 }
-             
-               Data.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
+
+                //NWDBasisHelper.FindTypeInfos(Data.GetType());
+                string tPrefName = "NWDEditorAnalyze_" + Data.GetType().Name;
+                bool tAnalyze = EditorPrefs.GetBool(tPrefName, true);
+                bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDConstants.kEditIconSide * 3 - NWDConstants.kFieldMarge * 3, tY + NWDConstants.kFieldMarge, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), "", tAnalyze);
+                if (tAnalyzeChange != tAnalyze)
+                {
+                    EditorPrefs.SetBool(tPrefName, tAnalyzeChange);
+                    ParentDocument.LoadClasses();
+                    ParentDocument.ReAnalyze();
+                }
+
+                Data.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
               
                 foreach (NWDNodeConnection tConnection in ConnectionList)
                 {

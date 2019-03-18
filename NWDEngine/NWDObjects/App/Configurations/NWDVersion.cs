@@ -38,7 +38,7 @@ namespace NetWorkedData
     public partial class NWDVersion : NWDBasis<NWDVersion>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Information", true, true, true)]
+        [NWDInspectorGroupStart("Information", true, true, true)]
         [NWDTooltips("Version reccord in database. The format is X.XX.XX")]
         public NWDVersionType Version
         {
@@ -58,9 +58,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
         
-        [NWDInspectorGroupStartAttribute("Environment", true, true, true)]
+        [NWDInspectorGroupStart("Environment", true, true, true)]
         [NWDTooltips("This version can be used to build dev environement")]
         public bool ActiveDev
         {
@@ -76,9 +76,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
         
-        [NWDInspectorGroupStartAttribute("Options", true, true, true)]
+        [NWDInspectorGroupStart("Options", true, true, true)]
         [NWDTooltips("This version block data push")]
         public bool BlockDataUpdate
         {
@@ -89,9 +89,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
         
-        [NWDInspectorGroupStartAttribute("Alert depriciated", true, true, true)]
+        [NWDInspectorGroupStart("Alert depriciated", true, true, true)]
         [NWDTooltips("Alert App is depriciated Title")]
         public NWDLocalizableStringType AlertTitle
         {
@@ -107,9 +107,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
         
-        [NWDInspectorGroupStartAttribute("Links", true, true, true)]
+        [NWDInspectorGroupStart("Links", true, true, true)]
 
         [NWDTooltips("Recommendation Subject")]
         public NWDLocalizableTextType RecommendationSubject
@@ -136,9 +136,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
         
-        [NWDInspectorGroupStartAttribute("Links by 'Flash By App' module ", true, true, true)]
+        [NWDInspectorGroupStart("Links by 'Flash By App' module ", true, true, true)]
         //[NWDNotEditable]
         [NWDTooltips("ID to download App in MacOS AppStore")]
         public string OSXStoreID

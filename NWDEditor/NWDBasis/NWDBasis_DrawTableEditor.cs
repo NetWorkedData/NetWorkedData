@@ -48,19 +48,19 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void IntegritySelection()
-        {
-            foreach (K tObject in BasisHelper().EditorTableDatas)
-            {
-                if (tObject.TestIntegrity() == false || tObject.XX > 0)
-                {
-                    if (BasisHelper().EditorTableDatasSelected.ContainsKey(tObject))
-                    {
-                        BasisHelper().EditorTableDatasSelected[tObject] = false;
-                    }
-                }
-            }
-        }
+        //public static void IntegritySelection()
+        //{
+        //    foreach (K tObject in BasisHelper().EditorTableDatas)
+        //    {
+        //        if (tObject.TestIntegrity() == false || tObject.XX > 0)
+        //        {
+        //            if (BasisHelper().EditorTableDatasSelected.ContainsKey(tObject))
+        //            {
+        //                BasisHelper().EditorTableDatasSelected[tObject] = false;
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectInTableList()
         {
@@ -73,7 +73,7 @@ namespace NetWorkedData
             {
                 BasisHelper().EditorTableDatasSelected[tObject] = true;
             }
-            IntegritySelection();
+            //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void DeselectAllObjectInTableList()
@@ -87,7 +87,7 @@ namespace NetWorkedData
             {
                 BasisHelper().EditorTableDatasSelected[tObject] = false;
             }
-            IntegritySelection();
+            //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InverseSelectionOfAllObjectInTableList()
@@ -101,7 +101,7 @@ namespace NetWorkedData
             {
                 BasisHelper().EditorTableDatasSelected[tObject] = !BasisHelper().EditorTableDatasSelected[tObject];
             }
-            IntegritySelection();
+            //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectEnableInTableList()
@@ -116,7 +116,7 @@ namespace NetWorkedData
                 K tObjectK = tObject as K;
                 BasisHelper().EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
             }
-            IntegritySelection();
+            //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectDisableInTableList()
@@ -131,7 +131,7 @@ namespace NetWorkedData
                 K tObjectK = tObject as K;
                 BasisHelper().EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
             }
-            IntegritySelection();
+            //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void FilterTableEditor()
@@ -966,19 +966,50 @@ namespace NetWorkedData
                 // Start Colmun
                 tRect.x = tRectTable.x;
                 tRect.y = tRectTable.y;
-                NWDConstants.GUIRedButtonBegin();
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_RESET_WARNING, NWDConstants.KTableSearchTitle);
+                GUI.Label(tRect, NWDConstants.K_APP_TABLE_SCRIPT, NWDConstants.KTableSearchTitle);
                 tRect.y += tRect.height + NWDConstants.kFieldMarge;
-                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton))
-                //{
-                //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                //    tBasisInspector.mTypeInEdition = ClassType();
-                //    Selection.activeObject = tBasisInspector;
-                //}
-                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton))
+
+
+                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDConstants.KTableSearchButton))
                 {
+                    //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
+                    string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                    RecalculateAllIntegrities();
+                    SetObjectInEdition(null);
+                    BasisHelper().m_SearchInternalName = string.Empty;
+                    BasisHelper().m_SearchInternalDescription = string.Empty;
+                    //ReloadAllObjects ();
+                    //LoadTableEditor ();
+                    LoadFromDatabase();
+                    RestaureDataInEditionByReference(tReference);
+                }
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+
+                 //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton)
+                 //
+                 //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>()
+                 //    tBasisInspector.mTypeInEdition = ClassType()
+                 //    Selection.activeObject = tBasisInspector
+                 //
+                 //NWDConstants.GUIRedButtonBegin()
+                 //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton)
+                 //
+                 //    GUI.FocusControl(null)
+                 //    RecalculateAllIntegrities()
+                 //
+                 //NWDConstants.GUIRedButtonEnd()
+                 //tRect.y += tRect.height + NWDConstants.kFieldMarge
+                 // reset icon of clas
+                 if (GUI.Button(tRect, "Select script", NWDConstants.KTableSearchButton))
+                {
+                   BasisHelper().SelectScript();
+                }
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+                // reset icon of class
+                NWDConstants.GUIRedButtonBegin();
+                if (GUI.Button(tRect, "Reset Icon", NWDConstants.KTableSearchButton))
+                {
+                    BasisHelper().ResetIconByDefaultIcon();
                 }
                 NWDConstants.GUIRedButtonEnd();
                 tRect.y += tRect.height + NWDConstants.kFieldMarge;
@@ -1008,6 +1039,18 @@ namespace NetWorkedData
                     tCleanLocalTableWithAccount = true;
                 }
                 EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+
+                // reintegrate all objects
+                NWDConstants.GUIRedButtonBegin();
+                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton))
+                {
+                    GUI.FocusControl(null);
+                    RecalculateAllIntegrities();
+                }
+                NWDConstants.GUIRedButtonEnd();
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+
                 // Change Colmun
                 tRect.x += tRect.width + NWDConstants.kFieldMarge;
                 tRect.y = tRectTable.y;
@@ -1326,7 +1369,8 @@ namespace NetWorkedData
                foreach (object tObject in tListToReintegrate)
                {
                    NWDBasis<K> tObjectToReintegrate = (NWDBasis<K>)tObject;
-                   tObjectToReintegrate.UpdateIntegrity();
+                   //tObjectToReintegrate.UpdateIntegrity();
+                   tObjectToReintegrate.UpdateData();
                }
                SetObjectInEdition(null);
                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
@@ -1441,7 +1485,7 @@ namespace NetWorkedData
        }
 
             //EditorGUI.DrawRect(rRect, Color.yellow);
-            rRect.height += NWDConstants.KTableSearchTextfield.fixedHeight + NWDConstants.kFieldMarge *2;
+            rRect.height += NWDConstants.KTableSearchTextfield.fixedHeight + NWDConstants.kFieldMarge *3;
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1460,19 +1504,7 @@ namespace NetWorkedData
             // offset the tab bar 
             tRect.y += 50;
 
-            // define some variables
-            //int t_ItemPerPageSelection;
-            //int tRealReference;
-            //int tResultReference;
-            //int tSelectionCount = 0;
-            //foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            //{
-            //    if (tKeyValue.Value == true)
-            //    {
-            //        tSelectionCount++;
-            //    }
-            //}
-            // analyze Rows... if necessary 
+            // if necessary recalcul row informations
             BasisHelper().RowAnalyze();
 
             // Alert Salts are false infos
@@ -1480,17 +1512,20 @@ namespace NetWorkedData
             {
                 tRect.height = NWDConstants.kRowHeight;
                 tRect.y += NWDConstants.kFieldMarge;
-                EditorGUI.HelpBox(tRect, NWDConstants.kAlertSaltShortError, MessageType.Error);
+                Rect tRectInfos  = new Rect(tRect.x + NWDConstants.kFieldMarge, tRect.y, tRect.width - NWDConstants.kFieldMarge*2, tRect.height);
+                EditorGUI.HelpBox(tRectInfos, NWDConstants.kAlertSaltShortError, MessageType.Error);
                 tRect.y += tRect.height + NWDConstants.kFieldMarge;
-                tRect.height = EditorStyles.miniButton.fixedHeight;
-                if (GUI.Button(tRect, NWDConstants.K_APP_CLASS_SALT_REGENERATE, EditorStyles.miniButton))
+                tRect.height = NWDConstants.KTableSearchButton.fixedHeight;
+                Rect tRectButton = new Rect(tRect.x + NWDConstants.kFieldMarge, tRect.y, tRect.width - NWDConstants.kFieldMarge * 2, tRect.height);
+                if (GUI.Button(tRectButton, NWDConstants.K_APP_CLASS_SALT_REGENERATE, NWDConstants.KTableSearchButton))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    GUIUtility.ExitGUI();
                 }
                 tRect.y += tRect.height + NWDConstants.kFieldMarge;
             }
             // Alert warning model infos
-            if (BasisHelper().WebModelChanged == true)
+           if (BasisHelper().WebModelChanged == true)
             {
                 string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 GUIContent tCC = new GUIContent(tTEXTWARNING);

@@ -57,19 +57,19 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Description Item", true, true, true)]
+        [NWDInspectorGroupStart("Description Item", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Items in this Item Pack", true, true, true)]
+        [NWDInspectorGroupStart("Items in this Item Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItem> Items { get; set; }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }

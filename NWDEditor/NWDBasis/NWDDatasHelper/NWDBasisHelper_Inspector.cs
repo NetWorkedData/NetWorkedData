@@ -96,7 +96,7 @@ namespace NetWorkedData
             {
                 bool tDraw = true;
                 bool tNotEditable = NotEditable;
-                foreach (NWDIfAttribute tReference in Property.GetCustomAttributes(typeof(NWDIfAttribute), true))
+                foreach (NWDIf tReference in Property.GetCustomAttributes(typeof(NWDIf), true))
                 {
                     if (tReference.IsDrawable(sObject) == false)
                     {
@@ -115,7 +115,7 @@ namespace NetWorkedData
                     }
                     EditorGUI.BeginDisabledGroup(tNotEditable);
                     // check this propertyheight
-                    if (Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
+                    if (Property.GetCustomAttributes(typeof(NWDEnumString), true).Length > 0)
                     {
                         tY += NWDConstants.tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                     }
@@ -128,11 +128,11 @@ namespace NetWorkedData
                         Type tTypeOfThis = Property.PropertyType;
                         if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                         {
-                            if (Property.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
+                            if (Property.GetCustomAttributes(typeof(NWDLongString), true).Length > 0)
                             {
                                 tY += NWDConstants.tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                             }
-                            else if (Property.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
+                            else if (Property.GetCustomAttributes(typeof(NWDVeryLongString), true).Length > 0)
                             {
                                 tY += NWDConstants.tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
                             }
@@ -209,6 +209,17 @@ namespace NetWorkedData
                             float tHeight = tBTBDataType.ControlFieldHeight();
                             tY += tHeight + NWDConstants.kFieldMarge;
                         }
+                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        {
+                            var tValue = Property.GetValue(sObject, null);
+                            if (tValue == null)
+                            {
+                                tValue = Activator.CreateInstance(tTypeOfThis);
+                            }
+                            BTBDataTypeMask tBTBDataType = (BTBDataTypeMask)tValue;
+                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            tY += tHeight + NWDConstants.kFieldMarge;
+                        }
                         else
                         {
                             tY += NWDConstants.tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -276,7 +287,7 @@ namespace NetWorkedData
             {
                 bool tDraw = true;
                 bool tNotEditable = NotEditable;
-                foreach (NWDIfAttribute tReference in Property.GetCustomAttributes(typeof(NWDIfAttribute), true))
+                foreach (NWDIf tReference in Property.GetCustomAttributes(typeof(NWDIf), true))
                 {
                     if (tReference.IsDrawable(sObject) == false)
                     {
@@ -308,11 +319,11 @@ namespace NetWorkedData
                     EditorGUI.BeginDisabledGroup(tNotEditable);
 
                     //swicth case of type
-                    if (Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
+                    if (Property.GetCustomAttributes(typeof(NWDEnumString), true).Length > 0)
                     {
                         EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
                         tFieldRect.height = NWDConstants.tPopupdStyle.fixedHeight;
-                        NWDEnumStringAttribute tInfo = Property.GetCustomAttributes(typeof(NWDEnumStringAttribute), true)[0] as NWDEnumStringAttribute;
+                        NWDEnumString tInfo = Property.GetCustomAttributes(typeof(NWDEnumString), true)[0] as NWDEnumString;
                         string[] tV = tInfo.mEnumString;
                         string tValue = (string)Property.GetValue(sObject, null);
                         int tValueInt = Array.IndexOf<string>(tV, tValue);
@@ -368,11 +379,11 @@ namespace NetWorkedData
 
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDConstants.kPropertyLabelStyle);
                             float tH = 0;
-                            if (Property.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
+                            if (Property.GetCustomAttributes(typeof(NWDLongString), true).Length > 0)
                             {
                                 tH += NWDConstants.tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                             }
-                            else if (Property.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
+                            else if (Property.GetCustomAttributes(typeof(NWDVeryLongString), true).Length > 0)
                             {
                                 tH += NWDConstants.tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
                             }
@@ -401,7 +412,7 @@ namespace NetWorkedData
                             tFieldRect.height = NWDConstants.tEnumStyle.fixedHeight;
                             Enum tValue = Property.GetValue(sObject, null) as Enum;
                             Enum tValueNext = tValue;
-                            if (Property.GetCustomAttributes(typeof(NWDFlagsEnumAttribute), true).Length > 0)
+                            if (Property.GetCustomAttributes(typeof(NWDFlagsEnum), true).Length > 0)
                             {
                                 tValueNext = EditorGUI.EnumFlagsField(tFieldRect, tValue, NWDConstants.tEnumStyle);
                             }
@@ -438,9 +449,9 @@ namespace NetWorkedData
                             tFieldRect.height = NWDConstants.tIntFieldStyle.fixedHeight;
                             int tValue = (int)Property.GetValue(sObject, null);
                             int tValueNext = tValue;
-                            if (Property.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
+                            if (Property.GetCustomAttributes(typeof(NWDIntSlider), true).Length > 0)
                             {
-                                NWDIntSliderAttribute tSlider = Property.GetCustomAttributes(typeof(NWDIntSliderAttribute), true)[0] as NWDIntSliderAttribute;
+                                NWDIntSlider tSlider = Property.GetCustomAttributes(typeof(NWDIntSlider), true)[0] as NWDIntSlider;
                                 tValueNext = EditorGUI.IntSlider(tFieldRect, tValue, tSlider.mMin, tSlider.mMax);
                             }
                             else
@@ -476,9 +487,9 @@ namespace NetWorkedData
                             tFieldRect.height = NWDConstants.tFloatFieldStyle.fixedHeight;
                             float tValue = (float)Property.GetValue(sObject, null);
                             float tValueNext = tValue;
-                            if (Property.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
+                            if (Property.GetCustomAttributes(typeof(NWDFloatSlider), true).Length > 0)
                             {
-                                NWDFloatSliderAttribute tSlider = Property.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true)[0] as NWDFloatSliderAttribute;
+                                NWDFloatSlider tSlider = Property.GetCustomAttributes(typeof(NWDFloatSlider), true)[0] as NWDFloatSlider;
                                 tValueNext = EditorGUI.Slider(tFieldRect, tValue, tSlider.mMin, tSlider.mMax);
                             }
                             else
@@ -730,22 +741,22 @@ namespace NetWorkedData
                         }
                         tProperty.Property = tProp;
 
-                        foreach (NWDInspectorGroupResetAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupResetAttribute), true))
+                        foreach (NWDInspectorGroupReset tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupReset), true))
                         {
                             tGroup.Elements.Sort((x, y) => x.Order.CompareTo(y.Order));
                             tGroup = InspectorHelper;
                         }
-                        foreach (NWDInspectorGroupEndAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupEndAttribute), true))
+                        foreach (NWDInspectorGroupEnd tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupEnd), true))
                         {
                             tGroup.Elements.Sort((x, y) => x.Order.CompareTo(y.Order));
                             tGroup = tGroup.FromGroup;
                         }
-                        foreach (NWDInspectorSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorSeparatorAttribute), true))
+                        foreach (NWDInspectorSeparator tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorSeparator), true))
                         {
                             tProperty.Separator = true;
                         }
 
-                        foreach (NWDInformationAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInformationAttribute), true))
+                        foreach (NWDInformation tInsideReference in tProp.GetCustomAttributes(typeof(NWDInformation), true))
                         {
                             tProperty.Information = tInsideReference.Content();
                         }
@@ -754,7 +765,7 @@ namespace NetWorkedData
                         //    tProperty.Separator = true;
                         //}
 
-                        foreach (NWDInspectorGroupStartAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupStartAttribute), true))
+                        foreach (NWDInspectorGroupStart tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupStart), true))
                         {
                             NWDBasisHelperElement tElement = new NWDBasisHelperElement();
                             tElement.Order = tGroup.Elements.Count();
@@ -795,15 +806,15 @@ namespace NetWorkedData
                         //tProperty.Name = "(" + tProperty.Order + ")" + tEntitled;
 
                         tProperty.Name = tEntitled;
-                        foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
+                        foreach (NWDSpace tReference in tProp.GetCustomAttributes(typeof(NWDSpace), true))
                         {
                             tProperty.SpaceBefore += NWDConstants.kFieldMarge;
                         }
-                        foreach (NWDTooltipsAttribute tReference in tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true))
+                        foreach (NWDTooltips tReference in tProp.GetCustomAttributes(typeof(NWDTooltips), true))
                         {
                             tProperty.Tooltips+= tReference.ToolsTips;
                         }
-                        foreach (NWDNotEditableAttribute tReference in tProp.GetCustomAttributes(typeof(NWDNotEditableAttribute), true))
+                        foreach (NWDNotEditable tReference in tProp.GetCustomAttributes(typeof(NWDNotEditable), true))
                         {
                             tProperty.NotEditable = true;
                         }
@@ -815,13 +826,13 @@ namespace NetWorkedData
                         {
                             tProperty.Name = "<color=red>[IN DEV]</color> " + tProperty.Name;
                         }
-                        foreach (NWDOrderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDOrderAttribute), true))
+                        foreach (NWDOrder tReference in tProp.GetCustomAttributes(typeof(NWDOrder), true))
                         {
                             tProperty.Order = tReference.Order;
                         }
-                        if (tProp.GetCustomAttributes(typeof(NWDInspectorGroupOrderAttribute), true).Length > 0)
+                        if (tProp.GetCustomAttributes(typeof(NWDInspectorGroupOrder), true).Length > 0)
                         {
-                            foreach (NWDInspectorGroupOrderAttribute tReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupOrderAttribute), true))
+                            foreach (NWDInspectorGroupOrder tReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupOrder), true))
                             {
                                 tProperty.Order = tReference.mGroupOrder;
                                 if (string.IsNullOrEmpty(tReference.mEntitled) == false)

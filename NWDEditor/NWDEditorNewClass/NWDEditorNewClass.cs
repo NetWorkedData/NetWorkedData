@@ -25,6 +25,10 @@ namespace NetWorkedData
     public class NWDEditorNewClass : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+
+        bool ClassSynchronize = true;
+        bool ClassUnityConnection = true;
+
         string ClassBase= string.Empty;
         /// <summary>
         /// The futur name of the class.
@@ -61,6 +65,10 @@ namespace NetWorkedData
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample.cs";
             string tClassExample = File.ReadAllText(tClassExamplePath);
             // replace template by this params
+            if (ClassSynchronize == false)
+            {
+                tClassExample = tClassExample.Replace("[NWDClassServerSynchronizeAttribute(true)]", "[NWDClassServerSynchronizeAttribute(false)]");
+            }
             tClassExample = tClassExample.Replace("NWDExample_Tri", ClassNameTrigramme);
             tClassExample = tClassExample.Replace("NWDExample_Description", ClassNameDescription);
             tClassExample = tClassExample.Replace("NWDExample_MenuName", ClassNameMenuName);
@@ -95,41 +103,51 @@ namespace NetWorkedData
             }
             tClassExample = tClassExample.Replace("//PROPERTIES", tPropertiesLinearize);
             // find the owner classes folder
-            string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder();
-            // write file
+            string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() +"/"+ ClassName;
+            // create directories
+            Directory.CreateDirectory(tOwnerClassesFolderPath);
+            Directory.CreateDirectory(tOwnerClassesFolderPath+ "/Editor");
+            // write file basis
             string tFilePath = tOwnerClassesFolderPath + "/" + ClassName + ".cs";
             File.WriteAllText(tFilePath, tClassExample);
-
-
-            string tClassExamplePath_Connection = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Connection.cs";
-            string tClassExample_Connection = File.ReadAllText(tClassExamplePath_Connection);
-            tClassExample_Connection = tClassExample_Connection.Replace("NWDExample", ClassName);
-            string tFilePath_Connection = tOwnerClassesFolderPath + "/" + ClassName + "_Connection.cs";
-            File.WriteAllText(tFilePath_Connection, tClassExample_Connection);
-
+            // write file connection with unity
+            if (ClassUnityConnection == true)
+            {
+                string tClassExamplePath_Connection = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Connection.cs";
+                string tClassExample_Connection = File.ReadAllText(tClassExamplePath_Connection);
+                tClassExample_Connection = tClassExample_Connection.Replace("NWDExample", ClassName);
+                string tFilePath_Connection = tOwnerClassesFolderPath + "/" + ClassName + "_Connection.cs";
+                File.WriteAllText(tFilePath_Connection, tClassExample_Connection);
+                AssetDatabase.ImportAsset(tFilePath_Connection);
+            }
+            // write file workflow
             string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Workflow.cs";
             string tClassExample_Workflow = File.ReadAllText(tClassExamplePath_Workflow);
             tClassExample_Workflow = tClassExample_Workflow.Replace("NWDExample", ClassName);
             string tFilePath_Workflow = tOwnerClassesFolderPath + "/" + ClassName + "_Workflow.cs";
             File.WriteAllText(tFilePath_Workflow, tClassExample_Workflow);
-
+            // write file editor
             string tClassExamplePath_Editor = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Editor.cs";
             string tClassExample_Editor = File.ReadAllText(tClassExamplePath_Editor);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDExample", ClassName);
             string tFilePath_Editor = tOwnerClassesFolderPath + "/" + ClassName + "_Editor.cs";
             File.WriteAllText(tFilePath_Editor, tClassExample_Editor);
-
+            // write file index example
             string tClassExamplePath_Index = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Index.cs";
             string tClassExample_Index = File.ReadAllText(tClassExamplePath_Index);
             tClassExample_Index = tClassExample_Index.Replace("NWDExample", ClassName);
             string tFilePath_Index = tOwnerClassesFolderPath + "/" + ClassName + "_Index.cs";
             File.WriteAllText(tFilePath_Index, tClassExample_Index);
-
+            // write file PHP extension
             string tClassExamplePath_PHP = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_PHP.cs";
             string tClassExample_PHP = File.ReadAllText(tClassExamplePath_PHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDExample", ClassName);
             string tFilePath_PHP = tOwnerClassesFolderPath + "/" + ClassName + "_PHP.cs";
             File.WriteAllText(tFilePath_PHP, tClassExample_PHP);
+            // write icon to modify
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Resources/Textures/NWDExample.psd";
+            string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + ClassName + ".psd";
+            File.Copy(tIconPath, tIconPathNew);
 
             // flush params
             ClassName = string.Empty;
@@ -140,22 +158,18 @@ namespace NetWorkedData
 
             // import new script
             AssetDatabase.ImportAsset(tFilePath);
-            AssetDatabase.ImportAsset(tFilePath_Connection);
             AssetDatabase.ImportAsset(tFilePath_Workflow);
             AssetDatabase.ImportAsset(tFilePath_Editor);
             AssetDatabase.ImportAsset(tFilePath_Index);
             AssetDatabase.ImportAsset(tFilePath_PHP);
-            // TODO: not working ... must be fix or remove
-            //			GameObject tScript = AssetDatabase.LoadAssetAtPath<GameObject> (tFilePath);
-            //			Selection.activeObject = tScript;
+            AssetDatabase.ImportAsset(tIconPathNew);
+
+            Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
+            EditorGUIUtility.PingObject(Selection.activeObject);
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Raises the enable event.
-        /// </summary>
         public void OnEnable()
         {
-
             titleContent = new GUIContent("New NWDBasis Class generator");
             tListOfType = new List<string>();
             tListOfType.Add(" ");
@@ -171,7 +185,6 @@ namespace NetWorkedData
             Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                    where type.IsSubclassOf(typeof(BTBDataType))
                                    select type).ToArray();
-            //BTBBenchmark.Finish("Launcher() reflexion");
             List<string> tClassPossiblesList = new List<string>();
             foreach (Type tType in tAllNWDTypes)
             {
@@ -184,38 +197,6 @@ namespace NetWorkedData
                     tClassPossiblesList.Add(tType.Name.Replace("`1",""));
                 }
             }
-            //tListOfType.Add("NWDColorType");
-            //tListOfType.Add("NWDGameObjectType");
-            //tListOfType.Add("NWDPrefabType");
-            //tListOfType.Add("NWDSpriteType");
-            //tListOfType.Add("NWDTextureType");
-            //tListOfType.Add("   "); // use as separator remove by ereg
-            //tListOfType.Add("NWDLocalizableStringType");
-            //tListOfType.Add("NWDLocalizableTextType");
-            //tListOfType.Add("NWDLocalizablePrefabType");
-            //tListOfType.Add("    "); // use as separator remove by ereg
-            //tListOfType.Add("NWDDateTimeType");
-            //tListOfType.Add("NWDDateType");
-            //tListOfType.Add("NWDTimeType");
-            //tListOfType.Add("     "); // use as separator remove by ereg
-            //tListOfType.Add("NWDDateTimeRangeType");
-            //tListOfType.Add("NWDTimeRangeType");
-            //tListOfType.Add("      "); // use as separator remove by ereg
-            //tListOfType.Add("NWDDateScheduleType");
-            //tListOfType.Add("NWDDaysOfWeekScheduleType");
-            //tListOfType.Add("NWDDaysScheduleType");
-            //tListOfType.Add("NWDMonthsScheduleType");
-            //tListOfType.Add("NWDHoursScheduleType");
-            //tListOfType.Add("NWDMinutesScheduleType");
-            //tListOfType.Add("       "); // use as separator remove by ereg
-            //tListOfType.Add("NWDGeolocType");
-            //tListOfType.Add("        "); // use as separator remove by ereg
-            //tListOfType.Add("NWDJsonType");
-            //tListOfType.Add("          "); // use as separator remove by ereg
-            //tListOfType.Add("NWDVersionType");
-            //tListOfType.Add("           "); // use as separator remove by ereg
-
-
             tListOfclass = new List<string>();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
@@ -233,18 +214,7 @@ namespace NetWorkedData
                 {
                     tListOfType.Add(tCC+"<K>/" + tTypeName);
                 }
-                //tListOfType.Add("NWDReferenceType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferenceFreeType<K>/" + tTypeName);
-
-                //tListOfType.Add("NWDReferencesArrayType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferencesListType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferencesQuantityType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferencesAmountType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferencesAverageType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferencesConditionalType<K>/" + tTypeName);
-                //tListOfType.Add("NWDReferencesRangeType<K>/" + tTypeName);
             }
-
             tListOfclass.Insert(0, "  ");
             tListOfclass.Insert(0, "NWDBasis");
         }
@@ -267,6 +237,8 @@ namespace NetWorkedData
             // futur class infos
             EditorGUILayout.LabelField("Class informations", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
+            ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
+            ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
             ClassName = tRegExpression.Replace(ClassName, string.Empty);
             if (ClassName.Length < 3)
@@ -276,7 +248,6 @@ namespace NetWorkedData
             }
             else
             {
-                //				TODO: find if Type exists for generic
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                 {
                     if (tType.Name == ClassName)
@@ -293,7 +264,6 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField(" ", "class name is Ok!");
                 }
             }
-
             int tBaseIndex = tListOfclass.IndexOf(ClassBase);
             tBaseIndex = EditorGUILayout.Popup("Base", tBaseIndex, tListOfclass.ToArray());
             if (tBaseIndex >= 0 && tBaseIndex < tListOfclass.Count)

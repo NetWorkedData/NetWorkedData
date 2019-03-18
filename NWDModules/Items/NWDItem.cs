@@ -54,7 +54,7 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        [NWDInspectorGroupStartAttribute("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         [NWDTooltips("The name usable in game for 0 or 1 object")]
         public NWDLocalizableStringType Name
         {
@@ -75,10 +75,10 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
 
-        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
         public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
@@ -91,10 +91,10 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
 
-        [NWDInspectorGroupStartAttribute("Geograpphical", true, true, true)]
+        [NWDInspectorGroupStart("Geograpphical", true, true, true)]
         public NWDReferencesListType<NWDWorld> WorldList
         {
             get; set;
@@ -107,9 +107,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Notifications", true, true, true)]
+        [NWDInspectorGroupStart("Notifications", true, true, true)]
         public NWDItemNotification FirstAcquisitionNotification
         {
             get; set;
@@ -126,22 +126,22 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
 
 
-        [NWDInspectorGroupStartAttribute("Rarity", true, true, true)]
-        [NWDFloatSliderAttribute(0.0F, 1.0F)]
-        [NWDEntitledAttribute("Rarity : float [0,1]")]
+        [NWDInspectorGroupStart("Rarity", true, true, true)]
+        [NWDFloatSlider(0.0F, 1.0F)]
+        [NWDEntitled("Rarity : float [0,1]")]
         public float Rarity
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
 
 
-        [NWDInspectorGroupStartAttribute("Usage", true, true, true)]
+        [NWDInspectorGroupStart("Usage", true, true, true)]
         //[NWDNotEditableAttribute]
         [NWDTooltips("Item is never visible by the player")]
         public bool HiddenInGame
@@ -179,9 +179,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Extensions", true, true, true)]
+        [NWDInspectorGroupStart("Extensions", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity
         {
             get; set;
@@ -190,12 +190,12 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
 
 
-        [NWDInspectorGroupStartAttribute("Assets", true, true, true)]
-        [NWDInspectorHeaderAttribute("Sprites")]
+        [NWDInspectorGroupStart("Assets", true, true, true)]
+        [NWDInspectorHeader("Sprites")]
         public NWDSpriteType PrimarySprite
         {
             get; set;
@@ -208,7 +208,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorHeaderAttribute("Textures")]
+        [NWDInspectorHeader("Textures")]
         public NWDTextureType PrimaryTexture
         {
             get; set;
@@ -221,7 +221,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorHeaderAttribute("Colors")]
+        [NWDInspectorHeader("Colors")]
         public NWDColorType PrimaryColor
         {
             get; set;
@@ -234,7 +234,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorHeaderAttribute("Prefabs")]
+        [NWDInspectorHeader("Prefabs")]
         public NWDPrefabType PrimaryPrefab
         {
             get; set;
@@ -253,11 +253,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
 
 
-        [NWDInspectorGroupStartAttribute("Development addons", true, true, true)]
+        [NWDInspectorGroupStart("Development addons", true, true, true)]
         public string JSON
         {
             get; set;

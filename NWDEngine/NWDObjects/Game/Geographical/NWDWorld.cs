@@ -69,7 +69,7 @@ namespace NetWorkedData
     public partial class NWDWorld : NWDBasis<NWDWorld>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStart("Informations", true, true, true)]
         [NWDTooltips("The name of this world")]
         public NWDWordType WorldType
         {
@@ -89,16 +89,16 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Geographical", true, true, true)]
+        [NWDInspectorGroupStart("Geographical", true, true, true)]
         public NWDReferencesListType<NWDSector> SectorList
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Political Universe", true, true, true)]
+        [NWDInspectorGroupStart("Political Universe", true, true, true)]
         public NWDWordGovernmentType Government
         {
             get; set;

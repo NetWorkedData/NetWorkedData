@@ -19,7 +19,7 @@ namespace NetWorkedData
     public partial class NWDCategory : NWDBasis<NWDCategory>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         [NWDTooltips("The name of this Category")]
         public NWDLocalizableStringType Name
         {
@@ -30,9 +30,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStartAttribute("Arrangement", true, true, true)]
+        [NWDInspectorGroupStart("Arrangement", true, true, true)]
         public NWDReferencesListType<NWDCategory> ParentCategoryList
         {
             get; set;

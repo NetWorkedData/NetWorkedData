@@ -28,15 +28,19 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorHeader("Player Informations")]
+        [NWDCertified]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
+        [NWDCertified]
         public string Nickname
         {
             get; set;
         }
         [NWDNotEditable]
+        [NWDCertified]
+        [NWDTooltips("Unique Nickname is determine by the server. It's guarantied as unique!")]
         public string UniqueNickname
         {
             get; set;

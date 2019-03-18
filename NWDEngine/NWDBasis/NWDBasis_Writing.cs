@@ -283,6 +283,22 @@ namespace NetWorkedData
                     tTemp.SetDouble(tTempDouble);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
+                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                {
+                    BTBDataTypeEnum tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeEnum;
+                    long tTempDouble = 0;
+                    long.TryParse(tValueString, out tTempDouble);
+                    tTemp.SetLong(tTempDouble);
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                {
+                    BTBDataTypeMask tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeMask;
+                    long tTempDouble = 0;
+                    long.TryParse(tValueString, out tTempDouble);
+                    tTemp.SetLong(tTempDouble);
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
                 else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                 {
                     tPropertyInfo.SetValue(this, tValueString, null);

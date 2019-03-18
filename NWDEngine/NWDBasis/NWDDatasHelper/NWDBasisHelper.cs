@@ -110,6 +110,80 @@ namespace NetWorkedData
         public bool RowAnalyzed = false;
         //-------------------------------------------------------------------------------------------------------------
         private Texture2D Texture = null;
+        //-------------------------------------------------------------------------------------------------------------
+        public void SelectScript()
+        {
+            string tLookFor = ClassNamePHP + " t:script";
+            //Debug.Log("Loook for :"+ tLookFor);
+            string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
+            string tPathString = null;
+            foreach (string tGUID in sGUIDs)
+            {
+                string tTemp = AssetDatabase.GUIDToAssetPath(tGUID);
+                //Debug.Log("Scrip at :" + tTemp);
+                if (Path.GetFileName(tTemp) == ClassNamePHP + ".cs")
+                {
+                    tPathString = tTemp;
+                }
+            }
+            if (string.IsNullOrEmpty(tPathString) == false)
+            {
+                //Debug.Log("Scrip find at :" + tPathString);
+                Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(tPathString);
+            }
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            public void ResetIconByDefaultIcon()
+        {
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Resources/Textures/NWDExample.psd";
+            string tLookFor = ClassNamePHP + "";
+            //Debug.Log("Loook for :" + tLookFor);
+            string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
+            string tPathString = null;
+            foreach (string tGUID in sGUIDs)
+            {
+                string tTemp = AssetDatabase.GUIDToAssetPath(tGUID);
+                //Debug.Log("Scrip at :" + tTemp);
+                if (Path.GetFileName(tTemp) == ClassNamePHP + ".png" || Path.GetFileName(tTemp) == ClassNamePHP + ".psd" )
+                {
+                    tPathString = tTemp;
+                }
+            }
+            //Debug.Log("Scrip find at :" + tPathString);
+            if (string.IsNullOrEmpty(tPathString) == false)
+            {
+                // replace file
+                if (Path.GetExtension(tPathString) == "png")
+                {
+                    File.Delete(tPathString);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    File.Copy(tIconPath, tPathFilename + ".psd");
+                    AssetDatabase.ImportAsset(tPathFilename);
+                    Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathFilename);
+                }
+                else
+                {
+                    File.WriteAllBytes( tPathString, File.ReadAllBytes(tIconPath));
+                    AssetDatabase.ImportAsset(tPathString);
+                    Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathString);
+                }
+            }
+            else
+            {
+                string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder();
+                // create directories
+                Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP);
+                Directory.CreateDirectory(tOwnerClassesFolderPath + "/" + ClassNamePHP + "/Editor");
+                // copy file
+                string tPathFilename = tOwnerClassesFolderPath+"/" + ClassNamePHP + "/Editor/" + ClassNamePHP + ".psd";
+                File.Copy(tIconPath, tPathFilename);
+                AssetDatabase.ImportAsset(tPathFilename);
+                Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathFilename);
+            }
+            Texture = null;
+            TextureOfClass();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public Texture2D TextureOfClass()
         {
 #if UNITY_EDITOR
@@ -133,7 +207,7 @@ namespace NetWorkedData
                 // if null  the draw default
                 if (Texture == null)
                 {
-                    Texture = NWDConstants.kImageRed;
+                    Texture = NWDConstants.kImageDefaultIcon;
                 }
             }
 #endif

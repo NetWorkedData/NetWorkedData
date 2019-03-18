@@ -32,7 +32,7 @@ namespace NetWorkedData
         public int AnalyzeStateInfos = 0;
         public int AnalyzeModel = 0;
         public string ModelInfos = string.Empty;
-        protected string ChecklistInfos = string.Empty;
+        //protected string ChecklistInfos = string.Empty;
         protected Texture2D ImageChecklist = NWDConstants.kImageSyncWaiting;
         public int AnalyzeChecklist = 0;
         public int AnalyzeID = 0;
@@ -336,7 +336,10 @@ namespace NetWorkedData
         {
             EditorGUI.DrawRect(sRect, NWDConstants.kTabHeaderColor);
             sRect.width = sRect.width - NWDConstants.kScrollbar;
-            Rect tRect = new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.KTableSearchWidth, sRect.height - NWDConstants.kFieldMarge * 2);
+            Rect tRect = new Rect(sRect.x + NWDConstants.kFieldMarge,
+                 sRect.y + NWDConstants.kFieldMarge,
+                 NWDConstants.KTableSearchWidth,
+                 NWDConstants.KTableSearchToggle.fixedHeight);
             // TODO MOVE THIS CAC
             int tSelectionCount = 0;
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
@@ -459,9 +462,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
+            //Debug.Log("RowAnalyze");
             AnalyzeID = ID;
             AnalyzeModel = WebModel;
-            //Debug.Log("RowAnalyze");
             TestIntegrityResult = TestIntegrity();
             TestWebserviceVersionIsValid = WebserviceVersionIsValid();
             AnalyzePrefab = 1;
@@ -648,13 +651,13 @@ namespace NetWorkedData
                 }
                 if (CheckList.Value != 0)
                 {
-                    ChecklistInfos = "<color=orange>[WIP]</color> ";
+                    //ChecklistInfos = "<color=orange>[WIP]</color> ";
                     ImageChecklist = NWDConstants.kImageCheckWorkInProgress;
                     AnalyzeChecklist = KChecklistWorkInProgress;
                 }
                 else
                 {
-                    ChecklistInfos = "<color=green>[√]</color> ";
+                    //ChecklistInfos = "<color=green>[√]</color> ";
                     ImageChecklist = NWDConstants.kImageCheckValid;
                     AnalyzeChecklist = KChecklistValid;
                 }
@@ -665,6 +668,7 @@ namespace NetWorkedData
             }
             StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_OK;
             AnalyzeStateInfos = KAnalyzeStateEnable;
+            tBoxColor = Color.clear;
             if (TestWebserviceVersionIsValid)
             {
                 if (TestIntegrityResult == false)
@@ -673,6 +677,7 @@ namespace NetWorkedData
                     StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
                     StringRow = "<color=#a52a2aff>" + StringRow + "</color>";
                     AnalyzeStateInfos = KAnalyzeStateCorrupted;
+                    ImageChecklist = NWDConstants.kImageCheckWarning;
                 }
                 else if (XX > 0)
                 {
@@ -680,6 +685,7 @@ namespace NetWorkedData
                     StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
                     StringRow = "<color=#444444ff>" + StringRow + "</color>";
                     AnalyzeStateInfos = KAnalyzeStateTrashed;
+                    ImageChecklist = null;
                 }
                 else
                 {
@@ -689,6 +695,7 @@ namespace NetWorkedData
                         StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
                         StringRow = "<color=#555555ff>" + StringRow + "</color>";
                         AnalyzeStateInfos = KAnalyzeStateDisable;
+                        ImageChecklist = null;
                     }
                     else
                     {
@@ -708,6 +715,7 @@ namespace NetWorkedData
                 ImageChecklist = NWDConstants.kImageCheckWarning;
                 AnalyzeChecklist = KChecklistWarning;
                 AnalyzeStateInfos = KAnalyzeStateWarning;
+                ImageChecklist = NWDConstants.kImageCheckWarning;
             }
             StringRow = StringRow.Replace("()", string.Empty);
             while (StringRow.Contains("  "))

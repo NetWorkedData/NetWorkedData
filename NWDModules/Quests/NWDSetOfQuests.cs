@@ -19,7 +19,7 @@ namespace NetWorkedData
     public partial class NWDSetOfQuests : NWDBasis<NWDSetOfQuests>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Classification", true, true, true)]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds
         {
             get; set;
@@ -36,9 +36,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
        
-        [NWDInspectorGroupStartAttribute("Character and all quests", true, true, true)]
+        [NWDInspectorGroupStart("Character and all quests", true, true, true)]
         public NWDReferenceType<NWDCharacter> CharacterReference
         {
             get; set;

@@ -379,6 +379,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_REINTEGRATE_YES = "Yes";
         public const string K_APP_TABLE_REINTEGRATE_NO = "No";
 
+        public const string K_APP_TABLE_SCRIPT = "Script";
         public const string K_APP_TABLE_RESET_WARNING = "Warning Table";
         public const string K_APP_TABLE_RESET_ZONE = "Reset table";
         public const string K_APP_TABLE_RESET_ALERT = "Warning";
@@ -597,6 +598,9 @@ namespace NetWorkedData
         public static Texture2D kImageEmpty = NWDFindPackage.PackageEditorTexture("NWDEmpty.psd");
         public static Texture2D kImageWaiting = NWDFindPackage.PackageEditorTexture("NWDWaiting.psd");
         public static Texture2D kImageWarning = NWDFindPackage.PackageEditorTexture("NWDWarning.psd");
+
+
+        public static Texture2D kImageDefaultIcon= NWDFindPackage.PackageEditorTexture("NWDExample.psd");
 
 
         public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditorTexture("NWDDiskUnknow.png");

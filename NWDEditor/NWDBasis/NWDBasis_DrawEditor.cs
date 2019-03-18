@@ -916,6 +916,7 @@ namespace NetWorkedData
             tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             NWDConstants.GUIRedButtonBegin();
 
+            EditorGUI.BeginDisabledGroup(IsTrashed());
             if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDConstants.tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
@@ -927,7 +928,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
-
+            EditorGUI.EndDisabledGroup();
 
             if (GUI.Button(new Rect(tX + tButtonWidth * 1 + NWDConstants.kFieldMarge * 1, tY, tButtonWidth, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, NWDConstants.tMiniButtonStyle))
             {
@@ -1023,6 +1024,30 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
+                        if (tBTBDataType.ErrorAnalyze() == true)
+                        {
+                            tErrorResult = true;
+                        }
+                    }
+                }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                {
+                    var tValue = tProp.GetValue(this, null);
+                    if (tValue != null)
+                    {
+                        BTBDataTypeEnum tBTBDataType = tValue as BTBDataTypeEnum;
+                        if (tBTBDataType.ErrorAnalyze() == true)
+                        {
+                            tErrorResult = true;
+                        }
+                    }
+                }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                {
+                    var tValue = tProp.GetValue(this, null);
+                    if (tValue != null)
+                    {
+                        BTBDataTypeMask tBTBDataType = tValue as BTBDataTypeMask;
                         if (tBTBDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;

@@ -29,7 +29,7 @@ namespace NetWorkedData
     public partial class NWDParameter : NWDBasis<NWDParameter>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Informations", true, true, true)]
+        [NWDInspectorGroupStart("Informations", true, true, true)]
         public NWDLocalizableTextType Name
         {
             get; set;

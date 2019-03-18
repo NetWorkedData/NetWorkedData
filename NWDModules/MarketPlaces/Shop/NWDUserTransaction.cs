@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-----------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Detail", true, true, true)]
+        [NWDInspectorGroupStart("Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -66,11 +66,11 @@ namespace NetWorkedData
             get; set;
         }
 
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Items in transaction", true, true, true)]
+        [NWDInspectorGroupStart("Items in transaction", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsReceived
         {
             get; set;
@@ -79,11 +79,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Place ", true, true, true)]
+        [NWDInspectorGroupStart("Place ", true, true, true)]
         public NWDReferenceType<NWDBarterPlace> BarterPlaceReference
         {
             get; set;
@@ -104,11 +104,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
         
 
-        [NWDInspectorGroupStartAttribute("Other", true, true, true)]
+        [NWDInspectorGroupStart("Other", true, true, true)]
         public string Platform
         {
             get; set;

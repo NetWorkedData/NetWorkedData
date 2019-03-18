@@ -20,7 +20,7 @@ namespace NetWorkedData
     public partial class NWDCraftReward : NWDBasis<NWDCraftReward>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStartAttribute("Reward Batch and Quantity", true, true, true)]
+        [NWDInspectorGroupStart("Reward Batch and Quantity", true, true, true)]
         [NWDTooltips("Item conditional to win this reward")]
         public NWDReferencesConditionalType<NWDItem> ItemConditional
         {
