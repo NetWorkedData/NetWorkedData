@@ -14,24 +14,52 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDTypeClass
     {
-        protected Texture2D tImageDisk = NWDConstants.kImageDiskUnknow;
-        protected Texture2D tImageSync = NWDConstants.kImageSyncGeneralWaiting;
-        protected Texture2D tImageDevSync = NWDConstants.kImageSyncRequired;
-        protected Texture2D tImagePreprodSync = NWDConstants.kImageSyncRequired;
-        protected Texture2D tImageProdSync = NWDConstants.kImageSyncRequired;
+        protected Texture2D ImageDisk = NWDConstants.kImageDiskUnknow;
+        protected Texture2D ImageSync = NWDConstants.kImageSyncGeneralWaiting;
+        public int AnalyzeSync = 0;
+        protected Texture2D ImageDevSync = NWDConstants.kImageSyncRequired;
+        public int AnalyzeDevSync = 0;
+        protected Texture2D ImagePreprodSync = NWDConstants.kImageSyncRequired;
+        public int AnalyzePreprodSync = 0;
+        protected Texture2D ImageProdSync = NWDConstants.kImageSyncRequired;
+        public int AnalyzeProdSync = 0;
+        public int AnalyzePrefab = 0;
         protected bool TestIntegrityResult = true;
         protected bool TestWebserviceVersionIsValid = true;
-        protected string tStringRow = string.Empty;
-        protected string sStateInfos = string.Empty;
-        protected string ModelInfos = string.Empty;
+        protected string StringRow = string.Empty;
+        public string StateInfos = string.Empty;
+        public int AnalyzeStateInfos = 0;
+        public int AnalyzeModel = 0;
+        public string ModelInfos = string.Empty;
         protected string ChecklistInfos = string.Empty;
-        protected Texture2D tImageChecklist = NWDConstants.kImageSyncRequired;
+        protected Texture2D ImageChecklist = NWDConstants.kImageSyncRequired;
+        public int AnalyzeChecklist = 0;
+        public int AnalyzeID = 0;
+        public bool AnalyzeSelected = false;
         //GUIStyle tStyleBox = NWDConstants.KTableRowNormal;
         protected Color tBoxColor = Color.clear;
     }
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
+        const int KSyncRequired = -1;
+        const int KSyncWaiting = -2;
+        const int KSyncSuccessed = 0;
+        const int KSyncForbidden = 1;
+        const int KSyncDanger = 2;
+        const int KSyncForward = 3;
+
+        const int KChecklistValid = 1;
+        const int KChecklistWorkInProgress = 2;
+        const int KChecklistWarning = 3;
+
+        const int AnalyzeStateEnable = 0;
+        const int AnalyzeStateDisable = 1;
+        const int AnalyzeStateTrashed = 2;
+        const int AnalyzeStateWarning = 3;
+        const int AnalyzeStateModelError = 8;
+        const int AnalyzeStateCorrupted = 9;
+
         //-------------------------------------------------------------------------------------------------------------
         public static void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
         {
@@ -42,10 +70,16 @@ namespace NetWorkedData
             sRect.x += NWDConstants.kFieldMarge;
             sRect.width = sRect.width - NWDConstants.kScrollbar;
             //EditorGUI.DrawRect(sRect, Color.blue);
-            Rect tRect = new Rect(sRect.x, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kSelectWidth, sRect.height- NWDConstants.kFieldMarge*2);
+            Rect tRect = new Rect(sRect.x, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kSelectWidth, sRect.height - NWDConstants.kFieldMarge * 2);
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDConstants.KTableHeaderSelect))
             {
                 Debug.Log("sort by selected toggle");
+                // Update select in real time
+                foreach (NWDTypeClass tData in BasisHelper().Datas)
+                {
+                    tData.AnalyzeSelected = BasisHelper().EditorTableDatasSelected[tData];
+                }
+                // toogle sort
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySelectAscendant)
                 {
                     BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectDescendant;
@@ -82,7 +116,7 @@ namespace NetWorkedData
                 ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
-            tRect.width = NWDConstants.kPrefabWidth* sZoom;
+            tRect.width = NWDConstants.kPrefabWidth * sZoom;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDConstants.KTableHeaderPrefab))
             {
                 Debug.Log("sort by prefab toggle");
@@ -105,7 +139,7 @@ namespace NetWorkedData
                 - NWDConstants.kFieldMarge
                 - NWDConstants.kIDWidth
                 - NWDConstants.kSelectWidth
-                - NWDConstants.kPrefabWidth * sZoom 
+                - NWDConstants.kPrefabWidth * sZoom
                 - NWDConstants.KTableSearchWidth
                 - NWDConstants.KTableReferenceWidth
                 - NWDConstants.KTableRowWebModelWidth
@@ -138,48 +172,146 @@ namespace NetWorkedData
             if (GUI.Button(tRect, "webservice", NWDConstants.KTableHeaderIcon))
             {
                 Debug.Log("sort by disk webservice");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             tRect.width = NWDConstants.KTableIconWidth;
             if (GUI.Button(tRect, "Check", NWDConstants.KTableHeaderIcon))
             {
                 Debug.Log("sort by disk checklist");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             tRect.width = NWDConstants.KTableIconWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DISK, NWDConstants.KTableHeaderIcon))
             {
-                Debug.Log("sort by disk toggle");
+                Debug.Log("sort by disk toggle ???");
             }
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, NWDConstants.KTableHeaderIcon))
             {
                 Debug.Log("sort by synchro toggle");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, NWDConstants.KTableHeaderIcon))
             {
                 Debug.Log("sort by dev sync toggle");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, NWDConstants.KTableHeaderIcon))
             {
                 Debug.Log("sort by preprod sync toggle");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO, NWDConstants.KTableHeaderIcon))
             {
                 Debug.Log("sort by prod sync toggle");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             tRect.width = NWDConstants.KTableSearchWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_STATUT, NWDConstants.KTableHeaderStatut))
             {
                 Debug.Log("sort by statut toggle");
+                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutAscendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
+                }
+                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutDescendant)
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutAscendant;
+                }
+                else
+                {
+                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
+                }
+                BasisHelper().SortEditorTableDatas();
+                ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += tRect.width;
             tRect.width = NWDConstants.KTableReferenceWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_REFERENCE + " ",NWDConstants.KTableHeaderReference))
+            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_REFERENCE + " ", NWDConstants.KTableHeaderReference))
             {
                 Debug.Log("sort by reference toggle");
                 if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByReferenceAscendant)
@@ -203,9 +335,7 @@ namespace NetWorkedData
         {
             EditorGUI.DrawRect(sRect, NWDConstants.kTabHeaderColor);
             sRect.width = sRect.width - NWDConstants.kScrollbar;
-
             Rect tRect = new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.KTableSearchWidth, sRect.height - NWDConstants.kFieldMarge * 2);
-
             // TODO MOVE THIS CAC
             int tSelectionCount = 0;
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
@@ -215,8 +345,6 @@ namespace NetWorkedData
                     tSelectionCount++;
                 }
             }
-
-
             int t_ItemPerPageSelection = EditorGUI.Popup(tRect, BasisHelper().m_ItemPerPageSelection, BasisHelper().m_ItemPerPageOptions, NWDConstants.KTableSearchEnum);
             if (t_ItemPerPageSelection != BasisHelper().m_ItemPerPageSelection)
             {
@@ -224,7 +352,7 @@ namespace NetWorkedData
             }
             BasisHelper().m_ItemPerPageSelection = t_ItemPerPageSelection;
             tRect.x += NWDConstants.KTableSearchWidth + NWDConstants.kFieldMarge;
-            float tRowZoom = EditorGUI.Slider(tRect, BasisHelper().RowZoom,1.0F,2.0F);
+            float tRowZoom = EditorGUI.Slider(tRect, BasisHelper().RowZoom, 1.0F, 2.0F);
             if (System.Math.Abs(tRowZoom - BasisHelper().RowZoom) > 0.01F)
             {
                 BasisHelper().RowZoom = tRowZoom;
@@ -328,48 +456,49 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
+            AnalyzeID = ID;
+            AnalyzeModel = WebModel;
             //Debug.Log("RowAnalyze");
             TestIntegrityResult = TestIntegrity();
             TestWebserviceVersionIsValid = WebserviceVersionIsValid();
-
+            AnalyzePrefab = 1;
+            if (string.IsNullOrEmpty(Preview))
+            {
+                AnalyzePrefab = 0;
+            }
             string tIsInError = string.Empty;
             //IsInErrorCheck();
             if (InError == true)
             {
                 tIsInError = NWDConstants.K_WARNING;
             }
-
-
-            tStringRow = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
+            StringRow = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
             ModelInfos = "[" + WebModel.ToString() + "/" + WebModelToUse() + "/" + NWDAppConfiguration.SharedInstance().WebBuild + "]";
-
             // verif if object is in error
             if (FromDatabase == true)
             {
-                tImageDisk = NWDConstants.kImageDiskDatabase;
+                ImageDisk = NWDConstants.kImageDiskDatabase;
             }
             switch (WritingPending)
             {
                 case NWDWritingPending.Unknow:
-                    tImageDisk = NWDConstants.kImageDiskUnknow;
+                    ImageDisk = NWDConstants.kImageDiskUnknow;
                     break;
                 case NWDWritingPending.UpdateInMemory:
-                    tImageDisk = NWDConstants.kImageDiskUpdate;
+                    ImageDisk = NWDConstants.kImageDiskUpdate;
                     break;
                 case NWDWritingPending.InsertInMemory:
-                    tImageDisk = NWDConstants.kImageDiskInsert;
+                    ImageDisk = NWDConstants.kImageDiskInsert;
                     break;
                 case NWDWritingPending.DeleteInMemory:
-                    tImageDisk = NWDConstants.kImageDiskDelete;
+                    ImageDisk = NWDConstants.kImageDiskDelete;
                     break;
                 case NWDWritingPending.InDatabase:
-                    tImageDisk = NWDConstants.kImageDiskDatabase;
+                    ImageDisk = NWDConstants.kImageDiskDatabase;
                     break;
             }
-            // Draw Sync State
             bool tDisableProd = false;
             if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
             {
@@ -382,7 +511,7 @@ namespace NetWorkedData
 
             if (DevSync < 0 && PreprodSync < 0 && (ProdSync < 0 || tDisableProd == true))
             {
-                tImageSync = NWDConstants.kImageSyncGeneralForbidden;
+                ImageSync = NWDConstants.kImageSyncGeneralForbidden;
             }
             else
             {
@@ -390,102 +519,124 @@ namespace NetWorkedData
                 {
                     if (DevSync > 1 && PreprodSync < 1 && ProdSync < 1 && DS == DevSync)
                     {
-                        tImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                        ImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                        AnalyzeSync = KSyncSuccessed;
                     }
                     else if (DevSync > 1 && PreprodSync > 1 && ProdSync < 1 && (DS == DevSync || DS == PreprodSync))
                     {
-                        tImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                        ImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                        AnalyzeSync = KSyncSuccessed;
                     }
                     else if (DS < DM)
                     {
-                        tImageSync = NWDConstants.kImageSyncGeneralForward;
+                        ImageSync = NWDConstants.kImageSyncGeneralForward;
+                        AnalyzeSync = KSyncForward;
                     }
                     else
                     {
-                        tImageSync = NWDConstants.kImageSyncGeneralWaiting;
+                        ImageSync = NWDConstants.kImageSyncGeneralWaiting;
+                        AnalyzeSync = KSyncWaiting;
                     }
                 }
             }
             if (DevSync == 0)
             {
-                tImageDevSync = NWDConstants.kImageSyncRequired;
+                ImageDevSync = NWDConstants.kImageSyncRequired;
+                AnalyzeDevSync = KSyncRequired;
             }
             else if (DevSync == 1)
             {
-                tImageDevSync = NWDConstants.kImageSyncWaiting;
+                ImageDevSync = NWDConstants.kImageSyncWaiting;
+                AnalyzeDevSync = KSyncWaiting;
             }
             else if (DevSync > 1)
             {
-                tImageDevSync = NWDConstants.kImageSyncSuccessed;
+                ImageDevSync = NWDConstants.kImageSyncSuccessed;
+                AnalyzeDevSync = KSyncSuccessed;
             }
             else if (DevSync == -1)
             {
-                tImageDevSync = NWDConstants.kImageSyncForbidden;
+                ImageDevSync = NWDConstants.kImageSyncForbidden;
+                AnalyzeDevSync = KSyncForbidden;
             }
             else if (DevSync < -1)
             {
-                tImageDevSync = NWDConstants.kImageSyncDanger;
+                ImageDevSync = NWDConstants.kImageSyncDanger;
+                AnalyzeDevSync = KSyncDanger;
             }
 
             if (PreprodSync == 0)
             {
-                tImagePreprodSync = NWDConstants.kImageSyncRequired;
+                ImagePreprodSync = NWDConstants.kImageSyncRequired;
+                AnalyzePreprodSync = KSyncRequired;
             }
             else if (PreprodSync == 1)
             {
-                tImagePreprodSync = NWDConstants.kImageSyncWaiting;
+                ImagePreprodSync = NWDConstants.kImageSyncWaiting;
+                AnalyzePreprodSync = KSyncWaiting;
             }
             else if (PreprodSync > 1)
             {
                 if (PreprodSync > DevSync)
                 {
-                    tImagePreprodSync = NWDConstants.kImageSyncSuccessed;
+                    ImagePreprodSync = NWDConstants.kImageSyncSuccessed;
+                    AnalyzePreprodSync = KSyncSuccessed;
                 }
                 else
                 {
-                    tImagePreprodSync = NWDConstants.kImageSyncForward;
+                    ImagePreprodSync = NWDConstants.kImageSyncForward;
+                    AnalyzePreprodSync = KSyncForward;
                 }
             }
             else if (PreprodSync == -1)
             {
-                tImagePreprodSync = NWDConstants.kImageSyncForbidden;
+                ImagePreprodSync = NWDConstants.kImageSyncForbidden;
+                AnalyzePreprodSync = KSyncForbidden;
             }
             else if (PreprodSync < -1)
             {
-                tImagePreprodSync = NWDConstants.kImageSyncDanger;
+                ImagePreprodSync = NWDConstants.kImageSyncDanger;
+                AnalyzePreprodSync = KSyncDanger;
             }
             if (tDisableProd == true)
             {
-                tImageProdSync = NWDConstants.kImageSyncForbidden;
+                ImageProdSync = NWDConstants.kImageSyncForbidden;
+                AnalyzeProdSync = KSyncForbidden;
             }
             else
             {
                 if (ProdSync == 0)
                 {
-                    tImageProdSync = NWDConstants.kImageSyncRequired;
+                    ImageProdSync = NWDConstants.kImageSyncRequired;
+                    AnalyzeProdSync = KSyncRequired;
                 }
                 else if (ProdSync == 1)
                 {
-                    tImageProdSync = NWDConstants.kImageSyncWaiting;
+                    ImageProdSync = NWDConstants.kImageSyncWaiting;
+                    AnalyzeProdSync = KSyncWaiting;
                 }
                 if (ProdSync > 1)
                 {
                     if (ProdSync > DevSync && ProdSync > PreprodSync)
                     {
-                        tImageProdSync = NWDConstants.kImageSyncSuccessed;
+                        ImageProdSync = NWDConstants.kImageSyncSuccessed;
+                        AnalyzeProdSync = KSyncSuccessed;
                     }
                     else
                     {
-                        tImageProdSync = NWDConstants.kImageSyncForward;
+                        ImageProdSync = NWDConstants.kImageSyncForward;
+                        AnalyzeProdSync = KSyncForward;
                     }
                 }
                 else if (ProdSync == -1)
                 {
-                    tImageProdSync = NWDConstants.kImageSyncForbidden;
+                    ImageProdSync = NWDConstants.kImageSyncForbidden;
+                    AnalyzeProdSync = KSyncForbidden;
                 }
                 else if (ProdSync < -1)
                 {
-                    tImageProdSync = NWDConstants.kImageSyncDanger;
+                    ImageProdSync = NWDConstants.kImageSyncDanger;
+                    AnalyzeProdSync = KSyncDanger;
                 }
             }
             if (BasisHelper().kAccountDependent == false)
@@ -494,108 +645,72 @@ namespace NetWorkedData
                 {
                     CheckList = new NWDBasisCheckList();
                 }
-                if (CheckList.Value!=0)
+                if (CheckList.Value != 0)
                 {
                     ChecklistInfos = "<color=orange>[WIP]</color> ";
-                    tImageChecklist = NWDConstants.kImageCheckWorkInProgress;
+                    ImageChecklist = NWDConstants.kImageCheckWorkInProgress;
+                    AnalyzeChecklist = KChecklistWorkInProgress;
                 }
                 else
                 {
                     ChecklistInfos = "<color=green>[√]</color> ";
-                    tImageChecklist = NWDConstants.kImageCheckValid;
+                    ImageChecklist = NWDConstants.kImageCheckValid;
+                    AnalyzeChecklist = KChecklistValid;
                 }
             }
-            if (InError == true)
-            {
-               tImageChecklist = NWDConstants.kImageCheckWarning;
-            }
-
-            //if (IsObjectInEdition(this) == true)
-            //{
-            //    tStyleBox = NWDConstants.KTableRowNormalSelected;
-            //    tBoxColor = NWDConstants.kRowColorSelected;
-            //}
-            //else
-            //{
-            //    tStyleBox = NWDConstants.KTableRowNormal;
-            //    tBoxColor = Color.clear;
-            //}
-
-            sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_OK;
-
+            StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_OK;
+            AnalyzeStateInfos = AnalyzeStateEnable;
             if (TestWebserviceVersionIsValid)
             {
                 if (TestIntegrityResult == false)
                 {
                     tBoxColor = NWDConstants.kRowColorError;
-                    //tStyleBox = NWDConstants.KTableRowCorrupted;
-                    //if (IsObjectInEdition(this) == true)
-                    //{
-                    //    tStyleBox = NWDConstants.KTableRowCorruptedSelected;
-                    //    tBoxColor = NWDToolbox.MixColor(tBoxColor, NWDConstants.kRowColorSelected);
-                    //}
-                    //BasisHelper().EditorTableDatasSelected[this] = false;
-                    sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
-                    tStringRow = "<color=#a52a2aff>" + tStringRow + "</color>";
+                    StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
+                    StringRow = "<color=#a52a2aff>" + StringRow + "</color>";
+                    AnalyzeStateInfos = AnalyzeStateCorrupted;
                 }
                 else if (XX > 0)
                 {
                     tBoxColor = NWDConstants.kRowColorTrash;
-                    //tStyleBox = NWDConstants.KTableRowTrashed;
-                    //if (IsObjectInEdition(this) == true)
-                    //{
-                    //    tStyleBox = NWDConstants.KTableRowTrashedSelected;
-                    //    tBoxColor = NWDToolbox.MixColor(tBoxColor, NWDConstants.kRowColorSelected);
-                    //}
-                    //BasisHelper().EditorTableDatasSelected[this] = false;
-                    //GUILayout.Label("   ", GUILayout.Width(NWDConstants.kSelectWidth));
-                    sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
-                    tStringRow = "<color=#444444ff>" + tStringRow + "</color>";
+                    StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
+                    StringRow = "<color=#444444ff>" + StringRow + "</color>";
+                    AnalyzeStateInfos = AnalyzeStateTrashed;
                 }
                 else
                 {
                     if (AC == false)
                     {
                         tBoxColor = NWDConstants.kRowColorDisactive;
-                        //tStyleBox = NWDConstants.KTableRowDisabled;
-                        //if (IsObjectInEdition(this) == true)
-                        //{
-                        //    tStyleBox = NWDConstants.KTableRowDisabledSelected;
-                        //    tBoxColor = NWDToolbox.MixColor(tBoxColor, NWDConstants.kRowColorSelected);
-                        //}
-                        sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
-                        tStringRow = "<color=#555555ff>" + tStringRow + "</color>";
+                        StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
+                        StringRow = "<color=#555555ff>" + StringRow + "</color>";
+                        AnalyzeStateInfos = AnalyzeStateDisable;
                     }
                     else
                     {
-                        sStateInfos = "<color=red>" + tIsInError + "</color>";
+                        StateInfos = "<color=red>" + tIsInError + "</color>";
                     }
                 }
             }
             else
             {
                 tBoxColor = NWDConstants.kRowColorWarning;
-                //tStyleBox = NWDConstants.KTableRowDowngraded;
-                //if (IsObjectInEdition(this) == true)
-                //{
-                //    tStyleBox = NWDConstants.KTableRowDowngradedSelected;
-                //    tBoxColor = NWDToolbox.MixColor(tBoxColor, NWDConstants.kRowColorSelected);
-                //}
-                //BasisHelper().EditorTableDatasSelected[this] = false;
-                ////GUILayout.Label("!~!", GUILayout.Width(NWDConstants.kSelectWidth));
-                sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR;
-                tStringRow = "<color=#cc6600ff>" + tStringRow + "</color>";
+                StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR;
+                StringRow = "<color=#cc6600ff>" + StringRow + "</color>";
+                AnalyzeStateInfos = AnalyzeStateModelError;
             }
-
-            tStringRow = tStringRow.Replace("()", string.Empty);
-
-
-
-            while (tStringRow.Contains("  "))
+            if (InError == true)
             {
-                tStringRow = tStringRow.Replace("  ", " ");
+                ImageChecklist = NWDConstants.kImageCheckWarning;
+                AnalyzeChecklist = KChecklistWarning;
+                AnalyzeStateInfos = AnalyzeStateWarning;
             }
-        }//-------------------------------------------------------------------------------------------------------------
+            StringRow = StringRow.Replace("()", string.Empty);
+            while (StringRow.Contains("  "))
+            {
+                StringRow = StringRow.Replace("  ", " ");
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public Rect DrawRowInEditorLayout(Vector2 sMouseClickPosition, EditorWindow sEditorWindow, bool sSelectAndClick, int sRow)
         //{
         //    float tWidthUsed = sEditorWindow.position.width - 20;
@@ -671,10 +786,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Rect DrawRowInEditor(Vector2 sMouseClickPosition, EditorWindow sEditorWindow, bool sSelectAndClick, int sRow, float sZoom)
         {
-            Rect tRectRow = new Rect(0,NWDConstants.kRowHeight* sRow* sZoom, sEditorWindow.position.width, NWDConstants.kRowHeight* sZoom);
+            Rect tRectRow = new Rect(0, NWDConstants.kRowHeight * sRow * sZoom, sEditorWindow.position.width, NWDConstants.kRowHeight * sZoom);
             Rect tRectRowLine = new Rect(0, NWDConstants.kRowHeight * sRow * sZoom, sEditorWindow.position.width, 1);
-            Rect tRectRowLineB = new Rect(0, NWDConstants.kRowHeight * (sRow+1) * sZoom, sEditorWindow.position.width, 1);
-            Rect tRect = new Rect(NWDConstants.kFieldMarge, NWDConstants.kRowHeight * sRow * sZoom, 0, NWDConstants.kRowHeight* sZoom);
+            Rect tRectRowLineB = new Rect(0, NWDConstants.kRowHeight * (sRow + 1) * sZoom, sEditorWindow.position.width, 1);
+            Rect tRect = new Rect(NWDConstants.kFieldMarge, NWDConstants.kRowHeight * sRow * sZoom, 0, NWDConstants.kRowHeight * sZoom);
             EditorGUI.DrawRect(tRectRow, tBoxColor);
             if (IsObjectInEdition(this) == true)
             {
@@ -699,22 +814,26 @@ namespace NetWorkedData
             string tStringReference = "[" + Reference + "]";
             // Draw toogle
             tRect.width = NWDConstants.kSelectWidth;
-            BasisHelper().EditorTableDatasSelected[this] = EditorGUI.ToggleLeft(tRect, "",BasisHelper().EditorTableDatasSelected[this]);
+            float tToggleFix = (NWDConstants.kRowHeight * sZoom - NWDConstants.KTableRowSelect.fixedHeight) / 2.0F;
+            Rect tRectToogle = new Rect(tRect.x, tRect.y + tToggleFix, tRect.width, NWDConstants.kRowHeight * sZoom);
+            //EditorGUI.DrawRect(tRectToogle, Color.red);
+
+            BasisHelper().EditorTableDatasSelected[this] = EditorGUI.ToggleLeft(tRectToogle, "", BasisHelper().EditorTableDatasSelected[this]);
             tRect.x += NWDConstants.kSelectWidth;
             // Draw ID
             tRect.width = NWDConstants.kIDWidth;
-            GUI.Label(tRect,ID.ToString(), NWDConstants.KTableRowId);
+            GUI.Label(tRect, ID.ToString(), NWDConstants.KTableRowId);
             tRect.x += NWDConstants.kIDWidth;
             // Draw prefab
-            tRect.width = NWDConstants.kPrefabWidth* sZoom;
-            DrawPreviewTexture2D(new Rect(tRect.x+ NWDConstants.kFieldMarge, tRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabWidth * sZoom- +NWDConstants.kFieldMarge*2, NWDConstants.kRowHeight * sZoom- +NWDConstants.kFieldMarge*2));
+            tRect.width = NWDConstants.kPrefabWidth * sZoom;
+            DrawPreviewTexture2D(new Rect(tRect.x + NWDConstants.kFieldMarge, tRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabWidth * sZoom - +NWDConstants.kFieldMarge * 2, NWDConstants.kRowHeight * sZoom - +NWDConstants.kFieldMarge * 2));
             tRect.x += NWDConstants.kPrefabWidth * sZoom;
             // Draw Informations
             tRect.width = sEditorWindow.position.width
-                - NWDConstants.kFieldMarge 
+                - NWDConstants.kFieldMarge
                 - NWDConstants.kScrollbar
                 - NWDConstants.kSelectWidth
-                - NWDConstants.kIDWidth 
+                - NWDConstants.kIDWidth
                 - NWDConstants.kPrefabWidth * sZoom
                 - NWDConstants.KTableIconWidth * 6
                 - NWDConstants.KTableSearchWidth
@@ -724,7 +843,7 @@ namespace NetWorkedData
             {
                 tRect.width = NWDConstants.KTableSearchWidth;
             }
-            GUI.Label(tRect,tStringRow, NWDConstants.KTableRowInformations);
+            GUI.Label(tRect, StringRow, NWDConstants.KTableRowInformations);
             tRect.x += tRect.width;
             // Draw Disk State
             tRect.width = NWDConstants.KTableRowWebModelWidth;
@@ -732,27 +851,27 @@ namespace NetWorkedData
             tRect.x += NWDConstants.KTableRowWebModelWidth;
             // draw check
             tRect.width = NWDConstants.KTableIconWidth;
-            GUI.Label(tRect, tImageChecklist, NWDConstants.KTableRowIcon);
+            GUI.Label(tRect, ImageChecklist, NWDConstants.KTableRowIcon);
             tRect.x += NWDConstants.KTableIconWidth;
             // draw disk
             tRect.width = NWDConstants.KTableIconWidth;
-            GUI.Label(tRect,tImageDisk, NWDConstants.KTableRowIcon);
+            GUI.Label(tRect, ImageDisk, NWDConstants.KTableRowIcon);
             tRect.x += NWDConstants.KTableIconWidth;
             // Draw Sync State
-            GUI.Label(tRect, tImageSync, NWDConstants.KTableRowIcon);
+            GUI.Label(tRect, ImageSync, NWDConstants.KTableRowIcon);
             tRect.x += NWDConstants.KTableIconWidth;
             // Draw Dev Sync State
-            GUI.Label(tRect, tImageDevSync, NWDConstants.KTableRowIcon);
+            GUI.Label(tRect, ImageDevSync, NWDConstants.KTableRowIcon);
             tRect.x += NWDConstants.KTableIconWidth;
             // Draw Preprod Sync State
-            GUI.Label(tRect, tImagePreprodSync, NWDConstants.KTableRowIcon);
+            GUI.Label(tRect, ImagePreprodSync, NWDConstants.KTableRowIcon);
             tRect.x += NWDConstants.KTableIconWidth;
             // Draw Prod Sync State
-            GUI.Label(tRect, tImageProdSync, NWDConstants.KTableRowIcon);
+            GUI.Label(tRect, ImageProdSync, NWDConstants.KTableRowIcon);
             tRect.x += NWDConstants.KTableIconWidth;
             // Draw State
             tRect.width = NWDConstants.KTableSearchWidth;
-            GUI.Label(tRect, sStateInfos, NWDConstants.KTableRowStatut);
+            GUI.Label(tRect, StateInfos, NWDConstants.KTableRowStatut);
             tRect.x += NWDConstants.KTableSearchWidth;
             // Draw Reference
             tRect.width = NWDConstants.KTableReferenceWidth;

@@ -1441,7 +1441,7 @@ namespace NetWorkedData
         /// </summary>
         public static void DrawTableEditor(EditorWindow sEditorWindow)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             Rect tRect = new Rect(0, 0, sEditorWindow.position.width, 0);
             // offset the tab bar 
             tRect.y += 50;
@@ -1828,8 +1828,7 @@ namespace NetWorkedData
                 */
                 // ===========================================
             }
-
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -41,8 +41,8 @@ namespace NetWorkedData
         BySyncDescendant,
         ByDevSyncAscendant,
         ByDevSyncDescendant,
-        ByPreProdSyncAscendant,
-        ByPreProdSyncDescendant,
+        ByPreprodSyncAscendant,
+        ByPreprodSyncDescendant,
         ByProdSyncAscendant,
         ByProdSyncDescendant,
         ByStatutAscendant,
@@ -313,7 +313,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SortEditorTableDatas()
         {
+            // first sort to order result constant
+            EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
+            // reccord the new pref!
             EditorPrefs.SetInt(ClassNamePHP+"_SortEditor",(int)SortType);
+            // procced!
             switch (SortType)
             {
                 case NWDBasisEditorDatasSortType.None:
@@ -322,18 +326,23 @@ namespace NetWorkedData
                     break;
                 case NWDBasisEditorDatasSortType.ByIDAscendant:
                     {
+                        //Allready did! at first line!
+                        //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByIDDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeID.CompareTo(x.AnalyzeID));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByPrefabAscendant:
                     {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzePrefab.CompareTo(y.AnalyzePrefab));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByPrefabDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzePrefab.CompareTo(x.AnalyzePrefab));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByInternalKeyAscendant:
@@ -348,42 +357,52 @@ namespace NetWorkedData
                     break;
                 case NWDBasisEditorDatasSortType.BySyncAscendant:
                     {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeSync.CompareTo(y.AnalyzeSync));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.BySyncDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeSync.CompareTo(x.AnalyzeSync));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByDevSyncAscendant:
                     {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeDevSync.CompareTo(y.AnalyzeDevSync));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByDevSyncDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeDevSync.CompareTo(x.AnalyzeDevSync));
                     }
                     break;
-                case NWDBasisEditorDatasSortType.ByPreProdSyncAscendant:
+                case NWDBasisEditorDatasSortType.ByPreprodSyncAscendant:
                     {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzePreprodSync.CompareTo(y.AnalyzePreprodSync));
                     }
                     break;
-                case NWDBasisEditorDatasSortType.ByPreProdSyncDescendant:
+                case NWDBasisEditorDatasSortType.ByPreprodSyncDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzePreprodSync.CompareTo(x.AnalyzePreprodSync));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByProdSyncAscendant:
                     {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeProdSync.CompareTo(y.AnalyzeProdSync));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByProdSyncDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeProdSync.CompareTo(x.AnalyzeProdSync));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByStatutAscendant:
                     {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeStateInfos.CompareTo(y.AnalyzeStateInfos));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByStatutDescendant:
                     {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeStateInfos.CompareTo(x.AnalyzeStateInfos));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByReferenceAscendant:
@@ -394,7 +413,36 @@ namespace NetWorkedData
                 case NWDBasisEditorDatasSortType.ByReferenceDescendant:
                     {
                         EditorTableDatas.Sort((x, y) => string.Compare(y.ReferenceValue(), x.ReferenceValue(), StringComparison.OrdinalIgnoreCase));
-
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.BySelectAscendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeSelected.CompareTo(y.AnalyzeSelected));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.BySelectDescendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeSelected.CompareTo(x.AnalyzeSelected));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByChecklistAscendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeChecklist.CompareTo(y.AnalyzeChecklist));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByChecklistDescendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeChecklist.CompareTo(x.AnalyzeChecklist));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByModelAscendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => x.AnalyzeModel.CompareTo(y.AnalyzeModel));
+                    }
+                    break;
+                case NWDBasisEditorDatasSortType.ByModelDescendant:
+                    {
+                        EditorTableDatas.Sort((x, y) => y.AnalyzeModel.CompareTo(x.AnalyzeModel));
                     }
                     break;
             }

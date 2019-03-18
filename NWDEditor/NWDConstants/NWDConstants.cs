@@ -1110,18 +1110,22 @@ namespace NetWorkedData
                 KTableRowStatut = new GUIStyle(EditorStyles.label);
                 KTableRowReference = new GUIStyle(EditorStyles.label);
 
+                KTableRowSelect.fixedHeight = KTableRowSelect.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
+                KTableRowSelect.alignment = TextAnchor.MiddleCenter;
+                KTableRowPrefab.alignment = TextAnchor.MiddleCenter;
+                KTableRowId.alignment = TextAnchor.MiddleRight;
+                KTableRowIcon.alignment = TextAnchor.MiddleCenter;
+                KTableRowInformations.alignment = TextAnchor.MiddleLeft;
+                KTableRowStatut.alignment = TextAnchor.MiddleCenter;
+                KTableRowReference.alignment = TextAnchor.MiddleRight;
 
                 KTableRowIcon.richText=true;
                 KTableRowInformations.richText = true;
                 KTableRowStatut.richText = true;
-                KTableRowStatut.alignment = TextAnchor.UpperCenter;
 
-                KTableRowIcon.alignment = TextAnchor.MiddleCenter;
                 KTableRowIcon.padding = new RectOffset(10, 10, 10, 10);
-                KTableRowInformations.richText = true;
                 KTableRowInformations.wordWrap = true;
-                KTableRowId.alignment = TextAnchor.UpperRight;
-                KTableRowReference.alignment = TextAnchor.UpperRight;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
