@@ -129,6 +129,7 @@ namespace NetWorkedData
             if (string.IsNullOrEmpty(tPathString) == false)
             {
                 //Debug.Log("Scrip find at :" + tPathString);
+                EditorUtility.FocusProjectWindow();
                 Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(tPathString);
             }
         }
@@ -159,12 +160,14 @@ namespace NetWorkedData
                     string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
                     File.Copy(tIconPath, tPathFilename + ".psd");
                     AssetDatabase.ImportAsset(tPathFilename);
+                    EditorUtility.FocusProjectWindow();
                     Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathFilename);
                 }
                 else
                 {
                     File.WriteAllBytes( tPathString, File.ReadAllBytes(tIconPath));
                     AssetDatabase.ImportAsset(tPathString);
+                    EditorUtility.FocusProjectWindow();
                     Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathString);
                 }
             }
@@ -178,6 +181,7 @@ namespace NetWorkedData
                 string tPathFilename = tOwnerClassesFolderPath+"/" + ClassNamePHP + "/Editor/" + ClassNamePHP + ".psd";
                 File.Copy(tIconPath, tPathFilename);
                 AssetDatabase.ImportAsset(tPathFilename);
+                EditorUtility.FocusProjectWindow();
                 Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(tPathFilename);
             }
             Texture = null;

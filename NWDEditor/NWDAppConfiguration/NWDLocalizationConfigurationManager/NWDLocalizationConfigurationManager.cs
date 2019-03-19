@@ -122,6 +122,8 @@ namespace NetWorkedData
                 tResult.Add("en");
             }
             tResult.Sort();
+            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDConstants.GUILayoutLine();
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_BUNDLENAMEE_AREA, NWDConstants.kLabelTitleStyle);
             GUILayout.Label("Experimental : localizate the bundle IOS and MacOS app name.", EditorStyles.helpBox);
             foreach (string tLang in tResult)
@@ -132,6 +134,8 @@ namespace NetWorkedData
                 }
                 NWDAppConfiguration.SharedInstance().BundleName[tLang] = EditorGUILayout.TextField(tLang, NWDAppConfiguration.SharedInstance().BundleName[tLang]);
             }
+            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDConstants.GUILayoutLine();
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA, NWDConstants.kLabelTitleStyle);
             GUILayout.Label("Select the default language of the app.", EditorStyles.helpBox);
             int tIndex = tResult.IndexOf(NWDAppConfiguration.SharedInstance().ProjetcLanguage);
@@ -147,8 +151,9 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString = tNewLanguages;
                 NWDDataInspector.ActiveRepaint();
             }
+            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDConstants.GUILayoutLine();
             GUILayout.Label("Special localizations operations", NWDConstants.kLabelTitleStyle);
-
             GUILayout.Label("Reorder all localizations for all datas (to see the same order in all datas).", EditorStyles.helpBox);
             if (GUILayout.Button("Reorder all localizations"))
             {

@@ -151,6 +151,8 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
             }
             // Database informations
+            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDConstants.GUILayoutLine();
             GUILayout.Label("Databases", NWDConstants.kLabelTitleStyle);
             GUILayout.Label("Databases parameters", NWDConstants.kLabelSubTitleStyle);
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);

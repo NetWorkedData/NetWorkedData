@@ -295,7 +295,7 @@ namespace NetWorkedData
             float rReturn = sRect.height;
             float tWidth = sRect.width;
             float tTabWidth = 35.0f;
-            float tPopupWidth = 60.0f;
+            //float tPopupWidth = 60.0f;
             int tToogleToListPageLimit = (int)Math.Floor(tWidth / tTabWidth);
             //GUILayout.Space(NWDConstants.KTablePageMarge);
             Rect tRect = new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, sRect.width - NWDConstants.kFieldMarge * 2, EditorStyles.toolbar.fixedHeight);
@@ -1038,7 +1038,7 @@ namespace NetWorkedData
                 // Start Colmun
                 tRect.x = tRectTable.x;
                 tRect.y = tRectTable.y;
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_SCRIPT, NWDConstants.KTableSearchTitle);
+                GUI.Label(tRect, NWDConstants.K_APP_TABLE_TOOLS, NWDConstants.KTableSearchTitle);
                 tRect.y += tRect.height + NWDConstants.kFieldMarge;
 
 

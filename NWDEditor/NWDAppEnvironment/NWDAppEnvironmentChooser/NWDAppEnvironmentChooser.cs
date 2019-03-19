@@ -22,6 +22,7 @@ namespace NetWorkedData
         /// The icon and title.
         /// </summary>
         GUIContent IconAndTitle;
+        Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
@@ -82,6 +83,7 @@ namespace NetWorkedData
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
             int tTabSelected = -1;
@@ -138,6 +140,7 @@ namespace NetWorkedData
                 }
             }
             // Show version selected
+            EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
             NWDAccount tAccount = NWDAccount.CurrentAccount();
             if (tAccount != null)
@@ -206,6 +209,7 @@ namespace NetWorkedData
                 }
                 EditorGUI.indentLevel--;
             }
+            GUILayout.EndScrollView();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -379,7 +379,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_REINTEGRATE_YES = "Yes";
         public const string K_APP_TABLE_REINTEGRATE_NO = "No";
 
-        public const string K_APP_TABLE_SCRIPT = "Script";
+        public const string K_APP_TABLE_TOOLS = "Tools";
         public const string K_APP_TABLE_RESET_WARNING = "Warning Table";
         public const string K_APP_TABLE_RESET_ZONE = "Reset table";
         public const string K_APP_TABLE_RESET_ALERT = "Warning";
@@ -973,7 +973,7 @@ namespace NetWorkedData
 
                 kLabelSubTitleStyle = new GUIStyle(EditorStyles.label);
                 kLabelSubTitleStyle.fontSize = 12;
-                kLabelSubTitleStyle.fontStyle = FontStyle.Bold;
+                kLabelSubTitleStyle.fontStyle = FontStyle.Italic;
                 kLabelSubTitleStyle.normal.background = new Texture2D(1, 1);
                 Color tGrayLabelSubTitleStyle = new Color(0, 0, 0, 0.1F);
                 kLabelSubTitleStyle.normal.background.SetPixel(0, 0, tGrayLabelSubTitleStyle);
