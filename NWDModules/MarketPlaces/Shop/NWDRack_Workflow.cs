@@ -11,43 +11,25 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ITP")]
-    [NWDClassDescriptionAttribute("Item Pack descriptions Class")]
-    [NWDClassMenuNameAttribute("Item Pack")]
-    public partial class NWDItemPack : NWDBasis<NWDItemPack>
-    {
+	[NWDClassServerSynchronizeAttribute (true)]
+	[NWDClassTrigrammeAttribute ("RCK")]
+	[NWDClassDescriptionAttribute ("Rack descriptions Class")]
+	[NWDClassMenuNameAttribute ("Rack")]
+	public partial class NWDRack :NWDBasis <NWDRack>
+	{
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Description Item", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem
+		public NWDRack()
         {
-            get; set;
+            //Debug.Log("NWDRack Constructor");
         }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Items in this Item Pack", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> Items
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDRack(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            get; set;
+            //Debug.Log("NWDRack Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
         {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> Categories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> Families
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> Keywords
-        {
-            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

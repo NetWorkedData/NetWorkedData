@@ -1,80 +1,91 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using NetWorkedData;
 using BasicToolBox;
 using System;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class NWDStatsScript : MonoBehaviour
+//=====================================================================================================================
+namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
-    public NWDStatisticKeyConnection StatKeyConnection;
-    private NWDStatisticKey StatKey;
-    public bool AutoCountDuration = false;
-    public bool AutoExecuteQueue = true;
-    public float IncrementValue = 1.0F;
-    private DateTime StartDateTime;
-    //-------------------------------------------------------------------------------------------------------------
-    public void Increment()
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDStatsScript : MonoBehaviour
     {
-        if (StatKey != null && AutoCountDuration == false)
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDStatisticKeyConnection StatKeyConnection;
+        private NWDStatisticKey StatKey;
+        public bool AutoCountDuration = false;
+        public bool AutoExecuteQueue = true;
+        public float IncrementValue = 1.0F;
+        private DateTime StartDateTime;
+        //-------------------------------------------------------------------------------------------------------------
+        public void Increment()
         {
-            StatKey.AddEnter(IncrementValue);
+            if (StatKey != null && AutoCountDuration == false)
+            {
+                StatKey.AddEnter(IncrementValue);
+            }
         }
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    public void StartChrono()
-    {
-        Debug.Log("NWDStatsScript StartChrono()");
-        StartDateTime = DateTime.Now;
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    public void StopChrono()
-    {
-        Debug.Log("NWDStatsScript StopChrono()");
-        double tStart = BTBDateHelper.ConvertToTimestamp(StartDateTime);
-        double tFinish = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
-        float rDelta = (float)(tFinish - tStart);
-        if (StatKey != null)
+        //-------------------------------------------------------------------------------------------------------------
+        public void StartChrono()
         {
-            StatKey.AddEnter(rDelta);
+            //Debug.Log("NWDStatsScript StartChrono()");
+            StartDateTime = DateTime.Now;
         }
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    void Awake()
-    {
-        StatKey = StatKeyConnection.GetObject();
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    void Update()
-    {
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    void OnEnable()
-    {
-        //BTBBenchmark.Start();
-        if (AutoCountDuration == true)
+        //-------------------------------------------------------------------------------------------------------------
+        public void StopChrono()
         {
-            StartChrono();
+            //Debug.Log("NWDStatsScript StopChrono()");
+            double tStart = BTBDateHelper.ConvertToTimestamp(StartDateTime);
+            double tFinish = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            float rDelta = (float)(tFinish - tStart);
+            if (StatKey != null)
+            {
+                StatKey.AddEnter(rDelta);
+            }
         }
-        //BTBBenchmark.Finish();
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    void OnDisable()
-    {
-        //BTBBenchmark.Start();
-        if (AutoCountDuration == true)
+        //-------------------------------------------------------------------------------------------------------------
+        void Awake()
         {
-            StopChrono();
+            StatKey = StatKeyConnection.GetObject();
         }
-        if (AutoExecuteQueue == true)
+        //-------------------------------------------------------------------------------------------------------------
+        void Update()
         {
-            NWDDataManager.SharedInstance().DataQueueExecute();
         }
-        //BTBBenchmark.Finish();
+        //-------------------------------------------------------------------------------------------------------------
+        void OnEnable()
+        {
+            //BTBBenchmark.Start();
+            if (AutoCountDuration == true)
+            {
+                StartChrono();
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnDisable()
+        {
+            //BTBBenchmark.Start();
+            if (AutoCountDuration == true)
+            {
+                StopChrono();
+            }
+            if (AutoExecuteQueue == true)
+            {
+                NWDDataManager.SharedInstance().DataQueueExecute();
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//=====================================================================================================================

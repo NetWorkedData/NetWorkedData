@@ -1,0 +1,55 @@
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using UnityEngine;
+using BasicToolBox;
+#if UNITY_EDITOR
+using UnityEditor;
+
+//=====================================================================================================================
+namespace NetWorkedData
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+
+            float tYadd = 20.0f;
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Copy-paste hash from selected TradeRequest", tMiniButtonStyle))
+            {
+                Debug.Log("YES ? or Not " + TradeRequest.Value);
+                NWDUserTradeRequest tRequest = TradeRequest.GetObjectAbsolute();
+                if (tRequest != null)
+                {
+                    Debug.Log("YES");
+                    TradeRequestHash = tRequest.TradeHash;
+                }
+            }
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+//=====================================================================================================================
+#endif

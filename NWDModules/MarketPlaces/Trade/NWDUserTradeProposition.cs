@@ -11,10 +11,6 @@ using BasicToolBox;
 using System.Collections.Generic;
 using System;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -29,372 +25,54 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         [NWDAlias("TradePlace")]
-        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace
+        {
+            get; set;
+        }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Trade References", true, true, true)]
         [NWDAlias("TradeRequest")]
-        public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
+        public NWDReferenceType<NWDUserTradeRequest> TradeRequest
+        {
+            get; set;
+        }
         [NWDAlias("ItemsProposed")]
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed
+        {
+            get; set;
+        }
         [NWDAlias("ItemsAsked")]
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked
+        {
+            get; set;
+        }
         [NWDAlias("TradeStatus")]
-        public NWDTradeStatus TradeStatus { get; set; }
+        public NWDTradeStatus TradeStatus
+        {
+            get; set;
+        }
         [NWDNotEditable]
         [NWDAlias("TradeRequestHash")]
-        public string TradeRequestHash { get; set; }
-        //[NWDGroupEnd]
+        public string TradeRequestHash
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeProposalBlock(bool error, NWDTradeStatus status, NWDOperationResult result);
         public tradeProposalBlock tradeProposalBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         private NWDMessage Message;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeProposition()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserTradeProposition CreateTradeProposalWith(NWDUserTradeRequest sRequest)
-        {
-            // Create a new Proposal
-            NWDUserTradeProposition rProposition = FindEmptySlot();
-
-            #if UNITY_EDITOR
-            NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
-            rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tTrade.InternalKey;
-            #endif
-            rProposition.Tag = NWDBasisTag.TagUserCreated;
-            rProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
-            rProposition.TradeRequest.SetObject(sRequest);
-            rProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
-            rProposition.ItemsAsked.SetReferenceAndQuantity(sRequest.ItemsAsked.GetReferenceAndQuantity());
-            rProposition.TradeStatus = NWDTradeStatus.Submit;
-            rProposition.TradeRequestHash = sRequest.TradeHash;
-            rProposition.SaveData();
-
-            return rProposition;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SyncTradeProposal(NWDMessage sMessage = null)
-        {
-            // Keep Message for futur used
-            Message = sMessage;
-
-            // Sync NWDUserTradeProposal
-            SynchronizationFromWebService(TradeProposalSuccessBlock, TradeProposalFailedBlock);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void CancelProposal()
-        {
-            TradeStatus = NWDTradeStatus.Cancel;
-            SaveData();
-
-            // Sync NWDUserTradeProposal
-            SynchronizationFromWebService(TradeProposalSuccessBlock, TradeProposalFailedBlock);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void TradeProposalFailedBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
-        {
-            if (tradeProposalBlockDelegate != null)
-            {
-                NWDOperationResult tResult = sResult as NWDOperationResult;
-                tradeProposalBlockDelegate(true, NWDTradeStatus.None, tResult);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void TradeProposalSuccessBlock(BTBOperation sOperation, float sProgress, BTBOperationResult sResult)
-        {
-            // Keep TradeStatus before Clean()
-            NWDTradeStatus tTradeStatus = TradeStatus;
-
-            // Notify the seller with an Inter Message
-            if (Message != null)
-            {
-                NWDUserTradeRequest tTrade = TradeRequest.GetObjectAbsolute();
-                if (tTrade != null)
-                {
-                    NWDUserInterMessage.SendMessage(Message, tTrade.Account.GetReference());
-                }
-            }
-
-            // Do action with Items & Sync
-            AddOrRemoveItems();
-
-            // Notify Callback
-            if (tradeProposalBlockDelegate != null)
-            {
-                NWDOperationResult tResult = sResult as NWDOperationResult;
-                tradeProposalBlockDelegate(false, tTradeStatus, tResult);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void Clean()
-        {
-            TradePlace.Flush();
-            TradeRequest.Flush();
-            ItemsProposed.Flush();
-            ItemsAsked.Flush();
-            TradeRequestHash = string.Empty;
-            TradeStatus = NWDTradeStatus.None;
-            SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void AddOrRemoveItems()
-        {
-            if (TradeStatus == NWDTradeStatus.Accepted)
-            {
-                // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                {
-                    NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
-                }
-
-                // Remove NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> pair in tAsked)
-                {
-                    NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
-                }
-
-                // Set Trade Proposition to None, so we can reused an old slot for a new transaction
-                Clean();
-
-                // Sync NWDUserOwnership
-                SynchronizationFromWebService();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static NWDUserTradeProposition FindEmptySlot()
-        {
-            NWDUserTradeProposition rSlot = null;
-
-            // Search for a empty NWDUserTradeProposition Slot
-            foreach (NWDUserTradeProposition k in FindDatas())
-            {
-                if (k.TradeStatus == NWDTradeStatus.None)
-                {
-                    rSlot = k;
-                    break;
-                }
-            }
-
-            // Create a new Proposal if null
-            if (rSlot == null)
-            {
-                rSlot = NewData();
-            }
-
-            return rSlot;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
-        {
-            // Draw the interface addon for editor
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
-
-            float tYadd = 20.0f;
-
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Copy-paste hash from selected TradeRequest", tMiniButtonStyle))
-            {
-                Debug.Log("YES ? or Not " + TradeRequest.Value);
-                NWDUserTradeRequest tRequest = TradeRequest.GetObjectAbsolute();
-                if (tRequest != null)
-                {
-                    Debug.Log("YES");
-                    TradeRequestHash = tRequest.TradeHash;
-                }
-            }
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
-        {
-
-            string tTradeHash = NWDUserTradeRequest.FindAliasName("TradeHash");
-            string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
-            string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
-            string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
-            string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
-            string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
-
-            string t_THIS_TradeRequestHash = FindAliasName("TradeRequestHash");
-            string t_THIS_TradePlace = FindAliasName("TradePlace");
-            string t_THIS_TradeRequest = FindAliasName("TradeRequest");
-            string t_THIS_TradeStatus = FindAliasName("TradeStatus");
-            int t_THIS_Index_tTradeRequestHash = CSV_IndexOf(t_THIS_TradeRequestHash);
-            int t_THIS_Index_TradePlace = CSV_IndexOf(t_THIS_TradePlace);
-            int t_THIS_Index_TradeRequest = CSV_IndexOf(t_THIS_TradeRequest);
-            int t_THIS_Index_TradeStatus = CSV_IndexOf(t_THIS_TradeStatus);
-            string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
-            int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
-            string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
-            int t_THIS_Index_ItemsAsked = CSV_IndexOf(t_THIS_ItemsAsked);
-            string sScript = "" +
-                "// start Addon \n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                // get the actual state
-                "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
-                "$tServerRequestHash = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeRequestHash + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
-                "WHERE " +
-                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
-                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
-                "if (!$tResultStatus)\n" +
-                "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('SERVER');\n" +
-                "}\n" +
-                "else" +
-                "{\n" +
-                "if ($tResultStatus->num_rows == 1)\n" +
-                "{\n" +
-                "$tRowStatus = $tResultStatus->fetch_assoc();\n" +
-                "$tServerStatut = $tRowStatus['" + t_THIS_TradeStatus + "'];\n" +
-                "$tServerRequestHash = $tRowStatus['" + t_THIS_TradeRequestHash + "'];\n" +
-                "}\n" +
-                "}\n" +
-                // change the statut from CSV TO WAITING, ACCEPTED, CANCEL, EXPIRED
-                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.NoDeal).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() +
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
-                "{\n" +
-                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
-                "return;\n" +
-                "}\n" +
-                // change the statut from CSV TO NONE 
-                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
-                "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() + 
-                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() +
-                " || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)" +
-                "))\n" +
-                "{\n" +
-                "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
-                "$sReplaces[" + t_THIS_Index_ItemsAsked + "]='';\n" +
-                "$sReplaces[" + t_THIS_Index_tTradeRequestHash + "]='';\n" +
-                "$sReplaces[" + t_THIS_Index_TradeRequest + "]='';\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                "}\n" +
-                // change the statut from CSV TO ACTIVE 
-                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
-                "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
-                "{\n" +
-                "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` SET " +
-                " `DM` = \\''.$TIME_SYNC.'\\'," +
-                " `DS` = \\''.$TIME_SYNC.'\\'," +
-                " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
-                " `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'," +
-                " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
-                " WHERE `AC`= \\'1\\' " +
-                " AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                " AND `" + tTradePlace + "` = \\''.$sCsvList[" + t_THIS_Index_TradePlace + "].'\\' " +
-                " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_TradeRequest + "].'\\' " +
-                " AND `" + tTradeHash + "` = \\''.$sCsvList[" + t_THIS_Index_tTradeRequestHash + "].'\\' " +
-                " AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
-                "';\n" +
-                "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultTrade = $SQL_CON->query($tQueryTrade);\n" +
-                "$tReferences = \'\';\n" +
-                "$tReferencesList = \'\';\n" +
-                "if (!$tResultTrade)\n" +
-                "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('SERVER');\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "$tNumberOfRow = 0;\n" +
-                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
-                "if ($tNumberOfRow == 1)\n" +
-                "{\n" +
-                "// I need update the proposition too !\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
-                "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "Integrity" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
-                "\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "}\n" +
-                "GetDatas" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
-                "}\n" +
-                "}\n" +
-
-                // change the statut from CSV TO FORCE // ADMIN ONLY 
-                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)\n" +
-                    "{\n" +
-                    "//EXECEPTION FOR ADMIN\n" +
-                    "}\n" +
-
-                // OTHER
-                "else\n" +
-                "{\n" +
-                // not possible return preview value
-                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
-                "return;\n" +
-                "}\n" +
-                "// finish Addon \n";
-
-            return sScript;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            string t_THIS_TradeRequest = FindAliasName("TradeRequest");
-            int t_THIS_Index_TradeRequest = CSV_IndexOf(t_THIS_TradeRequest);
-
-            return "// write your php script here to update after sync on server\n " +
-                "GetDatas" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -19,13 +19,16 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Connection")]
-        public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
         public NWDReferenceType<NWDStatisticKey> StatKey
         {
             get; set;
         }
         [NWDInspectorGroupEnd()]
-        
+
         [NWDInspectorGroupStart("Values")]
         public double Total
         {

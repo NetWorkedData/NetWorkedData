@@ -1,40 +1,27 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2017 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
-using UnityEditor;
-
+using System;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Statistics",
-        "Statistics",
-        new Type[] {
-        typeof(NWDStatisticKey),
-        typeof(NWDAccountStatistic),
-        typeof(NWDUserStatistic),
-		/* Add NWDBasis here*/
-		}
-    )]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDStatWindow : NWDBasisWindow<NWDStatWindow>
+    public partial class NWDUserTransaction : NWDBasis<NWDUserTransaction>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Statistics", false, 270)]
-        public static void MenuMethod()
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDStatWindow));
-            tWindow.Show();
+            // TODO 
+            string sScript = "" +
+                "// debut find \n" +
+                "// JE DOIS VERIFIER AVEC LES ERVEUR APPLE OU GOOGLE DE LA VALIDITEE DE LA TRANSACTION ET METTRE InAppApprouved EN Approuved OU Refused!\n" +
+                "// fin find \n";
+            return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
