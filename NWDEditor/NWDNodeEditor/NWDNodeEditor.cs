@@ -186,22 +186,6 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnEnable ()
 		{
-
-
-            //titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
-            Document.LoadClasses();
-            Repaint();
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the OnGUI event. Create the interface to enter a new class.
-		/// </summary>
-		public void OnGUI ()
-		{
-            // Debug.Log("NWDNodeEditor OnGUI");
-            //NWDConstants.LoadImages();
-            NWDConstants.LoadStyles();
-
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -221,6 +205,20 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+
+            //titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
+            Document.LoadClasses();
+            Repaint();
+		}
+        //-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the OnGUI event. Create the interface to enter a new class.
+		/// </summary>
+		public void OnGUI ()
+		{
+            // Debug.Log("NWDNodeEditor OnGUI");
+            //NWDConstants.LoadImages();
+            NWDConstants.LoadStyles();
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));

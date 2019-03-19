@@ -117,6 +117,7 @@ namespace NetWorkedData
                 BuildTimestamp = 0;
             }
             FormatVerification();
+            NWDGUILayout.LittleSpace();
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

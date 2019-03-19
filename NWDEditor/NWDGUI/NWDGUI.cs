@@ -266,7 +266,7 @@ namespace NetWorkedData
         {
             GUI.Label(sRect, sTitle, NWDGUI.kTitleStyle);
             Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
-            Line(new Rect(sRect.x, sRect.y + sRect.height - 1, sRect.width, 1));
+            Line(new Rect(sRect.x, sRect.y + kTitleStyle.fixedHeight - 1, sRect.width, 1));
             sRect.height = kTitleStyle.fixedHeight;
             return sRect;
         }
@@ -275,7 +275,7 @@ namespace NetWorkedData
         {
             GUI.Label(sRect, sTitle, NWDGUI.kTitleStyle);
             Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
-            Line(new Rect(sRect.x, sRect.y+ sRect.height-1, sRect.width, 1));
+            Line(new Rect(sRect.x, sRect.y+ kTitleStyle.fixedHeight - 1, sRect.width, 1));
             sRect.height = kTitleStyle.fixedHeight;
             return sRect;
         }

@@ -21,6 +21,14 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDClasseAnalyseEnum : int
+    {
+        None,
+        Show,
+        Analyze,
+        Both,
+}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDNodeDocument
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -97,6 +105,9 @@ namespace NetWorkedData
         /// The classes show.
         /// </summary>
         public Dictionary<string, bool> ShowTheseClasses = new Dictionary<string, bool>();
+
+
+        public Dictionary<string, NWDClasseAnalyseEnum> AnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>();
         /// <summary>
         /// The regroup properties in document.
         /// </summary>
@@ -153,14 +164,15 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             bool tChanged = false;
-            float tY = NWDConstants.kFieldMarge;
+            float tX = 0;
+            float tY = 0;
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
             float tW = (MargeWidth - NWDConstants.kFieldMarge * 2);
 
             // root object zone
-            GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
-                      "Root object", NWDConstants.tBoldLabelStyle);
-            tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            Rect tTitleRect = NWDGUI.Title(new Rect(tX, tY, MargeWidth, HeightProperty),
+                      "Root object");
+            tY += tTitleRect.height + NWDConstants.kFieldMarge;
 
             if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, NWDConstants.tMiniButtonStyle))
             {
@@ -173,9 +185,75 @@ namespace NetWorkedData
 
             // Analyze object zone
 
-            GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
-                      "Analyze object", NWDConstants.tBoldLabelStyle);
-            tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tTitleRect = NWDGUI.Title(new Rect(tX, tY, MargeWidth, HeightProperty),
+                      "Analyze object");
+            tY += tTitleRect.height + NWDConstants.kFieldMarge;
+
+
+
+            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tToggleStyle.fixedHeight), ReGroupProperties, NWDConstants.K_EDITOR_NODE_GROUP_PROPERTIES);
+            if (tReGroupProperties != ReGroupProperties)
+            {
+                ReGroupProperties = tReGroupProperties;
+                EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
+                ReAnalyze();
+            }
+            tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
+            if (tUsedOnlyProperties != UsedOnlyProperties)
+            {
+                UsedOnlyProperties = tUsedOnlyProperties;
+                EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
+                ReAnalyze();
+            }
+            tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+
+            // Localization Zone
+
+            tTitleRect = NWDGUI.Title(new Rect(tX, tY, MargeWidth, HeightProperty),
+                      "Localization test");
+            tY += tTitleRect.height + NWDConstants.kFieldMarge;
+
+            string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
+            string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> tLocalizationList = new List<string>(tLanguageArray);
+            int tIndexActual = tLocalizationList.IndexOf(Language);
+
+            int tIndexNext = EditorGUI.Popup(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kPopupdStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_CHOOSE_LANGUAGE, tIndexActual, tLocalizationList.ToArray());
+            if (tIndexNext < 0 || tIndexNext >= tLocalizationList.Count)
+            {
+                tIndexNext = 0;
+            }
+            if (tIndexActual != tIndexNext)
+            {
+                Language = tLocalizationList[tIndexNext];
+                EditorPrefs.SetString("NWDNodeEditorLanguage", Language);
+            }
+
+            tY += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+
+
+            float tXA = NWDConstants.kFieldMarge;
+            float tWidthB = NWDConstants.kEditIconSide;
+            float tWidthA = MargeWidth - NWDConstants.kEditIconSide - NWDConstants.kFieldMarge;
+            float tXB = tWidthA + NWDConstants.kFieldMarge;
+            //Debug.Log("MargeWidth = " + MargeWidth.ToString());
+            //Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
+            //Debug.Log("tXA = " + tXA.ToString());
+            //Debug.Log("tWidthA = " + tWidthA.ToString());
+            //Debug.Log("tXB = " + tXB.ToString());
+            //Debug.Log("tWidthB = " + tWidthB.ToString());
+
+            //GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), NWDConstants.K_EDITOR_NODE_LIST, EditorStyles.boldLabel);
+
+            tTitleRect = NWDGUI.Title(new Rect(tX, tY, MargeWidth, HeightProperty),
+                      "Classses");
+            tY += tTitleRect.height + NWDConstants.kFieldMarge;
 
 
 
@@ -225,129 +303,86 @@ namespace NetWorkedData
             }
             tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tToggleStyle.fixedHeight), ReGroupProperties, NWDConstants.K_EDITOR_NODE_GROUP_PROPERTIES);
-            if (tReGroupProperties != ReGroupProperties)
-            {
-                ReGroupProperties = tReGroupProperties;
-                EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
-                ReAnalyze();
-            }
-            tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.tToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
-            if (tUsedOnlyProperties != UsedOnlyProperties)
-            {
-                UsedOnlyProperties = tUsedOnlyProperties;
-                EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
-                ReAnalyze();
-            }
-            tY += NWDConstants.tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
-
-            // Localization Zone
-
-            GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
-                      "Localization test", NWDConstants.tBoldLabelStyle);
-            tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
-            string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            List<string> tLocalizationList = new List<string>(tLanguageArray);
-            int tIndexActual = tLocalizationList.IndexOf(Language);
-
-            int tIndexNext = EditorGUI.Popup(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_CHOOSE_LANGUAGE, tIndexActual, tLocalizationList.ToArray());
-            if (tIndexNext < 0 || tIndexNext >= tLocalizationList.Count)
-            {
-                tIndexNext = 0;
-            }
-            if (tIndexActual != tIndexNext)
-            {
-                Language = tLocalizationList[tIndexNext];
-                EditorPrefs.SetString("NWDNodeEditorLanguage", Language);
-            }
-
-            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
-
-
-
-
-            float tXA = NWDConstants.kFieldMarge;
-            float tWidthB = 20.0F;
-            float tWidthA = MargeWidth - NWDConstants.kEditIconSide - tWidthB - NWDConstants.kFieldMarge * 4;
-            float tXB = tWidthA + NWDConstants.kFieldMarge * 2;
-            //Debug.Log("MargeWidth = " + MargeWidth.ToString());
-            //Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
-            //Debug.Log("tXA = " + tXA.ToString());
-            //Debug.Log("tWidthA = " + tWidthA.ToString());
-            //Debug.Log("tXB = " + tXB.ToString());
-            //Debug.Log("tWidthB = " + tWidthB.ToString());
-
-            //GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), NWDConstants.K_EDITOR_NODE_LIST, EditorStyles.boldLabel);
-
-            bool tReduce = EditorPrefs.GetBool("NodeSelectClass", true);
-            bool tNextReduce = EditorGUI.Foldout(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), tReduce, NWDConstants.K_EDITOR_NODE_LIST);
-                if (tNextReduce != tReduce)
-            {
-                EditorPrefs.SetBool("NodeSelectClass", tNextReduce);
-            }
-            if (tNextReduce == true)
+            //bool tReduce = EditorPrefs.GetBool("NodeSelectClass", true);
+            //bool tNextReduce = EditorGUI.Foldout(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), tReduce, NWDConstants.K_EDITOR_NODE_LIST);
+            //    if (tNextReduce != tReduce)
+            //{
+            //    EditorPrefs.SetBool("NodeSelectClass", tNextReduce);
+            //}
+            //if (tNextReduce == true)
             {
                 // to show
+
                 int tCounter = 0;
-                Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
-                foreach (KeyValuePair<string, bool> tKeyValue in tShowTheseClassesCopy)
+                Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
+                foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClasses)
                 {
-                    tCounter++;
                     //Debug.Log("tWidthA loop = " + tWidthA.ToString());
-                    bool tNew = EditorGUI.Toggle(new Rect(tXA, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthA, HeightProperty), tKeyValue.Key, tKeyValue.Value);
-                    if (ShowTheseClasses[tKeyValue.Key] != tNew)
+                    NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(tXA, tY + HeightProperty * tCounter, MargeWidth- NWDConstants.kFieldMarge*2, HeightProperty), tKeyValue.Key, tKeyValue.Value);
+                    if (AnalyzeStyleClasses[tKeyValue.Key] != tNew)
                     {
                         tChanged = true;
                     }
-                    ShowTheseClasses[tKeyValue.Key] = tNew;
+                    AnalyzeStyleClasses[tKeyValue.Key] = tNew;
+                    tCounter++;
                 }
 
-                // to analyze...
-                tCounter = 0;
-                Dictionary<string, bool> tAnalyzeTheseClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
-                foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
-                {
-                    tCounter++;
-                    bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), string.Empty, tKeyValue.Value);
-                    if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
-                    {
-                        tChanged = true;
-                    }
-                    AnalyzeTheseClasses[tKeyValue.Key] = tNew;
-                }
-                // to add new...
-                tCounter = 0;
-                Type tTypeToCreate = null;
-                foreach (Type tType in TypeList)
-                {
-                    tCounter++;
-                    //GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-                    if (GUI.Button(new Rect(MargeWidth - NWDConstants.kEditIconSide - NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNewContentIcon, NWDConstants.StyleMiniButton))
-                    {
-                        tTypeToCreate = tType;
-                    }
-                }
-                // I must creat new object (prevent collection modified)
-                if (tTypeToCreate != null)
-                {
-                    // TODO : Change to remove invoke!
-                    //Debug.Log("try NewObject " + tTypeToCreate.Name);
-                    var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tDataTypeNewObject != null)
-                    {
-                        //Debug.Log("NewObject is Ok ");
-                        object tObject = tDataTypeNewObject.Invoke(null, null);
-                        NWDDataInspector.InspectNetWorkedData(tObject);
-                        this.SetData(tObject as NWDTypeClass, true);
-                        ReAnalyze();
-                    }
-                }
+                // tCounter = 0;
+                //Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
+                //foreach (KeyValuePair<string, bool> tKeyValue in tShowTheseClassesCopy)
+                //{
+                //    //Debug.Log("tWidthA loop = " + tWidthA.ToString());
+                //    bool tNew = EditorGUI.Toggle(new Rect(tXA, tY + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthA, HeightProperty), tKeyValue.Key, tKeyValue.Value);
+                //    if (ShowTheseClasses[tKeyValue.Key] != tNew)
+                //    {
+                //        tChanged = true;
+                //    }
+                //    ShowTheseClasses[tKeyValue.Key] = tNew;
+                //    tCounter++;
+                //}
+
+                //// to analyze...
+                //tCounter = 0;
+                //Dictionary<string, bool> tAnalyzeTheseClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
+                //foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
+                //{
+                //    bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, tY + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), string.Empty, tKeyValue.Value);
+                //    if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
+                //    {
+                //        tChanged = true;
+                //    }
+                //    AnalyzeTheseClasses[tKeyValue.Key] = tNew;
+                //    tCounter++;
+                //}
+                //// to add new...
+                //tCounter = 0;
+                //Type tTypeToCreate = null;
+                //foreach (Type tType in TypeList)
+                //{
+                //    //GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
+                //    if (GUI.Button(new Rect(MargeWidth - NWDConstants.kEditIconSide - NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNewContentIcon, NWDConstants.StyleMiniButton))
+                //    {
+                //        tTypeToCreate = tType;
+                //    }
+                //    tCounter++;
+                //}
+                //// I must creat new object (prevent collection modified)
+                //if (tTypeToCreate != null)
+                //{
+                //    // TODO : Change to remove invoke!
+                //    //Debug.Log("try NewObject " + tTypeToCreate.Name);
+                //    var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //    if (tDataTypeNewObject != null)
+                //    {
+                //        //Debug.Log("NewObject is Ok ");
+                //        object tObject = tDataTypeNewObject.Invoke(null, null);
+                //        NWDDataInspector.InspectNetWorkedData(tObject);
+                //        this.SetData(tObject as NWDTypeClass, true);
+                //        ReAnalyze();
+                //    }
+                //}
 
 
                 if (tChanged == true)
@@ -515,6 +550,15 @@ namespace NetWorkedData
                 ShowTheseClasses.Add(tType.Name, true);
                 AnalyzeTheseClasses.Add(tType.Name, true);
             }
+
+
+            AnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>();
+            TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
+            foreach (Type tType in TypeList)
+            {
+                AnalyzeStyleClasses.Add(tType.Name, NWDClasseAnalyseEnum.Both);
+            }
+
             LoadPreferences();
         }
         //-------------------------------------------------------------------------------------------------------------

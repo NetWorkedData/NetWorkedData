@@ -188,6 +188,7 @@ namespace NetWorkedData
             {
                 EditorUtility.RevealInFinder(tDatabasePathAccount);
             }
+            NWDGUILayout.LittleSpace();
             // finish scroll view
             GUILayout.EndScrollView();
             // finish with reccord red button

@@ -86,7 +86,7 @@ namespace NetWorkedData
 
             NWDGUILayout.Title("Environment chooser");
 
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
             int tTabSelected = -1;

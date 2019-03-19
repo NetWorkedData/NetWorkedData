@@ -238,19 +238,22 @@ namespace NetWorkedData
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
-            ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
+            NWDGUILayout.Title("WebService Sync");
+            NWDGUILayout.Line();
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             WebServicesSync();
             WebServicesLastSync();
             WebServicesTools();
             HackTools();
             WritingDatabaseState();
             DatasLocal();
+            NWDGUILayout.BigSpace();
             EditorGUILayout.EndScrollView();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WritingDatabaseState()
         {
-            NWDGUILayout.Title("Database writing");
+            NWDGUILayout.Section("Database writing");
 
             // use these bools to fix the bug of error on redraw
             this.minSize = new Vector2(300, 500);
@@ -285,7 +288,7 @@ namespace NetWorkedData
             bool tOperationSpecial = false;
             bool tOperationUpgrade = false;
             bool tOperationOptimize = false;
-            NWDGUILayout.Title("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
+            //NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
 
 
 
@@ -535,7 +538,7 @@ namespace NetWorkedData
             double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
             double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
 
-            NWDGUILayout.Title("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " last request");
+            NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " last request");
 
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
@@ -654,7 +657,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WebServicesTools()
         {
-            NWDGUILayout.Title("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
+            NWDGUILayout.Section("Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + " tools");
 
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
@@ -713,7 +716,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DatasLocal()
         {
-            NWDGUILayout.Title("Local datas");
+            NWDGUILayout.Section("Local datas");
 
             if (GUILayout.Button("Clean all local tables", NWDGUI.KTableSearchButton))
             {
@@ -739,7 +742,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void HackTools()
         {
-            NWDGUILayout.Title("Test anti-hack");
+            NWDGUILayout.Section("Test anti-hack");
 
             if (GUILayout.Button("Use false token", NWDGUI.KTableSearchButton))
             {
