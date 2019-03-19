@@ -19,7 +19,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public string Title;
 		public string Description;
-        // TODO : Remove and replace by icon from name
+        // TODO : Remove and replace by icon from name of class ... but perhaps used in other windows type?
 		public string IconName;
         public Type[] TypeList;
         //-------------------------------------------------------------------------------------------------------------

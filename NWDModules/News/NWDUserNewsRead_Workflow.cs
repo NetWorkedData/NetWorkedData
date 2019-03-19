@@ -6,45 +6,36 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDAppLocalizationWindow show NWDBasisWindow for localization NWDBasis Class.
-    /// </summary>
-    [NWDTypeWindowParamAttribute("News Message",
-                                 "News Manager",
-        new Type[] {
-            typeof(NWDNews),
-            typeof(NWDUserNewsRead),
-            /* Add NWDBasis here*/
-        }
-    )]
-    public class NWDNewsWindow : NWDBasisWindow<NWDNewsWindow>
+    public partial class NWDUserNewsRead : NWDBasis<NWDUserNewsRead>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/News Manager", false, 201)]
-        public static void MenuMethod()
+        public NWDUserNewsRead()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDNewsWindow));
-            tWindow.Show();
+            //Debug.Log("NWDUserEventRead Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/News Manager", false, 223)]
-        public static void MenuMethodBis()
+        public NWDUserNewsRead(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDNewsWindow));
-            tWindow.Show();
+            //Debug.Log("NWDUserEventRead Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserNewsRead), typeof(NWDNews)};
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif

@@ -6,18 +6,7 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -25,7 +14,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserNewsRead : NWDBasis<NWDUserNewsRead>
     {
-    //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
             InsertInIndex();
@@ -42,60 +31,63 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
-            if (EventMessage.GetReference() != null
-                && IsEnable() == true
-                && IsTrashed() == false
-                && TestIntegrity() == true)
+            if (News != null)
             {
-                string tKey = EventMessage.GetReference();
-                if (kIndexList != null)
+                if (News.GetReference() != null
+                    && IsEnable() == true
+                    && IsTrashed() == false
+                    && TestIntegrity() == true)
                 {
-                    // I have allready index
-                    if (kIndex.ContainsKey(tKey))
+                    string tKey = News.GetReference();
+                    if (kIndexList != null)
                     {
-                        if (kIndex[tKey] == kIndexList)
+                        // I have allready index
+                        if (kIndex.ContainsKey(tKey))
                         {
-                            // I am in the good index ... do nothing
+                            if (kIndex[tKey] == kIndexList)
+                            {
+                                // I am in the good index ... do nothing
+                            }
+                            else
+                            {
+                                // I Changed index! during update ?!!
+                                kIndexList.Remove(this);
+                                kIndexList = null;
+                                kIndexList = kIndex[tKey];
+                                kIndexList.Add(this);
+                            }
                         }
                         else
                         {
-                            // I Changed index! during update ?!!
                             kIndexList.Remove(this);
                             kIndexList = null;
-                            kIndexList = kIndex[tKey];
+                            kIndexList = new List<NWDUserNewsRead>();
+                            kIndex.Add(tKey, kIndexList);
                             kIndexList.Add(this);
                         }
                     }
                     else
                     {
-                        kIndexList.Remove(this);
-                        kIndexList = null;
-                        kIndexList = new List<NWDUserNewsRead>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
+                        // I need add in index!
+                        if (kIndex.ContainsKey(tKey))
+                        {
+                            // index exists
+                            kIndexList = kIndex[tKey];
+                            kIndexList.Add(this);
+                        }
+                        else
+                        {
+                            // index must be create
+                            kIndexList = new List<NWDUserNewsRead>();
+                            kIndex.Add(tKey, kIndexList);
+                            kIndexList.Add(this);
+                        }
                     }
                 }
                 else
                 {
-                    // I need add in index!
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        // index exists
-                        kIndexList = kIndex[tKey];
-                        kIndexList.Add(this);
-                    }
-                    else
-                    {
-                        // index must be create
-                        kIndexList = new List<NWDUserNewsRead>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
+                    RemoveFromIndex();
                 }
-            }
-            else
-            {
-                RemoveFromIndex();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -10,10 +10,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-/*
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    /*
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Example with fictive class NWDSomething
     // Connect by property Something
@@ -43,62 +44,65 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
-            if (Something.GetReference() != null
-                && GameSave!=null
-                && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
-                && IsEnable() == true
-                && IsTrashed() == false
-                && TestIntegrity() == true)
+            if (Something != null)
             {
-                string tKey = Something.GetReference();
-                if (kIndexList != null)
+                if (Something.GetReference() != null
+                    && GameSave != null
+                    && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
+                    && IsEnable() == true
+                    && IsTrashed() == false
+                    && TestIntegrity() == true)
                 {
-                    // I have allready index
-                    if (kIndex.ContainsKey(tKey))
+                    string tKey = Something.GetReference();
+                    if (kIndexList != null)
                     {
-                        if (kIndex[tKey] == kIndexList)
+                        // I have allready index
+                        if (kIndex.ContainsKey(tKey))
                         {
-                            // I am in the good index ... do nothing
+                            if (kIndex[tKey] == kIndexList)
+                            {
+                                // I am in the good index ... do nothing
+                            }
+                            else
+                            {
+                                // I Changed index! during update ?!!
+                                kIndexList.Remove(this);
+                                kIndexList = null;
+                                kIndexList = kIndex[tKey];
+                                kIndexList.Add(this);
+                            }
                         }
                         else
                         {
-                            // I Changed index! during update ?!!
                             kIndexList.Remove(this);
                             kIndexList = null;
-                            kIndexList = kIndex[tKey];
+                            kIndexList = new List<NWDExample>();
+                            kIndex.Add(tKey, kIndexList);
                             kIndexList.Add(this);
                         }
                     }
                     else
                     {
-                        kIndexList.Remove(this);
-                        kIndexList = null;
-                        kIndexList = new List<NWDExample>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
+                        // I need add in index!
+                        if (kIndex.ContainsKey(tKey))
+                        {
+                            // index exists
+                            kIndexList = kIndex[tKey];
+                            kIndexList.Add(this);
+                        }
+                        else
+                        {
+                            // index must be create
+                            kIndexList = new List<NWDExample>();
+                            kIndex.Add(tKey, kIndexList);
+                            kIndexList.Add(this);
+                        }
                     }
                 }
                 else
                 {
-                    // I need add in index!
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        // index exists
-                        kIndexList = kIndex[tKey];
-                        kIndexList.Add(this);
-                    }
-                    else
-                    {
-                        // index must be create
-                        kIndexList = new List<NWDExample>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
+                    RemoveFromIndex();
                 }
-            }
-            else
-            {
-                RemoveFromIndex();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -166,6 +170,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    */
 }
 //=====================================================================================================================
-*/

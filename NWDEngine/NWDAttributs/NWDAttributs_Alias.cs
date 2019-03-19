@@ -115,6 +115,22 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string FindAliasName<T>(string sAlias)
+        {
+            string rReturn = sAlias;
+            foreach (PropertyInfo tProp in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                foreach (NWDAlias tReference in tProp.GetCustomAttributes(typeof(NWDAlias), true))
+                {
+                    if (tReference.Alias == sAlias)
+                    {
+                        rReturn = tProp.Name;
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         // use in NWDBasis with FindAliasName();
         public string Alias = string.Empty;
         public NWDAlias(string sAlias)
