@@ -535,6 +535,78 @@ namespace NetWorkedData
                 RestaureDataInEditionByReference(tReference);
             }
             tRect.y += tRect.height + NWDConstants.kFieldMarge;
+
+
+            bool tShowMoreInfos = true;
+            if (tShowMoreInfos)
+            {
+                // Change column
+                tRect.x += tRect.width + NWDConstants.kFieldMarge;
+                tRect.y = sRect.y;
+                tRect.width = NWDConstants.KTableSearchWidth;
+
+                // draw title
+                GUI.Label(tRect, "Results", NWDConstants.KTableSearchTitle);
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+                // draw objects in database
+                int tRealReference = BasisHelper().Datas.Count;
+                if (tRealReference == 0)
+                {
+                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_NO_OBJECT, NWDConstants.KTableSearchLabel);
+                }
+                else if (tRealReference == 1)
+                {
+                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDConstants.KTableSearchLabel);
+                }
+                else
+                {
+                    GUI.Label(tRect,tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDConstants.KTableSearchLabel);
+                }
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+                // draw objects in results
+                int tResultReference = BasisHelper().EditorTableDatas.Count;
+                if (tResultReference == 0)
+                {
+                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDConstants.KTableSearchLabel);
+                }
+                else if (tResultReference == 1)
+                {
+                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDConstants.KTableSearchLabel);
+                }
+                else
+                {
+                    GUI.Label(tRect,tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDConstants.KTableSearchLabel);
+                }
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+
+                // draw selection
+                // TODO exit this method to count in basishelper;
+               int tSelectionCount = 0;
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        tSelectionCount++;
+                    }
+                }
+                if (tSelectionCount == 0)
+                {
+                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDConstants.KTableSearchLabel);
+                }
+                else if (tSelectionCount == 1)
+                {
+                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDConstants.KTableSearchLabel);
+                }
+                else
+                {
+                    GUI.Label(tRect,tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDConstants.KTableSearchLabel);
+                }
+                tRect.y += tRect.height + NWDConstants.kFieldMarge;
+            }
+
+
+
+
             // draw reload all datas
             //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDConstants.KTableSearchButton))
             //{

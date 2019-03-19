@@ -167,7 +167,7 @@ namespace NetWorkedData
                 {
                     rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
                     rReturnObject.InstanceInit();
-                    rReturnObject.PropertiesAutofill();
+                    //rReturnObject.PropertiesAutofill();
                     rReturnObject.Initialization();
                     int tDC = rReturnObject.DC; // memorize date of dupplicate
                     string tReference = rReturnObject.NewReference(); // create reference for dupplicate
@@ -264,39 +264,44 @@ namespace NetWorkedData
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                 {
                     BTBDataType tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
-                    tTemp.SetValue(tValueString);
+                    tTemp.Value = ((BTBDataType)tValue).Value;
+                    //tTemp.SetValue(tValueString);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
                 {
                     BTBDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
-                    long tTempInt = 0;
-                    long.TryParse(tValueString, out tTempInt);
-                    tTemp.SetLong(tTempInt);
+                    //long tTempInt = 0;
+                    //long.TryParse(tValueString, out tTempInt);
+                    //tTemp.SetLong(tTempInt);
+                    tTemp.Value = ((BTBDataTypeInt)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
                 {
                     BTBDataTypeFloat tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeFloat;
-                    double tTempDouble = 0;
-                    double.TryParse(tValueString, out tTempDouble);
-                    tTemp.SetDouble(tTempDouble);
+                    //double tTempDouble = 0;
+                    //double.TryParse(tValueString, out tTempDouble);
+                    //tTemp.SetDouble(tTempDouble);
+                    tTemp.Value = ((BTBDataTypeFloat)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
                 {
                     BTBDataTypeEnum tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeEnum;
-                    long tTempDouble = 0;
-                    long.TryParse(tValueString, out tTempDouble);
-                    tTemp.SetLong(tTempDouble);
+                    //long tTempDouble = 0;
+                    //long.TryParse(tValueString, out tTempDouble);
+                    //tTemp.SetLong(tTempDouble);
+                    tTemp.Value = ((BTBDataTypeEnum)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
                 {
                     BTBDataTypeMask tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeMask;
-                    long tTempDouble = 0;
-                    long.TryParse(tValueString, out tTempDouble);
-                    tTemp.SetLong(tTempDouble);
+                    //long tTempDouble = 0;
+                    //long.TryParse(tValueString, out tTempDouble);
+                    //tTemp.SetLong(tTempDouble);
+                    tTemp.Value = ((BTBDataTypeMask)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
