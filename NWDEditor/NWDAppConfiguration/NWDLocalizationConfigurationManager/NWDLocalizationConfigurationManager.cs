@@ -86,10 +86,14 @@ namespace NetWorkedData
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
-            Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
+            NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
+            NWDGUILayout.Informations("Some informations");
+            NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, NWDConstants.kLabelTitleStyle);
-            GUILayout.Label("Select the languages of multi-localizable field in editor.", EditorStyles.helpBox);
+
+            NWDGUILayout.Section(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
+            Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
+            NWDGUILayout.Informations("Select the languages of multi-localizable field in editor.");
             GUILayout.BeginHorizontal();
             List<string> tResult = new List<string>();
             float tToggleWidth = 140.0f;
@@ -122,9 +126,7 @@ namespace NetWorkedData
                 tResult.Add("en");
             }
             tResult.Sort();
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUILayoutLine();
-            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_BUNDLENAMEE_AREA, NWDConstants.kLabelTitleStyle);
+            NWDGUILayout.Section(NWDConstants.K_APP_CONFIGURATION_BUNDLENAMEE_AREA);
             GUILayout.Label("Experimental : localizate the bundle IOS and MacOS app name.", EditorStyles.helpBox);
             foreach (string tLang in tResult)
             {
@@ -134,9 +136,7 @@ namespace NetWorkedData
                 }
                 NWDAppConfiguration.SharedInstance().BundleName[tLang] = EditorGUILayout.TextField(tLang, NWDAppConfiguration.SharedInstance().BundleName[tLang]);
             }
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUILayoutLine();
-            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA, NWDConstants.kLabelTitleStyle);
+            NWDGUILayout.Section(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA);
             GUILayout.Label("Select the default language of the app.", EditorStyles.helpBox);
             int tIndex = tResult.IndexOf(NWDAppConfiguration.SharedInstance().ProjetcLanguage);
             if (tIndex < 0)
@@ -151,9 +151,7 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString = tNewLanguages;
                 NWDDataInspector.ActiveRepaint();
             }
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUILayoutLine();
-            GUILayout.Label("Special localizations operations", NWDConstants.kLabelTitleStyle);
+            NWDGUILayout.Section("Special localizations operations");
             GUILayout.Label("Reorder all localizations for all datas (to see the same order in all datas).", EditorStyles.helpBox);
             if (GUILayout.Button("Reorder all localizations"))
             {
@@ -171,17 +169,18 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
             }
+            NWDGUILayout.BigSpace();
             GUILayout.EndScrollView();
 
-            NWDConstants.GUILayoutLine();
-            NWDConstants.GUIRedButtonBegin();
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUIRedButtonEnd();
+            NWDGUI.EndRedArea();
+            NWDGUILayout.BigSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

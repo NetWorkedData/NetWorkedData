@@ -25,11 +25,14 @@ namespace NetWorkedData
     public class NWDEditorNewClass : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-
+        GUIContent IconAndTitle;
+        Vector2 ScrollPosition = Vector2.zero;
+        //-------------------------------------------------------------------------------------------------------------
+    
         bool ClassSynchronize = true;
         bool ClassUnityConnection = true;
 
-        string ClassBase= string.Empty;
+        string ClassBase= "NWDBasis";
         /// <summary>
         /// The futur name of the class.
         /// </summary>
@@ -170,7 +173,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            titleContent = new GUIContent("New NWDBasis Class generator");
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = "NWD Custom Class";
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorNewWindow t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals("NWDEditorNewWindow"))
+                        {
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
             tListOfType = new List<string>();
             tListOfType.Add(" ");
             tListOfType.Add("string");
@@ -224,19 +245,20 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            titleContent = new GUIContent("New NWDBasis Class generator");
+            NWDGUILayout.Title("Custom class Generator");
+            NWDGUILayout.Informations("Custom your class!");
+            NWDGUILayout.Line();
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
+
             //Prepare the form varaible 
             Regex tRegExpression = new Regex("[^a-zA-Z]");
             Regex tRegExpressionProperties = new Regex("[^a-zA-Z0-9]");
             Regex tRegExpressionEmptyType = new Regex("[ ]+");
             // validate the form ?
             bool tCanCreate = true;
-            // start Layout
-            EditorGUILayout.LabelField("Easy NWDBasis Class Generator", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.", MessageType.Info);
+            NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
-            EditorGUILayout.LabelField("Class informations", EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;
+            NWDGUILayout.SubTitle("Class informations");
             ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
             ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
@@ -296,15 +318,10 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField(" ", "trigramme is Ok!");
                 }
             }
-            EditorGUI.indentLevel--;
-            // futur class description
-            EditorGUILayout.LabelField("Class description", EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;
+            NWDGUILayout.SubTitle("Class description");
             ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription);
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);
-            EditorGUI.indentLevel--;
-            EditorGUILayout.LabelField("Menu in interface", EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;
+            NWDGUILayout.SubTitle("Menu in interface");
             // futur class menu name
             ClassNameMenuName = EditorGUILayout.TextField("Menu name", ClassNameMenuName);
             ClassNameMenuName = ClassNameMenuName.Replace("\\", string.Empty);
@@ -322,10 +339,7 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField(" ", "menu name is Ok!");
             }
-            EditorGUI.indentLevel--;
-            // the futur properties
-            EditorGUILayout.LabelField("Properties", EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;
+            NWDGUILayout.SubTitle("Properties");
             // create properties type
             // prepare result properties
             List<KeyValuePair<string, string>> tNextClassNameProperties = new List<KeyValuePair<string, string>>();
@@ -367,7 +381,6 @@ namespace NetWorkedData
                 tNextClassNameProperties.Add(tEnter);
             }
             GUILayout.EndHorizontal();
-            EditorGUI.indentLevel--;
             // remove empty properties
             tNextClassNameProperties.RemoveAll(RemoveAllPredicate);
             // meorize new properties list
@@ -375,22 +388,17 @@ namespace NetWorkedData
             // Generate Button
             EditorGUILayout.Space();
             // if ok continue else disable
-            EditorGUILayout.LabelField("Generate", EditorStyles.boldLabel);
+            GUILayout.EndScrollView();
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
             EditorGUI.BeginDisabledGroup(!tCanCreate);
-            if (GUILayout.Button("generate class"))
+            if (GUILayout.Button("Generate class"))
             {
                 // ok generate!
                 GenerateNewClass();
             }
             EditorGUI.EndDisabledGroup();
-            EditorGUILayout.Space();
-            // calculate the good dimension for window
-            if (Event.current.type == EventType.Repaint)
-            {
-                Rect tRect = GUILayoutUtility.GetLastRect();
-                maxSize = new Vector2(600, tRect.height + tRect.y);
-                minSize = new Vector2(300, tRect.height + tRect.y);
-            }
+            NWDGUILayout.BigSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

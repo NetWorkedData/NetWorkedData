@@ -385,12 +385,12 @@ namespace NetWorkedData
 
                 //if (tConnection == false)
                 //{
-                //    NWDConstants.GUIRedButtonBegin();
+                //    NWDGUI.BeginRedButton();
                 //    if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
                 //    {
                 //        sProperty.FindPropertyRelative("Reference").stringValue = string.Empty;
                 //    }
-                //    NWDConstants.GUIRedButtonEnd();
+                //    NWDGUI.EndRedButton();
                 //    tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
                 //}
 

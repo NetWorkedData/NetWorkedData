@@ -20,9 +20,12 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDEditorNewWindow : EditorWindow
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		string WindowName = string.Empty;
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        GUIContent IconAndTitle;
+        Vector2 ScrollPosition = Vector2.zero;
+        //-------------------------------------------------------------------------------------------------------------
+        string WindowName = string.Empty;
 		string WindowMenuName = string.Empty;
 		string WindowDescription = string.Empty;
 		int WindowMenuPosition = 0; // 0-1000 + 2000 : => [2000 … 3000]
@@ -72,7 +75,25 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnEnable ()
 		{
-			titleContent = new GUIContent ("New NWDBasis Window management generator");
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = "NWD Custom Window Manager";
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorNewWindow t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals("NWDEditorNewWindow"))
+                        {
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -80,23 +101,24 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
-			titleContent = new GUIContent ("New NWDBasis Window management generator");
+            NWDGUILayout.Title("Custom Window Manager ");
+            NWDGUILayout.Informations("Custom your window!");
+            NWDGUILayout.Line();
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition);
 			//Prepare the form varaible 
 		Regex tRegExpression = new Regex ("[^a-zA-Z]");
 //		Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
 		Regex tRegExpressionEmptyType = new Regex ("[ ]+");
 		// validate the form ?
 		bool tCanCreate = true;
-		// start Layout
-		EditorGUILayout.LabelField ("Easy NWDBasis Class Generator", EditorStyles.boldLabel);
-		EditorGUILayout.HelpBox ("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.", MessageType.Info);
-		// futur class infos
-		EditorGUILayout.LabelField ("Class informations", EditorStyles.boldLabel);
-		EditorGUI.indentLevel++;
-			WindowName = EditorGUILayout.TextField ("Name ", WindowName);
+            // start Layout
+            NWDGUILayout.HelpBox ("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
+            // futur class infos
+            NWDGUILayout.SubTitle ("Class informations");
+			WindowName = EditorGUILayout.TextField ("Name ", WindowName);
 			WindowName = tRegExpression.Replace (WindowName, string.Empty);
 			if (WindowName.Length < 3) {
-			EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
+			EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
 			tCanCreate = false;
 		} else {
 //				TODO: find if Type exists
@@ -106,47 +128,40 @@ namespace NetWorkedData
 //				}
 //			}
 			if (tCanCreate == false) {
-				EditorGUILayout.LabelField (" ", "this class allready exists");
+				EditorGUILayout.LabelField (" ", "this class allready exists");
 			} else {
-				EditorGUILayout.LabelField (" ", "class name is Ok!");
+				EditorGUILayout.LabelField (" ", "class name is Ok!");
 			}
-		}
-		EditorGUI.indentLevel--;
-		// futur class description
-		EditorGUILayout.LabelField ("Window description", EditorStyles.boldLabel);
-		EditorGUI.indentLevel++;
-			WindowDescription = EditorGUILayout.TextField ("Description", WindowDescription);
+            }
+            NWDGUILayout.SubTitle("Window description");
+            // futur class description
+			WindowDescription = EditorGUILayout.TextField ("Description", WindowDescription);
 			WindowDescription = WindowDescription.Replace ("\\", string.Empty);
-		EditorGUI.indentLevel--;
-		EditorGUILayout.LabelField ("Menu in interface", EditorStyles.boldLabel);
-		EditorGUI.indentLevel++;
+            NWDGUILayout.SubTitle("Menu in interface");
 		// futur class menu name
-			WindowMenuName = EditorGUILayout.TextField ("Menu name", WindowMenuName);
+			WindowMenuName = EditorGUILayout.TextField ("Menu name", WindowMenuName);
 			WindowMenuName = WindowMenuName.Replace ("\\", string.Empty);
 			if (WindowMenuName.Length < 3) {
-			EditorGUILayout.LabelField (" ", "menu name must be longer than 2 characters");
+			EditorGUILayout.LabelField (" ", "menu name must be longer than 2 characters");
 			tCanCreate = false;
 			} else if (WindowMenuName.Length > 16) {
-			EditorGUILayout.LabelField (" ", "menu name must be shorter than 16 characters");
+			EditorGUILayout.LabelField (" ", "menu name must be shorter than 16 characters");
 			tCanCreate = false;
 		} else {
-			EditorGUILayout.LabelField (" ", "menu name is Ok!");
+			EditorGUILayout.LabelField (" ", "menu name is Ok!");
 			}
-			WindowMenuPosition = EditorGUILayout.IntField ("Menu position", WindowMenuPosition);
+			WindowMenuPosition = EditorGUILayout.IntField ("Menu position", WindowMenuPosition);
 			if (WindowMenuPosition < 0) {
-				EditorGUILayout.LabelField (" ", "menu Position  must be greater than 0");
+				EditorGUILayout.LabelField (" ", "menu Position  must be greater than 0");
 				tCanCreate = false;
 			} else if (WindowMenuPosition > 1000) {
-				EditorGUILayout.LabelField (" ", "menu Position  must be shorter than 1000");
+				EditorGUILayout.LabelField (" ", "menu Position  must be shorter than 1000");
 				tCanCreate = false;
 			} else {
-				EditorGUILayout.LabelField (" ", "menu Position  is Ok!");
+				EditorGUILayout.LabelField (" ", "menu Position  is Ok!");
 			}
 
-		EditorGUI.indentLevel--;
-		// the futur properties
-		EditorGUILayout.LabelField ("Classes management", EditorStyles.boldLabel);
-		EditorGUI.indentLevel++;
+            NWDGUILayout.SubTitle("Classes management");
 		// create properties type
 		List<string> tListOfType = new List<string> ();
 		tListOfType.Add (" ");
@@ -163,7 +178,7 @@ namespace NetWorkedData
 			if (tIndex < 0 || tIndex > tListOfType.Count) {
 				tIndex = 0;
 			}
-			tIndex = EditorGUILayout.Popup ("Class " + tCounter, tIndex, tListOfType.ToArray ());
+			tIndex = EditorGUILayout.Popup ("Class " + tCounter, tIndex, tListOfType.ToArray ());
 			string tSelectedType = tListOfType [tIndex];
 			tSelectedType = tRegExpressionEmptyType.Replace (tSelectedType, " ");
 			tNextClassList.Add (tSelectedType);
@@ -171,35 +186,30 @@ namespace NetWorkedData
 			tListOfType.Remove (tSelectedType);
 		}
 			// add New property
-			int tNextIndex = EditorGUILayout.Popup ("Class " + tCounter, 0, tListOfType.ToArray ());
+			int tNextIndex = EditorGUILayout.Popup ("Class " + tCounter, 0, tListOfType.ToArray ());
 			string tNextSelectedType = tListOfType [tNextIndex];
 			tNextSelectedType = tRegExpressionEmptyType.Replace (tNextSelectedType, " ");
 			tNextClassList.Add (tNextSelectedType);
 
-		EditorGUI.indentLevel--;
 		// remove empty properties
 			tNextClassList.Remove (" ");
 		// meorize new properties list
 			ClassesList = tNextClassList;
 		// Generate Button
 		EditorGUILayout.Space ();
-		// if ok continue else disable
-		EditorGUILayout.LabelField ("Generate", EditorStyles.boldLabel);
+            // if ok continue else disable
+            GUILayout.EndScrollView();
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
 		EditorGUI.BeginDisabledGroup (!tCanCreate);
-		if (GUILayout.Button ("generate window")) {
+		if (GUILayout.Button ("Generate window")) {
 			// ok generate!
 			GenerateNewWindow ();
-		}
-		EditorGUI.EndDisabledGroup ();
-		EditorGUILayout.Space ();
-		// calculate the good dimension for window
-		if (Event.current.type == EventType.Repaint)
-		{
-			Rect tRect = GUILayoutUtility.GetLastRect ();
-			maxSize = new Vector2 (600,tRect.height + tRect.y);
-			minSize = new Vector2 (300,tRect.height + tRect.y);
-		}
-	}
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDGUILayout.BigSpace();
+            // calculate the good dimension for window
+        }
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// Removes all predicate for the empty properties value key at the end of GUI.

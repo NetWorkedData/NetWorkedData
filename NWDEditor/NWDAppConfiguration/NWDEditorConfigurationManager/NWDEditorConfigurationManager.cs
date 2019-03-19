@@ -86,6 +86,9 @@ namespace NetWorkedData
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
+            NWDGUILayout.Title("Editor preferences");
+            NWDGUILayout.Informations("Some informations!");
+            NWDGUILayout.Line();
             float tMinWidht = 270.0F;
             int tColum = 1;
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
@@ -97,7 +100,8 @@ namespace NetWorkedData
                 }
             }
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            GUILayout.Label("Datas Tags", NWDConstants.kLabelTitleStyle);
+            NWDGUILayout.Section("Datas Tags");
+            NWDGUILayout.Informations("Some informations about tags!");
             if (tColum > 1)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -124,15 +128,15 @@ namespace NetWorkedData
             }
             GUILayout.EndScrollView();
 
-            NWDConstants.GUILayoutLine();
-            NWDConstants.GUIRedButtonBegin();
+            NWDGUILayout.Line();
             GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUIRedButtonEnd();
+            NWDGUI.EndRedArea();
+            NWDGUILayout.BigSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

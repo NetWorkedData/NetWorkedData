@@ -23,7 +23,7 @@ namespace NetWorkedData
         private static NWDAppEnvironmentConfigurationManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
-        static Vector2 ScrollPosition;
+        Vector2 ScrollPosition;
         static int TabSelected = 0;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentConfigurationManager SharedInstance()
@@ -80,6 +80,7 @@ namespace NetWorkedData
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
+            NWDGUILayout.Title("Configuration environments");
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
@@ -104,6 +105,7 @@ namespace NetWorkedData
                 NWDConstants.K_APP_CONFIGURATION_PROD
             };
             // Draw interface for environment chooser
+            //NWDGUILayout.LittleSpace();
             int tTabSelect = GUILayout.Toolbar(TabSelected, tTabList);
             if (tTabSelect != TabSelected)
             {
@@ -111,6 +113,8 @@ namespace NetWorkedData
                 ScrollPosition = Vector2.zero;
                 TabSelected = tTabSelect;
             }
+            NWDGUILayout.LittleSpace();
+            NWDGUILayout.Line();
             // Draw interface for environment selected inn scrollview
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             switch (tTabSelect)
@@ -132,16 +136,15 @@ namespace NetWorkedData
                     break;
             }
             GUILayout.EndScrollView();
-
-            NWDConstants.GUILayoutLine();
-            NWDConstants.GUIRedButtonBegin();
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUIRedButtonEnd();
+            NWDGUI.EndRedArea();
+            NWDGUILayout.BigSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

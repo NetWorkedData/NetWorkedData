@@ -138,11 +138,11 @@ namespace NetWorkedData
             tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
             if (IsInError() == true) {
 				tTemporary.Value = Value;
-                NWDConstants.GUIRedButtonBegin();
+                NWDGUI.BeginRedArea();
                 if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
 					tTemporary.Value = string.Empty;
                 }
-                NWDConstants.GUIRedButtonEnd();
+                NWDGUI.EndRedArea();
                 tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
 			return tTemporary;

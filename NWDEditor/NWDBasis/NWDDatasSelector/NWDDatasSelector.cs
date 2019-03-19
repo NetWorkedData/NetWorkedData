@@ -129,7 +129,7 @@ namespace NetWorkedData
             {
                 GUI.Label(tField, sDataLabel, NWDConstants.kDatasSelectorRowErrorStyle);
 
-                NWDConstants.GUIRedButtonBegin();
+                NWDGUI.BeginRedArea();
                 if (GUI.Button(tEditRect, NWDConstants.tCleanContent, NWDConstants.kMiniButtonStyle))
                 {
                     if (ControllerResult.ContainsKey(tID))
@@ -138,7 +138,7 @@ namespace NetWorkedData
                     }
                     ControllerResult.Add(tID, string.Empty);
                 }
-                NWDConstants.GUIRedButtonEnd();
+                NWDGUI.EndRedArea();
             }
             else
             {
@@ -361,7 +361,7 @@ namespace NetWorkedData
                 NWDConstants.kSelectorTileDarkStyle.fixedWidth = kZoom * 100;
             }
 
-            NWDConstants.GUILayoutSeparator();
+            NWDGUILayout.Separator();
 
             SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (kZoom <= 1)

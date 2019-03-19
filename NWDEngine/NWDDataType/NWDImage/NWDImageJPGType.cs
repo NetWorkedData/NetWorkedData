@@ -160,11 +160,11 @@ namespace NetWorkedData
 			Texture2D tTexture = tTemporary.ToTexture ();
 			if (Value != null && Value != string.Empty && tTexture == null) {
                 EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent);
-                NWDConstants.GUIRedButtonBegin();
+                NWDGUI.BeginRedArea();
                 if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
 					tTemporary.Value = string.Empty;
                 }
-                NWDConstants.GUIRedButtonEnd();
+                NWDGUI.EndRedArea();
             } else if (Value != null && Value != string.Empty) {
 						
 				if (tTexture != null) {
@@ -172,11 +172,11 @@ namespace NetWorkedData
 						, tTexture);
 				}
 				EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled);
-                NWDConstants.GUIRedButtonBegin();
+                NWDGUI.BeginRedArea();
                 if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
 					tTemporary.Value = string.Empty;
                 }
-                NWDConstants.GUIRedButtonEnd();
+                NWDGUI.EndRedArea();
             } else {
 				UnityEngine.Object tObjSprite = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Texture2D), false);
 				tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;

@@ -450,7 +450,6 @@ namespace NetWorkedData
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
         //-------------------------------------------------------------------------------------------------------------
 
-        public static Color K_RED_BUTTON_COLOR = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
 
         // todo test the color of button
         public static Color K_GREEN_BUTTON_COLOR = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
@@ -638,9 +637,9 @@ namespace NetWorkedData
 
         static public GUIStyle kPropertyLabelStyle;
 
-        static public GUIStyle kLabelTitleStyle;
-        static public GUIStyle kLabelSubTitleStyle;
+
         static public GUIStyle kLabelRightStyle;
+
         static public GUIStyle kBoldLabelStyle;
         static public GUIStyle kInspectorFullWidthMargins;
         static public GUIStyle kPopupdStyle;
@@ -651,8 +650,7 @@ namespace NetWorkedData
         static public GUIStyle kPopupButtonStyle;
         static public GUIStyle kMiniButtonStyle;
         static public GUIStyle kDeleteButtonStyle;
-        static public GUIStyle kSeparatorStyle;
-        static public GUIStyle kLineStyle;
+        //static public GUIStyle kSeparatorStyle;
 
 
         static public GUIStyle kSelectorTileStyle;
@@ -706,51 +704,6 @@ namespace NetWorkedData
         public static GUIContent tDownContent;
 
 
-
-
-
-        public static float KTableSearchLabelWidth = 80.0F;
-        public static float KTableSearchWidth = 120.0F;
-        public static float KTableSearchFieldWidth = 200.0F;
-        public static float KTableReferenceWidth = 160.0F;
-        public static float KTableRowWebModelWidth = 60.0F;
-        public static int KTablePageMarge = 5;
-        public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6;
-
-        public static GUIStyle KTableAreaColorDark;
-
-        public static GUIStyle KTableSearchTitle;
-        public static GUIStyle KTableSearchMask;
-        public static GUIStyle KTableSearchButton;
-        public static GUIStyle KTableSearchLabel;
-        public static GUIStyle KTableSearchToggle;
-        public static GUIStyle KTableSearchEnum;
-        public static GUIStyle KTableSearchDescription;
-        public static GUIStyle KTableSearchClassIcon;
-        public static GUIStyle KTableSearchIcon;
-        public static GUIStyle KTableSearchTextfield;
-
-
-        public static GUIStyle KTableClassToolbar;
-        public static GUIStyle KTableClassPopup;
-
-        public static GUIStyle KTableHeaderSelect;
-        public static GUIStyle KTableHeaderId;
-        public static GUIStyle KTableHeaderPrefab;
-        public static GUIStyle KTableHeaderInformations;
-        public static GUIStyle KTableHeaderIcon;
-        public static GUIStyle KTableHeaderStatut;
-        public static GUIStyle KTableHeaderReference;
-
-        public static GUIStyle KTableRowSelect;
-        public static GUIStyle KTableRowId;
-        public static GUIStyle KTableRowPrefab;
-        public static GUIStyle KTableRowInformations;
-        public static GUIStyle KTableRowIcon;
-        public static GUIStyle KTableRowStatut;
-        public static GUIStyle KTableRowReference;
-
-
         //public static GUIStyle KTableRowNormal;
         //public static GUIStyle KTableRowNormalSelected;
         //public static GUIStyle KTableRowTrashed;
@@ -772,10 +725,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadStyles()
         {
+            NWDGUI.LoadStyles();
             //Debug.Log ("STATIC STEConstants LoadStyles()");
             if (StyleLoaded == false)
             {
-
                 //tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
 
                 //tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
@@ -959,28 +912,6 @@ namespace NetWorkedData
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
 
-                kLabelTitleStyle = new GUIStyle(EditorStyles.label);
-                kLabelTitleStyle.fontSize = 14;
-                kLabelTitleStyle.fontStyle = FontStyle.Bold;
-                kLabelTitleStyle.normal.background = new Texture2D(1, 1);
-                Color tGrayLabelTitleStyle = new Color(0, 0, 0, 0.2F);
-                kLabelTitleStyle.normal.background.SetPixel(0, 0, tGrayLabelTitleStyle);
-                kLabelTitleStyle.normal.background.Apply();
-                kLabelTitleStyle.padding = new RectOffset(6, 2, 16, 2);
-                kLabelTitleStyle.margin = new RectOffset(0, 0, 1, 1);
-                kLabelTitleStyle.fixedHeight = kLabelTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                kLabelTitleStyle.richText = true;
-
-                kLabelSubTitleStyle = new GUIStyle(EditorStyles.label);
-                kLabelSubTitleStyle.fontSize = 12;
-                kLabelSubTitleStyle.fontStyle = FontStyle.Italic;
-                kLabelSubTitleStyle.normal.background = new Texture2D(1, 1);
-                Color tGrayLabelSubTitleStyle = new Color(0, 0, 0, 0.1F);
-                kLabelSubTitleStyle.normal.background.SetPixel(0, 0, tGrayLabelSubTitleStyle);
-                kLabelSubTitleStyle.normal.background.Apply();
-                kLabelSubTitleStyle.padding = new RectOffset(6, 2, 8, 2);
-                kLabelSubTitleStyle.margin = new RectOffset(0, 0, 1, 1);
-                kLabelSubTitleStyle.fixedHeight = kLabelSubTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kInspectorFullWidthMargins = new GUIStyle(EditorStyles.inspectorFullWidthMargins);
                 kInspectorFullWidthMargins.padding = new RectOffset(0, 0, 0, 0);
@@ -1024,169 +955,14 @@ namespace NetWorkedData
                 kDeleteButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSeparatorStyle = new GUIStyle(EditorStyles.label);
-                kSeparatorStyle.fontSize = 0;
-                kSeparatorStyle.normal.background = new Texture2D(1, 1);
-                Color tGraykSeparatorStyle = new Color(0, 0, 0, 0.5F);
-                kSeparatorStyle.normal.background.SetPixel(0, 0, tGraykSeparatorStyle);
-                kSeparatorStyle.normal.background.Apply();
-                kSeparatorStyle.padding = new RectOffset(2, 2, 2, 2);
-                kSeparatorStyle.margin = new RectOffset(0, 0, 1, 1);
-                kSeparatorStyle.fixedHeight = 1.0f;
 
-                kLineStyle = new GUIStyle(EditorStyles.label);
-                kLineStyle.fontSize = 0;
-                kLineStyle.normal.background = new Texture2D(1, 1);
-                Color tGraykLineStyle = new Color(0, 0, 0, 0.5F);
-                kLineStyle.normal.background.SetPixel(0, 0, tGraykLineStyle);
-                kLineStyle.normal.background.Apply();
-                kLineStyle.padding = new RectOffset(0, 0, 0, 0);
-                kLineStyle.margin = new RectOffset(0, 0, 0, 0);
-                kLineStyle.fixedHeight = 1.0f;
+
 
 
                 kPropertyLabelStyle = new GUIStyle(EditorStyles.label);
                 kPropertyLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 kPropertyLabelStyle.richText = true;
 
-
-                KTableClassToolbar = new GUIStyle(GUI.skin.button);
-                KTableClassToolbar. CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                KTableClassPopup = new GUIStyle(EditorStyles.popup);
-                KTableClassPopup.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                KTableAreaColorDark = new GUIStyle(EditorStyles.label);
-                KTableSearchIcon = new GUIStyle(EditorStyles.label);
-                KTableSearchTitle = new GUIStyle(EditorStyles.helpBox);
-                KTableSearchDescription = new GUIStyle(EditorStyles.helpBox);
-                KTableSearchClassIcon = new GUIStyle(EditorStyles.helpBox);
-                KTableSearchTextfield = new GUIStyle(EditorStyles.textField);
-                KTableSearchToggle = new GUIStyle(EditorStyles.toggle);
-                KTableSearchEnum = new GUIStyle(EditorStyles.popup);
-                KTableSearchMask = new GUIStyle(EditorStyles.layerMaskField);
-                KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
-                KTableSearchLabel = new GUIStyle(EditorStyles.label);
-
-                KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
-
-                float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                KTableSearchTitle.fixedHeight = tTableSearchHeight;
-                KTableSearchTextfield.fixedHeight = tTableSearchHeight;
-                KTableSearchToggle.fixedHeight = tTableSearchHeight;
-                KTableSearchEnum.fixedHeight = tTableSearchHeight;
-                KTableSearchMask.fixedHeight = tTableSearchHeight;
-                KTableSearchButton.fixedHeight = tTableSearchHeight;
-                KTableSearchLabel.fixedHeight = tTableSearchHeight;
-
-                if (EditorGUIUtility.isProSkin)
-                {
-                    KTableAreaColorDark.normal.background = NWDToolbox.TextureFromColor(new Color(0.0f, 0.0f, 0.0f, 0.35f));
-                }
-                else
-                {
-                    KTableAreaColorDark.normal.background = NWDToolbox.TextureFromColor(new Color(0.0f, 0.0f, 0.0f, 0.55f));
-                }
-                KTableAreaColorDark.padding = new RectOffset(0, 0, 5, 5);
-                KTableAreaColorDark.margin = new RectOffset(0, 0, 0, 0);
-                KTableSearchTitle.alignment = TextAnchor.MiddleCenter;
-                KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
-
-                KTableHeaderSelect = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderPrefab = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderId = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderIcon = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderInformations = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderStatut = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderReference = new GUIStyle(EditorStyles.helpBox);
-
-                KTableHeaderSelect.alignment = TextAnchor.MiddleCenter;
-                KTableHeaderPrefab.alignment = TextAnchor.MiddleCenter;
-                KTableHeaderId.alignment = TextAnchor.MiddleCenter;
-                KTableHeaderIcon.alignment = TextAnchor.MiddleCenter;
-                KTableHeaderInformations.alignment = TextAnchor.MiddleCenter;
-                KTableHeaderStatut.alignment = TextAnchor.MiddleCenter;
-                KTableHeaderReference.alignment = TextAnchor.MiddleCenter;
-
-                KTableRowSelect = new GUIStyle(EditorStyles.label);
-                KTableRowPrefab = new GUIStyle(EditorStyles.label);
-                KTableRowId = new GUIStyle(EditorStyles.label);
-                KTableRowIcon = new GUIStyle(EditorStyles.label);
-                KTableRowInformations = new GUIStyle(EditorStyles.label);
-                KTableRowStatut = new GUIStyle(EditorStyles.label);
-                KTableRowReference = new GUIStyle(EditorStyles.label);
-
-                KTableRowSelect.fixedHeight = KTableRowSelect.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                KTableRowSelect.alignment = TextAnchor.MiddleCenter;
-                KTableRowPrefab.alignment = TextAnchor.MiddleCenter;
-                KTableRowId.alignment = TextAnchor.MiddleRight;
-                KTableRowIcon.alignment = TextAnchor.MiddleCenter;
-                KTableRowInformations.alignment = TextAnchor.MiddleLeft;
-                KTableRowStatut.alignment = TextAnchor.MiddleCenter;
-                KTableRowReference.alignment = TextAnchor.MiddleRight;
-
-                KTableRowIcon.richText=true;
-                KTableRowInformations.richText = true;
-                KTableRowStatut.richText = true;
-
-                KTableRowIcon.padding = new RectOffset(10, 10, 10, 10);
-                KTableRowInformations.wordWrap = true;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void GUILayoutSeparator()
-        {
-            GUILayout.Label(string.Empty, kSeparatorStyle);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Rect GUISeparator(Rect sRect)
-        {
-            sRect.height = kSeparatorStyle.fixedHeight;
-            GUI.Label(sRect, string.Empty, kSeparatorStyle);
-            sRect.y += kSeparatorStyle.fixedHeight;
-            return sRect;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void GUILayoutLine()
-        {
-            GUILayout.Label(string.Empty, kLineStyle);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Rect GUILine(Rect sRect)
-        {
-            sRect.height = kLineStyle.fixedHeight;
-            GUI.Label(sRect, string.Empty, kLineStyle);
-            sRect.y += kLineStyle.fixedHeight;
-            return sRect;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Rect InspectorDrawSeparator(Rect sRect)
-        {
-            Rect tRect = EditorGUI.IndentedRect(new Rect(sRect.x, sRect.y + NWDConstants.kFieldMarge, sRect.width, 1));
-            EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
-            sRect.y += 1 + NWDConstants.kFieldMarge * 2;
-            return sRect;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static Color kOldColor;
-        static bool kOldColorInit;
-        //-------------------------------------------------------------------------------------------------------------
-        public static void GUIRedButtonBegin()
-        {
-            if (kOldColorInit == false)
-            {
-                kOldColor = GUI.backgroundColor;
-                kOldColorInit = true;
-            }
-            GUI.backgroundColor = K_RED_BUTTON_COLOR;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void GUIRedButtonEnd()
-        {
-            if (kOldColorInit == true)
-            {
-                GUI.backgroundColor = kOldColor;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

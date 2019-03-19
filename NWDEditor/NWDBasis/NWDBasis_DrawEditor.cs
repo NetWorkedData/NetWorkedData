@@ -914,7 +914,7 @@ namespace NetWorkedData
 
             GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_WARNING_ZONE, NWDConstants.tBoldLabelStyle);
             tY += NWDConstants.tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            NWDConstants.GUIRedButtonBegin();
+            NWDGUI.BeginRedArea();
 
             EditorGUI.BeginDisabledGroup(IsTrashed());
             if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDConstants.tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDConstants.tMiniButtonStyle))
@@ -966,7 +966,7 @@ namespace NetWorkedData
                 }
             }
             tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            NWDConstants.GUIRedButtonEnd();
+            NWDGUI.EndRedArea();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditor(Rect sInRect)

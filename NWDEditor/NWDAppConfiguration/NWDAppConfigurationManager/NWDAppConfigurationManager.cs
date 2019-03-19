@@ -100,10 +100,13 @@ namespace NetWorkedData
                 }
             }
             // begin scroll view
+            NWDGUILayout.Title("App configurations");
+            NWDGUILayout.Informations("BECAREfull!");
+            NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
-            GUILayout.Label("WebServices", NWDConstants.kLabelTitleStyle);
-            GUILayout.Label("Webservices config for all environements", NWDConstants.kLabelSubTitleStyle);
+            NWDGUILayout.Section("WebServices");
+            NWDGUILayout.SubTitle("Webservices config for all environements");
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
@@ -151,54 +154,52 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
             }
             // Database informations
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUILayoutLine();
-            GUILayout.Label("Databases", NWDConstants.kLabelTitleStyle);
-            GUILayout.Label("Databases parameters", NWDConstants.kLabelSubTitleStyle);
+            NWDGUILayout.Section("Databases");
+            NWDGUILayout.SubTitle("Databases parameters");
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
-            GUILayout.Label("Databases Editor config for all environements", NWDConstants.kLabelSubTitleStyle);
+            NWDGUILayout.SubTitle("Databases Editor config for all environements");
             //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
-            if (GUILayout.Button("Editor Database File"))
-            {
-                EditorUtility.RevealInFinder(tDatabasePathEditor);
-            }
             EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
             EditorGUILayout.LabelField("EditorPassA", NWDAppConfiguration.SharedInstance().EditorPassA);
             EditorGUILayout.LabelField("EditorPassAB", NWDAppConfiguration.SharedInstance().EditorPassB);
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextField("Editor Pass Result", NWDAppConfiguration.SharedInstance().GetEditorPass());
             EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Editor Database File"))
+            {
+                EditorUtility.RevealInFinder(tDatabasePathEditor);
+            }
             // Database account informations
-            GUILayout.Label("Databases Accountconfig for all environements (by device)", NWDConstants.kLabelSubTitleStyle);
+            NWDGUILayout.SubTitle("Databases Accountconfig for all environements (by device)");
             //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
-            if (GUILayout.Button("Account Database File"))
-            {
-                EditorUtility.RevealInFinder(tDatabasePathAccount);
-            }
             EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
             EditorGUILayout.LabelField("AccountHashSaltA", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
             EditorGUILayout.LabelField("AccountHashSaltB", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass());
             EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Account Database File"))
+            {
+                EditorUtility.RevealInFinder(tDatabasePathAccount);
+            }
             // finish scroll view
             GUILayout.EndScrollView();
             // finish with reccord red button
-            NWDConstants.GUILayoutLine();
-            NWDConstants.GUIRedButtonBegin();
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDGUILayout.Line();
+            NWDGUILayout.LittleSpace();
+            NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            GUILayout.Space(NWDConstants.kFieldMarge);
-            NWDConstants.GUIRedButtonEnd();
+            NWDGUI.EndRedArea();
+            NWDGUILayout.BigSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
