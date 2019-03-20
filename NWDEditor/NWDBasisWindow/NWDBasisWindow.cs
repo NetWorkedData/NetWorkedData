@@ -264,7 +264,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             // prepare the style
             // get width of window
             float tWidthUsed = EditorGUIUtility.currentViewWidth;

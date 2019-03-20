@@ -481,7 +481,7 @@ namespace NetWorkedData
             float tX = sInRect.x;
             float tY = sInRect.y;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
 
@@ -501,7 +501,7 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
 
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reset to zero", NWDGUI.kMiniButtonStyle))
             {
@@ -509,7 +509,7 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
 
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 1 to ownsership", NWDGUI.kMiniButtonStyle))
             {
@@ -529,7 +529,7 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
 
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", NWDGUI.kMiniButtonStyle))
             {
@@ -549,7 +549,7 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
 
             int tAddWidth = 30;
             kOwnershipAddValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDGUI.kFieldMarge, NWDGUI.kMiniButtonStyle.fixedHeight), " Value to add", kOwnershipAddValue);
@@ -559,7 +559,7 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
 
             kOwnershipSetValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDGUI.kFieldMarge, NWDGUI.kMiniButtonStyle.fixedHeight), " Value to set", kOwnershipSetValue);
             if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Set", NWDGUI.kMiniButtonStyle))

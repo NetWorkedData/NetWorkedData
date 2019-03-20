@@ -82,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
 
             NWDGUILayout.Title("Environment chooser");
 

@@ -66,10 +66,8 @@ namespace NetWorkedData
         public const string K_ALERT_IDEMOBI_OK = "Thanks!";
         public const string K_ALERT_IDEMOBI_SEE_DOC = "See online docs";
         public const string K_ALERT_IDEMOBI_DOC_HTTP = "http://www.idemobi.com/networkeddata";
-        //      public const string K_ALERT_IDEMOBI_DOC_HTTP =              "http://idemobi.com/networkeddata/";
         //-------------------------------------------------------------------------------------------------------------
         // Menu Strings
-
         public const string K_MENU_BASE = "NetWorkedDatas/";
         public const string K_MENU_IDEMOBI = K_MENU_BASE + "Developed by ideMobi";
         public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Tools/Editor preferences";
@@ -463,100 +461,31 @@ namespace NetWorkedData
         public const string K_APP_BASIS_WARNING_MODEL = "!!! WARNING !!! MODEL WAS CHANGED BUT NOT REGENERATED !!! WARNING !!! ";
         public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "!!! WARNING !!! MODEL WAS DEGRADED !!! WARNING !!! ";
         //-------------------------------------------------------------------------------------------------------------
-        static private bool StyleLoaded = false;
-        //-------------------------------------------------------------------------------------------------------------
-        //static public Color kIdentityColor;
-        //static public Color kPropertyColor;
-
-
-        //public static float kHeaderHeight = 20.0f;
-        //public static float kHeaderHeightSpace = 6.0f;
-        //public static float kHeaderLineStroke = 1.0f;
-        //public static Color kHeaderColorBackground = new Color(0.0f, 0.0f, 0.0f, 0.35f);
-        //public static Color kHeaderColorLine = new Color(0.0f, 0.0f, 0.0f, 0.55f);
-        //-------------------------------------------------------------------------------------------------------------
-        // Row design
-        //public static float kRowOutMarge = 25.0f;
-        //public static float kRowHeightImage = 20.0f;
-        //public static float kRowHeightSpace = 5.0f;
-        //static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
-        //public static float kRowLineStroke = 1.0f;
-        //-------------------------------------------------------------------------------------------------------------
-        // Columns Size
-        //public static float kOriginWidth = 1.0f;
-        //public static float kSelectWidth = 20.0f;
-        //public static float kIDWidth = 45.0f;
-        //public static float KTableIconWidth = 40.0f;
-        //public static float kDescriptionMinWidth = 200.0f;
-        //public static float kDiskWidth = 40.0f;
-        //public static float kSyncWidth = 40.0f;
-        //public static float kDevSyncWidth = 40.0f;
-        //public static float kPreprodSyncWidth = 40.0f;
-        //public static float kProdSyncWidth = 40.0f;
-        //public static float kActiveWidth = 70.0f;
-        //public static float kReferenceWidth = 230.0f;
-        //-------------------------------------------------------------------------------------------------------------
-
-        // images
-
-        static public Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelectionUpdate.psd");
-        static public Texture2D kImageMarkupUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupUpdate.psd");
-        static public Texture2D kImageDelete = NWDFindPackage.PackageEditorTexture("NWDInterfaceDelete.psd");
+        static public Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelectionUpdate.psd");  // node
         static public Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.psd");
         static public Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.psd");
-        static public Texture2D kImageMove = NWDFindPackage.PackageEditorTexture("NWDInterfaceMove.psd");
-        static public Texture2D kImageUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceUpdate.psd");
-        static public Texture2D kImageShortcutsToolsEditor = NWDFindPackage.PackageEditorTexture("NWDInterfaceShorcutsToolsEditor.psd");
-        static public Texture2D kImageSelection = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelection.psd");
-        static public Texture2D kImageMarkup = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkup.psd");
-        static public Texture2D kImageMarkupGizmos = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupGizmos.psd");
-        static public Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.psd");
-        static public Texture2D kImageScene = NWDFindPackage.PackageEditorTexture("NWDInterfaceScene.psd");
-        static public Texture2D kImageCamera = NWDFindPackage.PackageEditorTexture("NWDInterfaceCamera.psd");
-        static public Texture2D kImageCameraPosition = NWDFindPackage.PackageEditorTexture("NWDInterfaceCameraPosition.psd");
-        static public Texture2D kImageOrthographic = NWDFindPackage.PackageEditorTexture("NWDInterfaceOrthographic.psd");
-        static public Texture2D kImagePerspective = NWDFindPackage.PackageEditorTexture("NWDInterfacePerspective.psd");
-        static public Texture2D kImageTwoDimension = NWDFindPackage.PackageEditorTexture("NWDInterfaceTwoDimension.psd");
-        static public Texture2D kImageEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.psd");
-        static public Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.psd");
-        static public Texture2D kImageTabOptions = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabOptions.psd");
-        static public Texture2D kImageTabCreate = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabCreate.psd");
-        static public Texture2D kImageTabEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabEdit.psd");
-        static public Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabReduce.psd");
-        static public Texture2D kImageNodalCard = NWDFindPackage.PackageEditorTexture("NWDCardBack.psd");
-        static public Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd");
-        // Icons for Sync
+        static public Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.psd"); // Clean
+        static public Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.psd");  // new
+        static public Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabReduce.psd"); // edit
+        static public Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
         public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture("NWDRed.psd");
         public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture("NWDGreen.psd");
-        public static Texture2D kImageOrange = NWDFindPackage.PackageEditorTexture("NWDOrange.psd");
         public static Texture2D kImageForbidden = NWDFindPackage.PackageEditorTexture("NWDForbidden.psd");
-        public static Texture2D kImageForbiddenOrange = NWDFindPackage.PackageEditorTexture("NWDForbiddenOrange.psd");
         public static Texture2D kImageEmpty = NWDFindPackage.PackageEditorTexture("NWDEmpty.psd");
         public static Texture2D kImageWaiting = NWDFindPackage.PackageEditorTexture("NWDWaiting.psd");
-        public static Texture2D kImageWarning = NWDFindPackage.PackageEditorTexture("NWDWarning.psd");
-
-
         public static Texture2D kImageDefaultIcon= NWDFindPackage.PackageEditorTexture("NWDExample.psd");
-
-
         public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditorTexture("NWDDiskUnknow.png");
         public static Texture2D kImageDiskUpdate = NWDFindPackage.PackageEditorTexture("NWDDiskUpdate.png");
         public static Texture2D kImageDiskInsert = NWDFindPackage.PackageEditorTexture("NWDDiskInsert.png");
         public static Texture2D kImageDiskDelete = NWDFindPackage.PackageEditorTexture("NWDDiskDelete.png");
         public static Texture2D kImageDiskDatabase = NWDFindPackage.PackageEditorTexture("NWDDiskDatabase.png");
-
-
         public static Texture2D kImageCheckValid = NWDFindPackage.PackageEditorTexture("NWDCheckValid.psd");
         public static Texture2D kImageCheckWorkInProgress = NWDFindPackage.PackageEditorTexture("NWDCheckWorkInProgress.psd");
         public static Texture2D kImageCheckWarning = NWDFindPackage.PackageEditorTexture("NWDCheckWarning.psd");
-
-
         public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForbidden.png");
         public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForward.png");
-        public static Texture2D kImageSyncGeneralRequired = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralRequired.png");
         public static Texture2D kImageSyncGeneralSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralSuccessed.png");
         public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralWaiting.png");
-
         public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditorTexture("NWDSyncDanger.png");
         public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
         public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditorTexture("NWDSyncForward.png");
@@ -564,92 +493,6 @@ namespace NetWorkedData
         public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
 
-
-
-        //static public GUIStyle kLabelStyle;
-
-        //static public GUIStyle kBoldLabelStyle;
-        //static public GUIStyle kPopupdStyle;
-        //static public GUIStyle kTextFieldStyle;
-        //static public GUIStyle kPopupButtonStyle;
-        //static public GUIStyle kMiniButtonStyle;
-        //static public GUIStyle kDeleteButtonStyle;
-
-        // for Textfield in NWD inspector
-
-
-        //static public GUIStyle tTextAreaStyle;
-        //static public GUIStyle tRedLabelStyle;
-        //static public GUIStyle tGrayLabelStyle;
-        //static public GUIStyle tLabelRightStyle;
-        //public static GUIStyle tLabelStyle;
-        //public static GUIStyle tMiniLabelStyle;
-        //public static GUIStyle tBoldLabelStyle;
-        //public static GUIStyle tHelpBoxStyle;
-        //public static GUIStyle tMiniButtonStyle;
-        //public static GUIStyle tObjectFieldStyle;
-        //public static GUIStyle tTextFieldStyle;
-        //public static GUIStyle tFloatFieldStyle;
-        //public static GUIStyle tIntFieldStyle;
-        //public static GUIStyle tDoubleFieldStyle;
-        //public static GUIStyle tLongFieldStyle;
-        //public static GUIStyle tFoldoutStyle;
-        //public static GUIStyle tColorFieldStyle;
-        //public static GUIStyle tPopupdStyle;
-        //public static GUIStyle tEnumStyle;
-        //public static GUIStyle tToggleStyle;
-        //public static GUIStyle tBoldFoldoutStyle;
-
-
-
-        public static GUIContent tNodeContentIcon;
-        public static GUIContent tEditContent;
-        public static GUIContent tEditContentIcon;
-        public static GUIContent tNewContent;
-        public static GUIContent tNewContentIcon;
-        public static GUIContent tCleanContent;
-        public static GUIContent tCleanContentIcon;
-        public static GUIContent tUpContent;
-        public static GUIContent tDownContent;
-
-        //-------------------------------------------------------------------------------------------------------------
-        static NWDConstants()
-        {
-            //Debug.Log("STATIC STEConstants constructor");
-            //LoadStyles (); // Must be call from GUI
-            //LoadImages();
-            //Memorize color
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void LoadStyles()
-        {
-            NWDGUI.LoadStyles();
-            //Debug.Log ("STATIC STEConstants LoadStyles()");
-            if (StyleLoaded == false)
-            {
-                StyleLoaded = true;
-
-                //tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-
-                //tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
-
-                tNodeContentIcon = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
-                tEditContent = new GUIContent("edit");
-                tEditContentIcon = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-                tNewContent = new GUIContent("new");
-                tNewContentIcon = new GUIContent(NWDConstants.kImageNew, "new");
-                tCleanContent = new GUIContent("clean");
-                tCleanContentIcon = new GUIContent(NWDConstants.kImageAction, "clean");
-                tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
-                tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
-
-
-
-
-
-
-            }
-        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

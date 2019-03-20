@@ -120,7 +120,7 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             //NWDConstants.LoadImages();
-            //NWDConstants.LoadStyles();
+            //NWDGUI.LoadStyles();
             int tRow = 0;
             if (Value != null && Value != string.Empty)
             {
@@ -135,7 +135,7 @@ namespace NetWorkedData
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
-            //NWDConstants.LoadStyles();
+            //NWDGUI.LoadStyles();
             NWDLocalizablePrefabType tTemporary = new NWDLocalizablePrefabType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 

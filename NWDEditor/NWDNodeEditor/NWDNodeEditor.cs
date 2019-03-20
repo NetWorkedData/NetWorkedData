@@ -218,7 +218,7 @@ namespace NetWorkedData
 		{
             // Debug.Log("NWDNodeEditor OnGUI");
             //NWDConstants.LoadImages();
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));

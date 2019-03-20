@@ -85,7 +85,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             NWDGUILayout.Title("Editor preferences");
             NWDGUILayout.Informations("Some informations!");
             NWDGUILayout.Line();

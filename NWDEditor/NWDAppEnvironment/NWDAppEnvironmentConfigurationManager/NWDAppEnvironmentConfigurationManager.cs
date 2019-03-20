@@ -79,7 +79,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             NWDGUILayout.Title("Configuration environments");
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {

@@ -200,7 +200,7 @@ namespace NetWorkedData
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
-            //NWDConstants.LoadStyles();
+            //NWDGUI.LoadStyles();
             NWDSynchronizedClassesListType tTemporary = new NWDSynchronizedClassesListType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			tTemporary.Value = Value;

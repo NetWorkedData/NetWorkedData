@@ -89,7 +89,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {

@@ -124,6 +124,7 @@ namespace NetWorkedData
         static public GUIStyle kSelectorRowDarkStyle;
         static public GUIStyle kDatasSelectorRowStyle;
         static public GUIStyle kDatasSelectorRowErrorStyle;
+        static public float kDatasSelectorYOffset;
         //-------------------------------------------------------------------------------------------------------------
         // Data inspector properties
         // TODO : all rename!! with right name!
@@ -136,7 +137,7 @@ namespace NetWorkedData
         public static float kPrefabSize = 80.0f;
         public static float kIntWidth = 36.0f; 
         public static float kConditionalWidth = 42.0f;
-        public static float kEditWidth = 36.0f;
+        public static float kEditWidth = 18.0f;
         public static float kLangWidth = 50.0f;
         public static float kEnumWidth = 70.0f;
         public static float kConnectionIndent = 10.0f;
@@ -171,6 +172,20 @@ namespace NetWorkedData
         static public GUIStyle kGrayLabelStyle;
         static public GUIStyle kLabelRightStyle;
         public static GUIStyle kMiniLabelStyle;
+
+        public static GUIStyle kIconButtonStyle;
+        public static GUIStyle kEditButtonStyle;
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static GUIContent kNodeContentIcon;
+
+        public static GUIContent kEditContentIcon;
+        public static GUIContent kNewContentIcon;
+        public static GUIContent kCleanContentIcon;
+        public static GUIContent kUpContentIcon;
+        public static GUIContent kDownContentIcon;
+        public static GUIContent kLeftContentIcon;
+        public static GUIContent kRightContentIcon;
 
         //-------------------------------------------------------------------------------------------------------------
         // Nodal Document
@@ -316,7 +331,7 @@ namespace NetWorkedData
                 KTableHeaderPrefab = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderId = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderIcon = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderInformations = new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderInformations= new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderStatut = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderReference = new GUIStyle(EditorStyles.helpBox);
 
@@ -491,6 +506,38 @@ namespace NetWorkedData
                 kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
                 kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
                 kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
+
+                // References content
+
+                kIconButtonStyle = new GUIStyle(EditorStyles.miniButton);
+                kIconButtonStyle.fixedHeight = kIconButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kIconButtonStyle.padding = new RectOffset(2, 2, 2, 2);
+                kUpDownWidth = kIconButtonStyle.fixedHeight;
+
+                kEditButtonStyle = new GUIStyle(EditorStyles.miniButton);
+                kEditButtonStyle.fixedHeight = kEditButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kEditButtonStyle.padding = new RectOffset(2, 2, 2, 2);
+
+                kNodeContentIcon = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
+                kEditContentIcon = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+                kNewContentIcon = new GUIContent(NWDConstants.kImageNew, "new");
+                kCleanContentIcon = new GUIContent(NWDConstants.kImageAction, "clean");
+                kUpContentIcon = new GUIContent(NWDConstants.kImageUp, "up");
+                kDownContentIcon = new GUIContent(NWDConstants.kImageDown, "down");
+                kLeftContentIcon = new GUIContent(NWDConstants.kImageUp, "<");
+                kRightContentIcon = new GUIContent(NWDConstants.kImageDown, ">");
+
+                kDatasSelectorYOffset = 2;
+
+                //kNodeContentIcon = new GUIContent("node");
+                //kEditContentIcon = new GUIContent("edit");
+                //kNewContentIcon = new GUIContent("new");
+                //kCleanContentIcon = new GUIContent("clean");
+                //kUpContentIcon = new GUIContent("up");
+                //kDownContentIcon = new GUIContent("down");
+                //kLeftContentIcon = new GUIContent("<");
+                //kRightContentIcon = new GUIContent(">");
             }
         }
         //-------------------------------------------------------------------------------------------------------------

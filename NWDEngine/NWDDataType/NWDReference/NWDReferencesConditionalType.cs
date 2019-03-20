@@ -31,7 +31,7 @@ namespace NetWorkedData
     public enum NWDConditional : int
     {
         EqualTo = 0,
-        UpperThan =1,
+        UpperThan = 1,
         UpperThanOrEqual = 2,
         LowerThan = 3,
         LowerThanOrEqual = 4,
@@ -88,7 +88,7 @@ namespace NetWorkedData
             string rDescription = Reference;
             if (tObject == null)
             {
-                rDescription = Reference+" (in error) ";
+                rDescription = Reference + " (in error) ";
             }
             else if (tObject.InternalKey == null)
             {
@@ -98,33 +98,33 @@ namespace NetWorkedData
             {
                 case NWDConditional.DifferentTo:
                     {
-                        rDescription += " != " + Quantity +"\r\n";
+                        rDescription += " != " + Quantity + "\r\n";
                     }
                     break;
                 case NWDConditional.EqualTo:
                     {
-                        rDescription += " !== " + Quantity+ "\r\n";
+                        rDescription += " !== " + Quantity + "\r\n";
                     }
                     break;
                 case NWDConditional.UpperThan:
                     {
-                        rDescription += " > " + Quantity+ "\r\n";
+                        rDescription += " > " + Quantity + "\r\n";
                     }
                     break;
                 case NWDConditional.UpperThanOrEqual:
                     {
-                        rDescription += " >= " + Quantity+ "\r\n";
+                        rDescription += " >= " + Quantity + "\r\n";
                     }
                     break;
                 case NWDConditional.LowerThan:
                     {
 
-                        rDescription += " < " + Quantity+ "\r\n";
+                        rDescription += " < " + Quantity + "\r\n";
                     }
                     break;
                 case NWDConditional.LowerThanOrEqual:
                     {
-                        rDescription += " <= " + Quantity+ "\r\n";
+                        rDescription += " <= " + Quantity + "\r\n";
                     }
                     break;
                 default:
@@ -143,7 +143,7 @@ namespace NetWorkedData
             bool rReturn = true;
             switch (Condition)
             {
-                case NWDConditional.DifferentTo :
+                case NWDConditional.DifferentTo:
                     {
                         if (sQuantity == Quantity)
                         {
@@ -191,7 +191,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                default :
+                default:
                     break;
             }
 
@@ -251,11 +251,11 @@ namespace NetWorkedData
             {
                 return false;
             }
-            Dictionary<string, int> tDico =  sReferencesQuantity.GetReferenceAndQuantity();
+            Dictionary<string, int> tDico = sReferencesQuantity.GetReferenceAndQuantity();
             foreach (NWDReferenceConditionalType<K> tConditional in GetReferenceQuantityConditional())
             {
                 int tQuantity = tDico[tConditional.Reference];
-                if (tConditional.isValid(tQuantity) ==false)
+                if (tConditional.isValid(tQuantity) == false)
                 {
                     rReturn = false;
                     break;
@@ -408,7 +408,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                            tValueList.Add(tLineValue[0]);
+                        tValueList.Add(tLineValue[0]);
                     }
                 }
             }
@@ -536,7 +536,7 @@ namespace NetWorkedData
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()
         {
@@ -655,18 +655,18 @@ namespace NetWorkedData
                     EditorGUI.indentLevel = tIndentLevel;
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tUpContent, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
-                    }
-                    if (i < tValueList.Count - 2)
-                    {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tDownContent, NWDGUI.kPopupStyle))
+                        if (i < tValueList.Count - 2)
                         {
-                            tDown = true;
-                            tIndexToMove = i;
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            {
+                                tDown = true;
+                                tIndexToMove = i;
+                            }
                         }
                     }
                     tValueList[i] = tV + NWDConstants.kFieldSeparatorB + NWDToolbox.IntToString(tQ) + NWDConstants.kFieldSeparatorB + NWDToolbox.IntToString(tC);

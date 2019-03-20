@@ -85,7 +85,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
             NWDGUILayout.Line();

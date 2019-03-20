@@ -282,12 +282,12 @@ namespace NetWorkedData
                 GUI.Box(InfoRect, " ", EditorStyles.helpBox);
                 GUI.backgroundColor = tOldBackgroundColor;
                 // add button to edit data
-                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tEditContentIcon, EditorStyles.miniButton))
+                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
                 {
                     NWDDataInspector.InspectNetWorkedData(Data, true, true);
                 }
                 // add button to center node on this data
-                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNodeContentIcon, EditorStyles.miniButton))
+                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
                 {
                     NWDDataInspector.InspectNetWorkedData(Data, true, true);
                     ParentDocument.SetData(Data);
@@ -323,12 +323,12 @@ namespace NetWorkedData
                             NWDTypeClass tSubData = tSubCard.Data;
                             tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDGUI.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDGUI.kEditWidth + NWDGUI.kFieldMarge) * 3, tConnection.Rectangle.height));
                             // Add button to edit this data
-                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tEditContentIcon, EditorStyles.miniButton))
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
                             {
                                 NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
                             }
                             // add button to center node on this data
-                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNodeContentIcon, EditorStyles.miniButton))
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
                             {
                                 NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
                                 ParentDocument.SetData(tSubCard.Data);
@@ -348,7 +348,7 @@ namespace NetWorkedData
                     if (tConnection.AddButton == true)
                     {
 
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDGUI.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNewContentIcon, EditorStyles.miniButton))
+                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDGUI.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNewContentIcon, EditorStyles.miniButton))
                         {
                             // TODO : Change to remove invoke!
                             //Debug.Log("ADD REFERENCE FROM NODE EDITOR");

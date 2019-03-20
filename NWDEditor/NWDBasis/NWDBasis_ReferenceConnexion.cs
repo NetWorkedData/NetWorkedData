@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string ReferenceConnectionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             float tX = sPosition.x;
             float tY = sPosition.y;
             float tWidth = sPosition.width;
@@ -172,7 +172,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static float ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);

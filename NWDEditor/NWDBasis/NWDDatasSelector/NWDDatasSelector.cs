@@ -119,7 +119,7 @@ namespace NetWorkedData
             }
             Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight);
             Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge - sInsertion, NWDGUI.kDatasSelectorRowStyle.fixedHeight);
-            Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDGUI.kEditWidth, sRect.position.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight);
+            Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDGUI.kEditWidth, sRect.position.y + NWDGUI.kDatasSelectorYOffset, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight);
 
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
             GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
@@ -130,7 +130,7 @@ namespace NetWorkedData
                 GUI.Label(tField, sDataLabel, NWDGUI.kDatasSelectorRowErrorStyle);
 
                 NWDGUI.BeginRedArea();
-                if (GUI.Button(tEditRect, NWDConstants.tCleanContent, NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tEditRect, NWDGUI.kCleanContentIcon, NWDGUI.kEditButtonStyle))
                 {
                     if (ControllerResult.ContainsKey(tID))
                     {
@@ -172,14 +172,14 @@ namespace NetWorkedData
                 if (string.IsNullOrEmpty(sReference) == false)
                 {
 
-                    if (GUI.Button(tEditRect, NWDConstants.tEditContent, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tEditRect, NWDGUI.kEditContentIcon, NWDGUI.kEditButtonStyle))
                     {
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(sReference), false);
                     }
                 }
                 else
                 {
-                    if (GUI.Button(tEditRect, NWDConstants.tNewContent, NWDGUI.kMiniButtonStyle))
+                    if (GUI.Button(tEditRect, NWDGUI.kNewContentIcon, NWDGUI.kEditButtonStyle))
                     {
                         NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
                         if (ControllerResult.ContainsKey(tID))
@@ -328,7 +328,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void OnGUI()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             Vector2 tSelectionVector = SelectorWindow.ScrollPosition;
             //Debug.Log("OnGUI with selection : " + ActualSelection);
             string tNewInternalResearch = EditorGUILayout.TextField("Internal filter", InternalResearch);

@@ -589,7 +589,7 @@ namespace NetWorkedData
 
             // draw line 
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "Tools box", NWDGUI.kLabelStyle);
             tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;

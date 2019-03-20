@@ -34,7 +34,7 @@ namespace NetWorkedData
             float tX = sInRect.x;
             float tY = sInRect.y;
 
-            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             List<NWDUserItemSlot> tUserItemSlotList = NWDUserItemSlot.FindByIndex(this.Reference);
             foreach(NWDUserItemSlot tUserItemSlot in tUserItemSlotList)

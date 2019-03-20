@@ -362,7 +362,7 @@ namespace NetWorkedData
                 //foreach (Type tType in TypeList)
                 //{
                 //    //GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-                //    if (GUI.Button(new Rect(MargeWidth - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge + HeightProperty * tCounter, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNewContentIcon, NWDConstants.StyleMiniButton))
+                //    if (GUI.Button(new Rect(MargeWidth - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge + HeightProperty * tCounter, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNewContentIcon, NWDConstants.StyleMiniButton))
                 //    {
                 //        tTypeToCreate = tType;
                 //    }

@@ -114,7 +114,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(true);
 
 
-            tYadd += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             GUI.Label(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environement selected to build", EditorStyles.boldLabel);
             tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -152,7 +152,7 @@ namespace NetWorkedData
             tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
 
             // Draw line 
-            tYadd += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             // Draw button choose env
             if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tMiniButtonStyle.fixedHeight), "Environment chooser", tMiniButtonStyle))

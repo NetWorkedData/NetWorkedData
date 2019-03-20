@@ -40,7 +40,7 @@ namespace NetWorkedData
 
             tYadd += NWDGUI.kFieldMarge;
             // Draw line 
-            tYadd += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             // Draw the interface addon for editor
             if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDGUI.kMiniButtonStyle.fixedHeight), "Post this Action"))

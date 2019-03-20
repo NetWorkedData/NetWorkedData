@@ -67,7 +67,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return NWDToolbox.FloatToString(Min) + NWDConstants.kFieldSeparatorC +  NWDToolbox.FloatToString(Max);
+            return NWDToolbox.FloatToString(Min) + NWDConstants.kFieldSeparatorC + NWDToolbox.FloatToString(Max);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddValue(float sValue)
@@ -345,7 +345,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                            tValueList.Add(tLineValue[0]);
+                        tValueList.Add(tLineValue[0]);
                     }
                 }
             }
@@ -587,22 +587,22 @@ namespace NetWorkedData
                     EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDGUI.kFieldMarge, NWDGUI.kLabelRightStyle.fixedHeight), "Range", NWDGUI.kLabelRightStyle);
                     tQ.Min = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDGUI.kTextFieldStyle.fixedHeight), tQ.Min);
                     tQ.Max = EditorGUI.FloatField(new Rect(tXb + tTiersWidth, tYb, tTiersWidthB, NWDGUI.kTextFieldStyle.fixedHeight), tQ.Max);
-                  
+
                     EditorGUI.indentLevel = tIndentLevel;
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tUpContent, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY+ NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
-                    }
-                    if (i < tValueList.Count - 2)
-                    {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tDownContent, NWDGUI.kPopupStyle))
+                        if (i < tValueList.Count - 2)
                         {
-                            tDown = true;
-                            tIndexToMove = i;
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            {
+                                tDown = true;
+                                tIndexToMove = i;
+                            }
                         }
                     }
                     if (!tValueListReferenceAllReady.Contains(tV))

@@ -164,7 +164,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float DrawObjectInspectorHeight()
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
             float tY = 0;
             Type tType = ClassType();
             tY += NewDrawObjectInspectorHeight();
@@ -175,10 +175,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Rect DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
         {
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
 
             float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
             float tX = sInRect.position.x + NWDGUI.kFieldMarge;
+
+
             float tY = sInRect.position.y + NWDGUI.kFieldMarge;
             bool rNeedBeUpdate = false;
             EditorGUI.BeginChangeCheck();
@@ -190,12 +192,12 @@ namespace NetWorkedData
                 float tHeightContent = DrawObjectInspectorHeight();
                 if (tHeightContent >= sInRect.height)
                 {
-                    tScrollBarMarge = 20.0f;
+                    tScrollBarMarge = NWDGUI.kScrollbar;
                 }
                 BasisHelper().ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, BasisHelper().ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, tHeightContent));
 
-                tWidth = sInRect.width - tScrollBarMarge - NWDGUI.kFieldMarge * 2;
-                tX = NWDGUI.kFieldMarge;
+                tWidth = sInRect.width - tScrollBarMarge;
+                tX = 0;
                 tY = NWDGUI.kFieldMarge;
             }
             EditorGUI.BeginDisabledGroup(sEditionEnable == false);

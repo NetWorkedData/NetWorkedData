@@ -263,7 +263,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                            tValueList.Add(tLineValue[0]);
+                        tValueList.Add(tLineValue[0]);
                     }
                 }
             }
@@ -416,7 +416,7 @@ namespace NetWorkedData
             return rDescription;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()
         {
@@ -454,7 +454,7 @@ namespace NetWorkedData
         public void EditorAddNewObject()
         {
             K tNewObject = NWDBasis<K>.NewData();
-            this.AddObjectAmount(tNewObject,1);
+            this.AddObjectAmount(tNewObject, 1);
             NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -521,29 +521,29 @@ namespace NetWorkedData
                     tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                     tV = tLineValue[0];
                 }
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + NWDGUI.kFieldMarge*2);
+                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + NWDGUI.kFieldMarge * 2);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
                     tQ = EditorGUI.FloatField(new Rect(tX + tWidth - tIntWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge * 2, tY, tIntWidth + NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight), tQ);
-                    
+
                     EditorGUI.indentLevel = tIndentLevel;
 
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tUpContent, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
-                    }
-                    if (i < tValueList.Count - 2)
-                    {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tDownContent, NWDGUI.kPopupStyle))
+                        if (i < tValueList.Count - 2)
                         {
-                            tDown = true;
-                            tIndexToMove = i;
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            {
+                                tDown = true;
+                                tIndexToMove = i;
+                            }
                         }
                     }
                     if (!tValueListReferenceAllReady.Contains(tV))

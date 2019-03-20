@@ -113,7 +113,7 @@ namespace NetWorkedData
             return rList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
@@ -158,18 +158,18 @@ namespace NetWorkedData
                 {
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tUpContent, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY-1, NWDGUI.kUpDownWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
-                    }
-                    if (i < tValueList.Count - 2)
-                    {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tDownContent, NWDGUI.kPopupStyle))
+                        if (i < tValueList.Count - 2)
                         {
-                            tDown = true;
-                            tIndexToMove = i;
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY-1, NWDGUI.kUpDownWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            {
+                                tDown = true;
+                                tIndexToMove = i;
+                            }
                         }
                     }
                     tValueList[i] = tV;

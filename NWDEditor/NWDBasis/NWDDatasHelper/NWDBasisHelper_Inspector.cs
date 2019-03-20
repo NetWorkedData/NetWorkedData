@@ -700,7 +700,7 @@ namespace NetWorkedData
             if (LoadStyle == false)
             {
                 LoadStyle = true;
-                NWDConstants.LoadStyles();
+                NWDGUI.LoadStyles();
                 Dictionary<NWDBasisHelperElement, string> PropertiesForGroupName = new Dictionary<NWDBasisHelperElement, string>();
                 List<string> tPropertyListInWebModel = new List<string>();
                 if (WebServiceWebModel.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
