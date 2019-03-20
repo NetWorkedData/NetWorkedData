@@ -160,7 +160,7 @@ namespace NetWorkedData
             tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent("A"), 100.0f);
             tLabelAssetStyle.normal.textColor = Color.gray;
 
-            return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+            return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
@@ -201,7 +201,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    EditorGUI.DrawPreviewTexture(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tObject);
+                    EditorGUI.DrawPreviewTexture(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), tObject);
                 }
                 if (Value.Contains(NWD.K_Resources) == false)
                 {
@@ -210,7 +210,7 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(!tRessource);
             UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Texture2D), false);
-            tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
+            tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
             if (pObj != null)
             {
                 tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath(pObj) + NWDAssetType.kAssetDelimiter;
@@ -228,16 +228,16 @@ namespace NetWorkedData
                 tTemporary.Value = Value;
 
                 GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD, tLabelStyle);
-                tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + tLabelStyle.fixedHeight;
                 GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty), tLabelAssetStyle);
-                tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + tLabelAssetStyle.fixedHeight;
                 NWDGUI.BeginRedArea();
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
                 {
                     tTemporary.Value = string.Empty;
                 }
                 NWDGUI.EndRedArea();
-                tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
             }
             return tTemporary;
         }

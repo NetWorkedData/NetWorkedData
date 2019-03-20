@@ -19,9 +19,9 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
 
-            float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDConstants.kFieldMarge;
-            float tY = sInRect.position.y + NWDConstants.kFieldMarge;
+            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
+            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -31,28 +31,28 @@ namespace NetWorkedData
 
             float tYadd = 0.0f;
 
-            tYadd += NWDConstants.kFieldMarge;
+            tYadd += NWDGUI.kFieldMarge;
             // Draw line 
-            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDConstants.kRowColorLine);
-            tYadd += NWDConstants.kFieldMarge;
+
+            tYadd += NWDGUI.Line(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
             // draw Flash My App
 
             foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
             {
                 string tProto = tProtocol.Replace("://", string.Empty);
                 EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(tProto, string.Empty));
-                tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", tMiniButtonStyle))
                 {
                     Application.OpenURL(URISchemePath(tProto, string.Empty));
                 }
-                tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tYadd += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 // Draw QRCode texture
                 Texture2D tTexture = FlashMyApp(tProto,false, 256);
-                EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize * 2, NWDConstants.kPrefabSize * 2),
+                EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2),
                                              tTexture);
-                tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+                tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
             }
             return tYadd;
         }
@@ -65,11 +65,11 @@ namespace NetWorkedData
             float tYadd = 0.0F;
             foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
             {
-                tYadd = NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-                tYadd += NWDConstants.kFieldMarge;
-                tYadd += NWDConstants.kFieldMarge;
-                tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+                tYadd = NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tYadd += NWDGUI.kFieldMarge;
+                tYadd += NWDGUI.kFieldMarge;
+                tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
             }
             return tYadd;
         }

@@ -189,9 +189,9 @@ namespace NetWorkedData
                 }
             }
 
-            float tHeight = (NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge +
-                             tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
-                                          NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+            float tHeight = (NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge) * tRow - NWDGUI.kFieldMarge +
+                             tConnection * (NWDGUI.kRedLabelStyle.fixedHeight + NWDGUI.kFieldMarge +
+                                          NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
 
 
             // test if error in reference and add button height
@@ -199,7 +199,7 @@ namespace NetWorkedData
             {
                 if (ClasseInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
                 {
-                    tHeight = tHeight + NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tHeight = tHeight + NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }
 
@@ -219,7 +219,7 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            float tEditWidth = NWDConstants.kEditWidth;
+            float tEditWidth = NWDGUI.kEditWidth;
             bool tConnection = true;
 
 
@@ -274,11 +274,11 @@ namespace NetWorkedData
                 }
                 string tV = tValueList.ElementAt(i);
                 int tIndex = tClasseList.IndexOf(tV);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDGUI.kPopupStyle);
 
                 if (tValueListERROR.Contains(tV))
                 {
-                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, NWDConstants.kGrayLabelStyle.fixedHeight), "? <" + tV + ">", NWDConstants.kGrayLabelStyle);
+                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDGUI.kFieldMarge * 4 - tEditWidth, NWDGUI.kGrayLabelStyle.fixedHeight), "? <" + tV + ">", NWDGUI.kGrayLabelStyle);
                 }
 
                 if (tIndex >= 0)
@@ -287,7 +287,7 @@ namespace NetWorkedData
                     if (i > 0)
                     {
                         GUIContent tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDConstants.kFieldMarge) * 2, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tUpContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge) * 2, tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), tUpContent, NWDGUI.kPopupStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
@@ -296,7 +296,7 @@ namespace NetWorkedData
                     if (i < tValueList.Count - 2)
                     {
                         GUIContent tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDConstants.kFieldMarge), tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDownContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge), tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), tDownContent, NWDGUI.kPopupStyle))
                         {
                             tDown = true;
                             tIndexToMove = i;
@@ -304,7 +304,7 @@ namespace NetWorkedData
                     }
                 }
 
-                tY += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tY += NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge;
                 if (tIndex >= 0 && tIndex < tClasseList.Count)
                 {
                     tValueList[i] = tClasseList.ElementAt(tIndex);
@@ -354,12 +354,12 @@ namespace NetWorkedData
             {
                 tTemporary.Value = Value;
 
-                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, NWDConstants.kRedLabelStyle);
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
+                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDGUI.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, NWDGUI.kRedLabelStyle);
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kRedLabelStyle.fixedHeight;
                 //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-                //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                //				tY = tY + NWDGUI.kFieldMarge + tLabelAssetStyle.fixedHeight;
                 NWDGUI.BeginRedArea();
-                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
+                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDGUI.kMiniButtonStyle))
                 {
                     foreach (string tDeleteClasse in tValueListERROR)
                     {
@@ -371,7 +371,7 @@ namespace NetWorkedData
                     tTemporary.Value = tNextValue;
                 }
                 NWDGUI.EndRedArea();
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kMiniButtonStyle.fixedHeight;
             }
 
             return tTemporary;

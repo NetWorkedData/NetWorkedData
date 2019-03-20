@@ -34,7 +34,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         float tX;
         float tY;
-        float Margin;
         public float Width;
         public float Height;
         public float InformationsHeight;
@@ -195,10 +194,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateHeightWidth()
         {
-            Margin = ParentDocument.Margin;
-            tX = ParentDocument.MargeWidth + Margin + Column * (ParentDocument.GetWidth() + Margin);
-            tY = Margin + Line * (ParentDocument.Height + Margin);
-            Height = NWDConstants.kFieldMarge + (ParentDocument.HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (ParentDocument.HeightProperty + NWDConstants.kFieldMarge) * ConnectionList.Count;
+            tX = ParentDocument.MargeWidth + NWDGUI.kNodeCardHeight + Column * (ParentDocument.GetWidth() + NWDGUI.kNodeCardHeight);
+            tY = NWDGUI.kNodeCardHeight + Line * (ParentDocument.Height + NWDGUI.kNodeCardHeight);
+            Height = NWDGUI.kFieldMarge + (ParentDocument.HeightLabel + NWDGUI.kFieldMarge) * 3 + InformationsHeight + NWDGUI.kFieldMarge + (ParentDocument.HeightProperty + NWDGUI.kFieldMarge) * ConnectionList.Count;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
@@ -215,38 +213,38 @@ namespace NetWorkedData
             CardBottomLeft = new Vector2(CardRect.xMin, CardRect.yMin);
             CardBottomRight = new Vector2(CardRect.xMax, CardRect.yMin);
 
-            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge + NWDConstants.kEditWidthHalf, CardRect.y + NWDConstants.kFieldMarge, NWDConstants.kIconWidth, NWDConstants.kIconWidth);
+            IconRect = new Rect(CardRect.x + NWDGUI.kFieldMarge + NWDGUI.kEditWidthHalf, CardRect.y + NWDGUI.kFieldMarge, NWDGUI.kIconWidth, NWDGUI.kIconWidth);
 
-            CardTypeRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4 - NWDConstants.kIconWidth, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kIconWidth, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kIconWidth, ParentDocument.HeightLabel);
+            CardTypeRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kFieldMarge * 4 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDGUI.kFieldMarge * 2, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDGUI.kFieldMarge * 3, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
 
-            InfoRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, Width - +NWDConstants.kFieldMarge * 2, InformationsHeight);
-            InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge * 2, InfoRect.height - NWDConstants.kFieldMarge * 2);
+            InfoRect = new Rect(tX + NWDGUI.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 4, Width - +NWDGUI.kFieldMarge * 2, InformationsHeight);
+            InfoUsableRect = new Rect(InfoRect.x + NWDGUI.kFieldMarge, InfoRect.y + NWDGUI.kFieldMarge, InfoRect.width - NWDGUI.kFieldMarge * 2, InfoRect.height - NWDGUI.kFieldMarge * 2);
 
             Position = new Vector2(tX, tY);
-            CirclePosition = new Vector2(tX + 0, tY + NWDConstants.kIconWidth / 2.0F + NWDConstants.kFieldMarge);
-            PositionTangent = new Vector2(CirclePosition.x - ParentDocument.Margin, CirclePosition.y);
+            CirclePosition = new Vector2(tX + 0, tY + NWDGUI.kIconWidth / 2.0F + NWDGUI.kFieldMarge);
+            PositionTangent = new Vector2(CirclePosition.x - NWDGUI.kNodeCardHeight, CirclePosition.y);
 
             int tPropertyCounter = 0;
             foreach (NWDNodeConnection tConnection in ConnectionList)
             {
                 //Debug.Log("NWDNodeCard DrawCard() draw connection");
-                tConnection.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
-                                                tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + InformationsHeight + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                Width - NWDConstants.kFieldMarge * 2 - NWDConstants.kEditWidthMini / 2.0F,
+                tConnection.Rectangle = new Rect(tX + NWDGUI.kFieldMarge,
+                                                tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 5 + InformationsHeight + (NWDGUI.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
+                                                Width - NWDGUI.kFieldMarge * 2 - NWDGUI.kEditWidthMini / 2.0F,
                                                 ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnection.PropertyName);
-                tConnection.Position = new Vector2(tX + Width - NWDConstants.kFieldMarge,
+                tConnection.Position = new Vector2(tX + Width - NWDGUI.kFieldMarge,
                                                   tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
 
 
                 tConnection.CirclePosition = new Vector2(
                     tX + Width,
-                                                  //                      tX + Width - NWDConstants.kFieldMarge - NWDConstants.kEditWidth/2.0F,
+                                                  //                      tX + Width - NWDGUI.kFieldMarge - NWDGUI.kEditWidth/2.0F,
                                                   tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
-                tConnection.PositionTangent = new Vector2(tConnection.CirclePosition.x + ParentDocument.Margin, tConnection.CirclePosition.y);
+                tConnection.PositionTangent = new Vector2(tConnection.CirclePosition.x + NWDGUI.kNodeCardHeight, tConnection.CirclePosition.y);
                 tPropertyCounter++;
             }
         }
@@ -284,12 +282,12 @@ namespace NetWorkedData
                 GUI.Box(InfoRect, " ", EditorStyles.helpBox);
                 GUI.backgroundColor = tOldBackgroundColor;
                 // add button to edit data
-                if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditIconSide - NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tEditContentIcon, NWDConstants.StyleMiniButton))
+                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tEditContentIcon, EditorStyles.miniButton))
                 {
                     NWDDataInspector.InspectNetWorkedData(Data, true, true);
                 }
                 // add button to center node on this data
-                if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditIconSide * 2 - NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNodeContentIcon, NWDConstants.StyleMiniButton))
+                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNodeContentIcon, EditorStyles.miniButton))
                 {
                     NWDDataInspector.InspectNetWorkedData(Data, true, true);
                     ParentDocument.SetData(Data);
@@ -298,7 +296,7 @@ namespace NetWorkedData
                 //NWDBasisHelper.FindTypeInfos(Data.GetType());
                 string tPrefName = "NWDEditorAnalyze_" + Data.GetType().Name;
                 bool tAnalyze = EditorPrefs.GetBool(tPrefName, true);
-                bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDConstants.kEditIconSide * 3 - NWDConstants.kFieldMarge * 3, tY + NWDConstants.kFieldMarge, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), "", tAnalyze);
+                bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDGUI.kEditIconSide * 3 - NWDGUI.kFieldMarge * 3, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), "", tAnalyze);
                 if (tAnalyzeChange != tAnalyze)
                 {
                     EditorPrefs.SetBool(tPrefName, tAnalyzeChange);
@@ -323,14 +321,14 @@ namespace NetWorkedData
                             GUI.Box(tConnection.Rectangle, string.Empty, tBox);
                             // add special infos in this property draw
                             NWDTypeClass tSubData = tSubCard.Data;
-                            tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDConstants.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height));
+                            tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDGUI.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDGUI.kEditWidth + NWDGUI.kFieldMarge) * 3, tConnection.Rectangle.height));
                             // Add button to edit this data
-                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditIconSide + NWDConstants.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tEditContentIcon, NWDConstants.StyleMiniButton))
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tEditContentIcon, EditorStyles.miniButton))
                             {
                                 NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
                             }
                             // add button to center node on this data
-                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditIconSide + NWDConstants.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNodeContentIcon, NWDConstants.StyleMiniButton))
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNodeContentIcon, EditorStyles.miniButton))
                             {
                                 NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
                                 ParentDocument.SetData(tSubCard.Data);
@@ -350,7 +348,7 @@ namespace NetWorkedData
                     if (tConnection.AddButton == true)
                     {
 
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDConstants.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditIconSide, NWDConstants.kEditIconSide), NWDConstants.tNewContentIcon, NWDConstants.StyleMiniButton))
+                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDGUI.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDConstants.tNewContentIcon, EditorStyles.miniButton))
                         {
                             // TODO : Change to remove invoke!
                             //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
@@ -394,10 +392,10 @@ namespace NetWorkedData
         public void DrawForwardPlot()
         {
             //Debug.Log("NWDNodeCard DrawPlot()");
-            Handles.color = NWDConstants.kNodeLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf);
-            Handles.color = NWDConstants.kNodeOverLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf - 1.0f);
+            Handles.color = NWDGUI.kNodeLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf);
+            Handles.color = NWDGUI.kNodeOverLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf - 1.0f);
             // Draw plot of my connections 
             foreach (NWDNodeConnection tConnection in ConnectionList)
             {

@@ -31,7 +31,7 @@ namespace NetWorkedData
         }//-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight()
         {
-            return NWDConstants.kBoldLabelStyle.fixedHeight*6;
+            return NWDGUI.kBoldLabelStyle.fixedHeight*6;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
@@ -39,12 +39,12 @@ namespace NetWorkedData
             // draw separator
             //Rect tRect = NWDConstants.GUIColorLine(new Rect(sInRect));
             //// draw title
-            //tRect.height = NWDConstants.kBoldLabelStyle.fixedHeight;
-            //GUI.Label(tRect, "Test Mask", NWDConstants.kBoldLabelStyle);
-            //tRect.y+= NWDConstants.kBoldLabelStyle.fixedHeight;
+            //tRect.height = NWDGUI.tBoldLabelStyle.fixedHeight;
+            //GUI.Label(tRect, "Test Mask", NWDGUI.tBoldLabelStyle);
+            //tRect.y+= NWDGUI.tBoldLabelStyle.fixedHeight;
 
             //// prepare for label standard
-            //tRect.height = NWDConstants.kLabelStyle.fixedHeight;
+            //tRect.height = NWDGUI.tLabelStyle.fixedHeight;
 
             //// draw Constainst test
             //if (Flag.ContainsMask(Mask))
@@ -55,7 +55,7 @@ namespace NetWorkedData
             //{
             //    GUI.Label(tRect,"Flag containts Mask = false");
             //}
-            //tRect.y += NWDConstants.kLabelStyle.fixedHeight;
+            //tRect.y += NWDGUI.tLabelStyle.fixedHeight;
 
             //if (Flag.IntersectsMask(Mask))
             //{
@@ -65,7 +65,7 @@ namespace NetWorkedData
             //{
             //    GUI.Label(tRect,"Flag intersects Mask = false");
             //}
-            //tRect.y += NWDConstants.kLabelStyle.fixedHeight;
+            //tRect.y += NWDGUI.tLabelStyle.fixedHeight;
 
             //if (Flag.ExcludesMask(Mask))
             //{
@@ -75,7 +75,7 @@ namespace NetWorkedData
             //{
             //    GUI.Label(tRect, "Flag excludesMask Mask = false");
             //}
-            //tRect.y += NWDConstants.kLabelStyle.fixedHeight;
+            //tRect.y += NWDGUI.tLabelStyle.fixedHeight;
             return base.AddonEditor(sInRect);
         }
         //-------------------------------------------------------------------------------------------------------------

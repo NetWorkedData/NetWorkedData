@@ -240,7 +240,7 @@ namespace NetWorkedData
             NWDConstants.LoadStyles();
             NWDGUILayout.Title("WebService Sync");
             NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             WebServicesSync();
             WebServicesLastSync();
             WebServicesTools();

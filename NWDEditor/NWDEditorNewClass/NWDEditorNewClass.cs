@@ -258,7 +258,7 @@ namespace NetWorkedData
             bool tCanCreate = true;
             NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
-            NWDGUILayout.SubTitle("Class informations");
+            NWDGUILayout.SubSection("Class informations");
             ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
             ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
@@ -318,10 +318,10 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField(" ", "trigramme is Ok!");
                 }
             }
-            NWDGUILayout.SubTitle("Class description");
+            NWDGUILayout.SubSection("Class description");
             ClassNameDescription = EditorGUILayout.TextField("Description", ClassNameDescription);
             ClassNameDescription = ClassNameDescription.Replace("\\", string.Empty);
-            NWDGUILayout.SubTitle("Menu in interface");
+            NWDGUILayout.SubSection("Menu in interface");
             // futur class menu name
             ClassNameMenuName = EditorGUILayout.TextField("Menu name", ClassNameMenuName);
             ClassNameMenuName = ClassNameMenuName.Replace("\\", string.Empty);
@@ -339,7 +339,7 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField(" ", "menu name is Ok!");
             }
-            NWDGUILayout.SubTitle("Properties");
+            NWDGUILayout.SubSection("Properties");
             // create properties type
             // prepare result properties
             List<KeyValuePair<string, string>> tNextClassNameProperties = new List<KeyValuePair<string, string>>();

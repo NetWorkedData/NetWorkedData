@@ -117,20 +117,20 @@ namespace NetWorkedData
                     GUI.changed = true;
                 }
             }
-            Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
-            Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDConstants.kEditWidth - NWDConstants.kFieldMarge - sInsertion, NWDConstants.kDatasSelectorRowStyle.fixedHeight);
-            Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDConstants.kEditWidth, sRect.position.y, NWDConstants.kEditWidth, NWDConstants.kMiniButtonStyle.fixedHeight);
+            Rect tEntitlement = new Rect(sRect.position.x, sRect.position.y, EditorGUIUtility.labelWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight);
+            Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge - sInsertion, NWDGUI.kDatasSelectorRowStyle.fixedHeight);
+            Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDGUI.kEditWidth, sRect.position.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight);
 
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
-            GUI.Label(tEntitlement, sContent, NWDConstants.kPropertyLabelStyle);
+            GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
 
             GUIContent sDataLabel = NWDBasis<K>.GetGuiContent(sReference);
             if (string.IsNullOrEmpty(sReference) == false && NWDBasis<K>.GetDataByReference(sReference) == null)
             {
-                GUI.Label(tField, sDataLabel, NWDConstants.kDatasSelectorRowErrorStyle);
+                GUI.Label(tField, sDataLabel, NWDGUI.kDatasSelectorRowErrorStyle);
 
                 NWDGUI.BeginRedArea();
-                if (GUI.Button(tEditRect, NWDConstants.tCleanContent, NWDConstants.kMiniButtonStyle))
+                if (GUI.Button(tEditRect, NWDConstants.tCleanContent, NWDGUI.kMiniButtonStyle))
                 {
                     if (ControllerResult.ContainsKey(tID))
                     {
@@ -142,7 +142,7 @@ namespace NetWorkedData
             }
             else
             {
-                if (GUI.Button(tField, sDataLabel, NWDConstants.kDatasSelectorRowStyle))
+                if (GUI.Button(tField, sDataLabel, NWDGUI.kDatasSelectorRowStyle))
                 {
                     ShowNow(tID, "", "", NWDBasisTag.NoTag, delegate (int sID, bool sChange, bool sNone, NWDTypeClass sSelection)
                     {
@@ -172,14 +172,14 @@ namespace NetWorkedData
                 if (string.IsNullOrEmpty(sReference) == false)
                 {
 
-                    if (GUI.Button(tEditRect, NWDConstants.tEditContent, NWDConstants.kMiniButtonStyle))
+                    if (GUI.Button(tEditRect, NWDConstants.tEditContent, NWDGUI.kMiniButtonStyle))
                     {
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(sReference), false);
                     }
                 }
                 else
                 {
-                    if (GUI.Button(tEditRect, NWDConstants.tNewContent, NWDConstants.kMiniButtonStyle))
+                    if (GUI.Button(tEditRect, NWDConstants.tNewContent, NWDGUI.kMiniButtonStyle))
                     {
                         NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
                         if (ControllerResult.ContainsKey(tID))
@@ -355,18 +355,18 @@ namespace NetWorkedData
             if (Math.Abs(kZoom - tNextZoom) > 0.001F)
             {
                 kZoom = tNextZoom;
-                NWDConstants.kSelectorTileStyle.fixedHeight = kZoom * 100;
-                NWDConstants.kSelectorTileStyle.fixedWidth = kZoom * 100;
-                NWDConstants.kSelectorTileDarkStyle.fixedHeight = kZoom * 100;
-                NWDConstants.kSelectorTileDarkStyle.fixedWidth = kZoom * 100;
+                NWDGUI.kSelectorTileStyle.fixedHeight = kZoom * 100;
+                NWDGUI.kSelectorTileStyle.fixedWidth = kZoom * 100;
+                NWDGUI.kSelectorTileDarkStyle.fixedHeight = kZoom * 100;
+                NWDGUI.kSelectorTileDarkStyle.fixedWidth = kZoom * 100;
             }
 
             NWDGUILayout.Separator();
 
-            SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (kZoom <= 1)
             {
-                if (GUILayout.Button(new GUIContent("none"), NWDConstants.kSelectorRowStyle))
+                if (GUILayout.Button(new GUIContent("none"), NWDGUI.kSelectorRowStyle))
                 {
                     if (SelectedBlock != null)
                     {
@@ -377,18 +377,17 @@ namespace NetWorkedData
                 foreach (K tItem in ResultList)
                 {
                     GUIContent Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
-                    GUIStyle tSytle = NWDConstants.kSelectorRowStyle;
+                    GUIStyle tSytle = NWDGUI.kSelectorRowStyle;
                     if (ActualSelection == tItem.ReferenceValue())
                     {
-                        tSytle = NWDConstants.kSelectorRowDarkStyle;
+                        tSytle = NWDGUI.kSelectorRowDarkStyle;
                         if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
                         {
                             Rect tLastRect = GUILayoutUtility.GetLastRect();
                             tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
                             //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
                         }
-                        Color tBakColor = GUI.backgroundColor;
-                        GUI.backgroundColor = NWDConstants.kRowColorDatasSelected;
+                        NWDGUI.BeginColorArea(NWDGUI.kSelectorRowSelected);
                         if (GUILayout.Button(Content, tSytle))
                         {
                             if (SelectedBlock != null)
@@ -397,7 +396,7 @@ namespace NetWorkedData
                             }
                             SelectorWindow.Close();
                         }
-                        GUI.backgroundColor = tBakColor;
+                        NWDGUI.EndColorArea();
                     }
                     else
                     {
@@ -414,10 +413,10 @@ namespace NetWorkedData
             }
             else
             {
-                float tWidth = (SelectorWindow.position.width - NWDConstants.BoxMarge);
-                int tColumn = (int)Math.Floor(tWidth / NWDConstants.kSelectorTileStyle.fixedWidth);
+                float tWidth = (SelectorWindow.position.width - NWDGUI.kScrollbar);
+                int tColumn = (int)Math.Floor(tWidth / NWDGUI.kSelectorTileStyle.fixedWidth);
                 GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
-                if (GUILayout.Button(new GUIContent("none"), NWDConstants.kSelectorTileStyle))
+                if (GUILayout.Button(new GUIContent("none"), NWDGUI.kSelectorTileStyle))
                 {
                     if (SelectedBlock != null)
                     {
@@ -436,18 +435,17 @@ namespace NetWorkedData
                         GUILayout.BeginHorizontal(GUILayout.Width(tWidth));
                     }
                     GUIContent Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
-                    GUIStyle tSytle = NWDConstants.kSelectorTileStyle;
+                    GUIStyle tSytle = NWDGUI.kSelectorTileStyle;
                     if (ActualSelection == tItem.ReferenceValue())
                     {
-                        tSytle = NWDConstants.kSelectorTileDarkStyle;
+                        tSytle = NWDGUI.kSelectorTileDarkStyle;
                         if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
                         {
                             Rect tLastRect = GUILayoutUtility.GetLastRect();
                             tSelectionVector = new Vector2(tLastRect.x, tLastRect.y);
                             //Debug.Log("tSelectionVector init at " + tSelectionVector.ToString());
                         }
-                        Color tBakColor = GUI.backgroundColor;
-                        GUI.backgroundColor = NWDConstants.kRowColorDatasSelected;
+                        NWDGUI.BeginColorArea(NWDGUI.kSelectorTileSelected);
                         if (GUILayout.Button(Content, tSytle))
                         {
                             if (SelectedBlock != null)
@@ -456,7 +454,7 @@ namespace NetWorkedData
                             }
                             SelectorWindow.Close();
                         }
-                        GUI.backgroundColor = tBakColor;
+                        NWDGUI.EndColorArea();
                     }
                     else
                     {

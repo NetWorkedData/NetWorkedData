@@ -90,11 +90,10 @@ namespace NetWorkedData
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 
-            EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 
             // Draw the interface addon for editor
@@ -106,15 +105,15 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 
             kInternalLogin = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Email to hash", kInternalLogin, tTextFieldStyle);
-            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
             kInternalPassword = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Password to hash", kInternalPassword, tTextFieldStyle);
-            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
+            float tWidthTiers = (tWidth - NWDGUI.kFieldMarge * 1) / 2.0f;
 
             EditorGUI.BeginDisabledGroup(kInternalLogin == string.Empty || kInternalPassword == string.Empty || kInternalLogin == null || kInternalPassword == null);
 
@@ -129,7 +128,7 @@ namespace NetWorkedData
                 this.UpdateDataIfModified();
             }
 
-            if (GUI.Button(new Rect(tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp preprod", tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tWidthTiers + NWDGUI.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp preprod", tMiniButtonStyle))
             {
                 NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 this.Email = BTBSecurityTools.GenerateSha(kInternalLogin + tEnvironmentPreprod.SaltStart, BTBSecurityShaTypeEnum.Sha1);
@@ -140,7 +139,7 @@ namespace NetWorkedData
                 this.UpdateDataIfModified();
             }
 
-            //			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
+            //			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDGUI.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
             //				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
             //				this.Email = BTBSecurityTools.generateSha (kInternalLogin + tEnvironmentProd.SaltStart, BTBSecurityShaTypeEnum.Sha1);
             //				this.Password = BTBSecurityTools.generateSha (kInternalPassword + tEnvironmentProd.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
@@ -150,7 +149,7 @@ namespace NetWorkedData
             //				this.UpdateMeIfModified();
             //			}
 
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             EditorGUI.EndDisabledGroup();
 
             BTBOperationBlock tSuccessOrFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
@@ -176,7 +175,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, true);
             }
 
-            if (GUI.Button(new Rect(tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue preprod", tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tWidthTiers + NWDGUI.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue preprod", tMiniButtonStyle))
             {
                 NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Editor Account Rescue", tSuccessOrFailed, null, null, null, tEnvironmentPreprod);
@@ -185,7 +184,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, true);
             }
 
-            //			if (GUI.Button (new Rect (tX + (tWidthTiers + NWDConstants.kFieldMarge) * 2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
+            //			if (GUI.Button (new Rect (tX + (tWidthTiers + NWDGUI.kFieldMarge) * 2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
             //				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
             //				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", null, null, null, null, tEnvironmentProd);
             //				sOperation.Action = "rescue";
@@ -193,7 +192,7 @@ namespace NetWorkedData
             //				NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (sOperation, true);
             //			}
 
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             EditorGUI.EndDisabledGroup();
 
             EditorGUI.BeginDisabledGroup(Email == string.Empty || Password == string.Empty);
@@ -209,7 +208,7 @@ namespace NetWorkedData
 
             }
 
-            if (GUI.Button(new Rect(tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn preprod", tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tWidthTiers + NWDGUI.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn preprod", tMiniButtonStyle))
             {
                 NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
 
@@ -220,7 +219,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, true);
             }
 
-            //			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn prod", tMiniButtonStyle)) {
+            //			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDGUI.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn prod", tMiniButtonStyle)) {
             //				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
             //
             //				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", null, null, null, null, tEnvironmentProd);
@@ -229,12 +228,12 @@ namespace NetWorkedData
             //				sOperation.PasswordHash = Password;
             //				NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (sOperation, true);
             //			}
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             EditorGUI.EndDisabledGroup();
-            tY += NWDConstants.kFieldMarge;
+            tY += NWDGUI.kFieldMarge;
             // Tool box of account connected objects
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Connected NWDBasis Objects", tLabelStyle);
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
             /*
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
@@ -253,7 +252,7 @@ namespace NetWorkedData
                             tMethodTrashInfo.Invoke(null, new object[] { this.Reference });
                         }
                     }
-                    tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }*/
             return tY;
@@ -271,21 +270,21 @@ namespace NetWorkedData
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            float tY = NWDConstants.kFieldMarge;
+            float tY = NWDGUI.kFieldMarge;
 
-            tY += NWDConstants.kFieldMarge * 2;
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += NWDConstants.kFieldMarge * 2;
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kFieldMarge * 2;
+            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += NWDGUI.kFieldMarge * 2;
+            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
-                tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             }
             return tY;
         }

@@ -123,7 +123,7 @@ namespace NetWorkedData
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
             }
-            float tHeight = (NWDConstants.kFieldMarge + NWDConstants.kTextFieldStyle.fixedHeight) * tRow - NWDConstants.kFieldMarge;
+            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -153,12 +153,12 @@ namespace NetWorkedData
                     tContent = new GUIContent("   ");
                 }
                 string tV = tValueList.ElementAt(i);
-                tV = EditorGUI.TextField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent, tV);
+                tV = EditorGUI.TextField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), tContent, tV);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDConstants.kUpDownWidth + NWDConstants.kFieldMarge) * 2, tY, NWDConstants.kUpDownWidth, NWDConstants.kPopupButtonStyle.fixedHeight), NWDConstants.tUpContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tUpContent, NWDGUI.kPopupStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
@@ -166,7 +166,7 @@ namespace NetWorkedData
                     }
                     if (i < tValueList.Count - 2)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDConstants.kUpDownWidth + NWDConstants.kFieldMarge), tY, NWDConstants.kUpDownWidth, NWDConstants.kPopupButtonStyle.fixedHeight), NWDConstants.tDownContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tDownContent, NWDGUI.kPopupStyle))
                         {
                             tDown = true;
                             tIndexToMove = i;
@@ -178,7 +178,7 @@ namespace NetWorkedData
                 {
                     tValueList[i] = string.Empty;
                 }
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kTextFieldStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight;
             }
             if (tDown == true)
             {

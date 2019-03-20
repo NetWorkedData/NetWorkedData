@@ -71,7 +71,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
-            return NWDConstants.kPopupdStyle.fixedHeight;
+            return NWDGUI.kPopupStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
@@ -82,8 +82,8 @@ namespace NetWorkedData
             int tMinorIndex = 0;
             int tBuildIndex = 0;
             float tX = sPosition.x + EditorGUIUtility.labelWidth;
-            float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
-            float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
+            float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
+            float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             float tHeightAdd = 0;
             if (Value != null)
             {
@@ -101,14 +101,14 @@ namespace NetWorkedData
                     tBuildIndex = Array.IndexOf(NWDConstants.K_VERSION_BUILD_ARRAY, tValues[2]);
                 }
             }
-            EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDConstants.kLabelStyle.fixedHeight), tContent);
+            EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
-            tMajorIndex = EditorGUI.Popup(new Rect(tX, sPosition.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            tMajorIndex = EditorGUI.Popup(new Rect(tX, sPosition.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
                                           tMajorIndex, NWDConstants.K_VERSION_MAJOR_ARRAY);
-            tMinorIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth, sPosition.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            tMinorIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth, sPosition.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
                                           tMinorIndex, NWDConstants.K_VERSION_MINOR_ARRAY);
-            tBuildIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth * 2, sPosition.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            tBuildIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth * 2, sPosition.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
                                           tBuildIndex, NWDConstants.K_VERSION_BUILD_ARRAY);
             EditorGUI.indentLevel = tIndentLevel;
             tTemporary.Value = NWDConstants.K_VERSION_MAJOR_ARRAY[tMajorIndex] + "." + NWDConstants.K_VERSION_MINOR_ARRAY[tMinorIndex] + "." + NWDConstants.K_VERSION_BUILD_ARRAY[tBuildIndex];

@@ -21,7 +21,6 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-
             string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
             string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
             string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");

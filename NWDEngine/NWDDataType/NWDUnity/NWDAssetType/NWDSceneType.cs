@@ -87,7 +87,7 @@ namespace NetWorkedData
             GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-            return tPopupFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+            return tPopupFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
@@ -135,7 +135,7 @@ namespace NetWorkedData
             {
                 tTemporary.Value = string.Empty;
             }
-            tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+            tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
             if (IsInError() == true) {
 				tTemporary.Value = Value;
                 NWDGUI.BeginRedArea();
@@ -143,7 +143,7 @@ namespace NetWorkedData
 					tTemporary.Value = string.Empty;
                 }
                 NWDGUI.EndRedArea();
-                tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
 			return tTemporary;
 		}

@@ -189,7 +189,7 @@ namespace NetWorkedData
 			//float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			//GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			//float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-            return NWDConstants.kPopupdStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3 + NWDConstants.kLabelStyle.fixedHeight * 2;
+            return NWDGUI.kPopupStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 3 + NWDGUI.kLabelStyle.fixedHeight * 2;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -207,10 +207,10 @@ namespace NetWorkedData
 
 			//GUIStyle tSeparatorStyle = new GUIStyle (EditorStyles.label);
 			//tSeparatorStyle.alignment = TextAnchor.MiddleCenter;
-            float tHeight = NWDConstants.kPopupdStyle.fixedHeight;
+            float tHeight = NWDGUI.kPopupStyle.fixedHeight;
 
 			//GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
-            float tHeightTitle = NWDConstants.kLabelStyle.fixedHeight;
+            float tHeightTitle = NWDGUI.kLabelStyle.fixedHeight;
 
 //			string[] tDateComponent = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -220,9 +220,9 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			float tTiersWidth = Mathf.Ceil ((sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
-			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-//			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge * 3;
+			float tTiersWidth = Mathf.Ceil ((sPos.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
+			float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
+//			float tTiersWidthC = tTiersWidth - NWDGUI.kFieldMarge * 3;
 			float tHeightAdd = 0;
 
 //			float tWidthYear = tTiersWidthB + 10;
@@ -234,43 +234,43 @@ namespace NetWorkedData
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "Start", NWDConstants.kLabelStyle);
+            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight), "Start", NWDGUI.kLabelStyle);
 			tHeightAdd += tHeightTitle;
 
-            GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, NWDConstants.kLabelStyle.fixedHeight), ":", NWDConstants.kLabelStyle);
-            GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, NWDConstants.kLabelStyle.fixedHeight), ":", NWDConstants.kLabelStyle);
+            GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, NWDGUI.kLabelStyle.fixedHeight), ":", NWDGUI.kLabelStyle);
+            GUI.Label (new Rect (tX + tTiersWidthB + NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, NWDGUI.kLabelStyle.fixedHeight), ":", NWDGUI.kLabelStyle);
 
-            int tHourStart = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            int tHourStart = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
 				                 tStartDateTimes.Hour, NWDDateTimeType.kHours);
-            int tMinuteStart = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            int tMinuteStart = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
 				                   tStartDateTimes.Minute, NWDDateTimeType.kMinutes);
-            int tSecondStart = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            int tSecondStart = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
 				                   tStartDateTimes.Second, NWDDateTimeType.kSeconds);
 
-			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+			tHeightAdd += tHeight + NWDGUI.kFieldMarge;
 
-            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y + tHeightAdd, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "End", NWDConstants.kLabelStyle);
+            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y + tHeightAdd, sPos.width, NWDGUI.kLabelStyle.fixedHeight), "End", NWDGUI.kLabelStyle);
 			tHeightAdd += tHeightTitle;
 
-            GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, NWDConstants.kLabelStyle.fixedHeight), ":", NWDConstants.kLabelStyle);
-            GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, NWDConstants.kLabelStyle.fixedHeight), ":", NWDConstants.kLabelStyle);
+            GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, NWDGUI.kLabelStyle.fixedHeight), ":", NWDGUI.kLabelStyle);
+            GUI.Label (new Rect (tX + tTiersWidthB + NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, NWDGUI.kLabelStyle.fixedHeight), ":", NWDGUI.kLabelStyle);
 
-            int tHourNext = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            int tHourNext = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
 				                tEndDateTimes.Hour, NWDDateTimeType.kHours);
-            int tMinuteNext = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            int tMinuteNext = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
 				                  tEndDateTimes.Minute, NWDDateTimeType.kMinutes);
-            int tSecondNext = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            int tSecondNext = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
 				                  tEndDateTimes.Second, NWDDateTimeType.kSeconds);
 
-			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+			tHeightAdd += tHeight + NWDGUI.kFieldMarge;
 
 
             // move EditorGUI.indentLevel to draw next controller with indent 
             EditorGUI.indentLevel = tIndentLevel;
             if (AvailableNow () == false) {
-                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
+                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDGUI.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
 			} else {
-                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
+                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDGUI.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
 			}
 
             DateTime tDateTimeInGame = NWDAppEnvironment.SelectedEnvironment().DateTimeInGameTime();

@@ -116,7 +116,7 @@ namespace NetWorkedData
             NWDGUILayout.LittleSpace();
             NWDGUILayout.Line();
             // Draw interface for environment selected inn scrollview
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             switch (tTabSelect)
             {
                 case 0:

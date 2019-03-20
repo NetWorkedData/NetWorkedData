@@ -86,7 +86,7 @@ namespace NetWorkedData
 
             NWDGUILayout.Title("Environment chooser");
 
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             this.minSize = new Vector2(300, 150);
             this.maxSize = new Vector2(300, 4096);
             int tTabSelected = -1;
@@ -148,7 +148,7 @@ namespace NetWorkedData
             NWDAccount tAccount = NWDAccount.CurrentAccount();
             if (tAccount != null)
             {
-                NWDGUILayout.SubTitle("Account");
+                NWDGUILayout.SubSection("Account");
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE, tAccount.Reference);
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY, tAccount.InternalKey);
                 if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT))
@@ -163,7 +163,7 @@ namespace NetWorkedData
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                     }
                 }
-                NWDGUILayout.SubTitle("Account informations");
+                NWDGUILayout.SubSection("Account informations");
                 string tAccountInfosReference = "?";
                 if (NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null) != null)
                 {
@@ -180,7 +180,7 @@ namespace NetWorkedData
                 {
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
                 }
-                NWDGUILayout.SubTitle("Gamse save informations");
+                NWDGUILayout.SubSection("Gamse save informations");
                 string tGameSaveReference = "?";
                 if (NWDGameSave.CurrentForAccount(tAccount.Reference) != null)
                 {

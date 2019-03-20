@@ -281,14 +281,14 @@ namespace NetWorkedData
             //    {
             //        tHeight += tPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
             //    }
-            //    tHeight += NWDConstants.kFieldMarge * 2;
+            //    tHeight += NWDGUI.kFieldMarge * 2;
             //}
             // draw background for toolbar
 
 
-            EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDConstants.KTAB_BAR_BACK_COLOR);
-            EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), NWDConstants.KTAB_BAR_LINE_COLOR);
-            EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F), NWDConstants.KTAB_BAR_HIGHLIGHT_COLOR);
+            EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDGUI.KTAB_BAR_BACK_COLOR);
+            EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), NWDGUI.KTAB_BAR_LINE_COLOR);
+            EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F), NWDGUI.KTAB_BAR_HIGHLIGHT_COLOR);
 
             //if (mDescriptionKey != "")
             //{
@@ -305,12 +305,12 @@ namespace NetWorkedData
             {
                 if (tWidthUsed > TabsTotalWidthExpected)
                 {
-                    Rect tRectTab = new Rect(NWDConstants.kFieldMarge, NWDConstants.kFieldMarge, tWidthUsed - NWDConstants.kFieldMarge * 2, tHeight - NWDConstants.kFieldMarge*2);
+                    Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge*2);
                     tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList);
                 }
                 else
                 {
-                    Rect tRectTab = new Rect(NWDConstants.kFieldMarge, NWDConstants.kFieldMarge, tWidthUsed - NWDConstants.kFieldMarge * 2, tHeight - NWDConstants.kFieldMarge * 2);
+                    Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
                     tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList);
                 }
             }

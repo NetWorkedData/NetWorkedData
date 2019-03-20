@@ -62,7 +62,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight ()
 		{
-            float rReturn = NWDConstants.kFieldMarge+NWDConstants.kPopupdStyle.fixedHeight;
+            float rReturn = NWDGUI.kFieldMarge+NWDGUI.kPopupStyle.fixedHeight;
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 
-            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
 			List<string> tLocalizationList = new List<string> ();
 			tLocalizationList.Add (BTBConstants.K_MINUS);
@@ -91,7 +91,7 @@ namespace NetWorkedData
                     tContentFuturList.Add(new GUIContent(tS));
                 }
             int tIndex = tLanguageList.IndexOf(tTemporary.Value);
-            tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+            tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDGUI.kPopupStyle);
             if (tIndex < 0 || tIndex >= tLanguageList.Count) {
 					tIndex = 0;
 				}

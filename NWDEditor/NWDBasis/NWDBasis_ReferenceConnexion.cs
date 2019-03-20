@@ -32,14 +32,14 @@ namespace NetWorkedData
                 {
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     float tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth - 20);
-                    rReturn += tHelpBoxHeight + NWDConstants.kFieldMarge;
+                    rReturn += tHelpBoxHeight + NWDGUI.kFieldMarge;
                 }
                 if (sShowInspector == true)
                 {
                     GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
                     tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-                    rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                    rReturn += tObject.DrawObjectInspectorHeight() + NWDConstants.kFieldMarge * 2;
+                    rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    rReturn += tObject.DrawObjectInspectorHeight() + NWDGUI.kFieldMarge * 2;
                 }
             }
             return rReturn.ToString();
@@ -82,7 +82,7 @@ namespace NetWorkedData
             int tIndex = tReferenceList.IndexOf(tValue);
             var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
             var tButtonRect = new Rect(tX + sPosition.width - tButtonWidth, tY, tButtonWidth, tMiniButtonStyle.fixedHeight);
-            tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
             int rIndex = EditorGUI.Popup(tPopupRect, sEntitled, tIndex, tInternalNameList.ToArray(), EditorStyles.popup);
             bool tAutoChange = false;
             if (rIndex != tIndex)
@@ -112,33 +112,33 @@ namespace NetWorkedData
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth);
                     EditorGUI.HelpBox(new Rect(tX + tMargeInspector, tY, tWidth - tMargeInspector, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
-                    tY += tHelpBoxHeight + NWDConstants.kFieldMarge;
-                    tHelpBoxHeight += NWDConstants.kFieldMarge;
+                    tY += tHelpBoxHeight + NWDGUI.kFieldMarge;
+                    tHelpBoxHeight += NWDGUI.kFieldMarge;
                 }
                 if (sShowInspector == true)
                 {
                     GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
                     tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
                     tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-                    Rect tRectToDrawHeader = new Rect(
-                                                 tX + tMargeInspector,
-                                                 tY,
-                                                 sPosition.width - tMargeInspector,
-                                                 sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
+                    //Rect tRectToDrawHeader = new Rect(
+                    //                             tX + tMargeInspector,
+                    //                             tY,
+                    //                             sPosition.width - tMargeInspector,
+                    //                             sPosition.height - tPopupdStyle.fixedHeight - NWDGUI.kFieldMarge - tHelpBoxHeight);
 
-                    EditorGUI.DrawRect(tRectToDrawHeader, NWDConstants.kHeaderColorBackground);
+                    //EditorGUI.DrawRect(tRectToDrawHeader, NWDConstants.kHeaderColorBackground);
 
                     Rect tRectToDrawProperties = new Rect(
                                                      tX + tMargeInspector + tBorder,
                                                      tY + tBoldLabelStyle.fixedHeight,
                                                      sPosition.width - tMargeInspector - tBorder * 2,
-                                                     sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
+                                                     sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDGUI.kFieldMarge - tBorder - tHelpBoxHeight);
 
-                    EditorGUI.DrawRect(tRectToDrawProperties, NWDConstants.kIdentityColor);
+                    EditorGUI.DrawRect(tRectToDrawProperties, NWDGUI.kIdentityColor);
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + BasisHelper().ClassNamePHP, tBoldLabelStyle);
-                    tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tY += tBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);
-                    tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tY += tBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     // draw properties in this rect
                     Rect tRectToDawInspector = new Rect(
                                                    tX + tMargeInspector + tBorder,
@@ -176,7 +176,7 @@ namespace NetWorkedData
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-            float rReturn = NWDConstants.kDatasSelectorRowStyle.fixedHeight;
+            float rReturn = NWDGUI.kDatasSelectorRowStyle.fixedHeight;
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
             if (tObject != null)
             {
@@ -184,19 +184,19 @@ namespace NetWorkedData
                 {
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     float tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth - 20);
-                    rReturn += tHelpBoxHeight + NWDConstants.kFieldMarge;
+                    rReturn += tHelpBoxHeight + NWDGUI.kFieldMarge;
                 }
                 if (sShowInspector == true)
                 {
                     // add foldout
-                    rReturn += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    rReturn += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
                     if (kInspectorFoldout == true)
                     {
                         GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
                         tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-                        rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                        rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                        rReturn += tObject.DrawObjectInspectorHeight() + NWDConstants.kFieldMarge * 2;
+                        rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        rReturn += tObject.DrawObjectInspectorHeight() + NWDGUI.kFieldMarge * 2;
                     }
                 }
             }
@@ -208,7 +208,7 @@ namespace NetWorkedData
                 {
                     GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                     tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-                    rReturn = rReturn + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    rReturn = rReturn + tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }
             return rReturn;
@@ -285,7 +285,7 @@ namespace NetWorkedData
 
                 //var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
                 //var tButtonRect = new Rect(tX + sPosition.width - tButtonWidth, tY, tButtonWidth, tMiniButtonStyle.fixedHeight);
-                //tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                //tY += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
                 //int rIndex = EditorGUI.Popup(tPopupRect, sEntitled, tIndex, tInternalNameList.ToArray(), EditorStyles.popup);
                 //if (rIndex != tIndex)
                 //{
@@ -295,8 +295,8 @@ namespace NetWorkedData
                 //    tAutoChange = true;
                 //}
 
-                tFuturValue = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), tLabelContent, tValue);
-                tY += NWDConstants.kDatasSelectorRowStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tFuturValue = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tLabelContent, tValue);
+                tY += NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge;
                 NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tFuturValue);
                 if (tValue != tFuturValue)
                 {
@@ -315,30 +315,30 @@ namespace NetWorkedData
                         GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                         tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth);
                         EditorGUI.HelpBox(new Rect(tX + tMargeInspector, tY, tWidth - tMargeInspector, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
-                        tY += tHelpBoxHeight + NWDConstants.kFieldMarge;
-                        tHelpBoxHeight += NWDConstants.kFieldMarge;
+                        tY += tHelpBoxHeight + NWDGUI.kFieldMarge;
+                        tHelpBoxHeight += NWDGUI.kFieldMarge;
                     }
                     if (sShowInspector == true)
                     {
 
                         // kInspectorFoldout = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight),kInspectorFoldout,NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT);
                         kInspectorFoldout = EditorGUI.ToggleLeft(new Rect(tX + tMargeInspector, tY, tWidth - tMargeInspector, tPopupdStyle.fixedHeight), NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT, kInspectorFoldout);
-                        tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                        tY += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
                         if (kInspectorFoldout == true)
                         {
                             Rect tRectToHelpBox = new Rect(
-                                tX + NWDConstants.kConnectionIndent,
+                                tX + NWDGUI.kConnectionIndent,
                                                          tY,
-                                sPosition.width - NWDConstants.kConnectionIndent,
-                                sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
+                                sPosition.width - NWDGUI.kConnectionIndent,
+                                sPosition.height - tPopupdStyle.fixedHeight - NWDGUI.kFieldMarge - tPopupdStyle.fixedHeight - NWDGUI.kFieldMarge - tHelpBoxHeight);
 
 
                             EditorGUI.HelpBox(tRectToHelpBox, string.Empty, MessageType.None);
                             //EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
                             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + BasisHelper().ClassNamePHP, tBoldLabelStyle);
-                            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                            tY += tBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);
-                            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                            tY += tBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                             // draw properties in this rect
                             Rect tRectToDawInspector = new Rect(
                                                            tX + tMargeInspector + tBorder,
@@ -391,7 +391,7 @@ namespace NetWorkedData
                 //        sProperty.FindPropertyRelative("Reference").stringValue = string.Empty;
                 //    }
                 //    NWDGUI.EndRedButton();
-                //    tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                //    tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
                 //}
 
 

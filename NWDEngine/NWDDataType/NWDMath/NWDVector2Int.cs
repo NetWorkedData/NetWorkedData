@@ -103,7 +103,7 @@ namespace NetWorkedData
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             Vector2Int tVector = GetVectorInt();
-            Vector2Int tNexVector = EditorGUI.Vector2IntField(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
+            Vector2Int tNexVector = EditorGUI.Vector2IntField(new Rect(sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight),
                                    tContent,tVector);
 
             int tIndentLevel = EditorGUI.indentLevel;

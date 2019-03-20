@@ -84,12 +84,12 @@ namespace NetWorkedData
             string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
             //string tDialog = Dialog.GetLanguageString(tLangue);
             string tDialog = DialogRichTextForLanguage(tLangue);
-            float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDConstants.kFieldMarge * 2 - NWDConstants.kPrefabSize);
+            float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
 
             NWDDialog[] tDialogs = NextDialogs.GetObjects();
             float tAnswers = tDialogs.Length * NWDNodeEditor.SharedInstance().GetHeightProperty();
 
-            return NWDConstants.kFieldMarge * 3 + NWDConstants.kPrefabSize + tText + tAnswers;
+            return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
@@ -128,7 +128,7 @@ namespace NetWorkedData
             tText += "<b>" + tCharacterName + "</b> says (" + tLangue + ") [" + tCharacterEmotion + "]:";
 
             // draw resume
-            GUI.Label(new Rect(sRect.x + NWDConstants.kPrefabSize + NWDConstants.kFieldMarge, sRect.y, sRect.width - NWDConstants.kPrefabSize - NWDConstants.kFieldMarge, sRect.height), tText, tStyle);
+            GUI.Label(new Rect(sRect.x + NWDGUI.kPrefabSize + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kPrefabSize - NWDGUI.kFieldMarge, sRect.height), tText, tStyle);
 
 
             // draw dialog
@@ -138,10 +138,10 @@ namespace NetWorkedData
             tBubuleStyle.fontSize = 14;
             tBubuleStyle.richText = true;
             GUI.backgroundColor = Color.white;
-            GUI.Box(new Rect(sRect.x + NWDConstants.kPrefabSize - NWDConstants.kFieldMarge * 3,
-                             sRect.y + NWDConstants.kPrefabSize - NWDConstants.kFieldMarge * 3,
-                             sRect.width - NWDConstants.kPrefabSize + NWDConstants.kFieldMarge * 3,
-                             sRect.height - NWDConstants.kPrefabSize + NWDConstants.kFieldMarge * 3), tDialog, tBubuleStyle);
+            GUI.Box(new Rect(sRect.x + NWDGUI.kPrefabSize - NWDGUI.kFieldMarge * 3,
+                             sRect.y + NWDGUI.kPrefabSize - NWDGUI.kFieldMarge * 3,
+                             sRect.width - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 3,
+                             sRect.height - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 3), tDialog, tBubuleStyle);
             GUI.backgroundColor = tBackgroundColor;
 
 
@@ -188,10 +188,10 @@ namespace NetWorkedData
                     }
 
 
-                    if (GUI.Button(new Rect(sRect.x + NWDConstants.kPrefabSize,
-                                            sRect.y + sRect.height - tI * (NWDConstants.HeightButton + NWDConstants.kFieldMarge),
-                                            sRect.width - NWDConstants.kFieldMarge - NWDConstants.kPrefabSize,
-                                            NWDConstants.HeightButton),
+                    if (GUI.Button(new Rect(sRect.x + NWDGUI.kPrefabSize,
+                                            sRect.y + sRect.height - tI * (EditorStyles.miniButton.fixedHeight + NWDGUI.kFieldMarge),
+                                            sRect.width - NWDGUI.kFieldMarge - NWDGUI.kPrefabSize,
+                                            EditorStyles.miniButton.fixedHeight),
                                    tContent))
                     {
                         NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
@@ -257,7 +257,7 @@ namespace NetWorkedData
             //}
             // if (string.IsNullOrEmpty(tAnswer) == false)
             {
-                //if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
+                //if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDGUI.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
                 //{
                 //    NWDDataInspector.InspectNetWorkedData(this, false, false);
                 //}

@@ -192,11 +192,11 @@ namespace NetWorkedData
 //            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 //            // draw line 
-//            EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
-//            tY += NWDConstants.kFieldMarge * 2;
+//            EditorGUI.DrawRect(new Rect(tX, tY + NWDGUI.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
+//            tY += NWDGUI.kFieldMarge * 2;
 
 //            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
-//            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 //            // Draw the interface addon for editor
 //            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
 //            {
@@ -206,7 +206,7 @@ namespace NetWorkedData
 //                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
 //                }
 //            }
-//            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+//            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 //            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
 //            {
 //                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
@@ -215,13 +215,13 @@ namespace NetWorkedData
 //                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
 //                }
 //            }
-//            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+//            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 //            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Set current"))
 //            {
 //                SetCurrent();
 //            }
-//            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+//            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 //            return tY;
 //        }
@@ -239,7 +239,7 @@ namespace NetWorkedData
 //            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
 //            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-//            tYadd += tLabelStyle.fixedHeight = tMiniButtonStyle.fixedHeight * 3 + NWDConstants.kFieldMarge * 5;
+//            tYadd += tLabelStyle.fixedHeight = tMiniButtonStyle.fixedHeight * 3 + NWDGUI.kFieldMarge * 5;
 //            return tYadd;
 //        }
 //        //-------------------------------------------------------------------------------------------------------------

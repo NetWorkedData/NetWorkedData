@@ -106,7 +106,7 @@ namespace NetWorkedData
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             Rect tRect = GetRect();
-            Rect tNexrect = EditorGUI.RectField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDConstants.kLabelStyle.fixedHeight),
+            Rect tNexrect = EditorGUI.RectField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight),
                                                       tContent,tRect);
 
             int tIndentLevel = EditorGUI.indentLevel;

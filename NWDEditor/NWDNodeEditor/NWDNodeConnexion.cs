@@ -68,7 +68,7 @@ namespace NetWorkedData
             {
                 NWDNodeCard tCard = tCardLine.Child;
 
-                Color tLineColor = NWDConstants.kNodeLineColor;
+                Color tLineColor = NWDGUI.kNodeLineColor;
                 //switch (tCardLine.ConType)
                 //{
                 //    case NWDNodeConnectionReferenceType.ReferenceType:
@@ -142,10 +142,10 @@ namespace NetWorkedData
             // Debug.Log("NWDNodeConnection DrawPlot()");
             if (ChildrenList.Count > 0)
             {
-                Handles.color = NWDConstants.kNodeLineColor;
-                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthMiniHalf);
-                Handles.color = NWDConstants.kNodeOverLineColor;
-                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthMiniHalf-1.0F);
+                Handles.color = NWDGUI.kNodeLineColor;
+                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthMiniHalf);
+                Handles.color = NWDGUI.kNodeOverLineColor;
+                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthMiniHalf-1.0F);
             }
         }
     }

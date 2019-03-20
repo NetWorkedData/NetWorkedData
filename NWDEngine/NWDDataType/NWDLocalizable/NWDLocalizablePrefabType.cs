@@ -128,7 +128,7 @@ namespace NetWorkedData
                 tRow += tValueArray.Count();
             }
 
-            float rReturn = (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + NWDConstants.kTextFieldStyle.fixedHeight) * tRow + NWDConstants.kPopupdStyle.fixedHeight;
+            float rReturn = (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow + NWDGUI.kPopupStyle.fixedHeight;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
             List<string> tLocalizationList = new List<string>();
             tLocalizationList.Add(BTBConstants.K_MINUS);
@@ -213,7 +213,7 @@ namespace NetWorkedData
 
                 int tIndex = tValueFuturList.IndexOf(tLangague);
                 //tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDGUI.kPopupStyle);
                 if (tIndex < 0 || tIndex >= tValueFuturList.Count)
                 {
                     tIndex = 0;
@@ -230,7 +230,7 @@ namespace NetWorkedData
                 Texture2D tTexture2D = AssetPreview.GetAssetPreview(tObject);
                 if (tTexture2D != null)
                 {
-                    EditorGUI.DrawPreviewTexture(new Rect(tWidth - NWDConstants.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tTexture2D);
+                    EditorGUI.DrawPreviewTexture(new Rect(tWidth - NWDGUI.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize), tTexture2D);
                 }
                 if (tLangague != string.Empty)
                 {
@@ -238,7 +238,7 @@ namespace NetWorkedData
                     //remove EditorGUI.indentLevel to draw next controller without indent 
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
+                    UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX + tLangWidth + NWDGUI.kFieldMarge, tY, tWidth - tLangWidth - NWDGUI.kFieldMarge, NWDGUI.kPopupStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
                     if (pObj != null)
                     {
                         //if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
@@ -266,9 +266,9 @@ namespace NetWorkedData
                     EditorGUI.indentLevel = tIndentLevel;
 
                 }
-                //tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
-                //				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                tY += NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + NWDConstants.kPopupdStyle.fixedHeight;
+                //tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDGUI.kFieldMarge, tY, tWidth - tLangWidth - NWDGUI.kFieldMarge, tPopupdStyle.fixedHeight), tText);
+                //				tY += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tY += NWDGUI.kPrefabSize + NWDGUI.kFieldMarge + NWDGUI.kPopupStyle.fixedHeight;
                 if (tResult.ContainsKey(tLangague))
                 {
                     tResult[tLangague] = tText;

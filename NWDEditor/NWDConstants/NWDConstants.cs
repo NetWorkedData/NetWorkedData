@@ -42,25 +42,6 @@ namespace NetWorkedData
 
         public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
-        public static float kFieldMarge = 5.0f;
-        public static float kScrollbar = 20f;
-        public static float kFieldIndent = 15.0f;
-        //-------------------------------------------------------------------------------------------------------------
-        public static int kLongString = 5;
-        public static int kVeryLongString = 15;
-        public static float kPrefabSize = 80.0f;
-        public static float kIntWidth = 36.0f;
-        public static float kConWidth = 42.0f;
-        public static float kIconWidth = 36.0f;
-        public static float kEditWidth = 36.0f;
-        public static float kEditIconSide = 16.0f;
-        public static float kEditWidthHalf = 8.0f;
-        public static float kEditWidthMini = 12.0f;
-        public static float kEditWidthMiniHalf = 6.0f;
-        public static float kLangWidth = 50.0f;
-        public static float kEnumWidth = 70.0f;
-        public static float kConnectionIndent = 10.0f;
-        public static float kUpDownWidth = 18.0f;
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
         public const string K_SYNC_ALERT_TITLE = "ALERT PRODUCTION";
@@ -448,17 +429,7 @@ namespace NetWorkedData
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, all sync not effective!";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
-        //-------------------------------------------------------------------------------------------------------------
-
-
-        // todo test the color of button
-        public static Color K_GREEN_BUTTON_COLOR = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
-        public static Color K_YELLOW_BUTTON_COLOR = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
-        public static Color K_BLUE_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
-        public static Color K_ORANGE_BUTTON_COLOR = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
-        public static Color K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
-        public static Color K_DARKGRAY_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
-        //-------------------------------------------------------------------------------------------------------------
+       //-------------------------------------------------------------------------------------------------------------
         public static string[] K_VERSION_MAJOR_ARRAY = new string[] {
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
         };
@@ -492,72 +463,38 @@ namespace NetWorkedData
         public const string K_APP_BASIS_WARNING_MODEL = "!!! WARNING !!! MODEL WAS CHANGED BUT NOT REGENERATED !!! WARNING !!! ";
         public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "!!! WARNING !!! MODEL WAS DEGRADED !!! WARNING !!! ";
         //-------------------------------------------------------------------------------------------------------------
-        // Styles and dimensions for GUI
-        static public GUIStyle StyleButton;
-        static public float HeightButton;
-        static public GUIStyle StyleMiniButton;
-        static public float HeightMiniButton;
-
-        static public float SizeSlider = 18.0F;
-        static public float Indent = 3.0F;
-        static public float CharWidth = 7.0F;
-        static public float BoxMarge = 18.0F;
-        static public float ElementMarge = 6.0F;
-        static public Color GUIBackgroundColor;
-        static public int kMaxTabInbasisWindow = 16;
-        //= GUI.backgroundColor;
-        static public Color GUIContentColor;
-        // = GUI.contentColor;
-
         static private bool StyleLoaded = false;
-        //static private bool ImageLoaded = false;
-
-
-        static public Color kNodeLineColor;
-        static public Color kNodeOverLineColor;
         //-------------------------------------------------------------------------------------------------------------
-        static public Color kIdentityColor;
-        static public Color kPropertyColor;
+        //static public Color kIdentityColor;
+        //static public Color kPropertyColor;
 
 
-        public static float kHeaderHeight = 20.0f;
-        public static float kHeaderHeightSpace = 6.0f;
-        public static float kHeaderLineStroke = 1.0f;
-        public static Color kHeaderColorBackground = new Color(0.0f, 0.0f, 0.0f, 0.35f);
-        public static Color kHeaderColorLine = new Color(0.0f, 0.0f, 0.0f, 0.55f);
+        //public static float kHeaderHeight = 20.0f;
+        //public static float kHeaderHeightSpace = 6.0f;
+        //public static float kHeaderLineStroke = 1.0f;
+        //public static Color kHeaderColorBackground = new Color(0.0f, 0.0f, 0.0f, 0.35f);
+        //public static Color kHeaderColorLine = new Color(0.0f, 0.0f, 0.0f, 0.55f);
         //-------------------------------------------------------------------------------------------------------------
         // Row design
-        public static float kRowOutMarge = 25.0f;
-        public static float kRowHeight = 40.0f;
-        public static float kRowHeaderHeight = 30.0f;
-        public static float kRowHeightImage = 20.0f;
-        public static float kRowHeightSpace = 5.0f;
+        //public static float kRowOutMarge = 25.0f;
+        //public static float kRowHeightImage = 20.0f;
+        //public static float kRowHeightSpace = 5.0f;
         //static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
-        public static Color kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
-        public static Color kRowColorDatasSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-        public static Color kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
-        public static Color kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
-        public static Color kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
-        public static Color kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
-        public static float kRowLineStroke = 1.0f;
-        public static Color kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
-        public static Color kRowColorLine = new Color(0.0f, 0.0f, 0.0f, 0.25f);
-        public static Color kTabHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.35f);
+        //public static float kRowLineStroke = 1.0f;
         //-------------------------------------------------------------------------------------------------------------
         // Columns Size
-        public static float kOriginWidth = 1.0f;
-        public static float kSelectWidth = 20.0f;
-        public static float kIDWidth = 45.0f;
-        public static float KTableIconWidth = 40.0f;
-        public static float kPrefabWidth = kRowHeight;
-        public static float kDescriptionMinWidth = 200.0f;
-        public static float kDiskWidth = 40.0f;
-        public static float kSyncWidth = 40.0f;
-        public static float kDevSyncWidth = 40.0f;
-        public static float kPreprodSyncWidth = 40.0f;
-        public static float kProdSyncWidth = 40.0f;
-        public static float kActiveWidth = 70.0f;
-        public static float kReferenceWidth = 230.0f;
+        //public static float kOriginWidth = 1.0f;
+        //public static float kSelectWidth = 20.0f;
+        //public static float kIDWidth = 45.0f;
+        //public static float KTableIconWidth = 40.0f;
+        //public static float kDescriptionMinWidth = 200.0f;
+        //public static float kDiskWidth = 40.0f;
+        //public static float kSyncWidth = 40.0f;
+        //public static float kDevSyncWidth = 40.0f;
+        //public static float kPreprodSyncWidth = 40.0f;
+        //public static float kProdSyncWidth = 40.0f;
+        //public static float kActiveWidth = 70.0f;
+        //public static float kReferenceWidth = 230.0f;
         //-------------------------------------------------------------------------------------------------------------
 
         // images
@@ -627,71 +564,43 @@ namespace NetWorkedData
         public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
 
-        static public Color KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-        static public Color KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-        static public Color KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
 
 
-        static public GUIStyle kLabelStyle;
+        //static public GUIStyle kLabelStyle;
 
-
-        static public GUIStyle kPropertyLabelStyle;
-
-
-        static public GUIStyle kLabelRightStyle;
-
-        static public GUIStyle kBoldLabelStyle;
-        static public GUIStyle kInspectorFullWidthMargins;
-        static public GUIStyle kPopupdStyle;
-        static public GUIStyle kTextFieldStyle;
-        static public GUIStyle kTextAreaStyle;
-        static public GUIStyle kRedLabelStyle;
-        static public GUIStyle kGrayLabelStyle;
-        static public GUIStyle kPopupButtonStyle;
-        static public GUIStyle kMiniButtonStyle;
-        static public GUIStyle kDeleteButtonStyle;
-        //static public GUIStyle kSeparatorStyle;
-
-
-        static public GUIStyle kSelectorTileStyle;
-        static public GUIStyle kSelectorTileDarkStyle;
-        static public GUIStyle kSelectorRowStyle;
-        static public GUIStyle kSelectorRowDarkStyle;
-
-        static public GUIStyle kDatasSelectorRowStyle;
-        static public GUIStyle kDatasSelectorRowErrorStyle;
+        //static public GUIStyle kBoldLabelStyle;
+        //static public GUIStyle kPopupdStyle;
+        //static public GUIStyle kTextFieldStyle;
+        //static public GUIStyle kPopupButtonStyle;
+        //static public GUIStyle kMiniButtonStyle;
+        //static public GUIStyle kDeleteButtonStyle;
 
         // for Textfield in NWD inspector
-        public static GUIStyle tLabelStyle;
-        public static GUIStyle tMiniLabelStyle;
-        public static GUIStyle tBoldLabelStyle;
-        public static GUIStyle tHelpBoxStyle;
-        public static GUIStyle tMiniButtonStyle;
-        public static GUIStyle tObjectFieldStyle;
-        public static GUIStyle tTextFieldStyle;
-        public static GUIStyle tFloatFieldStyle;
-        public static GUIStyle tIntFieldStyle;
-        public static GUIStyle tDoubleFieldStyle;
-        public static GUIStyle tLongFieldStyle;
-        public static GUIStyle tFoldoutStyle;
-        public static GUIStyle tColorFieldStyle;
-        public static GUIStyle tPopupdStyle;
-        public static GUIStyle tEnumStyle;
-        public static GUIStyle tToggleStyle;
-        public static GUIStyle tBoldFoldoutStyle;
 
 
+        //static public GUIStyle tTextAreaStyle;
+        //static public GUIStyle tRedLabelStyle;
+        //static public GUIStyle tGrayLabelStyle;
+        //static public GUIStyle tLabelRightStyle;
+        //public static GUIStyle tLabelStyle;
+        //public static GUIStyle tMiniLabelStyle;
+        //public static GUIStyle tBoldLabelStyle;
+        //public static GUIStyle tHelpBoxStyle;
+        //public static GUIStyle tMiniButtonStyle;
+        //public static GUIStyle tObjectFieldStyle;
+        //public static GUIStyle tTextFieldStyle;
+        //public static GUIStyle tFloatFieldStyle;
+        //public static GUIStyle tIntFieldStyle;
+        //public static GUIStyle tDoubleFieldStyle;
+        //public static GUIStyle tLongFieldStyle;
+        //public static GUIStyle tFoldoutStyle;
+        //public static GUIStyle tColorFieldStyle;
+        //public static GUIStyle tPopupdStyle;
+        //public static GUIStyle tEnumStyle;
+        //public static GUIStyle tToggleStyle;
+        //public static GUIStyle tBoldFoldoutStyle;
 
-        // Draw internal informations
-        public static GUIStyle kRowStyleLeft;
-        public static GUIStyle kRowStyleCenter;
-        public static GUIStyle kRowStyleRight;
-        public static GUIStyle kRowStyleForInfos;
 
-        public static GUIStyle tWarningBoxStyle;
-        public static GUIStyle tTitleLabelStyle;
-
-        public static GUIStyle tMiniLabelStyleCenter;
 
         public static GUIContent tNodeContentIcon;
         public static GUIContent tEditContent;
@@ -703,17 +612,6 @@ namespace NetWorkedData
         public static GUIContent tUpContent;
         public static GUIContent tDownContent;
 
-
-        //public static GUIStyle KTableRowNormal;
-        //public static GUIStyle KTableRowNormalSelected;
-        //public static GUIStyle KTableRowTrashed;
-        //public static GUIStyle KTableRowTrashedSelected;
-        //public static GUIStyle KTableRowDisabled;
-        //public static GUIStyle KTableRowDisabledSelected;
-        //public static GUIStyle KTableRowCorrupted;
-        //public static GUIStyle KTableRowCorruptedSelected;
-        //public static GUIStyle KTableRowDowngraded;
-        //public static GUIStyle KTableRowDowngradedSelected;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -729,6 +627,8 @@ namespace NetWorkedData
             //Debug.Log ("STATIC STEConstants LoadStyles()");
             if (StyleLoaded == false)
             {
+                StyleLoaded = true;
+
                 //tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
 
                 //tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
@@ -743,225 +643,10 @@ namespace NetWorkedData
                 tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
                 tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
 
-                StyleLoaded = true;
 
-                tMiniLabelStyleCenter = new GUIStyle(EditorStyles.miniLabel);
-                tMiniLabelStyleCenter.fixedHeight = tMiniLabelStyleCenter.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-                tMiniLabelStyleCenter.alignment = TextAnchor.MiddleCenter;
 
-                tTitleLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-                tTitleLabelStyle.alignment = TextAnchor.MiddleCenter;
-                tTitleLabelStyle.fontSize = 14;
-                tTitleLabelStyle.fixedHeight = tTitleLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-                tTitleLabelStyle.richText = true;
 
 
-                tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
-                tWarningBoxStyle.normal.background = new Texture2D(1, 1);
-                tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
-                tWarningBoxStyle.normal.background.Apply();
-                tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
-                tWarningBoxStyle.richText = true;
-                //tWarningBoxStyle.fixedHeight = tWarningBoxStyle.CalcHeight(tCC, tWidth);
-
-                kRowStyleLeft = new GUIStyle(EditorStyles.label);
-                kRowStyleLeft.alignment = TextAnchor.MiddleLeft;
-                kRowStyleCenter = new GUIStyle(EditorStyles.label);
-                kRowStyleCenter.alignment = TextAnchor.MiddleCenter;
-                kRowStyleRight = new GUIStyle(EditorStyles.label);
-                kRowStyleRight.alignment = TextAnchor.MiddleRight;
-                kRowStyleForInfos = new GUIStyle(EditorStyles.label);
-                kRowStyleForInfos.richText = true;
-
-
-                kDatasSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
-                kDatasSelectorRowStyle.richText = true;
-                kDatasSelectorRowStyle.fontSize = 12;
-                kDatasSelectorRowStyle.wordWrap = false;
-                kDatasSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kDatasSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
-                kDatasSelectorRowStyle.border = new RectOffset(2, 2, 2, 2);
-                kDatasSelectorRowStyle.fixedHeight = kDatasSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                kDatasSelectorRowErrorStyle = new GUIStyle(kDatasSelectorRowStyle);
-                kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
-
-
-
-
-
-
-                kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorTileStyle.fontSize = 14;
-                kSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
-                kSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
-                kSelectorTileStyle.alignment = TextAnchor.LowerCenter;
-                kSelectorTileStyle.fixedHeight = kSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorTileDarkStyle.fontSize = 14;
-                //kSelectorTileDarkStyle.normal.textColor = Color.blue;
-                kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
-                kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
-                kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
-                kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                kSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorRowStyle.fontSize = 14;
-                kSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
-                kSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
-                kSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowStyle.fixedHeight = kSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorRowDarkStyle.fontSize = 14;
-                //kSelectorRowDarkStyle.normal.textColor = Color.blue;
-                kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
-                kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
-                kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tLabelStyle = new GUIStyle(EditorStyles.label);
-                tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
-                tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-                tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
-                tHelpBoxStyle.fixedHeight = tHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), 100);
-
-                tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-                tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-                tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-                tTextFieldStyle.richText = true;
-
-                tFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
-                tFloatFieldStyle.fixedHeight = tFloatFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tIntFieldStyle = new GUIStyle(EditorStyles.numberField);
-                tIntFieldStyle.fixedHeight = tIntFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tLongFieldStyle = new GUIStyle(EditorStyles.numberField);
-                tLongFieldStyle.fixedHeight = tLongFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tDoubleFieldStyle = new GUIStyle(EditorStyles.numberField);
-                tDoubleFieldStyle.fixedHeight = tDoubleFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-                tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tColorFieldStyle = new GUIStyle(EditorStyles.colorField);
-                tColorFieldStyle.fixedHeight = tColorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tPopupdStyle = new GUIStyle(EditorStyles.popup);
-                tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tEnumStyle = new GUIStyle(EditorStyles.popup);
-                tEnumStyle.fixedHeight = tEnumStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tToggleStyle = new GUIStyle(EditorStyles.toggle);
-                tToggleStyle.fixedHeight = tToggleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-                tBoldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-                tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
-                tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-
-                kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
-                kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
-                kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
-                kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
-
-                if (EditorGUIUtility.isProSkin)
-                {
-                    kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
-                    kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
-                }
-
-
-                GUIBackgroundColor = GUI.backgroundColor;
-                GUIContentColor = GUI.contentColor;
-
-                StyleButton = new GUIStyle(GUI.skin.button);
-                StyleButton.alignment = TextAnchor.MiddleLeft;
-                StyleButton.padding = new RectOffset(4, -2, 2, 2);
-                StyleButton.wordWrap = true;
-                //StyleButton.richText = true;
-
-                StyleMiniButton = new GUIStyle(GUI.skin.button);
-                StyleMiniButton.padding = new RectOffset(2, 2, 3, 3);
-
-                HeightButton = StyleButton.CalcHeight(new GUIContent(BTBConstants.K_MINUS), 100.0f);
-                HeightMiniButton = StyleMiniButton.CalcHeight(new GUIContent(BTBConstants.K_MINUS), 100.0f);
-
-                HeightMiniButton = HeightButton;
-
-                SizeSlider = Mathf.Min(HeightButton, HeightMiniButton);
-
-                // used in form of inspector
-
-                kLabelStyle = new GUIStyle(EditorStyles.label);
-                kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-
-
-                kInspectorFullWidthMargins = new GUIStyle(EditorStyles.inspectorFullWidthMargins);
-                kInspectorFullWidthMargins.padding = new RectOffset(0, 0, 0, 0);
-                kInspectorFullWidthMargins.margin = new RectOffset(0, 0, 0, 0);
-
-                kLabelRightStyle = new GUIStyle(EditorStyles.label);
-                kLabelRightStyle.alignment = TextAnchor.MiddleRight;
-                kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                kBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-                kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                kPopupdStyle = new GUIStyle(EditorStyles.popup);
-                kPopupdStyle.fixedHeight = kPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                kPopupButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kPopupButtonStyle.fixedHeight = kPopupdStyle.fixedHeight; // use kPopupdStyle to fixe the good size of button from popup
-                kPopupButtonStyle.padding = new RectOffset(2, 2, 2, 2);
-
-                kTextFieldStyle = new GUIStyle(EditorStyles.textField);
-                kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
-                //kTextFieldStyle.richText = true;
-
-                //kTextAreaStyle = new GUIStyle(EditorStyles.textArea);
-                kTextAreaStyle = new GUIStyle(EditorStyles.textField);
-                kTextAreaStyle.wordWrap = true;
-
-
-                kRedLabelStyle = new GUIStyle(EditorStyles.label);
-                kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                kRedLabelStyle.normal.textColor = Color.red;
-
-                kGrayLabelStyle = new GUIStyle(EditorStyles.label);
-                kGrayLabelStyle.fontSize = 9;
-                kGrayLabelStyle.fixedHeight = kGrayLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                kGrayLabelStyle.normal.textColor = Color.gray;
-
-                kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-                kDeleteButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-
-
-
-
-
-                kPropertyLabelStyle = new GUIStyle(EditorStyles.label);
-                kPropertyLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                kPropertyLabelStyle.richText = true;
 
             }
         }

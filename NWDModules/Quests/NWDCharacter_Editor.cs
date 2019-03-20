@@ -28,7 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
-            DrawPreviewTexture2D(new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
+            DrawPreviewTexture2D(new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -25,7 +25,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Separator()
         {
+            GUILayout.Space(NWDGUI.kFieldMarge);
             GUILayout.Label(string.Empty, NWDGUI.kSeparatorStyle);
+            GUILayout.Space(NWDGUI.kFieldMarge);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Title(string sTitle)
@@ -49,7 +51,7 @@ namespace NetWorkedData
         public static void Section(string sTitle)
         {
             EditorGUI.indentLevel = 0;
-            //GUILayout.Space(NWDConstants.kFieldMarge);
+            //GUILayout.Space(NWDGUI.kFieldMarge);
             Line();
             GUILayout.Label(sTitle, NWDGUI.kSectionStyle);
             EditorGUI.indentLevel = 1;
@@ -58,65 +60,87 @@ namespace NetWorkedData
         public static void Section(GUIContent sTitle)
         {
             EditorGUI.indentLevel = 0;
-            //GUILayout.Space(NWDConstants.kFieldMarge);
+            //GUILayout.Space(NWDGUI.kFieldMarge);
             Line();
             GUILayout.Label(sTitle, NWDGUI.kSectionStyle);
             EditorGUI.indentLevel = 1;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SubTitle(string sTitle)
+        public static void SubSection(string sTitle)
         {
             EditorGUI.indentLevel = 0;
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            GUILayout.Space(NWDGUI.kFieldMarge);
             Line();
             GUILayout.Label(sTitle, NWDGUI.kSubSectionStyle);
             EditorGUI.indentLevel = 1;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SubTitle(GUIContent sTitle)
+        public static void SubSection(GUIContent sTitle)
         {
             EditorGUI.indentLevel = 0;
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            GUILayout.Space(NWDGUI.kFieldMarge);
             Line();
             GUILayout.Label(sTitle, NWDGUI.kSubSectionStyle);
             EditorGUI.indentLevel = 1;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void Informations(string sTitle)
+        public static void Informations(string sTitle, bool sIndent = true)
         {
-            EditorGUILayout.HelpBox(sTitle, MessageType.None);
-            //GUILayout.Label(sTitle, EditorStyles.helpBox);
+            //LittleSpace();
+            if (sIndent == true)
+            {
+                EditorGUILayout.HelpBox(sTitle, MessageType.None);
+            }
+            else
+            {
+                GUILayout.Label(sTitle, EditorStyles.helpBox);
+            }
+            //LittleSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void Informations(GUIContent sTitle)
+        public static void Informations(GUIContent sTitle, bool sIndent = true)
         {
-            EditorGUILayout.HelpBox(sTitle.text, MessageType.None);
-            //GUILayout.Label(sTitle, EditorStyles.helpBox);
+            //LittleSpace();
+            if (sIndent == true)
+            {
+                EditorGUILayout.HelpBox(sTitle.text, MessageType.None);
+            }
+            else
+            {
+                GUILayout.Label(sTitle, EditorStyles.helpBox);
+            }
+            //LittleSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void HelpBox(string sTitle)
         {
+            //LittleSpace();
             EditorGUILayout.HelpBox(sTitle, MessageType.Info);
+            //LittleSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void WarningBox(string sTitle)
         {
+            //LittleSpace();
             EditorGUILayout.HelpBox(sTitle, MessageType.Warning);
+            //LittleSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ErrorBox(string sTitle)
         {
+            //LittleSpace();
             EditorGUILayout.HelpBox(sTitle, MessageType.Error);
+            //LittleSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void LittleSpace()
         {
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            GUILayout.Space(NWDGUI.kFieldMarge);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void BigSpace()
         {
-            GUILayout.Space(NWDConstants.kFieldMarge*2);
+            GUILayout.Space(NWDGUI.kFieldMarge*2);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

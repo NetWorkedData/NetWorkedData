@@ -125,7 +125,7 @@ namespace NetWorkedData
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             AnimationCurve tCurve = GetAnimationCurve();
-            AnimationCurve tNextCurve = EditorGUI.CurveField(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
+            AnimationCurve tNextCurve = EditorGUI.CurveField(new Rect(sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight),
                                                              tContent,tCurve);
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;

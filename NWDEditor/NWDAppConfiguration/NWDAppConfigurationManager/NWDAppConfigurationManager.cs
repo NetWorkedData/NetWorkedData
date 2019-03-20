@@ -103,10 +103,10 @@ namespace NetWorkedData
             NWDGUILayout.Title("App configurations");
             NWDGUILayout.Informations("BECAREfull!");
             NWDGUILayout.Line();
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
             NWDGUILayout.Section("WebServices");
-            NWDGUILayout.SubTitle("Webservices config for all environements");
+            NWDGUILayout.SubSection("Webservices config for all environements");
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
@@ -155,13 +155,13 @@ namespace NetWorkedData
             }
             // Database informations
             NWDGUILayout.Section("Databases");
-            NWDGUILayout.SubTitle("Databases parameters");
+            NWDGUILayout.SubSection("Databases parameters");
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
-            NWDGUILayout.SubTitle("Databases Editor config for all environements");
+            NWDGUILayout.SubSection("Databases Editor config for all environements");
             //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
@@ -175,7 +175,7 @@ namespace NetWorkedData
                 EditorUtility.RevealInFinder(tDatabasePathEditor);
             }
             // Database account informations
-            NWDGUILayout.SubTitle("Databases Accountconfig for all environements (by device)");
+            NWDGUILayout.SubSection("Databases Accountconfig for all environements (by device)");
             //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
             EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);

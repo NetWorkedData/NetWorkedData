@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
@@ -33,16 +33,16 @@ namespace NetWorkedData
             float tWidth = sInRect.width;
             float tX = sInRect.x;
             float tY = sInRect.y;
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
             List<NWDUserItemSlot> tUserItemSlotList = NWDUserItemSlot.FindByIndex(this.Reference);
             foreach(NWDUserItemSlot tUserItemSlot in tUserItemSlotList)
             {
-               if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Select User Item Slot", NWDConstants.tMiniButtonStyle))
+               if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Select User Item Slot", NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataInspector.InspectNetWorkedData(tUserItemSlot);
-                    tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }
             return tY;
@@ -52,9 +52,9 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tY = 0.0f; 
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.kFieldMarge * 2;
             List<NWDUserItemSlot> tUserItemSlotList = NWDUserItemSlot.FindByIndex(this.Reference);
-            tY += tUserItemSlotList.Count*(NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+            tY += tUserItemSlotList.Count*(NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

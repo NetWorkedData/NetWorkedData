@@ -481,96 +481,92 @@ namespace NetWorkedData
             float tX = sInRect.x;
             float tY = sInRect.y;
 
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
             NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
 
 
             if (tOwnership != null)
             {
-                GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!"); tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-                if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Select Ownership", NWDConstants.tMiniButtonStyle))
+                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!"); tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Select Ownership", NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataInspector.InspectNetWorkedData(tOwnership);
                 }
             }
             else
             {
-                GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
+                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
 
             }
-            tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Reset to zero", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reset to zero", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.SetItemToOwnership(this, 0);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 1 to ownsership", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, 1);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add 10 to ownsership", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 10 to ownsership", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, 10);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add 100 to ownsership", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 100 to ownsership", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, 100);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, -1);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Remove 10 to ownsership", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 10 to ownsership", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, -10);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Remove 100 to ownsership", NWDConstants.tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 100 to ownsership", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, -100);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+
             int tAddWidth = 30;
-            kOwnershipAddValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDConstants.kFieldMarge, NWDConstants.tMiniButtonStyle.fixedHeight), " Value to add", kOwnershipAddValue);
-            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Add", NWDConstants.tMiniButtonStyle))
+            kOwnershipAddValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDGUI.kFieldMarge, NWDGUI.kMiniButtonStyle.fixedHeight), " Value to add", kOwnershipAddValue);
+            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.AddItemToOwnership(this, kOwnershipAddValue);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            EditorGUI.DrawRect(EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1)), NWDConstants.kRowColorLine);
-            tY += NWDConstants.kFieldMarge * 2;
-            kOwnershipSetValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDConstants.kFieldMarge, NWDConstants.tMiniButtonStyle.fixedHeight), " Value to set", kOwnershipSetValue);
-            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDConstants.tMiniButtonStyle.fixedHeight), "Set", NWDConstants.tMiniButtonStyle))
+            tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+
+            kOwnershipSetValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDGUI.kFieldMarge, NWDGUI.kMiniButtonStyle.fixedHeight), " Value to set", kOwnershipSetValue);
+            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Set", NWDGUI.kMiniButtonStyle))
             {
                 NWDUserOwnership.SetItemToOwnership(this, kOwnershipSetValue);
             }
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -578,10 +574,10 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tY = 0.0f;
-            tY += NWDConstants.tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += 3 * (NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
-            tY += 3 * (NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
-            tY += NWDConstants.tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += 3 * (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+            tY += 3 * (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

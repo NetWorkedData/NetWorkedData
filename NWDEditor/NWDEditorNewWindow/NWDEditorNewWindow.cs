@@ -114,7 +114,7 @@ namespace NetWorkedData
             // start Layout
             NWDGUILayout.HelpBox ("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
-            NWDGUILayout.SubTitle ("Class informations");
+            NWDGUILayout.SubSection ("Class informations");
 			WindowName = EditorGUILayout.TextField ("Name ", WindowName);
 			WindowName = tRegExpression.Replace (WindowName, string.Empty);
 			if (WindowName.Length < 3) {
@@ -133,11 +133,11 @@ namespace NetWorkedData
 				EditorGUILayout.LabelField (" ", "class name is Ok!");
 			}
             }
-            NWDGUILayout.SubTitle("Window description");
+            NWDGUILayout.SubSection("Window description");
             // futur class description
 			WindowDescription = EditorGUILayout.TextField ("Description", WindowDescription);
 			WindowDescription = WindowDescription.Replace ("\\", string.Empty);
-            NWDGUILayout.SubTitle("Menu in interface");
+            NWDGUILayout.SubSection("Menu in interface");
 		// futur class menu name
 			WindowMenuName = EditorGUILayout.TextField ("Menu name", WindowMenuName);
 			WindowMenuName = WindowMenuName.Replace ("\\", string.Empty);
@@ -161,7 +161,7 @@ namespace NetWorkedData
 				EditorGUILayout.LabelField (" ", "menu Position  is Ok!");
 			}
 
-            NWDGUILayout.SubTitle("Classes management");
+            NWDGUILayout.SubSection("Classes management");
 		// create properties type
 		List<string> tListOfType = new List<string> ();
 		tListOfType.Add (" ");

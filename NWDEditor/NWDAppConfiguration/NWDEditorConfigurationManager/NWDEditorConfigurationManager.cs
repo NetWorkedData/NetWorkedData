@@ -99,7 +99,7 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             NWDGUILayout.Section("Datas Tags");
             NWDGUILayout.Informations("Some informations about tags!");
             if (tColum > 1)
@@ -129,7 +129,7 @@ namespace NetWorkedData
             GUILayout.EndScrollView();
 
             NWDGUILayout.Line();
-            GUILayout.Space(NWDConstants.kFieldMarge);
+            GUILayout.Space(NWDGUI.kFieldMarge);
             NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {

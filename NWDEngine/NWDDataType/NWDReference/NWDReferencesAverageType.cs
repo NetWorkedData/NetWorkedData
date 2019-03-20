@@ -534,7 +534,7 @@ namespace NetWorkedData
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
             }
-            float tHeight = (NWDConstants.kFieldMarge + NWDConstants.kDatasSelectorRowStyle.fixedHeight + NWDConstants.kFieldMarge + NWDConstants.kTextFieldStyle.fixedHeight) * tRow - NWDConstants.kFieldMarge * 2 - NWDConstants.kTextFieldStyle.fixedHeight;
+            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge * 2 - NWDGUI.kTextFieldStyle.fixedHeight;
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -547,7 +547,7 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            float tIntWidth = NWDConstants.kIntWidth;
+            float tIntWidth = NWDGUI.kIntWidth;
             List<string> tValueList = new List<string>();
             List<string> tValueListReferenceAllReady = new List<string>();
             if (Value != null && Value != string.Empty)
@@ -576,27 +576,27 @@ namespace NetWorkedData
                     tV = tLineValue[0];
                     tQ = new NWDAverage(tLineValue[1]);
                 }
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDConstants.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
+                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
-                    float tYb = tY + NWDConstants.kDatasSelectorRowStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    float tYb = tY + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge;
                     float tXb = sPosition.x + EditorGUIUtility.labelWidth;
-                    float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
-                    float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
+                    float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
+                    float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Average", NWDConstants.kLabelRightStyle);
-                    tQ.Total = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Total);
-                    tQ.Counter = EditorGUI.FloatField(new Rect(tXb + tTiersWidth, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Counter);
+                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDGUI.kFieldMarge, NWDGUI.kLabelRightStyle.fixedHeight), "Average", NWDGUI.kLabelRightStyle);
+                    tQ.Total = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDGUI.kTextFieldStyle.fixedHeight), tQ.Total);
+                    tQ.Counter = EditorGUI.FloatField(new Rect(tXb + tTiersWidth, tYb, tTiersWidthB, NWDGUI.kTextFieldStyle.fixedHeight), tQ.Counter);
                     EditorGUI.BeginDisabledGroup(true);
-                    tQ.Average = EditorGUI.FloatField(new Rect(tXb + tTiersWidth * 2, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Average);
+                    tQ.Average = EditorGUI.FloatField(new Rect(tXb + tTiersWidth * 2, tYb, tTiersWidthB, NWDGUI.kTextFieldStyle.fixedHeight), tQ.Average);
                     EditorGUI.EndDisabledGroup();
                     tQ.ReEvaluate();
                     EditorGUI.indentLevel = tIndentLevel;
 
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDConstants.kUpDownWidth + NWDConstants.kFieldMarge) * 2, tY, NWDConstants.kUpDownWidth, NWDConstants.kPopupButtonStyle.fixedHeight), NWDConstants.tUpContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tUpContent, NWDGUI.kPopupStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
@@ -604,7 +604,7 @@ namespace NetWorkedData
                     }
                     if (i < tValueList.Count - 2)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDConstants.kUpDownWidth + NWDConstants.kFieldMarge), tY, NWDConstants.kUpDownWidth, NWDConstants.kPopupButtonStyle.fixedHeight), NWDConstants.tDownContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY, NWDGUI.kUpDownWidth, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.tDownContent, NWDGUI.kPopupStyle))
                         {
                             tDown = true;
                             tIndexToMove = i;
@@ -620,8 +620,8 @@ namespace NetWorkedData
                 {
                     tValueList[i] = string.Empty;
                 }
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kDatasSelectorRowStyle.fixedHeight;
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kTextFieldStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight;
             }
             if (tDown == true)
             {

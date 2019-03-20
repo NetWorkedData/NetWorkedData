@@ -388,17 +388,17 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            float tEnumWidth = EditorGUIUtility.labelWidth + NWDConstants.kEnumWidth;
+            float tEnumWidth = EditorGUIUtility.labelWidth + NWDGUI.kEnumWidth;
 
             // field for value part 1
             NWDMultiTypeEnum tTypeOfMultiple = GetTypeValue();
-            tTypeOfMultiple = (NWDMultiTypeEnum)EditorGUI.EnumPopup(new Rect(tX, tY, tEnumWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tTypeOfMultiple);
+            tTypeOfMultiple = (NWDMultiTypeEnum)EditorGUI.EnumPopup(new Rect(tX, tY, tEnumWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tTypeOfMultiple);
 
             // prevent indentation
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
             // field for value part 2
-            Rect tPosOfEnter = new Rect(tX + tEnumWidth + NWDConstants.kFieldMarge, tY, tWidth - tEnumWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight);
+            Rect tPosOfEnter = new Rect(tX + tEnumWidth + NWDGUI.kFieldMarge, tY, tWidth - tEnumWidth - NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight);
             // use multi type value
             switch (tTypeOfMultiple)
             {

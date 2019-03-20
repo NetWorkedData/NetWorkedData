@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -26,9 +26,9 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
 
-            float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDConstants.kFieldMarge;
-            float tY = sInRect.position.y + NWDConstants.kFieldMarge;
+            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
+            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -38,31 +38,30 @@ namespace NetWorkedData
 
             float tYadd = 0.0f;
 
-            tYadd += NWDConstants.kFieldMarge;
+            tYadd += NWDGUI.kFieldMarge;
             // Draw line 
-            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDConstants.kRowColorLine);
-            tYadd += NWDConstants.kFieldMarge;
+            tYadd += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
 
             // Draw the interface addon for editor
-            if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDConstants.kMiniButtonStyle.fixedHeight), "Post this Action"))
+            if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDGUI.kMiniButtonStyle.fixedHeight), "Post this Action"))
             {
                 PostNotification();
             }
-            //tYadd += NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += NWDGUI.tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             //// draw Flash My App
             //EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(""));
-            //tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
             //if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI SchemeAction", tMiniButtonStyle))
             //{
             //    Application.OpenURL(URISchemePath(""));
             //}
-            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
             //// Draw QRCode texture
             //Texture2D tTexture = FlashMyApp(false, 256);
-            //EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize * 2, NWDConstants.kPrefabSize * 2),
+            //EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2),
             //                             tTexture);
-            //tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            //tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -75,11 +74,11 @@ namespace NetWorkedData
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
             // Height calculate for the interface addon for editor
-            float tYadd = NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += NWDConstants.kFieldMarge;
-            tYadd += NWDConstants.kFieldMarge;
-            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            float tYadd = NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tYadd += NWDGUI.kFieldMarge;
+            tYadd += NWDGUI.kFieldMarge;
+            tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
