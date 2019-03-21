@@ -305,8 +305,11 @@ namespace NetWorkedData
                                                     }
                                                     else
                                                     {
+
+#if UNITY_EDITOR
                                                         Environment.LastPreviewRequesToken = Environment.PreviewRequesToken;
                                                         Environment.PreviewRequesToken = Environment.RequesToken;
+#endif
                                                         Environment.RequesToken = ResultInfos.token;
                                                     }
                                                 }
