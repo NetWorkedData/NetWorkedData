@@ -105,6 +105,10 @@ namespace NetWorkedData
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
+            NWDGUILayout.Section("Account");
+            NWDGUILayout.SubSection("Account Anonymous");
+            NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal = EditorGUILayout.ToggleLeft("Anonymous account is stored on system device!", NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal);
+
             NWDGUILayout.Section("WebServices");
             NWDGUILayout.SubSection("Webservices config for all environements");
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();

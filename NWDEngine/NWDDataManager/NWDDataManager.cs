@@ -64,7 +64,7 @@ namespace NetWorkedData
         {
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
-            LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            //LoadPreferences(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         ~NWDDataManager ()

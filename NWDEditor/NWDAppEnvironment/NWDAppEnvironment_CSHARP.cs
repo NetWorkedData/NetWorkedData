@@ -135,7 +135,7 @@ namespace NetWorkedData
                 rReturn.AppendLine(tPropertyName + ".AdminKeyHash = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
                 rReturn.AppendLine(tPropertyName + ".AdminInPlayer = " + AdminInPlayer.ToString().ToLower() + ";");
             }
-            rReturn.AppendLine(tPropertyName + ".LoadPreferences ();");
+            //rReturn.AppendLine(tPropertyName + ".LoadPreferences ();");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
             //BTBBenchmark.Finish();
             return rReturn.ToString();

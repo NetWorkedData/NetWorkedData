@@ -107,6 +107,7 @@ namespace NetWorkedData
             rReturn.Append(PreprodEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.Append(ProdEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.AppendLine("DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";");
+            rReturn.AppendLine("AnonymousPlayerIsLocal = "+ AnonymousPlayerIsLocal.ToString().ToLower()+ ";");
             rReturn.AppendLine("return true;");
             rReturn.AppendLine("}");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");

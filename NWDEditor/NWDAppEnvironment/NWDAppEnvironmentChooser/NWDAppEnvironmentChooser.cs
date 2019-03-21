@@ -145,6 +145,7 @@ namespace NetWorkedData
             // Show version selected
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
+            EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
             NWDAccount tAccount = NWDAccount.CurrentAccount();
             if (tAccount != null)
             {

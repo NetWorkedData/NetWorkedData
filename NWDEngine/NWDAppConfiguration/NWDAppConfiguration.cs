@@ -83,6 +83,7 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
+        public bool AnonymousPlayerIsLocal = true;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 

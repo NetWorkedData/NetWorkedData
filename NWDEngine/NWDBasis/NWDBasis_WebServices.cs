@@ -83,12 +83,12 @@ namespace NetWorkedData
         public static string SynchronizationPrefsKey(NWDAppEnvironment sEnvironment)
         {
             // use the accountReference with prefbase key associated with environement and key time 
-            if (AccountDependent())
-            {
-                return sEnvironment.PlayerAccountReference + BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
-            }
-
-            return BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+            //if (AccountDependent())
+            //{
+            //    return sEnvironment.PlayerAccountReference + BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+            //}
+            //return BasisHelper().ClassPrefBaseKey +"_"+ sEnvironment.Environment + "_"+ SynchronizeKeyLastTimestamp;
+            return BasisHelper().ClassPrefBaseKey + SynchronizeKeyLastTimestamp;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationUpadteTimestamp()
@@ -99,25 +99,29 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
         {
-#if UNITY_EDITOR
-            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
-#else
-			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
-#endif
+            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, AccountDependent());
+//#if UNITY_EDITOR
+//            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
+//#else
+//			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
+//#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizationSetToZeroTimestamp()
-        {
-#if UNITY_EDITOR
-            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
-            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
-            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
-#else
-            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
-            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
-            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
-#endif
-        }
+//        public static void SynchronizationSetToZeroTimestamp()
+//        {
+//            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
+//            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
+//            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
+////#if UNITY_EDITOR
+////            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
+////            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
+////            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
+////#else
+////            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
+////            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
+////            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
+////#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the get last timestamp.
@@ -126,18 +130,19 @@ namespace NetWorkedData
         public static int SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
         {
             int rReturn = sEnvironment.BuildTimestamp;
-#if UNITY_EDITOR
-            rReturn = 0;
-            if (EditorPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
-            {
-                rReturn = EditorPrefs.GetInt(SynchronizationPrefsKey(sEnvironment));
-            }
-#else
-			if (PlayerPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
-				{
-			rReturn = PlayerPrefs.GetInt (SynchronizationPrefsKey(sEnvironment));
-				};
-#endif
+            rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, AccountDependent());
+//#if UNITY_EDITOR
+//            rReturn = 0;
+//            if (EditorPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
+//            {
+//                rReturn = EditorPrefs.GetInt(SynchronizationPrefsKey(sEnvironment));
+//            }
+//#else
+//			if (PlayerPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
+//				{
+//			rReturn = PlayerPrefs.GetInt (SynchronizationPrefsKey(sEnvironment));
+//				};
+//#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -147,18 +152,19 @@ namespace NetWorkedData
         /// <param name="sNewTimestamp">S new timestamp.</param>
         public static void SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {
-#if UNITY_EDITOR
-            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
-#else
-            if (AccountDependent() == false)
-            {
-                if (sNewTimestamp < sEnvironment.BuildTimestamp)
-                {
-                    sNewTimestamp = sEnvironment.BuildTimestamp;
-                }
-            }
-			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
-#endif
+            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, AccountDependent());
+//#if UNITY_EDITOR
+//            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
+//#else
+//            if (AccountDependent() == false)
+//            {
+//                if (sNewTimestamp < sEnvironment.BuildTimestamp)
+//                {
+//                    sNewTimestamp = sEnvironment.BuildTimestamp;
+//                }
+//            }
+//			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
+//#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

@@ -299,7 +299,6 @@ namespace NetWorkedData
                 // insert basic infos
                 tTypeInfos.ClassType = sType;
                 tTypeInfos.ClassTableName = sType.Name;
-                tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassTableName + "_";
 
                 tTypeInfos.ClassName = sType.AssemblyQualifiedName;
                 //BTBBenchmark.Finish("Declare() step A");
@@ -308,6 +307,7 @@ namespace NetWorkedData
                 TableMapping tTableMapping = new TableMapping(sType);
                 string rClassName = tTableMapping.TableName;
                 tTypeInfos.ClassNamePHP = rClassName;
+                tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassNamePHP + "_";
                 if (StringsDictionary.ContainsKey(rClassName))
                 {
                     Debug.LogWarning(rClassName+ " allready in StringsDictionary!");
@@ -332,7 +332,7 @@ namespace NetWorkedData
                 //BTBBenchmark.Finish("Declare() step D");
                 //BTBBenchmark.Start("Declare() step E");
                 // Prepare engine informlations
-                tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
+                //tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
                 //tTypeInfos.PropertiesArrayPrepare();
                 //tTypeInfos.PropertiesOrderArrayPrepare();
                 //tTypeInfos.SLQAssemblyOrderArrayPrepare();
