@@ -30,9 +30,11 @@ namespace NetWorkedData
 		public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
 		public string PlayerAccountReference = string.Empty;
 		public string RequesToken = string.Empty;
-       // for debug anti-crack
+        // for debug anti-crack
+#if UNITY_EDITOR
         public string PreviewRequesToken = string.Empty;
         public string LastPreviewRequesToken = string.Empty;
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public string AnonymousPlayerAccountReference = string.Empty;
 		// reccord the first anonymous value to restaure old original account

@@ -34,26 +34,17 @@ namespace NetWorkedData
     public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [Indexed("AccountIndex", 0)]
+        [Indexed("TokenIndex", 0)]
         [NWDCertified]
-        public NWDReferenceHashType<NWDAccount> UUIDHash
+        public NWDReferenceType<NWDAccount> UUIDHash
         {
             get; set;
         }
+        [Indexed("TokenIndex", 1)]
         [NWDCertified]
         public string Token
         {
             get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDRequestToken()
-        {
-            //Debug.Log("NWDRequestToken Constructor");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDRequestToken(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDRequestToken Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
     }
