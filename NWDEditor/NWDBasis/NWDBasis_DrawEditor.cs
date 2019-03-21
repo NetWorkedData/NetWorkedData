@@ -279,14 +279,14 @@ namespace NetWorkedData
 
             if (NWDDataInspector.InspectNetWorkedPreview())
             {
-                if (GUI.Button(new Rect(tX, tY + 10, 20, 20), "<"))
+                if (GUI.Button(new Rect(tX, tY + 10, 20, 20), NWDGUI.kLeftContentIcon, NWDGUI.kEditButtonStyle))
                 {
                     NWDDataInspector.InspectNetWorkedDataPreview();
                 }
             }
             if (NWDDataInspector.InspectNetWorkedNext())
             {
-                if (GUI.Button(new Rect(tX + tWidth - 20, tY + 10, 20, 20), ">"))
+                if (GUI.Button(new Rect(tX + tWidth - 20, tY + 10, 20, 20), NWDGUI.kRightContentIcon, NWDGUI.kEditButtonStyle))
                 {
                     NWDDataInspector.InspectNetWorkedDataNext();
                 }

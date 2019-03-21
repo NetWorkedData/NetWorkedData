@@ -283,11 +283,9 @@ namespace NetWorkedData
 
                 if (tIndex >= 0)
                 {
-
                     if (i > 0)
                     {
-                        GUIContent tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge) * 2, tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), tUpContent, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge) * 2, tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), NWDGUI.kUpContentIcon, NWDGUI.kPopupStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
@@ -295,8 +293,7 @@ namespace NetWorkedData
                     }
                     if (i < tValueList.Count - 2)
                     {
-                        GUIContent tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge), tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), tDownContent, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge), tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), NWDGUI.kDownContentIcon, NWDGUI.kPopupStyle))
                         {
                             tDown = true;
                             tIndexToMove = i;

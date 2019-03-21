@@ -211,7 +211,7 @@ namespace NetWorkedData
                 // if null  the draw default
                 if (Texture == null)
                 {
-                    Texture = NWDConstants.kImageDefaultIcon;
+                    Texture = NWDGUI.kImageDefaultIcon;
                 }
             }
 #endif

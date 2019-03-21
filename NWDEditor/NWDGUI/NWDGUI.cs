@@ -28,6 +28,42 @@ namespace NetWorkedData
         static public Color KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
         static public Color KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
         //-------------------------------------------------------------------------------------------------------------
+        static public Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceNode.png");  // node
+        static public Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.png");
+        static public Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.png");
+        static public Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("NWDInterfaceLeft.png");
+        static public Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("NWDInterfaceRight.png");
+        static public Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.png"); // Clean
+        static public Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.png");  // new
+        static public Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.png"); // edit
+        public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture("NWDRed.png");
+        public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture("NWDGreen.png");
+        public static Texture2D kImageForbidden = NWDFindPackage.PackageEditorTexture("NWDForbidden.png");
+        public static Texture2D kImageEmpty = NWDFindPackage.PackageEditorTexture("NWDEmpty.png");
+        public static Texture2D kImageWaiting = NWDFindPackage.PackageEditorTexture("NWDWaiting.png");
+        public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditorTexture("NWDDiskUnknow.png");
+        public static Texture2D kImageDiskUpdate = NWDFindPackage.PackageEditorTexture("NWDDiskUpdate.png");
+        public static Texture2D kImageDiskInsert = NWDFindPackage.PackageEditorTexture("NWDDiskInsert.png");
+        public static Texture2D kImageDiskDelete = NWDFindPackage.PackageEditorTexture("NWDDiskDelete.png");
+        public static Texture2D kImageDiskDatabase = NWDFindPackage.PackageEditorTexture("NWDDiskDatabase.png");
+        public static Texture2D kImageCheckValid = NWDFindPackage.PackageEditorTexture("NWDCheckValid.png");
+        public static Texture2D kImageCheckWorkInProgress = NWDFindPackage.PackageEditorTexture("NWDCheckWorkInProgress.png");
+        public static Texture2D kImageCheckWarning = NWDFindPackage.PackageEditorTexture("NWDCheckWarning.png");
+        public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForbidden.png");
+        public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForward.png");
+        public static Texture2D kImageSyncGeneralSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralSuccessed.png");
+        public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralWaiting.png");
+        public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditorTexture("NWDSyncDanger.png");
+        public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
+        public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditorTexture("NWDSyncForward.png");
+        public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditorTexture("NWDSyncRequired.png");
+        public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
+        public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
+        public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditorTexture("NWDProceed.png");
+
+        static public Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
+        public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
+        //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element
         static Color kOldColor;
         static bool kOldColorInit;
@@ -137,7 +173,7 @@ namespace NetWorkedData
         public static float kPrefabSize = 80.0f;
         public static float kIntWidth = 36.0f; 
         public static float kConditionalWidth = 42.0f;
-        public static float kEditWidth = 18.0f;
+        public static float kEditWidth = 36.0f;
         public static float kLangWidth = 50.0f;
         public static float kEnumWidth = 70.0f;
         public static float kConnectionIndent = 10.0f;
@@ -519,14 +555,16 @@ namespace NetWorkedData
                 kEditButtonStyle.fixedHeight = kEditButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 kEditButtonStyle.padding = new RectOffset(2, 2, 2, 2);
 
-                kNodeContentIcon = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
-                kEditContentIcon = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-                kNewContentIcon = new GUIContent(NWDConstants.kImageNew, "new");
-                kCleanContentIcon = new GUIContent(NWDConstants.kImageAction, "clean");
-                kUpContentIcon = new GUIContent(NWDConstants.kImageUp, "up");
-                kDownContentIcon = new GUIContent(NWDConstants.kImageDown, "down");
-                kLeftContentIcon = new GUIContent(NWDConstants.kImageUp, "<");
-                kRightContentIcon = new GUIContent(NWDConstants.kImageDown, ">");
+                kNodeContentIcon = new GUIContent(/*kImageSelectionUpdate,*/ "node");
+
+                kEditContentIcon = new GUIContent(/*kImageTabReduce,*/ "edit");
+                kNewContentIcon = new GUIContent(/*kImageNew, */"new");
+                kCleanContentIcon = new GUIContent(/*kImageAction, */"clean");
+
+                kUpContentIcon = new GUIContent(kImageUp, "up");
+                kDownContentIcon = new GUIContent(kImageDown, "down");
+                kLeftContentIcon = new GUIContent(kImageLeft, "<");
+                kRightContentIcon = new GUIContent(kImageRight, ">");
 
                 kDatasSelectorYOffset = 2;
 

@@ -15,14 +15,14 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDTypeClass
     {
-        protected Texture2D ImageDisk = NWDConstants.kImageDiskUnknow;
-        protected Texture2D ImageSync = NWDConstants.kImageSyncGeneralWaiting;
+        protected Texture2D ImageDisk = NWDGUI.kImageDiskUnknow;
+        protected Texture2D ImageSync = NWDGUI.kImageSyncGeneralWaiting;
         public int AnalyzeSync = 0;
-        protected Texture2D ImageDevSync = NWDConstants.kImageSyncRequired;
+        protected Texture2D ImageDevSync = NWDGUI.kImageSyncRequired;
         public int AnalyzeDevSync = 0;
-        protected Texture2D ImagePreprodSync = NWDConstants.kImageSyncRequired;
+        protected Texture2D ImagePreprodSync = NWDGUI.kImageSyncRequired;
         public int AnalyzePreprodSync = 0;
-        protected Texture2D ImageProdSync = NWDConstants.kImageSyncRequired;
+        protected Texture2D ImageProdSync = NWDGUI.kImageSyncRequired;
         public int AnalyzeProdSync = 0;
         public int AnalyzePrefab = 0;
         protected bool TestIntegrityResult = true;
@@ -33,7 +33,7 @@ namespace NetWorkedData
         public int AnalyzeModel = 0;
         public string ModelInfos = string.Empty;
         //protected string ChecklistInfos = string.Empty;
-        protected Texture2D ImageChecklist = NWDConstants.kImageSyncWaiting;
+        protected Texture2D ImageChecklist = NWDGUI.kImageSyncWaiting;
         public int AnalyzeChecklist = 0;
         public int AnalyzeID = 0;
         public bool AnalyzeSelected = false;
@@ -483,24 +483,24 @@ namespace NetWorkedData
             // verif if object is in error
             if (FromDatabase == true)
             {
-                ImageDisk = NWDConstants.kImageDiskDatabase;
+                ImageDisk = NWDGUI.kImageDiskDatabase;
             }
             switch (WritingPending)
             {
                 case NWDWritingPending.Unknow:
-                    ImageDisk = NWDConstants.kImageDiskUnknow;
+                    ImageDisk = NWDGUI.kImageDiskUnknow;
                     break;
                 case NWDWritingPending.UpdateInMemory:
-                    ImageDisk = NWDConstants.kImageDiskUpdate;
+                    ImageDisk = NWDGUI.kImageDiskUpdate;
                     break;
                 case NWDWritingPending.InsertInMemory:
-                    ImageDisk = NWDConstants.kImageDiskInsert;
+                    ImageDisk = NWDGUI.kImageDiskInsert;
                     break;
                 case NWDWritingPending.DeleteInMemory:
-                    ImageDisk = NWDConstants.kImageDiskDelete;
+                    ImageDisk = NWDGUI.kImageDiskDelete;
                     break;
                 case NWDWritingPending.InDatabase:
-                    ImageDisk = NWDConstants.kImageDiskDatabase;
+                    ImageDisk = NWDGUI.kImageDiskDatabase;
                     break;
             }
             bool tDisableProd = false;
@@ -515,7 +515,7 @@ namespace NetWorkedData
 
             if (DevSync < 0 && PreprodSync < 0 && (ProdSync < 0 || tDisableProd == true))
             {
-                ImageSync = NWDConstants.kImageSyncGeneralForbidden;
+                ImageSync = NWDGUI.kImageSyncGeneralForbidden;
             }
             else
             {
@@ -523,123 +523,123 @@ namespace NetWorkedData
                 {
                     if (DevSync > 1 && PreprodSync < 1 && ProdSync < 1 && DS == DevSync)
                     {
-                        ImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                        ImageSync = NWDGUI.kImageSyncGeneralSuccessed;
                         AnalyzeSync = KSyncSuccessed;
                     }
                     else if (DevSync > 1 && PreprodSync > 1 && ProdSync < 1 && (DS == DevSync || DS == PreprodSync))
                     {
-                        ImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                        ImageSync = NWDGUI.kImageSyncGeneralSuccessed;
                         AnalyzeSync = KSyncSuccessed;
                     }
                     else if (DS < DM)
                     {
-                        ImageSync = NWDConstants.kImageSyncGeneralForward;
+                        ImageSync = NWDGUI.kImageSyncGeneralForward;
                         AnalyzeSync = KSyncForward;
                     }
                     else
                     {
-                        ImageSync = NWDConstants.kImageSyncGeneralWaiting;
+                        ImageSync = NWDGUI.kImageSyncGeneralWaiting;
                         AnalyzeSync = KSyncWaiting;
                     }
                 }
             }
             if (DevSync == 0)
             {
-                ImageDevSync = NWDConstants.kImageSyncRequired;
+                ImageDevSync = NWDGUI.kImageSyncRequired;
                 AnalyzeDevSync = KSyncRequired;
             }
             else if (DevSync == 1)
             {
-                ImageDevSync = NWDConstants.kImageSyncWaiting;
+                ImageDevSync = NWDGUI.kImageSyncWaiting;
                 AnalyzeDevSync = KSyncWaiting;
             }
             else if (DevSync > 1)
             {
-                ImageDevSync = NWDConstants.kImageSyncSuccessed;
+                ImageDevSync = NWDGUI.kImageSyncSuccessed;
                 AnalyzeDevSync = KSyncSuccessed;
             }
             else if (DevSync == -1)
             {
-                ImageDevSync = NWDConstants.kImageSyncForbidden;
+                ImageDevSync = NWDGUI.kImageSyncForbidden;
                 AnalyzeDevSync = KSyncForbidden;
             }
             else if (DevSync < -1)
             {
-                ImageDevSync = NWDConstants.kImageSyncDanger;
+                ImageDevSync = NWDGUI.kImageSyncDanger;
                 AnalyzeDevSync = KSyncDanger;
             }
 
             if (PreprodSync == 0)
             {
-                ImagePreprodSync = NWDConstants.kImageSyncRequired;
+                ImagePreprodSync = NWDGUI.kImageSyncRequired;
                 AnalyzePreprodSync = KSyncRequired;
             }
             else if (PreprodSync == 1)
             {
-                ImagePreprodSync = NWDConstants.kImageSyncWaiting;
+                ImagePreprodSync = NWDGUI.kImageSyncWaiting;
                 AnalyzePreprodSync = KSyncWaiting;
             }
             else if (PreprodSync > 1)
             {
                 if (PreprodSync > DevSync)
                 {
-                    ImagePreprodSync = NWDConstants.kImageSyncSuccessed;
+                    ImagePreprodSync = NWDGUI.kImageSyncSuccessed;
                     AnalyzePreprodSync = KSyncSuccessed;
                 }
                 else
                 {
-                    ImagePreprodSync = NWDConstants.kImageSyncForward;
+                    ImagePreprodSync = NWDGUI.kImageSyncForward;
                     AnalyzePreprodSync = KSyncForward;
                 }
             }
             else if (PreprodSync == -1)
             {
-                ImagePreprodSync = NWDConstants.kImageSyncForbidden;
+                ImagePreprodSync = NWDGUI.kImageSyncForbidden;
                 AnalyzePreprodSync = KSyncForbidden;
             }
             else if (PreprodSync < -1)
             {
-                ImagePreprodSync = NWDConstants.kImageSyncDanger;
+                ImagePreprodSync = NWDGUI.kImageSyncDanger;
                 AnalyzePreprodSync = KSyncDanger;
             }
             if (tDisableProd == true)
             {
-                ImageProdSync = NWDConstants.kImageSyncForbidden;
+                ImageProdSync = NWDGUI.kImageSyncForbidden;
                 AnalyzeProdSync = KSyncForbidden;
             }
             else
             {
                 if (ProdSync == 0)
                 {
-                    ImageProdSync = NWDConstants.kImageSyncRequired;
+                    ImageProdSync = NWDGUI.kImageSyncRequired;
                     AnalyzeProdSync = KSyncRequired;
                 }
                 else if (ProdSync == 1)
                 {
-                    ImageProdSync = NWDConstants.kImageSyncWaiting;
+                    ImageProdSync = NWDGUI.kImageSyncWaiting;
                     AnalyzeProdSync = KSyncWaiting;
                 }
                 if (ProdSync > 1)
                 {
                     if (ProdSync > DevSync && ProdSync > PreprodSync)
                     {
-                        ImageProdSync = NWDConstants.kImageSyncSuccessed;
+                        ImageProdSync = NWDGUI.kImageSyncSuccessed;
                         AnalyzeProdSync = KSyncSuccessed;
                     }
                     else
                     {
-                        ImageProdSync = NWDConstants.kImageSyncForward;
+                        ImageProdSync = NWDGUI.kImageSyncForward;
                         AnalyzeProdSync = KSyncForward;
                     }
                 }
                 else if (ProdSync == -1)
                 {
-                    ImageProdSync = NWDConstants.kImageSyncForbidden;
+                    ImageProdSync = NWDGUI.kImageSyncForbidden;
                     AnalyzeProdSync = KSyncForbidden;
                 }
                 else if (ProdSync < -1)
                 {
-                    ImageProdSync = NWDConstants.kImageSyncDanger;
+                    ImageProdSync = NWDGUI.kImageSyncDanger;
                     AnalyzeProdSync = KSyncDanger;
                 }
             }
@@ -652,13 +652,13 @@ namespace NetWorkedData
                 if (CheckList.Value != 0)
                 {
                     //ChecklistInfos = "<color=orange>[WIP]</color> ";
-                    ImageChecklist = NWDConstants.kImageCheckWorkInProgress;
+                    ImageChecklist = NWDGUI.kImageCheckWorkInProgress;
                     AnalyzeChecklist = KChecklistWorkInProgress;
                 }
                 else
                 {
                     //ChecklistInfos = "<color=green>[√]</color> ";
-                    ImageChecklist = NWDConstants.kImageCheckValid;
+                    ImageChecklist = NWDGUI.kImageCheckValid;
                     AnalyzeChecklist = KChecklistValid;
                 }
             }
@@ -677,7 +677,7 @@ namespace NetWorkedData
                     StateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
                     StringRow = "<color=#a52a2aff>" + StringRow + "</color>";
                     AnalyzeStateInfos = KAnalyzeStateCorrupted;
-                    ImageChecklist = NWDConstants.kImageCheckWarning;
+                    ImageChecklist = NWDGUI.kImageCheckWarning;
                 }
                 else if (XX > 0)
                 {
@@ -712,10 +712,10 @@ namespace NetWorkedData
             }
             if (InError == true)
             {
-                ImageChecklist = NWDConstants.kImageCheckWarning;
+                ImageChecklist = NWDGUI.kImageCheckWarning;
                 AnalyzeChecklist = KChecklistWarning;
                 AnalyzeStateInfos = KAnalyzeStateWarning;
-                ImageChecklist = NWDConstants.kImageCheckWarning;
+                ImageChecklist = NWDGUI.kImageCheckWarning;
             }
             StringRow = StringRow.Replace("()", string.Empty);
             while (StringRow.Contains("  "))

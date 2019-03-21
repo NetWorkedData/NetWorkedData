@@ -102,7 +102,7 @@ namespace NetWorkedData
                             {
                                 //Handles.color = Color.red;
                                 //Handles.DrawLine(Position, tCard.Position);
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture , 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDGUI.kImageBezierTexture , 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.green, NWDConstants.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, NWDConstants.kNodeLineColor, null, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 2.0F);
@@ -113,18 +113,18 @@ namespace NetWorkedData
                             {
                                 //Handles.DrawBezier(Position, Position, PositionTangent, PositionTangent, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
                                 Vector2 tBroken = new Vector2(Position.x + 30, Position.y);
-                                Handles.DrawBezier(Position, Position, tBroken, tBroken, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, Position, tBroken, tBroken, Color.red, NWDGUI.kImageBezierTexture, 2.0F);
                             }
                             break;
                         case NWDNodeConnectionType.OldCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDGUI.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
                         case NWDNodeConnectionType.FuturCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDGUI.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.blue, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
