@@ -16,26 +16,26 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDGUI
-    {        
+    {
         //-------------------------------------------------------------------------------------------------------------
         public static float kFieldMarge = 5.0f;
         public static float kFieldIndent = 15.0f;
         public static float kScrollbar = 20f;
-        static public GUIStyle kScrollviewFullWidth;
+        public static GUIStyle kScrollviewFullWidth;
         //-------------------------------------------------------------------------------------------------------------
         // window top tabbar 
-        static public Color KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-        static public Color KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-        static public Color KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+        public static Color KTAB_BAR_BACK_COLOR;
+        public static Color KTAB_BAR_LINE_COLOR;
+        public static Color KTAB_BAR_HIGHLIGHT_COLOR;
         //-------------------------------------------------------------------------------------------------------------
-        static public Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceNode.png");  // node
-        static public Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.png");
-        static public Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.png");
-        static public Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("NWDInterfaceLeft.png");
-        static public Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("NWDInterfaceRight.png");
-        static public Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.png"); // Clean
-        static public Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.png");  // new
-        static public Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.png"); // edit
+        public static Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceNode.png");  // node
+        public static Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.png");
+        public static Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.png");
+        public static Texture2D kImageLeft = NWDFindPackage.PackageEditorTexture("NWDInterfaceLeft.png");
+        public static Texture2D kImageRight = NWDFindPackage.PackageEditorTexture("NWDInterfaceRight.png");
+        public static Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.png"); // Clean
+        public static Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.png");  // new
+        public static Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.png"); // edit
         public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture("NWDRed.png");
         public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture("NWDGreen.png");
         public static Texture2D kImageForbidden = NWDFindPackage.PackageEditorTexture("NWDForbidden.png");
@@ -61,40 +61,40 @@ namespace NetWorkedData
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
         public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditorTexture("NWDProceed.png");
 
-        static public Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
+        public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
         public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
         //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element
         static Color kOldColor;
         static bool kOldColorInit;
-        public static Color kRedElementColor = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
-        public static Color kGreenElementColor = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
-        public static Color kYellowElementColor = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
-        public static Color kBlueElementColor = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
-        public static Color kOrangeElementColor = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
-        public static Color kGrayElementColor = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+        public static Color kRedElementColor; // invert color from white to fusion over button
+        public static Color kGreenElementColor; // invert color from white to fusion over button
+        public static Color kYellowElementColor; // invert color from white to fusion over button
+        public static Color kBlueElementColor; // invert color from white to fusion over button
+        public static Color kOrangeElementColor; // invert color from white to fusion over button
+        public static Color kGrayElementColor; // invert color from white to fusion over button
         static float WarningMinHeight = 48.0F;
         static float ErrorMinHeight = 48.0F;
         //-------------------------------------------------------------------------------------------------------------
-        static public GUIStyle kSeparatorStyle;
+        public static GUIStyle kSeparatorStyle;
         static Texture2D kSeparatorTexture;
-        static Color kSeparatorColor = new Color(0, 0, 0, 0.5F);
+        static Color kSeparatorColor;
         //-------------------------------------------------------------------------------------------------------------
-        static public GUIStyle kLineStyle;
+        public static GUIStyle kLineStyle;
         static Texture2D kLineTexture;
-        static Color kLineColor = new Color(0, 0, 0, 0.5F);
+        static Color kLineColor;
         //-------------------------------------------------------------------------------------------------------------
-        static public GUIStyle kTitleStyle;
+        public static GUIStyle kTitleStyle;
         static Texture2D kTitleTexture;
-        static Color kTitleColor = new Color(0, 0, 0, 0.3F);
+        static Color kTitleColor;
         //-----------------------------------------------------------k-----------------k-------------------------------
-        static public GUIStyle kSectionStyle;
+        public static GUIStyle kSectionStyle;
         static Texture2D kSectionTexture;
-        static Color kSectionColor = new Color(0, 0, 0, 0.2F);
+        static Color kSectionColor;
         //-------------------------------------------------------------------------------------------------------------
-        static public GUIStyle kSubSectionStyle;
+        public static GUIStyle kSubSectionStyle;
         static Texture2D kSubSectionTexture;
-        static Color kSubSectionColor = new Color(0, 0, 0, 0.1F);
+        static Color kSubSectionColor;
         //-------------------------------------------------------------------------------------------------------------
         public static float KTableSearchLabelWidth = 80.0F;
         public static float KTableSearchWidth = 120.0F;
@@ -104,11 +104,11 @@ namespace NetWorkedData
         public static float KTablePageMarge = 5.0F;
         public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6.0F;
 
-        public static Color kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
-        public static Color kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
-        public static Color kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
-        public static Color kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
-        public static Color kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
+        public static Color kRowColorSelected;
+        public static Color kRowColorError;
+        public static Color kRowColorWarning;
+        public static Color kRowColorTrash;
+        public static Color kRowColorDisactive;
 
         public static GUIStyle KTableSearchTitle;
         public static GUIStyle KTableSearchMask;
@@ -130,7 +130,7 @@ namespace NetWorkedData
         public static float kTableIconWidth = 40.0f;
 
         public static float kTableHeaderHeight = 30.0f;
-        public static Color kTableHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.35f);
+        public static Color kTableHeaderColor;
         public static GUIStyle KTableHeaderSelect;
         public static GUIStyle KTableHeaderId;
         public static GUIStyle KTableHeaderPrefab;
@@ -140,8 +140,8 @@ namespace NetWorkedData
         public static GUIStyle KTableHeaderReference;
 
         public static float kTableRowHeight = 40.0f;
-        public static Color kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
-        public static Color kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
+        public static Color kRowColorLineWhite;
+        public static Color kRowColorLineBlack;
         public static GUIStyle KTableRowSelect;
         public static GUIStyle KTableRowId;
         public static GUIStyle KTableRowPrefab;
@@ -152,26 +152,26 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         // Datas Selector
-        public static Color kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-        static public GUIStyle kSelectorTileStyle;
-        static public GUIStyle kSelectorTileDarkStyle;
-        public static Color kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-        static public GUIStyle kSelectorRowStyle;
-        static public GUIStyle kSelectorRowDarkStyle;
-        static public GUIStyle kDatasSelectorRowStyle;
-        static public GUIStyle kDatasSelectorRowErrorStyle;
-        static public float kDatasSelectorYOffset;
+        public static Color kSelectorTileSelected;
+        public static GUIStyle kSelectorTileStyle;
+        public static GUIStyle kSelectorTileDarkStyle;
+        public static Color kSelectorRowSelected;
+        public static GUIStyle kSelectorRowStyle;
+        public static GUIStyle kSelectorRowDarkStyle;
+        public static GUIStyle kDatasSelectorRowStyle;
+        public static GUIStyle kDatasSelectorRowErrorStyle;
+        public static float kDatasSelectorYOffset;
         //-------------------------------------------------------------------------------------------------------------
         // Data inspector properties
         // TODO : all rename!! with right name!
 
-        static public Color kIdentityColor; // inspector identity color area
-        static public Color kPropertyColor; // inspector identity color area
+        public static Color kIdentityColor; // inspector identity color area
+        public static Color kPropertyColor; // inspector identity color area
 
         public static int kLongString = 5;
         public static int kVeryLongString = 15;
         public static float kPrefabSize = 80.0f;
-        public static float kIntWidth = 36.0f; 
+        public static float kIntWidth = 36.0f;
         public static float kConditionalWidth = 42.0f;
         public static float kEditWidth = 36.0f;
         public static float kLangWidth = 50.0f;
@@ -179,7 +179,7 @@ namespace NetWorkedData
         public static float kConnectionIndent = 10.0f;
         public static float kUpDownWidth = 18.0f;
 
-        static public GUIStyle kPropertyEntitlementStyle;
+        public static GUIStyle kPropertyEntitlementStyle;
 
         public static GUIStyle kInspectorInternalTitle;
         public static GUIStyle kInspectorReferenceCenter;
@@ -203,10 +203,10 @@ namespace NetWorkedData
         public static GUIStyle kEnumStyle;
         public static GUIStyle kToggleStyle;
 
-        static public GUIStyle kTextAreaStyle;
-        static public GUIStyle kRedLabelStyle;
-        static public GUIStyle kGrayLabelStyle;
-        static public GUIStyle kLabelRightStyle;
+        public static GUIStyle kTextAreaStyle;
+        public static GUIStyle kRedLabelStyle;
+        public static GUIStyle kGrayLabelStyle;
+        public static GUIStyle kLabelRightStyle;
         public static GUIStyle kMiniLabelStyle;
 
         public static GUIStyle kIconButtonStyle;
@@ -227,18 +227,17 @@ namespace NetWorkedData
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        static public float kNodeCardWidth = 200.0F;
-        static public float kNodeCardHeight = 200.0F;
-        static public float kNodeCardMarging = 50.0F;
+        public static float kNodeCardWidth = 200.0F;
+        public static float kNodeCardHeight = 200.0F;
+        public static float kNodeCardMarging = 50.0F;
 
-        static public float kNodeCanvasFraction = 20;
-        static public Color kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
-        static public Color kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
-        //static public Color kNodeCanvasMargeWhite = new Color(0.7F, 0.7F, 0.7F, 1.0F);
-        static public Color kNodeCanvasMargeBlack = new Color(0.1F, 0.1F, 0.1F, 1.0F);
+        public static float kNodeCanvasFraction = 20;
+        public static Color kNodeCanvasMajor;
+        public static Color kNodeCanvasMinor;
+        public static Color kNodeCanvasMargeBlack;
 
-        static public Color kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
-        static public Color kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
+        public static Color kNodeLineColor;
+        public static Color kNodeOverLineColor;
         public static float kIconWidth = 36.0f;
         public static float kEditIconSide = 16.0f;
         public static float kEditWidthHalf = 8.0f;
@@ -249,25 +248,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDGUI()
         {
-            kSeparatorTexture = new Texture2D(1, 1);
-            kSeparatorTexture.SetPixel(0, 0, kSeparatorColor);
-            kSeparatorTexture.Apply();
-
-            kLineTexture = new Texture2D(1, 1);
-            kLineTexture.SetPixel(0, 0, kLineColor);
-            kLineTexture.Apply();
-
-            kTitleTexture = new Texture2D(1, 1);
-            kTitleTexture.SetPixel(0, 0, kTitleColor);
-            kTitleTexture.Apply();
-
-            kSectionTexture = new Texture2D(1, 1);
-            kSectionTexture.SetPixel(0, 0, kSectionColor);
-            kSectionTexture.Apply();
-
-            kSubSectionTexture = new Texture2D(1, 1);
-            kSubSectionTexture.SetPixel(0, 0, kSubSectionColor);
-            kSubSectionTexture.Apply();
+            StyleLoaded = false;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadStyles()
@@ -275,6 +256,77 @@ namespace NetWorkedData
             if (StyleLoaded == false)
             {
                 StyleLoaded = true;
+
+                // color force 
+
+                KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+                KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+                KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+                kRedElementColor = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+                kGreenElementColor = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
+                kYellowElementColor = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
+                kBlueElementColor = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
+                kOrangeElementColor = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
+                kGrayElementColor = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+
+                kSeparatorColor = new Color(0, 0, 0, 0.5F);
+
+                kLineColor = new Color(0, 0, 0, 0.5F);
+
+                kTitleColor = new Color(0, 0, 0, 0.3F);
+
+                kSectionColor = new Color(0, 0, 0, 0.2F);
+
+                kSubSectionColor = new Color(0, 0, 0, 0.1F);
+
+                kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
+                kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
+                kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
+                kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
+                kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
+
+
+                kTableHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.35f);
+
+                kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
+                kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
+
+
+                kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+
+                kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+
+                kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
+                kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
+
+                kNodeCanvasMargeBlack = new Color(0.1F, 0.1F, 0.1F, 1.0F);
+
+                kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
+                kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
+
+                // texture apply
+
+                kSeparatorTexture = new Texture2D(1, 1);
+                kSeparatorTexture.SetPixel(0, 0, kSeparatorColor);
+                kSeparatorTexture.Apply();
+
+                kLineTexture = new Texture2D(1, 1);
+                kLineTexture.SetPixel(0, 0, kLineColor);
+                kLineTexture.Apply();
+
+                kTitleTexture = new Texture2D(1, 1);
+                kTitleTexture.SetPixel(0, 0, kTitleColor);
+                kTitleTexture.Apply();
+
+                kSectionTexture = new Texture2D(1, 1);
+                kSectionTexture.SetPixel(0, 0, kSectionColor);
+                kSectionTexture.Apply();
+
+                kSubSectionTexture = new Texture2D(1, 1);
+                kSubSectionTexture.SetPixel(0, 0, kSubSectionColor);
+                kSubSectionTexture.Apply();
+
 
                 // Scrollview full marging
 
@@ -367,7 +419,7 @@ namespace NetWorkedData
                 KTableHeaderPrefab = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderId = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderIcon = new GUIStyle(EditorStyles.helpBox);
-                KTableHeaderInformations= new GUIStyle(EditorStyles.helpBox);
+                KTableHeaderInformations = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderStatut = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderReference = new GUIStyle(EditorStyles.helpBox);
 
@@ -608,7 +660,7 @@ namespace NetWorkedData
             sRect.height = kSeparatorStyle.fixedHeight;
             GUI.Label(sRect, string.Empty, kSeparatorStyle);
             sRect.y += kSeparatorStyle.fixedHeight + kFieldMarge;
-            sRect.height = kSeparatorStyle.fixedHeight + kFieldMarge*2;
+            sRect.height = kSeparatorStyle.fixedHeight + kFieldMarge * 2;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -661,7 +713,7 @@ namespace NetWorkedData
         {
             GUI.Label(sRect, sTitle, NWDGUI.kTitleStyle);
             Line(new Rect(sRect.x, sRect.y, sRect.width, 1));
-            Line(new Rect(sRect.x, sRect.y+ kTitleStyle.fixedHeight - 1, sRect.width, 1));
+            Line(new Rect(sRect.x, sRect.y + kTitleStyle.fixedHeight - 1, sRect.width, 1));
             sRect.height = kTitleStyle.fixedHeight;
             return sRect;
         }
