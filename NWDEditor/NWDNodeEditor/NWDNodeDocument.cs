@@ -569,41 +569,44 @@ namespace NetWorkedData
         /// <param name="tReset">If set to <c>true</c> t reset.</param>
         public void SetData(NWDTypeClass sObject, bool tReset = true)
         {
-            if (tReset == true)
+            if (NWDBasisHelper.FindTypeInfos(sObject.GetType()).DatabaseIsLoaded())
             {
-                LoadClasses();
+                if (tReset == true)
+                {
+                    LoadClasses();
+                }
+
+                AllCards = new List<NWDNodeCard>();
+                AllCardsAnalyzed = new List<NWDNodeCard>();
+                PropertyMax = 0;
+
+                Width = NWDGUI.kNodeCardWidth;
+                Height = NWDGUI.kNodeCardHeight;
+                //Margin = 100.0F;
+                //HeightLabel = 16.0F;
+                //HeightProperty = 20.0F;
+
+                LineListMax = new Dictionary<int, int>();
+
+                ColumnMax = 0;
+                LineMax = 0;
+
+                InformationsHeight = 50.0F;
+
+                if (sObject != null)
+                {
+                    OriginalData = new NWDNodeCard();
+                    OriginalData.Line = 0;
+                    OriginalData.Column = 0;
+                    OriginalData.Position = new Vector2(0, 0);
+                    OriginalData.SetData(sObject);
+                    AllCards.Add(OriginalData);
+                    OriginalData.Analyze(this);
+                }
+                //            Debug.Log(AllCards.Count + " Cards found");
+                ReEvaluateLayout();
+                //Analyze();
             }
-
-            AllCards = new List<NWDNodeCard>();
-            AllCardsAnalyzed = new List<NWDNodeCard>();
-            PropertyMax = 0;
-
-            Width = NWDGUI.kNodeCardWidth;
-            Height = NWDGUI.kNodeCardHeight;
-            //Margin = 100.0F;
-            //HeightLabel = 16.0F;
-            //HeightProperty = 20.0F;
-
-            LineListMax = new Dictionary<int, int>();
-
-            ColumnMax = 0;
-            LineMax = 0;
-
-            InformationsHeight = 50.0F;
-
-            if (sObject != null)
-            {
-                OriginalData = new NWDNodeCard();
-                OriginalData.Line = 0;
-                OriginalData.Column = 0;
-                OriginalData.Position = new Vector2(0, 0);
-                OriginalData.Data = sObject;
-                AllCards.Add(OriginalData);
-                OriginalData.Analyze(this);
-            }
-            //            Debug.Log(AllCards.Count + " Cards found");
-            ReEvaluateLayout();
-            //Analyze();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -614,7 +617,7 @@ namespace NetWorkedData
             //Debug.Log("ReAnalyze()");
             if (OriginalData != null)
             {
-                SetData(OriginalData.Data, false);
+                SetData(OriginalData.DataObject, false);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -628,7 +631,7 @@ namespace NetWorkedData
                 bool tNeedBeReAnalyze = false;
                 foreach (NWDNodeCard tCard in AllCards)
                 {
-                    if (sObjectModified == tCard.Data)
+                    if (sObjectModified == tCard.DataObject)
                     {
                         tNeedBeReAnalyze = true;
                         break;
@@ -636,7 +639,7 @@ namespace NetWorkedData
                 }
                 if (tNeedBeReAnalyze == true)
                 {
-                    SetData(OriginalData.Data, false);
+                    SetData(OriginalData.DataObject, false);
                 }
             }
         }

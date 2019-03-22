@@ -188,7 +188,7 @@ namespace SQLite4Unity3d
         {
             return this._open;
         }
-        public bool IsValide()
+        public bool IsValid()
         {
             return this._valid;
         }

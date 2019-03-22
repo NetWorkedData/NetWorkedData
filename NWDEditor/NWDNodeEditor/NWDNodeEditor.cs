@@ -117,11 +117,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
-            kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-            kNodeEditorSharedInstance.Show();
-            //tNodeEditor.ShowUtility();
-            kNodeEditorSharedInstance.Focus();
-            kNodeEditorSharedInstance.SetSelection(sSelection);
+            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            {
+                kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+                kNodeEditorSharedInstance.Show();
+                //tNodeEditor.ShowUtility();
+                kNodeEditorSharedInstance.Focus();
+                kNodeEditorSharedInstance.SetSelection(sSelection);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -177,8 +180,11 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public void SetSelection(NWDTypeClass sSelection)
         {
-            Document.SetData(sSelection);
-            Repaint();
+            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            {
+                Document.SetData(sSelection);
+                Repaint();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>

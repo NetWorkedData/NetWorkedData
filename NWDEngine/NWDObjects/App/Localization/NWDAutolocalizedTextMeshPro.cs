@@ -318,14 +318,14 @@ namespace NetWorkedData
         void Awake()
         {
             //Debug.Log("NWDAutolocalized Awake()");
-            if (NWDTypeLauncher.DataLoaded == false)
+            if (NWDTypeLauncher.DataEditorLoaded == false)
             {
                 if (EmptyIfNotLoaded == true)
                 {
                     Empty();
                 }
                 BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED, delegate (BTBNotification sNotification)
                 {
                     DataIsLoaded();
                 });
@@ -340,7 +340,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDAutolocalized OnDestroy()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         string Enrichment(string sText)

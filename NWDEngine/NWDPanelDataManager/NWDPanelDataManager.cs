@@ -58,11 +58,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
-            if ( DatasStartLoadingEvent!= null)
+            if (DatasEditorStartLoadingEvent != null)
             {
-                DatasStartLoadingEvent.Invoke(sNotification);
+                DatasEditorStartLoadingEvent.Invoke(sNotification);
             }
             if (DatasLoadGauge != null)
             {
@@ -71,11 +71,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public override void NotificationDatasEditorPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            if ( DatasPartialLoadedEvent!= null)
+            if (DatasEditorPartialLoadedEvent != null)
             {
-                DatasPartialLoadedEvent.Invoke(sNotification);
+                DatasEditorPartialLoadedEvent.Invoke(sNotification);
             }
             if (DatasLoadGauge != null)
             {
@@ -83,11 +83,50 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
-            if ( DatasLoadedEvent!= null)
+            if (DatasEditorLoadedEvent != null)
             {
-                DatasLoadedEvent.Invoke(sNotification);
+                DatasEditorLoadedEvent.Invoke(sNotification);
+            }
+            if (DatasLoadGauge != null)
+            {
+                DatasLoadGauge.SetHidden(true);
+            }
+        }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            if (DatasAccountStartLoadingEvent != null)
+            {
+                DatasAccountStartLoadingEvent.Invoke(sNotification);
+            }
+            if (DatasLoadGauge != null)
+            {
+                DatasLoadGauge.SetHidden(false);
+                DatasLoadGauge.SetHorizontalValue(0.0F);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            if (DatasAccountPartialLoadedEvent != null)
+            {
+                DatasAccountPartialLoadedEvent.Invoke(sNotification);
+            }
+            if (DatasLoadGauge != null)
+            {
+                DatasLoadGauge.SetHorizontalValue(sPurcent);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            if (DatasAccountLoadedEvent != null)
+            {
+                DatasAccountLoadedEvent.Invoke(sNotification);
             }
             if (DatasLoadGauge != null)
             {

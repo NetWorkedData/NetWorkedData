@@ -875,7 +875,7 @@ namespace NetWorkedData
                     }
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                EditorGUI.EndDisabledGroup();
+                //EditorGUI.EndDisabledGroup();
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
                 {
                     tLocalizeLocalTable = true;
@@ -1567,6 +1567,10 @@ namespace NetWorkedData
         public static void DrawTableEditor(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
+            bool rLoaded = DatabaseIsLoaded();
+
+            EditorGUI.BeginDisabledGroup(!rLoaded);
+
             Rect tWindowRect = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
             if (tWindowRect.width < NWDGUI.KTableMinWidth)
             {
@@ -1639,12 +1643,13 @@ namespace NetWorkedData
             // ===========================================
             // ===========================================
             /// DRAW SCROLLVIEW
-            if (NWDTypeLauncher.DataLoaded == false)
+            /// 
+            if (rLoaded == false)
             {
                 //TODO : draw not loading
                 float tScrollHeight = tWindowRect.height - tRect.y  - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
                 Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, tScrollHeight);
-                GUI.Label(tScrollRect, NWDConstants.K_APP_TABLE_DATAS_ARE_LOADING_ZONE, NWDGUI.KTableSearchTitle);
+                NWDGUI.ErrorBox(tScrollRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE);
             }
             else
             {
@@ -1951,6 +1956,8 @@ namespace NetWorkedData
                 GUILayout.EndHorizontal();
                 */
                 // ===========================================
+
+                EditorGUI.EndDisabledGroup();
             }
             //BTBBenchmark.Finish();
         }

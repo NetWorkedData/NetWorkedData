@@ -109,7 +109,7 @@ namespace NetWorkedData
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
-            if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
+            if (NWDGameDataManager.UnitySingleton().DatasLoaded() == true)
             {
                 UpdateParameterText();
             }
@@ -186,9 +186,15 @@ namespace NetWorkedData
             ParametersTestAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("NWDShowDebugPanel NotificationDatasLoaded()");
+            Debug.Log("NWDShowDebugPanel NotificationDatasEditorLoaded()");
+            UpdateParameterText();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("NWDShowDebugPanel NotificationDatasAccountLoaded()");
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------

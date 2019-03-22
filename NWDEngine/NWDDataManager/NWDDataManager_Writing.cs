@@ -90,13 +90,13 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueExecute()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             if (DataInWritingProcess())
             {
                 DataQueueMainExecute();
                 DataQueuePoolExecute();
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

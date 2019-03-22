@@ -131,7 +131,7 @@ namespace NetWorkedData
         {
             string rLocalizeText = string.Empty;
 
-            if (NWDTypeLauncher.DataLoaded)
+            if (NWDTypeLauncher.DataEditorLoaded)
             {
                 if (sText != null)
                 {

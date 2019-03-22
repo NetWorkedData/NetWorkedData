@@ -27,7 +27,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDAutolocalized DataIsLoaded()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
             foreach (Transform tChild in transform)
             {
                 tChild.gameObject.SetActive(ActiveDatasLoaded);
@@ -37,14 +37,14 @@ namespace NetWorkedData
         void Awake()
         {
             //Debug.Log("NWDAutolocalized Awake()");
-            if (NWDTypeLauncher.DataLoaded == false)
+            if (NWDTypeLauncher.DataAccountLoaded == false)
             {
                 foreach (Transform tChild in transform)
                 {
                     tChild.gameObject.SetActive(ActiveDatasNotLoaded);
                 }
                 BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED, delegate (BTBNotification sNotification)
                 {
                     DataIsLoaded();
                 });
@@ -62,7 +62,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDAutolocalized OnDestroy()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

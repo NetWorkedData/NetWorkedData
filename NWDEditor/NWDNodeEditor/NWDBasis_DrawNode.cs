@@ -56,7 +56,7 @@ namespace NetWorkedData
             bool tDataAllReadyAnalyze = false;
             foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCardsAnalyzed)
             {
-                if (tCard.Data == sCard.Data)
+                if (tCard.DataObject == sCard.DataObject)
                 {
                     tDataAllReadyAnalyze = true;
                     break;

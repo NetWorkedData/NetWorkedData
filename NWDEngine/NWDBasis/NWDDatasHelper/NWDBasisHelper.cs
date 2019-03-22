@@ -847,6 +847,22 @@ namespace NetWorkedData
 #endif
             //BTBBenchmark.Finish();
         }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DatabaseIsLoaded()
+        {
+            bool rLoaded = true;
+            if (kAccountDependent == true && NWDTypeLauncher.DataAccountLoaded == false)
+            {
+                rLoaded = false;
+            }
+            else if (kAccountDependent == false && NWDTypeLauncher.DataEditorLoaded == false)
+            {
+                rLoaded = false;
+            }
+            return rLoaded;
+        }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()
         //{
@@ -1847,7 +1863,6 @@ namespace NetWorkedData
             tTypeInfos.RowAnalyzed = false;
            //BTBBenchmark.Start("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
             // Reset the Handler of datas index
-
             //BTBBenchmark.Start("reset " + tTypeInfos.ClassNamePHP);
             tTypeInfos.ResetDatas();
            // BTBBenchmark.Finish("reset " + tTypeInfos.ClassNamePHP);
@@ -1864,67 +1879,63 @@ namespace NetWorkedData
             }
             if (tSQLiteConnection != null)
             {
-                //BTBBenchmark.Start("sql "+ tTypeInfos.ClassNamePHP);
-                //IEnumerable tEnumerable = tSQLiteConnection.Table<K>();
-                //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
-                //// Prepare the datas
-                //int tCount = 0;
-                //if (tEnumerable != null)
-                //{
-                //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
-                //    foreach (NWDBasis<K> tItem in tEnumerable)
-                //    {
-                //       tCount++;
-                //       tItem.LoadedFromDatabase();
-                //    }
-                //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
-                //}
-                //Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
-
-
-
-                //BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
-                //TableQuery<K> tSelect = tSQLiteConnection.Table<K>();
-                //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
-                //// Prepare the datas
-                //if (tSelect != null)
-                //{
-                //    BTBBenchmark.Start("array " + tTypeInfos.ClassNamePHP);
-                //    K[] tArray = tSelect.ToArray();
-                //    BTBBenchmark.Finish("array " + tTypeInfos.ClassNamePHP);
-                //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
-                //    for (int tI = 0; tI < tArray.Length; tI++)
-                //    {
-                //        NWDBasis<K> tItem = tArray[tI];
-                //       tItem.LoadedFromDatabase();
-                //    }
-                //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
-                //    Debug.Log(tTypeInfos.ClassNamePHP + " use " + tArray.Length + " objects");
-                //}
-
-               // BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
-                List<K>tSelect = tSQLiteConnection.Query<K>("SELECT * FROM "+ tTypeInfos.ClassNamePHP);
-               // BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
-                int tCount = 0;
-                // Prepare the datas
-                if (tSelect != null)
+                if (tSQLiteConnection.IsValid())
                 {
-                  //  BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
-                    foreach (NWDBasis<K> tItem in tSelect)
+                    //BTBBenchmark.Start("sql "+ tTypeInfos.ClassNamePHP);
+                    //IEnumerable tEnumerable = tSQLiteConnection.Table<K>();
+                    //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
+                    //// Prepare the datas
+                    //int tCount = 0;
+                    //if (tEnumerable != null)
+                    //{
+                    //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
+                    //    foreach (NWDBasis<K> tItem in tEnumerable)
+                    //    {
+                    //       tCount++;
+                    //       tItem.LoadedFromDatabase();
+                    //    }
+                    //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
+                    //}
+                    //Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
+
+
+
+                    //BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
+                    //TableQuery<K> tSelect = tSQLiteConnection.Table<K>();
+                    //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
+                    //// Prepare the datas
+                    //if (tSelect != null)
+                    //{
+                    //    BTBBenchmark.Start("array " + tTypeInfos.ClassNamePHP);
+                    //    K[] tArray = tSelect.ToArray();
+                    //    BTBBenchmark.Finish("array " + tTypeInfos.ClassNamePHP);
+                    //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
+                    //    for (int tI = 0; tI < tArray.Length; tI++)
+                    //    {
+                    //        NWDBasis<K> tItem = tArray[tI];
+                    //       tItem.LoadedFromDatabase();
+                    //    }
+                    //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
+                    //    Debug.Log(tTypeInfos.ClassNamePHP + " use " + tArray.Length + " objects");
+                    //}
+
+                    // BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
+                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP);
+                    // BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
+                    int tCount = 0;
+                    // Prepare the datas
+                    if (tSelect != null)
                     {
-                        tCount++;
-                        tItem.LoadedFromDatabase();
+                        //  BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
+                        foreach (NWDBasis<K> tItem in tSelect)
+                        {
+                            tCount++;
+                            tItem.LoadedFromDatabase();
+                        }
+                        // BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
+                        // Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
                     }
-                   // BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
-                   // Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
                 }
-
-
-
-
-
-
-
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
 #if UNITY_EDITOR

@@ -32,9 +32,13 @@ namespace NetWorkedData
         public const string K_DATABASE_CONNECTED = "K_DATABASE_CONNECTED_de4be4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Load datas
-        public const string K_DATAS_START_LOADING = "K_DATAS_START_LOADING_Mr524ztr"; // OK Needed by test & verify
-        public const string K_DATAS_PARTIAL_LOADED = "K_DATAS_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify
-        public const string K_DATAS_LOADED = "K_DATAS_LOADED_er468rez"; // OK Needed by test & verify
+        public const string K_DATAS_EDITOR_START_LOADING = "K_DATAS_EDITOR_START_LOADING_Mr524ztr"; // OK Needed by test & verify
+        public const string K_DATAS_EDITOR_PARTIAL_LOADED = "K_DATAS_EDITOR_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify
+        public const string K_DATAS_EDITOR_LOADED = "K_DATAS_EDITOR_LOADED_er468rez"; // OK Needed by test & verify
+
+        public const string K_DATAS_ACCOUNT_START_LOADING = "K_DATAS_ACCOUNT_START_LOADING_Mr524ztr"; // OK Needed by test & verify
+        public const string K_DATAS_ACCOUNT_PARTIAL_LOADED = "K_DATAS_ACCOUNT_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify
+        public const string K_DATAS_ACCOUNT_LOADED = "K_DATAS_ACCOUNT_LOADED_er468rez"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_REFRESH = "K_EDITOR_REFRESH_g54D55hs"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------

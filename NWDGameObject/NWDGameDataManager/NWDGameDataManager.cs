@@ -256,9 +256,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatasIsLoaded()
+        public bool DatasLoaded()
         {
-            return NWDTypeLauncher.DataLoaded;
+            return NWDTypeLauncher.DataLoaded();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -470,14 +470,15 @@ namespace NetWorkedData
             void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
-            if (NWDTypeLauncher.DataLoaded == false)
+            if (NWDTypeLauncher.DataEditorLoaded == false)
             {
                 //Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
                 if (LoadingDatasGauge != null)
                 {
                     LoadingDatasGauge.IsVisible = true;
                 }
-                ReloadAllDatas();
+                ReloadAllDatasEditor();
+                ReloadAllDatasAccount();
             }
             else
             {
@@ -500,7 +501,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllDatas()
         {
-            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjects());
+            ReloadAllDatasEditor();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ReloadAllDatasEditor()
+        {
+            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ReloadAllDatasAccount()
+        {
+            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount());
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnGUI()
@@ -565,7 +576,7 @@ namespace NetWorkedData
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
             if (LoadingDatasGauge != null)
@@ -575,7 +586,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public override void NotificationDatasEditorPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
@@ -584,7 +595,36 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
+            if (LoadingDatasGauge != null)
+            {
+                LoadingDatasGauge.IsVisible = false;
+            }
+            NWDNews.InstallAllNotifications(false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
+            if (LoadingDatasGauge != null)
+            {
+                LoadingDatasGauge.IsVisible = true;
+                LoadingDatasGauge.SetHorizontalValue(0.0F);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
+            if (LoadingDatasGauge != null)
+            {
+                LoadingDatasGauge.SetHorizontalValue(sPurcent);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)

@@ -791,6 +791,20 @@ namespace NetWorkedData
             return BasisHelper().kAssetDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool DatabaseIsLoaded()
+        {
+            bool rLoaded = true;
+            if (AccountDependent() == true && NWDTypeLauncher.DataAccountLoaded == false)
+            {
+                rLoaded = false;
+            }
+            else if (AccountDependent() == false && NWDTypeLauncher.DataEditorLoaded == false)
+            {
+                rLoaded = false;
+            }
+            return rLoaded;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods

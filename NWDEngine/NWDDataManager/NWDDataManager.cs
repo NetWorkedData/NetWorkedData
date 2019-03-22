@@ -22,6 +22,9 @@ namespace NetWorkedData
         private bool kConnectedToDatabase = false;
         private bool kConnectedToDatabaseIsProgress = false;
         //-------------------------------------------------------------------------------------------------------------
+        private bool kConnectedToDatabaseEditor = false;
+        private bool kConnectedToDatabaseIsProgressEditor = false;
+        //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguage = "en";
         public SQLiteConnection SQLiteConnectionEditor;
         public string DatabasePathEditor = "StreamingAssets";

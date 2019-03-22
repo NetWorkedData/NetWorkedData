@@ -20,7 +20,8 @@ namespace NetWorkedData
     public class NWDNodeCard
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass Data;
+        public NWDTypeClass DataObject;
+        //-------------------------------------------------------------------------------------------------------------
         public List<NWDNodeConnection> ConnectionList = new List<NWDNodeConnection>();
         public Vector2 Position;
         public Vector2 CirclePosition;
@@ -58,15 +59,28 @@ namespace NetWorkedData
         public string InternalKeyString;
         //public string Informations;
         //-------------------------------------------------------------------------------------------------------------
+        public void SetData(NWDTypeClass sData)
+        {
+            if (NWDBasisHelper.FindTypeInfos(sData.GetType()).DatabaseIsLoaded())
+            {
+                DataObject = sData;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass GetData()
+        {
+            return DataObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void Analyze(NWDNodeDocument sDocument)
         {
             //Debug.Log("NWDNodeCard Analyze()");
             ParentDocument = sDocument;
             sDocument.ColumnMaxCount(Column);
             // I analyze the properties of data.
-            if (Data != null)
+            if (DataObject != null)
             {
-                Data.NodeCardAnalyze(this);
+                DataObject.NodeCardAnalyze(this);
                 //// TODO : Change to remove invoke!
                 //Type tType = Data.GetType();
                 ////var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
@@ -150,7 +164,7 @@ namespace NetWorkedData
                         tCardLine.ConType = sConType;
                         foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                         {
-                            if (tOldCard.Data == tObject)
+                            if (tOldCard.DataObject == tObject)
                             {
                                 tDataAllReadyShow = true;
                                 tCard = tOldCard;
@@ -170,7 +184,7 @@ namespace NetWorkedData
                             tCard = new NWDNodeCard();
                             tCard.Column = Column + 1;
                             tCard.Line = ParentDocument.GetNextLine(tCard);
-                            tCard.Data = tObject;
+                            tCard.SetData(tObject);
                             rResult.Add(tCard);
                             ParentDocument.AllCards.Add(tCard);
                             tCardLine.Style = NWDNodeConnectionType.Valid;
@@ -260,7 +274,7 @@ namespace NetWorkedData
             {
                 // Debug.Log("NWDNodeCard DrawCard() rect = " + CardRect.ToString());
                 GUI.Box(CardRect, " ", EditorStyles.helpBox);
-                if (NWDDataInspector.ObjectInEdition() == Data)
+                if (NWDDataInspector.ObjectInEdition() == DataObject)
                 {
                     Color tOldColor = GUI.backgroundColor;
                     GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
@@ -274,7 +288,7 @@ namespace NetWorkedData
 
                 GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
                 GUI.Label(CardReferenceRect, ReferenceString);
-                GUI.Label(CardInternalKeyRect, Data.InternalKeyValue());
+                GUI.Label(CardInternalKeyRect, DataObject.InternalKeyValue());
 
                 // Draw informations box with the color of informations
                 Color tOldBackgroundColor = GUI.backgroundColor;
@@ -284,17 +298,17 @@ namespace NetWorkedData
                 // add button to edit data
                 if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
                 {
-                    NWDDataInspector.InspectNetWorkedData(Data, true, true);
+                    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
                 }
                 // add button to center node on this data
                 if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
                 {
-                    NWDDataInspector.InspectNetWorkedData(Data, true, true);
-                    ParentDocument.SetData(Data);
+                    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
+                    ParentDocument.SetData(DataObject);
                 }
 
                 //NWDBasisHelper.FindTypeInfos(Data.GetType());
-                string tPrefName = "NWDEditorAnalyze_" + Data.GetType().Name;
+                string tPrefName = "NWDEditorAnalyze_" + DataObject.GetType().Name;
                 bool tAnalyze = EditorPrefs.GetBool(tPrefName, true);
                 bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDGUI.kEditIconSide * 3 - NWDGUI.kFieldMarge * 3, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), "", tAnalyze);
                 if (tAnalyzeChange != tAnalyze)
@@ -304,13 +318,13 @@ namespace NetWorkedData
                     ParentDocument.ReAnalyze();
                 }
 
-                Data.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
+                DataObject.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
               
                 foreach (NWDNodeConnection tConnection in ConnectionList)
                 {
                     GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
                     tBox.alignment = TextAnchor.MiddleLeft;
-                    Type tTypeProperty = tConnection.Property.GetValue(Data, null).GetType();
+                    Type tTypeProperty = tConnection.Property.GetValue(DataObject, null).GetType();
 
                     if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
                     {
@@ -320,18 +334,18 @@ namespace NetWorkedData
                             // draw properties distinct
                             GUI.Box(tConnection.Rectangle, string.Empty, tBox);
                             // add special infos in this property draw
-                            NWDTypeClass tSubData = tSubCard.Data;
+                            NWDTypeClass tSubData = tSubCard.DataObject;
                             tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDGUI.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDGUI.kEditWidth + NWDGUI.kFieldMarge) * 3, tConnection.Rectangle.height));
                             // Add button to edit this data
                             if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
                             {
-                                NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
+                                NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
                             }
                             // add button to center node on this data
                             if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
                             {
-                                NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
-                                ParentDocument.SetData(tSubCard.Data);
+                                NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
+                                ParentDocument.SetData(tSubCard.DataObject);
                             }
                         }
                         else
@@ -358,15 +372,15 @@ namespace NetWorkedData
                             var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                             if (tMethodProperty != null)
                             {
-                                tMethodProperty.Invoke(tConnection.Property.GetValue(Data, null), null);
+                                tMethodProperty.Invoke(tConnection.Property.GetValue(DataObject, null), null);
                                 // Ok I update the data
-                                Type tDataType = Data.GetType();
+                                Type tDataType = DataObject.GetType();
                                 // TODO : Change to remove invoke!
                                 var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                                 if (tDataTypeUpdate != null)
                                 {
                                     //Debug.Log("UpdateMe is Ok ");
-                                    tDataTypeUpdate.Invoke(Data, new object[] { true });
+                                    tDataTypeUpdate.Invoke(DataObject, new object[] { true });
                                     ParentDocument.ReAnalyze();
                                 }
                             }

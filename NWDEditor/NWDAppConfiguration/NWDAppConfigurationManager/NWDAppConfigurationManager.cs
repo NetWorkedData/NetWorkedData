@@ -161,11 +161,17 @@ namespace NetWorkedData
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
             NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Sur Protected Database", NWDAppConfiguration.SharedInstance().SurProtected);
+            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+            {
+                NWDAppConfiguration.SharedInstance().PreloadDatas = true;
+            }
             EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
             NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Sur Protected Tentative", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
             EditorGUI.EndDisabledGroup();
-            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
+            EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
+            EditorGUI.EndDisabledGroup();
+            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;

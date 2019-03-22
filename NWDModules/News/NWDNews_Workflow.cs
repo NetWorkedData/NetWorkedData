@@ -95,7 +95,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void InstallAllNotifications(bool sPause)
         {
-            if (NWDTypeLauncher.DataLoaded == true)
+            if (NWDTypeLauncher.DataLoaded() == true)
             {
 #if UNITY_IOS
             // add notification to user authorization!

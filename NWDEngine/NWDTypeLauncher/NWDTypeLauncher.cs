@@ -41,16 +41,20 @@ namespace NetWorkedData
         /// <summary>
         /// The datas are loaded.
         /// </summary>
-        public static bool DataConnected = false;
-        public static bool DataLoaded = false;
+        public static bool DataEditorConnected = false;
+        public static bool DataAccountConnected = false;
+        public static bool DataEditorLoaded = false;
+        public static bool DataAccountLoaded = false;
         /// <summary>
         /// Classes expected.
         /// </summary>
-        public static int ClassesExpected = 0;
+        public static int ClassesEditorExpected = 0;
+        public static int ClassesAccountExpected = 0;
         /// <summary>
         /// Classes NWDbasis generic data loaded.
         /// </summary>
-        public static int ClassesDataLoaded = 0;
+        public static int ClassesEditorDataLoaded = 0;
+        public static int ClassesAccountDataLoaded = 0;
         /// <summary>
         /// All Types array.
         /// </summary>
@@ -148,14 +152,62 @@ namespace NetWorkedData
                 // Ok engine is launched
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
                 // start connexion to database file
-                DatabaseLauncher();
+                DatabaseEditorLauncher();
+
+                // connection to account database 
+                DatabaseAccountLauncher();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseLauncher()
+        public static void DatabaseEditorLauncher()
+        {
+            if (IsLaunched == true && DataEditorConnected == false && IsLaunching == true)
+            {
+                // get sharedInstance
+                NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
+                // connect editor database
+                DataEditorConnected = tShareInstance.ConnectToDatabaseEditor();
+                //Load datas editor
+                DatabaseEditorLoadDatas();
+            }
+        }//-------------------------------------------------------------------------------------------------------------
+        public static void DatabaseEditorLoadDatas()
         {
             BTBBenchmark.Start();
-            if (IsLaunched == true && DataConnected == false && IsLaunching == true)
+            if (IsLaunched == true && DataEditorConnected == true && IsLaunching == true)
+            {
+                // Ok database is connected
+                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
+                // start to lauch datas from database
+                // Loaded data 
+                if (DataEditorLoaded == false)
+                {
+                    bool tEditorByPass = false;
+#if UNITY_EDITOR
+                    if (Application.isEditor && Application.isPlaying == false)
+                    {
+                        tEditorByPass = true;
+                        //Debug.Log("NWD => Preload Datas bypass by editor");
+                    }
+#endif
+                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
+                    {
+                        BTBBenchmark.Start("DatabaseEditorLoadDatas() load Datas");
+                        NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
+                        BTBBenchmark.Finish("DatabaseEditorLoadDatas() load Datas");
+                    }
+                }
+                // finish launch
+                DataEditorLoaded = true;
+                //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
+            }
+            BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DatabaseAccountLauncher()
+        {
+            BTBBenchmark.Start();
+            if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
             {
                 string tSurProtection = string.Empty;
                 if (NWDAppConfiguration.SharedInstance().SurProtected == true)
@@ -164,34 +216,36 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     NWDDataManagerDialog.ShowDialog("Need code", "Insert your personnal code", MessageType.Warning, delegate (string sValue)
                     {
-                        DatabaseConnection(sValue);
+                        DatabaseAccountConnection(sValue);
                     });
 #endif
                 }
                 else
                 {
-                    DatabaseConnection(string.Empty);
+                    DatabaseAccountConnection(string.Empty);
                 }
             }
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseConnection(string sSurProtection)
+        public static void DatabaseAccountConnection(string sSurProtection)
         {
             BTBBenchmark.Start();
-            if (IsLaunched == true && DataConnected == false && IsLaunching == true)
+
+
+            if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
             {
                 Tentative++;
                 // Get ShareInstance of datamanager instance
                 NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
-                DataConnected = tShareInstance.ConnectToDatabase(sSurProtection);
-                if (DataConnected == false)
+                DataAccountConnected = tShareInstance.ConnectToDatabaseAccount(sSurProtection);
+                if (DataAccountConnected == false)
                 {
                     if (Tentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
                     {
                         Debug.Log("Database is not openable with this sur protected code! Tentative n°" + Tentative + " : " + sSurProtection);
                         BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_FAIL);
-                        DatabaseLauncher();
+                        DatabaseAccountLauncher();
                     }
                     else
                     {
@@ -205,22 +259,22 @@ namespace NetWorkedData
                 {
                     Debug.Log("Database is opened with this sur protected code! Tentative n°" + Tentative);
                     BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_SUCCESS);
-                    DatabaseLoadDatas();
+                    DatabaseAccountLoadDatas();
                 }
             }
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseLoadDatas()
+        public static void DatabaseAccountLoadDatas()
         {
             BTBBenchmark.Start();
-            if (IsLaunched == true && DataConnected == true && IsLaunching == true)
+            if (IsLaunched == true && DataAccountConnected == true && IsLaunching == true)
             {
                 // Ok database is connected
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
                 // start to lauch datas from database
                 // Loaded data 
-                if (DataLoaded == false)
+                if (DataAccountLoaded == false)
                 {
                     bool tEditorByPass = false;
 #if UNITY_EDITOR
@@ -232,17 +286,27 @@ namespace NetWorkedData
 #endif
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
                     {
-                        BTBBenchmark.Start("Launcher() load Datas");
-                        NWDDataManager.SharedInstance().ReloadAllObjects();
-                        BTBBenchmark.Finish("Launcher() load Datas");
+                        BTBBenchmark.Start("DatabaseAccountLoadDatas() load Datas");
+                        NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
+                        BTBBenchmark.Finish("DatabaseAccountLoadDatas() load Datas");
                     }
                 }
                 // finish launch
-                DataConnected = true;
+                DataAccountLoaded = true;
                 IsLaunching = false;
                 //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
             }
             BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool DataLoaded()
+        {
+            bool rReturn = true;
+            if (NWDTypeLauncher.DataEditorLoaded == false || NWDTypeLauncher.DataAccountLoaded)
+            {
+                rReturn = false;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
