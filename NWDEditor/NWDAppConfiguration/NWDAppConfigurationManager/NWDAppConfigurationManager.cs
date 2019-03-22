@@ -160,6 +160,10 @@ namespace NetWorkedData
             // Database informations
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
+            NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Sur Protected Database", NWDAppConfiguration.SharedInstance().SurProtected);
+            EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
+            NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Sur Protected Tentative", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
+            EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
             // Database editor informations

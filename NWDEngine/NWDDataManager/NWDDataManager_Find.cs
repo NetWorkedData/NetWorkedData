@@ -79,7 +79,7 @@ namespace NetWorkedData
 			foreach( Type tType in mTypeList)
 			{
                 NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
-               NWDTypeLauncher.ClassesDataLoaded++;
+                NWDTypeLauncher.ClassesDataLoaded++;
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
             }
             NWDTypeLauncher.DataLoaded = true;

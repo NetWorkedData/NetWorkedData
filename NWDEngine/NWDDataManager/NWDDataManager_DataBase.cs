@@ -3,6 +3,8 @@
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
 //
+//
+// https://github.com/netpyoung/SqlCipher4Unity3D
 //=====================================================================================================================
 
 using System;
@@ -31,8 +33,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<object> kObjectToUpdateQueue = new List<object>();
         //-------------------------------------------------------------------------------------------------------------
-        public void ConnectToDatabase()
+        public bool ConnectToDatabase(string sSurProtection)
         {
+            bool rReturn = true;
             //BTBBenchmark.Start();
             if (kConnectedToDatabase == false && kConnectedToDatabaseIsProgress == false)
             {
@@ -117,7 +120,7 @@ namespace NetWorkedData
                 string tDatabasePathEditor = tPathEditor;
                 string tDatabasePathAccount = tPathAccount;
 #endif
-                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
+                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass() + sSurProtection;
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
                 || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
@@ -131,16 +134,15 @@ namespace NetWorkedData
                 {
                     // restart with new user!
                     NWDAppEnvironment.SelectedEnvironment().ResetSession();
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-                    {
-                        NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationSetToZeroTimestamp);
-                    }
+                    //foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                    //{
+                    //    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationSetToZeroTimestamp);
+                    //}
                 }
-                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-                // waiting the tables and file will be open...
-                // TODO: REAL DISPO! MARCHE PAS?!
-                double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds +
-                SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
+                    SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                 //waiting the tables and file will be open...
+                 //TODO: REAL DISPO! MARCHE PAS?!
+                double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds + SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
                 DateTime t = DateTime.Now;
                 DateTime tf = DateTime.Now.AddSeconds(tSeconds);
                 while (t < tf)
@@ -163,10 +165,17 @@ namespace NetWorkedData
                     // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
                     // TODO : Detruire fichier et reinstaller ? 
                 }
-                // finish
-                kConnectedToDatabase = true;
+                // finish test opened database
+                rReturn = SQLiteConnectionAccount.IsValide();
+
+                if (rReturn == true)
+                {
+                    kConnectedToDatabase = true;
+                }
                 kConnectedToDatabaseIsProgress = false;
             }
+            // TODO move in the good place (not here) !!!
+            return rReturn;
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -24,6 +24,11 @@ namespace NetWorkedData
         // Launch NWD engine
         public const string K_ENGINE_LAUNCH = "K_ENGINE_LAUNCH_Bbf8ke4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_DATABASE_PROTECTION_REQUEST = "K_DATABASE_PROTECTION_REQUEST_defeet"; // OK Needed by test & verify
+        public const string K_DATABASE_PROTECTION_SUCCESS = "K_DATABASE_PROTECTION_SUCCESS_de89e4t"; // OK Needed by test & verify
+        public const string K_DATABASE_PROTECTION_FAIL = "K_DATABASE_PROTECTION_FAIL_lki5dt"; // OK Needed by test & verify
+        public const string K_DATABASE_PROTECTION_STOP = "K_DATABASE_PROTECTION_STOP_dAe44t"; // OK Needed by test & verify
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_DATABASE_CONNECTED = "K_DATABASE_CONNECTED_de4be4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Load datas

@@ -7,11 +7,44 @@ using System.Linq.Expressions;
 using System.Threading;
 
 using UnityEngine;
+using Sqlite3DatabaseHandle = System.IntPtr;
+using Sqlite3Statement = System.IntPtr;
 
 namespace SQLite4Unity3d
 {
 	public partial class SQLiteConnection : IDisposable
 	{
+
+        //public SQLiteConnection(string databasePath, string password)
+        //{
+        //    this.DatabasePath = databasePath;
+        //    Sqlite3DatabaseHandle handle;
+        //    byte[] databasePathAsBytes = GetNullTerminatedUtf8(this.DatabasePath);
+        //    SQLite3.Result r = SQLite3.Open(databasePathAsBytes, out handle, (int)(SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create), IntPtr.Zero);
+        //    this._open = true;
+        //    this.Handle = handle;
+        //    if (r != SQLite3.Result.OK)
+        //    {
+        //        this._open = false;
+        //    }
+        //    else
+        //    {
+        //        if (!string.IsNullOrEmpty(password))
+        //        {
+        //            SQLite3.Result result = SQLite3.Key(handle, password, password.Length);
+        //            if (result != SQLite3.Result.OK)
+        //            {
+        //                this._open = false;
+        //            }
+        //        }
+        //    }
+        //    this.StoreDateTimeAsTicks = false;
+        //    this.BusyTimeout = TimeSpan.FromSeconds(0.01);
+        //}
+
+
+
+
         public void MigrateTableByType(Type sType, string sOldSuffix ="_old", bool sDeleteOld = true)
         {
             // prepare the old data base with the new columns
@@ -167,5 +200,22 @@ namespace SQLite4Unity3d
             var query = string.Format("TRUNCATE TABLE IF EXISTS `{0}`", map.TableName);
             return Execute(query);
         }
+
+
+        //public bool TestDatabseIsReallyOpen()
+        //{
+        //    bool rReturn = true;
+        //    try
+        //    {
+        //        // test if select is possible
+        //        Execute("SELECT name FROM sqlite_master WHERE type = 'table';");
+        //    }
+        //    catch (SQLiteException e)
+        //    {
+        //        Debug.Log("I AM HERE THEN DATABASE IS NOT USABLE! IT'S PROTECTED!");
+        //        rReturn = false;
+        //    }
+        //    return rReturn;
+        //}
 	}
 }

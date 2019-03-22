@@ -84,6 +84,8 @@ namespace NetWorkedData
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
         public bool AnonymousPlayerIsLocal = true;
+        public bool SurProtected = false;
+        public int ProtectionTentativeMax = 6;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 

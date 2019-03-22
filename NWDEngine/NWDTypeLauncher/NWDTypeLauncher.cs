@@ -41,6 +41,7 @@ namespace NetWorkedData
         /// <summary>
         /// The datas are loaded.
         /// </summary>
+        public static bool DataConnected = false;
         public static bool DataLoaded = false;
         /// <summary>
         /// Classes expected.
@@ -54,6 +55,8 @@ namespace NetWorkedData
         /// All Types array.
         /// </summary>
         public static Type[] AllTypes;
+
+        public static int Tentative = 0;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes the <see cref="T:NetWorkedData.NWDTypeLauncher"/> class.
@@ -92,7 +95,7 @@ namespace NetWorkedData
         public static void RunLauncher()
         {
 #if UNITY_EDITOR
-            // to cleat error ProgressBar 
+            // to clear error ProgressBar 
             EditorUtility.ClearProgressBar();
 #endif
             // FORCE TO ENGLISH FORMAT!
@@ -112,8 +115,6 @@ namespace NetWorkedData
                 BTBBenchmark.Start("Launcher() Engine");
                 // craeta a list to reccord all classes
                 List<Type> tTypeList = new List<Type>();
-                // Get ShareInstance of datamanager instance
-                NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
                 // Find all Type of NWDType
                 //BTBBenchmark.Start("Launcher() reflexion");
                 Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
@@ -124,17 +125,12 @@ namespace NetWorkedData
                 //BTBBenchmark.Finish("Launcher() reflexion");
                 foreach (Type tType in tAllNWDTypes)
                 {
-                   // Debug.Log("tAllNWDTypes will declare " + tType.Name);
-                    //tOPerationInProgress++;
                     // not the NWDBasis<K> because it's generic class
                     if (tType.ContainsGenericParameters == false)
                     {
                         // add type in list of class
                         tTypeList.Add(tType);
                         // invoke the ClassDeclare method!
-                        // TODO : Change to remove invoke!
-                        //var tMethodInfo = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-
                         MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
 
                         if (tMethodInfo != null)
@@ -144,47 +140,90 @@ namespace NetWorkedData
                     }
                 }
                 AllTypes = tTypeList.ToArray();
-
                 NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
-
                 // Notify NWD is launched
                 IsLaunched = true;
-                //Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count = " + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());
                 // connect to database;
                 BTBBenchmark.Finish("Launcher() Engine");
                 // Ok engine is launched
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
                 // start connexion to database file
-                BTBBenchmark.Start("Launcher() Connect to Database");
-                tShareInstance.ConnectToDatabase();
-                BTBBenchmark.Finish("Launcher() Connect to Database");
+                DatabaseLauncher();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DatabaseLauncher()
+        {
+            BTBBenchmark.Start();
+            if (IsLaunched == true && DataConnected == false && IsLaunching == true)
+            {
+                string tSurProtection = string.Empty;
+                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+                {
+                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_REQUEST);
+#if UNITY_EDITOR
+                    NWDDataManagerDialog.ShowDialog("Need code", "Insert your personnal code", MessageType.Warning, delegate (string sValue)
+                    {
+                        DatabaseConnection(sValue);
+                    });
+#endif
+                }
+                else
+                {
+                    DatabaseConnection(string.Empty);
+                }
+            }
+            BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DatabaseConnection(string sSurProtection)
+        {
+            BTBBenchmark.Start();
+            if (IsLaunched == true && DataConnected == false && IsLaunching == true)
+            {
+                Tentative++;
+                // Get ShareInstance of datamanager instance
+                NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
+                DataConnected = tShareInstance.ConnectToDatabase(sSurProtection);
+                if (DataConnected == false)
+                {
+                    if (Tentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
+                    {
+                        Debug.Log("Database is not openable with this sur protected code! Tentative n°" + Tentative + " : " + sSurProtection);
+                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_FAIL);
+                        DatabaseLauncher();
+                    }
+                    else
+                    {
+                        Debug.Log("Database is not openable max tentative over! Tentative n°" + Tentative);
+                        // Kill App || Destroy Database || Call FBI || Vodoo ?
+                        // decide yoursel with this notification!
+                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_STOP);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Database is opened with this sur protected code! Tentative n°" + Tentative);
+                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_SUCCESS);
+                    DatabaseLoadDatas();
+                }
+            }
+            BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DatabaseLoadDatas()
+        {
+            BTBBenchmark.Start();
+            if (IsLaunched == true && DataConnected == true && IsLaunching == true)
+            {
                 // Ok database is connected
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
                 // start to lauch datas from database
-                // reccord the memory score!
-                long tMiddleMemory = System.GC.GetTotalMemory(true);
                 // Loaded data 
                 if (DataLoaded == false)
                 {
                     bool tEditorByPass = false;
 #if UNITY_EDITOR
-                    if (Application.isEditor == true)
-                    {
-                       //Debug.Log(" I AM IN EDITOR");
-                        if (Application.isPlaying == true)
-                        {
-                           //Debug.Log(" <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
-                        }
-                        else
-                        {
-                           //Debug.Log(" <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
-                        }
-                    }
-                    else
-                    {
-                        //Debug.Log(" <color=r-red>I AM NOT IN EDITOR</color>");
-                    }
-
                     if (Application.isEditor && Application.isPlaying == false)
                     {
                         tEditorByPass = true;
@@ -194,26 +233,16 @@ namespace NetWorkedData
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
                     {
                         BTBBenchmark.Start("Launcher() load Datas");
-                        //NWDDebug.Log("NWD => Preload Datas");
-                        tShareInstance.ReloadAllObjects();
+                        NWDDataManager.SharedInstance().ReloadAllObjects();
                         BTBBenchmark.Finish("Launcher() load Datas");
                     }
                 }
-                // reccord the memory score!
-                long tFinishMemory = System.GC.GetTotalMemory(true);
-                long tStartMem = tStartMemory / 1024 / 1024;
-                long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024 / 1024;
-                long tDataMemory = (tFinishMemory - tMiddleMemory) / 1024 / 1024;
-                long tMemory = tFinishMemory / 1024 / 1024;
-                NWDDebug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
-                NWDDebug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
-                NWDDebug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
                 // finish launch
-                IsLaunched = true;
+                DataConnected = true;
                 IsLaunching = false;
                 //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-                BTBBenchmark.Finish();
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
