@@ -92,6 +92,30 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTypeList.Add(tActualType);
             }
+
+            if (AccountDependent())
+            {
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
+                }
+            }
+            else
+            {
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
+                }
+            }
+
             if (tServerSynchronize == true)
             {
                 if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == false)
@@ -101,28 +125,6 @@ namespace NetWorkedData
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == true)
                 {
                     NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(tActualType);
-                }
-                if (AccountDependent())
-                {
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
-                    }
-                }
-                else
-                {
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
-                    }
                 }
             }
             else
@@ -134,14 +136,6 @@ namespace NetWorkedData
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == false)
                 {
                     NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
                 }
             }
             if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
@@ -794,11 +788,11 @@ namespace NetWorkedData
         public static bool DatabaseIsLoaded()
         {
             bool rLoaded = true;
-            if (AccountDependent() == true && NWDTypeLauncher.DataAccountLoaded == false)
+            if (AccountDependent() == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
             {
                 rLoaded = false;
             }
-            else if (AccountDependent() == false && NWDTypeLauncher.DataEditorLoaded == false)
+            else if (AccountDependent() == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
                 rLoaded = false;
             }

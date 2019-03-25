@@ -12,7 +12,7 @@ using SQLite.Attribute;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronize(true)]
+	[NWDClassServerSynchronizeAttribute(true)]
 	[NWDClassTrigramme("UTR")]
 	[NWDClassDescription("User Trade Request descriptions Class")]
 	[NWDClassMenuName("User Trade Request")]

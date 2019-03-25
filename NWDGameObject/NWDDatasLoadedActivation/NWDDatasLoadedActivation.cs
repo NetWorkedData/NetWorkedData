@@ -37,7 +37,7 @@ namespace NetWorkedData
         void Awake()
         {
             //Debug.Log("NWDAutolocalized Awake()");
-            if (NWDTypeLauncher.DataAccountLoaded == false)
+            if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
             {
                 foreach (Transform tChild in transform)
                 {

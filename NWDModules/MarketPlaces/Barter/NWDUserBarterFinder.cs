@@ -15,7 +15,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronize(true)]
+	[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigramme("UBF")]
     [NWDClassDescription("User Barter Finder descriptions Class")]
     [NWDClassMenuName("User Barter Finder")]

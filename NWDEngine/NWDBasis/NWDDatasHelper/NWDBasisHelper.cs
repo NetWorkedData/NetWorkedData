@@ -853,11 +853,11 @@ namespace NetWorkedData
         public bool DatabaseIsLoaded()
         {
             bool rLoaded = true;
-            if (kAccountDependent == true && NWDTypeLauncher.DataAccountLoaded == false)
+            if (kAccountDependent == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
             {
                 rLoaded = false;
             }
-            else if (kAccountDependent == false && NWDTypeLauncher.DataEditorLoaded == false)
+            else if (kAccountDependent == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
                 rLoaded = false;
             }
@@ -1868,7 +1868,7 @@ namespace NetWorkedData
            // BTBBenchmark.Finish("reset " + tTypeInfos.ClassNamePHP);
 
            // BTBBenchmark.Start("create " + tTypeInfos.ClassNamePHP);
-            CreateTable();
+            //CreateTable();
            // BTBBenchmark.Finish("create " + tTypeInfos.ClassNamePHP);
             //Debug.Log("NWDBasis<K> LoadFromDatabase()");
             // select the good database

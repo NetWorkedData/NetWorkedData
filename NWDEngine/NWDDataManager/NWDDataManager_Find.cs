@@ -37,7 +37,7 @@ namespace NetWorkedData
         public IEnumerator AsyncReloadAllObjectsEditor()
         {
             //Debug.Log("NWDDataManager AsyncReloadAllObjects()");
-            NWDTypeLauncher.DataEditorLoaded = false;
+            NWDDataManager.SharedInstance().DataEditorLoaded = false;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_START_LOADING);
             NWDTypeLauncher.ClassesEditorExpected = mTypeNotAccountDependantList.Count();
             NWDTypeLauncher.ClassesEditorDataLoaded = 0;
@@ -48,7 +48,7 @@ namespace NetWorkedData
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_PARTIAL_LOADED);
                 yield return null;
             }
-            NWDTypeLauncher.DataEditorLoaded = true;
+            NWDDataManager.SharedInstance().DataEditorLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED);
             //PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
@@ -71,16 +71,16 @@ namespace NetWorkedData
         public IEnumerator AsyncReloadAllObjectsAccount()
         {
             //Debug.Log("NWDDataManager AsyncReloadAllObjects()");
-            while (NWDTypeLauncher.DataEditorLoaded == false)
+            while (NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
                 yield return null;
             }
             NWDTypeLauncher.DatabaseAccountLauncher();
-            while (NWDTypeLauncher.DataAccountConnected == false)
+            while (NWDDataManager.SharedInstance().DataAccountConnected == false)
             {
                 yield return null;
             }
-            NWDTypeLauncher.DataAccountLoaded = false;
+            NWDDataManager.SharedInstance().DataAccountLoaded = false;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_START_LOADING);
             NWDTypeLauncher.ClassesAccountExpected = mTypeAccountDependantList.Count();
             NWDTypeLauncher.ClassesAccountDataLoaded = 0;
@@ -91,7 +91,7 @@ namespace NetWorkedData
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_PARTIAL_LOADED);
                 yield return null;
             }
-            NWDTypeLauncher.DataAccountLoaded = true;
+            NWDDataManager.SharedInstance().DataAccountLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
             //PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
@@ -116,10 +116,10 @@ namespace NetWorkedData
         public void ReloadAllObjectsAccount()
         {
             BTBBenchmark.Start();
-            if (NWDTypeLauncher.DataAccountConnected == true)
+            if (NWDDataManager.SharedInstance().DataAccountConnected == true)
             {
                 long tStartMemory = System.GC.GetTotalMemory(true);
-                NWDTypeLauncher.DataAccountLoaded = false;
+                NWDDataManager.SharedInstance().DataAccountLoaded = false;
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_START_LOADING);
                 NWDTypeLauncher.ClassesAccountExpected = mTypeAccountDependantList.Count();
                 NWDTypeLauncher.ClassesAccountDataLoaded = 0;
@@ -129,7 +129,7 @@ namespace NetWorkedData
                     NWDTypeLauncher.ClassesAccountDataLoaded++;
                     BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_PARTIAL_LOADED);
                 }
-                NWDTypeLauncher.DataAccountLoaded = true;
+                NWDDataManager.SharedInstance().DataAccountLoaded = true;
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
                 //PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
@@ -146,10 +146,10 @@ namespace NetWorkedData
         public void ReloadAllObjectsEditor()
         {
             BTBBenchmark.Start();
-            if (NWDTypeLauncher.DataEditorConnected == true)
+            if (NWDDataManager.SharedInstance().DataEditorConnected == true)
             {
                 long tStartMemory = System.GC.GetTotalMemory(true);
-                NWDTypeLauncher.DataEditorLoaded = false;
+                NWDDataManager.SharedInstance().DataEditorLoaded = false;
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_START_LOADING);
                 NWDTypeLauncher.ClassesEditorExpected = mTypeNotAccountDependantList.Count();
                 NWDTypeLauncher.ClassesEditorDataLoaded = 0;
@@ -159,7 +159,7 @@ namespace NetWorkedData
                     NWDTypeLauncher.ClassesEditorDataLoaded++;
                     BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_PARTIAL_LOADED);
                 }
-                NWDTypeLauncher.DataEditorLoaded = true;
+                NWDDataManager.SharedInstance().DataEditorLoaded = true;
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED);
                 //PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());

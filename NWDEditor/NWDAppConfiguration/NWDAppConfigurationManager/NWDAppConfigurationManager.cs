@@ -187,6 +187,8 @@ namespace NetWorkedData
             if (GUILayout.Button("Editor Database File"))
             {
                 EditorUtility.RevealInFinder(tDatabasePathEditor);
+                Debug.LogWarning("DatabasePathEditor = " + tDatabasePathEditor);
+                Debug.LogWarning("Editor Pass Result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
             }
             // Database account informations
             NWDGUILayout.SubSection("Databases Accountconfig for all environements (by device)");
@@ -201,6 +203,8 @@ namespace NetWorkedData
             if (GUILayout.Button("Account Database File"))
             {
                 EditorUtility.RevealInFinder(tDatabasePathAccount);
+                Debug.LogWarning("DatabasePathAccount = " + tDatabasePathAccount);
+                Debug.LogWarning("Account Pass Result = " + NWDAppConfiguration.SharedInstance().GetAccountPass());
             }
             NWDGUILayout.LittleSpace();
             // finish scroll view

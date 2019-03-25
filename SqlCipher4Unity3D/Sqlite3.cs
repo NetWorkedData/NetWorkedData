@@ -143,7 +143,7 @@ namespace SQLite4Unity3d
         [DllImport(DLL_NAME, EntryPoint = "sqlite3_enable_load_extension", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result EnableLoadExtension(Sqlite3DatabaseHandle db, int onoff);
 
-        [DllImport(DLL_NAME, EntryPoint = "sqlite3_close", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLL_NAME, EntryPoint = "sqlite3_close_v2", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result Close(Sqlite3DatabaseHandle db);
 
         [DllImport(DLL_NAME, EntryPoint = "sqlite3_initialize", CallingConvention = CallingConvention.Cdecl)]

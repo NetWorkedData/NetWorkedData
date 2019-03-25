@@ -125,59 +125,66 @@ namespace NetWorkedData
             // FAIL BLOCK
             FailBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                //EndTime = DateTime.Now;
-                LastInfos = (NWDOperationResult)bInfos;
-                NWDError tError = LastInfos.errorDesc;
-                string tErrorCode = LastInfos.errorCode;
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
+                if (bOperation != null)
                 {
-                    DevIcon = NWDGUI.kImageRed;
-                    DevProgress = "Failed";
-                    if (tErrorCode.Contains("RQT"))
+                    //EndTime = DateTime.Now;
+                    LastInfos = (NWDOperationResult)bInfos;
+                    NWDError tError = LastInfos.errorDesc;
+                    string tErrorCode = LastInfos.errorCode;
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                     {
-                        DevSessionExpired = true;
-                    }
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
-                {
-                    PreprodIcon = NWDGUI.kImageRed;
-                    PreprodProgress = "Failed";
-                    if (tErrorCode.Contains("RQT"))
-                    {
-                        PreprodSessionExpired = true;
-                    }
-                }
-                if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
-                {
-                    ProdIcon = NWDGUI.kImageRed;
-                    ProdProgress = "Failed";
-                    if (tErrorCode.Contains("RQT"))
-                    {
-                        ProdSessionExpired = true;
-                    }
-                }
-                Repaint();
-                if (LastInfos.isError)
-                {
-                    if (tErrorCode.Contains("RQT"))
-                    {
-                        EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
-                    }
-                    else
-                    {
-                        string tTitle = "ERROR";
-                        string tDescription = "Unknown error (error code " + LastInfos.errorCode + ")";
-                        if (LastInfos.errorDesc != null)
+                        DevIcon = NWDGUI.kImageRed;
+                        DevProgress = "Failed";
+                        if (tErrorCode.Contains("RQT"))
                         {
-                            tTitle = LastInfos.errorDesc.Domain;
-                            tDescription = LastInfos.errorDesc.Code;
-                            if (LastInfos.errorDesc.Description != null)
-                            {
-                                tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
-                            }
+                            DevSessionExpired = true;
                         }
-                        EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
                     }
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
+                    {
+                        PreprodIcon = NWDGUI.kImageRed;
+                        PreprodProgress = "Failed";
+                        if (tErrorCode.Contains("RQT"))
+                        {
+                            PreprodSessionExpired = true;
+                        }
+                    }
+                    if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
+                    {
+                        ProdIcon = NWDGUI.kImageRed;
+                        ProdProgress = "Failed";
+                        if (tErrorCode.Contains("RQT"))
+                        {
+                            ProdSessionExpired = true;
+                        }
+                    }
+                    Repaint();
+                    if (LastInfos.isError)
+                    {
+                        if (tErrorCode.Contains("RQT"))
+                        {
+                            EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
+                        }
+                        else
+                        {
+                            string tTitle = "ERROR";
+                            string tDescription = "Unknown error (error code " + LastInfos.errorCode + ")";
+                            if (LastInfos.errorDesc != null)
+                            {
+                                tTitle = LastInfos.errorDesc.Domain;
+                                tDescription = LastInfos.errorDesc.Code;
+                                if (LastInfos.errorDesc.Description != null)
+                                {
+                                    tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
+                                }
+                            }
+                            EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Operation hardly failed!!");
                 }
                 Repaint();
             };
@@ -697,7 +704,8 @@ namespace NetWorkedData
                         NWDConstants.K_CLEAN_ALERT_OK,
                         NWDConstants.K_CLEAN_ALERT_CANCEL))
                 {
-                    NWDDataManager.SharedInstance().CleanAllTablesLocal();
+                    NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
+                    NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
                 }
             }
             if (GUILayout.Button("Purge all local tables", NWDGUI.KTableSearchButton))
@@ -707,7 +715,8 @@ namespace NetWorkedData
                         NWDConstants.K_PURGE_ALERT_OK,
                         NWDConstants.K_PURGE_ALERT_CANCEL))
                 {
-                    NWDDataManager.SharedInstance().PurgeAllTablesLocal();
+                    NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
+                    NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
                 }
             }
         }

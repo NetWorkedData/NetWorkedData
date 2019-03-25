@@ -33,31 +33,41 @@ namespace NetWorkedData
         static public NWDOperationWebUnity AddOperation(string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
         {
             NWDOperationWebUnity rReturn = NWDOperationWebUnity.Create(sName, sEnvironment);
-            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, sPriority);
+            if (rReturn != null)
+            {
+                NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, sPriority);
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebUnity Create(string sName, NWDAppEnvironment sEnvironment = null)
         {
             NWDOperationWebUnity rReturn = null;
-            if (sName == null)
+            if (NWDTypeLauncher.DataLoaded() == true)
             {
-                sName = "UnNamed Web Operation";
-            }
-            if (sEnvironment == null)
-            {
-                sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            }
-            GameObject tGameObjectToSpawn = new GameObject(sName);
+                if (sName == null)
+                {
+                    sName = "UnNamed Web Operation";
+                }
+                if (sEnvironment == null)
+                {
+                    sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+                }
+                GameObject tGameObjectToSpawn = new GameObject(sName);
 #if UNITY_EDITOR
-            tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
+                tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-#endif 
-            rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
-            rReturn.GameObjectToSpawn = tGameObjectToSpawn;
-            rReturn.Environment = sEnvironment;
-            rReturn.QueueName = sEnvironment.Environment;
+#endif
+                rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
+                rReturn.GameObjectToSpawn = tGameObjectToSpawn;
+                rReturn.Environment = sEnvironment;
+                rReturn.QueueName = sEnvironment.Environment;
+            }
+            else
+            {
+                Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -15,7 +15,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronize(true)]
+	[NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigramme("GBF")]
     [NWDClassDescription("User Guild Finder descriptions Class")]
     [NWDClassMenuName("User Guild Finder")]

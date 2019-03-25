@@ -28,6 +28,8 @@ namespace NetWorkedData
         public const string K_DATABASE_PROTECTION_SUCCESS = "K_DATABASE_PROTECTION_SUCCESS_de89e4t"; // OK Needed by test & verify
         public const string K_DATABASE_PROTECTION_FAIL = "K_DATABASE_PROTECTION_FAIL_lki5dt"; // OK Needed by test & verify
         public const string K_DATABASE_PROTECTION_STOP = "K_DATABASE_PROTECTION_STOP_dAe44t"; // OK Needed by test & verify
+
+        public const string K_DATABASE_PROTECTION_NEED_PINCODE = "K_DATABASE_PROTECTION_NEED_PINCODE_lki5dt"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         public const string K_DATABASE_CONNECTED = "K_DATABASE_CONNECTED_de4be4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------

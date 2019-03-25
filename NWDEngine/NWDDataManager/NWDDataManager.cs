@@ -19,26 +19,29 @@ namespace NetWorkedData
         const string PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------
         private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
-        private bool kConnectedToDatabase = false;
-        private bool kConnectedToDatabaseIsProgress = false;
         //-------------------------------------------------------------------------------------------------------------
-        private bool kConnectedToDatabaseEditor = false;
-        private bool kConnectedToDatabaseIsProgressEditor = false;
+        public bool DataAccountConnected = false;
+        public bool DataAccountConnectionInProgress = false;
+        public bool DataAccountLoaded = false;
+        public string DatabaseNameAccount = "Account.prp";  // TODO rename DataEditorBasename by  replace by DataEditorPath()
+        public SQLiteConnection SQLiteConnectionAccount;    // TODO rename SQLiteAccountConnection
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DataEditorConnected = false;
+        public bool DataEditorConnectionInProgress = false;
+        public bool DataEditorLoaded = false;
+        public string DatabasePathEditor = "StreamingAssets";       // TODO remove and use const!?
+        public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
+        public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguage = "en";
-        public SQLiteConnection SQLiteConnectionEditor;
-        public string DatabasePathEditor = "StreamingAssets";
-        public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
-        public SQLiteConnection SQLiteConnectionAccount;
-        public string DatabaseNameAccount = "Account.prp";
         public bool IsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
-        public List<Type> mTypeLoadedList = new List<Type>();
-        public List<Type> mTypeList = new List<Type>();
-        public List<Type> mTypeSynchronizedList = new List<Type>();
-        public List<Type> mTypeUnSynchronizedList = new List<Type>();
-        public List<Type> mTypeAccountDependantList = new List<Type>();
-        public List<Type> mTypeNotAccountDependantList = new List<Type>();
+        public List<Type> mTypeLoadedList = new List<Type>();                   // TODO rename ClassLoadedList
+        public List<Type> mTypeList = new List<Type>();                         // TODO rename ClassList
+        public List<Type> mTypeSynchronizedList = new List<Type>();             // TODO rename ClassSynchronizedList
+        public List<Type> mTypeUnSynchronizedList = new List<Type>();           // TODO rename ClassUnsynchronizedList
+        public List<Type> mTypeAccountDependantList = new List<Type>();         // TODO rename ClassAccountDependentList
+        public List<Type> mTypeNotAccountDependantList = new List<Type>();      // TODO rename ClassEditorDependentList
         public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type>();
         //-------------------------------------------------------------------------------------------------------------
         public void PlayerLanguageSave(string sNewLanguage)

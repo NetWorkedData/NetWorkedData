@@ -73,8 +73,8 @@ namespace NetWorkedData
         public static Color kBlueElementColor; // invert color from white to fusion over button
         public static Color kOrangeElementColor; // invert color from white to fusion over button
         public static Color kGrayElementColor; // invert color from white to fusion over button
-        static float WarningMinHeight = 48.0F;
-        static float ErrorMinHeight = 48.0F;
+        public static float WarningMinHeight = 48.0F;
+        public static float ErrorMinHeight = 48.0F;
         //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kSeparatorStyle;
         static Texture2D kSeparatorTexture;
@@ -644,6 +644,11 @@ namespace NetWorkedData
         public static Rect MargeAll(Rect sRect)
         {
             return new Rect(sRect.x + kFieldMarge, sRect.y + kFieldMarge, sRect.width - kFieldMarge * 2, sRect.height - kFieldMarge * 2);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect UnMargeAll(Rect sRect)
+        {
+            return new Rect(sRect.x - kFieldMarge, sRect.y - kFieldMarge, sRect.width + kFieldMarge * 2, sRect.height + kFieldMarge * 2);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect Line(Rect sRect)

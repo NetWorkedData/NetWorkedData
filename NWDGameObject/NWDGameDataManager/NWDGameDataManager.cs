@@ -470,7 +470,7 @@ namespace NetWorkedData
             void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
-            if (NWDTypeLauncher.DataEditorLoaded == false)
+            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
                 //Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
                 if (LoadingDatasGauge != null)

@@ -59,8 +59,10 @@ namespace NetWorkedData
                                                                    NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             NWDOperationWebSynchronisation rReturn = Create(sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sSpecial);
-            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, sPriority);
-
+            if (rReturn != null)
+            {
+                NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, sPriority);
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -75,58 +77,70 @@ namespace NetWorkedData
                                                              NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             NWDOperationWebSynchronisation rReturn = null;
-            if (sName == null)
-            {
-                sName = "UnNamed Web Operation Synchronisation";
-            }
 
-            if (sEnvironment == null)
+            if (NWDTypeLauncher.DataLoaded() == true)
             {
-                sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            }
 
-            GameObject tGameObjectToSpawn = new GameObject(sName);
+                if (sName == null)
+                {
+                    sName = "UnNamed Web Operation Synchronisation";
+                }
+
+                if (sEnvironment == null)
+                {
+                    sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+                }
+
+                GameObject tGameObjectToSpawn = new GameObject(sName);
 #if UNITY_EDITOR
-            tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
+                tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif
-            rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebSynchronisation>();
-            rReturn.GameObjectToSpawn = tGameObjectToSpawn;
-            rReturn.Environment = sEnvironment;
-            rReturn.QueueName = sEnvironment.Environment;
-            List<Type> tReturn = new List<Type>();
-            if (sTypeList != null)
-            {
-                foreach (Type tType in sTypeList)
+                rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebSynchronisation>();
+                rReturn.GameObjectToSpawn = tGameObjectToSpawn;
+                rReturn.Environment = sEnvironment;
+                rReturn.QueueName = sEnvironment.Environment;
+                List<Type> tReturn = new List<Type>();
+                if (sTypeList != null)
                 {
-                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
+                    foreach (Type tType in sTypeList)
                     {
-                        foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
+                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        if (tMethodInfo != null)
                         {
-                            if (tReturn.Contains(tR) == false)
+                            foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
                             {
-                                tReturn.Add(tR);
+                                if (tReturn.Contains(tR) == false)
+                                {
+                                    tReturn.Add(tR);
+                                }
                             }
                         }
                     }
                 }
-            }
-            rReturn.TypeList = tReturn;
-            rReturn.ForceSync = sForceSync;
-            rReturn.Special = sSpecial;
-            rReturn.SecureData = sEnvironment.AllwaysSecureData;
-            foreach (Type tType in sTypeList)
-            {
-                if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                rReturn.TypeList = tReturn;
+                rReturn.ForceSync = sForceSync;
+                rReturn.Special = sSpecial;
+                rReturn.SecureData = sEnvironment.AllwaysSecureData;
+                foreach (Type tType in sTypeList)
                 {
-                    rReturn.SecureData = true;
-                    break;
+                    if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                    {
+                        rReturn.SecureData = true;
+                        break;
+                    }
                 }
+                rReturn.InitBlock(sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
             }
-            rReturn.InitBlock(sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
-
+            else
+            {
+                //BTBOperation tOperation = new BTBOperation();
+                //NWDOperationResult tResult = new NWDOperationResult();
+                //tOperation.QueueName = NWDAppEnvironment.SelectedEnvironment().Environment;
+                sFailBlock(null, 1.0F, null);
+                Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

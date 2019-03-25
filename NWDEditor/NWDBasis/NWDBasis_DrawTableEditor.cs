@@ -552,36 +552,36 @@ namespace NetWorkedData
                 int tRealReference = BasisHelper().Datas.Count;
                 if (tRealReference == 0)
                 {
-                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_NO_OBJECT, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT, NWDGUI.KTableSearchLabel);
                 }
                 else if (tRealReference == 1)
                 {
-                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDGUI.KTableSearchLabel);
                 }
                 else
                 {
-                    GUI.Label(tRect,tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDGUI.KTableSearchLabel);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw objects in results
                 int tResultReference = BasisHelper().EditorTableDatas.Count;
                 if (tResultReference == 0)
                 {
-                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
                 }
                 else if (tResultReference == 1)
                 {
-                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
                 }
                 else
                 {
-                    GUI.Label(tRect,tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDGUI.KTableSearchLabel);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 // draw selection
                 // TODO exit this method to count in basishelper;
-               int tSelectionCount = 0;
+                int tSelectionCount = 0;
                 foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                 {
                     if (tKeyValue.Value == true)
@@ -591,15 +591,15 @@ namespace NetWorkedData
                 }
                 if (tSelectionCount == 0)
                 {
-                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
                 }
                 else if (tSelectionCount == 1)
                 {
-                    GUI.Label(tRect,NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
                 }
                 else
                 {
-                    GUI.Label(tRect,tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+                    GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
             }
@@ -1057,24 +1057,24 @@ namespace NetWorkedData
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                 //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton)
-                 //
-                 //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>()
-                 //    tBasisInspector.mTypeInEdition = ClassType()
-                 //    Selection.activeObject = tBasisInspector
-                 //
-                 //NWDGUI.BeginRedButton()
-                 //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton)
-                 //
-                 //    GUI.FocusControl(null)
-                 //    RecalculateAllIntegrities()
-                 //
-                 //NWDGUI.EndRedButton()
-                 //tRect.y += tRect.height + NWDGUI.kFieldMarge
-                 // reset icon of clas
-                 if (GUI.Button(tRect, "Select script", NWDGUI.KTableSearchButton))
+                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton)
+                //
+                //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>()
+                //    tBasisInspector.mTypeInEdition = ClassType()
+                //    Selection.activeObject = tBasisInspector
+                //
+                //NWDGUI.BeginRedButton()
+                //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton)
+                //
+                //    GUI.FocusControl(null)
+                //    RecalculateAllIntegrities()
+                //
+                //NWDGUI.EndRedButton()
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge
+                // reset icon of clas
+                if (GUI.Button(tRect, "Select script", NWDGUI.KTableSearchButton))
                 {
-                   BasisHelper().SelectScript();
+                    BasisHelper().SelectScript();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // reset icon of class
@@ -1291,273 +1291,273 @@ namespace NetWorkedData
             // Page end!
 
 
-       if (tDeleteSelection == true)
-       {
-           string tDialog = string.Empty;
-           if (tSelectionCount == 0)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
-           }
-           else if (tSelectionCount == 1)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_DELETE_ONE_OBJECT;
-           }
-           else
-           {
-               tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
-           }
-           if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_DELETE_ALERT,
-                   tDialog,
-                   NWDConstants.K_APP_TABLE_DELETE_YES,
-                   NWDConstants.K_APP_TABLE_DELETE_NO))
-           {
-               List<object> tListToDelete = new List<object>();
-               foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-               {
-                   if (tKeyValue.Value == true)
-                   {
-                       NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
-                       tListToDelete.Add((object)tObject);
-                   }
-               }
-               foreach (object tObject in tListToDelete)
-               {
-                   NWDBasis<K> tObjectToDelete = (NWDBasis<K>)tObject;
-                   //RemoveObjectInListOfEdition(tObjectToDelete);
-                   tObjectToDelete.DeleteData();
-               }
-               SetObjectInEdition(null);
-               NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-           }
-       }
-       if (tTrashSelection == true)
-       {
-           string tDialog = string.Empty;
-           if (tSelectionCount == 0)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;
-           }
-           else if (tSelectionCount == 1)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_TRASH_ONE_OBJECT;
-           }
-           else
-           {
-               tDialog = NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_B;
-           }
-           if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_TRASH_ALERT,
-                   tDialog,
-                   NWDConstants.K_APP_TABLE_TRASH_YES,
-                   NWDConstants.K_APP_TABLE_TRASH_NO))
-           {
+            if (tDeleteSelection == true)
+            {
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_DELETE_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_DELETE_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_DELETE_YES,
+                        NWDConstants.K_APP_TABLE_DELETE_NO))
+                {
+                    List<object> tListToDelete = new List<object>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
+                            tListToDelete.Add((object)tObject);
+                        }
+                    }
+                    foreach (object tObject in tListToDelete)
+                    {
+                        NWDBasis<K> tObjectToDelete = (NWDBasis<K>)tObject;
+                        //RemoveObjectInListOfEdition(tObjectToDelete);
+                        tObjectToDelete.DeleteData();
+                    }
+                    SetObjectInEdition(null);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+            }
+            if (tTrashSelection == true)
+            {
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_TRASH_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_TRASH_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_TRASH_YES,
+                        NWDConstants.K_APP_TABLE_TRASH_NO))
+                {
 
-               List<object> tListToTrash = new List<object>();
-               foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-               {
-                   if (tKeyValue.Value == true)
-                   {
-                       NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
-                       tListToTrash.Add((object)tObject);
-                   }
-               }
-               foreach (object tObject in tListToTrash)
-               {
-                   NWDBasis<K> tObjectToTrash = (NWDBasis<K>)tObject;
-                   tObjectToTrash.TrashData();
-               }
-               SetObjectInEdition(null);
-               //                  sEditorWindow.Repaint ();
-               NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-           }
-       }
-       if (tUntrashSelection == true)
-       {
-           string tDialog = string.Empty;
-           if (tSelectionCount == 0)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_UNTRASH_NO_OBJECT;
-           }
-           else if (tSelectionCount == 1)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_UNTRASH_ONE_OBJECT;
-           }
-           else
-           {
-               tDialog = NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_B;
-           }
-           if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_UNTRASH_ALERT,
-                   tDialog,
-                   NWDConstants.K_APP_TABLE_UNTRASH_YES,
-                   NWDConstants.K_APP_TABLE_UNTRASH_NO))
-           {
+                    List<object> tListToTrash = new List<object>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
+                            tListToTrash.Add((object)tObject);
+                        }
+                    }
+                    foreach (object tObject in tListToTrash)
+                    {
+                        NWDBasis<K> tObjectToTrash = (NWDBasis<K>)tObject;
+                        tObjectToTrash.TrashData();
+                    }
+                    SetObjectInEdition(null);
+                    //                  sEditorWindow.Repaint ();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+            }
+            if (tUntrashSelection == true)
+            {
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_UNTRASH_X_OBJECT_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_UNTRASH_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_UNTRASH_YES,
+                        NWDConstants.K_APP_TABLE_UNTRASH_NO))
+                {
 
-               List<object> tListToUntrash = new List<object>();
-               foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-               {
-                   if (tKeyValue.Value == true)
-                   {
-                       NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
-                       tListToUntrash.Add((object)tObject);
-                   }
-               }
-               foreach (object tObject in tListToUntrash)
-               {
-                   NWDBasis<K> tObjectToUntrash = (NWDBasis<K>)tObject;
-                   tObjectToUntrash.UnTrashData();
-               }
-               SetObjectInEdition(null);
-               NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-           }
-       }
-       if (tReintegrateSelection == true)
-       {
-           string tDialog = string.Empty;
-           if (tSelectionCount == 0)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_NO_OBJECT;
-           }
-           else if (tSelectionCount == 1)
-           {
-               tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_ONE_OBJECT;
-           }
-           else
-           {
-               tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_B;
-           }
-           if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_REINTEGRATE_ALERT,
-                   tDialog,
-                   NWDConstants.K_APP_TABLE_REINTEGRATE_YES,
-                   NWDConstants.K_APP_TABLE_REINTEGRATE_NO))
-           {
-               List<object> tListToReintegrate = new List<object>();
-               foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-               {
-                   if (tKeyValue.Value == true)
-                   {
-                       NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
-                       tListToReintegrate.Add((object)tObject);
-                   }
-               }
-               foreach (object tObject in tListToReintegrate)
-               {
-                   NWDBasis<K> tObjectToReintegrate = (NWDBasis<K>)tObject;
-                   //tObjectToReintegrate.UpdateIntegrity();
-                   tObjectToReintegrate.UpdateData();
-               }
-               SetObjectInEdition(null);
-               NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-           }
-       }
-       if (tResetTable == true)
-       {
-           if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_RESET_ALERT,
-                                           NWDConstants.K_APP_TABLE_RESET_TABLE,
-                                           NWDConstants.K_APP_TABLE_RESET_YES,
-                                           NWDConstants.K_APP_TABLE_RESET_NO))
-           {
-               NWDBasis<K>.ResetTable();
-           }
-       }
-       if (tPullProd == true)
-       {
-           if (Application.isPlaying == true && AccountDependent() == false)
-           {
-               EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-           }
-           PullFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-       }
-       if (tPullProdForce == true)
-       {
-           if (Application.isPlaying == true && AccountDependent() == false)
-           {
-               EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-           }
-           PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-       }
+                    List<object> tListToUntrash = new List<object>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
+                            tListToUntrash.Add((object)tObject);
+                        }
+                    }
+                    foreach (object tObject in tListToUntrash)
+                    {
+                        NWDBasis<K> tObjectToUntrash = (NWDBasis<K>)tObject;
+                        tObjectToUntrash.UnTrashData();
+                    }
+                    SetObjectInEdition(null);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+            }
+            if (tReintegrateSelection == true)
+            {
+                string tDialog = string.Empty;
+                if (tSelectionCount == 0)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_NO_OBJECT;
+                }
+                else if (tSelectionCount == 1)
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_ONE_OBJECT;
+                }
+                else
+                {
+                    tDialog = NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_REINTEGRATE_X_OBJECT_B;
+                }
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_REINTEGRATE_ALERT,
+                        tDialog,
+                        NWDConstants.K_APP_TABLE_REINTEGRATE_YES,
+                        NWDConstants.K_APP_TABLE_REINTEGRATE_NO))
+                {
+                    List<object> tListToReintegrate = new List<object>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            NWDBasis<K> tObject = tKeyValue.Key as NWDBasis<K>;
+                            tListToReintegrate.Add((object)tObject);
+                        }
+                    }
+                    foreach (object tObject in tListToReintegrate)
+                    {
+                        NWDBasis<K> tObjectToReintegrate = (NWDBasis<K>)tObject;
+                        //tObjectToReintegrate.UpdateIntegrity();
+                        tObjectToReintegrate.UpdateData();
+                    }
+                    SetObjectInEdition(null);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+            }
+            if (tResetTable == true)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_RESET_ALERT,
+                                                NWDConstants.K_APP_TABLE_RESET_TABLE,
+                                                NWDConstants.K_APP_TABLE_RESET_YES,
+                                                NWDConstants.K_APP_TABLE_RESET_NO))
+                {
+                    NWDBasis<K>.ResetTable();
+                }
+            }
+            if (tPullProd == true)
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                PullFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
+            if (tPullProdForce == true)
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
 
-       if (tSyncProd == true)
-       {
-           if (Application.isPlaying == true && AccountDependent() == false)
-           {
-               EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-           }
-           SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-       }
+            if (tSyncProd == true)
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
 
-       if (tSyncForceProd == true)
-       {
+            if (tSyncForceProd == true)
+            {
 
-           if (Application.isPlaying == true && AccountDependent() == false)
-           {
-               EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-           }
-           SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-       }
-       if (tSyncCleanProd == true)
-       {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
+            if (tSyncCleanProd == true)
+            {
 
-           if (Application.isPlaying == true && AccountDependent() == false)
-           {
-               EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-           }
-           SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-       }
-       if (tSyncSpecialProd == true)
-       {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
+            if (tSyncSpecialProd == true)
+            {
 
-           if (Application.isPlaying == true && AccountDependent() == false)
-           {
-               EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
-           }
-           SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
-       }
-       if (tCleanLocalTable == true)
-       {
-           if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
-                       NWDConstants.K_CLEAN_ALERT_MESSAGE,
-                       NWDConstants.K_CLEAN_ALERT_OK,
-                       NWDConstants.K_CLEAN_ALERT_CANCEL))
-           {
-               CleanTable();
-           }
-       }
-       if (tCleanLocalTableWithAccount == true)
-       {
-           if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
-                       NWDConstants.K_PURGE_ALERT_MESSAGE,
-                       NWDConstants.K_PURGE_ALERT_OK,
-                       NWDConstants.K_PURGE_ALERT_CANCEL))
-           {
-               PurgeTable();
-           }
-       }
-       if (tLocalizeLocalTable == true)
-       {
-           ExportLocalization();
-       }
-       if (tCreateAllPHPForOnlyThisClass == true)
-       {
-           NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
-           NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
-           NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
-       }
-       if (tReintegrateOnlyThisClass == true)
-       {
-           ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-           NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-       }
-       if (tDeleteOldModelOnlyThisClass == true)
-       {
-           DeleteOldsModels();
-           NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-       }
-       if (tCreateAllPHPForOnlyThisClassDEV == true)
-       {
-           NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
-       }
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
+            }
+            if (tCleanLocalTable == true)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_CLEAN_ALERT_TITLE,
+                            NWDConstants.K_CLEAN_ALERT_MESSAGE,
+                            NWDConstants.K_CLEAN_ALERT_OK,
+                            NWDConstants.K_CLEAN_ALERT_CANCEL))
+                {
+                    CleanTable();
+                }
+            }
+            if (tCleanLocalTableWithAccount == true)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+                            NWDConstants.K_PURGE_ALERT_MESSAGE,
+                            NWDConstants.K_PURGE_ALERT_OK,
+                            NWDConstants.K_PURGE_ALERT_CANCEL))
+                {
+                    PurgeTable();
+                }
+            }
+            if (tLocalizeLocalTable == true)
+            {
+                ExportLocalization();
+            }
+            if (tCreateAllPHPForOnlyThisClass == true)
+            {
+                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+            }
+            if (tReintegrateOnlyThisClass == true)
+            {
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
+            if (tDeleteOldModelOnlyThisClass == true)
+            {
+                DeleteOldsModels();
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
+            if (tCreateAllPHPForOnlyThisClassDEV == true)
+            {
+                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+            }
 
             //EditorGUI.DrawRect(rRect, Color.yellow);
-            rRect.height += NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge *3;
+            rRect.height += NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge * 3;
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1588,7 +1588,7 @@ namespace NetWorkedData
             {
                 tRect.height = NWDGUI.kTableRowHeight;
                 tRect.y += NWDGUI.kFieldMarge;
-                Rect tRectInfos  = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge*2, tRect.height);
+                Rect tRectInfos = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge * 2, tRect.height);
                 EditorGUI.HelpBox(tRectInfos, NWDConstants.kAlertSaltShortError, MessageType.Error);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 tRect.height = NWDGUI.KTableSearchButton.fixedHeight;
@@ -1601,7 +1601,7 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
             }
             // Alert warning model infos
-           if (BasisHelper().WebModelChanged == true)
+            if (BasisHelper().WebModelChanged == true)
             {
                 //string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 //GUIContent tCC = new GUIContent(tTEXTWARNING);
@@ -1647,9 +1647,104 @@ namespace NetWorkedData
             if (rLoaded == false)
             {
                 //TODO : draw not loading
-                float tScrollHeight = tWindowRect.height - tRect.y  - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
-                Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, tScrollHeight);
-                NWDGUI.ErrorBox(tScrollRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE);
+                float tWidthDilaog = NWDGUI.KTableSearchLabelWidth*2 + NWDGUI.KTableSearchWidth;
+                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth*2;
+                //float tScrollHeight = tWindowRect.height - tRect.y - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
+                Rect tDialogRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kLabelStyle.fixedHeight);
+
+                tDialogRect.x = Mathf.Floor((tDialogRect.width - tWidthDilaog) / 2.0F);
+                tDialogRect.width = tWidthDilaog;
+                tDialogRect.height += (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * 3 + NWDGUI.ErrorMinHeight ;
+
+               
+                EditorGUI.EndDisabledGroup();
+                if (NWDTypeLauncher.NeedNewCodePin == false)
+                {
+                    tDialogRect.height -= NWDGUI.kFieldMarge;
+                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+
+                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                    NWDTypeLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDTypeLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
+                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                    tDialogRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+                    if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
+                    {
+                        Debug.LogWarning("Try this code");
+                        NWDTypeLauncher.DatabaseAccountConnection(NWDTypeLauncher.CodePinValue);
+                    }
+                    tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+                    tDialogRect.y += NWDGUI.Separator(tDialogRect).height;
+                    NWDGUI.BeginRedArea();
+                    if (GUI.Button(tDialogRect, "DELETE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
+                    {
+                        Debug.LogWarning("Delete account base?!");
+                        NWDDataManager.SharedInstance().DeleteDatabaseAccount();
+                        GUIUtility.ExitGUI();
+                    }
+                    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    NWDGUI.EndRedArea();
+
+                }
+                else
+                {
+                    tDialogRect.height += NWDGUI.kFieldMarge;
+                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+
+                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                    NWDTypeLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDTypeLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
+                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    NWDTypeLauncher.CodePinValueConfirm = EditorGUI.PasswordField(tDialogRect, "CodePin confirm", NWDTypeLauncher.CodePinValueConfirm, NWDGUI.kTextFieldStyle);
+                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    NWDGUI.BeginRedArea();
+                    bool tValid = true;
+                    if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValue))
+                    {
+                        NWDTypeLauncher.CodePinValue = string.Empty;
+                    }
+                    if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValueConfirm))
+                    {
+                        NWDTypeLauncher.CodePinValueConfirm = string.Empty;
+                    }
+                    if (NWDTypeLauncher.CodePinValue != NWDTypeLauncher.CodePinValueConfirm)
+                    {
+                        tValid = false;
+                    }
+                    if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValue))
+                    {
+                        tValid = false;
+                    }
+                    if (NWDTypeLauncher.CodePinValue.Length < 4)
+                    {
+                        tValid = false;
+                    }
+                    if (tValid == true)
+                    {
+                        EditorGUI.LabelField(tDialogRect, "valid CodePin");
+                    }
+                    else
+                    {
+                        EditorGUI.LabelField(tDialogRect, "invalid CodePin");
+                    }
+                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.BeginDisabledGroup(!tValid);
+                    if (GUI.Button(tDialogRect, "CREATE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
+                    {
+                        Debug.LogWarning("Create account base?!");
+                        NWDTypeLauncher.DatabaseAccountConnection(NWDTypeLauncher.CodePinValue);
+                    }
+                    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
+                    NWDGUI.EndRedArea();
+                }
+                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
+                EditorGUI.BeginDisabledGroup(!rLoaded);
             }
             else
             {

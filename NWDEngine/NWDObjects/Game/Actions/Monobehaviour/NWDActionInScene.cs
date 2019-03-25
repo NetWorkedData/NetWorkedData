@@ -44,7 +44,7 @@ namespace NetWorkedData
             //Debug.Log("NWDActionInScene InstallAction()");
             if (ActionIsInstalled == false)
             {
-                if (NWDTypeLauncher.DataEditorLoaded == true)
+                if (NWDDataManager.SharedInstance().DataEditorLoaded == true)
                 {
                     BTBNotificationBlock tListener = delegate (BTBNotification sNotification)
                     {

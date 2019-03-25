@@ -15,7 +15,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronize(true)]
+    [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigramme("UTP")]
     [NWDClassDescription("User Trade Proposition descriptions Class")]
     [NWDClassMenuName("User Trade Proposition")]

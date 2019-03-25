@@ -458,8 +458,8 @@ namespace NetWorkedData
             "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
         };
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_BASIS_WARNING_MODEL = "!!! WARNING !!! MODEL WAS CHANGED BUT NOT REGENERATED !!! WARNING !!! ";
-        public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "!!! WARNING !!! MODEL WAS DEGRADED !!! WARNING !!! ";
+        public const string K_APP_BASIS_WARNING_MODEL = "WARNING! MODEL WAS CHANGED BUT NOT REGENERATED! ";
+        public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED! ";
 
         //-------------------------------------------------------------------------------------------------------------
     }

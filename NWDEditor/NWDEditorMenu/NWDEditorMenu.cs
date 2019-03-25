@@ -370,7 +370,8 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_TABLES, false, 9201)]
         public static void CreateTables()
         {
-            NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -383,28 +384,32 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_TRASHED_DATAS, false, 9203)]
         public static void PurgeAllDatas()
         {
-            NWDDataManager.SharedInstance().CleanAllTablesLocal();
+            NWDDataManager.SharedInstance().CleanAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().CleanAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_PURGE_DATAS, false, 9203)]
         public static void CleanAllDatas()
         {
-            NWDDataManager.SharedInstance().PurgeAllTablesLocal();
+            NWDDataManager.SharedInstance().PurgeAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9204)]
         public static void UpdateAllDatas()
         {
-            NWDDataManager.SharedInstance().UpdateAllTablesLocal();
+            NWDDataManager.SharedInstance().UpdateAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().UpdateAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_RESET_DATAS, false, 9205)]
         public static void ResetAllDatas()
         {
-            NWDDataManager.SharedInstance().ResetAllTablesLocal();
+            NWDDataManager.SharedInstance().ResetAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().ResetAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -412,7 +417,8 @@ namespace NetWorkedData
         public static void CreateAllDataBases()
         {
             NWDDataManager.SharedInstance().RecreateDatabase();
-            NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -420,7 +426,8 @@ namespace NetWorkedData
         public static void CreateAllDataBasesAndPass()
         {
             NWDDataManager.SharedInstance().RecreateDatabase(true, true);
-            NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
 
