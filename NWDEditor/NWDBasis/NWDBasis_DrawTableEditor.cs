@@ -1057,12 +1057,13 @@ namespace NetWorkedData
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDConstants.KTableSearchButton)
-                //
-                //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>()
-                //    tBasisInspector.mTypeInEdition = ClassType()
-                //    Selection.activeObject = tBasisInspector
-                //
+                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SHOW_TOOLS, NWDGUI.KTableSearchButton))
+                {
+                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                    tBasisInspector.mTypeInEdition = ClassType();
+                    Selection.activeObject = tBasisInspector;
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 //NWDGUI.BeginRedButton()
                 //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton)
                 //
