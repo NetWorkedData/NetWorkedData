@@ -1659,91 +1659,107 @@ namespace NetWorkedData
 
                
                 EditorGUI.EndDisabledGroup();
-                if (NWDTypeLauncher.NeedNewCodePin == false)
+                if (NWDTypeLauncher.CodePinTentative >= NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
                 {
                     tDialogRect.height -= NWDGUI.kFieldMarge;
                     Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
                     GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
                     tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
-
+                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
                     tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
-                    NWDTypeLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDTypeLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                    tDialogRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
-                    if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
-                    {
-                        Debug.LogWarning("Try this code");
-                        NWDTypeLauncher.DatabaseAccountConnection(NWDTypeLauncher.CodePinValue);
-                    }
-                    tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
-                    tDialogRect.y += NWDGUI.Separator(tDialogRect).height;
-                    NWDGUI.BeginRedArea();
-                    if (GUI.Button(tDialogRect, "DELETE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
-                    {
-                        Debug.LogWarning("Delete account base?!");
-                        NWDDataManager.SharedInstance().DeleteDatabaseAccount();
-                        NWDTypeLauncher.DatabaseAccountConnection(string.Empty);
-                        GUIUtility.ExitGUI();
-                    }
-                    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    NWDGUI.EndRedArea();
-
+                    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, "TOO MUCH TENTATIVE").height + NWDGUI.kFieldMarge;
                 }
                 else
                 {
-                    tDialogRect.height += NWDGUI.kFieldMarge;
-                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
-                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
-                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+                    if (NWDTypeLauncher.CodePinCreationNeeded == false)
+                    {
+                        tDialogRect.height -= NWDGUI.kFieldMarge;
+                        Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                        GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                        tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                        tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
 
-                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
-                    NWDTypeLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDTypeLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    NWDTypeLauncher.CodePinValueConfirm = EditorGUI.PasswordField(tDialogRect, "CodePin confirm", NWDTypeLauncher.CodePinValueConfirm, NWDGUI.kTextFieldStyle);
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    NWDGUI.BeginRedArea();
-                    bool tValid = true;
-                    if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValue))
-                    {
-                        NWDTypeLauncher.CodePinValue = string.Empty;
-                    }
-                    if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValueConfirm))
-                    {
-                        NWDTypeLauncher.CodePinValueConfirm = string.Empty;
-                    }
-                    if (NWDTypeLauncher.CodePinValue != NWDTypeLauncher.CodePinValueConfirm)
-                    {
-                        tValid = false;
-                    }
-                    if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValue))
-                    {
-                        tValid = false;
-                    }
-                    if (NWDTypeLauncher.CodePinValue.Length < 4)
-                    {
-                        tValid = false;
-                    }
-                    if (tValid == true)
-                    {
-                        EditorGUI.LabelField(tDialogRect, "valid CodePin");
+                        tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                        NWDTypeLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDTypeLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
+                        tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                        tDialogRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+                        if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
+                        {
+                            Debug.LogWarning("Try this code");
+                            NWDTypeLauncher.DatabaseAccountConnection(NWDTypeLauncher.CodePinValue);
+                        }
+                        tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+                        tDialogRect.y += NWDGUI.Separator(tDialogRect).height;
+                        NWDGUI.BeginRedArea();
+                        if (GUI.Button(tDialogRect, "DELETE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
+                        {
+                            Debug.LogWarning("Delete account base?!");
+                            if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
+                            {
+                                NWDDataManager.SharedInstance().DeleteDatabaseAccount();
+                                //NWDTypeLauncher.DatabaseAccountConnection(string.Empty);
+                            }
+                            GUIUtility.ExitGUI();
+                        }
+                        tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        NWDGUI.EndRedArea();
+
                     }
                     else
                     {
-                        EditorGUI.LabelField(tDialogRect, "invalid CodePin");
+                        tDialogRect.height += NWDGUI.kFieldMarge;
+                        Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                        GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                        tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                        tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+
+                        tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+                        NWDTypeLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDTypeLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
+                        tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        NWDTypeLauncher.CodePinValueConfirm = EditorGUI.PasswordField(tDialogRect, "CodePin confirm", NWDTypeLauncher.CodePinValueConfirm, NWDGUI.kTextFieldStyle);
+                        tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        NWDGUI.BeginRedArea();
+                        bool tValid = true;
+                        if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValue))
+                        {
+                            NWDTypeLauncher.CodePinValue = string.Empty;
+                        }
+                        if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValueConfirm))
+                        {
+                            NWDTypeLauncher.CodePinValueConfirm = string.Empty;
+                        }
+                        if (NWDTypeLauncher.CodePinValue != NWDTypeLauncher.CodePinValueConfirm)
+                        {
+                            tValid = false;
+                        }
+                        if (string.IsNullOrEmpty(NWDTypeLauncher.CodePinValue))
+                        {
+                            tValid = false;
+                        }
+                        if (NWDTypeLauncher.CodePinValue.Length < 4)
+                        {
+                            tValid = false;
+                        }
+                        if (tValid == true)
+                        {
+                            EditorGUI.LabelField(tDialogRect, "valid CodePin");
+                        }
+                        else
+                        {
+                            EditorGUI.LabelField(tDialogRect, "invalid CodePin");
+                        }
+                        tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        EditorGUI.BeginDisabledGroup(!tValid);
+                        if (GUI.Button(tDialogRect, "CREATE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
+                        {
+                            Debug.LogWarning("Create account base?!");
+                            NWDTypeLauncher.DatabaseAccountConnection(NWDTypeLauncher.CodePinValue);
+                        }
+                        tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        EditorGUI.EndDisabledGroup();
+                        NWDGUI.EndRedArea();
                     }
-                    tDialogRect.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.BeginDisabledGroup(!tValid);
-                    if (GUI.Button(tDialogRect, "CREATE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
-                    {
-                        Debug.LogWarning("Create account base?!");
-                        NWDTypeLauncher.DatabaseAccountConnection(NWDTypeLauncher.CodePinValue);
-                    }
-                    tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    EditorGUI.EndDisabledGroup();
-                    NWDGUI.EndRedArea();
                 }
                 EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
                 EditorGUI.BeginDisabledGroup(!rLoaded);

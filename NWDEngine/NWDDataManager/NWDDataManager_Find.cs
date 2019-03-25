@@ -23,38 +23,54 @@ namespace NetWorkedData
     public partial class NWDDataManager
     {
         //------------------------------------------------------------------------------------------------------------- 
-#if UNITY_EDITOR
         public void EditorRefresh()
         {
+#if UNITY_EDITOR
             foreach (Type tType in mTypeList)
             {
                 RepaintWindowsInManager(tType);
             }
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
-        }
 #endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RestaureObjectInEdition()
+        {
+#if UNITY_EDITOR
+            foreach (Type tType in mTypeList)
+            {
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_RestaureObjectInEdition);
+            }
+#endif
+        }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsEditor()
         {
-            //Debug.Log("NWDDataManager AsyncReloadAllObjects()");
-            NWDDataManager.SharedInstance().DataEditorLoaded = false;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_START_LOADING);
-            NWDTypeLauncher.ClassesEditorExpected = mTypeNotAccountDependantList.Count();
-            NWDTypeLauncher.ClassesEditorDataLoaded = 0;
-            while (NWDTypeLauncher.ClassesEditorDataLoaded < NWDTypeLauncher.ClassesEditorExpected)
+            DataEditorLoaded = false;
+            while (NWDTypeLauncher.IsLaunched == false)
             {
-                NWDDataManager.SharedInstance().ReloadAllObjectsByClassEditor(NWDTypeLauncher.ClassesEditorDataLoaded);
-                NWDTypeLauncher.ClassesEditorDataLoaded++;
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_PARTIAL_LOADED);
                 yield return null;
             }
-            NWDDataManager.SharedInstance().DataEditorLoaded = true;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED);
-            //PlayerLanguageLoad();
+            while (DataEditorConnected == false)
+            {
+                yield return null;
+            }
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
+            NWDTypeLauncher.ClassEditorDataLoaded = 0;
+            while (NWDTypeLauncher.ClassEditorDataLoaded < NWDTypeLauncher.ClassEditorExpected)
+            {
+                NWDDataManager.SharedInstance().ReloadAllObjectsByClassEditor(NWDTypeLauncher.ClassEditorDataLoaded);
+                NWDTypeLauncher.ClassEditorDataLoaded++;
+                NWDTypeLauncher.ClassDataLoaded = NWDTypeLauncher.ClassEditorDataLoaded + NWDTypeLauncher.ClassAccountDataLoaded;
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                yield return null;
+            }
+            DataEditorLoaded = true;
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+            PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-#if UNITY_EDITOR
             EditorRefresh();
-#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClassEditor(int sCounter)
@@ -70,34 +86,38 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsAccount()
         {
-            //Debug.Log("NWDDataManager AsyncReloadAllObjects()");
-            while (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            DataAccountLoaded = false;
+            while (NWDTypeLauncher.IsLaunched == false)
             {
                 yield return null;
             }
-            NWDTypeLauncher.DatabaseAccountLauncher();
-            while (NWDDataManager.SharedInstance().DataAccountConnected == false)
+            while (DataEditorLoaded == false)
             {
                 yield return null;
             }
-            NWDDataManager.SharedInstance().DataAccountLoaded = false;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_START_LOADING);
-            NWDTypeLauncher.ClassesAccountExpected = mTypeAccountDependantList.Count();
-            NWDTypeLauncher.ClassesAccountDataLoaded = 0;
-            while (NWDTypeLauncher.ClassesAccountDataLoaded < NWDTypeLauncher.ClassesAccountExpected)
+            while (DataAccountConnected == false)
             {
-                NWDDataManager.SharedInstance().ReloadAllObjectsByClassAccount(NWDTypeLauncher.ClassesAccountDataLoaded);
-                NWDTypeLauncher.ClassesAccountDataLoaded++;
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_PARTIAL_LOADED);
                 yield return null;
             }
-            NWDDataManager.SharedInstance().DataAccountLoaded = true;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
-            //PlayerLanguageLoad();
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
+            NWDTypeLauncher.ClassAccountExpected = mTypeAccountDependantList.Count();
+            NWDTypeLauncher.ClassAccountDataLoaded = 0;
+            while (NWDTypeLauncher.ClassAccountDataLoaded < NWDTypeLauncher.ClassAccountExpected)
+            {
+                NWDDataManager.SharedInstance().ReloadAllObjectsByClassAccount(NWDTypeLauncher.ClassAccountDataLoaded);
+                NWDTypeLauncher.ClassAccountDataLoaded++;
+                NWDTypeLauncher.ClassDataLoaded = NWDTypeLauncher.ClassEditorDataLoaded + NWDTypeLauncher.ClassAccountDataLoaded;
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                yield return null;
+            }
+            DataAccountLoaded = true;
+            Debug.Log("NWDDataManager AsyncReloadAllObjects() post notification Account is loaded and All Datas is loaded");
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
+            PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-#if UNITY_EDITOR
             EditorRefresh();
-#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClassAccount(int sCounter)
@@ -110,35 +130,30 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-
-
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsAccount()
         {
             BTBBenchmark.Start();
-            if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+            if (NWDTypeLauncher.IsLaunched == true && DataAccountConnected == true)
             {
-                long tStartMemory = System.GC.GetTotalMemory(true);
                 NWDDataManager.SharedInstance().DataAccountLoaded = false;
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_START_LOADING);
-                NWDTypeLauncher.ClassesAccountExpected = mTypeAccountDependantList.Count();
-                NWDTypeLauncher.ClassesAccountDataLoaded = 0;
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
+                NWDTypeLauncher.ClassAccountExpected = mTypeAccountDependantList.Count();
+                NWDTypeLauncher.ClassAccountDataLoaded = 0;
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
-                    NWDTypeLauncher.ClassesAccountDataLoaded++;
-                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_PARTIAL_LOADED);
+                    NWDTypeLauncher.ClassAccountDataLoaded++;
+                    NWDTypeLauncher.ClassDataLoaded = NWDTypeLauncher.ClassEditorDataLoaded + NWDTypeLauncher.ClassAccountDataLoaded;
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
                 }
                 NWDDataManager.SharedInstance().DataAccountLoaded = true;
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
-                //PlayerLanguageLoad();
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
+                PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-#if UNITY_EDITOR
                 EditorRefresh();
-#endif
-                long tFinishMemory = System.GC.GetTotalMemory(true);
-                long tDataMemory = (tFinishMemory - tStartMemory) / 1024 / 1024;
-                NWDDebug.Log("#### ReloadAllObjectsAccount engine memory = " + tDataMemory.ToString() + "Mo");
             }
             BTBBenchmark.Finish();
         }
@@ -146,29 +161,26 @@ namespace NetWorkedData
         public void ReloadAllObjectsEditor()
         {
             BTBBenchmark.Start();
-            if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+            if (NWDTypeLauncher.IsLaunched == true && DataEditorConnected == true)
             {
-                long tStartMemory = System.GC.GetTotalMemory(true);
                 NWDDataManager.SharedInstance().DataEditorLoaded = false;
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_START_LOADING);
-                NWDTypeLauncher.ClassesEditorExpected = mTypeNotAccountDependantList.Count();
-                NWDTypeLauncher.ClassesEditorDataLoaded = 0;
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
+                NWDTypeLauncher.ClassEditorExpected = mTypeNotAccountDependantList.Count();
+                NWDTypeLauncher.ClassEditorDataLoaded = 0;
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
-                    NWDTypeLauncher.ClassesEditorDataLoaded++;
-                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_PARTIAL_LOADED);
+                    NWDTypeLauncher.ClassEditorDataLoaded++;
+                    NWDTypeLauncher.ClassDataLoaded = NWDTypeLauncher.ClassEditorDataLoaded + NWDTypeLauncher.ClassAccountDataLoaded;
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
                 }
                 NWDDataManager.SharedInstance().DataEditorLoaded = true;
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED);
-                //PlayerLanguageLoad();
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+                PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-#if UNITY_EDITOR
                 EditorRefresh();
-#endif
-                long tFinishMemory = System.GC.GetTotalMemory(true);
-                long tDataMemory = (tFinishMemory - tStartMemory) / 1024 / 1024;
-                NWDDebug.Log("#### ReloadAllObjectsEditor engine memory = " + tDataMemory.ToString() + "Mo");
             }
             BTBBenchmark.Finish();
         }
@@ -177,44 +189,6 @@ namespace NetWorkedData
         {
             ReloadAllObjectsEditor();
             ReloadAllObjectsAccount();
-        }
-        //        //-------------------------------------------------------------------------------------------------------------
-        //        public void ReloadAllObjects ()
-        //        {
-        //            BTBBenchmark.Start();
-        //            long tStartMemory = System.GC.GetTotalMemory(true);
-        //            NWDTypeLauncher.DataLoaded = false;
-        //            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
-        //            NWDTypeLauncher.ClassesExpected = mTypeList.Count();
-        //            NWDTypeLauncher.ClassesDataLoaded = 0;
-        //			foreach( Type tType in mTypeList)
-        //			{
-        //                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
-        //                NWDTypeLauncher.ClassesDataLoaded++;
-        //                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
-        //            }
-        //            NWDTypeLauncher.DataLoaded = true;
-        //            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
-        //            //PlayerLanguageLoad();
-        //            LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
-        //#if UNITY_EDITOR
-        //            EditorRefresh();
-        //#endif
-        //    BTBBenchmark.Finish();
-        //    long tFinishMemory = System.GC.GetTotalMemory(true);
-        //    long tDataMemory = (tFinishMemory - tStartMemory) / 1024 / 1024;
-        //    NWDDebug.Log("#### ReloadAllObjects engine memory = " + tDataMemory.ToString() + "Mo");
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public void RestaureObjectInEdition()
-        {
-#if UNITY_EDITOR
-            foreach (Type tType in mTypeList)
-            {
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_RestaureObjectInEdition);
-            }
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
-#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

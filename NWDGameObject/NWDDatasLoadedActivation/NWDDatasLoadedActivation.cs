@@ -25,9 +25,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void DataIsLoaded()
         {
-            //Debug.Log("NWDAutolocalized DataIsLoaded()");
+            Debug.Log("NWDAutolocalized DataIsLoaded()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
             foreach (Transform tChild in transform)
             {
                 tChild.gameObject.SetActive(ActiveDatasLoaded);
@@ -36,21 +36,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
-            //Debug.Log("NWDAutolocalized Awake()");
+            Debug.Log("NWDAutolocalized Awake()");
             if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
             {
+                Debug.Log("NWDAutolocalized Awake() install observer");
                 foreach (Transform tChild in transform)
                 {
                     tChild.gameObject.SetActive(ActiveDatasNotLoaded);
                 }
                 BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
                 {
                     DataIsLoaded();
                 });
             }
             else
             {
+                Debug.Log("NWDAutolocalized Awake() DataAccountLoaded already loaded!");
                 foreach (Transform tChild in transform)
                 {
                     tChild.gameObject.SetActive(ActiveDatasLoaded);
@@ -60,9 +62,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnDestroy()
         {
-            //Debug.Log("NWDAutolocalized OnDestroy()");
+            Debug.Log("NWDAutolocalized OnDestroy()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -186,15 +186,9 @@ namespace NetWorkedData
             ParametersTestAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasLoaded(BTBNotification sNotification)
         {
-            Debug.Log("NWDShowDebugPanel NotificationDatasEditorLoaded()");
-            UpdateParameterText();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
-        {
-            Debug.Log("NWDShowDebugPanel NotificationDatasAccountLoaded()");
+            Debug.Log("NWDShowDebugPanel NotificationDatasLoaded()");
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------

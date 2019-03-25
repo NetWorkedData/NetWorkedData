@@ -132,6 +132,7 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetPlayerSession()
@@ -145,6 +146,7 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAnonymousSession()
@@ -157,6 +159,7 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RestaureAnonymousSession()
@@ -171,6 +174,7 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

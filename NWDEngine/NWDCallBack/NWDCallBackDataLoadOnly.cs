@@ -27,50 +27,119 @@ namespace NetWorkedData
         /// </summary>
         void InstallObserver()
         {
+            Debug.Log("INSTALL OBSERVER OF NWDCallBackDataLoadOnly");
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            BTBNotificationManager tNotifManager = BTBNotificationManager.SharedInstance();
+
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
+            {
+                EngineLaunch(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_CONNECTED, delegate (BTBNotification sNotification)
+            {
+                DBEditorConnected(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+
+
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST, delegate (BTBNotification sNotification)
+            {
+                DBAccountPinCodeRequest(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS, delegate (BTBNotification sNotification)
+            {
+                DBAccountPinCodeSuccess(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL, delegate (BTBNotification sNotification)
+            {
+                DBAccountPinCodeFail(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP, delegate (BTBNotification sNotification)
+            {
+                DBAccountPinCodeStop(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED, delegate (BTBNotification sNotification)
+            {
+                DBAccountPinCodeNeeded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED, delegate (BTBNotification sNotification)
+            {
+                DBAccountConnected(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+
             // load datas
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_START_LOADING, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING, delegate (BTBNotification sNotification)
             {
-                NotificationDatasEditorStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                DataEditorStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED, delegate (BTBNotification sNotification)
             {
-                float tPurcent = (float)NWDTypeLauncher.ClassesEditorDataLoaded / (float)NWDTypeLauncher.ClassesEditorExpected;
-                NotificationDatasEditorPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+                float tPurcent = (float)NWDTypeLauncher.ClassEditorDataLoaded / (float)NWDTypeLauncher.ClassEditorExpected;
+                DataEditorPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (BTBNotification sNotification)
             {
-                NotificationDatasEditorLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                DataEditorLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
             // load datas
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_START_LOADING, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING, delegate (BTBNotification sNotification)
             {
-                NotificationDatasAccountStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                DataAccountStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED, delegate (BTBNotification sNotification)
             {
-                float tPurcent = (float)NWDTypeLauncher.ClassesAccountDataLoaded / (float)NWDTypeLauncher.ClassesAccountExpected;
-                NotificationDatasAccountPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+                float tPurcent = (float)NWDTypeLauncher.ClassAccountDataLoaded / (float)NWDTypeLauncher.ClassAccountExpected;
+                DataAccountPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED, delegate (BTBNotification sNotification)
             {
-                NotificationDatasAccountLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                DataAccountLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            // load datas
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_START_LOADING, delegate (BTBNotification sNotification)
+            {
+                DataStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+            {
+                float tPurcent = (float)NWDTypeLauncher.ClassDataLoaded / (float)NWDTypeLauncher.ClassExpected;
+                DataPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
+            {
+                DataLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
         }
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
         {
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            BTBNotificationManager tNotifManager = BTBNotificationManager.SharedInstance();
 
             // remove this from BTBNotificationManager
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_START_LOADING);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_PARTIAL_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_EDITOR_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_START_LOADING);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_PARTIAL_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_ACCOUNT_LOADED);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH);
+
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_CONNECTED);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_START_LOADING);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnEnable()
@@ -82,35 +151,106 @@ namespace NetWorkedData
         {
             RemoveObserver();
         }
-		//=============================================================================================================
+        //=============================================================================================================
         // VIRTUAL METHOD 
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasEditorStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void EngineLaunch(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+
+
+
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DBEditorConnected(BTBNotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasEditorPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public virtual void DataEditorStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void DataEditorPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasAccountStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void DataEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+
+
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DBAccountPinCodeRequest(BTBNotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasAccountPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public virtual void DBAccountPinCodeSuccess(BTBNotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void DBAccountPinCodeFail(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DBAccountPinCodeStop(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DBAccountPinCodeNeeded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DBAccountConnected(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataAccountStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataAccountPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+
+
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }

@@ -881,7 +881,7 @@ namespace NetWorkedData
 
                 // todo not update if not modified
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                UpdateData(true, NWDWritingMode.ByEditorDefault);
+                UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
                 //K tNexObject = (K)DuplicateMe();
                 NWDBasis<K> tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tNexObject);

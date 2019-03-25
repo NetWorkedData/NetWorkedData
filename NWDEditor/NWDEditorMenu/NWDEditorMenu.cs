@@ -413,6 +413,22 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]
+        public static void DeconnectAccountDataBase()
+        {
+            NWDDataManager.SharedInstance().DecconnectFromDatabaseAccount();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_DELETEACCOUNTE_DATAS, false, 9304)]
+        public static void DeleetAccountDataBase()
+        {
+            if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
+            {
+                NWDDataManager.SharedInstance().DeleteDatabaseAccount();
+                //NWDTypeLauncher.DatabaseAccountConnection(string.Empty);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS, false, 9305)]
         public static void CreateAllDataBases()
         {

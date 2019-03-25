@@ -46,23 +46,38 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PlayerLanguageSave(string sNewLanguage)
         {
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
-            tUserLanguage.Value.SetStringValue(sNewLanguage);
-            tUserLanguage.UpdateData();
+            if (DataAccountLoaded == true)
+            {
+                NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+                tUserLanguage.Value.SetStringValue(sNewLanguage);
+                tUserLanguage.UpdateData();
+            }
+            else
+            {
+                BTBPrefsManager.ShareInstance().set(PlayerLanguageKey, sNewLanguage);
+            }
             PlayerLanguage = sNewLanguage;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
         {
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
-            if (tUserLanguage.Value.GetStringValue() == string.Empty)
+            if (DataAccountLoaded == true)
             {
-                tUserLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
-                tUserLanguage.UpdateData();
+                NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+                if (tUserLanguage.Value.GetStringValue() == string.Empty)
+                {
+                    tUserLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
+                    tUserLanguage.UpdateData();
+                }
+                PlayerLanguage = tUserLanguage.Value.GetStringValue();
             }
-            PlayerLanguage = tUserLanguage.Value.GetStringValue();
+            else
+            {
+                PlayerLanguage = BTBPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
+            }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -76,7 +91,7 @@ namespace NetWorkedData
         ~NWDDataManager ()
         {
             SharedInstance().DataQueueExecute();
-            BTBNotificationManager.SharedInstance().RemoveAll ();
+            BTBNotificationManager.SharedInstance().RemoveAll();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltMemorizationForAllClass ()

@@ -187,8 +187,8 @@ namespace NetWorkedData
                     if (!File.Exists(tDatabasePathAccount) && string.IsNullOrEmpty(sSurProtection))
                     {
                         Debug.LogWarning("NEED NEW DATABASE ACCOUNT");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_NEED_PINCODE);
-                        NWDTypeLauncher.NeedNewCodePin = true;
+                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+                        NWDTypeLauncher.CodePinCreationNeeded = true;
                         rReturn = false;
                     }
                 }
@@ -214,11 +214,11 @@ namespace NetWorkedData
                     if (rReturn == true)
                     {
                         DataAccountConnected = true;
-                        NWDTypeLauncher.NeedCodePin = false;
+                        NWDTypeLauncher.CodePinNeeded = false;
                     }
                     else
                     {
-                        NWDTypeLauncher.NeedCodePin = true;
+                        NWDTypeLauncher.CodePinNeeded = true;
                     }
                     DataAccountConnectionInProgress = false;
                 }
@@ -373,11 +373,10 @@ namespace NetWorkedData
         //    return rReturn;
         //}
 
-
         //-------------------------------------------------------------------------------------------------------------
-        public void DeleteDatabaseAccount()
+        public void DecconnectFromDatabaseAccount()
         {
-            //Debug.Log("DeleteDatabase ()");
+            Debug.Log("DecconnectFromDatabaseAccount ()");
             DataAccountConnected = false;
             //Close SLQite
             if (SQLiteConnectionAccount != null)
@@ -391,14 +390,27 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().DataAccountConnected = false;
             if (NWDAppConfiguration.SharedInstance().SurProtected == true)
             {
-                NWDTypeLauncher.NeedCodePin = true;
-                NWDTypeLauncher.NeedNewCodePin = true;
+                NWDTypeLauncher.CodePinNeeded = true;
+                NWDTypeLauncher.CodePinCreationNeeded = false;
                 NWDTypeLauncher.CodePinValue = string.Empty;
                 NWDTypeLauncher.CodePinValueConfirm = string.Empty;
+                if (DatabaseAccountExists() == false)
+                {
+                    NWDTypeLauncher.CodePinCreationNeeded = true;
+                }
             }
             // reload empty object
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DeleteDatabaseAccount()
+        {
+            DecconnectFromDatabaseAccount();
             File.Delete(PathDatabaseAccount());
+            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+            {
+                NWDTypeLauncher.CodePinCreationNeeded = true;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDatabaseEditor()
@@ -505,7 +517,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
-                   Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
+                    Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
                     NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
             }
