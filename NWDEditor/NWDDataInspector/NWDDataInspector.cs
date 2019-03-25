@@ -116,13 +116,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedData(object sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
+            if (sTarget != null)
             {
-                if (ShareInstance().mObjectInEdition != sTarget)
+                if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
                 {
-                    ShareInstance().Data(sTarget, sResetStack, sFocus);
-                    if (sTarget != null)
+                    if (ShareInstance().mObjectInEdition != sTarget)
                     {
+                        ShareInstance().Data(sTarget, sResetStack, sFocus);
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(sTarget.GetType());
                     }
                 }
@@ -131,38 +131,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Data(object sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
+            if (sTarget != null)
             {
-                if (sTarget != null)
+                if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
                 {
                     MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
                     if (tMethodInfo != null)
                     {
                         tMethodInfo.Invoke(sTarget, null);
                     }
-
-                }
-                if (sResetStack == true)
-                {
-                    mObjectsList = new List<object>();
-                }
-                else
-                {
-                    if (mObjectsList.Count > ActualIndex)
+                    if (sResetStack == true)
                     {
-                        mObjectsList.RemoveRange(ActualIndex + 1, mObjectsList.Count - ActualIndex - 1);
+                        mObjectsList = new List<object>();
                     }
+                    else
+                    {
+                        if (mObjectsList.Count > ActualIndex)
+                        {
+                            mObjectsList.RemoveRange(ActualIndex + 1, mObjectsList.Count - ActualIndex - 1);
+                        }
+                    }
+                    ActualIndex = mObjectsList.Count;
+                    mObjectsList.Add(sTarget);
+                    mObjectInEdition = sTarget;
+                    Repaint();
+                    RemoveActualFocus = sFocus;
+                    if (sFocus == true)
+                    {
+                        Focus();
+                    }
+                    NWDNodeEditor.ReDraw();
                 }
-                ActualIndex = mObjectsList.Count;
-                mObjectsList.Add(sTarget);
-                mObjectInEdition = sTarget;
-                Repaint();
-                RemoveActualFocus = sFocus;
-                if (sFocus == true)
-                {
-                    Focus();
-                }
-                NWDNodeEditor.ReDraw();
             }
             //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
         }
