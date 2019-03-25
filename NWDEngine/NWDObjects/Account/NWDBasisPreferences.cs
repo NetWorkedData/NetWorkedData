@@ -34,16 +34,16 @@ namespace NetWorkedData
     public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
     {
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDCertified]
-        //public NWDReferenceType<NWDAccount> Account
-        //{
-        //    get; set;
-        //}
-        //[NWDCertified]
-        //public string Environment
-        //{
-        //    get; set;
-        //}
+        [NWDCertified]
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        [NWDCertified]
+        public string Environment
+        {
+            get; set;
+        }
         [NWDCertified]
         public string StringValue
         {

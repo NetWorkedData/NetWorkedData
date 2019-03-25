@@ -1683,6 +1683,7 @@ namespace NetWorkedData
                     {
                         Debug.LogWarning("Delete account base?!");
                         NWDDataManager.SharedInstance().DeleteDatabaseAccount();
+                        NWDTypeLauncher.DatabaseAccountConnection(string.Empty);
                         GUIUtility.ExitGUI();
                     }
                     tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;

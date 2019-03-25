@@ -163,7 +163,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Sur Protected Database", NWDAppConfiguration.SharedInstance().SurProtected);
             if (NWDAppConfiguration.SharedInstance().SurProtected == true)
             {
-                NWDAppConfiguration.SharedInstance().PreloadDatas = true;
+                NWDAppConfiguration.SharedInstance().PreloadDatas = false;
             }
             EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
             NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Sur Protected Tentative", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
