@@ -470,20 +470,19 @@ namespace NetWorkedData
             void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
-                //Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
+                Debug.LogWarning("NWD => not finish ... need load async!");
                 if (LoadingDatasGauge != null)
                 {
                     LoadingDatasGauge.IsVisible = true;
                 }
-                //ReloadAllDatasAccount();
+                Debug.LogWarning("NWD => LaunchResume!");
+                NWDLauncher.LaunchResume();
             }
             else
             {
-                // hello every body DATA ARE LOADED
-                //BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
-                //Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
+                Debug.LogWarning("NWD => NWDStatut.NetWorkedDataReady!");
                 if (LoadingDatasGauge != null)
                 {
                     LoadingDatasGauge.IsVisible = false;

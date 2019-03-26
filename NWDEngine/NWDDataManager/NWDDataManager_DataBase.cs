@@ -156,7 +156,7 @@ namespace NetWorkedData
 #else
             rReturn = string.Format ("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount);
 #endif
-            Debug.Log("<color=orange>PathDatabaseAccount return :" + rReturn + "</color>");
+            //Debug.Log("<color=orange>PathDatabaseAccount return :" + rReturn + "</color>");
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ namespace NetWorkedData
         {
             bool rReturn = true;
             BTBBenchmark.Start();
-            Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
+            //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
             if (DataAccountConnected == false && DataAccountConnectionInProgress == false)
             {
                 DataAccountConnectionInProgress = true;
@@ -207,7 +207,7 @@ namespace NetWorkedData
                 //waiting the tables and file will be open...
                 while (SQLiteConnectionAccount.IsOpen() == false)
                 {
-                    Debug.LogWarning("SQLiteConnectionAccount is not opened!");
+                    //Debug.LogWarning("SQLiteConnectionAccount is not opened!");
                     // waiting
                 }
                 // finish test opened database
@@ -215,14 +215,14 @@ namespace NetWorkedData
                 if (rReturn == true)
                 {
                     DataAccountConnected = true;
-                    Debug.LogWarning("SQLiteConnectionAccount is valid!");
+                    //Debug.LogWarning("SQLiteConnectionAccount is valid!");
                     //NWDTypeLauncher.CodePinNeeded = false;
                 }
                 else
                 {
                     DataAccountConnected = false;
                     //NWDTypeLauncher.CodePinNeeded = true;
-                    Debug.LogWarning("SQLiteConnectionAccount is not valid!");
+                    //Debug.LogWarning("SQLiteConnectionAccount is not valid!");
                 }
                 DataAccountConnectionInProgress = false;
                 //}

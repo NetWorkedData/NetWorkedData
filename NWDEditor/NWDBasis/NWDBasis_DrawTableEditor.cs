@@ -1684,7 +1684,7 @@ namespace NetWorkedData
                     tDialogRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
                     if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
                     {
-                        Debug.LogWarning("Try this code");
+                        //Debug.LogWarning("Try this code");
                         NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
                     }
                     tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);

@@ -376,7 +376,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_ONE_OBJECT_FILTERED = "1 object in result";
         public const string K_APP_TABLE_X_OBJECTS_FILTERED = " objects in result";
         public const string K_APP_TABLE_TOOLS_ZONE = "Table Tools";
-        public const string K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE = "DATAS ARE NOT LOADING";
+        //public const string K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE = "DATAS ARE NOT LOADING";
         public const string K_APP_TABLE_SHOW_TOOLS = "Show tools";
 
         public const string K_APP_WS_RESET_WARNING = "Warning WS";

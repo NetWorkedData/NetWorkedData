@@ -37,7 +37,10 @@ namespace NetWorkedData
             BTBBenchmark.Finish();
             // Ok engine is launched
             BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
-            LaunchNext();
+            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
+            {
+                LaunchNext();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void ConnectToDatabaseEditor()
@@ -63,7 +66,10 @@ namespace NetWorkedData
             State = NWDStatut.DataEditorTableUpdated;
             BTBBenchmark.Finish();
             BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_READY);
-            LaunchNext();
+            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
+            {
+                LaunchNext();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseEditorLoadData()
@@ -178,7 +184,7 @@ namespace NetWorkedData
         {
             BTBBenchmark.Start();
             State = NWDStatut.DataAccountConnecting;
-            Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
+            //Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
             BTBBenchmark.Start();
             //if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
             if (NWDDataManager.SharedInstance().DataAccountConnected == false)
@@ -190,17 +196,17 @@ namespace NetWorkedData
                     if (CodePinTentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
                     {
                         State = NWDStatut.DataAccountCodePinFail;
-#if UNITY_EDITOR
-                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
-#endif
-                        Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
+//#if UNITY_EDITOR
+//                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
+//#endif
+                        //Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
                         BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
                         //DatabaseAccountLauncher();
                     }
                     else
                     {
                         State = NWDStatut.DataAccountCodePinStop;
-                        Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
+                        //Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
                         // Kill App || Destroy Database || Call FBI || Vodoo ?
                         BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
                     }
@@ -211,7 +217,7 @@ namespace NetWorkedData
                     if (NWDAppConfiguration.SharedInstance().SurProtected == true)
                     {
                         State = NWDStatut.DataAccountCodePinSuccess;
-                        Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
+                        //Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
                         BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
                     }
                     State = NWDStatut.DataAccountConnected;
@@ -228,7 +234,10 @@ namespace NetWorkedData
             State = NWDStatut.DataAccountTableUpdated;
             BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_READY);
             BTBBenchmark.Finish();
-            LaunchNext();
+            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
+            {
+                LaunchNext();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseAccountLoadData()

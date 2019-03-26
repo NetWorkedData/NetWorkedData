@@ -67,8 +67,9 @@ namespace NetWorkedData
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
-           static private void LaunchNext()
+        static private void LaunchNext()
         {
+            Debug.Log("LaunchNext() with state = "+ State.ToString());
             switch (State)
             {
                 case NWDStatut.Error:
@@ -103,15 +104,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataEditorTableUpdated:
                     {
-                        // preload datas?
-                        if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
-                        {
-                            DatabaseEditorLoadData();
-                        }
-                        else
-                        {
-                            // assume in game data manager  with call to DatabaseEditorLoadDataAsync();
-                        }
+                        DatabaseEditorLoadData();
                     }
                     break;
                 case NWDStatut.DataEditorLoading:
@@ -155,15 +148,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountTableUpdated:
                     {
-                        // preload datas?
-                        if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
-                        {
-                            DatabaseAccountLoadData();
-                        }
-                        else
-                        {
-                            // assume in game data manager  with call to DatabaseAccountLoadDataAsync();
-                        }
+                        DatabaseAccountLoadData();
                     }
                     break;
                 case NWDStatut.DataAccountLoading:
