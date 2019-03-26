@@ -132,7 +132,7 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_PURGE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Purge all tables datas on local";
         public const string K_MENU_LOCAL_RESET_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Reset all tables datas on local";
         public const string K_MENU_LOCAL_UPDATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Update all tables datas on local";
-        public const string K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/deconnect Account Database on local";
+        public const string K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Deconnect Account Database on local";
         public const string K_MENU_LOCAL_DELETEACCOUNTE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Delete Account Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";

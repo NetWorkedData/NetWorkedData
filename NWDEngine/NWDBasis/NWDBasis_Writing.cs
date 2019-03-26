@@ -533,23 +533,17 @@ namespace NetWorkedData
             // Debug.Log("NWDBasis<K> InsertDataProceed()");
             if (AccountDependent())
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
-                    //this.DataAssembly(true),
-                    //this.IntegrityValue());
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
 
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
-                    //this.DataAssembly(true),
-                    //this.IntegrityValue());
                 }
             }
             //BTBBenchmark.Finish();
@@ -561,33 +555,21 @@ namespace NetWorkedData
             Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
             if (AccountDependent())
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
-                    //                                                                                this.DataAssembly(true),
-                    //                                                                                this.IntegrityValue());
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
 
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
-                    //                                                                                this.DataAssembly(true),
-                    //                                                                                this.IntegrityValue());
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
                 }
             }
             //BTBBenchmark.Finish();
@@ -778,23 +760,17 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> UpdateDataProceed()");
             if (AccountDependent())
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
-                    //this.DataAssembly(true),
-                    //this.IntegrityValue());
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
 
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
-                    //this.DataAssembly(true),
-                    //this.IntegrityValue());
                 }
             }
             //BTBBenchmark.Finish();
@@ -806,32 +782,20 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
-                    //                                                                                this.DataAssembly(true),
-                    //                                                                                this.IntegrityValue());
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
-                    //                                                                                this.DataAssembly(true),
-                    //                                                                                this.IntegrityValue());
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
                 }
             }
             //BTBBenchmark.Finish();
@@ -1023,18 +987,16 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> DeleteDataProceed()");
             if (AccountDependent())
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.DeleteDatas(this.Reference);
                 }
             }
             else
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.DeleteDatas(this.Reference);
                 }
             }
             //BTBBenchmark.Finish();
@@ -1046,25 +1008,20 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
+if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-
-                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
-                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.DeleteDatas(this.Reference);
-                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
+}
             }
             else
             {
-                if (NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.DeleteDatas(this.Reference);
-                    //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
                 }
             }
             //BTBBenchmark.Finish();
@@ -1105,18 +1062,7 @@ namespace NetWorkedData
             WritingPending = NWDWritingPending.InDatabase;
             //AddonLoadedMe();
 #if UNITY_EDITOR
-            //// no auto update data
-            //bool tCheckData = false;
-            ////if (Application.isPlaying == false)
-            ////{
-            ////    tCheckData = true;
-            ////}
-            //if (tCheckData == true)
-            //{
-            //    ErrorCheck();
-            //    WebserviceVersionCheckMe();
-            //}
-            ////RowAnalyze();
+
 #else
             WebserviceVersionCheckMe();
 #endif
@@ -1124,36 +1070,6 @@ namespace NetWorkedData
             BasisHelper().AddData(this);
             //BTBBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //        public static void LoadAllDatas()
-        //        {
-        //            //BTBBenchmark.Start();
-        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-        //            if (AccountDependent())
-        //            {
-        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-        //            }
-        //            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-        //            Datas().ObjectsList = new List<object>();
-        //            Datas().ObjectsByReferenceList = new List<string>();
-        //            Datas().ObjectsByKeyList = new List<string>();
-        //#if UNITY_EDITOR
-        //            Datas().DatasInEditorRowDescriptionList = new List<string>();
-        //            Datas().DatasInEditorSelectionList = new List<bool>();
-        //            Datas().DatasInEditorReferenceList = new List<string>();
-        //#endif
-        //            if (tEnumerable != null)
-        //            {
-        //                foreach (NWDBasis<K> tData in tEnumerable)
-        //                {
-        //                    tData.LoadedFromDatabase();
-        //                }
-        //            }
-        //#if UNITY_EDITOR
-        //            RepaintTableEditor();
-        //#endif
-        //    //BTBBenchmark.Finish();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion Load Data
         //-------------------------------------------------------------------------------------------------------------

@@ -193,36 +193,39 @@ namespace NetWorkedData
                 //        rReturn = false;
                 //    }
                 //}
+                //if (rReturn == true)
+                //{
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds;
+                DateTime t = DateTime.Now;
+                DateTime tf = DateTime.Now.AddSeconds(tSeconds);
+                while (t < tf)
+                {
+                    t = DateTime.Now;
+                }
+                //waiting the tables and file will be open...
+                while (SQLiteConnectionAccount.IsOpen() == false)
+                {
+                    Debug.LogWarning("SQLiteConnectionAccount is not opened!");
+                    // waiting
+                }
+                // finish test opened database
+                rReturn = SQLiteConnectionAccount.IsValid();
                 if (rReturn == true)
                 {
-                    SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-
-                    double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds;
-                    DateTime t = DateTime.Now;
-                    DateTime tf = DateTime.Now.AddSeconds(tSeconds);
-                    while (t < tf)
-                    {
-                        t = DateTime.Now;
-                    }
-                    //waiting the tables and file will be open...
-                    while (SQLiteConnectionAccount.IsOpen() == false)
-                    {
-                        Debug.LogWarning("SQLiteConnectionAccount is not opened!");
-                        // waiting
-                    }
-                    // finish test opened database
-                    rReturn = SQLiteConnectionAccount.IsValid();
-                    if (rReturn == true)
-                    {
-                        DataAccountConnected = true;
-                        //NWDTypeLauncher.CodePinNeeded = false;
-                    }
-                    else
-                    {
-                        //NWDTypeLauncher.CodePinNeeded = true;
-                    }
-                    DataAccountConnectionInProgress = false;
+                    DataAccountConnected = true;
+                    Debug.LogWarning("SQLiteConnectionAccount is valid!");
+                    //NWDTypeLauncher.CodePinNeeded = false;
                 }
+                else
+                {
+                    DataAccountConnected = false;
+                    //NWDTypeLauncher.CodePinNeeded = true;
+                    Debug.LogWarning("SQLiteConnectionAccount is not valid!");
+                }
+                DataAccountConnectionInProgress = false;
+                //}
             }
             BTBBenchmark.Finish();
             return rReturn;
@@ -601,7 +604,7 @@ namespace NetWorkedData
             {
                 if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionAccount != null)
+                    if (SQLiteConnectionAccountIsValid())
                     {
                         //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
                         SQLiteConnectionAccount.CreateTableByType(sType);
@@ -612,7 +615,7 @@ namespace NetWorkedData
             {
                 if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionEditor != null)
+                    if (SQLiteConnectionEditorIsValid())
                     {
                         //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
                         SQLiteConnectionEditor.CreateTableByType(sType);
@@ -628,7 +631,7 @@ namespace NetWorkedData
             {
                 if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionAccount != null)
+                    if (SQLiteConnectionAccountIsValid())
                     {
                         SQLiteConnectionAccount.MigrateTableByType(sType);
                     }
@@ -638,7 +641,7 @@ namespace NetWorkedData
             {
                 if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionEditor != null)
+                    if (SQLiteConnectionEditorIsValid())
                     {
                         SQLiteConnectionEditor.MigrateTableByType(sType);
                     }
@@ -653,7 +656,7 @@ namespace NetWorkedData
             {
                 if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionAccount != null)
+                    if (SQLiteConnectionAccountIsValid())
                     {
                         SQLiteConnectionAccount.TruncateTableByType(sType);
                     }
@@ -663,7 +666,7 @@ namespace NetWorkedData
             {
                 if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionEditor != null)
+                    if (SQLiteConnectionEditorIsValid())
                     {
                         SQLiteConnectionEditor.TruncateTableByType(sType);
                     }
@@ -678,7 +681,7 @@ namespace NetWorkedData
             {
                 if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionAccount != null)
+                    if (SQLiteConnectionAccountIsValid())
                     {
                         SQLiteConnectionAccount.DropTableByType(sType);
                     }
@@ -688,7 +691,7 @@ namespace NetWorkedData
             {
                 if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 {
-                    if (SQLiteConnectionEditor != null)
+                    if (SQLiteConnectionEditorIsValid())
                     {
                         SQLiteConnectionEditor.DropTableByType(sType);
                     }
@@ -705,6 +708,34 @@ namespace NetWorkedData
         {
             DropTable(sType, sAccountConnected);
             CreateTable(sType, sAccountConnected);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool SQLiteConnectionEditorIsValid()
+        {
+            bool rReturn = true;
+            if (SQLiteConnectionAccount != null)
+            {
+                rReturn = SQLiteConnectionEditor.IsValid();
+            }
+            else
+            {
+                rReturn = false;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool SQLiteConnectionAccountIsValid()
+        {
+            bool rReturn = true;
+            if (SQLiteConnectionAccount != null)
+            {
+                rReturn = SQLiteConnectionAccount.IsValid();
+            }
+            else
+            {
+                rReturn = false;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -1648,16 +1648,16 @@ namespace NetWorkedData
             if (rLoaded == false)
             {
                 //TODO : draw not loading
-                float tWidthDilaog = NWDGUI.KTableSearchLabelWidth*2 + NWDGUI.KTableSearchWidth;
-                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth*2;
+                float tWidthDilaog = NWDGUI.KTableSearchLabelWidth * 2 + NWDGUI.KTableSearchWidth;
+                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth * 2;
                 //float tScrollHeight = tWindowRect.height - tRect.y - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
                 Rect tDialogRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kLabelStyle.fixedHeight);
 
                 tDialogRect.x = Mathf.Floor((tDialogRect.width - tWidthDilaog) / 2.0F);
                 tDialogRect.width = tWidthDilaog;
-                tDialogRect.height += (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * 3 + NWDGUI.ErrorMinHeight ;
+                tDialogRect.height += (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * 3 + NWDGUI.ErrorMinHeight;
 
-               
+
                 EditorGUI.EndDisabledGroup();
                 if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinStop)
                 {
@@ -1665,7 +1665,7 @@ namespace NetWorkedData
                     Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
                     GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
                     tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
                     tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
                     tDialogRect.y += NWDGUI.ErrorBox(tDialogRect, "TOO MUCH TENTATIVE").height + NWDGUI.kFieldMarge;
                 }
@@ -1675,7 +1675,7 @@ namespace NetWorkedData
                     Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
                     GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
                     tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
 
                     tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
                     NWDLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
@@ -1698,6 +1698,7 @@ namespace NetWorkedData
                             NWDDataManager.SharedInstance().DeleteDatabaseAccount();
                             NWDLauncher.Launch();
                         }
+                        GUI.FocusControl(null);
                         GUIUtility.ExitGUI();
                     }
                     tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -1710,7 +1711,7 @@ namespace NetWorkedData
                     Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
                     GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
                     tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
-                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDConstants.K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE).height + NWDGUI.kFieldMarge;
+                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
 
                     tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
                     NWDLauncher.CodePinValue = EditorGUI.PasswordField(tDialogRect, "CodePin", NWDLauncher.CodePinValue, NWDGUI.kTextFieldStyle);
@@ -1752,11 +1753,28 @@ namespace NetWorkedData
                     if (GUI.Button(tDialogRect, "CREATE ACCOUNT BASE", NWDGUI.kMiniButtonStyle))
                     {
                         Debug.LogWarning("Create account base?!");
+                        GUI.FocusControl(null);
                         NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
                     }
                     tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.EndDisabledGroup();
                     NWDGUI.EndRedArea();
+                }
+                else if (NWDLauncher.GetState() == NWDStatut.DataEditorLoaded)
+                {
+                    tDialogRect.height += NWDGUI.kFieldMarge;
+                    Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);
+                    GUI.Label(tDialogRectBox, "", EditorStyles.helpBox);
+                    tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
+                    tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
+
+                    tDialogRect.height = NWDGUI.kTextFieldStyle.fixedHeight;
+
+                    if (GUI.Button(tDialogRect, "Connect to database account", NWDGUI.kMiniButtonStyle))
+                    {
+                        GUI.FocusControl(null);
+                        NWDLauncher.Launch();
+                    }
                 }
                 else /*if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)*/
                 {
@@ -1766,7 +1784,7 @@ namespace NetWorkedData
                     tDialogRect.height += NWDGUI.kTextFieldStyle.fixedHeight;
                     tDialogRect.y += NWDGUI.WarningBox(tDialogRect, NWDLauncher.GetState().ToString()).height + NWDGUI.kFieldMarge;
                 }
-                    EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
+                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
                 EditorGUI.BeginDisabledGroup(!rLoaded);
             }
             else

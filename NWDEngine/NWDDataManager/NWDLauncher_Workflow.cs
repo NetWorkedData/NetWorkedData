@@ -101,6 +101,9 @@ namespace NetWorkedData
             tDataManager.SQLiteConnectionAccount = null;
             tDataManager.DataAccountLoaded = false;
             tDataManager.DataAccountConnected = false;
+            CodePinTentative = 0;
+            CodePinValue = string.Empty;
+            CodePinValueConfirm = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DeconnectAccountAnalyzeState()

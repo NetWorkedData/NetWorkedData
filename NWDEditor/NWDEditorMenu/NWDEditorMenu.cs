@@ -416,7 +416,8 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]
         public static void DeconnectAccountDataBase()
         {
-            NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+            NWDLauncher.DeconnectFromDatabaseAccount();
+            //NWDLauncher.Launch();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_DELETEACCOUNTE_DATAS, false, 9304)]
@@ -424,8 +425,8 @@ namespace NetWorkedData
         {
             if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
             {
-                NWDDataManager.SharedInstance().DeleteDatabaseAccount();
-                //NWDTypeLauncher.DatabaseAccountConnection(string.Empty);
+                NWDLauncher.DeleteDatabaseAccount();
+                //NWDLauncher.Launch();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
