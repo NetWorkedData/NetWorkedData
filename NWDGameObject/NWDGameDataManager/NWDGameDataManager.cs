@@ -258,7 +258,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool DatasLoaded()
         {
-            return NWDTypeLauncher.DataLoaded();
+            return NWDDataManager.SharedInstance().DataLoaded();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -477,7 +477,6 @@ namespace NetWorkedData
                 {
                     LoadingDatasGauge.IsVisible = true;
                 }
-                NWDTypeLauncher.DatabaseEditorLauncher();
                 //ReloadAllDatasAccount();
             }
             else
@@ -558,13 +557,13 @@ namespace NetWorkedData
             {
                 //Debug.Log("OnApplicationPause Pause is OFF");
                 NWDNews.InstallAllNotifications(false);
-                NWDTypeLauncher.DatabaseAccountLauncher();
+                //NWDTypeLauncher.DatabaseAccountLauncher();
             }
             else
             {
                 //Debug.Log("OnApplicationPause Pause is ON");
                 NWDNews.InstallAllNotifications(true);
-                NWDDataManager.SharedInstance().DecconnectFromDatabaseAccount();
+                NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -576,19 +575,19 @@ namespace NetWorkedData
         public override void DBEditorConnected(BTBNotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBEditorConnected</color>");
-            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor());
+
+            StartCoroutine(NWDLauncher.DatabaseEditorLoadDataAsync());
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorLoaded</color>");
-            NWDTypeLauncher.DatabaseAccountLauncher();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountPinCodeRequest(BTBNotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeRequest</color>");
-            NWDDataManager.SharedInstance().ConnectToDatabaseAccount("111");
+            NWDLauncher.DatabaseAccountConnection("111");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountPinCodeSuccess(BTBNotification sNotification, bool sPreloadDatas)
@@ -609,13 +608,13 @@ namespace NetWorkedData
         public override void DBAccountPinCodeNeeded(BTBNotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeNeeded</color>");
-            NWDDataManager.SharedInstance().ConnectToDatabaseAccount("111");
+            NWDLauncher.DatabaseAccountConnection("111");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountConnected(BTBNotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountConnected</color>");
-            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount());
+            StartCoroutine(NWDLauncher.DatabaseAccountLoadDataAsync());
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataStartLoading(BTBNotification sNotification, bool sPreloadDatas)

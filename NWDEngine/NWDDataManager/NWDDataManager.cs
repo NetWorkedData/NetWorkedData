@@ -13,12 +13,19 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDDataManager
+    public partial class NWDDataManager  // TODO : put in static?
     {
         //-------------------------------------------------------------------------------------------------------------
         const string PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------
-        private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
+        private static readonly NWDDataManager kSharedInstance = new NWDDataManager();
+        //-------------------------------------------------------------------------------------------------------------
+        public int ClassExpected = 0;
+        public int ClassEditorExpected = 0;
+        public int ClassAccountExpected = 0;
+        public int ClassDataLoaded = 0;
+        public int ClassEditorDataLoaded = 0;
+        public int ClassAccountDataLoaded = 0;
         //-------------------------------------------------------------------------------------------------------------
         public bool DataAccountConnected = false;
         public bool DataAccountConnectionInProgress = false;
@@ -81,23 +88,24 @@ namespace NetWorkedData
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private NWDDataManager ()
+        private NWDDataManager()
         {
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             //LoadPreferences(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        ~NWDDataManager ()
+        ~NWDDataManager()
         {
             SharedInstance().DataQueueExecute();
             BTBNotificationManager.SharedInstance().RemoveAll();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool TestSaltMemorizationForAllClass ()
+        public bool TestSaltMemorizationForAllClass()
         {
             bool rReturn = true;
-            foreach (Type tType in mTypeList) {
+            foreach (Type tType in mTypeList)
+            {
                 if (NWDBasisHelper.FindTypeInfos(tType).SaltValid == false)
                 {
                     Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
@@ -105,18 +113,30 @@ namespace NetWorkedData
                     break;
                 }
             }
-            if (rReturn == false) {
-                #if UNITY_EDITOR
+            if (rReturn == false)
+            {
+#if UNITY_EDITOR
                 //NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
-                #else
+#else
                 // no... ALERT USER ERROR IN APP DISTRIBUTION
-                #endif
+#endif
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDataManager SharedInstance() {
+        public static NWDDataManager SharedInstance()
+        {
             return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DataLoaded()
+        {
+            bool rReturn = true;
+            if (DataEditorLoaded == false || DataAccountLoaded == false)
+            {
+                rReturn = false;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

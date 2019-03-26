@@ -416,7 +416,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]
         public static void DeconnectAccountDataBase()
         {
-            NWDDataManager.SharedInstance().DecconnectFromDatabaseAccount();
+            NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_DELETEACCOUNTE_DATAS, false, 9304)]

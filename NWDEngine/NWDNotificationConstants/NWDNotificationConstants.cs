@@ -25,7 +25,7 @@ namespace NetWorkedData
         public const string K_ENGINE_LAUNCH = "K_ENGINE_LAUNCH_Bbf8ke4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // connect to editor database
-        public const string K_DB_EDITOR_CONNECTED = "K_DATABASE_EDITOR_CONNECTED_de4be4t"; // OK Needed by test & verify
+        public const string K_DB_EDITOR_READY = "K_DATABASE_EDITOR_READY_de4be4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // connect to account database
         public const string K_DB_ACCOUNT_PINCODE_REQUEST = "K_DATABASE_PROTECTION_REQUEST_defeet"; // OK Needed by test & verify
@@ -34,7 +34,7 @@ namespace NetWorkedData
         public const string K_DB_ACCOUNT_PINCODE_STOP = "K_DATABASE_PROTECTION_STOP_dAe44t"; // OK Needed by test & verify
 
         public const string K_DB_ACCOUNT_PINCODE_NEEDED = "K_DATABASE_PROTECTION_NEED_PINCODE_lki5dt"; // OK Needed by test & verify
-        public const string K_DB_ACCOUNT_CONNECTED = "K_DATABASE_ACCOUNT_CONNECTED_de4be4t"; // OK Needed by test & verify
+        public const string K_DB_ACCOUNT_READY = "K_DATABASE_ACCOUNT_READY_de4be4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Load datas
         public const string K_DATA_EDITOR_START_LOADING = "K_DATAS_EDITOR_START_LOADING_Mr524ztr"; // OK Needed by test & verify

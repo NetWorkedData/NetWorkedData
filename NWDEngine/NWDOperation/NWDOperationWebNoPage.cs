@@ -62,7 +62,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebNoPage Create()");
             NWDOperationWebNoPage rReturn = null;
-            if (NWDTypeLauncher.DataLoaded() == true)
+            if (NWDDataManager.SharedInstance().DataLoaded() == true)
             {
                 if (sName == null)
                 {

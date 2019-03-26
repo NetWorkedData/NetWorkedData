@@ -123,7 +123,7 @@ namespace NetWorkedData
             {
                 tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED, delegate (BTBNotification sNotification)
                 {
-                    float tPurcent = (float)NWDTypeLauncher.ClassEditorDataLoaded / (float)NWDTypeLauncher.ClassEditorExpected;
+                    float tPurcent = NWDDataManager.SharedInstance().PurcentEditorLoaded();
                     NotificationDatasEditorPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
                 });
             }
@@ -148,7 +148,7 @@ namespace NetWorkedData
             {
                 tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED, delegate (BTBNotification sNotification)
                 {
-                    float tPurcent = (float)NWDTypeLauncher.ClassAccountDataLoaded / (float)NWDTypeLauncher.ClassAccountExpected;
+                    float tPurcent = NWDDataManager.SharedInstance().PurcentAccountLoaded();
                     NotificationDatasAccountPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
                 });
             }

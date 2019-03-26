@@ -35,7 +35,7 @@ namespace NetWorkedData
             {
                 EngineLaunch(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_CONNECTED, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_READY, delegate (BTBNotification sNotification)
             {
                 DBEditorConnected(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
@@ -61,7 +61,7 @@ namespace NetWorkedData
             {
                 DBAccountPinCodeNeeded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED, delegate (BTBNotification sNotification)
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_READY, delegate (BTBNotification sNotification)
             {
                 DBAccountConnected(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
@@ -73,7 +73,7 @@ namespace NetWorkedData
             });
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED, delegate (BTBNotification sNotification)
             {
-                float tPurcent = (float)NWDTypeLauncher.ClassEditorDataLoaded / (float)NWDTypeLauncher.ClassEditorExpected;
+                float tPurcent = NWDDataManager.SharedInstance().PurcentEditorLoaded();
                 DataEditorPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
             });
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (BTBNotification sNotification)
@@ -87,7 +87,7 @@ namespace NetWorkedData
             });
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED, delegate (BTBNotification sNotification)
             {
-                float tPurcent = (float)NWDTypeLauncher.ClassAccountDataLoaded / (float)NWDTypeLauncher.ClassAccountExpected;
+                float tPurcent = NWDDataManager.SharedInstance().PurcentAccountLoaded();
                 DataAccountPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
             });
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED, delegate (BTBNotification sNotification)
@@ -101,7 +101,7 @@ namespace NetWorkedData
             });
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED, delegate (BTBNotification sNotification)
             {
-                float tPurcent = (float)NWDTypeLauncher.ClassDataLoaded / (float)NWDTypeLauncher.ClassExpected;
+                float tPurcent = NWDDataManager.SharedInstance().PurcentLoaded();
                 DataPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
             });
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
@@ -119,7 +119,7 @@ namespace NetWorkedData
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH);
 
 
-            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_CONNECTED);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_READY);
 
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
@@ -127,7 +127,7 @@ namespace NetWorkedData
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
 
-            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_READY);
 
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);

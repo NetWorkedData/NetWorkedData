@@ -35,6 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
+            // waiting ... do nothing
             bool rReturn = true;
             BTBBenchmark.Start();
             if (DataEditorConnected == false && DataEditorConnectionInProgress == false)
@@ -182,16 +183,16 @@ namespace NetWorkedData
                     Debug.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " : " + tAccountPass);
                 }
 
-                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-                {
-                    if (!File.Exists(tDatabasePathAccount) && string.IsNullOrEmpty(sSurProtection))
-                    {
-                        Debug.LogWarning("NEED NEW DATABASE ACCOUNT");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
-                        NWDTypeLauncher.CodePinCreationNeeded = true;
-                        rReturn = false;
-                    }
-                }
+                //if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+                //{
+                //    if (!File.Exists(tDatabasePathAccount) && string.IsNullOrEmpty(sSurProtection))
+                //    {
+                //        Debug.LogWarning("NEED NEW DATABASE ACCOUNT");
+                //        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+                //        NWDTypeLauncher.CodePinCreationNeeded = true;
+                //        rReturn = false;
+                //    }
+                //}
                 if (rReturn == true)
                 {
                     SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
@@ -214,11 +215,11 @@ namespace NetWorkedData
                     if (rReturn == true)
                     {
                         DataAccountConnected = true;
-                        NWDTypeLauncher.CodePinNeeded = false;
+                        //NWDTypeLauncher.CodePinNeeded = false;
                     }
                     else
                     {
-                        NWDTypeLauncher.CodePinNeeded = true;
+                        //NWDTypeLauncher.CodePinNeeded = true;
                     }
                     DataAccountConnectionInProgress = false;
                 }
@@ -374,43 +375,14 @@ namespace NetWorkedData
         //}
 
         //-------------------------------------------------------------------------------------------------------------
-        public void DecconnectFromDatabaseAccount()
+        public void DeconnectFromDatabaseAccount()
         {
-            Debug.Log("DecconnectFromDatabaseAccount ()");
-            DataAccountConnected = false;
-            //Close SLQite
-            if (SQLiteConnectionAccount != null)
-            {
-                //SQLiteConnectionAccount.Commit();
-                //SQLiteConnectionAccount.Dispose();
-                SQLiteConnectionAccount.Close();
-            }
-            SQLiteConnectionAccount = null;
-            NWDDataManager.SharedInstance().DataAccountLoaded = false;
-            NWDDataManager.SharedInstance().DataAccountConnected = false;
-            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            {
-                NWDTypeLauncher.CodePinNeeded = true;
-                NWDTypeLauncher.CodePinCreationNeeded = false;
-                NWDTypeLauncher.CodePinValue = string.Empty;
-                NWDTypeLauncher.CodePinValueConfirm = string.Empty;
-                if (DatabaseAccountExists() == false)
-                {
-                    NWDTypeLauncher.CodePinCreationNeeded = true;
-                }
-            }
-            // reload empty object
-            NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
+            NWDLauncher.DeconnectFromDatabaseAccount();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDatabaseAccount()
         {
-            DecconnectFromDatabaseAccount();
-            File.Delete(PathDatabaseAccount());
-            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            {
-                NWDTypeLauncher.CodePinCreationNeeded = true;
-            }
+            NWDLauncher.DeleteDatabaseAccount();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDatabaseEditor()
@@ -426,7 +398,7 @@ namespace NetWorkedData
             }
             SQLiteConnectionEditor = null;
             // reload empty object
-            NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
+            ReloadAllObjectsEditor();
             // database is not connected
 #if UNITY_EDITOR
             if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
@@ -517,7 +489,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
-                    Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
+                    //Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
                     NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
             }
@@ -631,7 +603,7 @@ namespace NetWorkedData
                 {
                     if (SQLiteConnectionAccount != null)
                     {
-                        Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+                        //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
                         SQLiteConnectionAccount.CreateTableByType(sType);
                     }
                 }
@@ -642,7 +614,7 @@ namespace NetWorkedData
                 {
                     if (SQLiteConnectionEditor != null)
                     {
-                        Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+                        //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
                         SQLiteConnectionEditor.CreateTableByType(sType);
                     }
                 }
