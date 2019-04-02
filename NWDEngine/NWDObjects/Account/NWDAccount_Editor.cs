@@ -282,10 +282,10 @@ namespace NetWorkedData
             tY += NWDGUI.kFieldMarge * 2;
             tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
             tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            /*foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
                 tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            }
+            }*/
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
