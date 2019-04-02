@@ -393,22 +393,24 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDGameDataManager Awake ()");
             SceneManager.sceneLoaded += OnSceneLoaded;
-//Debug.Log("<b>NWDGameDataManager Awake() </b>");
-            if (Application.isEditor == true)
-            {
-                if (Application.isPlaying == true)
-                {
-                    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
-                }
-                else
-                {
-                    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
-                }
-            }
-            else
-            {
-                Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
-            }
+            //Debug.Log("<b>NWDGameDataManager Awake() </b>");
+            //if (Application.isEditor == true)
+            //{
+            //    if (Application.isPlaying == true)
+            //    {
+            //        Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+            //}
+
+            NWDToolbox.EditorAndPlaying("NWDGameDataManager Awake()");
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)

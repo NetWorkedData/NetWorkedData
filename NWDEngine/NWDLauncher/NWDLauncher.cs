@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using SQLite4Unity3d;
 using BasicToolBox;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -47,6 +50,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
+        static private bool Launched = false;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDStatut GetState()
         {
@@ -55,21 +59,52 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private bool EditorByPass;
         //-------------------------------------------------------------------------------------------------------------
+        const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
+        //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
-            EditorByPass = false;
-#if UNITY_EDITOR
-            if (Application.isEditor && Application.isPlaying == false)
+            if (Launched == false)
             {
-                EditorByPass = true;
+                Launched = true;
+
+                NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
+                EditorByPass = false;
+#if UNITY_EDITOR
+                EditorApplication.quitting += Quit;
+                if (EditorApplication.isPlayingOrWillChangePlaymode == false)
+                {
+                    Debug.Log("EditorByPass = true");
+                    EditorByPass = true;
+                    if (EditorPrefs.HasKey(K_PINCODE_KEY))
+                    {
+                        string tPincode = EditorPrefs.GetString(K_PINCODE_KEY);
+                        Debug.Log("and tPincode found with value = '" + tPincode + "'");
+                    }
+                }
+#endif
+                LaunchNext();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static void Quit()
+        {
+            // close connection?
+            //TODO: close connection
+
+            // delete editor key
+#if UNITY_EDITOR
+            Debug.Log("Quitting the Editor");
+            if (EditorPrefs.HasKey(K_PINCODE_KEY))
+            {
+                EditorPrefs.DeleteKey(K_PINCODE_KEY);
             }
 #endif
-            LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void LaunchNext()
         {
             Debug.Log("LaunchNext() with state = "+ State.ToString());
+            NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
                 case NWDStatut.Error:

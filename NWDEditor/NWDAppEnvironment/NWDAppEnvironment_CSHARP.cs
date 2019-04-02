@@ -114,19 +114,19 @@ namespace NetWorkedData
                 rReturn.AppendLine(tPropertyName + ".AdminKeyHash = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
                 rReturn.AppendLine(tPropertyName + ".AdminInPlayer = " + AdminInPlayer.ToString().ToLower() + ";");
             }
-            rReturn.AppendLine(tPropertyName + ".RescueEmail = \"" + RescueEmail.Replace("\"", "\\\"") + "\";");
+            rReturn.AppendLine(tPropertyName + ".RescueEmail = \"" + RescueEmail.Replace("\"", "\\\"").Trim() + "\";");
             rReturn.AppendLine(tPropertyName + ".TokenHistoric = " + TokenHistoric.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + ".MailHost =  \"" + MailHost + " \";");
+            rReturn.AppendLine(tPropertyName + ".MailHost =  \"" + MailHost.Trim() + "\";");
             rReturn.AppendLine(tPropertyName + ".MailPort = " + MailPort.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + ".MailUserName =  \"" + MailUserName + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailPassword =  \"" + MailPassword.Replace("\"", "\\\"") + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailDomain =  \"" + MailDomain + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailAuthentication =  \"" + MailAuthentication + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailEnableStarttlsAuto =  \"" + MailEnableStarttlsAuto + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailOpenSSLVerifyMode =  \"" + MailOpenSSLVerifyMode + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailOpenSSLVerifyMode =  \"" + MailOpenSSLVerifyMode + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailFrom =  \"" + MailFrom + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailReplyTo =  \"" + MailReplyTo + " \";");
+            rReturn.AppendLine(tPropertyName + ".MailUserName =  \"" + MailUserName.Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailPassword =  \"" + MailPassword.Replace("\"", "\\\"") + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailDomain =  \"" + MailDomain.Trim() + " \";");
+            rReturn.AppendLine(tPropertyName + ".MailAuthentication =  \"" + MailAuthentication.Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailEnableStarttlsAuto =  \"" + MailEnableStarttlsAuto.Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailOpenSSLVerifyMode =  \"" + MailOpenSSLVerifyMode.Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailOpenSSLVerifyMode =  \"" + MailOpenSSLVerifyMode.Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailFrom =  \"" + MailFrom.Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + ".MailReplyTo =  \"" + MailReplyTo.Trim() + "\";");
             rReturn.AppendLine("#endif");
             if (AdminInPlayer == true)
             {

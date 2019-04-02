@@ -171,11 +171,30 @@ namespace NetWorkedData
                     Debug.LogWarning("### Database EXISTS NEED PINCODE");
                     State = NWDStatut.DataAccountCodePinRequest;
                     BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
+#if UNITY_EDITOR
+                    if (EditorByPass == true)
+                    {
+                        if (EditorPrefs.HasKey(K_PINCODE_KEY))
+                        {
+                            DatabaseAccountConnection(EditorPrefs.GetString(K_PINCODE_KEY));
+                        }
+                    }
+#endif
                 }
             }
             else
             {
-                DatabaseAccountConnection(string.Empty);
+                string tPincode = string.Empty;
+#if UNITY_EDITOR
+                if (EditorByPass == true)
+                {
+                    if (EditorPrefs.HasKey(K_PINCODE_KEY))
+                    {
+                        tPincode = EditorPrefs.GetString(K_PINCODE_KEY);
+                    }
+                }
+#endif
+                DatabaseAccountConnection(tPincode);
             }
             BTBBenchmark.Finish();
         }
@@ -216,6 +235,13 @@ namespace NetWorkedData
                     CodePinTentative = 0;
                     if (NWDAppConfiguration.SharedInstance().SurProtected == true)
                     {
+#if UNITY_EDITOR
+                        if (EditorByPass == true)
+                        {
+                            EditorPrefs.SetString(K_PINCODE_KEY, sSurProtection);
+                        }
+#endif
+
                         State = NWDStatut.DataAccountCodePinSuccess;
                         //Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
                         BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
