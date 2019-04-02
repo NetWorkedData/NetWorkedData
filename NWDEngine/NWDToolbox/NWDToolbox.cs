@@ -32,6 +32,45 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region class method
         //-------------------------------------------------------------------------------------------------------------
+        public static void EditorAndPlaying(string sWhere = "")
+        {
+
+#if UNITY_EDITOR
+            if (EditorApplication.isPlayingOrWillChangePlaymode == true)
+            {
+                Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS OR WILL PLAYING</color>  ");
+            }
+            else
+            {
+                Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT AND NOT SWITCH TO IT PLAYING</color> ");
+            }
+            if (EditorApplication.isPlaying == true)
+                {
+                    Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                }
+                else
+                {
+                    Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                }
+#endif
+
+            if (Application.isEditor == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    Debug.Log("<b>"+ sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                }
+                else
+                {
+                    Debug.Log("<b>"+ sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                }
+            }
+            else
+            {
+                Debug.Log("<b>"+ sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static Texture2D TextureFromColor(Color sColor)
         {
             Texture2D rResult = new Texture2D(1, 1);
@@ -537,7 +576,8 @@ namespace NetWorkedData
             }
             if (AssetDatabase.IsValidFolder(tEngineRootFolder) == false)
             {
-                AssetDatabase.CreateFolder(tEngineRoot, tFolder);
+                //AssetDatabase.CreateFolder(tEngineRoot, tFolder);
+                Directory.CreateDirectory(tEngineRootFolder);
                 AssetDatabase.ImportAsset(tEngineRootFolder);
             }
 

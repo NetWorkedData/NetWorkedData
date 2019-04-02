@@ -170,6 +170,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
+            //NWDAppConfiguration.SharedInstance().PreloadDatasInEditor = EditorGUILayout.Toggle("Preload In Editor", NWDAppConfiguration.SharedInstance().PreloadDatasInEditor);
             EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
