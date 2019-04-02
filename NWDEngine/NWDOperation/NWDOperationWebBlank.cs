@@ -62,7 +62,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebBlank Create()");
             NWDOperationWebBlank rReturn = null;
-            if (NWDTypeLauncher.DataLoaded() == true)
+            if (NWDDataManager.SharedInstance().DataLoaded() == true)
             {
                 if (sName == null)
                 {

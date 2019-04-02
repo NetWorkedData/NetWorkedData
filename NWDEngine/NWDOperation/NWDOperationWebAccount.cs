@@ -78,7 +78,7 @@ namespace NetWorkedData
                                                      NWDAppEnvironment sEnvironment = null)
         {
             NWDOperationWebAccount rReturn = null;
-            if (NWDTypeLauncher.DataLoaded() == true)
+            if (NWDDataManager.SharedInstance().DataLoaded() == true)
             {
                 if (sName == null)
                 {

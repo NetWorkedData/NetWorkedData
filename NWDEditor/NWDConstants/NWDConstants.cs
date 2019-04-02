@@ -132,6 +132,8 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_PURGE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Purge all tables datas on local";
         public const string K_MENU_LOCAL_RESET_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Reset all tables datas on local";
         public const string K_MENU_LOCAL_UPDATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Update all tables datas on local";
+        public const string K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Deconnect Account Database on local";
+        public const string K_MENU_LOCAL_DELETEACCOUNTE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Delete Account Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";
         public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
@@ -374,7 +376,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_ONE_OBJECT_FILTERED = "1 object in result";
         public const string K_APP_TABLE_X_OBJECTS_FILTERED = " objects in result";
         public const string K_APP_TABLE_TOOLS_ZONE = "Table Tools";
-        public const string K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE = "DATAS ARE NOT LOADING";
+        //public const string K_APP_TABLE_DATAS_ARE_NOT_LOADING_ZONE = "DATAS ARE NOT LOADING";
         public const string K_APP_TABLE_SHOW_TOOLS = "Show tools";
 
         public const string K_APP_WS_RESET_WARNING = "Warning WS";

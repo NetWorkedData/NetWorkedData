@@ -27,45 +27,27 @@ namespace NetWorkedData
 #if UNITY_EDITOR
     [InitializeOnLoad]
 #endif
-    public class NWDTypeLauncher
+    public class NWDTypeLauncher // TODO : put in static?
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The lib is launching.
         /// </summary>
-        public static bool IsLaunching = false;
+        //public static bool IsLaunching = false;
         /// <summary>
         /// The lib is launched.
         /// </summary>
-        public static bool IsLaunched = false;
-        /// <summary>
-        /// The datas are loaded.
-        /// </summary>
-        //public static bool DataEditorConnected = false;
-        //public static bool DataAccountConnected = false;
-        //public static bool DataEditorLoaded = false;
-        //public static bool DataAccountLoaded = false;
-        /// <summary>
-        /// Classes expected.
-        /// </summary>
-        public static int ClassesEditorExpected = 0;
-        public static int ClassesAccountExpected = 0;
-        /// <summary>
-        /// Classes NWDbasis generic data loaded.
-        /// </summary>
-        public static int ClassesEditorDataLoaded = 0;
-        public static int ClassesAccountDataLoaded = 0;
+        //public static bool IsLaunched = false;
         /// <summary>
         /// All Types array.
         /// </summary>
         public static Type[] AllTypes;
-
-        public static int Tentative = 0;
         //-------------------------------------------------------------------------------------------------------------
-        public static string CodePinValue;
-        public static string CodePinValueConfirm;
-        public static bool NeedCodePin = false;
-        public static bool NeedNewCodePin = false;
+        //public static int CodePinTentative = 0;
+        //public static string CodePinValue;
+        //public static string CodePinValueConfirm;
+        //public static bool CodePinNeeded = false;
+        //public static bool CodePinCreationNeeded = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes the <see cref="T:NetWorkedData.NWDTypeLauncher"/> class.
@@ -89,10 +71,7 @@ namespace NetWorkedData
         /// </summary>
         public static void Launcher()
         {
-            if (IsLaunched == false && IsLaunching == false)
-            {
-                RunLauncher();
-            }
+            NWDLauncher.Launch();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -113,15 +92,8 @@ namespace NetWorkedData
             //NWDDebug.Log("NWDTypeLauncher RunLauncher()");
             // not double lauch
             // not double launching!
-            if (IsLaunched == false && IsLaunching == false)
+            if (NWDLauncher.GetState() == NWDStatut.EngineLaunching)
             {
-                // lauching in progress
-                IsLaunching = true;
-                // benchmark
-                BTBBenchmark.Start();
-                // start to reccord memory usage
-                long tStartMemory = System.GC.GetTotalMemory(true);
-                BTBBenchmark.Start("Launcher() Engine");
                 // craeta a list to reccord all classes
                 List<Type> tTypeList = new List<Type>();
                 // Find all Type of NWDType
@@ -150,182 +122,147 @@ namespace NetWorkedData
                 }
                 AllTypes = tTypeList.ToArray();
                 NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
-                // Notify NWD is launched
-                IsLaunched = true;
-                // connect to database;
-                BTBBenchmark.Finish("Launcher() Engine");
-                // Ok engine is launched
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
-                // start connexion to database file
-                DatabaseEditorLauncher();
-
-                // connection to account database 
-                DatabaseAccountLauncher();
+                NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
+                NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
+                NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseEditorLauncher()
-        {
-            if (IsLaunched == true && NWDDataManager.SharedInstance().DataEditorConnected == false && IsLaunching == true)
-            {
-                // get sharedInstance
-                NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
-                // connect editor database
-                NWDDataManager.SharedInstance().DataEditorConnected = tShareInstance.ConnectToDatabaseEditor();
-                //Load datas editor
-                DatabaseEditorLoadDatas();
-            }
-        }//-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseEditorLoadDatas()
-        {
-            BTBBenchmark.Start();
-            if (IsLaunched == true && NWDDataManager.SharedInstance().DataEditorConnected == true && IsLaunching == true)
-            {
-                // Ok database is connected
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
-                // start to lauch datas from database
-                // create, recreate or update all account's tables!
-                NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
-                // Loaded data 
-                if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
-                {
-                    bool tEditorByPass = false;
-#if UNITY_EDITOR
-                    if (Application.isEditor && Application.isPlaying == false)
-                    {
-                        tEditorByPass = true;
-                        //Debug.Log("NWD => Preload Datas bypass by editor");
-                    }
-#endif
-                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
-                    {
-                        BTBBenchmark.Start("DatabaseEditorLoadDatas() load Datas");
-                        NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
-                        BTBBenchmark.Finish("DatabaseEditorLoadDatas() load Datas");
-                    }
-                }
-                // finish launch
-                NWDDataManager.SharedInstance().DataEditorLoaded = true;
-                //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-            }
-            BTBBenchmark.Finish();
-        }
+        //public static void DatabaseEditorLauncher()
+        //{
+        //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataEditorConnected == false)
+        //    {
+        //        if (NWDDataManager.SharedInstance().ConnectToDatabaseEditor())
+        //        {
+        //            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseAccountLauncher()
-        {
-            BTBBenchmark.Start();
-            if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == false && IsLaunching == true)
-            {
-                string tSurProtection = string.Empty;
-                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-                {
-                    NWDTypeLauncher.NeedCodePin = true;
-                    NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
-                    if (tShareInstance.DatabaseAccountExists() == false)
-                    {
-                        Debug.LogWarning("### Database NOT EXISTS");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_NEED_PINCODE);
-                        NWDTypeLauncher.NeedNewCodePin = true;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("### Database EXISTS NEED PINCOCE");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_REQUEST);
-                    }
-                }
-                else
-                {
-                    DatabaseAccountConnection(string.Empty);
-                }
-            }
-            BTBBenchmark.Finish();
-        }
+        //public static void DatabaseEditorLoadDatas()
+        //{
+        //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataEditorConnected == true)
+        //    {
+        //        if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+        //        {
+        //            NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
+        //        }
+        //        NWDDataManager.SharedInstance().DataEditorLoaded = true;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseAccountConnection(string sSurProtection)
-        {
-            Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
-            BTBBenchmark.Start();
-            //if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
-                if (NWDDataManager.SharedInstance().DataAccountConnected == false)
-                {
-                Tentative++;
-                // Get ShareInstance of datamanager instance
-                NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
-                NWDDataManager.SharedInstance().DataAccountConnected = tShareInstance.ConnectToDatabaseAccount(sSurProtection);
-                    if (NWDDataManager.SharedInstance().DataAccountConnected == false)
-                    {
-                        if (Tentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
-                        {
-#if UNITY_EDITOR
-                            EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
-#endif
-                            Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + Tentative + " : " + sSurProtection+"</color>");
-                            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_FAIL);
-                            //DatabaseAccountLauncher();
-                        }
-                        else
-                        {
-                            Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + Tentative + "</color>");
-                            // Kill App || Destroy Database || Call FBI || Vodoo ?
-                            // decide yoursel with this notification!
-                            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_STOP);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + Tentative + "</color>");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_PROTECTION_SUCCESS);
-                        DatabaseAccountLoadDatas();
-                    }
-            }
-            BTBBenchmark.Finish();
-        }
+        //public static void DatabaseAccountLauncher()
+        //{
+        //    BTBBenchmark.Start();
+        //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == false && IsLaunching == true)
+        //    {
+        //        string tSurProtection = string.Empty;
+        //        if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+        //        {
+        //            NWDTypeLauncher.CodePinNeeded = true;
+        //            NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
+        //            if (tShareInstance.DatabaseAccountExists() == false)
+        //            {
+        //                Debug.LogWarning("### Database NOT EXISTS");
+        //                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+        //                NWDTypeLauncher.CodePinCreationNeeded = true;
+        //            }
+        //            else
+        //            {
+        //                Debug.LogWarning("### Database EXISTS NEED PINCODE");
+        //                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            DatabaseAccountConnection(string.Empty);
+        //        }
+        //    }
+        //    BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void DatabaseAccountLoadDatas()
-        {
-            BTBBenchmark.Start();
-            if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == true)
-            {
-                // Ok database is connected
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
-                // start to lauch datas from database
-                // create, recreate or update all account's tables!
-                NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
-                // Loaded data 
-                if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
-                {
-                    bool tEditorByPass = false;
-#if UNITY_EDITOR
-                    if (Application.isEditor && Application.isPlaying == false)
-                    {
-                        tEditorByPass = true;
-                        //Debug.Log("NWD => Preload Datas bypass by editor");
-                    }
-#endif
-                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
-                    {
-                        BTBBenchmark.Start("DatabaseAccountLoadDatas() load Datas");
-                        NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-                        BTBBenchmark.Finish("DatabaseAccountLoadDatas() load Datas");
-                    }
-                }
-                // finish launch
-                NWDDataManager.SharedInstance().DataAccountLoaded = true;
-                IsLaunching = false;
-                //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-            }
-            BTBBenchmark.Finish();
-        }
+//        public static void DatabaseAccountConnection(string sSurProtection)
+//        {
+//            Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
+//            BTBBenchmark.Start();
+//            //if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
+//            if (NWDDataManager.SharedInstance().DataAccountConnected == false)
+//            {
+//                CodePinTentative++;
+//                // Get ShareInstance of datamanager instance
+//                if (NWDDataManager.SharedInstance().ConnectToDatabaseAccount(sSurProtection) == false)
+//                {
+//                    if (CodePinTentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
+//                    {
+//#if UNITY_EDITOR
+//                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
+//#endif
+//                        Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
+//                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
+//                        //DatabaseAccountLauncher();
+//                    }
+//                    else
+//                    {
+//                        Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
+//                        // Kill App || Destroy Database || Call FBI || Vodoo ?
+//                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
+//                    }
+//                }
+//                else
+//                {
+//                    CodePinTentative = 0;
+//                    if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+//                    {
+//                        Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
+//                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
+//                    }
+//                    NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+//                    Debug.Log("<color=orange>Database is connected</color>");
+//                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_CONNECTED);
+//#if UNITY_EDITOR
+//                    if (Application.isEditor && Application.isPlaying == false)
+//                    {
+//                        DatabaseAccountLoadDatas();
+//                    }
+//#endif
+        //        }
+        //    }
+        //    BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static bool DataLoaded()
-        {
-            bool rReturn = true;
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false || NWDDataManager.SharedInstance().DataAccountLoaded == false)
-            {
-                rReturn = false;
-            }
-            return rReturn;
-        }
+//        public static void DatabaseAccountLoadDatas()
+//        {
+//            BTBBenchmark.Start();
+//            if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == true)
+//            {
+//                // Ok database is connected
+//                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED);
+//                // start to lauch datas from database
+//                // create, recreate or update all account's tables!
+//                // Loaded data 
+//                if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
+//                {
+//                    bool tEditorByPass = false;
+//#if UNITY_EDITOR
+//                    if (Application.isEditor && Application.isPlaying == false)
+//                    {
+//                        tEditorByPass = true;
+//                        //Debug.Log("NWD => Preload Datas bypass by editor");
+//                    }
+//#endif
+        //            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
+        //            {
+        //                BTBBenchmark.Start("DatabaseAccountLoadDatas() load Datas");
+        //                NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
+        //                BTBBenchmark.Finish("DatabaseAccountLoadDatas() load Datas");
+        //            }
+        //        }
+        //        // finish launch
+        //        NWDDataManager.SharedInstance().DataAccountLoaded = true;
+        //        //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
+        //    }
+        //    BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

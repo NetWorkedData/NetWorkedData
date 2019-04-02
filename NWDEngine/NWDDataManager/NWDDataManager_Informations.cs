@@ -56,6 +56,21 @@ namespace NetWorkedData
             return InformationsString;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public float PurcentLoaded()
+        {
+            return (float)ClassDataLoaded / (float)ClassExpected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float PurcentEditorLoaded()
+        {
+            return (float)ClassEditorDataLoaded / (float)ClassEditorExpected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float PurcentAccountLoaded()
+        {
+            return (float)ClassAccountDataLoaded / (float)ClassAccountExpected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

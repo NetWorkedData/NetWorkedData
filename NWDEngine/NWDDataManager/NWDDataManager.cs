@@ -13,12 +13,19 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDDataManager
+    public partial class NWDDataManager  // TODO : put in static?
     {
         //-------------------------------------------------------------------------------------------------------------
         const string PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------
-        private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
+        private static readonly NWDDataManager kSharedInstance = new NWDDataManager();
+        //-------------------------------------------------------------------------------------------------------------
+        public int ClassExpected = 0;
+        public int ClassEditorExpected = 0;
+        public int ClassAccountExpected = 0;
+        public int ClassDataLoaded = 0;
+        public int ClassEditorDataLoaded = 0;
+        public int ClassAccountDataLoaded = 0;
         //-------------------------------------------------------------------------------------------------------------
         public bool DataAccountConnected = false;
         public bool DataAccountConnectionInProgress = false;
@@ -46,62 +53,90 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PlayerLanguageSave(string sNewLanguage)
         {
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
-            tUserLanguage.Value.SetStringValue(sNewLanguage);
-            tUserLanguage.UpdateData();
+            if (DataAccountLoaded == true)
+            {
+                NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+                tUserLanguage.Value.SetStringValue(sNewLanguage);
+                tUserLanguage.UpdateData();
+            }
+            else
+            {
+                BTBPrefsManager.ShareInstance().set(PlayerLanguageKey, sNewLanguage);
+            }
             PlayerLanguage = sNewLanguage;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
         {
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
-            if (tUserLanguage.Value.GetStringValue() == string.Empty)
+            if (DataAccountLoaded == true)
             {
-                tUserLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
-                tUserLanguage.UpdateData();
+                NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+                if (tUserLanguage.Value.GetStringValue() == string.Empty)
+                {
+                    tUserLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
+                    tUserLanguage.UpdateData();
+                }
+                PlayerLanguage = tUserLanguage.Value.GetStringValue();
             }
-            PlayerLanguage = tUserLanguage.Value.GetStringValue();
+            else
+            {
+                PlayerLanguage = BTBPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
+            }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private NWDDataManager ()
+        private NWDDataManager()
         {
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             //LoadPreferences(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        ~NWDDataManager ()
+        ~NWDDataManager()
         {
             SharedInstance().DataQueueExecute();
-            BTBNotificationManager.SharedInstance().RemoveAll ();
+            BTBNotificationManager.SharedInstance().RemoveAll();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool TestSaltMemorizationForAllClass ()
+        public bool TestSaltMemorizationForAllClass()
         {
             bool rReturn = true;
-            foreach (Type tType in mTypeList) {
+            foreach (Type tType in mTypeList)
+            {
                 if (NWDBasisHelper.FindTypeInfos(tType).SaltValid == false)
                 {
-                    Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
+                    //Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
                     rReturn = false;
                     break;
                 }
             }
-            if (rReturn == false) {
-                #if UNITY_EDITOR
+            if (rReturn == false)
+            {
+#if UNITY_EDITOR
                 //NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
-                #else
+#else
                 // no... ALERT USER ERROR IN APP DISTRIBUTION
-                #endif
+#endif
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDataManager SharedInstance() {
+        public static NWDDataManager SharedInstance()
+        {
             return kSharedInstance;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DataLoaded()
+        {
+            bool rReturn = true;
+            if (DataEditorLoaded == false || DataAccountLoaded == false)
+            {
+                rReturn = false;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

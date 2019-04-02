@@ -287,13 +287,9 @@ namespace NetWorkedData
             gameObject.SetActive(!gameObject.activeInHierarchy);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasLoaded(BTBNotification sNotification)
         {
             InitLocalizationList();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
-        {
             InitAccountList();
             SynchronizeTest();
         }

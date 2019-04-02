@@ -251,15 +251,21 @@ namespace NetWorkedData
         /// <param name="sInsertDataQueuePool">S insert data queue pool.</param>
         private void InsertDataQueueExecute(List<NWDTypeClass> sInsertDataQueuePool)
         {
-            if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null && NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+            if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
                 //BTBBenchmark.Start();
                 //Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
                 List<Type> tTypeList = new List<Type>();
                 if (sInsertDataQueuePool.Count > 0)
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    //}
+                    //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //}
                     foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                     {
                         tObject.InsertDataProceed();
@@ -270,8 +276,14 @@ namespace NetWorkedData
                         //    tMethodInfo.Invoke(tObject, null);
                         //}
                     }
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    //}
+                    //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    //}
                     foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                     {
                         Type tType = tObject.GetType();
@@ -413,13 +425,19 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             //Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
-            if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null && NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+            if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
                 List<Type> tTypeList = new List<Type>();
                 if (sUpdateDataQueuePool.Count > 0)
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    //}
+                    //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //}
                     foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                     {
                         tObject.UpdateDataProceed();
@@ -430,8 +448,14 @@ namespace NetWorkedData
                         //    tMethodInfo.Invoke(tObject, null);
                         //}
                     }
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    //}
+                    //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    //}
                     foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                     {
                         Type tType = tObject.GetType();
@@ -557,15 +581,21 @@ namespace NetWorkedData
         /// <param name="sDeleteDataQueuePool">S delete data queue pool.</param>
         private void DeleteDataQueueExecute(List<NWDTypeClass> sDeleteDataQueuePool)
         {
-            if (NWDDataManager.SharedInstance().SQLiteConnectionAccount != null && NWDDataManager.SharedInstance().SQLiteConnectionEditor != null)
+            if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
                 //BTBBenchmark.Start();
                 //Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
                 List<Type> tTypeList = new List<Type>();
                 if (sDeleteDataQueuePool.Count > 0)
                 {
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    //}
+                    //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //}
                     foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
                     {
                         tObject.DeleteDataProceed();
@@ -576,8 +606,14 @@ namespace NetWorkedData
                         //    tMethodInfo.Invoke(tObject, null);
                         //}
                     }
-                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                    //}
+                    //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
+                    //{
+                        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                    //}
                     foreach (NWDTypeClass tObject in kDeleteDataQueueMain)
                     {
                         Type tType = tObject.GetType();

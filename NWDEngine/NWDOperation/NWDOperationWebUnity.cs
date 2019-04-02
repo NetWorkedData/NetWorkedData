@@ -43,7 +43,7 @@ namespace NetWorkedData
         static public NWDOperationWebUnity Create(string sName, NWDAppEnvironment sEnvironment = null)
         {
             NWDOperationWebUnity rReturn = null;
-            if (NWDTypeLauncher.DataLoaded() == true)
+            if (NWDDataManager.SharedInstance().DataLoaded() == true)
             {
                 if (sName == null)
                 {
