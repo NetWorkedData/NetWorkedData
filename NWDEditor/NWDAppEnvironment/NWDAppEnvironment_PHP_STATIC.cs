@@ -1517,7 +1517,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQL.='`GoogleID`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`GoogleNotificationToken`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`InError`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            tFile.AppendLine("$tInsertSQL.='`MinVersion`, ';$tInsertSQLValue.= '\\'0.00.00\\', ';");
+            //tFile.AppendLine("$tInsertSQL.='`MinVersion`, ';$tInsertSQLValue.= '\\'0.00.00\\', ';");
             tFile.AppendLine("$tInsertSQL.='`Password`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`Preview`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`SecretKey`, '; $tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($tNewSecretKey).'\\', ';");
@@ -1531,6 +1531,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tInsert)");
             tFile.AppendLine("{");
             tFile.AppendLine("respondAdd('sql', $tInsertSQL);");
+            //tFile.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tInsertSQL.'', __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("error('ACC91');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");

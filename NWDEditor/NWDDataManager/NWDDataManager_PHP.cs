@@ -151,7 +151,7 @@ namespace NetWorkedData
             NWDError.CreateGenericError("webrequest", "OBSOLETE", "OBSOLETE", "OBSOLETE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
 
-			NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
 
             NWDError.CreateGenericError("RESCUE", "01", "{APP} : Forgotten password", "Hello,\r\n" +
@@ -187,6 +187,28 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().DataQueueExecute();
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void CreatePHPAllClass(NWDAppEnvironment sEnvironment ,bool sIncrement = true, bool sWriteOnDisk = true)
+        {
+            if (sIncrement == true)
+            {
+                NWDAppConfiguration.SharedInstance().WebBuildMax++;
+                NWDAppConfiguration.SharedInstance().WebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
+                NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuildMax, true);
+            }
+            else
+            {
+                string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
+                if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/" + tWebServiceFolder) == false)
+                {
+                    AssetDatabase.DeleteAsset(tOwnerServerFolderPath);
+                }
+            }
+            sEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
+            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass(bool sIncrement = true, bool sWriteOnDisk = true)
@@ -229,8 +251,8 @@ namespace NetWorkedData
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
         }
-            //-------------------------------------------------------------------------------------------------------------
-            public void ExportWebSites()
+        //-------------------------------------------------------------------------------------------------------------
+        public void ExportWebSites()
         {
             string tPath = EditorUtility.SaveFolderPanel("Export WebSite(s)", "", "NetWorkedDataServer");
             string tFolder = NWDAppConfiguration.SharedInstance().WebFolder;
@@ -244,9 +266,7 @@ namespace NetWorkedData
                     }
                     if (Directory.Exists(tPath + "/" + tFolder + "_AllVersions") == true)
                     {
-
                         string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-
                         NWDToolbox.ExportCopyFolderFiles(tOwnerFolderServer + "/", tPath + "/" + tFolder + "_AllVersions");
                     }
                 }
