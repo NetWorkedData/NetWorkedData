@@ -4,13 +4,13 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 using SQLite4Unity3d;
 using System.IO;
@@ -25,11 +25,12 @@ namespace NetWorkedData
         /// <summary>
         /// Reorder all localizations in all object for all properties (clean the string value).
         /// </summary>
+        [NWDAliasMethod(NWDConstants.M_ReOrderAllLocalizations)]
         public static void ReOrderAllLocalizations()
         {
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
@@ -80,7 +81,7 @@ namespace NetWorkedData
             string tPath = EditorUtility.SaveFilePanel(
                 "Export Localization CSV",
                 string.Empty,
-                Datas().ClassNamePHP + ".csv",
+                BasisHelper().ClassNamePHP + ".csv",
                 "csv");
             if (tPath != null)
             {
@@ -98,12 +99,13 @@ namespace NetWorkedData
         /// Exports all localization in CVS string.
         /// </summary>
         /// <returns>The all localization.</returns>
+        [NWDAliasMethod(NWDConstants.M_ExportLocalizationInCSV)]
         public static string ExportLocalizationInCSV()
         {
             string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tRows += tObject.ExportCSV(tLanguageArray);
             }
@@ -147,7 +149,7 @@ namespace NetWorkedData
                                 }
                             }
                         }
-                        tRows += "\"" + Datas().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
+                        tRows += "\"" + BasisHelper().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
                         foreach (string tLang in sLanguageArray)
                         {
                             if (tResultSplitDico.ContainsKey(tLang) == true)
@@ -176,6 +178,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sLanguageArray">S language array.</param>
         /// <param name="sCSVFileArray">S CSVF ile array.</param>
+        [NWDAliasMethod(NWDConstants.M_ImportAllLocalizations)]
         public static void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
             //Debug.Log ("ImportAllLocalizations");
@@ -215,7 +218,7 @@ namespace NetWorkedData
             }
             //if (tDico.ContainsKey ("Reference") && tDico.ContainsKey ("PropertyName") && tDico.ContainsKey ("Type")) 
             {
-                if (tDico["Type"] == Datas().ClassTrigramme)
+                if (tDico["Type"] == BasisHelper().ClassTrigramme)
                 {
                     //Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
                     NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tDico["Reference"]);

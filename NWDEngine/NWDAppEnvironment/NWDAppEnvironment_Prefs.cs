@@ -14,6 +14,7 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -31,35 +32,74 @@ namespace NetWorkedData
             }
             else
             {
-                BTBPrefsManager.ShareInstance().set(Environment + kPlayerStatusKey, PlayerStatut.ToString());
-                BTBPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
-                BTBPrefsManager.ShareInstance().set(Environment + kRequesTokenKey, RequesToken);
-                BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
+                //BTBPrefsManager.ShareInstance().set(Environment + kPlayerStatusKey, PlayerStatut.ToString());
+                //BTBPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
+                //BTBPrefsManager.ShareInstance().set(Environment + kRequesTokenKey, RequesToken);
+                //BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
+                //BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
+
+
+                NWDBasisPreferences.SetString(Environment + kPlayerStatusKey, this, PlayerStatut.ToString(), true);
+                NWDBasisPreferences.SetString(Environment + kPlayerAccountReferenceKey, this, PlayerAccountReference, false);
+                NWDBasisPreferences.SetString(Environment + kRequesTokenKey, this, RequesToken, true);
+                if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
+                {
+                    BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
+                    BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
+                }
+                else
+                {
+                    NWDBasisPreferences.SetString(Environment + kAnonymousPlayerAccountReferenceKey, this, AnonymousPlayerAccountReference, true);
+                    NWDBasisPreferences.SetString(Environment + kAnonymousResetPasswordKey, this, AnonymousResetPassword, true);
+                }
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SavePreferences(NWDOperationResult sData)
-        {
-            SavePreferences();
-            //TODO : save usefull information from webservice data result
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void SavePreferences(NWDOperationResult sData)
+        //{
+        //    SavePreferences();
+        //    //TODO : save usefull information from webservice data result
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void LoadPreferences()
         {
+            //try
+            //{
+            //    PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), BTBPrefsManager.ShareInstance().getString(Environment + kPlayerStatusKey), true);
+            //}
+            //catch (ArgumentException e)
+            //{
+            //    Debug.Log(e.StackTrace);
+            //}
+
+            //PlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
+            //RequesToken = BTBPrefsManager.ShareInstance().getString(Environment + kRequesTokenKey);
+            //AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
+            //AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
+
+
             try
             {
-                PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), BTBPrefsManager.ShareInstance().getString(Environment + kPlayerStatusKey), true);
+                PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), NWDBasisPreferences.GetString(Environment + kPlayerStatusKey, this, NWDAppEnvironmentPlayerStatut.Unknow.ToString(), true), true);
             }
             catch (ArgumentException e)
             {
                 Debug.Log(e.StackTrace);
             }
 
-            PlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
-            RequesToken = BTBPrefsManager.ShareInstance().getString(Environment + kRequesTokenKey);
-            AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
-            AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
+            PlayerAccountReference = NWDBasisPreferences.GetString(Environment + kPlayerAccountReferenceKey, this, string.Empty, false);
+            RequesToken = NWDBasisPreferences.GetString(Environment + kRequesTokenKey, this, string.Empty, true);
+            if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
+            {
+                AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
+                AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
+            }
+            else
+            {
+                AnonymousPlayerAccountReference = NWDBasisPreferences.GetString(Environment + kAnonymousPlayerAccountReferenceKey, this, string.Empty, true);
+                AnonymousResetPassword = NWDBasisPreferences.GetString(Environment + kAnonymousResetPasswordKey, this, string.Empty, true);
+            }
+
 
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
@@ -76,10 +116,13 @@ namespace NetWorkedData
         public void ResetPreferences()
         {
             ResetSession();
+            // and ?....
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetSession()
         {
+            SavePreferences(); // old datas for old Guy
+            NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log ("ResetSession in " + Environment);
             AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
             AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
@@ -89,10 +132,13 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetPlayerSession()
         {
+            SavePreferences(); // old datas for old Guy
+            NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log ("ResetPlayerSession in " + Environment);
             PlayerAccountReference = NWDToolbox.GenerateUniqueID();
             RequesToken = string.Empty;
@@ -100,20 +146,26 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAnonymousSession()
         {
+            SavePreferences(); // old datas for old Guy
+            NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log ("ResetAnonymousSession in " + Environment);
             AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
             AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RestaureAnonymousSession()
         {
+            SavePreferences(); // old datas for old Guy
+            NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log ("RestaureAnonymousSession in " + Environment);
             PlayerAccountReference = AnonymousPlayerAccountReference;
             RequesToken = string.Empty;
@@ -122,8 +174,10 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2018 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -7,7 +14,6 @@ using System;
 using System.Reflection;
 using System.IO;
 
-#if UNITY_EDITOR
 using UnityEditor;
 
 //=====================================================================================================================
@@ -62,7 +68,7 @@ namespace NetWorkedData
             {
                 NWDNodeCard tCard = tCardLine.Child;
 
-                Color tLineColor = NWDConstants.kNodeLineColor;
+                Color tLineColor = NWDGUI.kNodeLineColor;
                 //switch (tCardLine.ConType)
                 //{
                 //    case NWDNodeConnectionReferenceType.ReferenceType:
@@ -96,7 +102,7 @@ namespace NetWorkedData
                             {
                                 //Handles.color = Color.red;
                                 //Handles.DrawLine(Position, tCard.Position);
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture , 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDGUI.kImageBezierTexture , 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.green, NWDConstants.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, NWDConstants.kNodeLineColor, null, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 2.0F);
@@ -107,18 +113,18 @@ namespace NetWorkedData
                             {
                                 //Handles.DrawBezier(Position, Position, PositionTangent, PositionTangent, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
                                 Vector2 tBroken = new Vector2(Position.x + 30, Position.y);
-                                Handles.DrawBezier(Position, Position, tBroken, tBroken, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, Position, tBroken, tBroken, Color.red, NWDGUI.kImageBezierTexture, 2.0F);
                             }
                             break;
                         case NWDNodeConnectionType.OldCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDGUI.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
                         case NWDNodeConnectionType.FuturCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDGUI.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.blue, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
@@ -136,10 +142,10 @@ namespace NetWorkedData
             // Debug.Log("NWDNodeConnection DrawPlot()");
             if (ChildrenList.Count > 0)
             {
-                Handles.color = NWDConstants.kNodeLineColor;
-                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthMiniHalf);
-                Handles.color = NWDConstants.kNodeOverLineColor;
-                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthMiniHalf-1.0F);
+                Handles.color = NWDGUI.kNodeLineColor;
+                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthMiniHalf);
+                Handles.color = NWDGUI.kNodeOverLineColor;
+                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthMiniHalf-1.0F);
             }
         }
     }

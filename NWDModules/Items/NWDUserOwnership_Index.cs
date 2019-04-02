@@ -26,7 +26,15 @@ namespace NetWorkedData
     public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Create And Index
+        public override void AddonIndexMe()
+        {
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDesindexMe()
+        {
+            RemoveFromIndex();
+        }
         //-------------------------------------------------------------------------------------------------------------
         static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserOwnership>> kIndex = new Dictionary<string, List<NWDUserOwnership>>();

@@ -4,15 +4,9 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using BasicToolBox;
 #if UNITY_EDITOR
+using System;
+using System.IO;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -146,15 +140,48 @@ namespace NetWorkedData
             NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
+
+            NWDError.CreateGenericError("token", "RQT95", "Token error", "token allready used...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT96", "Token error", "token integrity error...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT97", "Token error", "token != token error...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT98", "Security error", "Security error one...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT99", "Security error", "Security error two...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+            NWDError.CreateGenericError("webrequest", "MAINTENANCE", "MAINTENANCE", "MAINTENANCE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("webrequest", "OBSOLETE", "OBSOLETE", "OBSOLETE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+
+			NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+
+            NWDError.CreateGenericError("RESCUE", "01", "{APP} : Forgotten password", "Hello,\r\n" +
+                                        "You forgot your password for the App {APP}'s account and ask to reset it." +
+                                        "If you didn't ask the reset, ignore it.\r\n" +
+                                        "Else, just click on this link to reset your password and receipt a new password by email: \r\n" +
+                                        "\r\n" +
+                                        "reset my password: {URL}\r\n" +
+                                        "\r\n" +
+                                        "Best regards,\r\n" +
+                                        "The {APP}'s team.", "OK");
+
+            NWDError.CreateGenericError("RESCUE", "02", "{APP} : Password rescue", "Hello,\r\n" +
+                                        "Your password was resetted!\r\n" +
+                                        "Best regards,\r\n" +
+                                        "The {APP}'s team.", "OK");
+
+            NWDError.CreateGenericError("RESCUE", "03", "{APP} : Password Resetted", "Hello,\r\n" +
+                                        "Your password for the App {APP}'s account was resetted to : \r\n" +
+                                        "\r\n" +
+                                        "{PASSWORD}\r\n" +
+                                        "\r\n" +
+                                        "Best regards,\r\n" +
+                                        "The {APP}'s team.", "OK");
+
             foreach (Type tType in mTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
                 tOperation++;
-                var tMethodInfo = tType.GetMethod("CreateAllError", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                }
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateAllError);
             }
 
             NWDDataManager.SharedInstance().DataQueueExecute();
@@ -162,35 +189,16 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHPAllClass(bool sIncrement = true)
+        public void CreatePHPAllClass(bool sIncrement = true, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start("Step one");
-            //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
-            //tPHPBuild++;
-            //BTBConfigManager.SharedInstance().Set(NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
-            //BTBConfigManager.SharedInstance().Save();
-
-            //NWDAppConfiguration.SharedInstance().WebBuild = tPHPBuild;
-
-            //TODO RECALCULATE THE NEW ORDER FOR THE WEBSERVICE
-            //TODO Class by class re-random the order of property for each class for webservice
-            //TODO memorize in Table by webbuild the new order
-
-            //TODO reccord the new Configuration;
-            string tProgressBarTitle = "NetWorkedData Create all php files";
-            float tCountClass = mTypeList.Count + 1;
-            float tOperation = 1;
-            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create environment php files", tOperation / tCountClass);
-            tOperation++;
-
             if (sIncrement == true)
             {
-                NWDAppConfiguration.SharedInstance().WebBuild++;
-                NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuild, true);
+                NWDAppConfiguration.SharedInstance().WebBuildMax++;
+                NWDAppConfiguration.SharedInstance().WebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
+                NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuildMax, true);
             }
             else
             {
-                // I must delete the actual folder and regenerate
                 string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
                 string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
                 if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/" + tWebServiceFolder) == false)
@@ -198,55 +206,34 @@ namespace NetWorkedData
                     AssetDatabase.DeleteAsset(tOwnerServerFolderPath);
                 }
             }
-
-            bool tCreated = CreateAllEnvironmentPHP();
-            //BTBBenchmark.Finish("Step one");
-
-            //BTBBenchmark.Start("Step two");
-            if (tCreated)
+            foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
             {
-                foreach (Type tType in mTypeList)
-                {
-                    EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
-                    tOperation++;
-                    var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
-                }
+                tEnvironement.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
             }
-            //BTBBenchmark.Finish("Step two");
-            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
-            EditorUtility.ClearProgressBar();
-
-            // TODO reccord the new Configuration;
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool CreateAllEnvironmentPHP()
+        public void ModelResetAllClass()
         {
-            bool rReturn = false;
-            if (CopyEnginePHP())
+            string tProgressBarTitle = "NetWorkedData Models Resets";
+            float tCountClass = mTypeList.Count + 1;
+            float tOperation = 1;
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset Model index", tOperation / tCountClass);
+            tOperation++;
+            foreach (Type tType in mTypeList)
             {
-                foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
-                {
-                    tEnvironement.CreatePHP();
-                }
-                rReturn = true;
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset " + tType.Name + " model", tOperation / tCountClass);
+                tOperation++;
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ModelReset);
             }
-            return rReturn;
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+            EditorUtility.ClearProgressBar();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ExportWebSites()
+            //-------------------------------------------------------------------------------------------------------------
+            public void ExportWebSites()
         {
             string tPath = EditorUtility.SaveFolderPanel("Export WebSite(s)", "", "NetWorkedDataServer");
-            //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
             string tFolder = NWDAppConfiguration.SharedInstance().WebFolder;
-            //string tFolder = "NetWorkedData";
-            //tFolder = new DirectoryInfo(NWDAppEnvironment.SelectedEnvironment().ServerHTTPS).Name;
-            //string tFolder = Path.get(NWDAppEnvironment.SelectedEnvironment().ServerHTTPS);
-            //kCounterExport++;
             if (tPath != null)
             {
                 if (tPath.Length != 0)
@@ -264,34 +251,6 @@ namespace NetWorkedData
                     }
                 }
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool CopyEnginePHP()
-        {
-            bool rReturn = false;
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-
-            string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer/Editor";
-            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            //Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
-
-            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
-            {
-                Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " MUST BE CREATE !!!");
-                AssetDatabase.CreateFolder(tOwnerFolderServer, tWebServiceFolder);
-                AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder);
-            }
-            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == true)
-            {
-                NWDToolbox.CopyFolderFiles(tFolderScript, tOwnerFolderServer + "/" + tWebServiceFolder);
-                rReturn = true;
-            }
-            else
-            {
-                Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " NOT CREATED !!!");
-            }
-            // TODO Copy the Special file too 
-            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

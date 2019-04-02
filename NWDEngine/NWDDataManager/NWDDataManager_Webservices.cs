@@ -24,126 +24,6 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//	#if UNITY_EDITOR
-	//	public class BTBOperationControllerMenuTest
-	//	{
-	//		static string KEmail = "";
-	//		static string KPassword = "";
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/test", false, 00)]
-	//		public static void Test ()
-	//		{
-	//			NWDOperationWebUnity.AddOperation ("test");
-	////			SharedInstance.AddWebRequestAllSynchronization ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/reset", false, 20)]
-	//		public static void AccountReset ()
-	//		{
-	//			NWDAppConfiguration.SharedInstance().SelectedEnvironment ().ResetSession ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/session test", false, 20)]
-	//		public static void SessionReset ()
-	//		{
-	//			SharedInstance.AddWebRequestSessionWithBlock(delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Progress");
-	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Finish");
-	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Error");
-	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Cancel");
-	//			},false,NWDAppConfiguration.SharedInstance().SelectedEnvironment ()
-	//			);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/sign-up", false, 22)]
-	//		public static void AccountSignUp ()
-	//		{
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			KPassword = "1234";
-	//			Debug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/sign-out", false, 23)]
-	//		public static void AccountSignOut ()
-	//		{
-	//			SharedInstance.AddWebRequestSignOut ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/sign-in", false, 24)]
-	//		public static void AccountSignIn ()
-	//		{
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/modifiy", false, 25)]
-	//		public static void AccountModify ()
-	//		{
-	//			string tOldPassword = KPassword + "";
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/delete", false, 26)]
-	//		public static void AccountDelete ()
-	//		{
-	//			SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
-	//		}
-	//
-	//
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/FLUSH QUEUE", false, 999)]
-	//		public static void FlushQueue ()
-	//		{
-	//			SharedInstance.WebRequestFlush ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/INFOS QUEUE", false, 999)]
-	//		public static void InfosQueue ()
-	//		{
-	//			SharedInstance.WebRequestInfos ();
-	//		}
-	//
-	//
-	//
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/AccountSequence A", false, 100)]
-	//		public static void AccountSequence ()
-	//		{
-	//			NWDAppConfiguration.SharedInstance().SelectedEnvironment ().ResetSession ();
-	//
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignOut ();
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			string tOldPassword = KPassword + "";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignOut ();
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//		}
-	//	}
-	//
-	//	#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDNetworkState
     {
@@ -158,17 +38,12 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public BTBOperationController WebOperationQueue = new BTBOperationController ();
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationClean (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public BTBOperationController AssetOperationQueue = new BTBOperationController();
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			//Debug.Log ("AddWebRequestAllSynchronization");
 			return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-		{
-			//Debug.Log ("AddWebRequestAllSynchronization");
-			return AddWebRequestAllSynchronizationCleanWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
@@ -181,21 +56,27 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationCleanWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronizationSpecial(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log ("AddWebRequestSynchronization");
+            return AddWebRequestSynchronizationSpecialWithBlock(sTypeList, null, null, null, null, sPriority, sEnvironment);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			//Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebCheckout AddWebRequestPull(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebSynchronisation AddWebRequestPull(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronization");
             return AddWebRequestPullWithBlock(sTypeList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebCheckout AddWebRequestPullForce(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebSynchronisation AddWebRequestPullForce(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronization");
             return AddWebRequestPullForceWithBlock(sTypeList, null, null, null, null, sPriority, sEnvironment);
@@ -206,8 +87,6 @@ namespace NetWorkedData
 			//Debug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
-		//		public List<Type> mTypeAccountDependantList = new List<Type> ();
-		//		public List<Type> mTypeNotAccountDependantList = new List<Type> ();
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestNotAccountDependantSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
@@ -308,7 +187,7 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("AddWebRequestAllSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
-			return NWDOperationWebSynchronisation.AddOperation ("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority, true);
+			return NWDOperationWebSynchronisation.AddOperation ("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority, NWDOperationSpecial.Clean);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationWithBlock (
@@ -330,9 +209,9 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			//Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
-			/*BTBOperationSynchronisation sOperation = */
-			return NWDOperationWebSynchronisation.AddOperation ("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
+            //Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
+            /*BTBOperationSynchronisation sOperation = */
+            return NWDOperationWebSynchronisation.AddOperation ("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationCleanWithBlock (List<Type> sTypeList,
@@ -342,12 +221,24 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			//Debug.Log ("AddWebRequestSynchronizationWithBlock");
+			//Debug.Log ("AddWebRequestSynchronizationCleanWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
-			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, true);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
+			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, NWDOperationSpecial.Clean);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronizationSpecialWithBlock(List<Type> sTypeList,
+            BTBOperationBlock sSuccessBlock = null,
+            BTBOperationBlock sErrorBlock = null,
+            BTBOperationBlock sCancelBlock = null,
+            BTBOperationBlock sProgressBlock = null,
+            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log ("AddWebRequestSynchronizationSpecialWithBlock");
+            /*BTBOperationSynchronisation sOperation = */
+            return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, NWDOperationSpecial.Special);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
 		                                                                             BTBOperationBlock sSuccessBlock = null, 
 		                                                                             BTBOperationBlock sErrorBlock = null, 
 		                                                                             BTBOperationBlock sCancelBlock = null,
@@ -359,7 +250,7 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebCheckout AddWebRequestPullWithBlock(List<Type> sTypeList,
+        public NWDOperationWebSynchronisation AddWebRequestPullWithBlock(List<Type> sTypeList,
                                                                                      BTBOperationBlock sSuccessBlock = null,
                                                                                      BTBOperationBlock sErrorBlock = null,
                                                                                      BTBOperationBlock sCancelBlock = null,
@@ -368,10 +259,11 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
             /*BTBOperationSynchronisation sOperation = */
-            return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
+            //return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
+            return NWDOperationWebSynchronisation.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, NWDOperationSpecial.Pull);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebCheckout AddWebRequestPullForceWithBlock(List<Type> sTypeList,
+        public NWDOperationWebSynchronisation AddWebRequestPullForceWithBlock(List<Type> sTypeList,
                                                                                      BTBOperationBlock sSuccessBlock = null,
                                                                                      BTBOperationBlock sErrorBlock = null,
                                                                                      BTBOperationBlock sCancelBlock = null,
@@ -380,7 +272,8 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
             /*BTBOperationSynchronisation sOperation = */
-            return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
+            //return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
+            return NWDOperationWebSynchronisation.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority, NWDOperationSpecial.Pull);
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForceWithBlock (List<Type> sTypeList,
@@ -642,24 +535,38 @@ namespace NetWorkedData
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The synchronize in progress.
-		/// </summary>
-		//		public static bool SynchronizeInProgress = false;
-		//		/// <summary>
-		//		/// The synchronize is in progress and another task want connect.
-		//		/// Of course because token flow integirty, it's not possible... So I could memorize the task an run after. 
-		//		/// But it's too long and difficult : I prefer to ask new Synchronise all 
-		//		/// Memorize to repeat as soon as possible without lost the token flow integrity
-		//		/// </summary>
-		//		public static bool SynchronizeRepeat = false;
-		//		/// <summary>
-		//		/// The synchronize is in progress and another task ask repeat but in force (update all begin timestamp 0.
-		//		/// So Memorize force required
-		//		/// </summary>
-		//		public static bool SynchronizeRepeatInForce = false;
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebMaintenance AddWebRequestMaintenanceWithBlock(BTBOperationBlock sSuccessBlock = null,
+                                                                BTBOperationBlock sErrorBlock = null,
+                                                                BTBOperationBlock sCancelBlock = null,
+                                                                BTBOperationBlock sProgressBlock = null,
+                                                                bool sPriority = false,
+                                                                NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log("AddWebRequestNoPageWithBlock");
+            NWDOperationWebMaintenance sOperation = NWDOperationWebMaintenance.Create("Maintenance with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "arghhh";
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The synchronize in progress.
+        /// </summary>
+        //		public static bool SynchronizeInProgress = false;
+        //		/// <summary>
+        //		/// The synchronize is in progress and another task want connect.
+        //		/// Of course because token flow integirty, it's not possible... So I could memorize the task an run after. 
+        //		/// But it's too long and difficult : I prefer to ask new Synchronise all 
+        //		/// Memorize to repeat as soon as possible without lost the token flow integrity
+        //		/// </summary>
+        //		public static bool SynchronizeRepeat = false;
+        //		/// <summary>
+        //		/// The synchronize is in progress and another task ask repeat but in force (update all begin timestamp 0.
+        //		/// So Memorize force required
+        //		/// </summary>
+        //		public static bool SynchronizeRepeatInForce = false;
+        //-------------------------------------------------------------------------------------------------------------
         public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference, string sAnonymousResetPassword)
 		{
 			// change account refrence 
@@ -674,8 +581,10 @@ namespace NetWorkedData
 
 			foreach (Type tType in mTypeList)
             {
-				var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null)
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_TryToChangeUserForAllObjects);
+                if (tMethodInfo != null)
                 {
 					tMethodInfo.Invoke (null, new object[]{ sEnvironment.PlayerAccountReference, sNewAccountReference });
 				}
@@ -692,7 +601,7 @@ namespace NetWorkedData
             SavePreferences(sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public void SynchronizationPullClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
+        public void SynchronizationPullClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList, NWDOperationSpecial sSpecial)
         {
             //BTBBenchmark.Start();
             //BTBBenchmark.Increment(sTypeList.Count());
@@ -700,47 +609,77 @@ namespace NetWorkedData
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
             //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
             //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+            
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
             {
-                List<Type> tTypeList = NWDDataManager.SharedInstance().mTypeList;
+                List<Type> tTypeList = SharedInstance().mTypeList;
                 sTypeList = tTypeList;
             }
-            bool sUpdateData = false;
+            
+            bool tUpdateData = false;
 			if (sTypeList != null)
-            {
+			{
+				List<string> tClassNameSync = new List<string>();
+				List<string> tClassNameNotSync = new List<string>();
+				List<string> tClassNameNotFound = new List<string>();
+				
 				foreach (Type tType in sTypeList)
                 {
-                    //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() tType = " + tType.Name);
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_SynchronizationPullData);
 
-					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
-                        string tResult = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sData }) as string;
+                        string tResult = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sData, sSpecial }) as string;
                         if (tResult == "YES")
                         {
-                            sUpdateData = true;
+                            tUpdateData = true;
+                            tClassNameSync.Add(tType.Name);
+                        }
+                        else
+                        {
+	                        tClassNameNotSync.Add(tType.Name);
                         }
                     }
                     else
                     {
-                        Debug.LogWarning("SynchronizationPullData not found for "+ tType.Name);
+	                    tClassNameNotFound.Add(tType.Name);
                     }
 				}
+				
+				////////////////////////////////////////////////////////////////////////////////////////////////////////
+				/*Debug.LogWarning("---------------------------------------------------");
+				Debug.LogWarning("class Updated : " + tClassNameSync.Count);
+				Debug.LogWarning("class not Updated : " + tClassNameNotSync.Count);
+				Debug.LogWarning("class not Found : " + tClassNameNotFound.Count);
+				Debug.LogWarning("---------------------------------------------------");
+				Debug.LogWarning("class not Updated List :");
+				tClassNameNotSync.Sort((x, y) => String.Compare(x, y, StringComparison.Ordinal));
+				foreach (string k in tClassNameNotSync)
+				{
+					Debug.LogWarning("" + k);
+				}
+				Debug.LogWarning("---------------------------------------------------");*/
+				////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
+			
             //BTBBenchmark.Start("DataQueueExecute");
-            NWDDataManager.SharedInstance().DataQueueExecute();
+            SharedInstance().DataQueueExecute();
             //BTBBenchmark.Finish("DataQueueExecute");
             //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
             //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-			if (sUpdateData == true)
+            
+			if (tUpdateData)
             {
                 BTBNotificationManager.SharedInstance().PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
             }
+			
             //BTBBenchmark.Finish();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> SynchronizationPushClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
+        public Dictionary<string, object> SynchronizationPushClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
 		{
 
 //#if UNITY_EDITOR 
@@ -753,9 +692,12 @@ namespace NetWorkedData
             Dictionary<string, object> rSend = new Dictionary<string, object> ();
 			if (sTypeList != null) {
 				foreach (Type tType in sTypeList) {
-					var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null) {
-                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{sInfos, sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_SynchronizationPushData);
+
+                    if (tMethodInfo != null) {
+                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{sInfos, sEnvironment, sForceAll, sSpecial }) as Dictionary<string, object>;
 						foreach (string tKey in rSendPartial.Keys) {
 							rSend.Add (tKey, rSendPartial [tKey]);
 						}
@@ -765,7 +707,7 @@ namespace NetWorkedData
 			return rSend;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
+        public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
 
             //#if UNITY_EDITOR 
@@ -780,10 +722,12 @@ namespace NetWorkedData
             {
                 foreach (Type tType in sTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("CheckoutPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod("CheckoutPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CheckoutPushData);
                     if (tMethodInfo != null)
                     {
-                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
+                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sForceAll, sSpecial }) as Dictionary<string, object>;
                         foreach (string tKey in rSendPartial.Keys)
                         {
                             rSend.Add(tKey, rSendPartial[tKey]);
@@ -804,121 +748,16 @@ namespace NetWorkedData
 		public void DeleteUser (NWDAppEnvironment sEnvironment)
 		{
 			foreach (Type tType in mTypeList) {
-				var tMethodInfo = tType.GetMethod ("DeleteUser", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod ("DeleteUser", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_DeleteUser);
+
+                if (tMethodInfo != null) {
 					tMethodInfo.Invoke (null, new object[]{ sEnvironment });
 				}
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		//		public bool SynchronizationClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sBackground = true, bool sLoader = false)
-		//		{
-		//
-		//			Debug.Log ("######### SynchronizationClassesDatas start " + Time.time.ToString ());
-		//			bool rReturn = false;
-		//			if (SynchronizeInProgress == false) {
-		//				SynchronizeInProgress = true;
-		//				rReturn = true;
-		//				// I write all data
-		//				UpdateQueueExecute ();
-		//
-		//				#if UNITY_EDITOR
-		//				// Deselect all object
-		//				Selection.activeObject = null;
-		//				#endif
-		//
-		//				BTBUnityWebServiceDataRequest request = NWDWebRequestor.ShareInstance ().RequestDataRequestorWebService (sEnvironment, SynchronizationPushClassesDatas (sEnvironment, sForceAll, sTypeList));
-		//				request.successBlockDelegate = delegate(Dictionary<string, object> data) {
-		//					// test if error
-		//					NWDWebRequestorResult tResult = NWDWebRequestor.RespondAnalyzeIsValid (sEnvironment, data);
-		//					if (tResult == NWDWebRequestorResult.Success) {
-		//						SynchronizationPullClassesDatas (sEnvironment, data, sTypeList);
-		//					} else if (tResult == NWDWebRequestorResult.NewUser) {
-		//						// I must resend my request
-		//						SynchronizationClassesDatas (sEnvironment, sForceAll, sTypeList, sBackground, sLoader);
-		//					} else if (tResult == NWDWebRequestorResult.Error) {
-		//
-		//					}
-		//					SynchronizeInProgress = false;
-		//					if (SynchronizeRepeat == true) {
-		//						bool tForceAll = SynchronizeRepeatInForce;
-		//						SynchronizeRepeat = false;
-		//						SynchronizeRepeatInForce = false;
-		//						SynchronizeAllData (sEnvironment, tForceAll);
-		//					}
-		//
-		//					Debug.Log ("######### SynchronizationClassesDatas finish success " + Time.time.ToString ());
-		//				};
-		//				request.errorBlockDelegate = delegate(Error error) {
-		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
-		//					SynchronizeInProgress = false;
-		//					if (SynchronizeRepeat == true) {
-		//						bool tForceAll = SynchronizeRepeatInForce;
-		//						SynchronizeRepeat = false;
-		//						SynchronizeRepeatInForce = false;
-		//						SynchronizeAllData (sEnvironment, tForceAll);
-		//					}
-		//
-		//					Debug.Log ("######### SynchronizationClassesDatas finish error " + Time.time.ToString ());
-		//				};
-		//
-		//				Debug.Log ("Synchronization send");
-		//				request.send ();
-		//			} else {
-		//				SynchronizeRepeat = true;
-		//				if (sForceAll == true) {
-		//					SynchronizeRepeatInForce = sForceAll;
-		//				}
-		//
-		//				Debug.Log ("Synchronization all ready in progress ... prepare to repeat but in force if one ask it ?");
-		//			}
-		//			return rReturn;
-		//		}
-
-		//		public bool SynchronizationAllClassDatas (NWDAppEnvironment sEnvironment, bool sForceAll, bool sBackground = true, bool sLoader = false)
-		//		{
-		//			return SynchronizationClassesDatas (sEnvironment, sForceAll, mTypeSynchronizedList, sBackground, sLoader);
-		//		}
-		//
-		//		public bool SynchronizeAllData (NWDAppEnvironment sEnvironment, bool sForceAll)
-		//		{
-		//			//Debug.Log ("SynchronizeAllData");
-		//			return SynchronizationAllClassDatas (sEnvironment, sForceAll);
-		//		}
-
-		//		public bool FirstSynchronisation (NWDAppEnvironment sEnvironment)
-		//		{
-		//			bool rReturn = false;
-		//			if (SynchronizeInProgress == false) {
-		//				rReturn = true;
-		//				SynchronizeInProgress = true;
-		//				Dictionary<string,object> tDico = new Dictionary<string,object> ();
-		//				tDico.Add ("test", "test");
-		//				BTBUnityWebServiceDataRequest request = NWDWebRequestor.ShareInstance ().RequestDataRequestorWebService (sEnvironment, tDico);
-		//				request.successBlockDelegate = delegate(Dictionary<string, object> data) {
-		//					SynchronizeInProgress = false;
-		//					NWDWebRequestorResult tResult = NWDWebRequestor.RespondAnalyzeIsValid (sEnvironment, data);
-		//					if (tResult == NWDWebRequestorResult.Success) {
-		//					} else if (tResult == NWDWebRequestorResult.NewUser) {
-		//					} else if (tResult == NWDWebRequestorResult.Error) {
-		//					}
-		//				};
-		//				request.errorBlockDelegate = delegate(Error error) {
-		//					SynchronizeInProgress = false;
-		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
-		//				};
-		//
-		//				Debug.Log ("webservice send");
-		//				request.send ();
-		//			} else {
-		//				//SynchronizeRepeat = true;
-		//				// Not necessairy to repeat, the first connection is in pogress by another task :-)
-		//
-		//				Debug.Log ("webservice all ready in progress");
-		//			}
-		//			return rReturn;
-		//		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 }
 //=====================================================================================================================

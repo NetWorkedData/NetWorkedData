@@ -152,6 +152,8 @@
 	errorDeclaration('RQT93', 'too much tokens in base ... reconnect you');
 	errorDeclaration('RQT94', 'too much tokens in base ... reconnect you');
 	
+	errorDeclaration('SERVER', 'error internal');
+	
 		//--------------------
 		// init error state
 	$ERR_BOL = false;

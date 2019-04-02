@@ -4,6 +4,7 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -52,7 +52,7 @@ namespace NetWorkedData
 				if (tList.Contains (sWindow) == true) 
 				{
 					tList.Remove (sWindow);
-				}
+                }
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -68,17 +68,17 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RepaintWindowForData(Type sType)
-        {
-            //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-            if (mTypeWindowDico.ContainsKey(sType))
-            {
-                foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
-                {
-                    tWindow.Repaint();
-                }
-            }
-        }
+        //public void RepaintWindowForData(Type sType)
+        //{
+        //    //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
+        //    if (mTypeWindowDico.ContainsKey(sType))
+        //    {
+        //        foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
+        //        {
+        //            tWindow.Repaint();
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -1,34 +1,24 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDClassificationWindow show NWDBasisWindow for classification NWDBasis Class.
-    /// </summary>
     [NWDTypeWindowParamAttribute("Classification",
         "Create objects to sort and order your game, objects, items, etc.",
-        "NWDClassificationWindow",
         new Type[] {
-            typeof(NWDWorld),
-            typeof(NWDDistrict),
+            typeof(NWDKeyword),
             typeof(NWDCategory),
             typeof(NWDFamily),
-            typeof(NWDKeyword),
 			/* Add NWDBasis here*/
 		}
     )]
@@ -36,7 +26,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Game/Classification", false, 220)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDClassificationWindow));

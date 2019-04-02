@@ -139,7 +139,7 @@
 		$t = round(strlen($sfile)/4);
 		$r = 20-strlen($sfile);
 		
-		$RRR_LOG.='\r'.$RRR_LOG_CNT.' - '.$sfile;
+		$RRR_LOG.='\r'.$RRR_LOG_CNT.' - '.$sfile.' ';
 		for ($i=$r;$i>0;$i--)
 		{
 			$RRR_LOG.=' ';

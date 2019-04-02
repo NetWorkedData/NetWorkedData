@@ -12,6 +12,8 @@ using SQLite.Attribute;
 using Sqlite3DatabaseHandle = System.IntPtr;
 using Sqlite3Statement = System.IntPtr;
 
+using UnityEngine;
+
 namespace SQLite4Unity3d
 {
     /// <summary>
@@ -19,29 +21,28 @@ namespace SQLite4Unity3d
     /// </summary>
     public partial class SQLiteConnection : IDisposable
     {
-    
-            public void InsertDatas(string sReference, string sDatas, string sIntegrity)
-            {
-                Execute("INSERT INTO `NWDDatasRows` " +
-                        "(`Reference`,`Datas`,`Integrity`) " +
-                        "VALUES " +
-                        "(\"" + sReference + "\",\"" + sDatas + "\",\"" + sIntegrity + "\");");
-            }
+        public void InsertDatas(string sReference, string sDatas, string sIntegrity)
+        {
+            Execute("INSERT INTO `NWDDatasRows` " +
+                    "(`Reference`,`Datas`,`Integrity`) " +
+                    "VALUES " +
+                    "(\"" + sReference + "\",\"" + sDatas + "\",\"" + sIntegrity + "\");");
+        }
 
-            public void UpdateDatas(string sReference, string sDatas, string sIntegrity)
-            {
-                Execute("UPDATE `NWDDatasRows` SET " +
-                        "`Datas` = \"" + sDatas + "\"," +
-                        "`Integrity` = \"" + sIntegrity + "\" " +
-                        "WHERE `Reference` = \"" + sReference + "\";");
-            }
+        public void UpdateDatas(string sReference, string sDatas, string sIntegrity)
+        {
+            Execute("UPDATE `NWDDatasRows` SET " +
+                    "`Datas` = \"" + sDatas + "\"," +
+                    "`Integrity` = \"" + sIntegrity + "\" " +
+                    "WHERE `Reference` = \"" + sReference + "\";");
+        }
 
-            public void DeleteDatas(string sReference)
-            {
-                Execute("DELETE FROM `NWDDatasRows` " +
-                        "WHERE `Reference` = `" + sReference + "`;");
-            }
-    
+        public void DeleteDatas(string sReference)
+        {
+            Execute("DELETE FROM `NWDDatasRows` " +
+                    "WHERE `Reference` = `" + sReference + "`;");
+        }
+
         internal static readonly Sqlite3DatabaseHandle NullHandle = default(Sqlite3DatabaseHandle);
 
         /// <summary>
@@ -50,12 +51,13 @@ namespace SQLite4Unity3d
         /// </summary>
         //private static bool _preserveDuringLinkMagic;
 
-        private readonly Random _rand = new Random();
+        private readonly System.Random _rand = new System.Random();
 
         private TimeSpan _busyTimeout;
         private long _elapsedMilliseconds;
         private Dictionary<string, TableMapping> _mappings;
         private bool _open;
+        private bool _valid;
         private Stopwatch _sw;
         private Dictionary<string, TableMapping> _tables;
 
@@ -83,7 +85,9 @@ namespace SQLite4Unity3d
         ///     down sides, when setting storeDateTimeAsTicks = true.
         /// </param>
         public SQLiteConnection(string databasePath, string password = null, bool storeDateTimeAsTicks = false) : this(
-            databasePath, password, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create, storeDateTimeAsTicks) { }
+            databasePath, password, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create, storeDateTimeAsTicks)
+        {
+        }
 
         /// <summary>
         ///     Constructs a new SQLiteConnection and opens a SQLite database specified by databasePath.
@@ -101,51 +105,92 @@ namespace SQLite4Unity3d
             bool storeDateTimeAsTicks = false)
         {
             if (string.IsNullOrEmpty(databasePath))
+            {
                 throw new ArgumentException("Must be specified", "databasePath");
-
+            }
             this.DatabasePath = databasePath;
-
             Sqlite3DatabaseHandle handle;
-
             // open using the byte[]
             // in the case where the path may include Unicode
             // force open to using UTF-8 using sqlite3_open_v2
             byte[] databasePathAsBytes = GetNullTerminatedUtf8(this.DatabasePath);
-             SQLite3.Result r = SQLite3.Open(databasePathAsBytes, out handle, (int) openFlags, IntPtr.Zero);
-
+            SQLite3.Result r = SQLite3.Open(databasePathAsBytes, out handle, (int)openFlags, IntPtr.Zero);
             this.Handle = handle;
             if (r != SQLite3.Result.OK)
-                throw SQLiteException.New(r,
-                    string.Format("Could not open database file: {0} ({1})", this.DatabasePath, r));
-
+            {
+                this._open = false;
+                //UnityEngine.Debug.Log("### NOT open database");
+                throw SQLiteException.New(r, string.Format("Could not open database file: {0} ({1})", this.DatabasePath, r));
+            }
+            else
+            {
+                //UnityEngine.Debug.Log("### open database");
+            }
+            this._open = true;
             if (!string.IsNullOrEmpty(password))
             {
                 SQLite3.Result result = SQLite3.Key(handle, password, password.Length);
+                //UnityEngine.Debug.Log("### SQLite3.Key result = " + result.ToString());
                 if (result != SQLite3.Result.OK)
-                    throw SQLiteException.New(r,
-                        string.Format("Could not open database file: {0} ({1})", this.DatabasePath, r));
+                {
+                    this._open = false;
+                    //UnityEngine.Debug.Log("### NOT open database with password");
+                    throw SQLiteException.New(r, string.Format("Could not open database file with password: {0} ({1})", this.DatabasePath, r));
+                }
+                else
+                {
+                    //UnityEngine.Debug.Log("### open database with password");
+                }
             }
-
+            string tTest = "SELECT name FROM sqlite_master WHERE type='table';";
+            Sqlite3DatabaseHandle stmt;
+            SQLite3.Result er = SQLite3.Prepare2(handle, tTest, Encoding.UTF8.GetByteCount(tTest), out stmt, Sqlite3DatabaseHandle.Zero);
+            //UnityEngine.Debug.Log("## er = "+ er);
+            if (er != SQLite3.Result.OK)
+            {
+                _valid = false;
+            }
+            else
+            {
+                _valid = true;
+            }
             this.StoreDateTimeAsTicks = storeDateTimeAsTicks;
-
             this.BusyTimeout = TimeSpan.FromSeconds(0.1);
-
-            this._open = true;
+            //this._open = true;
         }
 
-        public Sqlite3DatabaseHandle Handle { get; private set; }
+        public Sqlite3DatabaseHandle Handle
+        {
+            get; private set;
+        }
 
-        public string DatabasePath { get; private set; }
+        public string DatabasePath
+        {
+            get; private set;
+        }
 
-        public bool TimeExecution { get; set; }
+        public bool TimeExecution
+        {
+            get; set;
+        }
 
-        public bool Trace { get; set; }
+        public bool Trace
+        {
+            get; set;
+        }
 
-        public bool StoreDateTimeAsTicks { get; private set; }
+        public bool StoreDateTimeAsTicks
+        {
+            get; private set;
+        }
 
         public bool IsOpen()
         {
             return this._open;
+        }
+        public bool IsValid()
+        {
+            return this._valid;
         }
         /// <summary>
         ///     Sets a busy handler to sleep the specified amount of time when a table is locked.
@@ -153,12 +198,15 @@ namespace SQLite4Unity3d
         /// </summary>
         public TimeSpan BusyTimeout
         {
-            get { return this._busyTimeout; }
+            get
+            {
+                return this._busyTimeout;
+            }
             set
             {
                 this._busyTimeout = value;
                 if (this.Handle != NullHandle)
-                    SQLite3.BusyTimeout(this.Handle, (int) this._busyTimeout.TotalMilliseconds);
+                    SQLite3.BusyTimeout(this.Handle, (int)this._busyTimeout.TotalMilliseconds);
             }
         }
 
@@ -168,7 +216,10 @@ namespace SQLite4Unity3d
         /// </summary>
         public IEnumerable<TableMapping> TableMappings
         {
-            get { return this._tables != null ? this._tables.Values : Enumerable.Empty<TableMapping>(); }
+            get
+            {
+                return this._tables != null ? this._tables.Values : Enumerable.Empty<TableMapping>();
+            }
         }
 
         /// <summary>
@@ -176,7 +227,10 @@ namespace SQLite4Unity3d
         /// </summary>
         public bool IsInTransaction
         {
-            get { return this._transactionDepth > 0; }
+            get
+            {
+                return this._transactionDepth > 0;
+            }
         }
 
         public void Dispose()
@@ -218,7 +272,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public TableMapping GetMapping(Type type, CreateFlags createFlags = CreateFlags.None)
         {
-            if (this._mappings == null) this._mappings = new Dictionary<string, TableMapping>();
+            if (this._mappings == null)
+                this._mappings = new Dictionary<string, TableMapping>();
             TableMapping map;
             if (!this._mappings.TryGetValue(type.FullName, out map))
             {
@@ -289,7 +344,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public int CreateTable(Type ty, CreateFlags createFlags = CreateFlags.None)
         {
-            if (this._tables == null) this._tables = new Dictionary<string, TableMapping>();
+            if (this._tables == null)
+                this._tables = new Dictionary<string, TableMapping>();
             TableMapping map;
             if (!this._tables.TryGetValue(ty.FullName, out map))
             {
@@ -306,36 +362,37 @@ namespace SQLite4Unity3d
 
             int count = Execute(query);
 
-            if (count == 0) MigrateTable(map);
+            if (count == 0)
+                MigrateTable(map);
 
             Dictionary<string, IndexInfo> indexes = new Dictionary<string, IndexInfo>();
             foreach (TableMapping.Column c in map.Columns)
-            foreach (IndexedAttribute i in c.Indices)
-            {
-                string iname = i.Name ?? map.TableName + "_" + c.Name;
-                IndexInfo iinfo;
-                if (!indexes.TryGetValue(iname, out iinfo))
+                foreach (IndexedAttribute i in c.Indices)
                 {
-                    iinfo = new IndexInfo
+                    string iname = i.Name ?? map.TableName + "_" + c.Name;
+                    IndexInfo iinfo;
+                    if (!indexes.TryGetValue(iname, out iinfo))
                     {
-                        IndexName = iname,
-                        TableName = map.TableName,
-                        Unique = i.Unique,
-                        Columns = new List<IndexedColumn>()
-                    };
-                    indexes.Add(iname, iinfo);
+                        iinfo = new IndexInfo
+                        {
+                            IndexName = iname,
+                            TableName = map.TableName,
+                            Unique = i.Unique,
+                            Columns = new List<IndexedColumn>()
+                        };
+                        indexes.Add(iname, iinfo);
+                    }
+
+                    if (i.Unique != iinfo.Unique)
+                        throw new Exception(
+                            "All the columns in an index must have the same value for their Unique property");
+
+                    iinfo.Columns.Add(new IndexedColumn
+                    {
+                        Order = i.Order,
+                        ColumnName = c.Name
+                    });
                 }
-
-                if (i.Unique != iinfo.Unique)
-                    throw new Exception(
-                        "All the columns in an index must have the same value for their Unique property");
-
-                iinfo.Columns.Add(new IndexedColumn
-                {
-                    Order = i.Order,
-                    ColumnName = c.Name
-                });
-            }
 
             foreach (string indexName in indexes.Keys)
             {
@@ -371,7 +428,7 @@ namespace SQLite4Unity3d
         /// <param name="unique">Whether the index should be unique</param>
         public int CreateIndex(string indexName, string tableName, string columnName, bool unique = false)
         {
-            return CreateIndex(indexName, tableName, new[] {columnName}, unique);
+            return CreateIndex(indexName, tableName, new[] { columnName }, unique);
         }
 
         /// <summary>
@@ -407,7 +464,7 @@ namespace SQLite4Unity3d
         {
             MemberExpression mx;
             if (property.Body.NodeType == ExpressionType.Convert)
-                mx = ((UnaryExpression) property.Body).Operand as MemberExpression;
+                mx = ((UnaryExpression)property.Body).Operand as MemberExpression;
             else
                 mx = property.Body as MemberExpression;
             PropertyInfo propertyInfo = mx.Member as PropertyInfo;
@@ -444,7 +501,8 @@ namespace SQLite4Unity3d
                         break;
                 }
 
-                if (!found) toBeAdded.Add(p);
+                if (!found)
+                    toBeAdded.Add(p);
             }
 
             foreach (TableMapping.Column p in toBeAdded)
@@ -484,7 +542,8 @@ namespace SQLite4Unity3d
 
             SQLiteCommand cmd = NewCommand();
             cmd.CommandText = cmdText;
-            foreach (object o in ps) cmd.Bind(o);
+            foreach (object o in ps)
+                cmd.Bind(o);
             return cmd;
         }
 
@@ -511,7 +570,8 @@ namespace SQLite4Unity3d
 
             if (this.TimeExecution)
             {
-                if (this._sw == null) this._sw = new Stopwatch();
+                if (this._sw == null)
+                    this._sw = new Stopwatch();
                 this._sw.Reset();
                 this._sw.Start();
             }
@@ -523,7 +583,7 @@ namespace SQLite4Unity3d
                 this._sw.Stop();
                 this._elapsedMilliseconds += this._sw.ElapsedMilliseconds;
                 //Debug.WriteLine("Finished in {0} ms ({1:0.0} s total)", this._sw.ElapsedMilliseconds,
-                    //this._elapsedMilliseconds / 1000.0);
+                //this._elapsedMilliseconds / 1000.0);
             }
 
             return r;
@@ -535,7 +595,8 @@ namespace SQLite4Unity3d
 
             if (this.TimeExecution)
             {
-                if (this._sw == null) this._sw = new Stopwatch();
+                if (this._sw == null)
+                    this._sw = new Stopwatch();
                 this._sw.Reset();
                 this._sw.Start();
             }
@@ -546,7 +607,7 @@ namespace SQLite4Unity3d
             {
                 this._sw.Stop();
                 this._elapsedMilliseconds += this._sw.ElapsedMilliseconds;
-                Debug.WriteLine("Finished in {0} ms ({1:0.0} s total)", this._sw.ElapsedMilliseconds,
+                System.Diagnostics.Debug.WriteLine("Finished in {0} ms ({1:0.0} s total)", this._sw.ElapsedMilliseconds,
                     this._elapsedMilliseconds / 1000.0);
             }
 
@@ -831,11 +892,11 @@ namespace SQLite4Unity3d
             return retVal;
         }
 
-	    /// <summary>
-	    ///     Rolls back the transaction that was begun by <see cref="BeginTransaction" /> or <see cref="SaveTransactionPoint" />
-	    ///     .
-	    /// </summary>
-	    public void Rollback()
+        /// <summary>
+        ///     Rolls back the transaction that was begun by <see cref="BeginTransaction" /> or <see cref="SaveTransactionPoint" />
+        ///     .
+        /// </summary>
+        public void Rollback()
         {
             RollbackTo(null, false);
         }
@@ -864,7 +925,8 @@ namespace SQLite4Unity3d
             {
                 if (string.IsNullOrEmpty(savepoint))
                 {
-                    if (Interlocked.Exchange(ref this._transactionDepth, 0) > 0) Execute("rollback");
+                    if (Interlocked.Exchange(ref this._transactionDepth, 0) > 0)
+                        Execute("rollback");
                 }
                 else
                 {
@@ -880,17 +942,17 @@ namespace SQLite4Unity3d
             // No need to rollback if there are no transactions open.
         }
 
-	    /// <summary>
-	    ///     Releases a savepoint returned from <see cref="SaveTransactionPoint" />.  Releasing a savepoint
-	    ///     makes changes since that savepoint permanent if the savepoint began the transaction,
-	    ///     or otherwise the changes are permanent pending a call to <see cref="Commit" />.
-	    ///     The RELEASE command is like a COMMIT for a SAVEPOINT.
-	    /// </summary>
-	    /// <param name="savepoint">
-	    ///     The name of the savepoint to release.  The string should be the result of a call to
-	    ///     <see cref="SaveTransactionPoint" />
-	    /// </param>
-	    public void Release(string savepoint)
+        /// <summary>
+        ///     Releases a savepoint returned from <see cref="SaveTransactionPoint" />.  Releasing a savepoint
+        ///     makes changes since that savepoint permanent if the savepoint began the transaction,
+        ///     or otherwise the changes are permanent pending a call to <see cref="Commit" />.
+        ///     The RELEASE command is like a COMMIT for a SAVEPOINT.
+        /// </summary>
+        /// <param name="savepoint">
+        ///     The name of the savepoint to release.  The string should be the result of a call to
+        ///     <see cref="SaveTransactionPoint" />
+        /// </param>
+        public void Release(string savepoint)
         {
             DoSavePointExecute(savepoint, "release ");
         }
@@ -926,25 +988,26 @@ namespace SQLite4Unity3d
         /// </summary>
         public void Commit()
         {
-            if (Interlocked.Exchange(ref this._transactionDepth, 0) != 0) Execute("commit");
+            if (Interlocked.Exchange(ref this._transactionDepth, 0) != 0)
+                Execute("commit");
             // Do nothing on a commit with no open transaction
         }
 
-	    /// <summary>
-	    ///     Executes
-	    ///     <param name="action">
-	    ///         within a (possibly nested) transaction by wrapping it in a SAVEPOINT. If an
-	    ///         exception occurs the whole transaction is rolled back, not just the current savepoint. The exception
-	    ///         is rethrown.
-	    /// </summary>
-	    /// <param name="action">
-	    ///     The <see cref="Action" /> to perform within a transaction.
-	    ///     <param name="action">
-	    ///         can contain any number
-	    ///         of operations on the connection but should never call <see cref="BeginTransaction" /> or
-	    ///         <see cref="Commit" />.
-	    ///     </param>
-	    public void RunInTransaction(Action action)
+        /// <summary>
+        ///     Executes
+        ///     <param name="action">
+        ///         within a (possibly nested) transaction by wrapping it in a SAVEPOINT. If an
+        ///         exception occurs the whole transaction is rolled back, not just the current savepoint. The exception
+        ///         is rethrown.
+        /// </summary>
+        /// <param name="action">
+        ///     The <see cref="Action" /> to perform within a transaction.
+        ///     <param name="action">
+        ///         can contain any number
+        ///         of operations on the connection but should never call <see cref="BeginTransaction" /> or
+        ///         <see cref="Commit" />.
+        ///     </param>
+        public void RunInTransaction(Action action)
         {
             try
             {
@@ -973,7 +1036,8 @@ namespace SQLite4Unity3d
             int c = 0;
             RunInTransaction(() =>
             {
-                foreach (object r in objects) c += Insert(r);
+                foreach (object r in objects)
+                    c += Insert(r);
             });
             return c;
         }
@@ -995,7 +1059,8 @@ namespace SQLite4Unity3d
             int c = 0;
             RunInTransaction(() =>
             {
-                foreach (object r in objects) c += Insert(r, extra);
+                foreach (object r in objects)
+                    c += Insert(r, extra);
             });
             return c;
         }
@@ -1017,7 +1082,8 @@ namespace SQLite4Unity3d
             int c = 0;
             RunInTransaction(() =>
             {
-                foreach (object r in objects) c += Insert(r, objType);
+                foreach (object r in objects)
+                    c += Insert(r, objType);
             });
             return c;
         }
@@ -1034,7 +1100,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public int Insert(object obj)
         {
-            if (obj == null) return 0;
+            if (obj == null)
+                return 0;
             return Insert(obj, "", obj.GetType());
         }
 
@@ -1053,7 +1120,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public int InsertOrReplace(object obj)
         {
-            if (obj == null) return 0;
+            if (obj == null)
+                return 0;
             return Insert(obj, "OR REPLACE", obj.GetType());
         }
 
@@ -1111,7 +1179,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public int Insert(object obj, string extra)
         {
-            if (obj == null) return 0;
+            if (obj == null)
+                return 0;
             return Insert(obj, extra, obj.GetType());
         }
 
@@ -1133,7 +1202,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public int Insert(object obj, string extra, Type objType)
         {
-            if (obj == null || objType == null) return 0;
+            if (obj == null || objType == null)
+                return 0;
 
             TableMapping map = GetMapping(objType);
 
@@ -1149,7 +1219,8 @@ namespace SQLite4Unity3d
 
             TableMapping.Column[] cols = replacing ? map.InsertOrReplaceColumns : map.InsertColumns;
             object[] vals = new object[cols.Length];
-            for (int i = 0; i < vals.Length; i++) vals[i] = cols[i].GetValue(obj);
+            for (int i = 0; i < vals.Length; i++)
+                vals[i] = cols[i].GetValue(obj);
 
             PreparedSqlLiteInsertCommand insertCmd = map.GetInsertCommand(this, extra);
             int count;
@@ -1187,7 +1258,8 @@ namespace SQLite4Unity3d
         /// </returns>
         public int Update(object obj)
         {
-            if (obj == null) return 0;
+            if (obj == null)
+                return 0;
             return Update(obj, obj.GetType());
         }
 
@@ -1208,12 +1280,14 @@ namespace SQLite4Unity3d
         public int Update(object obj, Type objType)
         {
             int rowsAffected = 0;
-            if (obj == null || objType == null) return 0;
+            if (obj == null || objType == null)
+                return 0;
 
             TableMapping map = GetMapping(objType);
             TableMapping.Column pk = map.PK;
 
-            if (pk == null) throw new NotSupportedException("Cannot update " + map.TableName + ": it has no PK");
+            if (pk == null)
+                throw new NotSupportedException("Cannot update " + map.TableName + ": it has no PK");
 
             IEnumerable<TableMapping.Column> cols = from p in map.Columns where p != pk select p;
             IEnumerable<object> vals = from c in cols select c.GetValue(obj);
@@ -1253,7 +1327,8 @@ namespace SQLite4Unity3d
             int c = 0;
             RunInTransaction(() =>
             {
-                foreach (object r in objects) c += Update(r);
+                foreach (object r in objects)
+                    c += Update(r);
             });
             return c;
         }
@@ -1271,7 +1346,8 @@ namespace SQLite4Unity3d
         {
             TableMapping map = GetMapping(objectToDelete.GetType());
             TableMapping.Column pk = map.PK;
-            if (pk == null) throw new NotSupportedException("Cannot delete " + map.TableName + ": it has no PK");
+            if (pk == null)
+                throw new NotSupportedException("Cannot delete " + map.TableName + ": it has no PK");
             string q = string.Format("delete from \"{0}\" where \"{1}\" = ?", map.TableName, pk.Name);
             return Execute(q, pk.GetValue(objectToDelete));
         }
@@ -1292,7 +1368,8 @@ namespace SQLite4Unity3d
         {
             TableMapping map = GetMapping(typeof(T));
             TableMapping.Column pk = map.PK;
-            if (pk == null) throw new NotSupportedException("Cannot delete " + map.TableName + ": it has no PK");
+            if (pk == null)
+                throw new NotSupportedException("Cannot delete " + map.TableName + ": it has no PK");
             string q = string.Format("delete from \"{0}\" where \"{1}\" = ?", map.TableName, pk.Name);
             return Execute(q, primaryKey);
         }
@@ -1365,12 +1442,19 @@ namespace SQLite4Unity3d
         {
             //			public int cid { get; set; }
 
-            [Column("name")] public string Name { get; set; }
+            [Column("name")]
+            public string Name
+            {
+                get; set;
+            }
 
             //			[Column ("type")]
             //			public string ColumnType { get; set; }
 
-            public int notnull { get; set; }
+            public int notnull
+            {
+                get; set;
+            }
 
             //			public string dflt_value { get; set; }
 
@@ -1388,9 +1472,18 @@ namespace SQLite4Unity3d
     /// </summary>
     internal class SQLiteConnectionString
     {
-        public string ConnectionString { get; private set; }
-        public string DatabasePath { get; private set; }
-        public bool StoreDateTimeAsTicks { get; private set; }
+        public string ConnectionString
+        {
+            get; private set;
+        }
+        public string DatabasePath
+        {
+            get; private set;
+        }
+        public bool StoreDateTimeAsTicks
+        {
+            get; private set;
+        }
 
         public SQLiteConnectionString(string databasePath, bool storeDateTimeAsTicks)
         {
@@ -1413,7 +1506,7 @@ namespace SQLite4Unity3d
         {
             this.MappedType = type;
             TableAttribute tableAttr =
-                (TableAttribute) type.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+                (TableAttribute)type.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
             this.TableName = tableAttr != null ? tableAttr.Name : this.MappedType.Name;
 
             PropertyInfo[] props = this.MappedType.GetProperties(BindingFlags.Public | BindingFlags.Instance |
@@ -1422,14 +1515,17 @@ namespace SQLite4Unity3d
             foreach (PropertyInfo p in props)
             {
                 bool ignore = p.GetCustomAttributes(typeof(IgnoreAttribute), true).Length > 0;
-                if (p.CanWrite && !ignore) cols.Add(new Column(p, createFlags));
+                if (p.CanWrite && !ignore)
+                    cols.Add(new Column(p, createFlags));
             }
 
             this.Columns = cols.ToArray();
             foreach (Column c in this.Columns)
             {
-                if (c.IsAutoInc && c.IsPK) this._autoPk = c;
-                if (c.IsPK) this.PK = c;
+                if (c.IsAutoInc && c.IsPK)
+                    this._autoPk = c;
+                if (c.IsPK)
+                    this.PK = c;
             }
 
             this.HasAutoIncPK = this._autoPk != null;
@@ -1441,19 +1537,38 @@ namespace SQLite4Unity3d
                 this.GetByPrimaryKeySql = string.Format("select * from \"{0}\" limit 1", this.TableName);
         }
 
-        public Type MappedType { get; private set; }
-        public string TableName { get; private set; }
-        public Column[] Columns { get; private set; }
-        public Column PK { get; private set; }
-        public string GetByPrimaryKeySql { get; private set; }
+        public Type MappedType
+        {
+            get; private set;
+        }
+        public string TableName
+        {
+            get; private set;
+        }
+        public Column[] Columns
+        {
+            get; private set;
+        }
+        public Column PK
+        {
+            get; private set;
+        }
+        public string GetByPrimaryKeySql
+        {
+            get; private set;
+        }
 
-        public bool HasAutoIncPK { get; private set; }
+        public bool HasAutoIncPK
+        {
+            get; private set;
+        }
 
         public Column[] InsertColumns
         {
             get
             {
-                if (this._insertColumns == null) this._insertColumns = this.Columns.Where(c => !c.IsAutoInc).ToArray();
+                if (this._insertColumns == null)
+                    this._insertColumns = this.Columns.Where(c => !c.IsAutoInc).ToArray();
                 return this._insertColumns;
             }
         }
@@ -1462,14 +1577,16 @@ namespace SQLite4Unity3d
         {
             get
             {
-                if (this._insertOrReplaceColumns == null) this._insertOrReplaceColumns = this.Columns.ToArray();
+                if (this._insertOrReplaceColumns == null)
+                    this._insertOrReplaceColumns = this.Columns.ToArray();
                 return this._insertOrReplaceColumns;
             }
         }
 
         public void SetAutoIncPK(object obj, long id)
         {
-            if (this._autoPk != null) this._autoPk.SetValue(obj, Convert.ChangeType(id, this._autoPk.ColumnType, null));
+            if (this._autoPk != null)
+                this._autoPk.SetValue(obj, Convert.ChangeType(id, this._autoPk.ColumnType, null));
         }
 
         public Column FindColumnWithPropertyName(string propertyName)
@@ -1513,7 +1630,8 @@ namespace SQLite4Unity3d
             {
                 bool replacing = string.Compare(extra, "OR REPLACE", StringComparison.OrdinalIgnoreCase) == 0;
 
-                if (replacing) cols = this.InsertOrReplaceColumns;
+                if (replacing)
+                    cols = this.InsertOrReplaceColumns;
 
                 insertSql = string.Format("insert {3} into \"{0}\"({1}) values ({2})", this.TableName,
                     string.Join(",", (from c in cols select "\"" + c.Name + "\"").ToArray()),
@@ -1541,7 +1659,7 @@ namespace SQLite4Unity3d
             public Column(PropertyInfo prop, CreateFlags createFlags = CreateFlags.None)
             {
                 ColumnAttribute colAttr =
-                    (ColumnAttribute) prop.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault();
+                    (ColumnAttribute)prop.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault();
 
                 this._prop = prop;
                 this.Name = colAttr == null ? prop.Name : colAttr.Name;
@@ -1564,32 +1682,62 @@ namespace SQLite4Unity3d
                     (createFlags & CreateFlags.ImplicitIndex) == CreateFlags.ImplicitIndex &&
                     this.Name.EndsWith(Orm.ImplicitIndexSuffix, StringComparison.OrdinalIgnoreCase)
                 )
-                    this.Indices = new[] {new IndexedAttribute()};
+                    this.Indices = new[] { new IndexedAttribute() };
                 this.IsNullable = !(this.IsPK || Orm.IsMarkedNotNull(prop));
                 this.MaxStringLength = Orm.MaxStringLength(prop);
             }
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get; private set;
+            }
 
             public string PropertyName
             {
-                get { return this._prop.Name; }
+                get
+                {
+                    return this._prop.Name;
+                }
             }
 
-            public Type ColumnType { get; private set; }
+            public Type ColumnType
+            {
+                get; private set;
+            }
 
-            public string Collation { get; private set; }
+            public string Collation
+            {
+                get; private set;
+            }
 
-            public bool IsAutoInc { get; private set; }
-            public bool IsAutoGuid { get; private set; }
+            public bool IsAutoInc
+            {
+                get; private set;
+            }
+            public bool IsAutoGuid
+            {
+                get; private set;
+            }
 
-            public bool IsPK { get; private set; }
+            public bool IsPK
+            {
+                get; private set;
+            }
 
-            public IEnumerable<IndexedAttribute> Indices { get; set; }
+            public IEnumerable<IndexedAttribute> Indices
+            {
+                get; set;
+            }
 
-            public bool IsNullable { get; private set; }
+            public bool IsNullable
+            {
+                get; private set;
+            }
 
-            public int? MaxStringLength { get; private set; }
+            public int? MaxStringLength
+            {
+                get; private set;
+            }
 
             public void SetValue(object obj, object val)
             {
@@ -1613,8 +1761,10 @@ namespace SQLite4Unity3d
         {
             string decl = "\"" + p.Name + "\" " + SqlType(p, storeDateTimeAsTicks) + " ";
 
-            if (p.IsPK) decl += "primary key ";
-            if (p.IsAutoInc) decl += "autoincrement ";
+            if (p.IsPK)
+                decl += "primary key ";
+            if (p.IsAutoInc)
+                decl += "autoincrement ";
 
             if (!p.IsNullable)
             {
@@ -1633,7 +1783,8 @@ namespace SQLite4Unity3d
                     p.ColumnType == typeof(Decimal) ||
                     p.ColumnType == typeof(TimeSpan) ||
                     p.ColumnType == typeof(DateTime) ||
-                    p.ColumnType == typeof(DateTimeOffset)
+                    p.ColumnType == typeof(DateTimeOffset) ||
+                         p.ColumnType.IsSubclassOf(typeof(BTBDataType))
                     )
                 {
                     decl += "not null default 0 ";
@@ -1649,7 +1800,8 @@ namespace SQLite4Unity3d
                 else if (p.ColumnType == typeof(byte[]) ||
                          p.ColumnType == typeof(Guid) ||
                          p.ColumnType == typeof(string) ||
-                         p.ColumnType.IsSubclassOf(typeof(BTBDataType)))
+                         p.ColumnType.IsSubclassOf(typeof(BTBDataType))
+                         )
                 {
                     decl += "not null default '' ";
                 }
@@ -1664,7 +1816,8 @@ namespace SQLite4Unity3d
                 //------------------------------------------
 
             }
-            if (!string.IsNullOrEmpty(p.Collation)) decl += "collate " + p.Collation + " ";
+            if (!string.IsNullOrEmpty(p.Collation))
+                decl += "collate " + p.Collation + " ";
 
             return decl;
         }
@@ -1673,11 +1826,14 @@ namespace SQLite4Unity3d
         {
             Type clrType = p.ColumnType;
             if (clrType == typeof(bool) || clrType == typeof(byte) || clrType == typeof(ushort) ||
-                clrType == typeof(sbyte) || clrType == typeof(short) || clrType == typeof(int)) return "integer";
+                clrType == typeof(sbyte) || clrType == typeof(short) || clrType == typeof(int))
+                return "integer";
 
-            if (clrType == typeof(uint) || clrType == typeof(long)) return "bigint";
+            if (clrType == typeof(uint) || clrType == typeof(long))
+                return "bigint";
 
-            if (clrType == typeof(float) || clrType == typeof(double) || clrType == typeof(decimal)) return "float";
+            if (clrType == typeof(float) || clrType == typeof(double) || clrType == typeof(decimal))
+                return "float";
 
             if (clrType == typeof(string))
             {
@@ -1689,9 +1845,11 @@ namespace SQLite4Unity3d
                 return "varchar";
             }
 
-            if (clrType == typeof(TimeSpan)) return "bigint";
+            if (clrType == typeof(TimeSpan))
+                return "bigint";
 
-            if (clrType == typeof(DateTime)) return storeDateTimeAsTicks ? "bigint" : "datetime";
+            if (clrType == typeof(DateTime))
+                return storeDateTimeAsTicks ? "bigint" : "datetime";
 
             if (clrType == typeof(DateTimeOffset))
             {
@@ -1715,6 +1873,22 @@ namespace SQLite4Unity3d
             {
                 return BTBDataType.SQLType;
             }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeInt)))
+            {
+                return BTBDataTypeInt.SQLType;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+            {
+                return BTBDataTypeFloat.SQLType;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+            {
+                return BTBDataTypeEnum.SQLType;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeMask)))
+            {
+                return BTBDataTypeMask.SQLType;
+            }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
             throw new NotSupportedException("Don't know about " + clrType);
@@ -1730,7 +1904,7 @@ namespace SQLite4Unity3d
         {
             object[] attrs = p.GetCustomAttributes(typeof(CollationAttribute), true);
             if (attrs.Length > 0)
-                return ((CollationAttribute) attrs[0]).Value;
+                return ((CollationAttribute)attrs[0]).Value;
             return string.Empty;
         }
 
@@ -1750,7 +1924,7 @@ namespace SQLite4Unity3d
         {
             object[] attrs = p.GetCustomAttributes(typeof(MaxLengthAttribute), true);
             if (attrs.Length > 0)
-                return ((MaxLengthAttribute) attrs[0]).Value;
+                return ((MaxLengthAttribute)attrs[0]).Value;
             return null;
         }
 
@@ -1774,11 +1948,15 @@ namespace SQLite4Unity3d
             this.CommandText = "";
         }
 
-        public string CommandText { get; set; }
+        public string CommandText
+        {
+            get; set;
+        }
 
         public int ExecuteNonQuery()
         {
-            if (this._conn.Trace) Debug.WriteLine("Executing: " + this);
+            if (this._conn.Trace)
+                System.Diagnostics.Debug.WriteLine("Executing: " + this);
 
             SQLite3.Result r = SQLite3.Result.OK;
             IntPtr stmt = Prepare();
@@ -1818,25 +1996,25 @@ namespace SQLite4Unity3d
             return ExecuteDeferredQuery<T>(map).ToList();
         }
 
-	    /// <summary>
-	    ///     Invoked every time an instance is loaded from the database.
-	    /// </summary>
-	    /// <param name='obj'>
-	    ///     The newly created object.
-	    /// </param>
-	    /// <remarks>
-	    ///     This can be overridden in combination with the <see cref="SQLiteConnection.NewCommand" />
-	    ///     method to hook into the life-cycle of objects.
-	    ///     Type safety is not possible because MonoTouch does not support virtual generic methods.
-	    /// </remarks>
-	    protected virtual void OnInstanceCreated(object obj)
+        /// <summary>
+        ///     Invoked every time an instance is loaded from the database.
+        /// </summary>
+        /// <param name='obj'>
+        ///     The newly created object.
+        /// </param>
+        /// <remarks>
+        ///     This can be overridden in combination with the <see cref="SQLiteConnection.NewCommand" />
+        ///     method to hook into the life-cycle of objects.
+        ///     Type safety is not possible because MonoTouch does not support virtual generic methods.
+        /// </remarks>
+        protected virtual void OnInstanceCreated(object obj)
         {
             // Can be overridden.
         }
 
         public IEnumerable<T> ExecuteDeferredQuery<T>(TableMapping map)
         {
-            if (this._conn.Trace) Debug.WriteLine("Executing Query: " + this);
+            //if (this._conn.Trace) Debug.WriteLine("Executing Query: " + this);
 
             IntPtr stmt = Prepare();
             try
@@ -1866,7 +2044,7 @@ namespace SQLite4Unity3d
                             var val = ReadCol(stmt, i, colType, cols[i].ColumnType);
                             cols[i].SetValue(obj, val);
                         }
-                        OnInstanceCreated(obj);
+                        //OnInstanceCreated(obj);
                         yield return (T)obj;
 
                     }
@@ -1897,7 +2075,8 @@ namespace SQLite4Unity3d
 
         public T ExecuteScalar<T>()
         {
-            if (this._conn.Trace) Debug.WriteLine("Executing Query: " + this);
+            if (this._conn.Trace)
+                System.Diagnostics.Debug.WriteLine("Executing Query: " + this);
 
             T val = default(T);
 
@@ -1909,9 +2088,11 @@ namespace SQLite4Unity3d
                 if (r == SQLite3.Result.Row)
                 {
                     SQLite3.ColType colType = SQLite3.ColumnType(stmt, 0);
-                    val = (T) ReadCol(stmt, 0, colType, typeof(T));
+                    val = (T)ReadCol(stmt, 0, colType, typeof(T));
                 }
-                else if (r == SQLite3.Result.Done) { }
+                else if (r == SQLite3.Result.Done)
+                {
+                }
                 else
                 {
                     throw SQLiteException.New(r, SQLite3.GetErrmsg(this._conn.Handle));
@@ -1984,29 +2165,29 @@ namespace SQLite4Unity3d
             if (value == null)
                 return SQLite3.BindNull(stmt, index);
             if (value is int)
-                return SQLite3.BindInt(stmt, index, (int) value);
+                return SQLite3.BindInt(stmt, index, (int)value);
             if (value is string)
-                return SQLite3.BindText(stmt, index, (string) value, -1, NegativePointer);
+                return SQLite3.BindText(stmt, index, (string)value, -1, NegativePointer);
             if (value is byte || value is ushort || value is sbyte || value is short)
                 return SQLite3.BindInt(stmt, index, Convert.ToInt32(value));
             if (value is bool)
-                return SQLite3.BindInt(stmt, index, (bool) value ? 1 : 0);
+                return SQLite3.BindInt(stmt, index, (bool)value ? 1 : 0);
             if (value is uint || value is long)
                 return SQLite3.BindInt64(stmt, index, Convert.ToInt64(value));
             if (value is float || value is double || value is decimal)
                 return SQLite3.BindDouble(stmt, index, Convert.ToDouble(value));
             if (value is TimeSpan)
-                return SQLite3.BindInt64(stmt, index, ((TimeSpan) value).Ticks);
+                return SQLite3.BindInt64(stmt, index, ((TimeSpan)value).Ticks);
             if (value is DateTime)
             {
                 if (storeDateTimeAsTicks)
-                    return SQLite3.BindInt64(stmt, index, ((DateTime) value).Ticks);
-                return SQLite3.BindText(stmt, index, ((DateTime) value).ToString("yyyy-MM-dd HH:mm:ss"), -1,
+                    return SQLite3.BindInt64(stmt, index, ((DateTime)value).Ticks);
+                return SQLite3.BindText(stmt, index, ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss"), -1,
                     NegativePointer);
             }
 
             if (value is DateTimeOffset)
-                return SQLite3.BindInt64(stmt, index, ((DateTimeOffset) value).UtcTicks);
+                return SQLite3.BindInt64(stmt, index, ((DateTimeOffset)value).UtcTicks);
 
             {
                 if (value.GetType().IsEnum)
@@ -2014,9 +2195,9 @@ namespace SQLite4Unity3d
             }
 
             if (value is byte[])
-                return SQLite3.BindBlob(stmt, index, (byte[]) value, ((byte[]) value).Length, NegativePointer);
+                return SQLite3.BindBlob(stmt, index, (byte[])value, ((byte[])value).Length, NegativePointer);
             if (value is Guid)
-                return SQLite3.BindText(stmt, index, ((Guid) value).ToString(), 72, NegativePointer);
+                return SQLite3.BindText(stmt, index, ((Guid)value).ToString(), 72, NegativePointer);
             //------------------------------------------
             //---------- ADD IDEMOBI START -------------
             if (value.GetType().IsSubclassOf(typeof(BTBDataType)))
@@ -2028,6 +2209,42 @@ namespace SQLite4Unity3d
                 }
                 return SQLite3.BindText(stmt, index, tValue.ToString(), -1, NegativePointer);
             }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeInt)))
+            {
+                BTBDataTypeInt tValue = (BTBDataTypeInt)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeInt;
+                }
+                return SQLite3.BindInt64(stmt, index, tValue.ToLong());
+            }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeFloat)))
+            {
+                BTBDataTypeFloat tValue = (BTBDataTypeFloat)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeFloat;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToDouble());
+            }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeEnum)))
+            {
+                BTBDataTypeEnum tValue = (BTBDataTypeEnum)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeEnum;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToLong());
+            }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeMask)))
+            {
+                BTBDataTypeMask tValue = (BTBDataTypeMask)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeMask;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToLong());
+            }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
             throw new NotSupportedException("Cannot store type: " + value.GetType());
@@ -2038,21 +2255,28 @@ namespace SQLite4Unity3d
             if (type == SQLite3.ColType.Null)
                 return null;
 
-            if (clrType == typeof(string)) return SQLite3.ColumnString(stmt, index);
+            if (clrType == typeof(string))
+                return SQLite3.ColumnString(stmt, index);
 
-            if (clrType == typeof(int)) return SQLite3.ColumnInt(stmt, index);
+            if (clrType == typeof(int))
+                return SQLite3.ColumnInt(stmt, index);
 
-            if (clrType == typeof(bool)) return SQLite3.ColumnInt(stmt, index) == 1;
+            if (clrType == typeof(bool))
+                return SQLite3.ColumnInt(stmt, index) == 1;
 
-            if (clrType == typeof(double)) return SQLite3.ColumnDouble(stmt, index);
+            if (clrType == typeof(double))
+                return SQLite3.ColumnDouble(stmt, index);
 
-            if (clrType == typeof(float)) return (float) SQLite3.ColumnDouble(stmt, index);
+            if (clrType == typeof(float))
+                return (float)SQLite3.ColumnDouble(stmt, index);
 
-            if (clrType == typeof(TimeSpan)) return new TimeSpan(SQLite3.ColumnInt64(stmt, index));
+            if (clrType == typeof(TimeSpan))
+                return new TimeSpan(SQLite3.ColumnInt64(stmt, index));
 
             if (clrType == typeof(DateTime))
             {
-                if (this._conn.StoreDateTimeAsTicks) return new DateTime(SQLite3.ColumnInt64(stmt, index));
+                if (this._conn.StoreDateTimeAsTicks)
+                    return new DateTime(SQLite3.ColumnInt64(stmt, index));
 
                 string text = SQLite3.ColumnString(stmt, index);
                 return DateTime.Parse(text);
@@ -2068,21 +2292,29 @@ namespace SQLite4Unity3d
                 return SQLite3.ColumnInt(stmt, index);
             }
 
-            if (clrType == typeof(long)) return SQLite3.ColumnInt64(stmt, index);
+            if (clrType == typeof(long))
+                return SQLite3.ColumnInt64(stmt, index);
 
-            if (clrType == typeof(uint)) return (uint) SQLite3.ColumnInt64(stmt, index);
+            if (clrType == typeof(uint))
+                return (uint)SQLite3.ColumnInt64(stmt, index);
 
-            if (clrType == typeof(decimal)) return (decimal) SQLite3.ColumnDouble(stmt, index);
+            if (clrType == typeof(decimal))
+                return (decimal)SQLite3.ColumnDouble(stmt, index);
 
-            if (clrType == typeof(byte)) return (byte) SQLite3.ColumnInt(stmt, index);
+            if (clrType == typeof(byte))
+                return (byte)SQLite3.ColumnInt(stmt, index);
 
-            if (clrType == typeof(ushort)) return (ushort) SQLite3.ColumnInt(stmt, index);
+            if (clrType == typeof(ushort))
+                return (ushort)SQLite3.ColumnInt(stmt, index);
 
-            if (clrType == typeof(short)) return (short) SQLite3.ColumnInt(stmt, index);
+            if (clrType == typeof(short))
+                return (short)SQLite3.ColumnInt(stmt, index);
 
-            if (clrType == typeof(sbyte)) return (sbyte) SQLite3.ColumnInt(stmt, index);
+            if (clrType == typeof(sbyte))
+                return (sbyte)SQLite3.ColumnInt(stmt, index);
 
-            if (clrType == typeof(byte[])) return SQLite3.ColumnByteArray(stmt, index);
+            if (clrType == typeof(byte[]))
+                return SQLite3.ColumnByteArray(stmt, index);
 
             if (clrType == typeof(Guid))
             {
@@ -2094,7 +2326,31 @@ namespace SQLite4Unity3d
             if (clrType.IsSubclassOf(typeof(BTBDataType)))
             {
                 BTBDataType tObject = Activator.CreateInstance(clrType) as BTBDataType;
-                tObject.SetString(SQLite3.ColumnString(stmt, index));
+                tObject.SetValue(SQLite3.ColumnString(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeInt)))
+            {
+                BTBDataTypeInt tObject = Activator.CreateInstance(clrType) as BTBDataTypeInt;
+                tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+            {
+                BTBDataTypeFloat tObject = Activator.CreateInstance(clrType) as BTBDataTypeFloat;
+                tObject.SetDouble(SQLite3.ColumnDouble(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+            {
+                BTBDataTypeEnum tObject = Activator.CreateInstance(clrType) as BTBDataTypeEnum;
+                tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeMask)))
+            {
+                BTBDataTypeMask tObject = Activator.CreateInstance(clrType) as BTBDataTypeMask;
+                tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
                 return tObject;
             }
             //---------- ADD IDEMOBI FINISH ------------
@@ -2104,9 +2360,18 @@ namespace SQLite4Unity3d
 
         private class Binding
         {
-            public string Name { get; set; }
-            public object Value { get; set; }
-            public int Index { get; set; }
+            public string Name
+            {
+                get; set;
+            }
+            public object Value
+            {
+                get; set;
+            }
+            public int Index
+            {
+                get; set;
+            }
         }
     }
 
@@ -2122,11 +2387,23 @@ namespace SQLite4Unity3d
             this.Connection = conn;
         }
 
-        public bool Initialized { get; set; }
-        public string CommandText { get; set; }
+        public bool Initialized
+        {
+            get; set;
+        }
+        public string CommandText
+        {
+            get; set;
+        }
 
-        protected SQLiteConnection Connection { get; set; }
-        protected Sqlite3Statement Statement { get; set; }
+        protected SQLiteConnection Connection
+        {
+            get; set;
+        }
+        protected Sqlite3Statement Statement
+        {
+            get; set;
+        }
 
         public void Dispose()
         {
@@ -2136,7 +2413,8 @@ namespace SQLite4Unity3d
 
         public int ExecuteNonQuery(object[] source)
         {
-            if (this.Connection.Trace) Debug.WriteLine("Executing: " + this.CommandText);
+            if (this.Connection.Trace)
+                System.Diagnostics.Debug.WriteLine("Executing: " + this.CommandText);
 
             SQLite3.Result r = SQLite3.Result.OK;
 
@@ -2207,8 +2485,14 @@ namespace SQLite4Unity3d
     {
         protected class Ordering
         {
-            public string ColumnName { get; set; }
-            public bool Ascending { get; set; }
+            public string ColumnName
+            {
+                get; set;
+            }
+            public bool Ascending
+            {
+                get; set;
+            }
         }
     }
 
@@ -2241,9 +2525,15 @@ namespace SQLite4Unity3d
             this.Table = this.Connection.GetMapping(typeof(T));
         }
 
-        public SQLiteConnection Connection { get; private set; }
+        public SQLiteConnection Connection
+        {
+            get; private set;
+        }
 
-        public TableMapping Table { get; private set; }
+        public TableMapping Table
+        {
+            get; private set;
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -2263,7 +2553,8 @@ namespace SQLite4Unity3d
             TableQuery<U> q = new TableQuery<U>(this.Connection, this.Table);
             q._where = this._where;
             q._deferred = this._deferred;
-            if (this._orderBys != null) q._orderBys = new List<Ordering>(this._orderBys);
+            if (this._orderBys != null)
+                q._orderBys = new List<Ordering>(this._orderBys);
             q._limit = this._limit;
             q._offset = this._offset;
             q._joinInner = this._joinInner;
@@ -2352,7 +2643,8 @@ namespace SQLite4Unity3d
                 if (mem != null && mem.Expression.NodeType == ExpressionType.Parameter)
                 {
                     TableQuery<T> q = Clone<T>();
-                    if (q._orderBys == null) q._orderBys = new List<Ordering>();
+                    if (q._orderBys == null)
+                        q._orderBys = new List<Ordering>();
                     q._orderBys.Add(new Ordering
                     {
                         ColumnName = this.Table.FindColumnWithPropertyName(mem.Member.Name).Name,
@@ -2420,10 +2712,12 @@ namespace SQLite4Unity3d
                 cmdText += " order by " + t;
             }
 
-            if (this._limit.HasValue) cmdText += " limit " + this._limit.Value;
+            if (this._limit.HasValue)
+                cmdText += " limit " + this._limit.Value;
             if (this._offset.HasValue)
             {
-                if (!this._limit.HasValue) cmdText += " limit -1 ";
+                if (!this._limit.HasValue)
+                    cmdText += " limit -1 ";
                 cmdText += " offset " + this._offset.Value;
             }
 
@@ -2437,7 +2731,7 @@ namespace SQLite4Unity3d
 
             if (expr is BinaryExpression)
             {
-                BinaryExpression bin = (BinaryExpression) expr;
+                BinaryExpression bin = (BinaryExpression)expr;
 
                 CompileResult leftr = CompileExpr(bin.Left, queryArgs);
                 CompileResult rightr = CompileExpr(bin.Right, queryArgs);
@@ -2450,16 +2744,17 @@ namespace SQLite4Unity3d
                     text = CompileNullBinaryExpression(bin, leftr);
                 else
                     text = "(" + leftr.CommandText + " " + GetSqlName(bin) + " " + rightr.CommandText + ")";
-                return new CompileResult {CommandText = text};
+                return new CompileResult { CommandText = text };
             }
 
             if (expr.NodeType == ExpressionType.Call)
             {
-                MethodCallExpression call = (MethodCallExpression) expr;
+                MethodCallExpression call = (MethodCallExpression)expr;
                 CompileResult[] args = new CompileResult[call.Arguments.Count];
                 CompileResult obj = call.Object != null ? CompileExpr(call.Object, queryArgs) : null;
 
-                for (int i = 0; i < args.Length; i++) args[i] = CompileExpr(call.Arguments[i], queryArgs);
+                for (int i = 0; i < args.Length; i++)
+                    args[i] = CompileExpr(call.Arguments[i], queryArgs);
 
                 string sqlCall = "";
 
@@ -2504,12 +2799,12 @@ namespace SQLite4Unity3d
                               string.Join(",", args.Select(a => a.CommandText).ToArray()) + ")";
                 }
 
-                return new CompileResult {CommandText = sqlCall};
+                return new CompileResult { CommandText = sqlCall };
             }
 
             if (expr.NodeType == ExpressionType.Constant)
             {
-                ConstantExpression c = (ConstantExpression) expr;
+                ConstantExpression c = (ConstantExpression)expr;
                 queryArgs.Add(c.Value);
                 return new CompileResult
                 {
@@ -2520,7 +2815,7 @@ namespace SQLite4Unity3d
 
             if (expr.NodeType == ExpressionType.Convert)
             {
-                UnaryExpression u = (UnaryExpression) expr;
+                UnaryExpression u = (UnaryExpression)expr;
                 Type ty = u.Type;
                 CompileResult valr = CompileExpr(u.Operand, queryArgs);
                 return new CompileResult
@@ -2532,7 +2827,7 @@ namespace SQLite4Unity3d
 
             if (expr.NodeType == ExpressionType.MemberAccess)
             {
-                MemberExpression mem = (MemberExpression) expr;
+                MemberExpression mem = (MemberExpression)expr;
 
                 if (mem.Expression != null && mem.Expression.NodeType == ExpressionType.Parameter)
                 {
@@ -2541,15 +2836,17 @@ namespace SQLite4Unity3d
                     // Need to translate it if that column name is mapped
                     //
                     string columnName = this.Table.FindColumnWithPropertyName(mem.Member.Name).Name;
-                    return new CompileResult {CommandText = "\"" + columnName + "\""};
+                    return new CompileResult { CommandText = "\"" + columnName + "\"" };
                 }
 
                 object obj = null;
                 if (mem.Expression != null)
                 {
                     CompileResult r = CompileExpr(mem.Expression, queryArgs);
-                    if (r.Value == null) throw new NotSupportedException("Member access failed to compile expression");
-                    if (r.CommandText == "?") queryArgs.RemoveAt(queryArgs.Count - 1);
+                    if (r.Value == null)
+                        throw new NotSupportedException("Member access failed to compile expression");
+                    if (r.CommandText == "?")
+                        queryArgs.RemoveAt(queryArgs.Count - 1);
                     obj = r.Value;
                 }
 
@@ -2560,12 +2857,12 @@ namespace SQLite4Unity3d
 
                 if (mem.Member.MemberType == MemberTypes.Property)
                 {
-                    PropertyInfo m = (PropertyInfo) mem.Member;
+                    PropertyInfo m = (PropertyInfo)mem.Member;
                     val = m.GetValue(obj, null);
                 }
                 else if (mem.Member.MemberType == MemberTypes.Field)
                 {
-                    FieldInfo m = (FieldInfo) mem.Member;
+                    FieldInfo m = (FieldInfo)mem.Member;
                     val = m.GetValue(obj);
                 }
                 else
@@ -2581,7 +2878,7 @@ namespace SQLite4Unity3d
                     StringBuilder sb = new StringBuilder();
                     sb.Append("(");
                     string head = "";
-                    foreach (object a in (IEnumerable) val)
+                    foreach (object a in (IEnumerable)val)
                     {
                         queryArgs.Add(a);
                         sb.Append(head);
@@ -2692,8 +2989,14 @@ namespace SQLite4Unity3d
 
         private class CompileResult
         {
-            public string CommandText { get; set; }
-            public object Value { get; set; }
+            public string CommandText
+            {
+                get; set;
+            }
+            public object Value
+            {
+                get; set;
+            }
         }
     }
 }

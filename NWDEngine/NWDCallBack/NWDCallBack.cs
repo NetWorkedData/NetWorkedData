@@ -17,30 +17,16 @@ using UnityEngine.Networking;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
-    //	TODO : finish implementation  : add notifications key and callback method : Must be test
-    //-------------------------------------------------------------------------------------------------------------
-    /// <summary>
-    /// NWD game call back.
-    /// Use in game object to connect the other gameobject to action in the NetWorkedData package 
-    /// Each scene can be connect independently
-    /// </summary>
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDCallBack : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        [Header("Track NetWorkedData Engine")]
-        public bool TrackEngineLaunch = true;
-        //public NWDCallBackEvent EngineLaunchEvent;
-        [Header("Track NetWorkedData Data load")]
-        public bool TrackDatasStartLoading = true;
-        //public NWDCallBackEvent DatasStartLoadingEvent;
-        public bool TrackDatasPartialLoaded = true;
-        //public NWDCallBackEvent DatasPartialLoadedEvent;
-        public bool TrackDatasLoaded = true;
-        //public NWDCallBackEvent DatasLoadedEvent;
         [Header("Track NetWorkedData Language change")]
         public bool TrackLanguageChanged = true;
         //public NWDCallBackEvent LanguageChangedEvent;
+        [Header("Track NetWorkedData Database ")]
+        public bool TrackDataLoaded = true;
         [Header("Track NetWorkedData Account")]
         public bool TrackAccountBanned = true;
         //public NWDCallBackEvent AccountBannedEvent;
@@ -97,41 +83,7 @@ namespace NetWorkedData
         {
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-
-            // Launch engine
-            if (TrackEngineLaunch == true)
-            {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
-                {
-                    NotificationEngineLaunch(sNotification);
-                });
-            }
-
-            // load datas
-            if (TrackDatasStartLoading == true)
-            {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_START_LOADING, delegate (BTBNotification sNotification)
-                {
-                    NotificationDatasStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
-                });
-            }
-            if (TrackDatasPartialLoaded == true)
-            {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED, delegate (BTBNotification sNotification)
-                {
-                    float tPurcent = (float)NWDTypeLauncher.ClassesDataLoaded / (float)NWDTypeLauncher.ClassesExpected;
-                    NotificationDatasPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
-                });
-            }
-            if (TrackDatasLoaded == true)
-            {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
-                {
-                    NotificationDatasLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
-                });
-            }
             // change language
-
             if (TrackLanguageChanged == true)
             {
                 tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_LANGUAGE_CHANGED, delegate (BTBNotification sNotification)
@@ -140,6 +92,13 @@ namespace NetWorkedData
                 });
             }
 
+            if (TrackDataLoaded == true)
+            {
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
+                {
+                    NotificationDatasLoaded(sNotification);
+                });
+            }
             // change data
 
             if (TrackDataLocalInsert == true)
@@ -314,12 +273,10 @@ namespace NetWorkedData
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
 
             // remove this from BTBNotificationManager
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_BANNED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_CHANGE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
@@ -360,22 +317,7 @@ namespace NetWorkedData
         //=============================================================================================================
         // VIRTUAL METHOD        
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationEngineLaunch(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasLoaded(BTBNotification sNotification)
         {
             // create your method by override
         }
@@ -491,5 +433,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

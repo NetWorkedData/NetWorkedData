@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2018 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using System;
 using System.Reflection;
 using System.IO;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -14,7 +20,8 @@ namespace NetWorkedData
     public class NWDNodeCard
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass Data;
+        public NWDTypeClass DataObject;
+        //-------------------------------------------------------------------------------------------------------------
         public List<NWDNodeConnection> ConnectionList = new List<NWDNodeConnection>();
         public Vector2 Position;
         public Vector2 CirclePosition;
@@ -28,7 +35,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         float tX;
         float tY;
-        float Margin;
         public float Width;
         public float Height;
         public float InformationsHeight;
@@ -36,6 +42,12 @@ namespace NetWorkedData
         //string InfosCard = string.Empty;
         //string InfosCardCustom = string.Empty;
         Rect CardRect;
+
+        Vector2 CardTopLeft;
+        Vector2 CardTopRight;
+        Vector2 CardBottomLeft;
+        Vector2 CardBottomRight;
+
         Rect CardTypeRect;
         Rect CardReferenceRect;
         Rect CardInternalKeyRect;
@@ -47,20 +59,37 @@ namespace NetWorkedData
         public string InternalKeyString;
         //public string Informations;
         //-------------------------------------------------------------------------------------------------------------
+        public void SetData(NWDTypeClass sData)
+        {
+            if (NWDBasisHelper.FindTypeInfos(sData.GetType()).DatabaseIsLoaded())
+            {
+                DataObject = sData;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass GetData()
+        {
+            return DataObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void Analyze(NWDNodeDocument sDocument)
         {
             //Debug.Log("NWDNodeCard Analyze()");
             ParentDocument = sDocument;
             sDocument.ColumnMaxCount(Column);
             // I analyze the properties of data.
-            if (Data != null)
+            if (DataObject != null)
             {
-                Type tType = Data.GetType();
-                var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(Data, new object[] { this });
-                }
+                DataObject.NodeCardAnalyze(this);
+                //// TODO : Change to remove invoke!
+                //Type tType = Data.GetType();
+                ////var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_NodeCardAnalyze);
+
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(Data, new object[] { this });
+                //}
             }
             else
             {
@@ -97,7 +126,14 @@ namespace NetWorkedData
                         tNewConnection.Parent = this;
                     //}
                     tNewConnection.Property = sProperty;
-                    tNewConnection.AddButton = sButtonAdd;
+                    if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
+                    {
+                        tNewConnection.AddButton = false;
+                    }
+                    else
+                    {
+                        tNewConnection.AddButton = sButtonAdd;
+                    }
                     //int tLine = 0;
                 }
                 foreach (NWDTypeClass tObject in sObjectsArray)
@@ -109,7 +145,14 @@ namespace NetWorkedData
                         tNewConnection.ConType = sConType;
                         tNewConnection.Parent = this;
                         tNewConnection.Property = sProperty;
-                        tNewConnection.AddButton = sButtonAdd;
+                        if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
+                        {
+                            tNewConnection.AddButton = false;
+                        }
+                        else
+                        {
+                            tNewConnection.AddButton = sButtonAdd;
+                        }
                         ConnectionList.Add(tNewConnection);
                     }
                     // Card exist?
@@ -121,7 +164,7 @@ namespace NetWorkedData
                         tCardLine.ConType = sConType;
                         foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                         {
-                            if (tOldCard.Data == tObject)
+                            if (tOldCard.DataObject == tObject)
                             {
                                 tDataAllReadyShow = true;
                                 tCard = tOldCard;
@@ -141,7 +184,7 @@ namespace NetWorkedData
                             tCard = new NWDNodeCard();
                             tCard.Column = Column + 1;
                             tCard.Line = ParentDocument.GetNextLine(tCard);
-                            tCard.Data = tObject;
+                            tCard.SetData(tObject);
                             rResult.Add(tCard);
                             ParentDocument.AllCards.Add(tCard);
                             tCardLine.Style = NWDNodeConnectionType.Valid;
@@ -165,10 +208,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateHeightWidth()
         {
-            Margin = ParentDocument.Margin;
-            tX = ParentDocument.MargeWidth + Margin + Column * (ParentDocument.GetWidth() + Margin);
-            tY = Margin + Line * (ParentDocument.Height + Margin);
-            Height = NWDConstants.kFieldMarge + (ParentDocument.HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (ParentDocument.HeightProperty + NWDConstants.kFieldMarge) * ConnectionList.Count;
+            tX = ParentDocument.MargeWidth + NWDGUI.kNodeCardHeight + Column * (ParentDocument.GetWidth() + NWDGUI.kNodeCardHeight);
+            tY = NWDGUI.kNodeCardHeight + Line * (ParentDocument.Height + NWDGUI.kNodeCardHeight);
+            Height = NWDGUI.kFieldMarge + (ParentDocument.HeightLabel + NWDGUI.kFieldMarge) * 3 + InformationsHeight + NWDGUI.kFieldMarge + (ParentDocument.HeightProperty + NWDGUI.kFieldMarge) * ConnectionList.Count;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
@@ -176,180 +218,176 @@ namespace NetWorkedData
             //Infos = "";//Data.GetType().AssemblyQualifiedName;
             //InfosCard = " " + Column + " x " + Line + "\n";
             //InfosCardCustom = "";
-
+            //Width = 250;
+            //Height = 250;
             CardRect = new Rect(tX, tY, Width, Height);
 
-            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge + NWDConstants.kEditWidthHalf, CardRect.y + NWDConstants.kFieldMarge, NWDConstants.kIconWidth, NWDConstants.kIconWidth);
+            CardTopLeft = new Vector2(CardRect.xMin, CardRect.yMax);
+            CardTopRight = new Vector2(CardRect.xMax, CardRect.yMax);
+            CardBottomLeft = new Vector2(CardRect.xMin, CardRect.yMin);
+            CardBottomRight = new Vector2(CardRect.xMax, CardRect.yMin);
 
-            CardTypeRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4 - NWDConstants.kIconWidth, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kIconWidth, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kIconWidth, ParentDocument.HeightLabel);
+            IconRect = new Rect(CardRect.x + NWDGUI.kFieldMarge + NWDGUI.kEditWidthHalf, CardRect.y + NWDGUI.kFieldMarge, NWDGUI.kIconWidth, NWDGUI.kIconWidth);
 
-            InfoRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, Width - +NWDConstants.kFieldMarge * 2, InformationsHeight);
-            InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge * 2, InfoRect.height - NWDConstants.kFieldMarge * 2);
+            CardTypeRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kFieldMarge * 4 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDGUI.kFieldMarge * 2, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDGUI.kFieldMarge * 3, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
+
+            InfoRect = new Rect(tX + NWDGUI.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 4, Width - +NWDGUI.kFieldMarge * 2, InformationsHeight);
+            InfoUsableRect = new Rect(InfoRect.x + NWDGUI.kFieldMarge, InfoRect.y + NWDGUI.kFieldMarge, InfoRect.width - NWDGUI.kFieldMarge * 2, InfoRect.height - NWDGUI.kFieldMarge * 2);
 
             Position = new Vector2(tX, tY);
-            CirclePosition = new Vector2(tX + 0, tY + NWDConstants.kIconWidth / 2.0F + NWDConstants.kFieldMarge);
-            PositionTangent = new Vector2(CirclePosition.x - ParentDocument.Margin, CirclePosition.y);
+            CirclePosition = new Vector2(tX + 0, tY + NWDGUI.kIconWidth / 2.0F + NWDGUI.kFieldMarge);
+            PositionTangent = new Vector2(CirclePosition.x - NWDGUI.kNodeCardHeight, CirclePosition.y);
 
             int tPropertyCounter = 0;
             foreach (NWDNodeConnection tConnection in ConnectionList)
             {
                 //Debug.Log("NWDNodeCard DrawCard() draw connection");
-                tConnection.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
-                                                tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + InformationsHeight + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                Width - NWDConstants.kFieldMarge * 2 - NWDConstants.kEditWidthMini / 2.0F,
+                tConnection.Rectangle = new Rect(tX + NWDGUI.kFieldMarge,
+                                                tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 5 + InformationsHeight + (NWDGUI.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
+                                                Width - NWDGUI.kFieldMarge * 2 - NWDGUI.kEditWidthMini / 2.0F,
                                                 ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnection.PropertyName);
-                tConnection.Position = new Vector2(tX + Width - NWDConstants.kFieldMarge,
+                tConnection.Position = new Vector2(tX + Width - NWDGUI.kFieldMarge,
                                                   tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
 
 
                 tConnection.CirclePosition = new Vector2(
                     tX + Width,
-                                                  //                      tX + Width - NWDConstants.kFieldMarge - NWDConstants.kEditWidth/2.0F,
+                                                  //                      tX + Width - NWDGUI.kFieldMarge - NWDGUI.kEditWidth/2.0F,
                                                   tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
-                tConnection.PositionTangent = new Vector2(tConnection.CirclePosition.x + ParentDocument.Margin, tConnection.CirclePosition.y);
+                tConnection.PositionTangent = new Vector2(tConnection.CirclePosition.x + NWDGUI.kNodeCardHeight, tConnection.CirclePosition.y);
                 tPropertyCounter++;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawCard()
+        public void DrawCard(Rect sVisibleRect)
         {
-            // Debug.Log("NWDNodeCard DrawCard()");
 
-            GUI.Box(CardRect, " ", EditorStyles.helpBox);
-            //GUI.DrawTexture(CardRect, NWDConstants.kImageNodalCard);
-
-            /// if selected redraw twice or three time this card background
-            if (NWDDataInspector.ObjectInEdition() == Data)
+            if (sVisibleRect.Contains(CardTopLeft) ||
+                sVisibleRect.Contains(CardTopRight) ||
+                sVisibleRect.Contains(CardBottomLeft) ||
+                sVisibleRect.Contains(CardBottomRight)
+            )
             {
-                //var tTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                //tTexture.SetPixel(0, 0, new Color(1.0F, 1.0F, 1.0F, 0.5F));
-                //GUIStyle tStyle = new GUIStyle(EditorStyles.helpBox);
-                //tStyle.normal.background = tTexture;
-
-                Color tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
-                GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
-                GUI.backgroundColor = tOldColor;
-            }
-            //else
-            //{
-            //    // draw background
-            //    GUI.Box(CardRect, " ", EditorStyles.helpBox);
-            //}
-
-            //EditorGUI.DrawRect(new Rect(CardRect.x + 1, CardRect.y + 1, CardRect.width-2, CardRect.height-2), Color.gray);
-            if (ClassTexture != null)
-            {
-                //EditorGUI.DrawPreviewTexture(IconRect, ClassTexture);
-                GUI.DrawTexture(IconRect, ClassTexture);
-            }
-
-            GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
-            GUI.Label(CardReferenceRect, ReferenceString);
-            //GUI.Label(CardInternalKeyRect, InternalKeyString);
-            GUI.Label(CardInternalKeyRect, Data.InternalKeyValue());
-
-            // Draw informations box with the color of informations
-            Color tOldBackgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = InformationsColor;
-            GUI.Box(InfoRect, " ", EditorStyles.helpBox);
-            GUI.backgroundColor = tOldBackgroundColor;
-            // add button to edit data
-            GUIContent tButtonContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-            if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth - NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
-            {
-                NWDDataInspector.InspectNetWorkedData(Data, true, true);
-            }
-            // add button to center node on this data
-            GUIContent tNodeContent = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
-            if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
-            {
-                NWDDataInspector.InspectNetWorkedData(Data, true, true);
-                ParentDocument.SetData(Data);
-            }
-            // add custom draw in information rect
-            Type tType = Data.GetType();
-            var tMethodInfo = tType.GetMethod("AddOnNodeDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect, ParentDocument.ReGroupProperties });
-            }
-            // add connection
-            foreach (NWDNodeConnection tConnection in ConnectionList)
-            {
-                GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
-                tBox.alignment = TextAnchor.MiddleLeft;
-                Type tTypeProperty = tConnection.Property.GetValue(Data, null).GetType();
-                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-
-                if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
+                // Debug.Log("NWDNodeCard DrawCard() rect = " + CardRect.ToString());
+                GUI.Box(CardRect, " ", EditorStyles.helpBox);
+                if (NWDDataInspector.ObjectInEdition() == DataObject)
                 {
-                    NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
-                    if (tSubCard != null)
-                    {
-                        // draw properties distinct
-                        GUI.Box(tConnection.Rectangle, string.Empty, tBox);
-                        // add special infos in this property draw
-                        NWDTypeClass tSubData = tSubCard.Data;
-                        Type tSubType = tSubData.GetType();
-                        var tSubMethodInfo = tSubType.GetMethod("AddOnNodePropertyDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                        if (tSubMethodInfo != null)
-                        {
-                            tSubMethodInfo.Invoke(tSubData, new object[] { tConnection.PropertyName, new Rect(tConnection.Rectangle.x+NWDConstants.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height) });
-                        }
-                        // Add button to edit this data
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
-                        {
-                            NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
-                        }
-                        // add button to center node on this data
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
-                        {
-                            NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
-                            ParentDocument.SetData(tSubCard.Data);
-                        }
-                    }
-                    else
-                    {
-                        GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
-                    }
+                    Color tOldColor = GUI.backgroundColor;
+                    GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
+                    GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
+                    GUI.backgroundColor = tOldColor;
                 }
-                else
+                if (ClassTexture != null)
                 {
-                    // draw properties group
-                    GUI.Box(tConnection.Rectangle, tConnection.PropertyName, tBox);
+                    GUI.DrawTexture(IconRect, ClassTexture);
                 }
 
-                if (tConnection.AddButton == true)
+                GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
+                GUI.Label(CardReferenceRect, ReferenceString);
+                GUI.Label(CardInternalKeyRect, DataObject.InternalKeyValue());
+
+                // Draw informations box with the color of informations
+                Color tOldBackgroundColor = GUI.backgroundColor;
+                GUI.backgroundColor = InformationsColor;
+                GUI.Box(InfoRect, " ", EditorStyles.helpBox);
+                GUI.backgroundColor = tOldBackgroundColor;
+                // add button to edit data
+                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
                 {
+                    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
+                }
+                // add button to center node on this data
+                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
+                {
+                    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
+                    ParentDocument.SetData(DataObject);
+                }
 
-                    if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDConstants.kEditWidth - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                //NWDBasisHelper.FindTypeInfos(Data.GetType());
+                string tPrefName = "NWDEditorAnalyze_" + DataObject.GetType().Name;
+                bool tAnalyze = EditorPrefs.GetBool(tPrefName, true);
+                bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDGUI.kEditIconSide * 3 - NWDGUI.kFieldMarge * 3, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), "", tAnalyze);
+                if (tAnalyzeChange != tAnalyze)
+                {
+                    EditorPrefs.SetBool(tPrefName, tAnalyzeChange);
+                    ParentDocument.LoadClasses();
+                    ParentDocument.ReAnalyze();
+                }
+
+                DataObject.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
+              
+                foreach (NWDNodeConnection tConnection in ConnectionList)
+                {
+                    GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+                    tBox.alignment = TextAnchor.MiddleLeft;
+                    Type tTypeProperty = tConnection.Property.GetValue(DataObject, null).GetType();
+
+                    if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
                     {
-                        //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
-                        // call the method EditorAddNewObject();
-
-                        //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
-                        var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                        if (tMethodProperty != null)
+                        NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
+                        if (tSubCard != null)
                         {
-                            tMethodProperty.Invoke(tConnection.Property.GetValue(Data, null), null);
-                            // Ok I update the data
-                            Type tDataType = Data.GetType();
-                            var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                            if (tDataTypeUpdate != null)
+                            // draw properties distinct
+                            GUI.Box(tConnection.Rectangle, string.Empty, tBox);
+                            // add special infos in this property draw
+                            NWDTypeClass tSubData = tSubCard.DataObject;
+                            tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDGUI.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDGUI.kEditWidth + NWDGUI.kFieldMarge) * 3, tConnection.Rectangle.height));
+                            // Add button to edit this data
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
                             {
-                                //Debug.Log("UpdateMe is Ok ");
-                                tDataTypeUpdate.Invoke(Data, new object[] { true });
-                                ParentDocument.ReAnalyze();
+                                NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
+                            }
+                            // add button to center node on this data
+                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
+                            {
+                                NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
+                                ParentDocument.SetData(tSubCard.DataObject);
                             }
                         }
                         else
                         {
-                            //Debug.Log("NO tMethodProperty ");
+                            GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
+                        }
+                    }
+                    else
+                    {
+                        // draw properties group
+                        GUI.Box(tConnection.Rectangle, tConnection.PropertyName, tBox);
+                    }
+
+                    if (tConnection.AddButton == true)
+                    {
+
+                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDGUI.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNewContentIcon, EditorStyles.miniButton))
+                        {
+                            // TODO : Change to remove invoke!
+                            //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
+                            // call the method EditorAddNewObject();
+                            // TODO : Change to remove invoke!
+                            //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
+                            var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                            if (tMethodProperty != null)
+                            {
+                                tMethodProperty.Invoke(tConnection.Property.GetValue(DataObject, null), null);
+                                // Ok I update the data
+                                Type tDataType = DataObject.GetType();
+                                // TODO : Change to remove invoke!
+                                var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                if (tDataTypeUpdate != null)
+                                {
+                                    //Debug.Log("UpdateMe is Ok ");
+                                    tDataTypeUpdate.Invoke(DataObject, new object[] { true });
+                                    ParentDocument.ReAnalyze();
+                                }
+                            }
+                            else
+                            {
+                                //Debug.Log("NO tMethodProperty ");
+                            }
                         }
                     }
                 }
@@ -368,10 +406,10 @@ namespace NetWorkedData
         public void DrawForwardPlot()
         {
             //Debug.Log("NWDNodeCard DrawPlot()");
-            Handles.color = NWDConstants.kNodeLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf);
-            Handles.color = NWDConstants.kNodeOverLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf - 1.0f);
+            Handles.color = NWDGUI.kNodeLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf);
+            Handles.color = NWDGUI.kNodeOverLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf - 1.0f);
             // Draw plot of my connections 
             foreach (NWDNodeConnection tConnection in ConnectionList)
             {

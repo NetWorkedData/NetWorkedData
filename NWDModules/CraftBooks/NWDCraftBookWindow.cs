@@ -4,13 +4,8 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -18,14 +13,12 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Craft",
         "Craft edition",
-        "NWDCraftBookWindow",
             new Type[] {
             typeof(NWDCraftBook),
-            typeof(NWDCraftBookAdd),
-            typeof(NWDRecipientGroup),
+            typeof(NWDCraftReward),
+            typeof(NWDCraftRecipient),
             typeof(NWDItemGroup),
             typeof(NWDItem),
-			/* Add NWDBasis here*/
 		}
     )]
     public class NWDCraftBookWindow : NWDBasisWindow<NWDCraftBookWindow>

@@ -1,19 +1,18 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BasicToolBox;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -49,13 +48,14 @@ namespace NetWorkedData
         public TextMesh TextMeshTarget;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         private void OnDrawGizmos()
         {
             //Debug.Log("NWDAutolocalized OnDrawGizmos()");
             LocalizeEditor();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public void LocalizeEditor()
         {
            //Debug.Log("NWDAutolocalized LocalizeEditor()");
@@ -324,21 +324,21 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDAutolocalized DataIsLoaded()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
             Localize(false);
         }
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
             //Debug.Log("NWDAutolocalized Awake()");
-            if (NWDTypeLauncher.DataLoaded == false)
+            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
                 if (EmptyIfNotLoaded == true)
                 {
                     Empty();
                 }
                 BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (BTBNotification sNotification)
                 {
                     DataIsLoaded();
                 });
@@ -353,12 +353,15 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDAutolocalized OnDestroy()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         string Enrichment(string sText)
         {
-            return NWDAccountNickname.Enrichment(NWDLocalization.Enrichment(sText));
+            string rText = NWDLocalization.Enrichment(sText);
+            rText = NWDUserNickname.Enrichment(rText);
+            rText = NWDAccountNickname.Enrichment(rText);
+            return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

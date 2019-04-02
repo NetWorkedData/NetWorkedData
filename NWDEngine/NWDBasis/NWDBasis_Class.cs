@@ -31,8 +31,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        static NWDBasis()
+        {
+            //Debug.Log("NWDBasis Static Class Constructor()");
+            NWDTypeLauncher.Launcher();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ClassDeclare)]
         public static void ClassDeclare()
         {
+           // Debug.Log("ClassDeclare for " + typeof(K).Name);
             //BTBBenchmark.Start();
             //BTBBenchmark.Start("ClassDeclare step 1");
             Type tActualType = typeof(K);
@@ -74,7 +82,7 @@ namespace NetWorkedData
             }
             //BTBBenchmark.Finish("ClassDeclare step 1");
             //BTBBenchmark.Start("ClassDeclare step 2");
-            NWDDatas.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
+            NWDBasisHelper.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
             //BTBBenchmark.Finish("ClassDeclare step 2");
             //BTBBenchmark.Start("ClassDeclare step 3");
             AccountDependentAnalyze();
@@ -84,6 +92,30 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTypeList.Add(tActualType);
             }
+
+            if (AccountDependent())
+            {
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
+                }
+            }
+            else
+            {
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
+                }
+            }
+
             if (tServerSynchronize == true)
             {
                 if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == false)
@@ -93,28 +125,6 @@ namespace NetWorkedData
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == true)
                 {
                     NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(tActualType);
-                }
-                if (AccountDependent())
-                {
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
-                    }
-                }
-                else
-                {
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
-                    }
                 }
             }
             else
@@ -126,14 +136,6 @@ namespace NetWorkedData
                 if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == false)
                 {
                     NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
                 }
             }
             if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
@@ -147,22 +149,27 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
             //BTBBenchmark.Finish("ClassDeclare step 4");
             //BTBBenchmark.Start("ClassDeclare step 5");
-            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(null, null);
-            }
-            Datas().ClassLoaded = true;
+
+            // TODO : Change to remove invoke!
+            //var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            NWDAliasMethod.InvokeClassMethod(ClassType(),NWDConstants.M_ClassInitialization);
+            //var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodInfo != null)
+            //{
+            //    tMethodInfo.Invoke(null, null);
+            //}
+            BasisHelper().ClassLoaded = true;
             //BTBBenchmark.Finish("ClassDeclare step 5");
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDatas Datas()
+        [NWDAliasMethod(NWDConstants.GetBasisHelper)]
+        public static NWDBasisHelper BasisHelper()
         {
-            NWDDatas rDatas = NWDDatas.FindTypeInfos(typeof(K));
+            NWDBasisHelper rDatas = NWDBasisHelper.FindTypeInfos(typeof(K));
             if (rDatas == null)
             {
-                Debug.LogWarning("ERROR NWDDatas.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
+                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
             }
             return rDatas;
         }
@@ -176,6 +183,12 @@ namespace NetWorkedData
         public static Type ClassType()
         {
             return typeof(K);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string FindAliasName(string sAlias)
+        {
+
+            return NWDAlias.FindAliasName(ClassType(), sAlias);
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static Dictionary<string, string> kMenuNameType = new Dictionary<string, string>();
@@ -631,8 +644,9 @@ namespace NetWorkedData
             Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
             Type tType = ClassType();
 
-            Datas().ClassGameSaveDependent = false;
-            Datas().ClassGameDependentProperties = null;
+            BasisHelper().ClassGameSaveDependent = false;
+            BasisHelper().ClassGameDependentProperties = null;
+            BasisHelper().GameSaveMethod = null;
             // TODO : check 
             // exception for NWDAccount table
             if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken))
@@ -661,16 +675,22 @@ namespace NetWorkedData
                             }
                             if (tSubType == typeof(NWDGameSave))
                             {
-                                Datas().ClassGameSaveDependent = true;
-                                Datas().ClassGameDependentProperties = tProp;
-
+                                BasisHelper().ClassGameSaveDependent = true;
+                                BasisHelper().ClassGameDependentProperties = tProp;
                                 MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                Datas().GameSaveMethod = tGameSaveMethod;
+                                BasisHelper().GameSaveMethod = tGameSaveMethod;
                             }
                         }
-                        else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                                 || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
-                               || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
+                        else if (
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesConditionalType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
+                        )
                         {
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
@@ -699,60 +719,84 @@ namespace NetWorkedData
                 }
             }
 
-            Datas().kAccountDependent = rAccountConnected;
+            BasisHelper().kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
-            Datas().kAccountDependentProperties = tPropertyList.ToArray();
+            BasisHelper().kAccountDependentProperties = tPropertyList.ToArray();
 
             // reccord class' object is account connected properties
-            Datas().kAccountConnectedProperties = tPropertyListConnected.ToArray();
-            Datas().AccountMethodDico = tAccountMethodList;
+            BasisHelper().kAccountConnectedProperties = tPropertyListConnected.ToArray();
+            BasisHelper().AccountMethodDico = tAccountMethodList;
 
             // reccord if class' object is locked for editor
 
 #if UNITY_EDITOR
             rLockedObject = false;
 #endif
-            Datas().kLockedObject = rLockedObject;
+            BasisHelper().kLockedObject = rLockedObject;
 
             // reccord if class' object is asset dependent
-            Datas().kAssetDependent = rAssetConnected;
-            Datas().kAssetDependentProperties = tAssetPropertyList.ToArray();
+            BasisHelper().kAssetDependent = rAssetConnected;
+            BasisHelper().kAssetDependentProperties = tAssetPropertyList.ToArray();
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static PropertyInfo[] PropertiesAccountDependent()
         {
-            return Datas().kAccountDependentProperties;
+            return BasisHelper().kAccountDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static PropertyInfo[] PropertiesAccountConnect()
+        public static PropertyInfo[] PropertiesAccountConnected()
         {
-            return Datas().kAccountConnectedProperties;
+            return BasisHelper().kAccountConnectedProperties;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AccountConnected()
+        {
+            bool rReturn = false;
+            if (BasisHelper().kAccountConnectedProperties.Length > 0)
+            {
+                rReturn = true;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountDependent()
         {
-            return Datas().kAccountDependent;
+            return BasisHelper().kAccountDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool GameSaveDependent()
         {
-            return Datas().ClassGameSaveDependent;
+            return BasisHelper().ClassGameSaveDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsClassLockedObject()
         {
-            return Datas().kLockedObject;
+            return BasisHelper().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AssetDependent()
         {
-            return Datas().kAssetDependent;
+            return BasisHelper().kAssetDependent;
         }
         //----------------------------------------------
         public static PropertyInfo[] PropertiesAssetDependent()
         {
-            return Datas().kAssetDependentProperties;
+            return BasisHelper().kAssetDependentProperties;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool DatabaseIsLoaded()
+        {
+            bool rLoaded = true;
+            if (AccountDependent() == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
+            {
+                rLoaded = false;
+            }
+            else if (AccountDependent() == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            {
+                rLoaded = false;
+            }
+            return rLoaded;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -761,7 +805,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool IsLockedObject() // return true during the player game
         {
-            return Datas().kLockedObject;
+            return BasisHelper().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

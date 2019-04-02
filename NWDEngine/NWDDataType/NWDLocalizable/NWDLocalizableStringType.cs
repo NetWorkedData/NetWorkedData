@@ -129,7 +129,7 @@ namespace NetWorkedData
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tRow += tValueArray.Count ();
 			}
-            float rReturn = (NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge) * tRow +NWDConstants.kPopupdStyle.fixedHeight;
+            float rReturn = (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * tRow +NWDGUI.kPopupStyle.fixedHeight;
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 
-            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
 			List<string> tLocalizationList = new List<string> ();
 			tLocalizationList.Add (BTBConstants.K_MINUS);
@@ -206,7 +206,7 @@ namespace NetWorkedData
 
 				int tIndex = tValueFuturList.IndexOf (tLangague);
                 //tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDGUI.kPopupStyle);
 				if (tIndex < 0 || tIndex >= tValueFuturList.Count) {
 					tIndex = 0;
 				}
@@ -217,11 +217,11 @@ namespace NetWorkedData
                     //remove EditorGUI.indentLevel to draw next controller without indent 
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));
+                    tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDGUI.kFieldMarge, tY, tWidth - tLangWidth - NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));
                     EditorGUI.indentLevel = tIndentLevel;
                 }
 				tText = NWDToolbox.TextProtect (tText);
-                tY += NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 				if (tResult.ContainsKey (tLangague)) {
 					tResult [tLangague] = tText;
 				} else {

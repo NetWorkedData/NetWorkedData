@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+#if UNITY_EDITOR
+using System;
 using System.Collections;
 
 using UnityEngine;
@@ -7,7 +9,6 @@ using UnityEngine.SceneManagement;
 using NetWorkedData;
 using System.IO;
 
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEditor.SceneManagement;
@@ -15,7 +16,6 @@ using UnityEditor.SceneManagement;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [CustomEditor(typeof(NWDNetworkCheck))]
     public class NWDNetworkCheckEditor : Editor
@@ -23,7 +23,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void OnInspectorGUI()
         {
-
             //bool tNextSceneEdition = false;
             // Update the serializedProperty - always do this in the beginning of OnInspectorGUI.
             this.serializedObject.Update();
@@ -39,5 +38,5 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
-#endif
 //=====================================================================================================================
+#endif

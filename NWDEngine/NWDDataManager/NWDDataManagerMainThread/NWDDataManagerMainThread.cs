@@ -218,8 +218,8 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                         {
-                        NWDDataManager.SharedInstance().RepaintWindowForData(tType);
-                        }
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                    }
 #endif
                 }
             }
@@ -235,7 +235,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {
-                        NWDDataManager.SharedInstance().RepaintWindowForData(tType);
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                     }
 #endif
                 }
@@ -252,7 +252,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {
-                        NWDDataManager.SharedInstance().RepaintWindowForData(tType);
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                     }
 #endif
                 }

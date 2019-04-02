@@ -10,8 +10,8 @@ using System;
 public class NWDPreferencesScript : MonoBehaviour
 {
     //-------------------------------------------------------------------------------------------------------------
-    public NWDPreferencesKeyConnection StatKeyConnection;
-    private NWDPreferencesKey PreferencesKey;
+    public NWDPreferenceKeyConnection StatKeyConnection;
+    private NWDPreferenceKey PreferencesKey;
     //-------------------------------------------------------------------------------------------------------------
     void Awake()
     {

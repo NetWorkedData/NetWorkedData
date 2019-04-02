@@ -1,9 +1,12 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +16,6 @@ using System.Reflection;
 using SQLite4Unity3d;
 using UnityEngine;
 using BasicToolBox;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -27,12 +29,12 @@ namespace NetWorkedData
 			string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = mTypeList.Count + 1;
 			float tOperation = 1;
-			EditorUtility.DisplayProgressBar(tProgressBarTitle, "P repare", tOperation/tCountClass);
+			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation/tCountClass);
 			foreach( Type tType in mTypeList)
 			{
-				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
 				tOperation++;
-				var tMethodInfo = tType.GetMethod("ChangeAssetPath", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeAssetPath);
 				if (tMethodInfo != null) 
 				{
 					tMethodInfo.Invoke(null, new object[] {sOldPath, sNewPath});

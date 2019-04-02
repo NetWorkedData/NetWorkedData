@@ -133,6 +133,13 @@ namespace NetWorkedData
         {
             return false;
         }
+        public DateTime NextDateTime()
+        {
+            DateTime tReturn = DateTime.Now;
+            // TODO Find next date time!
+            /// 00-( ... ca va etre coton :-/ 
+            return tReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------

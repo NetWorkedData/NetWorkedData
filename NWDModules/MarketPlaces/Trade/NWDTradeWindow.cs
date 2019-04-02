@@ -20,12 +20,11 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Trade",
         "Trade window description",
-        "NWDIcons_02",
         new Type[] {
             typeof(NWDTradePlace),
-            typeof(NWDUserTradeProposition),
             typeof(NWDUserTradeRequest),
-            typeof(NWDUserTradeNotification),
+            typeof(NWDUserTradeProposition),
+            typeof(NWDUserTradeFinder),
 			/* Add NWDBasis here*/
 		}
     )]
@@ -34,7 +33,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 551)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDTradeWindow));

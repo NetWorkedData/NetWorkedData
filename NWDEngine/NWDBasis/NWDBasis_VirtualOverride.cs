@@ -73,17 +73,17 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated me. Can be ovverride in herited Class.
-        /// </summary>
-        public virtual void AddonVersionMe()
-        {
+        ///// <summary>
+        ///// Addon method when updated me. Can be ovverride in herited Class.
+        ///// </summary>
+        //public virtual void AddonVersionMe()
+        //{
 
-        }
+        //}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when updated me from Web. Can be ovverride in herited Class.
-		/// </summary>
+		///// <summary>
+		///// Addon method when updated me from Web. Can be ovverride in herited Class.
+		///// </summary>
 		public virtual void AddonUpdatedMeFromWeb ()
 		{
 
@@ -147,15 +147,25 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual bool AddonSyncForce()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade
             // TODO verif if method is call in good place in good timing
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool AddonErrorFound()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

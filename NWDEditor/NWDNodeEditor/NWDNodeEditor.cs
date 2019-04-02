@@ -4,6 +4,7 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ using System;
 using System.Reflection;
 using System.IO;
 
-#if UNITY_EDITOR
 using UnityEditor;
 
 //=====================================================================================================================
@@ -25,7 +25,18 @@ namespace NetWorkedData
     /// NWD Node Editor. This editor can edit data as nodal card.
     /// </summary>
     public class NWDNodeEditor : EditorWindow
-	{
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        GUIContent IconAndTitle;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The m scroll position.
+        /// </summary>
+        public static Vector2 mScrollPosition = Vector2.zero;
+        /// <summary>
+        /// The m last mouse position.
+        /// </summary>
+        Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The document of deck.
@@ -95,8 +106,8 @@ namespace NetWorkedData
             }
             else
             {
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDDatas.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.ReferenceUsedValue());
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.ReferenceValue());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -106,11 +117,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
-            kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-            kNodeEditorSharedInstance.Show();
-            //tNodeEditor.ShowUtility();
-            kNodeEditorSharedInstance.Focus();
-            kNodeEditorSharedInstance.SetSelection(sSelection);
+            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            {
+                kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+                kNodeEditorSharedInstance.Show();
+                //tNodeEditor.ShowUtility();
+                kNodeEditorSharedInstance.Focus();
+                kNodeEditorSharedInstance.SetSelection(sSelection);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -166,8 +180,11 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public void SetSelection(NWDTypeClass sSelection)
         {
-            Document.SetData(sSelection);
-            Repaint();
+            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            {
+                Document.SetData(sSelection);
+                Repaint();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -175,19 +192,30 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnEnable ()
 		{
-            titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = NWDConstants.K_EDITOR_NODE_WINDOW_TITLE;
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDNodeEditor t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals("NWDNodeEditor"))
+                        {
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
+
+            //titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
             Document.LoadClasses();
             Repaint();
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The m scroll position.
-        /// </summary>
-        public static Vector2 mScrollPosition = Vector2.zero;
-        /// <summary>
-        /// The m last mouse position.
-        /// </summary>
-        Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Raises the OnGUI event. Create the interface to enter a new class.
@@ -196,12 +224,13 @@ namespace NetWorkedData
 		{
             // Debug.Log("NWDNodeEditor OnGUI");
             //NWDConstants.LoadImages();
-            NWDConstants.LoadStyles();
+            NWDGUI.LoadStyles();
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             mScrollPosition = GUI.BeginScrollView(tScrollViewRect,mScrollPosition,Document.Dimension());
-            Document.Draw(tScrollViewRect);
+            Rect tVisibleRect = new Rect(mScrollPosition.x, mScrollPosition.y, position.width+ mScrollPosition.x, position.height+ mScrollPosition.y);
+            Document.Draw(tScrollViewRect, tVisibleRect);
             GUI.EndScrollView();
 
 

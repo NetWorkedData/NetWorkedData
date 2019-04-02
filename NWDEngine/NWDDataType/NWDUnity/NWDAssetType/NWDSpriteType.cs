@@ -26,9 +26,8 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
 	public class NWDSpriteType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -44,9 +43,17 @@ namespace NetWorkedData
 			} else {
 				Value = sValue;
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public Sprite ToSprite ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite ToSprite ()
 		{
             Sprite rSprite = null;
 			if (!string.IsNullOrEmpty(Value))
@@ -68,12 +75,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (Value.Contains("Resources") == false)
+                if (Value.Contains(NWD.K_Resources) == false)
                 {
                     rReturn = true;
                 }
@@ -87,6 +94,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
 		//-------------------------------------------------------------------------------------------------------------
@@ -108,7 +116,7 @@ namespace NetWorkedData
 			tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			tLabelAssetStyle.normal.textColor = Color.gray;
 
-			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+			return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
@@ -145,21 +153,22 @@ namespace NetWorkedData
 				if (tObject == null) {
 					tRessource = false;
 				} else {
-
-					Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
-					if (tTexture2D != null) {
-						EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY+NWDConstants.kFieldMarge+tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
-							, tTexture2D);
-					}
-				}
-                if (Value.Contains("Resources") == false)
+					//Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
+					//if (tTexture2D != null) {
+					//	EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY+NWDGUI.kFieldMarge+tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize)
+					//		, tTexture2D);
+					//}
+                    GUI.DrawTexture(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize),
+                     tObject.texture, ScaleMode.ScaleToFit, true);
+                }
+                if (Value.Contains(NWD.K_Resources) == false)
                 {
                     EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
                 }
 			}
 			EditorGUI.BeginDisabledGroup (!tRessource);
             UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Sprite), false);
-			tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
+			tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
 				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;
 			} else {
@@ -171,22 +180,22 @@ namespace NetWorkedData
 				tTemporary.Value = Value;
 
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD, tLabelStyle);
-				tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+				tY = tY + NWDGUI.kFieldMarge + tLabelStyle.fixedHeight;
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+				tY = tY + NWDGUI.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                NWDGUI.BeginRedArea();
+                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
 					tTemporary.Value = string.Empty;
-				}
-				GUI.backgroundColor = tOldColor;
-				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                }
+                NWDGUI.EndRedArea();
+                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
 			return tTemporary;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

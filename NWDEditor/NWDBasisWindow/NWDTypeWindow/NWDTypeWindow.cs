@@ -1,7 +1,9 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 using System;
@@ -17,6 +19,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public string Title;
 		public string Description;
+        // TODO : Remove and replace by icon from name of class ... but perhaps used in other windows type?
 		public string IconName;
         public Type[] TypeList;
         //-------------------------------------------------------------------------------------------------------------
@@ -28,7 +31,15 @@ namespace NetWorkedData
 			this.TypeList = sTypeList;
         }
         //-------------------------------------------------------------------------------------------------------------
-	}
+        public NWDTypeWindowParamAttribute(string sTitle, string sDescription, Type[] sTypeList)
+        {
+            this.Title = sTitle;
+            this.Description = sDescription;
+            this.IconName = null;
+            this.TypeList = sTypeList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDTypeWindow : EditorWindow
 	{

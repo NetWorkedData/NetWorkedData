@@ -19,41 +19,41 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWD account panel. A script for NWDAccountPanel refab to show the informations about wiwh account is use in the 
-	/// game. 
-	/// </summary>
+    /// <summary>
+    /// NWD account panel. A script for NWDAccountPanel refab to show the informations about wiwh account is use in the 
+    /// game. 
+    /// </summary>
     public class NWDAccountPanel : NWDCallBack
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The name of environment.
-		/// </summary>
-		public Text TextEnvironment;
-		/// <summary>
-		/// The account's reference.
-		/// </summary>
-		public Text TextAccount;
-		/// <summary>
-		/// The token's value.
-		/// </summary>
-		public Text TextToken;
-		/// <summary>
-		/// The anonymous account's reference.
-		/// </summary>
-		public Text TextAnonymousAccount;
-		/// <summary>
-		/// The text anonymous token ? .
-		/// </summary>
-		public Text TextAnonymousToken;
-		/// <summary>
-		/// The text of web result.
-		/// </summary>
-		public Text TextWebResult;
-		/// <summary>
-		/// The text of network statut.
-		/// </summary>
-		public Text TextNetworkResult;
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The name of environment.
+        /// </summary>
+        public Text TextEnvironment;
+        /// <summary>
+        /// The account's reference.
+        /// </summary>
+        public Text TextAccount;
+        /// <summary>
+        /// The token's value.
+        /// </summary>
+        public Text TextToken;
+        /// <summary>
+        /// The anonymous account's reference.
+        /// </summary>
+        public Text TextAnonymousAccount;
+        /// <summary>
+        /// The text anonymous token ? .
+        /// </summary>
+        public Text TextAnonymousToken;
+        /// <summary>
+        /// The text of web result.
+        /// </summary>
+        public Text TextWebResult;
+        /// <summary>
+        /// The text of network statut.
+        /// </summary>
+        public Text TextNetworkResult;
         /// <summary>
         /// Dropdown menu with list of account
         /// </summary>
@@ -81,22 +81,26 @@ namespace NetWorkedData
         /// Use to test Synchronization
         /// </summary>
         public void SynchronizeTest()
-		{
-            NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock (
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+        {
+            NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock(
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Success " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Error " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Cancel " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Progress " + ShowError(sResult);
-				}
-			);
-		}
+                }
+            );
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Use to test Log-in
@@ -106,19 +110,19 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestLogFacebookWithBlock("FACEBOOK",
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Sign Up/In Success " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Sign Up/In Success " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Sign Up/In Error " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Sign Up/In Error " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Sign Up/In Cancel " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Sign Up/In Cancel " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Sign Up/In Progress " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Sign Up/In Progress " + ShowError(sResult);
                     });
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -127,19 +131,19 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestLogGoogleWithBlock("GOOGLE",
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Sign Up/In Success " + ShowError(sResult);
+                        TextWebResult.text = "Google Sign Up/In Success " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Sign Up/In Error " + ShowError(sResult);
+                        TextWebResult.text = "Google Sign Up/In Error " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Sign Up/In Cancel " + ShowError(sResult);
+                        TextWebResult.text = "Google Sign Up/In Cancel " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Sign Up/In Progress " + ShowError(sResult);
+                        TextWebResult.text = "Google Sign Up/In Progress " + ShowError(sResult);
                     });
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -151,19 +155,19 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestRemoveFacebookWithBlock("FACEBOOK",
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Remove Success " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Remove Success " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Remove Error " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Remove Error " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Remove Cancel " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Remove Cancel " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Facebook Remove Progress " + ShowError(sResult);
+                        TextWebResult.text = "Facebook Remove Progress " + ShowError(sResult);
                     });
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -176,20 +180,20 @@ namespace NetWorkedData
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Remove Error " + ShowError(sResult);
+                        TextWebResult.text = "Google Remove Error " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Remove Cancel " + ShowError(sResult);
+                        TextWebResult.text = "Google Remove Cancel " + ShowError(sResult);
                     },
                     delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
                     {
-                TextWebResult.text = "Google Remove Progress " + ShowError(sResult);
+                        TextWebResult.text = "Google Remove Progress " + ShowError(sResult);
                     });
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void LogInTest()
-		{
+        public void LogInTest()
+        {
             // Get selected account
             int key = DropdownAccountList.value;
             if (key > 0)
@@ -216,26 +220,30 @@ namespace NetWorkedData
                         TextWebResult.text = " Sign In Progress " + ShowError(sResult);
                     });
             }
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Use to test Log-out
-		/// </summary>
-		public void LogOutTest()
-		{
-			NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock (
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to test Log-out
+        /// </summary>
+        public void LogOutTest()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock(
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Out Success " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Out Error " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Out Cancel " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                   TextWebResult.text = " Sign Out Progress " + ShowError(sResult);
-				});
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
+                    TextWebResult.text = " Sign Out Progress " + ShowError(sResult);
+                });
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -246,17 +254,21 @@ namespace NetWorkedData
             string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
             string tPassword = "Pass" + UnityEngine.Random.Range(100000, 999999).ToString();
             //Debug.Log("Sign-up with " + tEmail + " and " + tPassword);
-            NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail,tPassword,tPassword,
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+            NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail, tPassword, tPassword,
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Up Success " + ShowError(sResult);
                 },
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Up Error " + ShowError(sResult);
                 },
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Up Cancel " + ShowError(sResult);
                 },
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Up Progress " + ShowError(sResult);
                 });
         }
@@ -275,37 +287,37 @@ namespace NetWorkedData
             gameObject.SetActive(!gameObject.activeInHierarchy);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasLoaded(BTBNotification sNotification)
         {
             InitLocalizationList();
             InitAccountList();
             SynchronizeTest();
         }
         //-------------------------------------------------------------------------------------------------------------
-		// Use this for initialization
-		void Start()
-		{
-            BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
-            {
-				if (TextNetworkResult!=null)
-				{
-                    TextNetworkResult.text = "<color=green><b>ON LINE</b></color>";
-				}
-			});
-            BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
-            {
-				if (TextNetworkResult!=null)
-				{
-				    TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
-				}
-			});
-            BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
-            {
-				if (TextNetworkResult!=null)
-				{
-					TextNetworkResult.text = "<color=orange><b>UNKNOW</b></color>";
-				}
-			});
+        // Use this for initialization
+        void Start()
+        {
+            BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
+           {
+               if (TextNetworkResult != null)
+               {
+                   TextNetworkResult.text = "<color=green><b>ON LINE</b></color>";
+               }
+           });
+            BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
+           {
+               if (TextNetworkResult != null)
+               {
+                   TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
+               }
+           });
+            BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
+           {
+               if (TextNetworkResult != null)
+               {
+                   TextNetworkResult.text = "<color=orange><b>UNKNOW</b></color>";
+               }
+           });
             InitLocalizationList();
             InitAccountList();
             SynchronizeTest();
@@ -313,17 +325,17 @@ namespace NetWorkedData
             //NWDLocalization.AutoLocalize(TextLogin);
             //NWDLocalization.AutoLocalize(TextSynchronize);
             //NWDLocalization.AutoLocalize(TextLogout);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		// Use this for destroy
-		void OnDestroy ()
-		{
-			BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere (this);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		// Update is called once per frame
-		void Update ()
-		{
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Use this for destroy
+        void OnDestroy()
+        {
+            BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Update is called once per frame
+        void Update()
+        {
             NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
@@ -331,7 +343,7 @@ namespace NetWorkedData
             TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
             TextToken.text = tApp.RequesToken;
             TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
-			TextAnonymousToken.text = "????";
+            TextAnonymousToken.text = "????";
         }
         //-------------------------------------------------------------------------------------------------------------
         void InitLocalizationList()
@@ -419,7 +431,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SelectAccountInEditorAction()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             EditorWindow tEditorWindow = EditorWindow.focusedWindow;
             string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             //Debug.Log("tAccountReference = " + tAccountReference);
@@ -456,7 +468,7 @@ namespace NetWorkedData
             if (tResult.errorDesc != null)
             {
                 string tErrorDesc = string.Empty;
-                if( tResult.errorDesc.Description != null)
+                if (tResult.errorDesc.Description != null)
                 {
                     tErrorDesc = tResult.errorDesc.Description.GetLocalString();
                 }
@@ -467,5 +479,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

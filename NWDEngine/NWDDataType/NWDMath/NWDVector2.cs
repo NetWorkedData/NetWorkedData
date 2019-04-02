@@ -34,44 +34,60 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector2()
         {
-            Value = 0.0F + NWDConstants.kFieldSeparatorA + 0.0F;
+            Value = NWDToolbox.Vector2Zero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDVector2(string sValue = BTBConstants.K_EMPTY_STRING)
+        //public NWDVector2(string sValue = BTBConstants.K_EMPTY_STRING)
+        //{
+        //    if (sValue == null)
+        //    {
+        //        Value = string.Empty;
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDVector2(Vector2 sVector)
         {
-            if (sValue == null)
-            {
-                Value = string.Empty;
-            }
-            else
-            {
-                Value = sValue;
-            }
+            Value = NWDToolbox.Vector2ToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            Value = NWDToolbox.Vector2Zero();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector2 sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y;
+            //Value = sVector.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    //sVector.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+            Value = NWDToolbox.Vector2ToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 GetVector()
         {
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            float tX = 0.0F;
-            float tY = 0.0F;
-            if (tFloats.Count() == 2)
-            {
-                float.TryParse(tFloats[0], out tX);
-                float.TryParse(tFloats[1], out tY);
-            }
-            Vector2 rReturn = new Vector2(tX, tY);
-            return rReturn;
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //float tX = 0.0F;
+            //float tY = 0.0F;
+            //if (tFloats.Count() == 2)
+            //{
+            //    float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+            //    float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
+            //}
+            //Vector2 rReturn = new Vector2(tX, tY);
+            //return rReturn;
+            return NWDToolbox.Vector2FromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -89,7 +105,7 @@ namespace NetWorkedData
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             Vector2 tVector = GetVector();
-            Vector2 tNexVector = EditorGUI.Vector2Field(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
+            Vector2 tNexVector = EditorGUI.Vector2Field(new Rect(sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight),
                                    tContent,tVector);
 
             int tIndentLevel = EditorGUI.indentLevel;

@@ -6,53 +6,17 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using SQLite4Unity3d;
-
 using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-    [Serializable]
-    public class NWDCraftBookConnection : NWDConnection<NWDCraftBook>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis<NWDItem>
     {
-        //[NWDNotEditable]
+        [NWDNotEditable]
         public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment
         {
             get; set;
@@ -60,34 +24,28 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("CBK")]
-    [NWDClassDescriptionAttribute("Craft Book Recipes descriptions Class")]
-    [NWDClassMenuNameAttribute("Craft Book")]
+    [NWDClassTrigrammeAttribute("CFB")]
+    [NWDClassDescriptionAttribute("CraftBook Recipes descriptions Class")]
+    [NWDClassMenuNameAttribute("CraftBook")]
     public partial class NWDCraftBook : NWDBasis<NWDCraftBook>
     {
         //-------------------------------------------------------------------------------------------------------------
-        #region Class Properties
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance Properties
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)] // ok
+        [NWDInspectorGroupStart("Description", true, true, true)] // ok
         //[NWDNotEditable]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
+        
 
-        [NWDGroupStartAttribute("Recipe attribut", true, true, true)] // ok
+        [NWDInspectorGroupStart("Recipe attribut", true, true, true)] // ok
         public bool OrderIsImportant
         {
             get; set;
         }
-        public NWDReferenceType<NWDRecipientGroup> RecipientGroup
+        public NWDReferenceType<NWDCraftRecipient> RecipientGroup
         {
             get; set;
         }
@@ -99,15 +57,15 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferencesListType<NWDCraftBookAdd> AdditionalReward
+        public NWDReferencesListType<NWDCraftReward> AdditionalReward
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
+        
 
-        [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
+        [NWDInspectorGroupStart("FX (Special Effects)", true, true, true)]
         public NWDPrefabType SuccessParticles
         {
             get; set;
@@ -124,695 +82,20 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
+        
 
-        [NWDGroupStartAttribute("Development addons", true, true, true)]
-        [NWDNotEditableAttribute]
-        public string RecipeHash
+        [NWDInspectorGroupStart("Development addons", true, true, true)]
+        //[NWDNotEditableAttribute]
+        //public string RecipeHash
+        //{
+        //    get; set;
+        //}
+        public NWDStringsArrayType RecipeHashesArray
         {
             get; set;
         }
-        //[NWDGroupEndAttribute]
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NetWorkedData.NWDCraftBook"/> class.
-        /// </summary>
-        public NWDCraftBook()
-        {
-            //Debug.Log("NWDCraftBook Constructor");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCraftBook(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDCraftBook Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-            OrderIsImportant = true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesQuantityType<NWDItem> GetAdditionalItem(NWDReferencesQuantityType<NWDItem> sItemInCraft)
-        {
-            NWDReferencesQuantityType<NWDItem> rReturn = new NWDReferencesQuantityType<NWDItem>();
-            foreach (NWDCraftBookAdd tAdd in AdditionalReward.GetObjects())
-            {
-                if (tAdd.ItemConditional.IsValid(sItemInCraft))
-                {
-                    rReturn.AddReferencesQuantity(tAdd.GetItemRewards());
-                }
-            }
-            return rReturn;
-         }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Count the craft book in dictionary of hash.
-        /// </summary>
-        /// <returns>The craft book in hash dictionary.</returns>
-        //private static int CountCraftBookInHashDictionary()
-        //{
-        //    return HashByCraftDictionary.Count;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Add the craft book in dictionary of hash.
-        /// </summary>
-        /// <param name="sCraftBook">S craft book.</param>
-        //private static void AddCraftBookInHashDictionary(NWDCraftBook sCraftBook)
-        //{
-        //    if (sCraftBook != null)
-        //    {
-        //        if (HashByCraftDictionary != null)
-        //        {
-        //            if (sCraftBook.RecipeHash != null)
-        //            {
-        //                //HashByCraftDictionary
-        //                if (HashByCraftDictionary.ContainsValue(sCraftBook))
-        //                {
-        //                    string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-        //                    HashByCraftDictionary.Remove(tKey);
-        //                }
-        //                if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
-        //                {
-        //                }
-        //                else
-        //                {
-        //                    HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
-        //                }
-        //                // ItemByCraftDictionary
-        //                if (sCraftBook.DescriptionItem != null)
-        //                {
-        //                    if (sCraftBook.DescriptionItem.Value != "")
-        //                    {
-        //                        if (ItemByCraftDictionary.ContainsValue(sCraftBook))
-        //                        {
-        //                            string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-        //                            ItemByCraftDictionary.Remove(tKey);
-        //                        }
-        //                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
-        //                        {
-        //                        }
-        //                        else
-        //                        {
-        //                            ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Remove the craft book in dictionary of hash.
-        /// </summary>
-        /// <param name="sCraftBook">S craft book.</param>
-        //private static void RemoveCraftBookInHashDictionary(NWDCraftBook sCraftBook)
-        //{
-        //    if (sCraftBook != null)
-        //    {
-        //        //HashByCraftDictionary
-        //        if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
-        //        {
-        //            HashByCraftDictionary.Remove(sCraftBook.RecipeHash);
-        //        }
-        //        //ItemByCraftDictionary
-        //        if (sCraftBook.DescriptionItem != null)
-        //        {
-        //            if (sCraftBook.DescriptionItem.Value != "")
-        //            {
-        //                if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
-        //                {
-        //                    ItemByCraftDictionary.Remove(sCraftBook.DescriptionItem.Value);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Update the craft book dictionary of hash.
-        /// </summary>
-        /// <param name="sCraftBook">S craft book.</param>
-        //private static void UpdateCraftBookInHashDictionary(NWDCraftBook sCraftBook)
-        //{
-        //    if (sCraftBook != null)
-        //    {
-        //        if (HashByCraftDictionary.ContainsValue(sCraftBook))
-        //        {
-        //            // TODO : remove old key/value ... but which key to used?
-        //            string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-        //            HashByCraftDictionary.Remove(tKey);
-        //        }
-        //        if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
-        //        {
-        //            // BIG ERROR Hash is not unique!
-        //        }
-        //        else
-        //        {
-        //            HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
-        //        }
-        //        // ItemByCraftDictionary
-        //        if (sCraftBook.DescriptionItem != null)
-        //        {
-        //            if (sCraftBook.DescriptionItem.Value != "")
-        //            {
-        //                if (ItemByCraftDictionary.ContainsValue(sCraftBook))
-        //                {
-        //                    string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-        //                    ItemByCraftDictionary.Remove(tKey);
-        //                }
-        //                if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
-        //                {
-        //                }
-        //                else
-        //                {
-        //                    ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Find the craft book dictionary of hash by a specific hash.
-        /// </summary>
-        /// <returns>The craft book in hash dictionary.</returns>
-        /// <param name="sHash">S hash.</param>
-        //private static NWDCraftBook FindCraftBookInHashDictionary(string sHash)
-        //{
-        //    NWDCraftBook rReturn = null;
-        //    if (HashByCraftDictionary.ContainsKey(sHash) == true)
-        //    {
-        //        rReturn = HashByCraftDictionary[sHash];
-        //    }
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Get the craft book by item.
-        /// </summary>
-        /// <returns>The craft book by item.</returns>
-        /// <param name="item">Item.</param>
-        //public static NWDCraftBook GetCraftBookByItem(NWDItem sItem)
-        //{
-        //    //			NWDCraftBook rReturn = null;
-        //    //			NWDCraftBook[] tRecipes = GetAllObjects ();
-        //    //			foreach (NWDCraftBook recipe in tRecipes) {
-        //    //				if (recipe.ItemToDescribe.ContainsReference (item.Reference)) {
-        //    //					rReturn = recipe;
-        //    //					break;
-        //    //				}
-        //    //			}
-        //    //			return rReturn;
-        //    //
-        //    NWDCraftBook rReturn = null;
-        //    if (ItemByCraftDictionary.ContainsKey(sItem.Reference) == true)
-        //    {
-        //        rReturn = ItemByCraftDictionary[sItem.Reference];
-        //    }
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Get the first craft book collision (no recipient, just two ietm chock themselves).
-        /// </summary>
-        /// <returns>The first craft book collision.</returns>
-        /// <param name="sItemA">S item a.</param>
-        /// <param name="sItemB">S item b.</param>
-        public static NWDCraftBook GetFirstCraftBookCollision(NWDItem sItemA, NWDItem sItemB)
-        {
-            Debug.Log("GetFirstCraftBookCollision NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
-            NWDCraftBook tCraftBook = null;
-            NWDItemGroup[] tGroupA = sItemA.ItemGroupList.GetObjects();
-            NWDItemGroup[] tGroupB = sItemB.ItemGroupList.GetObjects();
-            if (tGroupA.Length > 0 && tGroupB.Length > 0)
-            {
-                foreach (NWDItemGroup tItemA in tGroupA)
-                {
-                    foreach (NWDItemGroup tItemB in tGroupB)
-                    {
-                        NWDReferencesArrayType<NWDItemGroup> tItems = new NWDReferencesArrayType<NWDItemGroup>();
-                        tItems.AddObject(tItemA);
-                        tItems.AddObject(tItemB);
-                        NWDCraftBook tCraftFound = NWDCraftBook.GetFirstCraftBookFor(tItems);
-                        if (tCraftFound != null)
-                        {
-                            if (tCraftFound.AC == true)
-                            {
-                                tCraftBook = tCraftFound;
-                            }
-                        }
-                        if (tCraftBook != null)
-                        {
-                            break;
-                        }
-                    }
-                    if (tCraftBook != null)
-                    {
-                        break;
-                    }
-                }
-            }
-            // Add Craftbook to ownership
-            if (tCraftBook != null)
-            {
-                // Add to ownership  :-)
-                if (tCraftBook.DescriptionItem.GetObject() != null)
-                {
-                }
-                NWDUserOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
-            }
-            return tCraftBook;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Get the first craft book without recipient between item's groups.
-        /// </summary>
-        /// <returns>The first craft book for.</returns>
-        /// <param name="sItemGroupIngredient">S item group ingredient.</param>
-        public static NWDCraftBook GetFirstCraftBookFor(NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
-        {
-            Debug.Log("GetFirstCraftBookFor NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
-            NWDCraftBook tCraftBook = null;
-            string tRecipientValue = string.Empty;
-            bool tOrdered = true;
-            string tAssemblyA = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToString();
-            tOrdered = false;
-            string tAssemblyB = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToStringSorted();
-            string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
-            string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-            foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
-            {
-                if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
-                {
-                    tCraftBook = tCraft;
-                    break;
-                }
-            }
-            // Add Craftbook to ownership
-            if (tCraftBook != null)
-            {
-                // Add to ownership  :-)
-                if (tCraftBook.DescriptionItem.GetObject() != null)
-                {
-                }
-                NWDUserOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
-            }
-            return tCraftBook;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Get the craft book with recipients and items inside.
-        /// </summary>
-        /// <returns>The craft book with recipients.</returns>
-        /// <param name="sRecipientGroup">S recipient group.</param>
-        /// <param name="sItemGroupIngredientList">S item group ingredient list.</param>
-        public static NWDCraftBook[] GetCraftBookWithRecipients(NWDReferencesListType<NWDRecipientGroup> sRecipientGroup, List<NWDReferencesArrayType<NWDItemGroup>> sItemGroupIngredientList)
-        {
-            Debug.Log("GetCraftBookWithRecipients NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
-            NWDCraftBook tReturnPrimary = null;
-            NWDRecipientGroup tReturnRecipient = null;
-            NWDReferencesArrayType<NWDItemGroup> tItemsGroupUsed = new NWDReferencesArrayType<NWDItemGroup>();
-            List<NWDCraftBook> tReturnList = new List<NWDCraftBook>();
-            // I get all recipients possibilities
-            string[] tRecipientsArray = new string[] { string.Empty };
-            if (sRecipientGroup != null)
-            {
-                if (sRecipientGroup.Value != string.Empty)
-                {
-                    tRecipientsArray = sRecipientGroup.GetReferences();
-                }
-            }
-            if (sItemGroupIngredientList.Count > 0)
-            {
-                // I sort by Order
-                sItemGroupIngredientList.Sort((tA, tB) => tB.Value.Length.CompareTo(tA.Value.Length));
-                // I get all items layout
-                // I search the max lenght
-                List<NWDReferencesArrayType<NWDItemGroup>> tItemGroupIngredientListMax = new List<NWDReferencesArrayType<NWDItemGroup>>();
-                int tLenghtMax = sItemGroupIngredientList[0].Value.Length;
-                foreach (NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient in sItemGroupIngredientList)
-                {
-                    if (tLenghtMax == sItemGroupIngredient.Value.Length)
-                    {
-                        tItemGroupIngredientListMax.Add(sItemGroupIngredient);
-                    }
-                }
-                foreach (string tRecipientValue in tRecipientsArray)
-                {
-                    NWDRecipientGroup tRecipient = NWDRecipientGroup.FindDataByReference(tRecipientValue);
-
-
-                    if (tRecipient != null)
-                    {
-                        Debug.Log("GetCraftBookWithRecipients search for tRecipient = " + tRecipient.InternalKey);
-                        // I craft only max items composition ?
-                        if (tRecipient.CraftOnlyMax == true)
-                        {
-
-                            foreach (NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient in tItemGroupIngredientListMax)
-                            {
-
-                                bool tOrdered = true;
-                                string tAssemblyA = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToString();
-                                tOrdered = false;
-                                string tAssemblyB = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToStringSorted();
-                                string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
-                                string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-
-                                Debug.Log("GetCraftBookWithRecipients search for tRecipient " + tRecipient.InternalKey + " Craft !!!only max!!! with " + sItemGroupIngredient.ToString() + "  => hash " + tRecipeHashA + " or " + tRecipeHashB);
-
-                                foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
-                                {
-                                    if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
-                                    {
-                                        tReturnList.Add(tCraft);
-                                        tReturnPrimary = tCraft;
-                                        tItemsGroupUsed = sItemGroupIngredient;
-                                        tReturnRecipient = tRecipient;
-                                        break;
-                                    }
-                                }
-                                if (tReturnPrimary != null)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient in sItemGroupIngredientList)
-                            {
-                                bool tOrdered = true;
-                                string tAssemblyA = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToString();
-                                tOrdered = false;
-                                string tAssemblyB = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToStringSorted();
-                                string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
-                                string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-
-                                Debug.Log("GetCraftBookWithRecipients search for tRecipient " + tRecipient.InternalKey + " Craft with " + sItemGroupIngredient.ToString() + "  => hash " + tRecipeHashA + " or " + tRecipeHashB);
-
-                                foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
-                                {
-                                    if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
-                                    {
-                                        tReturnList.Add(tCraft);
-                                        tReturnPrimary = tCraft;
-                                        tItemsGroupUsed = sItemGroupIngredient;
-                                        tReturnRecipient = tRecipient;
-                                        break;
-                                    }
-                                }
-                                if (tReturnPrimary != null)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (tReturnPrimary != null)
-                    {
-                        break;
-                    }
-                }
-
-                // if I have a craftbook I change the Value of craft
-                if (tReturnPrimary != null)
-                {
-
-                    Debug.Log("GetCraftBookWithRecipients CRAFT FOUND !!!!  " + tReturnPrimary.InternalKey);
-                    tRecipientsArray = new string[] { tReturnRecipient.Reference };
-                    // Add Craftbook to ownership
-                    if (tReturnPrimary != null)
-                    {
-                        // Add to ownership  :-)
-                        if (tReturnPrimary.DescriptionItem.GetObject() != null)
-                        {
-                        }
-                        NWDUserOwnership.SetItemToOwnership(tReturnPrimary.DescriptionItem.GetObject(), 1);
-                    }
-                }
-                // I check all possibilities in rest of recipeint element by element (destructive mode?)
-                foreach (string tRecipientValue in tRecipientsArray)
-                {
-                    NWDRecipientGroup tRecipient = NWDRecipientGroup.FindDataByReference(tRecipientValue);
-                    if (tRecipient.CraftUnUsedElements == true)
-                    {
-
-                        NWDReferencesArrayType<NWDItemGroup> tItemsGroupUnUsed = sItemGroupIngredientList[0];
-                        tItemsGroupUnUsed.RemoveReferencesArray(tItemsGroupUsed);
-                        foreach (string tItemReference in tItemsGroupUnUsed.GetReferences())
-                        {
-                            Debug.Log("GetCraftBookWithRecipients search modulo scrft for for tRecipient = " + tRecipient.InternalKey + " and item : " + tItemReference);
-                            bool tOrdered = true;
-                            string tAssemblyA = tOrdered.ToString() + tRecipient + tItemReference;
-                            tOrdered = false;
-                            string tAssemblyB = tOrdered.ToString() + tRecipient + tItemReference;
-                            string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
-                            string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-                            foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
-                            {
-                                if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
-                                {
-                                    tReturnList.Add(tCraft);
-                                    // Add Craftbook to ownership
-                                    if (tCraft != null)
-                                    {
-                                        // Add to ownership  :-)
-                                        if (tCraft.DescriptionItem.GetObject() != null)
-                                        {
-                                        }
-                                        NWDUserOwnership.SetItemToOwnership(tCraft.DescriptionItem.GetObject(), 1);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // unused elements are destroyed
-                    }
-                }
-            }
-            return tReturnList.ToArray();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        //-------------------------------------------------------------------------------------------------------------
-
-        #region Instance methods
-
-        //-------------------------------------------------------------------------------------------------------------
-        public void GetItemsRequired()
-        {
-            //ItemsOne
-        }
-
-        //-------------------------------------------------------------------------------------------------------------
-
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-
-        #region NetWorkedData addons methods
-
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just after loaded from database.
-        /// </summary>
-        public override void AddonLoadedMe()
-        {
-            // do something when object was loaded
-            // TODO verif if method is call in good place in good timing
-            //NWDCraftBook.AddCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before unload from memory.
-        /// </summary>
-        public override void AddonUnloadMe()
-        {
-            // do something when object will be unload
-            // TODO verif if method is call in good place in good timing
-            //NWDCraftBook.RemoveCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before insert.
-        /// </summary>
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-            //NWDCraftBook.AddCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before update.
-        /// </summary>
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-            //--------------
-#if UNITY_EDITOR
-            //--------------
-            // TODO recalculate all sign possibilities
-            // I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
-
-            if (DescriptionItem.GetObject() != null)
-            {
-                NWDItem tItem = DescriptionItem.GetObject();
-                tItem.CraftRecipeAttachment.SetObject(this);
-                tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
-                tItem.UpdateDataIfModified();
-            }
-
-            if (RecipientGroup == null)
-            {
-                RecipientGroup = new NWDReferenceType<NWDRecipientGroup>();
-            }
-            if (ItemGroupIngredient == null)
-            {
-                ItemGroupIngredient = new NWDReferencesArrayType<NWDItemGroup>();
-            }
-            RecipeHash = IndexKey(OrderIsImportant, RecipientGroup, ItemGroupIngredient);
-            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-            NWDDataInspector.ActiveRepaint();
-            //--------------
-#endif
-            //--------------
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated.
-        /// </summary>
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-            //NWDCraftBook.UpdateCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated me from Web.
-        /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-            //NWDCraftBook.UpdateCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before dupplicate.
-        /// </summary>
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-            //NWDCraftBook.AddCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before enable.
-        /// </summary>
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-            //NWDCraftBook.AddCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before disable.
-        /// </summary>
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-            //NWDCraftBook.RemoveCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before put in trash.
-        /// </summary>
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-            //NWDCraftBook.RemoveCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before remove from trash.
-        /// </summary>
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-            //NWDCraftBook.AddCraftBookInHashDictionary(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        //Addons for Edition
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addons in edition state of object.
-        /// </summary>
-        /// <returns><c>true</c>, if object need to be update, <c>false</c> or not not to be update.</returns>
-        /// <param name="sNeedBeUpdate">If set to <c>true</c> need be update in enter.</param>
-        public override bool AddonEdited(bool sNeedBeUpdate)
-        {
-            if (sNeedBeUpdate == true)
-            {
-                // do something
-            }
-            return sNeedBeUpdate;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addons editor interface.
-        /// </summary>
-        /// <returns>The editor height addon.</returns>
-        /// <param name="sInRect">S in rect.</param>
-        public override float AddonEditor(Rect sInRect)
-        {
-            // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addons editor intreface expected height.
-        /// </summary>
-        /// <returns>The editor expected height.</returns>
-        public override float AddonEditorHeight()
-        {
-            // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

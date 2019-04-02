@@ -20,9 +20,11 @@ namespace NetWorkedData
         new Type[] {
             typeof(NWDItem),
             typeof(NWDItemRarity),
-            typeof(NWDItemProperty),
+            //typeof(NWDItemProperty),
             typeof(NWDItemGroup),
             typeof(NWDUserOwnership),
+            typeof(NWDItemSlot),
+            typeof(NWDUserItemSlot),
 			/* Add NWDBasis here*/
 		}
     )]

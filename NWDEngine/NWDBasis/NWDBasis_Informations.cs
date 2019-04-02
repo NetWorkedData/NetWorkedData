@@ -26,25 +26,32 @@ namespace NetWorkedData
         /// <param name="sString">S string.</param>
 		public static void ClassInformations (string sString)
         {
-			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDDatas.Informations (typeof(K)) + "' ");
+			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDBasisHelper.Informations (typeof(K)) + "' ");
 		}
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Informations about this instance.
         /// </summary>
         /// <returns>The informations.</returns>
-		public static string Informations ()
+        [NWDAliasMethod(NWDConstants.M_Informations)]
+
+        public static string Informations ()
 		{
-            int tCount = Datas().Datas.Count;
+#if UNITY_EDITOR
+            int tCount = BasisHelper().Datas.Count;
 			if (tCount == 0) {
-                return string.Empty + Datas().ClassNamePHP + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment())+  ")\n";
+                return string.Empty + BasisHelper().ClassNamePHP + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment())+  ")\n";
 			} else if (tCount == 1) {
-                return string.Empty + Datas().ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
+                return string.Empty + BasisHelper().ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
 			} else {
-                return string.Empty + Datas().ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
+                return string.Empty + BasisHelper().ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
+#else
+            return string.Empty;
+#endif
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

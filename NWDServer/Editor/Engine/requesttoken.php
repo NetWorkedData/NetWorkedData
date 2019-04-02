@@ -23,6 +23,7 @@
 	function NWDRequestTokenDeleteOldToken ($sUUIDHash, $sTimestamp, $sToken)
 	{
 		global $SQL_CON, $ENV;
+		myLog('delete old token', __FILE__, __FUNCTION__, __LINE__);
 		$tQuery = 'DELETE FROM `'.$ENV.'_NWDRequestToken` WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\' AND `DM` <= \''.$SQL_CON->real_escape_string($sTimestamp).'\' AND `Token` != \''.$SQL_CON->real_escape_string($sToken).'\';';
 		$tResult = $SQL_CON->query($tQuery);
 		if (!$tResult)
@@ -65,6 +66,7 @@
 		global $SQL_CON, $ENV, $TIME_SYNC;
 		global $REP;
 		global $token;
+		global $token_FirstUse;
 		global $RTH;
 		$rReturn = false;
 		if ($sToken=='')
@@ -75,7 +77,7 @@
 		}
 		else
 		{
-			$tQuery = 'SELECT `Token`,`DM` FROM `'.$ENV.'_NWDRequestToken` WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\' AND `DD` = \'0\';';
+			$tQuery = 'SELECT `Token`,`DM`, `AC` FROM `'.$ENV.'_NWDRequestToken` WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\' AND `DD` = \'0\';';
 			$tResult = $SQL_CON->query($tQuery);
 			if (!$tResult)
 			{
@@ -97,37 +99,39 @@
 					$tToken = '';
 					while($tRow = $tResult->fetch_array())
 					{
+						myLog('find token : '.$tRow['Token'], __FILE__, __FUNCTION__, __LINE__);
 						if ($tRow['Token'] == $sToken)
 						{
-								// If the token is unique and equal to the reccord => valid
-								// must update with the next Token
-//							
-//							$token = NWDRequestTokenGenerateToken ($sUUIDHash);
-//							$tQueryNewToken = 'UPDATE `'.$ENV.'_NWDRequestToken` SET `DM` = \''.$TIME_SYNC.'\', `Token` = \''.$SQL_CON->real_escape_string($token).'\' WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\';';
-//							$tResultNewToken = $SQL_CON->query($tQueryNewToken);
-//							if (!$tResultNewToken)
-//							{
-//								error('RQT11');
-//							}
-//							else
-//							{
-//								$REP['token'] = $token;
-//							}
-//							$rReturn = true;
+							if ($tRow['AC'] == 0)
+							{
+								myLog('find OLD token reused: '.$tRow['Token'], __FILE__, __FUNCTION__, __LINE__);
+								$token_FirstUse = false;
+							}
+							else
+							{
+								$token_FirstUse = true;
+								$tQueryUseToken = 'UPDATE `'.$ENV.'_NWDRequestToken` SET `AC` = \'0\' WHERE `Token` = \''.$SQL_CON->real_escape_string($tRow['Token']).'\';';
+								$tResultUseToken = $SQL_CON->query($tQueryUseToken);
+								if (!$tResultUseToken)
+									{
+										error('RQT11');
+									}
+								else
+									{
+										myLog('find token, Use IT: '.$tRow['Token'], __FILE__, __FUNCTION__, __LINE__);
+									}
+							}
 							$tTokenIsValid = true;
 							$tTimestamp = $tRow['DM'];
 							$tToken = $tRow['Token'];
 						}
 						else
 						{
-								//the token is too old and the base was purged since the last connexion ?
-//							$rReturn = false;
-//							error('RQT91');
+							// Not the good token ... newest or oldest ... don't use it to analyze
 						}
 					}
 					if ($tTokenIsValid==true)
 					{
-						
 						$rReturn = true;
 						NWDRequestTokenDeleteOldToken ($sUUIDHash, $tTimestamp, $tToken);
 						$token = NWDRequestTokenCreate($sUUIDHash);
@@ -142,7 +146,8 @@
 				}
 				else
 				{
-					
+					// not possible ... the token are too number
+					myLog('not possible ... the token are too number', __FILE__, __FUNCTION__, __LINE__);
 					error('RQT93');
 					
 //					$TokenDate = '';

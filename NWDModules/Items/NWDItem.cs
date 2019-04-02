@@ -28,31 +28,12 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDItemNotification : int
     {
-        NoNotification      =   0,
-        Notification        =   1,
-        SmallNotification   =   2,
-        BigNotification     =   3,
+        NoNotification = 0,
+        Notification = 1,
+        SmallNotification = 2,
+        BigNotification = 3,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
 	[Serializable]
     public class NWDItemConnection : NWDConnection<NWDItem>
     {
@@ -73,111 +54,220 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        [NWDGroupStartAttribute("Description", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         [NWDTooltips("The name usable in game for 0 or 1 object")]
-        public NWDLocalizableStringType Name { get; set; }
+        public NWDLocalizableStringType Name
+        {
+            get; set;
+        }
         [NWDTooltips("The name usable in game for 2 and more objects")]
-        public NWDLocalizableStringType PluralName { get; set; }
+        public NWDLocalizableStringType PluralName
+        {
+            get; set;
+        }
         [NWDTooltips("The sub name in game")]
-        public NWDLocalizableStringType SubName { get; set; }
+        public NWDLocalizableStringType SubName
+        {
+            get; set;
+        }
         [NWDTooltips("The description of object in game")]
-        public NWDLocalizableLongTextType Description { get; set; }
-        [NWDGroupEndAttribute]
+        public NWDLocalizableLongTextType Description
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
-        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
-        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
-        public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupStart("Classification", true, true, true)]
+        public NWDReferencesListType<NWDCategory> CategoryList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> FamilyList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> KeywordList
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Notifications", true, true, true)]
-        public NWDItemNotification FirstAcquisitionNotification { get; set; }
-        public NWDItemNotification AddItemNotification { get; set; }
-        public NWDItemNotification RemoveItemNotification { get; set; }
-        public NWDItemNotification NoMoreItemNotification { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDInspectorGroupStart("Geograpphical", true, true, true)]
+        public NWDReferencesListType<NWDWorld> WorldList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDSector> SectorList
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDArea> AreaList
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
+        [NWDInspectorGroupStart("Notifications", true, true, true)]
+        public NWDItemNotification FirstAcquisitionNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification AddItemNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification RemoveItemNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification NoMoreItemNotification
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStartAttribute("Rarity", true, true, true)]
-        [NWDFloatSliderAttribute(0.0F, 1.0F)]
-        [NWDEntitledAttribute("Rarity : float [0,1]")]
-        public float Rarity { get; set; }
-        [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Usage", true, true, true)]
+        [NWDInspectorGroupStart("Rarity", true, true, true)]
+        [NWDFloatSlider(0.0F, 1.0F)]
+        [NWDEntitled("Rarity : float [0,1]")]
+        public float Rarity
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
+
+
+
+        [NWDInspectorGroupStart("Usage", true, true, true)]
         //[NWDNotEditableAttribute]
-        [NWDTooltips("Item is countable or not?")]
-        public bool Uncountable { get; set; }
         [NWDTooltips("Item is never visible by the player")]
-        public bool HiddenInGame { get; set; }
+        public bool HiddenInGame
+        {
+            get; set;
+        }
+        [NWDTooltips("Item is countable or not?")]
+        public bool Uncountable
+        {
+            get; set;
+        }
         [NWDTooltips("Item is usable or not?")]
-        public bool Usable { get; set; }
-        public float DelayBeforeUse { get; set; }
-        public float DurationOfUse { get; set; }
-        public float DelayBeforeReUse { get; set; }
-        [NWDGroupEndAttribute]
+        public bool Usable
+        {
+            get; set;
+        }
+        [NWDInDevelopment]
+        [NWDNotEditable]
+        [Obsolete]
+        public float DelayBeforeUse
+        {
+            get; set;
+        }
+        [NWDInDevelopment]
+        [NWDNotEditable]
+        [Obsolete]
+        public float DurationOfUse
+        {
+            get; set;
+        }
+        [NWDInDevelopment]
+        [NWDNotEditable]
+        [Obsolete]
+        public float DelayBeforeReUse
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
+        [NWDInspectorGroupStart("Extensions", true, true, true)]
+        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDParameter> ParameterList
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupStartAttribute("Craft Usage", true, true, true)]
-        public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
-        //public float DelayBeforeCraft
-        //{
-        //    get; set;
-        //}
-        //public float DurationOfCraft
-        //{
-        //    get; set;
-        //}
-        //public float DelayOfImmunity
-        //{
-        //    get; set;
-        //}
-        public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList { get; set; }
-        [NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Extensions", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity { get; set; }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDGroupSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Assets", true, true, true)]
-        [NWDHeaderAttribute("Textures")]
-        public NWDTextureType PrimaryTexture { get; set; }
-        public NWDTextureType SecondaryTexture { get; set; }
-        public NWDTextureType TertiaryTexture { get; set; }
-        [NWDHeaderAttribute("Colors")]
-        public NWDColorType PrimaryColor { get; set; }
-        public NWDColorType SecondaryColor { get; set; }
-        public NWDColorType TertiaryColor { get; set; }
-        [NWDHeaderAttribute("Prefabs")]
-        public NWDPrefabType PrimaryPrefab { get; set; }
-        public NWDPrefabType SecondaryPrefab { get; set; }
-        public NWDPrefabType TertiaryPrefab { get; set; }
+        [NWDInspectorGroupStart("Assets", true, true, true)]
+        [NWDInspectorHeader("Sprites")]
+        public NWDSpriteType PrimarySprite
+        {
+            get; set;
+        }
+        public NWDSpriteType SecondarySprite
+        {
+            get; set;
+        }
+        public NWDSpriteType TertiarySprite
+        {
+            get; set;
+        }
+        [NWDInspectorHeader("Textures")]
+        public NWDTextureType PrimaryTexture
+        {
+            get; set;
+        }
+        public NWDTextureType SecondaryTexture
+        {
+            get; set;
+        }
+        public NWDTextureType TertiaryTexture
+        {
+            get; set;
+        }
+        [NWDInspectorHeader("Colors")]
+        public NWDColorType PrimaryColor
+        {
+            get; set;
+        }
+        public NWDColorType SecondaryColor
+        {
+            get; set;
+        }
+        public NWDColorType TertiaryColor
+        {
+            get; set;
+        }
+        [NWDInspectorHeader("Prefabs")]
+        public NWDPrefabType PrimaryPrefab
+        {
+            get; set;
+        }
+        public NWDPrefabType SecondaryPrefab
+        {
+            get; set;
+        }
+        public NWDPrefabType TertiaryPrefab
+        {
+            get; set;
+        }
 
         [NWDTooltips("Particules effect used overlay render (for special item)")]
-        public NWDPrefabType EffectPrefab { get; set; }
-        [NWDGroupEndAttribute]
+        public NWDPrefabType EffectPrefab
+        {
+            get; set;
+        }
+        [NWDInspectorGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Development addons", true, true, true)]
-        public string JSON { get; set; }
-        public string KeysValues { get; set; }
+
+        [NWDInspectorGroupStart("Development addons", true, true, true)]
+        public string JSON
+        {
+            get; set;
+        }
+        public string KeysValues
+        {
+            get; set;
+        }
         //[NWDGroupEndAttribute]
-        //[NWDGroupSeparatorAttribute]
+        //
         //[NWDGroupStartAttribute ("Precalculate", true, true, true)]
         //[NWDNotEditableAttribute]
         //[NWDGroupEndAttribute]
@@ -230,6 +320,14 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            //ForRelationshipOnly = false;
+            Uncountable = false;
+            HiddenInGame = false;
+            Usable = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetDiscovered(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             NWDUserOwnership.SetDiscovered(this, sWritingMode);
@@ -250,15 +348,15 @@ namespace NetWorkedData
         public override void AddonUpdatedMe()
         {
             // do something when object finish to be updated
-            CheckMeFromItemGroups();
-            CheckMeFromRecipientGroup();
+            //CheckMeFromItemGroups();
+            //CheckMeFromRecipientGroup();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDuplicateMe()
         {
             // do something when object will be dupplicate
-            ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
-            RecipientGroupList = new NWDReferencesListType<NWDRecipientGroup>();
+            //ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
+            //RecipientGroupList = new NWDReferencesListType<NWDRecipientGroup>();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEnableMe()
@@ -285,78 +383,77 @@ namespace NetWorkedData
         {
             //Debug.Log("AddonDeleteMe()");
             // do something when object will be delete from local base
-            ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
-            CheckMeFromItemGroups();
-            CheckMeFromRecipientGroup();
+            //CheckMeFromItemGroups();
+            //CheckMeFromRecipientGroup();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CheckMeFromItemGroups()
-        {
-            List<NWDItemGroup> tActualItemGroup = ItemGroupList.GetObjectsList();
-            foreach (NWDItemGroup tItemGroup in NWDItemGroup.FindDatas())
-            {
-                if (tActualItemGroup.Contains(tItemGroup))
-                {
-                    if (tItemGroup.ItemList.GetObjectsList().Contains(this) == true)
-                    {
-                        // ok It's contains me
-                    }
-                    else
-                    {
-                        // oh item group not contains me! WHYYYYYYYY
-                        tItemGroup.ItemList.AddObject(this);
-                        tItemGroup.UpdateData();
-                    }
-                }
-                else
-                {
-                    if (tItemGroup.ItemList.GetObjectsList().Contains(this))
-                    {
-                        // Oh This ItemGroup contains me but I not refere it ... remove me from it
-                        tItemGroup.ItemList.RemoveObjects(new NWDItem[] { this });
-                        tItemGroup.UpdateData();
-                    }
-                    else
-                    {
-                        // ok i'ts not contains me!
-                    }
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void CheckMeFromRecipientGroup()
-        {
-            List<NWDRecipientGroup> tActualRecipient = RecipientGroupList.GetObjectsList();
-            foreach (NWDRecipientGroup tRecipient in NWDRecipientGroup.FindDatas())
-            {
-                if (tActualRecipient.Contains(tRecipient))
-                {
-                    if (tRecipient.ItemList.GetObjectsList().Contains(this) == true)
-                    {
-                        // ok It's contains me
-                    }
-                    else
-                    {
-                        // oh item group not contains me! WHYYYYYYYY
-                        tRecipient.ItemList.AddObject(this);
-                        tRecipient.UpdateData();
-                    }
-                }
-                else
-                {
-                    if (tRecipient.ItemList.GetObjectsList().Contains(this))
-                    {
-                        // Oh This ItemGroup contains me but I not refere it ... remove me from it
-                        tRecipient.ItemList.RemoveObjects(new NWDItem[] { this });
-                        tRecipient.UpdateData();
-                    }
-                    else
-                    {
-                        // ok i'ts not contains me!
-                    }
-                }
-            }
-        }
+        //public void CheckMeFromItemGroups()
+        //{
+        //    List<NWDItemGroup> tActualItemGroup = ItemGroupList.GetObjectsList();
+        //    foreach (NWDItemGroup tItemGroup in NWDItemGroup.FindDatas())
+        //    {
+        //        if (tActualItemGroup.Contains(tItemGroup))
+        //        {
+        //            if (tItemGroup.ItemList.GetObjectsList().Contains(this) == true)
+        //            {
+        //                // ok It's contains me
+        //            }
+        //            else
+        //            {
+        //                // oh item group not contains me! WHYYYYYYYY
+        //                tItemGroup.ItemList.AddObject(this);
+        //                tItemGroup.UpdateData();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (tItemGroup.ItemList.GetObjectsList().Contains(this))
+        //            {
+        //                // Oh This ItemGroup contains me but I not refere it ... remove me from it
+        //                tItemGroup.ItemList.RemoveObjects(new NWDItem[] { this });
+        //                tItemGroup.UpdateData();
+        //            }
+        //            else
+        //            {
+        //                // ok i'ts not contains me!
+        //            }
+        //        }
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void CheckMeFromRecipientGroup()
+        //{
+        //    List<NWDRecipientGroup> tActualRecipient = RecipientGroupList.GetObjectsList();
+        //    foreach (NWDRecipientGroup tRecipient in NWDRecipientGroup.FindDatas())
+        //    {
+        //        if (tActualRecipient.Contains(tRecipient))
+        //        {
+        //            if (tRecipient.ItemList.GetObjectsList().Contains(this) == true)
+        //            {
+        //                // ok It's contains me
+        //            }
+        //            else
+        //            {
+        //                // oh item group not contains me! WHYYYYYYYY
+        //                tRecipient.ItemList.AddObject(this);
+        //                tRecipient.UpdateData();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (tRecipient.ItemList.GetObjectsList().Contains(this))
+        //            {
+        //                // Oh This ItemGroup contains me but I not refere it ... remove me from it
+        //                tRecipient.ItemList.RemoveObjects(new NWDItem[] { this });
+        //                tRecipient.UpdateData();
+        //            }
+        //            else
+        //            {
+        //                // ok i'ts not contains me!
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -371,40 +468,105 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
+        static int kOwnershipAddValue;
+        //-------------------------------------------------------------------------------------------------------------
+        static int kOwnershipSetValue;
+        //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
+
+            //Debug.Log("AddonEditor");
             // Draw the interface addon for editor
             float tWidth = sInRect.width;
             float tX = sInRect.x;
             float tY = sInRect.y;
 
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
             NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
+
+
             if (tOwnership != null)
             {
-                GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
-                tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
+                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!"); tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Select Ownership", NWDGUI.kMiniButtonStyle))
                 {
-                    NWDUserOwnership.AddItemToOwnership(this, 1);
+                    NWDDataInspector.InspectNetWorkedData(tOwnership);
                 }
-                tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
-                {
-                    NWDUserOwnership.AddItemToOwnership(this, -1);
-                }
-                tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
+            else
+            {
+                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
+
+            }
+            tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reset to zero", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.SetItemToOwnership(this, 0);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 1 to ownsership", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, 1);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 10 to ownsership", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, 10);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add 100 to ownsership", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, 100);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, -1);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 10 to ownsership", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, -10);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Remove 100 to ownsership", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, -100);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
+
+            int tAddWidth = 30;
+            kOwnershipAddValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDGUI.kFieldMarge, NWDGUI.kMiniButtonStyle.fixedHeight), " Value to add", kOwnershipAddValue);
+            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Add", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.AddItemToOwnership(this, kOwnershipAddValue);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(new Rect(tX, tY, tWidth, 1))).height;
+
+            kOwnershipSetValue = EditorGUI.IntField(new Rect(tX, tY, tWidth - tAddWidth - NWDGUI.kFieldMarge, NWDGUI.kMiniButtonStyle.fixedHeight), " Value to set", kOwnershipSetValue);
+            if (GUI.Button(new Rect(tX + tWidth - tAddWidth, tY, tAddWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Set", NWDGUI.kMiniButtonStyle))
+            {
+                NWDUserOwnership.SetItemToOwnership(this, kOwnershipSetValue);
+            }
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -412,19 +574,10 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tY = 0.0f;
-
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
-
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += 3 * (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+            tY += 3 * (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
+            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

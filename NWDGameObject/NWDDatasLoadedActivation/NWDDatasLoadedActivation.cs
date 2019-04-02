@@ -10,46 +10,52 @@ using UnityEngine.UI;
 using TMPro;
 using BasicToolBox;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDatasLoadedActivation : MonoBehaviour {
+    public class NWDDatasLoadedActivation : MonoBehaviour
+    {
         //-------------------------------------------------------------------------------------------------------------
         public bool ActiveDatasLoaded = true;
         public bool ActiveDatasNotLoaded = false;
+        public bool UseCanvas = true;
+        public bool UseChildGameObjects = false;
         //-------------------------------------------------------------------------------------------------------------
-        void DataIsLoaded()
+        void DataNotLoaded()
         {
             //Debug.Log("NWDAutolocalized DataIsLoaded()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
-            foreach (Transform tChild in transform)
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
+            if (UseCanvas == true)
             {
-                tChild.gameObject.SetActive(ActiveDatasLoaded);
+                Canvas tCanvas = GetComponent<Canvas>();
+                if (tCanvas != null)
+                {
+                    tCanvas.enabled = ActiveDatasNotLoaded;
+                }
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void Awake()
-        {
-            //Debug.Log("NWDAutolocalized Awake()");
-            if (NWDTypeLauncher.DataLoaded == false)
+            if (UseChildGameObjects == true)
             {
                 foreach (Transform tChild in transform)
                 {
                     tChild.gameObject.SetActive(ActiveDatasNotLoaded);
                 }
-                BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
-                {
-                    DataIsLoaded();
-                });
             }
-            else
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void DataIsLoaded()
+        {
+            //Debug.Log("NWDAutolocalized DataIsLoaded()");
+            if (UseCanvas == true)
+            {
+                Canvas tCanvas = GetComponent<Canvas>();
+                if (tCanvas != null)
+                {
+                    tCanvas.enabled = ActiveDatasLoaded;
+                }
+            }
+            if (UseChildGameObjects == true)
             {
                 foreach (Transform tChild in transform)
                 {
@@ -58,11 +64,32 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        void Awake()
+        {
+            //Debug.Log("NWDAutolocalized Awake()");
+            if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
+            {
+                //Debug.Log("NWDAutolocalized Awake() install observer");
+                DataNotLoaded();
+                BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
+                {
+                    DataIsLoaded();
+                    tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
+                });
+            }
+            else
+            {
+                //Debug.Log("NWDAutolocalized Awake() DataAccountLoaded already loaded!");
+                DataIsLoaded();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private void OnDestroy()
         {
             //Debug.Log("NWDAutolocalized OnDestroy()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

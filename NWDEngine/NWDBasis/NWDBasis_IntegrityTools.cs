@@ -62,7 +62,7 @@ namespace NetWorkedData
         public static void RecalculateAllIntegrities()
         {
             //loop
-            foreach (NWDBasis<K> tObject in Datas().Datas)
+            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
             {
                 // update integrity value
                 tObject.UpdateIntegrity();
@@ -132,6 +132,38 @@ namespace NetWorkedData
                             tValueBTBDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeInt tValueBTBDataType = (BTBDataTypeInt)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeFloat tValueBTBDataType = (BTBDataTypeFloat)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeEnum tValueBTBDataType = (BTBDataTypeEnum)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeMask tValueBTBDataType = (BTBDataTypeMask)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
                         else
                         {
                         }
@@ -139,12 +171,18 @@ namespace NetWorkedData
                     else
                     {
                         // verif if value is conforme for localization
-                        if (tProp.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
+                        if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
                         {
-                            NWDLocalizableType tValueBTBDataType = (NWDLocalizableType)tValue;
+                            BTBDataType tValueBTBDataType = (BTBDataType)tValue;
                             tValueBTBDataType.BaseVerif();
                             tProp.SetValue(this, tValue, null);
                         }
+                        //if (tProp.PropertyType.IsSubclassOf(typeof(NWDMultiType)))
+                        //{
+                        //    NWDMultiType tValueBTBDataType = (NWDMultiType)tValue;
+                        //    tValueBTBDataType.BaseVerif();
+                        //    tProp.SetValue(this, tValue, null);
+                        //}
                     }
                 }
             }
@@ -157,7 +195,9 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis<K> UpdateIntegrity()");
             NotNullChecker();
-            ServerLog = DataAssembly();
+#if UNITY_EDITOR
+            ServerLog = IntegrityAssembly();
+#endif
             Integrity = IntegrityValue();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -189,15 +229,10 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-#if UNITY_EDITOR
-            //return HashSum(Datas().SaltA + DynamiqueDataAssembly() + Datas().SaltB);
-            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
-#else
-            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
-#endif
+            return HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
     }
 }
 //=====================================================================================================================

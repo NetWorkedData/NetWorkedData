@@ -10,22 +10,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
-
+#if UNITY_EDITOR
+using UnityEditor;
+using Renci.SshNet;
+using Renci.SshNet.Common;
+using Renci.SshNet.Sftp;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public partial class NWDAppEnvironment
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAppEnvironment
 	{
 		#region properties
 		//-------------------------------------------------------------------------------------------------------------
 		public bool Selected = false;
-		public string Environment = NWDConstants.K_PRODUCTION_NAME;
+        public string Environment = NWDConstants.K_PRODUCTION_NAME;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
 		public string PlayerAccountReference = string.Empty;
 		public string RequesToken = string.Empty;
-		//-------------------------------------------------------------------------------------------------------------
-		public string AnonymousPlayerAccountReference = string.Empty;
+        // for debug anti-crack
+#if UNITY_EDITOR
+        public string PreviewRequesToken = string.Empty;
+        public string LastPreviewRequesToken = string.Empty;
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        public string AnonymousPlayerAccountReference = string.Empty;
 		// reccord the first anonymous value to restaure old original account
 		public string AnonymousResetPassword = string.Empty;
 		// reccord the secretKey to reset token
@@ -51,12 +62,17 @@ namespace NetWorkedData
         public string ServerUser = "user";
         public string ServerPassword = string.Empty;
         public string ServerBase = "myDatabase";
-        public string AdminKey = string.Empty;
+        public bool LogMode = true;
 #endif
+        public string AdminKey = string.Empty;
+        public string AdminKeyHash = string.Empty;
+        public bool AdminInPlayer = false;
+
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
 		public string ServerHTTPS = "https://www.my-web-site.com/";
-		public string FacebookAppID = string.Empty;
+        public bool AllwaysSecureData = false;
+        public string FacebookAppID = string.Empty;
 		public string FacebookAppSecret = string.Empty;
 		public string GoogleAppKey = string.Empty;
 		public string UnityAppKey = string.Empty;
@@ -120,8 +136,13 @@ namespace NetWorkedData
 				AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
 			}
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void FormatVerification ()
+        //-------------------------------------------------------------------------------------------------------------
+        public string AdminKeyHashGenerate()
+        {
+            return BTBSecurityTools.GenerateSha("455"+AdminKey+"gytf");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void FormatVerification ()
 		{
 			// Debug.Log ("VerifySecurity");
 			// clean the salts
@@ -214,8 +235,9 @@ namespace NetWorkedData
             int tSeconds = tNow.Hour*3600 + tNow.Minute*60 + tNow.Second;
             return kSunRotationPerSeconds * tSeconds * SpeedOfGameTime;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-	}
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

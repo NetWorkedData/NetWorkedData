@@ -21,14 +21,27 @@ namespace NetWorkedData
             Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = string.Empty;
             Type tType = ClassType();
-            List<string> tPropertiesList = DataAssemblyPropertiesList();
+            List<string> tPropertiesList = PropertiesOrderArray();
+
+            tPropertiesList.Remove("Integrity");
+            tPropertiesList.Remove("Reference");
+            tPropertiesList.Remove("ID");
+            tPropertiesList.Remove("DM");
+            tPropertiesList.Remove("DS");
+            tPropertiesList.Remove("ServerHash");
+            tPropertiesList.Remove("ServerLog");
+            tPropertiesList.Remove("DevSync");
+            tPropertiesList.Remove("PreprodSync");
+            tPropertiesList.Remove("ProdSync");
+            tPropertiesList.Remove("ProdSync");
+            tPropertiesList.Remove("InError");
 
             // todo get the good version of assembly 
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             int tLastWebService = -1;
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
             {
-                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+                if (tKeyValue.Key <= WebModel && tKeyValue.Key > tLastWebService)
                 {
                     if (tKeyValue.Value.ContainsKey(ClassID()))
                     {
@@ -113,7 +126,7 @@ namespace NetWorkedData
         public static string DGPRExtract()
         {
             Debug.Log("NWDBasis<K> DGPRExtract()");
-            string rExtract = "{\"" + Datas().ClassNamePHP + "\"" + " : [\n\r";
+            string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
             List<string> tList = new List<string>();
             foreach (K tObject in FindDatas())
             {

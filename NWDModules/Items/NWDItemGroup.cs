@@ -26,28 +26,30 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-	[Serializable]
+    public partial class NWDItem : NWDBasis<NWDItem>
+    {
+        [NWDNotEditable]
+        public NWDReferencesListType<NWDItemGroup> ItemGroupList
+        {
+            get; set;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
     public class NWDItemGroupConnection : NWDConnection<NWDItemGroup>
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public bool Contains(NWDItem sItem, bool sNotConnectedResult = false)
+        {
+            bool rReturn = sNotConnectedResult;
+            NWDItemGroup tItemGroup = GetObject();
+            if (tItemGroup != null)
+            {
+                rReturn = tItemGroup.ItemList.ContainsObject(sItem);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
@@ -60,14 +62,14 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        [NWDGroupStartAttribute("Description Item", true, true, true)] // ok
+        [NWDInspectorGroupStart("Description Item", true, true, true)] // ok
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
-        [NWDGroupStartAttribute("Item(s) in this group", true, true, true)] // ok
+        [NWDInspectorGroupEnd]
+        
+        [NWDInspectorGroupStart("Item(s) in this group", true, true, true)] // ok
         public NWDReferencesListType<NWDItem> ItemList
         {
             get; set;
@@ -162,10 +164,26 @@ namespace NetWorkedData
             CheckMyItems();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public List<NWDItem> OwnershipIntersection(int sQuantity = 1)
+        {
+            List<NWDItem> rReturn = new List<NWDItem>();
+            foreach (NWDItem tItem in ItemList.GetObjects())
+            {
+                if (tItem != null)
+                {
+                    if (NWDUserOwnership.ContainsItem(tItem, sQuantity))
+                    {
+                        rReturn.Add(tItem);
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void CheckMyItems()
         {
             List<NWDItem> tActualItems = ItemList.GetObjectsList();
-            foreach (NWDItem tItem in NWDItem.FindDatas())
+            foreach (NWDItem tItem in NWDItem.BasisHelper().Datas)
             {
                 if (tActualItems.Contains(tItem))
                 {
@@ -178,6 +196,14 @@ namespace NetWorkedData
                         // oh item group not contains me! WHYYYYYYYY
                         tItem.ItemGroupList.AddObject(this);
                         tItem.UpdateData();
+                        foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
+                            {
+                            if (tCraftbook.ItemGroupIngredient.ContainsObject(this))
+                            {
+                                tCraftbook.RecalculMe();
+                                tCraftbook.UpdateDataIfModified();
+                            }
+                        }
                     }
                 }
                 else
@@ -187,6 +213,14 @@ namespace NetWorkedData
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItem.ItemGroupList.RemoveObjects(new NWDItemGroup[] { this });
                         tItem.UpdateData();
+                        foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
+                        {
+                            if (tCraftbook.ItemGroupIngredient.ContainsObject(this))
+                            {
+                                tCraftbook.RecalculMe();
+                                tCraftbook.UpdateDataIfModified();
+                            }
+                        }
                     }
                     else
                     {

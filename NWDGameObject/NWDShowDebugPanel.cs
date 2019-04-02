@@ -44,13 +44,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddStatsAction()
         {
-            NWDUserStats tStats = NWDUserStats.NewData();
-            tStats.UpdateDataIfModified();
-            #if UNITY_EDITOR
-            UnityEditor.EditorWindow tEditorWindow = UnityEditor.EditorWindow.focusedWindow;
-            NWDUserStats.SetObjectInEdition(tStats);
-            tEditorWindow.Focus();
-            #endif
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ShowHidePanel()
@@ -74,7 +68,7 @@ namespace NetWorkedData
                 NWDParameter tParam = ParameterConnection.GetObject();
                 if (tParam != null)
                 {
-                    TextDebug.text = tParam.ValueString.GetLocalString();
+                    TextDebug.text = tParam.Name.GetLocalString();
                 }
             }
         }
@@ -115,7 +109,7 @@ namespace NetWorkedData
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
-            if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
+            if (NWDGameDataManager.UnitySingleton().DatasLoaded() == true)
             {
                 UpdateParameterText();
             }
@@ -192,7 +186,7 @@ namespace NetWorkedData
             ParametersTestAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasLoaded(BTBNotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationDatasLoaded()");
             UpdateParameterText();

@@ -35,18 +35,21 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sOldReference">S old reference.</param>
         /// <param name="sNewReference">S new reference.</param>
+        /// 
+        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnotherInAllObjects)]
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
             }
@@ -88,10 +91,22 @@ namespace NetWorkedData
             //int tTimeRef = 0;
             //int.TryParse(sUUID, out tTimeRef);
             //int tTime = NWDToolbox.Timestamp() - tTimeRef;
-            int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 20h00
+            int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 18h00:00
             while (tValid == false)
             {
-                rReturn = Datas().ClassTrigramme + BTBConstants.K_MINUS + sUUID + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
+                rReturn = BasisHelper().ClassTrigramme + BTBConstants.K_MINUS + sUUID + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
+                tValid = TestReference(rReturn);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string NewShortReference()
+        {
+            string rReturn = string.Empty;
+            bool tValid = false;
+            while (tValid == false)
+            {
+                rReturn = BasisHelper().ClassTrigramme + BTBConstants.K_SHORT_REFERENCE + UnityEngine.Random.Range(1111, 9999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -131,7 +146,7 @@ namespace NetWorkedData
             //{
             //    rValid = true;
             //}
-            bool rValid = !Datas().DatasByReference.ContainsKey(sReference);
+            bool rValid = !BasisHelper().DatasByReference.ContainsKey(sReference);
             return rValid;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -154,14 +169,20 @@ namespace NetWorkedData
         /// <summary>
         /// Regenerates the reference.
         /// </summary>
-        public void RegenerateNewReference()
+        public void RegenerateNewReference(bool sShort = false)
         {
 #if UNITY_EDITOR
+            //TODO : dupplicate if synchronized and trash old data!
+            //DuplicateData();
             string tOldReference = Reference;
             string tNewReference = NewReference();
+            if (sShort == true)
+            {
+                tNewReference = NewShortReference();
+            }
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                var tMethodInfo = tType.GetMethod("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
@@ -169,15 +190,26 @@ namespace NetWorkedData
             }
             Reference = tNewReference;
             UpdateData();
-
-            //UpdateObjectInListOfEdition(this);
-            
             LoadFromDatabase();
-            SortEditorTableDatas();
+            //BasisHelper().SortEditorTableDatas();
             RestaureDataInEditionByReference(tNewReference);
-
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
+            if (BasisHelper().ConnexionType != null)
+            {
+                UnityEngine.Object[] tAllObjects = Resources.FindObjectsOfTypeAll(BasisHelper().ConnexionType);
+                foreach (UnityEngine.Object tObject in tAllObjects)
+                {
+                    Debug.Log("tObject find for connexion with " + BasisHelper().ClassNamePHP + " with path ....");
+                    // TODO : find solution to change the serialization connection
+                }
+            }
+#endif
+        }
+        public void RegenerateNewShortReference()
+        {
+#if UNITY_EDITOR
+            RegenerateNewReference(true);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -195,18 +227,24 @@ namespace NetWorkedData
                 Type tTypeOfThis = tProp.PropertyType;
                 if (tTypeOfThis != null)
                 {
-                    if (tTypeOfThis.IsGenericType)
+                    //if (tTypeOfThis.IsGenericType)
                     {
                         if (
-                            tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>) ||
-                            tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) ||
-                            //							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDConnectionType<>) ||
-                            tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>) ||
-                            tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
-                        {
 
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)) ||
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+
+                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>) ||
+                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) ||
+                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>) ||
+                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                            )
+                        {
+                            // TODO : Change to remove invoke!
                             //							Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
-                            var tMethodInfo = tTypeOfThis.GetMethod("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
+                            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_ChangeReferenceForAnother);
+
+                            //var tMethodInfo = tTypeOfThis.GetMethod("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
                             if (tMethodInfo != null)
                             {
                                 var tNext = tProp.GetValue(this, null);
@@ -241,7 +279,7 @@ namespace NetWorkedData
                 if (AccountDependent() == true)
                 {
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
-                    foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                    foreach (PropertyInfo tProp in PropertiesAccountConnected())
                     {
                         NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
                         if (tObject != null)

@@ -44,7 +44,8 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
         /// <param name="sOldPath">S old path.</param>
         /// <param name="sNewPath">S new path.</param>
-		public bool ChangeAssetPath (string sOldPath, string sNewPath) 
+        //[NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
+        public bool ChangeAssetPath (string sOldPath, string sNewPath) 
         {
 			//Debug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
 			bool rChange = false;
@@ -54,8 +55,16 @@ namespace NetWorkedData
 				//Debug.Log ("BTBDataType ChangeAssetPath YES I DID", DebugResult.Success);
 			}
 			return rChange;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GameObject ToAssetAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            NWDOperationAsset tOperation = NWDOperationAsset.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

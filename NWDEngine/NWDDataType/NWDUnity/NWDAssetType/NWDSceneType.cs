@@ -26,8 +26,8 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
 	public class NWDSceneType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             List<string> tScenesInBuildList = new List<string>();
             EditorBuildSettingsScene[] tBuildScenes = EditorBuildSettings.scenes;
@@ -72,6 +72,7 @@ namespace NetWorkedData
                     rReturn = true;
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ namespace NetWorkedData
             GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-            return tPopupFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+            return tPopupFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
@@ -134,22 +135,22 @@ namespace NetWorkedData
             {
                 tTemporary.Value = string.Empty;
             }
-            tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+            tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
             if (IsInError() == true) {
 				tTemporary.Value = Value;
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+                NWDGUI.BeginRedArea();
+                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
 					tTemporary.Value = string.Empty;
-				}
-				GUI.backgroundColor = tOldColor;
-				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                }
+                NWDGUI.EndRedArea();
+                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
 			return tTemporary;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+        #endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

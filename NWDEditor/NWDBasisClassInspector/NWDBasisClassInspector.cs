@@ -1,49 +1,44 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDBasisClassInspector : ScriptableObject
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public Type mTypeInEdition;
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[CustomEditor (typeof(NWDBasisClassInspector))]
-	public class NWDBasisClassEditor : Editor
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDBasisClassInspector : ScriptableObject
     {
-		//-------------------------------------------------------------------------------------------------------------
-		public override void OnInspectorGUI ()
-		{
-			NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
-			//Debug.Log ("OnInspectorGUI " + tTarget.mTest);
-			if (tTarget.mTypeInEdition == null) {
-				//GUILayout.Label ("No Table to draw! Select one table");
-			} else {
-				//GUILayout.Label ("DRAW TYPE EDITOR " + tTarget.mTypeInEdition.Name);
-				var tMethodInfo = tTarget.mTypeInEdition.GetMethod ("DrawTypeInInspector", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, null);
-				}
-
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //-------------------------------------------------------------------------------------------------------------
+        public Type mTypeInEdition;
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [CustomEditor(typeof(NWDBasisClassInspector))]
+    public class NWDBasisClassEditor : Editor
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnInspectorGUI()
+        {
+            NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
+            if (tTarget.mTypeInEdition != null)
+            {
+                NWDAliasMethod.InvokeClassMethod(tTarget.mTypeInEdition, NWDConstants.M_DrawTypeInInspector);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

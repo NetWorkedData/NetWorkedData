@@ -4,16 +4,8 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
-using SQLite4Unity3d;
-using BasicToolBox;
+using System;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -21,31 +13,20 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Change the asset path in all object of this class.
-        /// </summary>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
+        [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
         public static void ChangeAssetPath(string sOldPath, string sNewPath)
         {
-            //Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
             if (AssetDependent() == true)
             {
-                foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+                foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
                 {
                     tObject.ChangeAssetPathMe(sOldPath, sNewPath);
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Change the asset path in this object.
-        /// </summary>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
         public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
-            //Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
             if (TestIntegrity() == true)
             {
                 bool tUpdate = false;

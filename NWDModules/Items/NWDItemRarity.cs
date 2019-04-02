@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -55,16 +55,9 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("IRY")]
     [NWDClassDescriptionAttribute("Rarity of Item")]
     [NWDClassMenuNameAttribute("Item Rarity")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDItemRarity : NWDBasis<NWDItemRarity>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
@@ -78,20 +71,56 @@ namespace NetWorkedData
         //[NWDGroupStart("Account")]
         //public NWDReferenceType<NWDAccount> Account { get; set; }
         //[NWDGroupEnd()]
-        //[NWDGroupSeparator()]
+        //
         //[NWDGroupStart("Other")]
         //public int Other { get; set; }
 
         //PROPERTIES
-		public NWDReferenceType<NWDItem> ItemReference {get; set;}
-		public int ItemTotal {get; set;}
-		public int ItemOwner {get; set;}
-		public int MaxItemOwner {get; set;}
-		public int MinItemOwner {get; set;}
-		public float Rarity {get; set;}
-		public int ExpectedItem {get; set;}
-
-
+        [NWDTooltips("The item to check")]
+        public NWDReferenceType<NWDItem> ItemReference
+        {
+            get; set;
+        }
+        [NWDTooltips("The total of this item in all game save")]
+        public long ItemTotal
+        {
+            get; set;
+        }
+        [NWDTooltips("The total of user own this item in all game save")]
+        public long OwnerUserTotal
+        {
+            get; set;
+        }
+        [NWDTooltips("The total of user in all game save")]
+        public long UserTotal
+        {
+            get; set;
+        }
+        [NWDTooltips("The maximum item in all game save for one game save")]
+        public long Maximum
+        {
+            get; set;
+        }
+        [NWDTooltips("The minimum item in all game save for one game save")]
+        public long Minimum
+        {
+            get; set;
+        }
+        [NWDTooltips("The average in all game save")]
+        public double Average
+        {
+            get; set;
+        }
+        [NWDTooltips("The frequency in all game save (OwnerUserTotal/UserTotal)/Average")]
+        public double Frequency
+        {
+            get; set;
+        }
+        [NWDTooltips("The rarity in all game save (1/Frequency)")]
+        public double Rarity
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -114,17 +143,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-#if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDItemRarity BasicError", "IRYz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void ClassInitialization() // call by invoke
-        {
-        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
@@ -150,9 +168,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDItemRarity)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDItemRarity), typeof(NWDItem) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -203,11 +222,11 @@ namespace NetWorkedData
         /// <summary>
         /// Addon method when updated me from Web.
         /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-        }
+        //public override void AddonUpdatedMeFromWeb()
+        //{
+        //    // do something when object finish to be updated from CSV from WebService response
+        //    // TODO verif if method is call in good place in good timing
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just before dupplicate.
@@ -266,16 +285,6 @@ namespace NetWorkedData
         {
             // do something when object will be web service upgrade
             // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            // InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            // RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -365,6 +374,77 @@ namespace NetWorkedData
             // check if you found error in Data values.
             // normal way is return false!
             return rReturnErrorFound;
+        }
+     
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            return "\n" +
+        "\t\tglobal $NWD_FLOAT_FORMAT;\n" +
+        "\t\t// Count user by gamesave\n" +
+        "\t\t$tUserCount = 0;\n" +
+        "\t\t$tQuery = 'SELECT COUNT(Reference) as TotalUser FROM `'.$ENV.'_NWDGameSave`';\n" +
+        "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+        "\t\tif (!$tResult)\n" +
+        "\t\t\t{\n" +
+        "\t\t\t\terror('IRYx33');\n" +
+        "\t\t\t}\n" +
+        "\t\telse\n" +
+        "\t\t\t{\n" +
+        "\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n" +
+        "\t\t\t\t\t{\n" +
+        "\t\t\t\t\t\t$tUserCount = $tRow['TotalUser'];\n" +
+        "\t\t\t\t\t}\n" +
+        "\t\t\t\tmysqli_free_result($tResult);\n" +
+        "\t\t\t}\n" +
+        "\t\t// calculate rarity and fill the datas\n" +
+        "\t\t$tQuery = 'SELECT t2.Reference, t2.ItemReference,';\n" +
+        "\t\t$tQuery.= ' SUM(t1.Quantity) as Total ,';\n" +
+        "\t\t$tQuery.= ' COUNT(t1.Reference) as OwnerTotal,';\n" +
+        "\t\t$tQuery.= ' MAX(t1.Quantity) as ItemMax,';\n" +
+        "\t\t$tQuery.= ' MIN(t1.Quantity) as ItemMin,';\n" +
+        "\t\t$tQuery.= ' AVG(t1.Quantity) as ItemAvg';\n" +
+        "\t\t$tQuery.= ' FROM `'.$ENV.'_NWDUserOwnership` t1 INNER JOIN `'.$ENV.'_NWDItemRarity` t2 ON t1.Item = t2.ItemReference GROUP BY t2.ItemReference;';\n" +
+        "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+        //"\t\tmyLog('mysqli request : ('. $tQuery.')', __FILE__, __FUNCTION__, __LINE__);\n" +
+        "\t\tif (!$tResult)\n" +
+        "\t\t\t{\n" +
+        "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+        "\t\t\t\terror('IRYx33');\n" +
+        "\t\t\t}\n" +
+        "\t\telse\n" +
+        "\t\t\t{\n" +
+        "\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n" +
+        "\t\t\t\t\t{\n" +
+        "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_NWDItemRarity` SET `DM` = \\''.$TIME_SYNC.'\\', `DS` = \\''.$TIME_SYNC.'\\', `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Maximum` = \\''.$tRow['ItemMax'].'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Minimum` = \\''.$tRow['ItemMin'].'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `OwnerUserTotal` = \\''.$tRow['OwnerTotal'].'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `UserTotal` = \\''.$tUserCount.'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Average` = \\''.number_format ($tRow['ItemAvg'], $NWD_FLOAT_FORMAT ,'.','').'\\',';\n" +
+        "\t\t\t\t\t\tif ($tRow['ItemAvg']!=0 && $tUserCount!=0)\n" +
+        "\t\t\t\t\t\t\t{\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Frequency` = \\''.number_format (($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg'], $NWD_FLOAT_FORMAT,'.','').'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Rarity` = \\''.number_format (1.0/(($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg']), $NWD_FLOAT_FORMAT,'.','').'\\',';\n" +
+        "\t\t\t\t\t\t\t}\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `ItemTotal` = \\''.$tRow['Total'].'\\'';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' WHERE `Reference` = \\''.$tRow['Reference'].'\\' AND `ItemReference` = \\''.$tRow['ItemReference'].'\\';';\n" +
+        "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
+        //"\t\t\t\t\t\t$REP['spc'][$tRow['Reference']] = $tUpdate;\n" +
+        "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
+        "\t\t\t\t\t\t{\n" +
+        "\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+        "\t\t\t\t\t\t\terror('IRYx38');\n" +
+        "\t\t\t\t\t\t}\n" +
+        "\t\t\t\t\t\telse\n" +
+        "\t\t\t\t\t\t{\n" +
+        "\t\t\t\t\t\tIntegrityNWDItemRarityReevalue($tRow['Reference']);\n" +
+        "\t\t\t\t\t\t}\n" +
+        "\t\t\t\t\t}\n" +
+        "\t\t\t\tmysqli_free_result($tResult);\n" +
+        "\t\t\t\t$REP['special'] ='success!';\n" +
+        "\t\t\t}" +
+        "";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

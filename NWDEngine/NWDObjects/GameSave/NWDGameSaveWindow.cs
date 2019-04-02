@@ -22,16 +22,15 @@ namespace NetWorkedData
                                  "NWDGameSaveWindow", // NWDUserWindow
         new Type[] {
         typeof(NWDAccount),
+        typeof(NWDUserInfos),
         typeof(NWDGameSave),
-        typeof(NWDUserOwnership),
-		/* Add NWDBasis here*/
 		}
-                                )]
+    )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDGameSaveWindow : NWDBasisWindow<NWDGameSaveWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game Save", false, 301)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "GameSave", false, 301)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
