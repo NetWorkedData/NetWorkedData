@@ -59,8 +59,10 @@ namespace NetWorkedData
             rReturn.AppendLine("AccountHashSaltB = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
             rReturn.AppendLine("RowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine("PreloadDatas = " + PreloadDatas.ToString().ToLower() + ";");
-            //rReturn.AppendLine("PreloadDatasInEditor = " + PreloadDatasInEditor.ToString().ToLower() + ";");
-            rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");
+            rReturn.AppendLine("PinCodeLenghtMin = " + PinCodeLenghtMin.ToString().ToLower() + ";");
+            rReturn.AppendLine("PinCodeLenghtMax = " + PinCodeLenghtMax.ToString().ToLower() + ";");
+        //rReturn.AppendLine("PreloadDatasInEditor = " + PreloadDatasInEditor.ToString().ToLower() + ";");
+        rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
                 rReturn.AppendLine("BundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");

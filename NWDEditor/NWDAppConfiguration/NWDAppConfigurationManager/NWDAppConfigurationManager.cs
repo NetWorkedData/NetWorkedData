@@ -166,6 +166,9 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().PreloadDatas = false;
             }
             EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
+            NWDAppConfiguration.SharedInstance().PinCodeLenghtMin = EditorGUILayout.IntField("Min lenght", NWDAppConfiguration.SharedInstance().PinCodeLenghtMin);
+            NWDAppConfiguration.SharedInstance().PinCodeLenghtMax = EditorGUILayout.IntField("Max lenght", NWDAppConfiguration.SharedInstance().PinCodeLenghtMax);
+
             NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Sur Protected Tentative", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
             EditorGUI.EndDisabledGroup();
             EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
@@ -175,7 +178,6 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
-            string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
             NWDGUILayout.SubSection("Databases Editor config for all environements");
             //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
@@ -187,25 +189,31 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             if (GUILayout.Button("Editor Database File"))
             {
-                EditorUtility.RevealInFinder(tDatabasePathEditor);
-                Debug.LogWarning("DatabasePathEditor = " + tDatabasePathEditor);
+                EditorUtility.RevealInFinder("Assets/" +tDatabasePathEditor);
+                Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("Editor Pass Result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
             }
             // Database account informations
             NWDGUILayout.SubSection("Databases Accountconfig for all environements (by device)");
             //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
-            EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
+            EditorGUILayout.LabelField("Account path ", NWDDataManager.SharedInstance().PathDatabaseAccount());
             EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
             EditorGUILayout.LabelField("AccountHashSaltA", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
             EditorGUILayout.LabelField("AccountHashSaltB", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass());
+            if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+            {
+                EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass(EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY)));
+            }
             EditorGUI.EndDisabledGroup();
             if (GUILayout.Button("Account Database File"))
             {
-                EditorUtility.RevealInFinder(tDatabasePathAccount);
-                Debug.LogWarning("DatabasePathAccount = " + tDatabasePathAccount);
-                Debug.LogWarning("Account Pass Result = " + NWDAppConfiguration.SharedInstance().GetAccountPass());
+                EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
+                if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                {
+                    Debug.LogWarning("Account Pass Result = " + NWDAppConfiguration.SharedInstance().GetAccountPass(EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY)));
+                }
             }
             NWDGUILayout.LittleSpace();
             // finish scroll view

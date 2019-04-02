@@ -68,6 +68,8 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
+        public int PinCodeLenghtMin = 4;
+        public int PinCodeLenghtMax = 8;
         //public bool PreloadDatasInEditor = true;
         public bool AnonymousPlayerIsLocal = true;
         public bool SurProtected = false;
@@ -212,19 +214,18 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public string GetAccountPass()
+        public string GetAccountPass(string sPinCode)
         {
-            string tDeviceUniqueID = SystemInfo.deviceUniqueIdentifier;
+            string tDeviceUniqueID = sPinCode+SystemInfo.deviceUniqueIdentifier;
             string tPass = tDeviceUniqueID;
             if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().AccountHashSalt))
             {
-                tPass = BasicToolBox.BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier);
+                tPass = BTBSecurityTools.GenerateSha(tPass);
             }
             else
             {
                 tPass = NWDAppConfiguration.SharedInstance().AccountHashSaltA.Substring(0, 8) +
-                    BasicToolBox.BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier +
-                    NWDAppConfiguration.SharedInstance().AccountHashSalt) +
+                    BTBSecurityTools.GenerateSha(tPass + NWDAppConfiguration.SharedInstance().AccountHashSalt) +
                     NWDAppConfiguration.SharedInstance().AccountHashSaltB.Substring(2, 8);
             }
             return tPass;

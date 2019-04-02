@@ -176,7 +176,7 @@ namespace NetWorkedData
             {
                 DataAccountConnectionInProgress = true;
                 string tDatabasePathAccount = PathDatabaseAccount();
-                string tAccountPass = sSurProtection + NWDAppConfiguration.SharedInstance().GetAccountPass();
+                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(sSurProtection);
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
                 || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
