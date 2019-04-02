@@ -166,8 +166,10 @@ namespace NetWorkedData
                 ResultInfos.WebDateTime = DateTime.Now;
 
                 // Debug Show Header Uploaded
-                DebugShowHeaderUploaded(tWWWForm.data);
-
+                if (Environment.LogMode == true)
+                {
+                    DebugShowHeaderUploaded(tWWWForm.data);
+                }
                 // Notification of an Upload start
                 BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
 
@@ -222,11 +224,15 @@ namespace NetWorkedData
                         BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
 
                         // Debug Show Header Download
-                        DebugShowHeaderDownloaded(tDataConverted);
-
+                        if (Environment.LogMode == true)
+                        {
+                            DebugShowHeaderDownloaded(tDataConverted);
+                        }
                         // Debug Show Header Up vs Down
-                        DebugShowHeaderTotal(tDataConverted);
-
+                        if (Environment.LogMode == true)
+                        {
+                            DebugShowHeaderTotal(tDataConverted);
+                        }
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
@@ -274,7 +280,10 @@ namespace NetWorkedData
                                                     }
                                                     else
                                                     {
-                                                        NWDDebug.Log("NWDOperationWebUnity DOWNLOADED DECODED = " + Json.Serialize(tData).Replace("\\\\r", "\r\n"));
+                                                        if (Environment.LogMode == true)
+                                                        {
+                                                            NWDDebug.Log("NWDOperationWebUnity DOWNLOADED DECODED = " + Json.Serialize(tData).Replace("\\\\r", "\r\n"));
+                                                        }
                                                     }
                                                 }
                                             }

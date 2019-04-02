@@ -524,7 +524,10 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        Debug.Log(tTableName + " just sync with timestamp ?");
+                        if (sEnvironment.LogMode == true)
+                        {
+                            Debug.Log(tTableName + " just sync with timestamp ?");
+                        }
                     }
                 }
             }
