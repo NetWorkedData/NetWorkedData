@@ -925,7 +925,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
             MethodInfo tMethodDeclareGet = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpGetCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclareGet != null)
@@ -994,7 +994,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
             if (tMethodDeclareGet != null)
             {
                 tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
@@ -1051,7 +1051,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
             if (tMethodDeclareGet != null)
             {
                 tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
@@ -1115,7 +1115,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
             if (tMethodDeclareGet != null)
             {
                 tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
@@ -1167,7 +1167,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
             if (tMethodDeclareGet != null)
             {
                 tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
@@ -1202,7 +1202,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin)");
             tFile.AppendLine("{");
-            tFile.AppendLine("global $token_FirstUse,$PATH_BASE;");
+            tFile.AppendLine("global $token_FirstUse, $PATH_BASE, $TIME_SYNC, $REP;");
 
             if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
             {
@@ -1313,6 +1313,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!errorDetected())");
             tFile.AppendLine("{");
             tFile.AppendLine("GetDatas" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);");
+            tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyTimestamp + "'] = $TIME_SYNC;");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
