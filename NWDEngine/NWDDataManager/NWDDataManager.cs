@@ -108,7 +108,7 @@ namespace NetWorkedData
             {
                 if (NWDBasisHelper.FindTypeInfos(tType).SaltValid == false)
                 {
-                    Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
+                    //Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
                     rReturn = false;
                     break;
                 }
