@@ -42,7 +42,7 @@ namespace NetWorkedData
             rReturn.AppendLine("namespace NetWorkedData");
             rReturn.AppendLine("{");
             rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            rReturn.AppendLine("public partial class NWDAppConfiguration");
+            rReturn.AppendLine("public partial class NWDAppConfiguration : NWDApp");
             rReturn.AppendLine("{");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
             rReturn.AppendLine("public override bool RestaureConfigurations ()");

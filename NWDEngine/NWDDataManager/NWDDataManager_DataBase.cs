@@ -602,24 +602,18 @@ namespace NetWorkedData
 
             if (sAccountConnected)
             {
-                if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+                if (SQLiteConnectionAccountIsValid())
                 {
-                    if (SQLiteConnectionAccountIsValid())
-                    {
-                        //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
-                        SQLiteConnectionAccount.CreateTableByType(sType);
-                    }
+                    Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+                    SQLiteConnectionAccount.CreateTableByType(sType);
                 }
             }
             else
             {
-                if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+                if (SQLiteConnectionEditorIsValid())
                 {
-                    if (SQLiteConnectionEditorIsValid())
-                    {
-                        //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
-                        SQLiteConnectionEditor.CreateTableByType(sType);
-                    }
+                    Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+                    SQLiteConnectionEditor.CreateTableByType(sType);
                 }
             }
         }
@@ -629,23 +623,23 @@ namespace NetWorkedData
 
             if (sAccountConnected)
             {
-                if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-                {
+                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+                //{
                     if (SQLiteConnectionAccountIsValid())
                     {
                         SQLiteConnectionAccount.MigrateTableByType(sType);
                     }
-                }
+                //}
             }
             else
             {
-                if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-                {
+                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+                //{
                     if (SQLiteConnectionEditorIsValid())
                     {
                         SQLiteConnectionEditor.MigrateTableByType(sType);
                     }
-                }
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -654,23 +648,23 @@ namespace NetWorkedData
 
             if (sAccountConnected)
             {
-                if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-                {
+                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+                //{
                     if (SQLiteConnectionAccountIsValid())
                     {
                         SQLiteConnectionAccount.TruncateTableByType(sType);
                     }
-                }
+                //}
             }
             else
             {
-                if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-                {
+                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+                //{
                     if (SQLiteConnectionEditorIsValid())
                     {
                         SQLiteConnectionEditor.TruncateTableByType(sType);
                     }
-                }
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -679,23 +673,23 @@ namespace NetWorkedData
 
             if (sAccountConnected)
             {
-                if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-                {
+                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+                //{
                     if (SQLiteConnectionAccountIsValid())
                     {
                         SQLiteConnectionAccount.DropTableByType(sType);
                     }
-                }
+                //}
             }
             else
             {
-                if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-                {
+                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+                //{
                     if (SQLiteConnectionEditorIsValid())
                     {
                         SQLiteConnectionEditor.DropTableByType(sType);
                     }
-                }
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -713,7 +707,7 @@ namespace NetWorkedData
         public bool SQLiteConnectionEditorIsValid()
         {
             bool rReturn = true;
-            if (SQLiteConnectionAccount != null)
+            if (SQLiteConnectionEditor != null)
             {
                 rReturn = SQLiteConnectionEditor.IsValid();
             }
