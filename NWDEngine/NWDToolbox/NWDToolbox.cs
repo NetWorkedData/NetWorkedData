@@ -518,6 +518,7 @@ namespace NetWorkedData
         public static string FindClassFolder(string sFindClassName, string sDefaultFolder)
         {
             string tEngineRoot = "Assets";
+            tEngineRoot = Directory.GetParent(NWDFindPackage.SharedInstance().ScriptFolderFromAssets).ToString();
             string tFolder = sDefaultFolder;
             string tEngineRootFolder = tEngineRoot + "/" + tFolder;
 
