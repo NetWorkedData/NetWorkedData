@@ -10,15 +10,12 @@ using UnityEngine.UI;
 using TMPro;
 using BasicToolBox;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDatasLoadedActivation : MonoBehaviour {
+    public class NWDDatasLoadedActivation : MonoBehaviour
+    {
         //-------------------------------------------------------------------------------------------------------------
         public bool ActiveDatasLoaded = true;
         public bool ActiveDatasNotLoaded = false;
@@ -30,7 +27,7 @@ namespace NetWorkedData
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
             foreach (Transform tChild in transform)
             {
-                tChild.gameObject.SetActive(ActiveDatasLoaded);
+                tChild.GetComponent<Canvas>().enabled = ActiveDatasLoaded;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -42,7 +39,7 @@ namespace NetWorkedData
                 Debug.Log("NWDAutolocalized Awake() install observer");
                 foreach (Transform tChild in transform)
                 {
-                    tChild.gameObject.SetActive(ActiveDatasNotLoaded);
+                    tChild.GetComponent<Canvas>().enabled = ActiveDatasNotLoaded;
                 }
                 BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
                 tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
@@ -55,7 +52,7 @@ namespace NetWorkedData
                 Debug.Log("NWDAutolocalized Awake() DataAccountLoaded already loaded!");
                 foreach (Transform tChild in transform)
                 {
-                    tChild.gameObject.SetActive(ActiveDatasLoaded);
+                    tChild.GetComponent<Canvas>().enabled = ActiveDatasLoaded;
                 }
             }
         }
