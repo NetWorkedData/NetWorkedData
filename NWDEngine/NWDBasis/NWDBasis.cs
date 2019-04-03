@@ -18,10 +18,6 @@ namespace NetWorkedData
         protected bool InDatabase = false;
         protected bool FromDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
-        const string K_BASIS_INDEX = "BasisIndex";
-        const string K_INTERNAL_INDEX = "InternalIndex";
-        const string K_EDITOR_INDEX = "EditorIndex";
-        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset()]
         [NWDInspectorGroupStart("Basis")]
         [PrimaryKey, AutoIncrement, NWDNotEditable]

@@ -22,17 +22,16 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis<NWDAccount>
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_ACCOUNT_INDEX = "AccountIndex";
         const string K_LOGIN_INDEX = "LoginIndex";
         const string K_SECRET_INDEX = "SecretIndex";
         const string K_SOCIAL_INDEX = "SecretIndex";
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(K_ACCOUNT_INDEX, "AC")]
-        [NWDAddIndexed(K_ACCOUNT_INDEX, "Reference")]
-
         [NWDAddIndexed(K_LOGIN_INDEX, "AC")]
         [NWDAddIndexed(K_SECRET_INDEX, "AC")]
         [NWDAddIndexed(K_SOCIAL_INDEX, "AC")]
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAddIndexed(K_BASIS_INDEX, "AC")]
+        [NWDAddIndexed(K_BASIS_INDEX, "Reference")]
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Account statut")]
         [NWDTooltips("The statut of this account in process of test (normal and default are 'InGame')")]
