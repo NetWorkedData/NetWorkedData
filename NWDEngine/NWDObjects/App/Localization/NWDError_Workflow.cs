@@ -114,7 +114,48 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.Critical:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), delegate (BTBMessageState state)
+                        {
+                            Application.Quit();
+                        }
+                        );
+                    }
+                    break;
+                case NWDErrorType.Upgrade:
+                    {
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), delegate (BTBMessageState state)
+                        {
+                            string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
+                            NWDVersion tVersion = NWDVersion.GetActualVersion();
+#if UNITY_EDITOR
+                            // NO CHANGE
+#elif UNITY_IOS
+                            if (string.IsNullOrEmpty(tVersion.IOSStoreURL) == false)
+                            {
+                                tURL = tVersion.IOSStoreURL;
+                            }
+#elif UNITY_ANDROID
+                            if (string.IsNullOrEmpty(tVersion.GooglePlayURL) == false)
+                            {
+                                tURL = tVersion.GooglePlayURL;
+                            }
+#elif UNITY_STANDALONE_OSX
+                            if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
+                            {
+                                tURL = tVersion.OSXStoreURL;
+                            }
+#elif UNITY_STANDALONE_WIN
+
+#elif UNITY_STANDALONE_LINUX
+
+#else
+
+#endif
+                            Application.OpenURL(tURL);
+                            Application.Quit();
+                        });
+                        // TODO : redirection to Store
+
                     }
                     break;
                 case NWDErrorType.Ignore:

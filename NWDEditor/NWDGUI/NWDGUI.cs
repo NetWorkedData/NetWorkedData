@@ -100,7 +100,7 @@ namespace NetWorkedData
         public static float KTableSearchWidth = 120.0F;
         public static float KTableSearchFieldWidth = 200.0F;
         public static float KTableReferenceWidth = 160.0F;
-        public static float KTableRowWebModelWidth = 60.0F;
+        public static float KTableRowWebModelWidth = 70.0F;
         public static float KTablePageMarge = 5.0F;
         public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6.0F;
 
@@ -127,7 +127,7 @@ namespace NetWorkedData
         public static float kTablePrefabWidth = 40.0F;
         public static float kTableSelectWidth = 20.0f;
         public static float kTableIDWidth = 45.0f;
-        public static float kTableIconWidth = 40.0f;
+        public static float kTableIconWidth = 44.0f;
 
         public static float kTableHeaderHeight = 30.0f;
         public static Color kTableHeaderColor;

@@ -102,23 +102,23 @@ namespace NetWorkedData
         }
         [NWDInspectorGroupEnd]
         
-        [NWDInspectorGroupStart("Alert depriciated", true, true, true)]
-        [NWDTooltips("Alert App is depriciated Title")]
-        public NWDLocalizableStringType AlertTitle
-        {
-            get; set;
-        }
-        [NWDTooltips("Alert App is depriciated Message")]
-        public NWDLocalizableStringType AlertMessage
-        {
-            get; set;
-        }
-        [NWDTooltips("Alert App is depriciated button text validation")]
-        public NWDLocalizableStringType AlertValidation
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd]
+        //[NWDInspectorGroupStart("Alert depriciated", true, true, true)]
+        //[NWDTooltips("Alert App is depriciated Title")]
+        //public NWDLocalizableStringType AlertTitle
+        //{
+        //    get; set;
+        //}
+        //[NWDTooltips("Alert App is depriciated Message")]
+        //public NWDLocalizableStringType AlertMessage
+        //{
+        //    get; set;
+        //}
+        //[NWDTooltips("Alert App is depriciated button text validation")]
+        //public NWDLocalizableStringType AlertValidation
+        //{
+        //    get; set;
+        //}
+        //[NWDInspectorGroupEnd]
         
         [NWDInspectorGroupStart("Links", true, true, true)]
 

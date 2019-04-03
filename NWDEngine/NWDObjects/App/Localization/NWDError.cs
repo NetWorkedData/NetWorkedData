@@ -21,6 +21,8 @@ namespace NetWorkedData
         Alert = 20, // System Dialog
         Critical = 30,  // System Dialog and Quit
 
+        Upgrade = 40,  // Upgrade required and Quit
+
         UnityEditor = 98, // For Unity NWD Editor
         Ignore = 99, // Do Nothing
     }

@@ -65,9 +65,9 @@ namespace NetWorkedData
             NWDError.CreateGenericError("param", "PAR99", "param error", "json null", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError("gameversion", "GVA00", "version error", "error in sql select Version", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("gameversion", "GVA01", "version error", "stop : update app", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("gameversion", "GVA01", "version error", "stop : update app", "OK", NWDErrorType.Upgrade, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("gameversion", "GVA02", "version error", "stop unknow version : update app", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("gameversion", "GVA99", "version error", "block data", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("gameversion", "GVA99", "version error", "block data", "OK", NWDErrorType.Upgrade, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError("account", "ACC01", "Account error", "action is empty", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("account", "ACC02", "Account error", "action is invalid format", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
