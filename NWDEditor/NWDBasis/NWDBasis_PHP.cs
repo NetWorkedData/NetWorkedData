@@ -209,10 +209,10 @@ namespace NetWorkedData
             foreach (var indexName in indexes.Keys)
             {
                 var index = indexes[indexName];
-                string[] columnNames = new string[index.Columns.Count];
+                string[] columnNamesRought = new string[index.Columns.Count];
                 if (index.Columns.Count == 1)
                 {
-                    columnNames[0] = index.Columns[0].ColumnName;
+                    columnNamesRought[0] = index.Columns[0].ColumnName;
                 }
                 else
                 {
@@ -222,9 +222,28 @@ namespace NetWorkedData
                     });
                     for (int i = 0, end = index.Columns.Count; i < end; ++i)
                     {
-                        columnNames[i] = index.Columns[i].ColumnName;
+                        columnNamesRought[i] = index.Columns[i].ColumnName;
                     }
                 }
+
+                List<string> columnNames = new List<string>(columnNamesRought);
+
+                // Add special index
+                foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                {
+                    foreach (NWDAddIndexed tIndex in tProp.GetCustomAttributes(typeof(NWDAddIndexed), true))
+                    {
+                        if (indexName == tIndex.IndexName)
+                        {
+                            if (columnNames.Contains(tIndex.IndexColumn) == false)
+                            {
+                                columnNames.Add(tIndex.IndexColumn);
+                            }
+                        }
+                    }
+                }
+
+                // Add account columnnames in K_BASIS_INDEX
                 List<string> columnNamesFinalList = new List<string>();
                 foreach (string tName in columnNames)
                 {
@@ -263,6 +282,52 @@ namespace NetWorkedData
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
                 }
+
+
+                        if (indexName == K_BASIS_INDEX)
+                {
+                    foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        
+                        Type tTypeOfThis = tProp.PropertyType;
+                        if (tTypeOfThis != null)
+                        {
+                            if (tTypeOfThis.IsGenericType)
+                            {
+                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                                {
+                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                                    if (tSubType == typeof(NWDAccount))
+                                    {
+                                        if (columnNames.Contains(tProp.Name) == false)
+                                        {
+                                            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
+                                        }
+                                    }
+                                    if (tSubType == typeof(NWDGameSave))
+                                    {
+                                        if (columnNames.Contains(tProp.Name) == false)
+                                        {
+                                            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
+                                        }
+                                    }
+                                }
+                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
+                                {
+                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                                    if (tSubType == typeof(NWDAccount))
+                                    {
+                                        if (columnNames.Contains(tProp.Name) == false)
+                                        {
+                                            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 string[] columnNamesFinal = columnNamesFinalList.ToArray<string>();
                 tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + indexName + "` ON `'.$ENV.'_" + index.TableName + "`;';");
                 tFile.AppendLine("$tRemoveIndexResult = $SQL_CON->query($tRemoveIndexQuery);");
@@ -838,16 +903,17 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             //"}" );
             tFile.AppendLine("}");
-            tFile.AppendLine("// find solution for post calculate on server");
+            tFile.AppendLine("// Solution for post calculate on server");
             MethodInfo tMethodDeclarePost = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPostCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePost != null)
             {
                 tFile.Append((string)tMethodDeclarePost.Invoke(null, new object[] { sEnvironment }));
             }
-            tFile.AppendLine("");
-            tFile.AppendLine("$tLigneAffceted = $SQL_CON->affected_rows;");
-            //"myLog('tLigneAffceted = '.$tLigneAffceted, __FILE__, __FUNCTION__, __LINE__);" );
-            tFile.AppendLine("if ($tLigneAffceted == 1)");
+            tFile.AppendLine("// Update is finished!");
+            /*
+            tFile.AppendLine("$tLigneAffected = $SQL_CON->affected_rows;");
+            //"myLog('tLigneAffected = '.$tLigneAffected, __FILE__, __FUNCTION__, __LINE__);" );
+            tFile.AppendLine("if ($tLigneAffected == 1)");
             tFile.AppendLine("{");
             tFile.AppendLine("// je transmet la sync à tout le monde");
             tFile.AppendLine("if ($sCsvList[3] != -1)");
@@ -866,8 +932,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
-
-            tFile.AppendLine("");
+            */
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");

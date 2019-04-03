@@ -8,6 +8,7 @@
 //=====================================================================================================================
 
 using System;
+using SQLite.Attribute;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -38,8 +39,14 @@ namespace NetWorkedData
     public partial class NWDVersion : NWDBasis<NWDVersion>
     {
         //-------------------------------------------------------------------------------------------------------------
+        const string K_VERSION_INDEX = "VersionIndex";
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAddIndexed(K_VERSION_INDEX, "AC")]
+        [NWDAddIndexed(K_VERSION_INDEX, "XX")]
+        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Information", true, true, true)]
         [NWDTooltips("Version reccord in database. The format is X.XX.XX")]
+        [Indexed(K_VERSION_INDEX, 0)]
         public NWDVersionType Version
         {
             get; set;
@@ -49,6 +56,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("This version can be used to build")]
+        [Indexed(K_VERSION_INDEX, 0)]
         public bool Buildable
         {
             get; set;
@@ -62,16 +70,19 @@ namespace NetWorkedData
         
         [NWDInspectorGroupStart("Environment", true, true, true)]
         [NWDTooltips("This version can be used to build dev environement")]
+        [Indexed(K_VERSION_INDEX, 0)]
         public bool ActiveDev
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build preprod environement")]
+        [Indexed(K_VERSION_INDEX, 0)]
         public bool ActivePreprod
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build prod environement")]
+        [Indexed(K_VERSION_INDEX, 0)]
         public bool ActiveProd
         {
             get; set;

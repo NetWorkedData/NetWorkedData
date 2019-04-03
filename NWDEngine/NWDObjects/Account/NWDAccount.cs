@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
+using SQLite.Attribute;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -20,6 +21,18 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Account")]
     public partial class NWDAccount : NWDBasis<NWDAccount>
     {
+        //-------------------------------------------------------------------------------------------------------------
+        const string K_ACCOUNT_INDEX = "AccountIndex";
+        const string K_LOGIN_INDEX = "LoginIndex";
+        const string K_SECRET_INDEX = "SecretIndex";
+        const string K_SOCIAL_INDEX = "SecretIndex";
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAddIndexed(K_ACCOUNT_INDEX, "AC")]
+        [NWDAddIndexed(K_ACCOUNT_INDEX, "Reference")]
+
+        [NWDAddIndexed(K_LOGIN_INDEX, "AC")]
+        [NWDAddIndexed(K_SECRET_INDEX, "AC")]
+        [NWDAddIndexed(K_SOCIAL_INDEX, "AC")]
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Account statut")]
         [NWDTooltips("The statut of this account in process of test (normal and default are 'InGame')")]
@@ -37,6 +50,7 @@ namespace NetWorkedData
         /// <value>The login.</value>
         [NWDTooltips("The secret key to re-authentify the anonyme account")]
         [NWDInDevelopment("Need to be test in production")]
+        [Indexed(K_SECRET_INDEX, 1)]
         public string SecretKey
         {
             get; set;
@@ -48,6 +62,7 @@ namespace NetWorkedData
         /// <value>The login is an email.</value>
         [NWDTooltips("Hash of email for the appropriate environment")]
         [NWDCertified]
+        [Indexed(K_LOGIN_INDEX, 1)]
         public string Email
         {
             get; set;
@@ -59,6 +74,7 @@ namespace NetWorkedData
         /// <value>The password.</value>
         [NWDTooltips("Hash of password for the appropriate environment")]
         [NWDCertified]
+        [Indexed(K_LOGIN_INDEX, 1)]
         public string Password
         {
             get; set;
@@ -69,6 +85,7 @@ namespace NetWorkedData
         /// </summary>
         /// <value>The facebook I.</value>
         [NWDTooltips("FacebookID")]
+        [Indexed(K_SOCIAL_INDEX, 1)]
         public string FacebookID
         {
             get; set;
@@ -79,6 +96,7 @@ namespace NetWorkedData
         /// </summary>
         /// <value>The google I.</value>
         [NWDTooltips("GoogleID")]
+        [Indexed(K_SOCIAL_INDEX, 1)]
         public string GoogleID
         {
             get; set;
