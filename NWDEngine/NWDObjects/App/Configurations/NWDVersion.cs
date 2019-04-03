@@ -48,21 +48,25 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Information", true, true, true)]
         [NWDTooltips("Version reccord in database. The format is X.XX.XX")]
         [Indexed(K_VERSION_INDEX, 0)]
+        [NWDCertified]
         public NWDVersionType Version
         {
             get; set;
         }
+        [NWDCertified]
         public NWDColorType Cartridge
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build")]
         [Indexed(K_VERSION_INDEX, 0)]
+        [NWDCertified]
         public bool Buildable
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build a production build (not used)")]
+        [NWDInDevelopment]
         public bool Editable
         {
             get; set;
@@ -72,18 +76,21 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Environment", true, true, true)]
         [NWDTooltips("This version can be used to build dev environement")]
         [Indexed(K_VERSION_INDEX, 0)]
+        [NWDCertified]
         public bool ActiveDev
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build preprod environement")]
         [Indexed(K_VERSION_INDEX, 0)]
+        [NWDCertified]
         public bool ActivePreprod
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build prod environement")]
         [Indexed(K_VERSION_INDEX, 0)]
+        [NWDCertified]
         public bool ActiveProd
         {
             get; set;
@@ -92,11 +99,13 @@ namespace NetWorkedData
         
         [NWDInspectorGroupStart("Options", true, true, true)]
         [NWDTooltips("This version block data push")]
+        [NWDInDevelopment]
         public bool BlockDataUpdate
         {
             get; set;
         }
         [NWDTooltips("This version block app and show Alert")]
+        [NWDInDevelopment]
         public bool BlockApplication
         {
             get; set;
