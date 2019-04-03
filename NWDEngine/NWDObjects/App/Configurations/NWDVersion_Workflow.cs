@@ -56,6 +56,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDVersion.UpdateVersionBundle();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDVersion));
+            QRCodeTexture = FlashMyApp(false, 256);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

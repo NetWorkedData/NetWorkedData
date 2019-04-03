@@ -24,6 +24,7 @@ namespace NetWorkedData
         EmailHTML = 2,
         //Facebook = 3,
         //Twitter = 4,
+        //Instagram = 4,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
@@ -123,12 +124,12 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Links", true, true, true)]
 
         [NWDTooltips("Recommendation Subject")]
-        public NWDLocalizableTextType RecommendationSubject
+        public NWDLocalizableStringType RecommendationSubject
         {
             get; set;
         }
         [NWDTooltips("Recommendation before links")]
-        public NWDLocalizableStringType Recommendation
+        public NWDLocalizableTextType Recommendation
         {
             get; set;
         }

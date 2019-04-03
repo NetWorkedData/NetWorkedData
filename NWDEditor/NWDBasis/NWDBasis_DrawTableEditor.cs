@@ -814,6 +814,7 @@ namespace NetWorkedData
                         {
                             K tObject = tKeyValue.Key as K;
                             tObject.EnableData();
+                            tObject.RowAnalyze();
                         }
                     }
                 }
@@ -826,6 +827,7 @@ namespace NetWorkedData
                         {
                             K tObject = tKeyValue.Key as K;
                             tObject.DisableData();
+                            tObject.RowAnalyze();
                         }
                     }
                 }
@@ -851,8 +853,10 @@ namespace NetWorkedData
                         {
                             tNextObject.Tag = BasisHelper().m_SearchTag;
                             tNextObject.UpdateData();
+                            tObject.RowAnalyze();
                         }
                         tNextObjectSelected = tNextObject;
+                        tNextObjectSelected.RowAnalyze();
                     }
                     if (tNewData != 1)
                     {
@@ -871,6 +875,7 @@ namespace NetWorkedData
                         {
                             K tObject = tKeyValue.Key as K;
                             tObject.UpdateData();
+                            tObject.RowAnalyze();
                         }
                     }
                 }
@@ -1326,6 +1331,7 @@ namespace NetWorkedData
                         NWDBasis<K> tObjectToDelete = (NWDBasis<K>)tObject;
                         //RemoveObjectInListOfEdition(tObjectToDelete);
                         tObjectToDelete.DeleteData();
+                        //tObjectToDelete.RowAnalyze();
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
@@ -1365,6 +1371,7 @@ namespace NetWorkedData
                     {
                         NWDBasis<K> tObjectToTrash = (NWDBasis<K>)tObject;
                         tObjectToTrash.TrashData();
+                        tObjectToTrash.RowAnalyze();
                     }
                     SetObjectInEdition(null);
                     //                  sEditorWindow.Repaint ();
@@ -1405,6 +1412,7 @@ namespace NetWorkedData
                     {
                         NWDBasis<K> tObjectToUntrash = (NWDBasis<K>)tObject;
                         tObjectToUntrash.UnTrashData();
+                        tObjectToUntrash.RowAnalyze();
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
@@ -1444,6 +1452,7 @@ namespace NetWorkedData
                         NWDBasis<K> tObjectToReintegrate = (NWDBasis<K>)tObject;
                         //tObjectToReintegrate.UpdateIntegrity();
                         tObjectToReintegrate.UpdateData();
+                        tObjectToReintegrate.RowAnalyze();
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());

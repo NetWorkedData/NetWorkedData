@@ -34,6 +34,8 @@ namespace NetWorkedData
     public partial class NWDVersion : NWDBasis<NWDVersion>
     {
         //-------------------------------------------------------------------------------------------------------------
+        Texture2D QRCodeTexture = null;
+        //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
             //Debug.Log("NWDVersion UpdateVersionBundle()");
@@ -97,71 +99,94 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
             // force update 
-            NWDVersion.UpdateVersionBundle();
+            //NWDVersion.UpdateVersionBundle();
             // show editor add-on
-            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
-            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
-
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
-
-            float tYadd = 0.0f;
+            //float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
+            //float tX = sInRect.position.x + NWDGUI.kFieldMarge;
+            //float tY = sInRect.position.y + NWDGUI.kFieldMarge;
             // darw information about actual bundle 
+            sInRect = NWDGUI.MargeLeftRight(sInRect);
+            // Draw line 
+            sInRect.y += NWDGUI.Separator(sInRect).height;
+
             EditorGUI.BeginDisabledGroup(true);
 
+            sInRect.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+            GUI.Label(sInRect, "Environement selected to build", NWDGUI.kBoldLabelStyle);
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
 
-            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            sInRect.height = NWDGUI.kLabelStyle.fixedHeight;
+            EditorGUI.LabelField(sInRect, "Environment", NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment, NWDGUI.kLabelStyle);
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
 
-            GUI.Label(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environement selected to build", EditorStyles.boldLabel);
-            tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            EditorGUI.LabelField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environment", NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment);
-            tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            EditorGUI.LabelField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "Version", PlayerSettings.bundleVersion);
-            tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            EditorGUI.LabelField(sInRect, "Version", PlayerSettings.bundleVersion, NWDGUI.kLabelStyle);
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
 
             EditorGUI.EndDisabledGroup();
 
+            // Draw line 
+            sInRect.y += NWDGUI.Separator(sInRect).height;
 
-            // draw Flash My App
-            EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URL My App", URLMyApp(false));
-            tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URL My App without redirection", tMiniButtonStyle))
+            sInRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+            if (GUI.Button(sInRect, "Recommendation by SMS", NWDGUI.kMiniButtonStyle))
+            {
+                RecommendationBy( NWDRecommendationType.SMS);
+            }
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
+            if (GUI.Button(sInRect, "Recommendation by Email", NWDGUI.kMiniButtonStyle))
+            {
+                RecommendationBy(NWDRecommendationType.Email);
+            }
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
+            if (GUI.Button(sInRect, "Recommendation by Email HTML", NWDGUI.kMiniButtonStyle))
+            {
+                RecommendationBy(NWDRecommendationType.EmailHTML);
+            }
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
+
+            // Draw line 
+            sInRect.y += NWDGUI.Separator(sInRect).height;
+
+            // Draw QRCode texture
+            if (QRCodeTexture == null)
+            {
+                QRCodeTexture = FlashMyApp(false, 256);
+            }
+            EditorGUI.DrawPreviewTexture(new Rect(sInRect.x, sInRect.y, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2), QRCodeTexture);
+            sInRect.y += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
+
+            // Draw line 
+            sInRect.y += NWDGUI.Separator(sInRect).height;
+
+
+            sInRect.height = NWDGUI.kLabelStyle.fixedHeight;
+            EditorGUI.TextField(sInRect, "URL My App", URLMyApp(false), NWDGUI.kLabelStyle);
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
+            sInRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+            if (GUI.Button(sInRect, "URL My App without redirection", NWDGUI.kMiniButtonStyle))
             {
                 Application.OpenURL(URLMyApp(false));
             }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
 
-            EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URL My App", URLMyApp(true));
-            tYadd += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URL My App with redirection", tMiniButtonStyle))
+            sInRect.height = NWDGUI.kLabelStyle.fixedHeight;
+            EditorGUI.TextField(sInRect, "URL My App", URLMyApp(true), NWDGUI.kLabelStyle);
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
+            sInRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
+            if (GUI.Button(sInRect, "URL My App with redirection", NWDGUI.kMiniButtonStyle))
             {
                 Application.OpenURL(URLMyApp(true));
             }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            // Draw QRCode texture
-            Texture2D tTexture = FlashMyApp(false, 256);
-            EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2),
-                                         tTexture);
-            tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
-
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
             // Draw line 
-            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
-
+            sInRect.y += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
             // Draw button choose env
-            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tMiniButtonStyle.fixedHeight), "Environment chooser", tMiniButtonStyle))
+            if (GUI.Button(sInRect, "Environment chooser", NWDGUI.kMiniButtonStyle))
             {
                 NWDEditorMenu.EnvironementChooserShow();
             }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tYadd += NWDGUI.kFieldMarge;
-            return tYadd;
+            sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
+            return sInRect.y;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight()
