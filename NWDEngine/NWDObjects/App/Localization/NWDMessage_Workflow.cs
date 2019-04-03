@@ -61,6 +61,47 @@ namespace NetWorkedData
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void PostNotificationError()
+        {
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_MESSAGE, this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ShowAlert(BTBDialogOnCompleteBlock sCompleteBlock = null)
+        {
+            NWDMessageType tType = Type;
+            // NWDErrorType set by compile environment
+#if UNITY_EDITOR
+            // NO CHANGE
+            //tType = NWDMessageType.Alert;
+#elif UNITY_IOS
+            // NO CHANGE
+#elif UNITY_ANDROID
+            // NO CHANGE
+#elif UNITY_STANDALONE_OSX
+            // NO CHANGE
+            //tType = NWDMessageType.InGame;
+#elif UNITY_STANDALONE_WIN
+            tType = NWDMessageType.InGame;
+#elif UNITY_STANDALONE_LINUX
+            tType = NWDMessageType.InGame;
+#else
+            tType = NWDMessageType.InGame;
+#endif
+            switch (tType)
+            {
+                case NWDMessageType.Alert:
+                    {
+                        BTBDialog.Dialog(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), Cancel.GetLocalString(), sCompleteBlock);
+                    }
+                    break;
+                case NWDMessageType.InGame:
+                    {
+                        PostNotificationError();
+                    }
+                    break;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

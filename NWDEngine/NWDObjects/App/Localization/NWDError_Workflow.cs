@@ -60,15 +60,15 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDError PostNotificationErrorWithDomainAndCode(string sDomain, string sCode)
-        {
-            NWDError rReturn = NWDError.GetErrorWithDomainAndCode(sDomain, sCode);
-            if (rReturn != null)
-            {
-                rReturn.PostNotificationError();
-            }
-            return rReturn;
-        }
+        //public static NWDError PostNotificationErrorWithDomainAndCode(string sDomain, string sCode)
+        //{
+        //    NWDError rReturn = NWDError.GetErrorWithDomainAndCode(sDomain, sCode);
+        //    if (rReturn != null)
+        //    {
+        //        rReturn.PostNotificationError();
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
@@ -84,18 +84,20 @@ namespace NetWorkedData
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowNativeAlert(BTBAlertOnCompleteBlock sCompleteBlock = null)
+        public void ShowAlert(BTBAlertOnCompleteBlock sCompleteBlock = null)
         {
             NWDErrorType tType = Type;
             // NWDErrorType set by compile environment
 #if UNITY_EDITOR
-            tType = NWDErrorType.UnityEditor;
+            // NO CHANGE
+            //tType = NWDErrorType.UnityEditor;
 #elif UNITY_IOS
             // NO CHANGE
 #elif UNITY_ANDROID
             // NO CHANGE
 #elif UNITY_STANDALONE_OSX
-            tType = NWDErrorType.InGame;
+            // NO CHANGE
+            //tType = NWDErrorType.InGame;
 #elif UNITY_STANDALONE_WIN
             tType = NWDErrorType.InGame;
 #elif UNITY_STANDALONE_LINUX
@@ -107,12 +109,12 @@ namespace NetWorkedData
             {
                 case NWDErrorType.Alert:
                     {
-                        BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Critical:
                     {
-                        BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Ignore:
@@ -123,6 +125,7 @@ namespace NetWorkedData
                 case NWDErrorType.InGame:
                     {
                         // Do nothing
+                        PostNotificationError();
                     }
                     break;
                 case NWDErrorType.LogVerbose:

@@ -13,6 +13,12 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDMessageType : int
+    {
+        InGame = 10, // Use in game alert BTBNotification Post notification
+        Alert = 20, // System Dialog
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("MES")]
     [NWDClassDescriptionAttribute("Message descriptions Class")]
@@ -22,23 +28,27 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations", true, true, true)]
+        [NWDTooltips("Type of message")]
+        public NWDMessageType Type
+        {
+            get; set;
+        }
         public string Domain { get; set; }
         public string Code { get; set; }
         [NWDInspectorGroupEnd]
         
         [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDLocalizableStringType Title { get; set; }
-        public NWDLocalizableTextType Message { get; set; }
+        public NWDLocalizableTextType Description { get; set; }
         [NWDInspectorGroupEnd]
         
         [NWDInspectorGroupStart("User choose", true, true, true)]
-        public bool HasValidButton { get; set; }
-        public NWDLocalizableStringType ValidText { get; set; }
-        public NWDReferenceType<NWDAction> ValidAction { get; set; }
-        public bool HasCancelButton { get; set; }
-        public NWDLocalizableStringType CancelText { get; set; }
-        public NWDReferenceType<NWDAction> CancelAction { get; set;
-        }
+        //public bool HasValidButton { get; set; }
+        public NWDLocalizableStringType Validation { get; set; }
+        //public NWDReferenceType<NWDAction> ValidAction { get; set; }
+        //public bool HasCancelButton { get; set; }
+        public NWDLocalizableStringType Cancel { get; set; }
+        //public NWDReferenceType<NWDAction> CancelAction { get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

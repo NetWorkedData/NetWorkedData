@@ -22,7 +22,7 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_CreateAllError)]
+        [NWDAliasMethod(NWDConstants.M_CreateErrorsAndMessages)]
         public static void CreateAllError()
         {
             // Create error in local data base

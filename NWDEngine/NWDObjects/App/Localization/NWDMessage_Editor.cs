@@ -9,6 +9,7 @@
 #if UNITY_EDITOR
 using BasicToolBox;
 using UnityEditor;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -16,37 +17,49 @@ namespace NetWorkedData
     public partial class NWDMessage : NWDBasis<NWDMessage>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDMessage CreateGenericMessage(string sDomain, string sCode, string sTitle, string sDescription)
+        public static NWDMessage CreateGenericMessage(string sDomain, string sCode, string sTitle, string sDescription,
+             string sValid ="Ok", string sCancel = "Cancel", NWDMessageType sType = NWDMessageType.InGame, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
-            string tReference = "MES-" + sDomain + BTBConstants.K_MINUS + sCode;
+            string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDMessage tError = NWDMessage.GetDataByReference(tReference);
+            NWDMessage tMessage = NWDMessage.GetDataByReference(tReference);
             //NWDMessage tError = InstanceByReference(tReference) as NWDMessage;
-            if (tError == null)
+            if (tMessage == null)
             {
-                tError = NWDBasis<NWDMessage>.NewData();
+                tMessage = NWDBasis<NWDMessage>.NewData();
                 //RemoveObjectInListOfEdition(tError);
-                tError.Reference = tReference;
+                tMessage.Reference = tReference;
                 //				tError.InternalKey = Domain + " : " + sCode;
-                tError.InternalDescription = sDescription;
+                tMessage.InternalDescription = sDescription;
+                tMessage.Tag = sTag;
                 // domain code
-                tError.Domain = sDomain;
-                tError.Code = sCode;
+                tMessage.Domain = sDomain;
+                tMessage.Code = sCode;
                 // title
                 NWDLocalizableStringType tTitle = new NWDLocalizableStringType();
                 tTitle.AddBaseString(sTitle);
-                tError.Title = tTitle;
+                tMessage.Title = tTitle;
                 // description
                 NWDLocalizableTextType tDescription = new NWDLocalizableTextType();
                 tDescription.AddBaseString(sDescription);
-                tError.Message = tDescription;
+                tMessage.Description = tDescription;
+                // validation
+                NWDLocalizableStringType tValid = new NWDLocalizableStringType();
+                tValid.AddBaseString(sValid);
+                tMessage.Validation = tValid;
+                // cancel
+                NWDLocalizableStringType tCancel = new NWDLocalizableStringType();
+                tCancel.AddBaseString(sCancel);
+                tMessage.Cancel = tCancel;
+                // type of message
+                tMessage.Type = sType;
                 // add-on edited
-                tError.AddonEdited(true);
+                tMessage.AddonEdited(true);
                 // reccord
-                tError.UpdateData();
+                tMessage.UpdateData();
                 //AddObjectInListOfEdition(tError);
             }
-            return tError;
+            return tMessage;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonEdited(bool sNeedBeUpdate)
@@ -60,6 +73,29 @@ namespace NetWorkedData
                 InternalKey = Domain + " : " + Code;
             }
             return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            // Draw the interface addon for editor
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test message", NWDGUI.kMiniButtonStyle))
+            {
+                BTBDialog.Dialog(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), Cancel.GetLocalString(), null);
+            }
+            return tY;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditorHeight()
+        {
+            // Height calculate for the interface addon for editor
+            float tYadd = NWDGUI.kMiniButtonStyle.fixedHeight;
+            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

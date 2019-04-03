@@ -15,7 +15,7 @@ namespace NetWorkedData
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void CreateErrorAllClass()
+        public void CreateErrorsAndMessagesAllClasses()
         {
             string tProgressBarTitle = "NetWorkedData Create error";
             float tCountClass = mTypeList.Count + 1;
@@ -23,7 +23,24 @@ namespace NetWorkedData
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation / tCountClass);
             tOperation++;
 
-            NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            CreateErrorsAndMessagesEngine();
+
+            foreach (Type tType in mTypeList)
+            {
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " errors and messages", tOperation / tCountClass);
+                tOperation++;
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
+            }
+
+            NWDDataManager.SharedInstance().DataQueueExecute();
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+            EditorUtility.ClearProgressBar();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CreateErrorsAndMessagesEngine()
+        {
+            NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "WEB03", "Network", "http respond is empty", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "WEB04", "Network", "http respond is not valid format", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -47,9 +64,9 @@ namespace NetWorkedData
             NWDError.CreateGenericError("param", "PAR98", "param error", "json digest is false", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("param", "PAR99", "param error", "json null", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-            NWDError.CreateGenericError("gameversion", "GVA00", "version error", "error in sql select Version", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("gameversion", "GVA01", "version error", "stop : update app", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("gameversion", "GVA02", "version error", "stop unknow version : update app", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("gameversion", "GVA00", "version error", "error in sql select Version", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("gameversion", "GVA01", "version error", "stop : update app", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("gameversion", "GVA02", "version error", "stop unknow version : update app", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("gameversion", "GVA99", "version error", "block data", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError("account", "ACC01", "Account error", "action is empty", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -177,18 +194,7 @@ namespace NetWorkedData
                                         "Best regards,\r\n" +
                                         "The {APP}'s team.", "OK");
 
-            foreach (Type tType in mTypeList)
-            {
-                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
-                tOperation++;
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateAllError);
-            }
-
-            NWDDataManager.SharedInstance().DataQueueExecute();
-            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
-            EditorUtility.ClearProgressBar();
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass(NWDAppEnvironment sEnvironment ,bool sIncrement = true, bool sWriteOnDisk = true)
         {

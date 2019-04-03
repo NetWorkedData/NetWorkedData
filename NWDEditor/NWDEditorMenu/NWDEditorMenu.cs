@@ -141,10 +141,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // CREATE FILE
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_ERRORS, false, 9001)]
-        public static void CreateErrors()
+        [MenuItem(NWDConstants.K_MENU_CREATE_ERRORS_AND_MESSAGES, false, 9001)]
+        public static void CreateErrorsAndMessages()
         {
-            NWDDataManager.SharedInstance().CreateErrorAllClass();
+            NWDDataManager.SharedInstance().CreateErrorsAndMessagesAllClasses();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES, false, 9002)]

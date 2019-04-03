@@ -564,7 +564,10 @@ namespace NetWorkedData
             {
                 //Debug.Log("OnApplicationPause Pause is ON");
                 NWDNews.InstallAllNotifications(true);
-                NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+                {
+                    NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

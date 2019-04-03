@@ -62,8 +62,8 @@ namespace NetWorkedData
         public string ServerUser = "user";
         public string ServerPassword = string.Empty;
         public string ServerBase = "myDatabase";
-        public bool LogMode = true;
 #endif
+        public bool LogMode = true;
         public string AdminKey = string.Empty;
         public string AdminKeyHash = string.Empty;
         public bool AdminInPlayer = false;

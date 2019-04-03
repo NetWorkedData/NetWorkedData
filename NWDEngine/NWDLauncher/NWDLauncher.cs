@@ -82,8 +82,8 @@ namespace NetWorkedData
                     }
                 }
 #endif
-                LaunchNext();
             }
+            LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()

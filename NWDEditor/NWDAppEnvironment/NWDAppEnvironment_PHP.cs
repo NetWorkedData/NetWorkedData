@@ -232,13 +232,11 @@ namespace NetWorkedData
         private void CreatePHPErrorGenerate(bool sWriteOnDisk = true)
         {
             //BTBBenchmark.Start();
+            NWDDataManager.SharedInstance().CreateErrorsAndMessagesEngine();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ErrorRegenerate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                }
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
             }
             //BTBBenchmark.Finish();
         }

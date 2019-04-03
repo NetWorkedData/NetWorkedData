@@ -383,11 +383,12 @@ namespace NetWorkedData
                                             // Notification of an Error
                                             if (ResultInfos.errorDesc != null)
                                             {
-#if UNITY_EDITOR
-                                                ResultInfos.errorDesc.ShowNativeAlert();
-#else
-                                                ResultInfos.errorDesc.PostNotificationError();
-#endif
+                                                ResultInfos.errorDesc.ShowAlert();
+//#if UNITY_EDITOR
+//                                                ResultInfos.errorDesc.ShowNativeAlert();
+//#else
+//                                                ResultInfos.errorDesc.PostNotificationError();
+//#endif
                                             }
 
                                             // Request Failed, send Invoke
@@ -487,11 +488,12 @@ namespace NetWorkedData
                                     ResultInfos.SetErrorCode("MAINTENANCE");
                                     if (ResultInfos.errorDesc != null)
                                     {
-#if UNITY_EDITOR
-                                        ResultInfos.errorDesc.ShowNativeAlert();
-#else
-                                        ResultInfos.errorDesc.PostNotificationError();
-#endif
+                                        ResultInfos.errorDesc.ShowAlert();
+//#if UNITY_EDITOR
+//                                        ResultInfos.errorDesc.ShowNativeAlert();
+//#else
+//                                        ResultInfos.errorDesc.PostNotificationError();
+//#endif
                                     }
                                     FailInvoke(Request.downloadProgress, ResultInfos);
                                 }
@@ -501,11 +503,12 @@ namespace NetWorkedData
                                 ResultInfos.SetErrorCode("OBSOLETE");
                                 if (ResultInfos.errorDesc != null)
                                 {
-#if UNITY_EDITOR
-                                    ResultInfos.errorDesc.ShowNativeAlert();
-#else
-                                    ResultInfos.errorDesc.PostNotificationError();
-#endif
+                                    ResultInfos.errorDesc.ShowAlert();
+//#if UNITY_EDITOR
+//                                    ResultInfos.errorDesc.ShowNativeAlert();
+//#else
+//                                    ResultInfos.errorDesc.PostNotificationError();
+//#endif
                                 }
                                 FailInvoke(Request.downloadProgress, ResultInfos);
                             }

@@ -96,8 +96,8 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(CartridgeColor.g) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
-            rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".LogMode = " + LogMode.ToString().ToLower() + ";");
+            rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".SFTPHost = \"" + SFTPHost.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".SFTPPort = " + SFTPPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".SFTPFolder = \"" + SFTPFolder.Replace("\"", "\\\"") + "\";");

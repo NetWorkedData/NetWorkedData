@@ -37,7 +37,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            NWDVersion.UpdateVersionBundle();
+            // NWDVersion.UpdateVersionBundle();
         }
 		//-------------------------------------------------------------------------------------------------------------
         public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
@@ -51,7 +51,7 @@ namespace NetWorkedData
                 //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-			NWDVersion.UpdateVersionBundle ();
+			// NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

@@ -136,7 +136,7 @@ namespace NetWorkedData
             NWDMessage tMessage = Message.GetObject();
             if (tMessage != null)
             {
-                rReturn = tMessage.Message.GetLocalString();
+                rReturn = tMessage.Description.GetLocalString();
                 rReturn = Enrichment(rReturn, null, sBold);
             }
             return rReturn;
@@ -148,7 +148,7 @@ namespace NetWorkedData
             NWDMessage tMessage = Message.GetObject();
             if (tMessage != null)
             {
-                rReturn = tMessage.Message.GetLanguageString(sLanguage);
+                rReturn = tMessage.Description.GetLanguageString(sLanguage);
                 rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
             }
             return rReturn;

@@ -74,7 +74,7 @@ namespace NetWorkedData
         public const string M_ExportLocalizationInCSV = "M_ExportLocalizationInCSV";
         public const string M_ImportAllLocalizations = "M_ImportAllLocalizations";
         public const string M_RestaureObjectInEdition = "M_RestaureObjectInEdition";
-        public const string M_CreateAllError = "M_CreateAllError";
+        public const string M_CreateErrorsAndMessages = "M_CreateAllError";
         public const string M_ModelReset = "M_ModelReset";
         //public const string M_CreateAllPHP = "M_CreateAllPHP";
         public const string M_BasisCreatePHP = "M_BasisCreatePHP";

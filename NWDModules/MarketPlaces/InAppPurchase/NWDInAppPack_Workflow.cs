@@ -29,9 +29,9 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void MyClassMethod()
+        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
+        public static void ClassInitialization() // call by invoke
         {
-            // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetIAPKey()

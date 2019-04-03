@@ -61,8 +61,9 @@ namespace NetWorkedData
         // Datas modification from web
         public const string K_DATAS_WEB_UPDATE = "K_DATAS_WEB_UPDATE_LOe245rz"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
-        // receipt Error
+        // receipt Error message
         public const string K_ERROR = "K_ERROR_Okk4ez6S";
+        public const string K_MESSAGE = "K_MESSAGE_77d4OkzS";
         //-------------------------------------------------------------------------------------------------------------
         // player/user change
         public const string K_ACCOUNT_CHANGE = "K_ACCOUNT_CHANGE_jhGe45di";// OK Needed by test & verify

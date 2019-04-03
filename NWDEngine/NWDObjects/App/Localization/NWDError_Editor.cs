@@ -20,7 +20,7 @@ namespace NetWorkedData
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
             //BTBBenchmark.Start();
-            string tReference = "ERR-" + sDomain + BTBConstants.K_MINUS + sCode;
+            string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
             NWDError tError = NWDError.GetDataByReference(tReference);
             if (tError != null && tError.IsTrashed())
@@ -46,7 +46,7 @@ namespace NetWorkedData
                 NWDLocalizableTextType tDescription = new NWDLocalizableTextType();
                 tDescription.AddBaseString(sDescription);
                 tError.Description = tDescription;
-                // description
+                // validation
                 NWDLocalizableStringType tValidation = new NWDLocalizableStringType();
                 tValidation.AddBaseString(sValidation);
                 tError.Validation = tValidation;
@@ -79,14 +79,22 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
+            {
+                BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), null);
+            }
+            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = NWDGUI.kMiniButtonStyle.fixedHeight;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
