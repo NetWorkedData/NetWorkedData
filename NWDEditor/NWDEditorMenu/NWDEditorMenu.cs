@@ -177,6 +177,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().CreatePHPAllClass(false, false);
         }
+        //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_MODELS_RESET, false, 9001)]
         public static void ModelsReset()
         {
@@ -246,6 +247,13 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
+        #region DEV
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_DEV_SFTP_WEBSERVICE, false, 9100)]
+        public static void DevCreatePHPWitoutIncrement_SFTP()
+        {
+            NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false);
+        }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
         public static void DevCreateTablesServer()
@@ -278,7 +286,16 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        // PREPROD
+        // 
+        #endregion
+        //PREPROD
+        #region PREPROD
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_PREPROD_SFTP_WEBSERVICE, false, 9100)]
+        public static void PreprodCreatePHPWitoutIncrement_SFTP()
+        {
+            NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false);
+        }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9104)]
         public static void PreprodCreateTablesServer()
@@ -312,9 +329,17 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
         //PROD
+        #region PROD
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_PROD, false, 9103)]
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_PROD_SFTP_WEBSERVICE, false, 9100)]
+        public static void ProdCreatePHPWitoutIncrement_SFTP()
+        {
+            NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false);
+        }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PROD_CREATE_TABLES, false, 9107)]
         public static void ProdCreateTablesServer()
@@ -363,7 +388,9 @@ namespace NetWorkedData
             NWDAppEnvironmentSync.SharedInstance().Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
         //LOCALS
+#region LOCAL
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
         //-------------------------------------------------------------------------------------------------------------
@@ -501,6 +528,7 @@ namespace NetWorkedData
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
         static bool kBlock = false;
         //-------------------------------------------------------------------------------------------------------------

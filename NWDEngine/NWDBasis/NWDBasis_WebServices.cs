@@ -484,7 +484,11 @@ namespace NetWorkedData
                     //#if UNITY_EDITOR
                     sInfos.ClassPullCounter++;
                     //#endif
-                    List<object> tListOfRows = sData.param[tTableName] as List<object>;
+                    Dictionary<string, object> tClassResult = sData.param[tTableName] as Dictionary<string, object>;
+                    List<object> tListOfRows = null;
+                    if (tClassResult.ContainsKey(SynchronizeKeyData))
+                    {
+                        tListOfRows = tClassResult[SynchronizeKeyData] as List<object>;
                     //BTBBenchmark.Increment(tListOfRows.Count);
                     if (tListOfRows.Count > 0)
                     {
@@ -516,6 +520,14 @@ namespace NetWorkedData
                         RepaintTableEditor();
                         NWDDataInspector.ShareInstance().Repaint();
 #endif
+                        }
+                    }
+                    else
+                    {
+                        if (sEnvironment.LogMode == true)
+                        {
+                            Debug.Log(tTableName + " just sync with timestamp ?");
+                        }
                     }
                 }
             }

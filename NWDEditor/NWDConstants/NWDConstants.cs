@@ -108,18 +108,21 @@ namespace NetWorkedData
         public const string K_MENU_PROD = "Prod";
         public const string K_MENU_LOCAL = "Local";
 
+        public const string K_MENU_DEV_SFTP_WEBSERVICE = K_MENU_BASE + K_MENU_DEV + "/SFTP/Generate files and upload without increment WebService";
         public const string K_MENU_DEV_CREATE_TABLES = K_MENU_BASE + K_MENU_DEV + "/Update all server's tables";
         public const string K_MENU_DEV_SYNCHRONIZE_DATAS = K_MENU_BASE + K_MENU_DEV + "/Synchronize datas on server";
         public const string K_MENU_DEV_FORCE_SYNCHRONIZE = K_MENU_BASE + K_MENU_DEV + "/Force synchronization on server";
         public const string K_MENU_DEV_RESET_CONNEXION = K_MENU_BASE + K_MENU_DEV + "/Reset connection with server";
         public const string K_MENU_DEV_FLUSH_CONNEXION = K_MENU_BASE + K_MENU_DEV + "/Flush Web queue";
 
+        public const string K_MENU_PREPROD_SFTP_WEBSERVICE = K_MENU_BASE + K_MENU_PREPROD + "/SFTP/Generate files and upload without increment WebService";
         public const string K_MENU_PREPROD_CREATE_TABLES = K_MENU_BASE + K_MENU_PREPROD + "/Update all server's tables";
         public const string K_MENU_PREPROD_SYNCHRONIZE_DATAS = K_MENU_BASE + K_MENU_PREPROD + "/Synchronize datas on server";
         public const string K_MENU_PREPROD_FORCE_SYNCHRONIZE = K_MENU_BASE + K_MENU_PREPROD + "/Force synchronization on server";
         public const string K_MENU_PREPROD_RESET_CONNEXION = K_MENU_BASE + K_MENU_PREPROD + "/Reset connection with server";
         public const string K_MENU_PREPROD_FLUSH_CONNEXION = K_MENU_BASE + K_MENU_PREPROD + "/Flush Web queue";
 
+        public const string K_MENU_PROD_SFTP_WEBSERVICE = K_MENU_BASE + K_MENU_PROD + "/SFTP/Generate files and upload without increment WebService";
         public const string K_MENU_PROD_CREATE_TABLES = K_MENU_BASE + K_MENU_PROD + "/Update all server's tables";
         public const string K_MENU_PROD_SYNCHRONIZE_DATAS = K_MENU_BASE + K_MENU_PROD + "/Synchronize datas on server";
         public const string K_MENU_PROD_FORCE_SYNCHRONIZE = K_MENU_BASE + K_MENU_PROD + "/Force synchronization on server";

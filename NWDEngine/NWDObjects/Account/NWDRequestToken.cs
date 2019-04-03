@@ -34,13 +34,19 @@ namespace NetWorkedData
     public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [Indexed("TokenIndex", 0)]
+        const string K_TOKEN_INDEX = "TokenIndex";
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAddIndexed(K_TOKEN_INDEX,"AC")]
+        [NWDAddIndexed(K_TOKEN_INDEX, "DM")]
+        [NWDAddIndexed(K_TOKEN_INDEX, "DD")]
+        //-------------------------------------------------------------------------------------------------------------
+        [Indexed(K_TOKEN_INDEX, 0)]
         [NWDCertified]
         public NWDReferenceType<NWDAccount> UUIDHash
         {
             get; set;
         }
-        [Indexed("TokenIndex", 1)]
+        [Indexed(K_TOKEN_INDEX, 1)]
         [NWDCertified]
         public string Token
         {

@@ -26,7 +26,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed("UpdateIndex", 0)]
+        [Indexed(K_BASIS_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]
         public string Reference
@@ -42,11 +42,12 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
+        [Indexed(K_BASIS_INDEX, 4)]
         public int WebModel
         {
             get;set;
         }
-        [Indexed("InternalIndex", 0)]
+        [Indexed(K_INTERNAL_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]
         public string InternalKey
@@ -55,6 +56,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
+        [Indexed(K_INTERNAL_INDEX, 0)]
         public string InternalDescription
         {
             get; set;
@@ -65,21 +67,21 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed("EditorIndex", 0)]
+        [Indexed(K_EDITOR_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]
         public bool AC
         {
             get; set;
         }
-        [Indexed("EditorIndex", 0)]
+        [Indexed(K_EDITOR_INDEX, 1)]
         [NWDNotEditable]
         [NWDCertified]
         public int DC
         {
             get; set;
         }
-        [Indexed("EditorIndex", 0)]
+        [Indexed(K_EDITOR_INDEX, 2)]
         [NWDNotEditable]
         [NWDCertified]
         public int DM
@@ -92,6 +94,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [Indexed(K_EDITOR_INDEX, 3)]
         [NWDNotEditable]
         [NWDCertified]
         public int XX
@@ -112,21 +115,21 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed("GetIndex", 3)]
+        [Indexed(K_BASIS_INDEX, 3)]
         public int DevSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed("GetIndex", 2)]
+        [Indexed(K_BASIS_INDEX, 2)]
         public int PreprodSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed("GetIndex", 1)]
+        [Indexed(K_BASIS_INDEX, 1)]
         public int ProdSync
         {
             get; set;

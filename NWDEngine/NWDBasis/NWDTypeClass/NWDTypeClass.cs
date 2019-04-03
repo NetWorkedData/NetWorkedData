@@ -15,6 +15,10 @@ namespace NetWorkedData
     public partial class NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_BASIS_INDEX = "BasisIndex";
+        public const string K_INTERNAL_INDEX = "InternalIndex";
+        public const string K_EDITOR_INDEX = "EditorIndex";
+        //-------------------------------------------------------------------------------------------------------------
         public virtual string InternalKeyValue()
         {
             return string.Empty;

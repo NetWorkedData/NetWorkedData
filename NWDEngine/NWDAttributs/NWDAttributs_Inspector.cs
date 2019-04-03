@@ -179,6 +179,21 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDAddIndexed : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string IndexName;
+        public string IndexColumn;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAddIndexed(string sIndexName, string sIndexColumn)
+        {
+            IndexName = sIndexName;
+            IndexColumn = sIndexColumn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDInDevelopment : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
