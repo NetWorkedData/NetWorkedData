@@ -1857,7 +1857,7 @@ namespace NetWorkedData
                     {
                         if (BasisHelper().DatasByReference.ContainsKey(tSelected.Reference))
                         {
-                            if (tSelected.XX == 0 && tSelected.TestIntegrity())
+                            //if (tSelected.XX == 0 && tSelected.TestIntegrity())
                             {
                                 //int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
                                 if (BasisHelper().EditorTableDatasSelected.ContainsKey(tSelected))
