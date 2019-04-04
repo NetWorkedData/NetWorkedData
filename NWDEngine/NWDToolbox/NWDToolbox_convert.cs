@@ -388,6 +388,11 @@ namespace NetWorkedData
             return Vector3ToString(new Vector3(0.0F, 0.0F, 0.0F));
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string Vector3One()
+        {
+            return Vector3ToString(new Vector3(1.0F, 1.0F, 1.0F));
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string Vector3ToString(Vector3 sVector)
         {
             return FloatToString(sVector.x) + NWDConstants.kFieldSeparatorA +

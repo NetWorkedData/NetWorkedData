@@ -817,6 +817,7 @@ namespace NetWorkedData
                             tObject.RowAnalyze();
                         }
                     }
+                    NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DISACTIVE, NWDGUI.KTableSearchButton))
@@ -830,6 +831,7 @@ namespace NetWorkedData
                             tObject.RowAnalyze();
                         }
                     }
+                    NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DUPPLICATE, NWDGUI.KTableSearchButton))
@@ -865,6 +867,7 @@ namespace NetWorkedData
                     SetObjectInEdition(tNextObjectSelected);
                     //ReorderListOfManagementByName ();
                     BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
+                    NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_UPDATE, NWDGUI.KTableSearchButton))
@@ -878,6 +881,7 @@ namespace NetWorkedData
                             tObject.RowAnalyze();
                         }
                     }
+                    NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 //EditorGUI.EndDisabledGroup();
@@ -1335,6 +1339,7 @@ namespace NetWorkedData
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                    NWDDataInspector.ActiveRepaint();
                 }
             }
             if (tTrashSelection == true)
@@ -1376,6 +1381,7 @@ namespace NetWorkedData
                     SetObjectInEdition(null);
                     //                  sEditorWindow.Repaint ();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                    NWDDataInspector.ActiveRepaint();
                 }
             }
             if (tUntrashSelection == true)
@@ -1416,6 +1422,7 @@ namespace NetWorkedData
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                    NWDDataInspector.ActiveRepaint();
                 }
             }
             if (tReintegrateSelection == true)
@@ -1456,6 +1463,7 @@ namespace NetWorkedData
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                    NWDDataInspector.ActiveRepaint();
                 }
             }
             if (tResetTable == true)

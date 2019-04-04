@@ -159,7 +159,7 @@ namespace NetWorkedData
             return ListForRandom;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDTipKey SelectRandomTips(bool sAbsoluteRemove = true)
+        public static NWDTipKey SelectRandomTips(bool sAbsoluteRemove = false)
         {
             NWDTipKey rReturn = null;
             // I select the tick by random 

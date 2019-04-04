@@ -251,7 +251,7 @@ namespace NetWorkedData
 
             if (BasisHelper().WebModelChanged == true)
             {
-                tY +=NWDGUI.WarningBox(new Rect(tX+ NWDGUI.kFieldMarge, tY, tWidth- NWDGUI.kFieldMarge*2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL).height;
+                tY +=NWDGUI.WarningBox(new Rect(tX+ NWDGUI.kFieldMarge, tY, tWidth- NWDGUI.kFieldMarge*2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
                 //string tWarning = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 //GUIContent tCC = new GUIContent(tWarning);
                 //NWDConstants.tWarningBoxStyle.fixedHeight = NWDConstants.tWarningBoxStyle.CalcHeight(tCC, tWidth);
@@ -261,7 +261,7 @@ namespace NetWorkedData
 
             if (BasisHelper().WebModelDegraded == true)
             {
-                tY += NWDGUI.WarningBox(new Rect(tX+ NWDGUI.kFieldMarge, tY, tWidth- NWDGUI.kFieldMarge*2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height;
+                tY += NWDGUI.WarningBox(new Rect(tX+ NWDGUI.kFieldMarge, tY, tWidth- NWDGUI.kFieldMarge*2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
                 //string tWarning = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
                 //GUIContent tCC = new GUIContent(tWarning);
                 //NWDConstants.tWarningBoxStyle.fixedHeight = NWDConstants.tWarningBoxStyle.CalcHeight(tCC, tWidth);
