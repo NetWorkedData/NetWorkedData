@@ -37,62 +37,34 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Ownership", true, true, true)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        public NWDReferenceType<NWDItem> Item { get; set;
-        }
+        public NWDReferenceType<NWDItem> Item { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Quantity ", true, true, true)]
-        public int Quantity
-        {
-            get; set;
-        }
-        //TODO used used in slot or in another system
+        public int Quantity { get; set; }
+        //TODO used in slot or in another system
         //TODO create method use and unuse one!
         //TODO directly dependence from usable in Item
-        public int Used
-        {
-            get; set;
-        }
+        public int Used { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Acquisition", true, true, true)]
-        public bool Discovered
-        {
-            get; set;
-        }
-        public NWDDateTimeType DiscoveredDate
-        {
-            get; set;
-        }
+        public bool Discovered { get; set; }
+        public NWDDateTimeType DiscoveredDate { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Customisation ", true, true, true)]
-        public string Name
-        {
-            get; set;
-        }
-
-
-
-
-        // !!!!!!!!!!!!!
-
+        public string Name { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("OLD-RENAME ", true, true, true)]
         [Obsolete]
-        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList
-        {
-            get; set;
-        }
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
         //public NWDReferencesQuantityType<NWDItemProperty> ParameterQuantity { get; set; }
         //[NWDGroupEnd]
-
         //[NWDGroupStart("Development addons", true, true, true)]
         //public string JSON { get; set; }
         //public string KeysValues { get; set; }
         //[NWDGroupEnd]
-
-        // !!!!!!!!!!!!!
-
-
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

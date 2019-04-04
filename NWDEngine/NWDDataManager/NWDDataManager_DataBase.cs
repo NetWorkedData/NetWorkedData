@@ -115,11 +115,12 @@ namespace NetWorkedData
                 string tDatabasePathEditor = tPathEditor;
 #endif
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
-                || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
+                    NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
                 }
+
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
                 double tSeconds = SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
@@ -129,6 +130,7 @@ namespace NetWorkedData
                 {
                     t = DateTime.Now;
                 }
+
                 // TEST WHILE / MARCHE PAS
                 while (SQLiteConnectionEditor.IsOpen() == false)
                 {
@@ -143,6 +145,7 @@ namespace NetWorkedData
                 DataEditorConnectionInProgress = false;
             }
             BTBBenchmark.Finish();
+
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
