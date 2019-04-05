@@ -130,6 +130,7 @@ namespace NetWorkedData
                 GUI.Label(tField, sDataLabel, NWDGUI.kDatasSelectorRowErrorStyle);
 
                 NWDGUI.BeginRedArea();
+                //EditorGUI.BeginDisabledGroup(true);
                 if (GUI.Button(tEditRect, NWDGUI.kCleanContentIcon, NWDGUI.kEditButtonStyle))
                 {
                     if (ControllerResult.ContainsKey(tID))
@@ -138,6 +139,7 @@ namespace NetWorkedData
                     }
                     ControllerResult.Add(tID, string.Empty);
                 }
+                //EditorGUI.EndDisabledGroup();
                 NWDGUI.EndRedArea();
             }
             else

@@ -642,16 +642,16 @@ namespace NetWorkedData
                     tC = NWDToolbox.IntFromString(tLineValue[2]);
                 }
 
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + tConWidth + NWDGUI.kFieldMarge);
+                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + tConWidth + NWDGUI.kFieldMarge*2);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
 
-                    tC = EditorGUI.Popup(new Rect(tX + tWidth - tIntWidth - tConWidth - tEditWidth - NWDGUI.kFieldMarge * 4, tY, tConWidth + NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight),
+                    tC = EditorGUI.Popup(new Rect(tX + tWidth - tIntWidth - tConWidth - tEditWidth - NWDGUI.kFieldMarge*2 , tY + NWDGUI.kDatasSelectorYOffset, tConWidth, NWDGUI.kTextFieldStyle.fixedHeight),
                                          tC, new string[] { "=", ">", ">=", "<", "=<", "!" });
 
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDGUI.kFieldMarge * 2, tY, tIntWidth + NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight), tQ);
+                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDGUI.kFieldMarge, tY + NWDGUI.kDatasSelectorYOffset, tIntWidth, NWDGUI.kTextFieldStyle.fixedHeight), tQ);
                     EditorGUI.indentLevel = tIndentLevel;
                     if (i > 0)
                     {

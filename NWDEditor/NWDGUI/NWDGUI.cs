@@ -19,6 +19,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public static float kFieldMarge = 5.0f;
+        //public static float kTopAdjustMarge = 2.0f;
         public static float kFieldIndent = 15.0f;
         public static float kScrollbar = 20f;
         public static GUIStyle kScrollviewFullWidth;

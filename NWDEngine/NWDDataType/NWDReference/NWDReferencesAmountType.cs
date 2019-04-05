@@ -526,7 +526,7 @@ namespace NetWorkedData
                 {
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    tQ = EditorGUI.FloatField(new Rect(tX + tWidth - tIntWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge * 2, tY, tIntWidth + NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight), tQ);
+                    tQ = EditorGUI.FloatField(new Rect(tX + tWidth - tIntWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kDatasSelectorYOffset, tIntWidth + NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight), tQ);
 
                     EditorGUI.indentLevel = tIndentLevel;
 
