@@ -68,7 +68,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDItem> DescriptionItem
+        public NWDReferenceType<NWDItem> ItemDescription
         {
             get; set;
         }

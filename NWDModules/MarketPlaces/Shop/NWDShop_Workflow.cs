@@ -64,7 +64,7 @@ namespace NetWorkedData
             }
             
             // Add a new NWDTransaction to user Account
-            NWDItem tItemDescribe = sPack.DescriptionItem.GetObject();
+            NWDItem tItemDescribe = sPack.ItemDescription.GetObject();
             return NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ namespace NetWorkedData
                             }
 
                             // Add a new NWDTransaction to user Account
-                            NWDItem tItemDescribe = sPack.DescriptionItem.GetObject();
+                            NWDItem tItemDescribe = sPack.ItemDescription.GetObject();
                             bTransaction = NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
                         }
                     }

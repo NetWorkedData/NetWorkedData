@@ -19,7 +19,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Description", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        public NWDReferenceType<NWDItem> ItemDescription { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Items Authorization", true, true, true)]

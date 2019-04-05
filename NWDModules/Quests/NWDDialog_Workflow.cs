@@ -262,7 +262,7 @@ namespace NetWorkedData
                 tCounter = 1;
                 foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.GetObjectAndQuantity())
                 {
-                    NWDItem tItem = tKeyValue.Key.DescriptionItem.GetObject();
+                    NWDItem tItem = tKeyValue.Key.ItemDescription.GetObject();
                     if (tItem != null)
                     {
                         string tNameQuantity = string.Empty;
@@ -296,7 +296,7 @@ namespace NetWorkedData
                 tCounter = 1;
                 foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.GetObjectAndQuantity())
                 {
-                    NWDItem tItem = tKeyValue.Key.DescriptionItem.GetObject();
+                    NWDItem tItem = tKeyValue.Key.ItemDescription.GetObject();
                     if (tItem != null)
                     {
                         string tNameQuantity = string.Empty;

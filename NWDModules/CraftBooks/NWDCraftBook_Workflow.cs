@@ -89,10 +89,10 @@ namespace NetWorkedData
         //    if (tCraftBook != null)
         //    {
         //        // Add to ownership  :-)
-        //        if (tCraftBook.DescriptionItem.GetObject() != null)
+        //        if (tCraftBook.ItemDescription.GetObject() != null)
         //        {
         //        }
-        //        NWDUserOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
+        //        NWDUserOwnership.SetItemToOwnership(tCraftBook.ItemDescription.GetObject(), 1);
         //    }
         //    return tCraftBook;
         //}
@@ -125,10 +125,10 @@ namespace NetWorkedData
         //    if (tCraftBook != null)
         //    {
         //        // Add to ownership  :-)
-        //        if (tCraftBook.DescriptionItem.GetObject() != null)
+        //        if (tCraftBook.ItemDescription.GetObject() != null)
         //        {
         //        }
-        //        NWDUserOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
+        //        NWDUserOwnership.SetItemToOwnership(tCraftBook.ItemDescription.GetObject(), 1);
         //    }
         //    return tCraftBook;
         //}
@@ -258,10 +258,10 @@ namespace NetWorkedData
         //            if (tReturnPrimary != null)
         //            {
         //                // Add to ownership  :-)
-        //                if (tReturnPrimary.DescriptionItem.GetObject() != null)
+        //                if (tReturnPrimary.ItemDescription.GetObject() != null)
         //                {
         //                }
-        //                NWDUserOwnership.SetItemToOwnership(tReturnPrimary.DescriptionItem.GetObject(), 1);
+        //                NWDUserOwnership.SetItemToOwnership(tReturnPrimary.ItemDescription.GetObject(), 1);
         //            }
         //        }
         //        // I check all possibilities in rest of recipeint element by element (destructive mode?)
@@ -291,10 +291,10 @@ namespace NetWorkedData
         //                            if (tCraft != null)
         //                            {
         //                                // Add to ownership  :-)
-        //                                if (tCraft.DescriptionItem.GetObject() != null)
+        //                                if (tCraft.ItemDescription.GetObject() != null)
         //                                {
         //                                }
-        //                                NWDUserOwnership.SetItemToOwnership(tCraft.DescriptionItem.GetObject(), 1);
+        //                                NWDUserOwnership.SetItemToOwnership(tCraft.ItemDescription.GetObject(), 1);
         //                            }
         //                            break;
         //                        }
@@ -312,10 +312,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RecalculMe()
         {
-            if (DescriptionItem.GetObject() != null)
+            if (ItemDescription.GetObject() != null)
             {
-                NWDItem tItem = DescriptionItem.GetObject();
-                tItem.CraftRecipeAttachment.SetObject(this);
+                NWDItem tItem = ItemDescription.GetObject();
+                tItem.CraftBookAttachment.SetObject(this);
                 tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
                 tItem.UpdateDataIfModified();
             }

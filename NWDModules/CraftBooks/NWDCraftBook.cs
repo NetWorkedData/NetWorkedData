@@ -17,7 +17,7 @@ namespace NetWorkedData
     public partial class NWDItem : NWDBasis<NWDItem>
     {
         [NWDNotEditable]
-        public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment
+        public NWDReferenceType<NWDCraftBook> CraftBookAttachment
         {
             get; set;
         }
@@ -32,7 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Description", true, true, true)] // ok
         //[NWDNotEditable]
-        public NWDReferenceType<NWDItem> DescriptionItem
+        public NWDReferenceType<NWDItem> ItemDescription
         {
             get; set;
         }

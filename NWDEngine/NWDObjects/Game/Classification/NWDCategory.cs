@@ -26,7 +26,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("The description item. Usable to be ownershipped")]
-        public NWDReferenceType<NWDItem> DescriptionItem
+        public NWDReferenceType<NWDItem> ItemDescription
         {
             get; set;
         }

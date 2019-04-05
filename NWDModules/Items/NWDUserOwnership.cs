@@ -45,7 +45,8 @@ namespace NetWorkedData
         //TODO used in slot or in another system
         //TODO create method use and unuse one!
         //TODO directly dependence from usable in Item
-        public int Used { get; set; }
+        [NWDInDevelopment]
+        public int QuantityUsed { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Acquisition", true, true, true)]

@@ -34,7 +34,7 @@ namespace NetWorkedData
     public partial class NWDAchievementKey : NWDBasis<NWDAchievementKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDItem> DescriptionItem
+        public NWDReferenceType<NWDItem> ItemDescription
         {
             get; set;
         }

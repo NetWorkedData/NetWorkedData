@@ -54,7 +54,7 @@ namespace NetWorkedData
             }
 
             // Replace Tag by Item Name
-            NWDItem tItem = DescriptionItem.GetObject();
+            NWDItem tItem = ItemDescription.GetObject();
             string tName = "[Missing Detail]";
             if (tItem != null)
             {
