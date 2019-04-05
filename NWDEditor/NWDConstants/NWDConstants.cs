@@ -415,8 +415,8 @@ namespace NetWorkedData
         public const string K_APP_TABLE_ROW_OBJECT_TRASH = "Trashed";
         public const string K_APP_TABLE_ROW_OBJECT_DISACTIVE = "Desactived";
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_CONNEXION_EDIT = "edit";
-        public const string K_APP_CONNEXION_NEW = "new";
+        //public const string K_APP_CONNEXION_EDIT = "edit";
+        //public const string K_APP_CONNEXION_NEW = "new";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_NODE_WINDOW_TITLE = "Nodal view";
         public const string K_EDITOR_NODE_CHOOSE_LANGUAGE = "Choose language";

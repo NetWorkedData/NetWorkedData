@@ -348,6 +348,24 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void ChangeScroolPositionToSelection()
+        {
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            foreach (EditorWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
+            {
+                Rect tWindowRect = new Rect(tWindow.position.x, tWindow.position.y, tWindow.position.width, tWindow.position.height);
+                if (tWindowRect.width < NWDGUI.KTableMinWidth)
+                {
+                    tWindowRect.width = NWDGUI.KTableMinWidth;
+                }
+                Rect tRect = new Rect(0, 0, tWindowRect.width, 0);
+                // offset the tab bar 
+                tRect.y += 50;                 //float tScrollHeight = tWindowRect.height - tRect.y - tPagesBarHeight - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
+                float tScrollHeight = tWindowRect.height - tRect.y - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;                 Rect tScrollHeader = new Rect(0, tRect.y, tWindowRect.width, NWDGUI.kTableHeaderHeight);                 Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, tScrollHeight);
+                ChangeScroolPositionToSelection(tScrollRect);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void ChangeScroolPositionToSelection(Rect sScrollRect)
         {
             int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf((NWDTypeClass)NWDDataInspector.ObjectInEdition());

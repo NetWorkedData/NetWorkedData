@@ -975,6 +975,92 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             NWDGUI.EndRedArea();
+
+
+
+
+
+
+
+
+            // Shortcut navigation
+
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
+            {
+                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                if (tSelected != null)
+                {
+                    if (BasisHelper().EditorTableDatas.Contains(tSelected))
+                    {
+                        int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
+                        if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
+                        {
+                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
+                            SetObjectInEdition(tNextSelected);
+                            ChangeScroolPositionToSelection();
+                            Event.current.Use();
+                        }
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
+            {
+                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                if (tSelected != null)
+                {
+                    if (BasisHelper().EditorTableDatas.Contains(tSelected))
+                    {
+                        int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
+                        if (tIndexSelected > 0)
+                        {
+                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
+                            SetObjectInEdition(tNextSelected);
+                            ChangeScroolPositionToSelection();
+                            Event.current.Use();
+                        }
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
+            int tPagesExpected = (int)Math.Floor(tNumberOfPage);
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
+            {
+                if (BasisHelper().m_PageSelected < tPagesExpected)
+                {
+                    BasisHelper().m_PageSelected++;
+                    int tIndexSel = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected;
+                    if (tIndexSel < BasisHelper().EditorTableDatas.Count)
+                    {
+                        K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
+                        SetObjectInEdition(tNextSelected);
+                        ChangeScroolPositionToSelection();
+                        Event.current.Use();
+                    }
+                }
+                else
+                {
+                }
+            }
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
+            {
+                if (BasisHelper().m_PageSelected > 0)
+                {
+                    BasisHelper().m_PageSelected--;
+                    K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
+                    SetObjectInEdition(tNextSelected);
+                    ChangeScroolPositionToSelection();
+                    Event.current.Use();
+                }
+                else
+                {
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditor(Rect sInRect)

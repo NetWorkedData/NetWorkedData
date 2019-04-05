@@ -101,7 +101,7 @@ namespace NetWorkedData
             {
                 if (sEditButton == true)
                 {
-                    if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
+                    if (GUI.Button(tButtonRect, NWDGUI.kEditContentIcon, NWDGUI.kEditButtonStyle))
                     {
                         SetObjectInEdition(tObject);
                     }
@@ -152,7 +152,7 @@ namespace NetWorkedData
             {
                 if (sNewButton == true)
                 {
-                    if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_NEW, EditorStyles.miniButton))
+                    if (GUI.Button(tButtonRect, NWDGUI.kNewContentIcon, NWDGUI.kEditButtonStyle))
                     {
                         //						tObject = NewInstance ();
                         //						tObject.UpdateMe (true);
@@ -162,7 +162,7 @@ namespace NetWorkedData
                         tObject.UpdateData(true);
 
                         tValue = tObject.Reference;
-                        SetObjectInEdition(tObject);
+                        SetObjectInEdition(tObject); // PROVOQUE UN GROS BUG!!!
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(tObject.GetType());
                     }
                 }

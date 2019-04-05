@@ -68,6 +68,19 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
+        public List<EditorWindow> EditorWindowsInManager(Type sType)
+        {
+            List<EditorWindow> tReturn = new List<EditorWindow>();
+            if (mTypeWindowDico.ContainsKey(sType))
+            {
+                foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
+                {
+                    tReturn.Add(tWindow);
+                }
+            }
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public void RepaintWindowForData(Type sType)
         //{
         //    //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 

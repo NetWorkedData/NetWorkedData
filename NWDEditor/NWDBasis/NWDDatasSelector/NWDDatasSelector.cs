@@ -187,7 +187,9 @@ namespace NetWorkedData
                             ControllerResult.Remove(tID);
                         }
                         ControllerResult.Add(tID, tNewObject.Reference);
-                        NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+
+
+                        //NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
 
                         //NWDDataManager.SharedInstance().RepaintWindowsInManager(tNewObject.GetType());
                     }
