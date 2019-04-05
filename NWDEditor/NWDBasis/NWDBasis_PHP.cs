@@ -1313,6 +1313,8 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (!errorDetected())");
             tFile.AppendLine("{");
+            tFile.AppendLine("unset($sJsonDico['" + tClassName + "']['data']); ");
+            tFile.AppendLine("unset($sJsonDico['" + tClassName + "']['sync']); ");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
             tFile.AppendLine("Create" + tClassName + "Table ();");
             if (sEnvironment.LogMode == true)
