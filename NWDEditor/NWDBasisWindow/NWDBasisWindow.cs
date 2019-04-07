@@ -269,7 +269,7 @@ namespace NetWorkedData
             // get width of window
             float tWidthUsed = EditorGUIUtility.currentViewWidth;
             // determine height
-            float tHeight = 40;
+            float tHeight = NWDGUI.KTAB_BAR_HEIGHT;
             //tHeight+=tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
             //if (mTabContentList.Length > 1)
             //{

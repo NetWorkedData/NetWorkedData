@@ -23,6 +23,7 @@ namespace NetWorkedData
         public static float kFieldIndent = 15.0f;
         public static float kScrollbar = 20f;
         public static GUIStyle kScrollviewFullWidth;
+        public static float KTAB_BAR_HEIGHT = 40.0F;
         //-------------------------------------------------------------------------------------------------------------
         // window top tabbar 
         public static Color KTAB_BAR_BACK_COLOR;
@@ -111,6 +112,7 @@ namespace NetWorkedData
         public static Color kRowColorTrash;
         public static Color kRowColorDisactive;
 
+        public static GUIStyle KTableToolbar;
         public static GUIStyle KTableSearchTitle;
         public static GUIStyle KTableSearchMask;
         public static GUIStyle KTableSearchButton;
@@ -390,6 +392,7 @@ namespace NetWorkedData
                 KTableClassPopup = new GUIStyle(EditorStyles.popup);
                 KTableClassPopup.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
+                KTableToolbar = new GUIStyle(EditorStyles.toolbar);
                 KTableSearchIcon = new GUIStyle(EditorStyles.label);
                 KTableSearchTitle = new GUIStyle(EditorStyles.helpBox);
                 KTableSearchDescription = new GUIStyle(EditorStyles.helpBox);
@@ -401,6 +404,7 @@ namespace NetWorkedData
                 KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
                 KTableSearchLabel = new GUIStyle(EditorStyles.label);
 
+                KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
 
                 float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);

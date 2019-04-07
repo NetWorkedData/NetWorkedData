@@ -298,7 +298,7 @@ namespace NetWorkedData
             //float tPopupWidth = 60.0f;
             int tToogleToListPageLimit = (int)Math.Floor(tWidth / tTabWidth);
             //GUILayout.Space(NWDConstants.KTablePageMarge);
-            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y + NWDGUI.kFieldMarge, sRect.width - NWDGUI.kFieldMarge * 2, EditorStyles.toolbar.fixedHeight);
+            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kFieldMarge, EditorStyles.toolbar.fixedHeight);
             BasisHelper().m_ItemPerPage = int.Parse(BasisHelper().m_ItemPerPageOptions[BasisHelper().m_ItemPerPageSelection]);
             float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
             int tPagesExpected = (int)Math.Floor(tNumberOfPage);
@@ -329,15 +329,17 @@ namespace NetWorkedData
             }
             else if (tPagesExpected < tToogleToListPageLimit)
             {
-                rReturn = EditorStyles.toolbar.fixedHeight + NWDGUI.kFieldMarge * 2;
+                rReturn = NWDGUI.KTableToolbar.fixedHeight + NWDGUI.kFieldMarge;
                 tRect.height = EditorStyles.toolbar.fixedHeight;
                 //m_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.ExpandWidth (true));
                 t_PageSelected = GUI.Toolbar(tRect, BasisHelper().m_PageSelected, tListOfPagesName);
             }
             else
             {
-                rReturn = EditorStyles.popup.fixedHeight + NWDGUI.kFieldMarge * 2;
+                //rReturn = EditorStyles.popup.fixedHeight + NWDGUI.kFieldMarge;
+                rReturn = NWDGUI.KTableToolbar.fixedHeight + NWDGUI.kFieldMarge;
                 tRect.height = EditorStyles.popup.fixedHeight;
+                tRect.y += 2;
                 t_PageSelected = EditorGUI.Popup(tRect, BasisHelper().m_PageSelected, tListOfPagesName, EditorStyles.popup);
             }
             if (BasisHelper().m_PageSelected != t_PageSelected)
@@ -399,277 +401,280 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Rect DrawTableEditorTop(Rect sRect)
         {
-            EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
-            Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
-            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width, 0);
-            tRect.width = NWDGUI.KTableSearchFieldWidth;
-            tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
-            // draw Search zone
-            GUI.Label(tRect, NWDConstants.K_APP_TABLE_SEARCH_ZONE, NWDGUI.KTableSearchTitle);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw Reference
-            BasisHelper().m_SearchReference = EditorGUI.TextField(tRect, NWDConstants.K_APP_TABLE_SEARCH_REFERENCE,
-                 BasisHelper().m_SearchReference, NWDGUI.KTableSearchTextfield);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw internal key
-            BasisHelper().m_SearchInternalName = EditorGUI.TextField(tRect, NWDConstants.K_APP_TABLE_SEARCH_NAME,
-                BasisHelper().m_SearchInternalName, NWDGUI.KTableSearchTextfield);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw Internal description
-            BasisHelper().m_SearchInternalDescription = EditorGUI.TextField(tRect, NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION,
-                BasisHelper().m_SearchInternalDescription, NWDGUI.KTableSearchTextfield);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
+                Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
+            if (BasisHelper().SearchActions() == true)
+            {
+                Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width, 0);
+                tRect.width = NWDGUI.KTableSearchFieldWidth;
+                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
+                // draw Search zone
+                GUI.Label(tRect, NWDConstants.K_APP_TABLE_SEARCH_ZONE, NWDGUI.KTableSearchTitle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw Reference
+                BasisHelper().m_SearchReference = EditorGUI.TextField(tRect, NWDConstants.K_APP_TABLE_SEARCH_REFERENCE,
+                     BasisHelper().m_SearchReference, NWDGUI.KTableSearchTextfield);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw internal key
+                BasisHelper().m_SearchInternalName = EditorGUI.TextField(tRect, NWDConstants.K_APP_TABLE_SEARCH_NAME,
+                    BasisHelper().m_SearchInternalName, NWDGUI.KTableSearchTextfield);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw Internal description
+                BasisHelper().m_SearchInternalDescription = EditorGUI.TextField(tRect, NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION,
+                    BasisHelper().m_SearchInternalDescription, NWDGUI.KTableSearchTextfield);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-            // Change column
-            tRect.x += tRect.width + NWDGUI.kFieldMarge;
-            tRect.y = sRect.y;
+                // Change column
+                tRect.x += tRect.width + NWDGUI.kFieldMarge;
+                tRect.y = sRect.y;
 
-            GUI.Label(tRect, NWDConstants.K_APP_TABLE_FILTER_ZONE, NWDGUI.KTableSearchTitle);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw accounts popup
-            EditorGUI.BeginDisabledGroup(!AccountDependent());
-            List<string> tReferenceList = new List<string>();
-            List<string> tInternalNameList = new List<string>();
-            tReferenceList.Add(string.Empty);
-            tInternalNameList.Add(NWDConstants.kFieldNone);
-            tReferenceList.Add("---");
-            tInternalNameList.Add(string.Empty);
-            tReferenceList.Add("-=-");
-            tInternalNameList.Add(NWDConstants.kFieldEmpty);
-            tReferenceList.Add("-+-");
-            tInternalNameList.Add(NWDConstants.kFieldNotEmpty);
-            foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.BasisHelper().EditorDatasMenu.OrderBy(i => i.Value))
-            {
-                tReferenceList.Add(tKeyValue.Key);
-                tInternalNameList.Add(tKeyValue.Value);
-            }
-            List<GUIContent> tContentFuturList = new List<GUIContent>();
-            foreach (string tS in tInternalNameList.ToArray())
-            {
-                tContentFuturList.Add(new GUIContent(tS));
-            }
-            int tIndexAccount = tReferenceList.IndexOf(BasisHelper().m_SearchAccount);
-            int tNewIndexAccount = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray(),
-                                                                       NWDGUI.KTableSearchEnum);
-            if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
-            {
-                BasisHelper().m_SearchAccount = tReferenceList[tNewIndexAccount];
-            }
-            else
-            {
-                BasisHelper().m_SearchAccount = string.Empty;
-            }
-            EditorGUI.EndDisabledGroup();
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw GameSave popup
-            EditorGUI.BeginDisabledGroup(!GameSaveDependent());
-            List<string> tReferenceSaveList = new List<string>();
-            List<string> tInternalNameSaveList = new List<string>();
-            tReferenceSaveList.Add(string.Empty);
-            tInternalNameSaveList.Add(NWDConstants.kFieldNone);
-            tReferenceSaveList.Add("---");
-            tInternalNameSaveList.Add(string.Empty);
-            tReferenceSaveList.Add("-=-");
-            tInternalNameSaveList.Add(NWDConstants.kFieldEmpty);
-            tReferenceSaveList.Add("-+-");
-            tInternalNameSaveList.Add(NWDConstants.kFieldNotEmpty);
-            foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.BasisHelper().EditorDatasMenu.OrderBy(i => i.Value))
-            {
-                tReferenceSaveList.Add(tKeyValue.Key);
-                tInternalNameSaveList.Add(tKeyValue.Value);
-            }
-            List<GUIContent> tContentFuturSaveList = new List<GUIContent>();
-            foreach (string tS in tInternalNameSaveList.ToArray())
-            {
-                tContentFuturSaveList.Add(new GUIContent(tS));
-            }
-            int tIndexSave = tReferenceSaveList.IndexOf(BasisHelper().m_SearchGameSave);
-            int tNewIndexSave = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray(),
-                                                                       NWDGUI.KTableSearchEnum);
-            if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
-            {
-                BasisHelper().m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
-            }
-            else
-            {
-                BasisHelper().m_SearchGameSave = string.Empty;
-            }
-            EditorGUI.EndDisabledGroup();
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // Draw Internal Tag popup
-            List<int> tTagIntList = new List<int>();
-            List<string> tTagStringList = new List<string>();
-            foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
-            {
-                tTagIntList.Add(tTag.Key);
-                tTagStringList.Add(tTag.Value);
-            }
-            BasisHelper().m_SearchTag = (NWDBasisTag)EditorGUI.IntPopup(tRect, NWDConstants.K_APP_TABLE_SEARCH_TAG,
-                                                                (int)BasisHelper().m_SearchTag, tTagStringList.ToArray(),
-                                                                tTagIntList.ToArray(),
-                                                                NWDGUI.KTableSearchEnum);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
-            EditorGUI.BeginDisabledGroup(AccountDependent());
-            BasisHelper().m_SearchCheckList = (NetWorkedData.NWDBasisCheckList)BasisHelper().m_SearchCheckList.ControlField(tRect, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
-            EditorGUI.EndDisabledGroup();
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-            // Change column
-            tRect.x += tRect.width + NWDGUI.kFieldMarge;
-            tRect.y = sRect.y;
-            tRect.width = NWDGUI.KTableSearchWidth;
-
-            // draw title
-            GUI.Label(tRect, "Actions", NWDGUI.KTableSearchTitle);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw button filter
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_FILTER, NWDGUI.KTableSearchButton))
-            {
-                string tReference = GetReferenceOfDataInEdition();
-                GUI.FocusControl(null);
-                SetObjectInEdition(null);
-                FilterTableEditor();
-                RestaureDataInEditionByReference(tReference);
-            }
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw Remove filter
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, NWDGUI.KTableSearchButton))
-            {
-
-                string tReference = GetReferenceOfDataInEdition();
-                GUI.FocusControl(null);
-                SetObjectInEdition(null);
-                //m_SearchReference = "";
-                BasisHelper().m_SearchReference = string.Empty;
-                BasisHelper().m_SearchInternalName = string.Empty;
-                BasisHelper().m_SearchInternalDescription = string.Empty;
-                BasisHelper().m_SearchTag = NWDBasisTag.NoTag;
-                BasisHelper().m_SearchAccount = string.Empty;
-                BasisHelper().m_SearchGameSave = string.Empty;
-                BasisHelper().m_SearchCheckList.Value = 0;
-                FilterTableEditor();
-                RestaureDataInEditionByReference(tReference);
-            }
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                GUI.Label(tRect, NWDConstants.K_APP_TABLE_FILTER_ZONE, NWDGUI.KTableSearchTitle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw accounts popup
+                EditorGUI.BeginDisabledGroup(!AccountDependent());
+                List<string> tReferenceList = new List<string>();
+                List<string> tInternalNameList = new List<string>();
+                tReferenceList.Add(string.Empty);
+                tInternalNameList.Add(NWDConstants.kFieldNone);
+                tReferenceList.Add("---");
+                tInternalNameList.Add(string.Empty);
+                tReferenceList.Add("-=-");
+                tInternalNameList.Add(NWDConstants.kFieldEmpty);
+                tReferenceList.Add("-+-");
+                tInternalNameList.Add(NWDConstants.kFieldNotEmpty);
+                foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.BasisHelper().EditorDatasMenu.OrderBy(i => i.Value))
+                {
+                    tReferenceList.Add(tKeyValue.Key);
+                    tInternalNameList.Add(tKeyValue.Value);
+                }
+                List<GUIContent> tContentFuturList = new List<GUIContent>();
+                foreach (string tS in tInternalNameList.ToArray())
+                {
+                    tContentFuturList.Add(new GUIContent(tS));
+                }
+                int tIndexAccount = tReferenceList.IndexOf(BasisHelper().m_SearchAccount);
+                int tNewIndexAccount = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray(),
+                                                                           NWDGUI.KTableSearchEnum);
+                if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
+                {
+                    BasisHelper().m_SearchAccount = tReferenceList[tNewIndexAccount];
+                }
+                else
+                {
+                    BasisHelper().m_SearchAccount = string.Empty;
+                }
+                EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw GameSave popup
+                EditorGUI.BeginDisabledGroup(!GameSaveDependent());
+                List<string> tReferenceSaveList = new List<string>();
+                List<string> tInternalNameSaveList = new List<string>();
+                tReferenceSaveList.Add(string.Empty);
+                tInternalNameSaveList.Add(NWDConstants.kFieldNone);
+                tReferenceSaveList.Add("---");
+                tInternalNameSaveList.Add(string.Empty);
+                tReferenceSaveList.Add("-=-");
+                tInternalNameSaveList.Add(NWDConstants.kFieldEmpty);
+                tReferenceSaveList.Add("-+-");
+                tInternalNameSaveList.Add(NWDConstants.kFieldNotEmpty);
+                foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.BasisHelper().EditorDatasMenu.OrderBy(i => i.Value))
+                {
+                    tReferenceSaveList.Add(tKeyValue.Key);
+                    tInternalNameSaveList.Add(tKeyValue.Value);
+                }
+                List<GUIContent> tContentFuturSaveList = new List<GUIContent>();
+                foreach (string tS in tInternalNameSaveList.ToArray())
+                {
+                    tContentFuturSaveList.Add(new GUIContent(tS));
+                }
+                int tIndexSave = tReferenceSaveList.IndexOf(BasisHelper().m_SearchGameSave);
+                int tNewIndexSave = EditorGUI.Popup(tRect, new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray(),
+                                                                           NWDGUI.KTableSearchEnum);
+                if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
+                {
+                    BasisHelper().m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
+                }
+                else
+                {
+                    BasisHelper().m_SearchGameSave = string.Empty;
+                }
+                EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // Draw Internal Tag popup
+                List<int> tTagIntList = new List<int>();
+                List<string> tTagStringList = new List<string>();
+                foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
+                {
+                    tTagIntList.Add(tTag.Key);
+                    tTagStringList.Add(tTag.Value);
+                }
+                BasisHelper().m_SearchTag = (NWDBasisTag)EditorGUI.IntPopup(tRect, NWDConstants.K_APP_TABLE_SEARCH_TAG,
+                                                                    (int)BasisHelper().m_SearchTag, tTagStringList.ToArray(),
+                                                                    tTagIntList.ToArray(),
+                                                                    NWDGUI.KTableSearchEnum);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
 
-            bool tShowMoreInfos = true;
-            if (tShowMoreInfos)
-            {
+                EditorGUI.BeginDisabledGroup(AccountDependent());
+                BasisHelper().m_SearchCheckList = (NetWorkedData.NWDBasisCheckList)BasisHelper().m_SearchCheckList.ControlField(tRect, NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
+                EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
                 // Change column
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = sRect.y;
                 tRect.width = NWDGUI.KTableSearchWidth;
 
                 // draw title
-                GUI.Label(tRect, "Results", NWDGUI.KTableSearchTitle);
+                GUI.Label(tRect, "Actions", NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw objects in database
-                int tRealReference = BasisHelper().Datas.Count;
-                if (tRealReference == 0)
+                // draw button filter
+                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_FILTER, NWDGUI.KTableSearchButton))
                 {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else if (tRealReference == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else
-                {
-                    GUI.Label(tRect, tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDGUI.KTableSearchLabel);
+                    string tReference = GetReferenceOfDataInEdition();
+                    GUI.FocusControl(null);
+                    SetObjectInEdition(null);
+                    FilterTableEditor();
+                    RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw objects in results
-                int tResultReference = BasisHelper().EditorTableDatas.Count;
-                if (tResultReference == 0)
+                // draw Remove filter
+                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, NWDGUI.KTableSearchButton))
                 {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
-                }
-                else if (tResultReference == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
-                }
-                else
-                {
-                    GUI.Label(tRect, tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDGUI.KTableSearchLabel);
+
+                    string tReference = GetReferenceOfDataInEdition();
+                    GUI.FocusControl(null);
+                    SetObjectInEdition(null);
+                    //m_SearchReference = "";
+                    BasisHelper().m_SearchReference = string.Empty;
+                    BasisHelper().m_SearchInternalName = string.Empty;
+                    BasisHelper().m_SearchInternalDescription = string.Empty;
+                    BasisHelper().m_SearchTag = NWDBasisTag.NoTag;
+                    BasisHelper().m_SearchAccount = string.Empty;
+                    BasisHelper().m_SearchGameSave = string.Empty;
+                    BasisHelper().m_SearchCheckList.Value = 0;
+                    FilterTableEditor();
+                    RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                // draw selection
-                // TODO exit this method to count in basishelper;
-                int tSelectionCount = 0;
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+
+                bool tShowMoreInfos = true;
+                if (tShowMoreInfos)
                 {
-                    if (tKeyValue.Value == true)
+                    // Change column
+                    tRect.x += tRect.width + NWDGUI.kFieldMarge;
+                    tRect.y = sRect.y;
+                    tRect.width = NWDGUI.KTableSearchWidth;
+
+                    // draw title
+                    GUI.Label(tRect, "Results", NWDGUI.KTableSearchTitle);
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    // draw objects in database
+                    int tRealReference = BasisHelper().Datas.Count;
+                    if (tRealReference == 0)
                     {
-                        tSelectionCount++;
+                        GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT, NWDGUI.KTableSearchLabel);
                     }
+                    else if (tRealReference == 1)
+                    {
+                        GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDGUI.KTableSearchLabel);
+                    }
+                    else
+                    {
+                        GUI.Label(tRect, tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDGUI.KTableSearchLabel);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                    // draw objects in results
+                    int tResultReference = BasisHelper().EditorTableDatas.Count;
+                    if (tResultReference == 0)
+                    {
+                        GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
+                    }
+                    else if (tResultReference == 1)
+                    {
+                        GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
+                    }
+                    else
+                    {
+                        GUI.Label(tRect, tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDGUI.KTableSearchLabel);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                    // draw selection
+                    // TODO exit this method to count in basishelper;
+                    int tSelectionCount = 0;
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            tSelectionCount++;
+                        }
+                    }
+                    if (tSelectionCount == 0)
+                    {
+                        GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+                    }
+                    else if (tSelectionCount == 1)
+                    {
+                        GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+                    }
+                    else
+                    {
+                        GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 }
-                if (tSelectionCount == 0)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else if (tSelectionCount == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else
-                {
-                    GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
-                }
+
+
+
+
+                // draw reload all datas
+                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDConstants.KTableSearchButton))
+                //{
+                //    //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
+                //    string tReference = GetReferenceOfDataInEdition();
+                //    GUI.FocusControl(null);
+                //    SetObjectInEdition(null);
+                //    BasisHelper().m_SearchInternalName = string.Empty;
+                //    BasisHelper().m_SearchInternalDescription = string.Empty;
+                //    //ReloadAllObjects ();
+                //    //LoadTableEditor ();
+                //    LoadFromDatabase();
+                //    RestaureDataInEditionByReference(tReference);
+                //}
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw before last column
+                tRect.x = sRect.width - NWDGUI.KTableSearchFieldWidth - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 4;
+                tRect.y = sRect.y;
+                tRect.width = NWDGUI.KTableSearchFieldWidth;
+                // Draw title
+                GUI.Label(tRect, BasisHelper().ClassNamePHP, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // Draw texture of this class
+                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
+                GUI.Label(tRect, BasisHelper().ClassDescription, NWDGUI.KTableSearchDescription);
+                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
+                // draw last column
+                tRect.x = sRect.width - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 3;
+                tRect.y = sRect.y;
+                tRect.width = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
+                // Draw title
+                GUI.Label(tRect, BasisHelper().ClassTrigramme, NWDGUI.KTableSearchTitle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // Draw texture of this class
+                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
+                Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
+                if (tTextureOfClass != null)
+                {
+                    GUI.Label(tRect, tTextureOfClass, NWDGUI.KTableSearchClassIcon);
+                }
+                tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
+
+
+                rRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 5 + NWDGUI.kFieldMarge * 5;
+                //EditorGUI.DrawRect(rRect, Color.red);
             }
-
-
-
-
-            // draw reload all datas
-            //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDConstants.KTableSearchButton))
-            //{
-            //    //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
-            //    string tReference = GetReferenceOfDataInEdition();
-            //    GUI.FocusControl(null);
-            //    SetObjectInEdition(null);
-            //    BasisHelper().m_SearchInternalName = string.Empty;
-            //    BasisHelper().m_SearchInternalDescription = string.Empty;
-            //    //ReloadAllObjects ();
-            //    //LoadTableEditor ();
-            //    LoadFromDatabase();
-            //    RestaureDataInEditionByReference(tReference);
-            //}
-            //tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // draw before last column
-            tRect.x = sRect.width - NWDGUI.KTableSearchFieldWidth - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 4;
-            tRect.y = sRect.y;
-            tRect.width = NWDGUI.KTableSearchFieldWidth;
-            // Draw title
-            GUI.Label(tRect, BasisHelper().ClassNamePHP, NWDGUI.KTableSearchTitle);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // Draw texture of this class
-            tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
-            GUI.Label(tRect, BasisHelper().ClassDescription, NWDGUI.KTableSearchDescription);
-            tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
-            // draw last column
-            tRect.x = sRect.width - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 3;
-            tRect.y = sRect.y;
-            tRect.width = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
-            // Draw title
-            GUI.Label(tRect, BasisHelper().ClassTrigramme, NWDGUI.KTableSearchTitle);
-            tRect.y += tRect.height + NWDGUI.kFieldMarge;
-            // Draw texture of this class
-            tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
-            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
-            if (tTextureOfClass != null)
-            {
-                GUI.Label(tRect, tTextureOfClass, NWDGUI.KTableSearchClassIcon);
-            }
-            tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
-
-
-            rRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 5 + NWDGUI.kFieldMarge * 5;
-            //EditorGUI.DrawRect(rRect, Color.red);
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -677,52 +682,53 @@ namespace NetWorkedData
         {
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
 
-            Rect tRectActions = Rect.zero;
-            Rect tRectActionsMiddle = Rect.zero;
-            Rect tRectTable = Rect.zero;
-            Rect tRectTableMiddle = Rect.zero;
+            Rect tRectActionLeft = Rect.zero;
+            Rect tRectActionRight = Rect.zero;
+            Rect tRectTableLeft = Rect.zero;
+            Rect tRectTableRight = Rect.zero;
 
-            float tHeightAction = NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge;
-            float tHeightTable = NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge;
-            if (BasisHelper().mRowActions == true)
+            float tHeightAction = 0;
+            float tHeightTable = 0;
+
+            if (BasisHelper().RowActions() == true)
             {
-                tHeightAction = (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 7;
+                tHeightAction = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
             }
-            if (BasisHelper().mTableActions == true)
+            if (BasisHelper().TableActions() == true)
             {
-                tHeightTable = (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
+                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 5;
             }
             rRect.height = tHeightAction + tHeightTable;
             rRect.y = sRect.height - rRect.height;
 
-            Rect tFoldoutRectAction = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y, 0, 0);
-            tFoldoutRectAction.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-            tFoldoutRectAction.width = sRect.width;
-            BasisHelper().mRowActions = EditorGUI.Foldout(tFoldoutRectAction, BasisHelper().mRowActions, "Rows Actions");
-            if (BasisHelper().mRowActions == true)
+            if (BasisHelper().RowActions() == true)
             {
-                tRectActions = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
-                tRectActions.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectActions.width = NWDGUI.KTableSearchWidth;
+                Rect tFoldoutRectAction = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y, 0, 0);
+                tFoldoutRectAction.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+                tFoldoutRectAction.width = sRect.width;
+                GUI.Label(tFoldoutRectAction, "Rows Actions", NWDGUI.kBoldLabelStyle);
+                tRectActionLeft = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
+                tRectActionLeft.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+                tRectActionLeft.width = NWDGUI.KTableSearchWidth;
 
-                tRectActionsMiddle = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
-                tRectActionsMiddle.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectActionsMiddle.width = NWDGUI.KTableSearchWidth;
+                tRectActionRight = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge, 0, 0);
+                tRectActionRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+                tRectActionRight.width = NWDGUI.KTableSearchWidth;
             }
-
-            Rect tFoldoutRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + tHeightAction, 0, 0);
-            tFoldoutRectTable.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-            tFoldoutRectTable.width = sRect.width;
-            BasisHelper().mTableActions = EditorGUI.Foldout(tFoldoutRectTable, BasisHelper().mTableActions, "Table Actions");
-            if (BasisHelper().mTableActions == true)
+            
+            if (BasisHelper().TableActions() == true)
             {
-                tRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
-                tRectTable.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectTable.width = NWDGUI.KTableSearchWidth;
+                Rect tFoldoutRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + tHeightAction, 0, 0);
+                tFoldoutRectTable.height = NWDGUI.kBoldLabelStyle.fixedHeight;
+                tFoldoutRectTable.width = sRect.width;
+                GUI.Label(tFoldoutRectTable, "Table Actions", NWDGUI.kBoldLabelStyle);
+                tRectTableLeft = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
+                tRectTableLeft.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+                tRectTableLeft.width = NWDGUI.KTableSearchWidth;
 
-                tRectTableMiddle = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
-                tRectTableMiddle.height = NWDGUI.KTableSearchTextfield.fixedHeight;
-                tRectTableMiddle.width = NWDGUI.KTableSearchWidth;
+                tRectTableRight = new Rect(sRect.x + sRect.width - (NWDGUI.kFieldMarge + NWDGUI.KTableSearchWidth) * 3, rRect.y + NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + tHeightAction, 0, 0);
+                tRectTableRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
+                tRectTableRight.width = NWDGUI.KTableSearchWidth;
             }
 
             bool tDeleteSelection = false; //prevent GUIlayout error
@@ -763,11 +769,11 @@ namespace NetWorkedData
             }
             // ===========================================
             Rect tRect = new Rect(0, 0, NWDGUI.KTableSearchWidth, NWDGUI.KTableSearchTextfield.fixedHeight);
-            if (BasisHelper().mRowActions == true)
+            if (BasisHelper().RowActions() == true)
             {
 
-                tRect.x = tRectActions.x;
-                tRect.y = tRectActions.y;
+                tRect.x = tRectActionLeft.x;
+                tRect.y = tRectActionLeft.y;
                 int tActualItems = BasisHelper().EditorTableDatas.Count;
                 if (tSelectionCount == 0)
                 {
@@ -818,7 +824,7 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActions.y;
+                tRect.y = tRectActionLeft.y;
 
                 // draw row Actions 
 
@@ -911,7 +917,7 @@ namespace NetWorkedData
 
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActions.y;
+                tRect.y = tRectActionLeft.y;
 
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 NWDGUI.BeginRedArea();
@@ -949,7 +955,7 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.EndRedArea();
 
-                tRect = new Rect(tRectActionsMiddle.x, tRectActionsMiddle.y, NWDGUI.KTableSearchWidth, tRectActionsMiddle.height);
+                tRect = new Rect(tRectActionRight.x, tRectActionRight.y, NWDGUI.KTableSearchWidth, tRectActionRight.height);
 
                 GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
@@ -990,7 +996,7 @@ namespace NetWorkedData
 
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionsMiddle.y;
+                tRect.y = tRectActionRight.y;
 
 
 
@@ -1031,7 +1037,7 @@ namespace NetWorkedData
                 }
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectActionsMiddle.y;
+                tRect.y = tRectActionRight.y;
 
                 GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
@@ -1060,11 +1066,11 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
 
             }
-            if (BasisHelper().mTableActions == true)
+            if (BasisHelper().TableActions() == true)
             {
                 // Start Colmun
-                tRect.x = tRectTable.x;
-                tRect.y = tRectTable.y;
+                tRect.x = tRectTableLeft.x;
+                tRect.y = tRectTableLeft.y;
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_TOOLS, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
@@ -1116,7 +1122,7 @@ namespace NetWorkedData
 
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTable.y;
+                tRect.y = tRectTableLeft.y;
                 NWDGUI.BeginRedArea();
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_RESET_WARNING, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1153,7 +1159,7 @@ namespace NetWorkedData
 
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTable.y;
+                tRect.y = tRectTableLeft.y;
                 // draw Replace WS in dev by sftp
                 GUI.Label(tRect, NWDConstants.K_APP_WS_RESET_WARNING + " " + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), NWDGUI.KTableSearchTitle);
 
@@ -1183,8 +1189,8 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
                 // Change Colmun
-                tRect.x = tRectTableMiddle.x;
-                tRect.y = tRectTableMiddle.y;
+                tRect.x = tRectTableRight.x;
+                tRect.y = tRectTableRight.y;
                 GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1228,7 +1234,7 @@ namespace NetWorkedData
                 NWDGUI.EndRedArea();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTableMiddle.y;
+                tRect.y = tRectTableRight.y;
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1272,7 +1278,7 @@ namespace NetWorkedData
                 NWDGUI.EndRedArea();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
-                tRect.y = tRectTableMiddle.y;
+                tRect.y = tRectTableRight.y;
                 GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tProdContent, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1593,7 +1599,9 @@ namespace NetWorkedData
             }
 
             //EditorGUI.DrawRect(rRect, Color.yellow);
-            rRect.height += NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge * 3;
+            //rRect.height += NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge * 3;
+            //Debug.Log("rRect height : " +rRect.height);
+            //rRect.height = 0;
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1608,13 +1616,26 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(!rLoaded);
 
             Rect tWindowRect = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
-            if (tWindowRect.width < NWDGUI.KTableMinWidth)
-            {
-                tWindowRect.width = NWDGUI.KTableMinWidth;
-            }
+            //if (tWindowRect.width < NWDGUI.KTableMinWidth)
+            //{
+            //    tWindowRect.width = NWDGUI.KTableMinWidth;
+            //}
             Rect tRect = new Rect(0, 0, tWindowRect.width, 0);
             // offset the tab bar 
-            tRect.y += 50;
+            tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
+
+            float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 3.0F);
+            Rect tRectToogle = new Rect( NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
+            //GUI.DrawTexture(tRectToogle, NWDToolbox.TextureFromColor(Color.red));
+            BasisHelper().SetSearchActions(GUI.Toggle(tRectToogle, BasisHelper().SearchActions(), "Search"));
+            tRectToogle.x += tWidthTiers;
+            BasisHelper().SetRowActions(GUI.Toggle(tRectToogle, BasisHelper().RowActions(), "Actions"));
+            tRectToogle.x += tWidthTiers;
+            BasisHelper().SetTableActions(GUI.Toggle(tRectToogle, BasisHelper().TableActions(), "Table"));
+
+            tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            //tRect.y += NWDGUI.Line(tRect).height;
 
             // if necessary recalcul row informations
             BasisHelper().RowAnalyze();
@@ -1672,10 +1693,30 @@ namespace NetWorkedData
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
             }
 
-
             Rect tRectForTop = DrawTableEditorTop(tRect);
             tRect.y += tRectForTop.height;
+
+            //tRect.y += NWDGUI.Line(tRect).height;
+
             Rect tRectForBottom = DrawTableEditorBottom(new Rect(0, 0, tWindowRect.width, tWindowRect.height));
+            float tPageSizeHeight = 0;
+            bool tPageToolbar = false;
+            if (BasisHelper().Datas.Count > BasisHelper().m_ItemPerPage)
+            {
+                tPageToolbar = true;
+                tPageSizeHeight = NWDGUI.KTableToolbar.fixedHeight + NWDGUI.kFieldMarge;
+            }
+
+            float tScrollRectHeight = tWindowRect.height - tRect.y - tPageSizeHeight * 2 - tRectForBottom.height - NWDGUI.kTableHeaderHeight * 2;
+
+            Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight + tPageSizeHeight, tWindowRect.width, tScrollRectHeight);
+            if (tPageToolbar == true)
+            {
+                tScrollRect.height -= NWDGUI.kFieldMarge;
+                //tScrollHeight -= NWDGUI.kFieldMarge;
+            }
+
+
             // ===========================================
             // ===========================================
             /// DRAW SCROLLVIEW
@@ -1691,7 +1732,6 @@ namespace NetWorkedData
                 tDialogRect.x = Mathf.Floor((tDialogRect.width - tWidthDilaog) / 2.0F);
                 tDialogRect.width = tWidthDilaog;
                 tDialogRect.height += (NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge) * 3 + NWDGUI.ErrorMinHeight;
-
 
                 EditorGUI.EndDisabledGroup();
                 if (NWDLauncher.GetState() == NWDStatut.DataAccountCodePinStop)
@@ -1828,8 +1868,8 @@ namespace NetWorkedData
             }
             else
             {
-                float tPagesBarHeight = DrawPagesTab(tRect);
-                tRect.y += tPagesBarHeight;
+                DrawPagesTab(tRect);
+                tRect.y += tPageSizeHeight;
 
                 float tRowHeight = NWDGUI.kTableRowHeight * BasisHelper().RowZoom;
                 // ===========================================
@@ -1846,16 +1886,22 @@ namespace NetWorkedData
                 // TODO get put this line!
                 //NWDGUI.kRowHeaderHeight = NWDConstants.KTableSearchToggle.fixedHeight;
 
-                float tScrollHeight = tWindowRect.height - tRect.y - tPagesBarHeight - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
-                Rect tScrollHeader = new Rect(0, tRect.y, tWindowRect.width, NWDGUI.kTableHeaderHeight);
-                Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, tScrollHeight);
-                Rect tScrollContentRect = new Rect(0, 0, tWindowRect.width - NWDGUI.kScrollbar, tIndexRowInPage * tRowHeight);
-                Rect tScrollHeaderBottom = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight + tScrollHeight, tWindowRect.width, NWDGUI.kTableHeaderHeight);
+                //if (tPagesBarHeight > 0)
+                //{
+                //    tScrollHeight += NWDGUI.kFieldMarge;
+                //}
                 // draw headers
+
+                Rect tScrollContentRect = new Rect(0, 0, tWindowRect.width - NWDGUI.kScrollbar, tIndexRowInPage * tRowHeight);
+
+
+                Rect tScrollHeader = new Rect(tScrollRect.x, tScrollRect.y- NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kTableHeaderHeight);
+                Rect tScrollHeaderBottom = new Rect(tScrollRect.x, tScrollRect.y + tScrollRect.height, tWindowRect.width, NWDGUI.kTableHeaderHeight);
+
                 DrawHeaderInEditor(tScrollHeader, tScrollRect, BasisHelper().RowZoom);
                 DrawHeaderBottomInEditor(tScrollHeaderBottom, tScrollRect);
                 // Get only visible rows
-                int tIndexMax = Mathf.Min(Mathf.FloorToInt(tScrollHeight / tRowHeight), BasisHelper().m_ItemPerPage);
+                int tIndexMax = Mathf.Min(Mathf.FloorToInt(tScrollRect.height / tRowHeight), BasisHelper().m_ItemPerPage);
                 int tIndexStart = Mathf.FloorToInt(BasisHelper().m_ScrollPositionList.y / tRowHeight);
                 int tIndexStop = tIndexStart + tIndexMax;
                 if (tIndexStop - tIndexStart < BasisHelper().m_ItemPerPage - 1)
@@ -1869,7 +1915,7 @@ namespace NetWorkedData
                     false,
                     true
                     );
-                tRect.y += tScrollHeight + NWDGUI.kTableHeaderHeight * 2;
+                tRect.y += tScrollRect.height + NWDGUI.kTableHeaderHeight * 2;
                 // ===========================================
                 // EVENT USE
                 bool tSelectAndClick = false;
@@ -2023,7 +2069,14 @@ namespace NetWorkedData
                 }
                 // ===========================================
                 GUI.EndScrollView();
-                tRect.y += DrawPagesTab(tRect);
+                //if (tPagesBarHeight > 0)
+                //{
+                //    tRect.y += NWDGUI.kFieldMarge;
+                //    tRect.y += 
+                //}
+                tRect.y += NWDGUI.kFieldMarge;
+                DrawPagesTab(tRect);
+                //tRect.y += NWDGUI.Line(tRect).height;
                 // ===========================================
 
 

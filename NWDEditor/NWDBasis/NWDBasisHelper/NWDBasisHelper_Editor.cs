@@ -64,10 +64,57 @@ namespace NetWorkedData
         public Vector2 ObjectEditorScrollPosition = Vector2.zero;
         public bool kSyncAndMoreInformations = false;
 
-        // TODO move in basichelper
-        public bool mRowActions = true;
-        // TODO move in basichelper
-        public bool mTableActions = true;
+        //// TODO move in basichelper
+        //public bool SearchActions = true;
+        //// TODO move in basichelper
+        //public bool RowActions = true;
+        //// TODO move in basichelper
+        //public bool TableActions = true;
+
+        public string ActionsPrefkey()
+        {
+            string tKey = string.Empty;
+            if (NWDAppConfiguration.SharedInstance().EditorTableCommun == false)
+            {
+                tKey = ClassNamePHP;
+            }
+            return tKey;
+        }
+        const string tSedarchAction="fff";
+        const string tTableAction = "rrrr";
+        const string tRowAction = "tttt";
+        public bool SearchActions()
+        {
+            return EditorPrefs.GetBool(ActionsPrefkey()+ tSedarchAction);
+        }
+        public bool RowActions()
+        {
+            return EditorPrefs.GetBool(ActionsPrefkey()+ tRowAction);
+        }
+        public bool TableActions()
+        {
+            return EditorPrefs.GetBool(ActionsPrefkey()+ tTableAction);
+        }
+        public void SetSearchActions(bool sValue)
+        {
+            EditorPrefs.SetBool(ActionsPrefkey()+ tSedarchAction, sValue);
+        }
+        public void SetRowActions(bool sValue)
+        {
+            EditorPrefs.SetBool(ActionsPrefkey()+ tRowAction, sValue);
+        }
+        public void SetTableActions(bool sValue)
+        {
+            EditorPrefs.SetBool(ActionsPrefkey()+ tTableAction, sValue);
+        }
+
+
+
+
+
+
+
+
         public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
         public float RowZoom = 1.0F;
         public string m_SearchReference = string.Empty;

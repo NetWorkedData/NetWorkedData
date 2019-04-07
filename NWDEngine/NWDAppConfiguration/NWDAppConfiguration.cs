@@ -74,6 +74,8 @@ namespace NetWorkedData
         public bool AnonymousPlayerIsLocal = true;
         public bool SurProtected = false;
         public int ProtectionTentativeMax = 6;
+
+        public bool EditorTableCommun = true; //TODO param in config editor extension...
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
