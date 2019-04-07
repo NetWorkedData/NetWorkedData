@@ -267,7 +267,10 @@ namespace NetWorkedData
             NWDGUI.LoadStyles();
             // prepare the style
             // get width of window
-            float tWidthUsed = EditorGUIUtility.currentViewWidth;
+            //float tWidthUsed = EditorGUIUtility.currentViewWidth;
+
+
+            float tWidthUsed = position.width;
             // determine height
             float tHeight = NWDGUI.KTAB_BAR_HEIGHT;
             //tHeight+=tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
@@ -306,12 +309,12 @@ namespace NetWorkedData
                 if (tWidthUsed > TabsTotalWidthExpected)
                 {
                     Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge*2);
-                    tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList);
+                    tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassToolbar);
                 }
                 else
                 {
                     Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
-                    tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList);
+                    tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassPopup);
                 }
             }
 

@@ -298,7 +298,7 @@ namespace NetWorkedData
             //float tPopupWidth = 60.0f;
             int tToogleToListPageLimit = (int)Math.Floor(tWidth / tTabWidth);
             //GUILayout.Space(NWDConstants.KTablePageMarge);
-            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kFieldMarge, EditorStyles.toolbar.fixedHeight);
+            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kFieldMarge*2, EditorStyles.toolbar.fixedHeight);
             BasisHelper().m_ItemPerPage = int.Parse(BasisHelper().m_ItemPerPageOptions[BasisHelper().m_ItemPerPageSelection]);
             float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
             int tPagesExpected = (int)Math.Floor(tNumberOfPage);
@@ -1616,10 +1616,10 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(!rLoaded);
 
             Rect tWindowRect = new Rect(sEditorWindow.position.x, sEditorWindow.position.y, sEditorWindow.position.width, sEditorWindow.position.height);
-            //if (tWindowRect.width < NWDGUI.KTableMinWidth)
-            //{
-            //    tWindowRect.width = NWDGUI.KTableMinWidth;
-            //}
+            if (tWindowRect.width < NWDGUI.KTableMinWidth)
+            {
+                tWindowRect.width = NWDGUI.KTableMinWidth;
+            }
             Rect tRect = new Rect(0, 0, tWindowRect.width, 0);
             // offset the tab bar 
             tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
