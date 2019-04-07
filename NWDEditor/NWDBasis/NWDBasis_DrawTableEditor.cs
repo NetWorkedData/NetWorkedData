@@ -1635,14 +1635,20 @@ namespace NetWorkedData
 
             tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            //tRect.y += NWDGUI.Line(tRect).height;
+            tRect.y += NWDGUI.Line(tRect).height ;
 
             // if necessary recalcul row informations
             BasisHelper().RowAnalyze();
-
+            bool tMargeNeed = false;
             // Alert Salts are false infos
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (tMargeNeed == false)
+                {
+                    tRect.y += NWDGUI.kFieldMarge;
+                }
+                tMargeNeed = true;
                 tRect.height = NWDGUI.kTableRowHeight;
                 tRect.y += NWDGUI.kFieldMarge;
                 Rect tRectInfos = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge * 2, tRect.height);
@@ -1655,11 +1661,15 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
             }
             // Alert warning model infos
             if (BasisHelper().WebModelChanged == true)
             {
+                if (tMargeNeed == false)
+                {
+                    tRect.y += NWDGUI.kFieldMarge;
+                }
+                tMargeNeed = true;
                 //string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 //GUIContent tCC = new GUIContent(tTEXTWARNING);
                 //GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
@@ -1674,10 +1684,16 @@ namespace NetWorkedData
                 //tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
+
             }
             // alert degadraded model infos
             if (BasisHelper().WebModelDegraded == true)
             {
+                if (tMargeNeed == false)
+                {
+                    tRect.y += NWDGUI.kFieldMarge;
+                }
+                tMargeNeed = true;
                 //string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
                 //GUIContent tCC = new GUIContent(tTEXTWARNING);
                 //GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
@@ -1691,6 +1707,15 @@ namespace NetWorkedData
                 //GUI.Label(tRect, tCC, tWarningBoxStyle);
                 //tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
+
+            }
+            if (BasisHelper().SearchActions() == true)
+            {
+                if (tMargeNeed == false)
+                {
+                    tRect.y += NWDGUI.kFieldMarge;
+                }
+                tMargeNeed = true;
             }
 
             Rect tRectForTop = DrawTableEditorTop(tRect);
@@ -1705,7 +1730,15 @@ namespace NetWorkedData
             {
                 tPageToolbar = true;
                 tPageSizeHeight = NWDGUI.KTableToolbar.fixedHeight + NWDGUI.kFieldMarge;
+
+                if (tMargeNeed == false)
+                {
+                    tRect.y += NWDGUI.kFieldMarge;
+                }
+                tMargeNeed = true;
             }
+
+
 
             float tScrollRectHeight = tWindowRect.height - tRect.y - tPageSizeHeight * 2 - tRectForBottom.height - NWDGUI.kTableHeaderHeight * 2;
 

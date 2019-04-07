@@ -80,32 +80,32 @@ namespace NetWorkedData
             }
             return tKey;
         }
-        const string tSedarchAction="fff";
-        const string tTableAction = "rrrr";
-        const string tRowAction = "tttt";
+        const string kSearchEditorState= "SearchEditorState";
+        const string kTableEditorState = "TableEditorState";
+        const string kRowEditorState = "RowEditorState";
         public bool SearchActions()
         {
-            return EditorPrefs.GetBool(ActionsPrefkey()+ tSedarchAction);
+            return EditorPrefs.GetBool(ActionsPrefkey()+ kSearchEditorState);
         }
         public bool RowActions()
         {
-            return EditorPrefs.GetBool(ActionsPrefkey()+ tRowAction);
+            return EditorPrefs.GetBool(ActionsPrefkey()+ kRowEditorState);
         }
         public bool TableActions()
         {
-            return EditorPrefs.GetBool(ActionsPrefkey()+ tTableAction);
+            return EditorPrefs.GetBool(ActionsPrefkey()+ kTableEditorState);
         }
         public void SetSearchActions(bool sValue)
         {
-            EditorPrefs.SetBool(ActionsPrefkey()+ tSedarchAction, sValue);
+            EditorPrefs.SetBool(ActionsPrefkey()+ kSearchEditorState, sValue);
         }
         public void SetRowActions(bool sValue)
         {
-            EditorPrefs.SetBool(ActionsPrefkey()+ tRowAction, sValue);
+            EditorPrefs.SetBool(ActionsPrefkey()+ kRowEditorState, sValue);
         }
         public void SetTableActions(bool sValue)
         {
-            EditorPrefs.SetBool(ActionsPrefkey()+ tTableAction, sValue);
+            EditorPrefs.SetBool(ActionsPrefkey()+ kTableEditorState, sValue);
         }
 
 
