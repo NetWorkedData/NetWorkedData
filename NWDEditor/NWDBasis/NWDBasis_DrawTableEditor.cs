@@ -1643,16 +1643,16 @@ namespace NetWorkedData
             // Alert Salts are false infos
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                tRect.y += tRect.height;
                 if (tMargeNeed == false)
                 {
                     tRect.y += NWDGUI.kFieldMarge;
                 }
                 tMargeNeed = true;
                 tRect.height = NWDGUI.kTableRowHeight;
-                tRect.y += NWDGUI.kFieldMarge;
+                //tRect.y += NWDGUI.kFieldMarge;
                 Rect tRectInfos = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge * 2, tRect.height);
-                EditorGUI.HelpBox(tRectInfos, NWDConstants.kAlertSaltShortError, MessageType.Error);
+                EditorGUI.HelpBox(tRectInfos, NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 tRect.height = NWDGUI.KTableSearchButton.fixedHeight;
                 Rect tRectButton = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge * 2, tRect.height);
@@ -1661,6 +1661,7 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
+                tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;
             }
             // Alert warning model infos
             if (BasisHelper().WebModelChanged == true)
@@ -1960,6 +1961,7 @@ namespace NetWorkedData
                     {
                         //Debug.Log("alt and select");
                         tSelectAndClick = true;
+                        sEditorWindow.Focus();
                     }
                 }
                 // TODO: add instruction in tab view
@@ -2091,13 +2093,21 @@ namespace NetWorkedData
                 {
                     BasisHelper().m_PageSelected = tPagesExpected;
                 }
+
+                Rect tRectRow = new Rect(sEditorWindow.position.x, sEditorWindow.position.y,
+                     sEditorWindow.position.width, sEditorWindow.position.height);
+
+            if (tRectRow.width < NWDGUI.KTableMinWidth)
+                {
+                    tRectRow.width = NWDGUI.KTableMinWidth;
+                }
                 for (int i = tIndexStart; i < tIndexStop; i++)
                 {
                     int tItemIndexInPage = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected + i;
                     if (tItemIndexInPage >= 0 && tItemIndexInPage < BasisHelper().EditorTableDatas.Count)
                     {
                         K tObject = BasisHelper().EditorTableDatas.ElementAt(tItemIndexInPage) as K;
-                        tObject.DrawRowInEditor(tMousePosition, sEditorWindow, tSelectAndClick, i, BasisHelper().RowZoom);
+                        tObject.DrawRowInEditor(tMousePosition, tRectRow, tSelectAndClick, i, BasisHelper().RowZoom);
                     }
                 }
                 // ===========================================

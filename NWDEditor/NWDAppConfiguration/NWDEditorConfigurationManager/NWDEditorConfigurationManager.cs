@@ -93,7 +93,7 @@ namespace NetWorkedData
             int tColum = 1;
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
-                EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());

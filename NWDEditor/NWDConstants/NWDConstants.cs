@@ -40,7 +40,8 @@ namespace NetWorkedData
 
         public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "NWD Environments";
 
-        public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
+        public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; 
+        public static string K_ALERT_SALT_SHORT_ERROR = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert

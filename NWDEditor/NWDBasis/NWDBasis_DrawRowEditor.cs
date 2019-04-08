@@ -70,6 +70,11 @@ namespace NetWorkedData
             //EditorGUI.DrawRect(ColorRect, Color.red);
             sRect.x += NWDGUI.kFieldMarge;
             sRect.width = sRect.width - NWDGUI.kScrollbar;
+
+            if (sRect.width < NWDGUI.KTableMinWidth)
+            {
+                sRect.width = NWDGUI.KTableMinWidth;
+            }
             //EditorGUI.DrawRect(sRect, Color.blue);
             Rect tRect = new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kTableSelectWidth, sRect.height - NWDGUI.kFieldMarge * 2);
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDGUI.KTableHeaderSelect))
@@ -336,6 +341,12 @@ namespace NetWorkedData
         {
             EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
             sRect.width = sRect.width - NWDGUI.kScrollbar;
+
+            if (sRect.width < NWDGUI.KTableMinWidth)
+            {
+                sRect.width = NWDGUI.KTableMinWidth;
+            }
+
             Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge,
                  sRect.y + NWDGUI.kFieldMarge,
                  NWDGUI.KTableSearchWidth,
@@ -797,11 +808,11 @@ namespace NetWorkedData
         //    return rRect;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public Rect DrawRowInEditor(Vector2 sMouseClickPosition, EditorWindow sEditorWindow, bool sSelectAndClick, int sRow, float sZoom)
+        public Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
         {
-            Rect tRectRow = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom, sEditorWindow.position.width, NWDGUI.kTableRowHeight * sZoom);
-            Rect tRectRowLineWhite = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom +1, sEditorWindow.position.width, 1);
-            Rect tRectRowLineBLack = new Rect(0, NWDGUI.kTableRowHeight * (sRow + 1) * sZoom, sEditorWindow.position.width, 1);
+            Rect tRectRow = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom, sRectRow.width, NWDGUI.kTableRowHeight * sZoom);
+            Rect tRectRowLineWhite = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom +1, sRectRow.width, 1);
+            Rect tRectRowLineBLack = new Rect(0, NWDGUI.kTableRowHeight * (sRow + 1) * sZoom, sRectRow.width, 1);
             Rect tRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kTableRowHeight * sRow * sZoom, 0, NWDGUI.kTableRowHeight * sZoom);
             EditorGUI.DrawRect(tRectRow, tBoxColor);
             if (IsObjectInEdition(this) == true)
@@ -823,7 +834,7 @@ namespace NetWorkedData
                         Event.current.Use();
                     }
                 }
-                sEditorWindow.Focus();
+                //sEditorWindow.Focus();
             }
             string tStringReference = "[" + Reference + "]";
             // Draw toogle
@@ -843,7 +854,7 @@ namespace NetWorkedData
             DrawPreviewTexture2D(new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y + NWDGUI.kFieldMarge, NWDGUI.kTablePrefabWidth * sZoom - +NWDGUI.kFieldMarge * 2, NWDGUI.kTableRowHeight * sZoom - +NWDGUI.kFieldMarge * 2));
             tRect.x += NWDGUI.kTablePrefabWidth * sZoom;
             // Draw Informations
-            tRect.width = sEditorWindow.position.width
+            tRect.width = sRectRow.width
                 - NWDGUI.kFieldMarge
                 - NWDGUI.kScrollbar
                 - NWDGUI.kTableSelectWidth
