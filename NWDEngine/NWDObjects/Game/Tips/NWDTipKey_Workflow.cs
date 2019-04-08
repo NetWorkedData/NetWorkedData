@@ -189,6 +189,19 @@ namespace NetWorkedData
             return new List<Type> { typeof(NWDUserTip), typeof(NWDTipKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void Visualized()
+        {
+            NWDUserTip tUserTip = NWDUserTip.FindFirstByIndex(Reference);
+            if (tUserTip == null)
+            {
+                tUserTip = NWDUserTip.NewData();
+                tUserTip.Tip.SetObject(this);
+            }
+            tUserTip.AlreadyVisualize = true;
+            tUserTip.ViewingNumber++;
+            tUserTip.UpdateData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

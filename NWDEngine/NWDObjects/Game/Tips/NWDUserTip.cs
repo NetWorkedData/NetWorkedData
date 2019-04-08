@@ -40,7 +40,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public bool IsActive
+        public bool AlreadyVisualize
+        {
+            get; set;
+        }
+        public int ViewingNumber
         {
             get; set;
         }
