@@ -21,7 +21,7 @@ namespace NetWorkedData
         {
             if (BasisHelper().SaltValid == false)
             {
-                EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
             }
             EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_DESCRIPTION, EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(BasisHelper().ClassDescription, MessageType.Info);
