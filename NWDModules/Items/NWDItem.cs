@@ -483,7 +483,7 @@ namespace NetWorkedData
 
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
 
-            NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
+            NWDUserOwnership tOwnership = NWDUserOwnership.FindFisrtByItem(this);
 
 
             if (tOwnership != null)

@@ -140,7 +140,7 @@ namespace NetWorkedData
 
 				if (NWDUserOwnership.OwnershipForItemExists(tNWDItem))
 				{
-					if (NWDUserOwnership.OwnershipForItem(tNWDItem).Quantity < tItemQte)
+					if (NWDUserOwnership.FindFisrtByItem(tNWDItem).Quantity < tItemQte)
 					{
 						// User don't have enough item
 						rCanBuy = false;
