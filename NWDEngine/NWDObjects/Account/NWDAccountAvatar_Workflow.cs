@@ -31,7 +31,7 @@ namespace NetWorkedData
         /// <summary>
         /// Get Account NWDItem Avatar
         /// </summary>
-        public static NWDItem GetNWDItemAvatar()
+        public static NWDItem GetItemAvatar()
         {
             NWDItem rItem = null;
             NWDAccountAvatar[] tAvatars = FindDatas();
@@ -59,7 +59,7 @@ namespace NetWorkedData
         /// <summary>
         /// Get Account NWDItem Avatar
         /// </summary>
-        public NWDItem GetNWDItem()
+        public NWDItem GetItem()
         {
             return RenderItem.GetObject();
         }

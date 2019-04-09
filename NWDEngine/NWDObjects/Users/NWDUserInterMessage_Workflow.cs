@@ -180,12 +180,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname PublisherNickname()
         {
-            return NWDUserNickname.GetFirstData(Sender.GetReference());
+            return NWDUserNickname.GetFirstData(Sender.GetReference(), null);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname ReceiverNickname()
         {
-            return NWDUserNickname.GetFirstData(Receiver.GetReference());
+            return NWDUserNickname.GetFirstData(Receiver.GetReference(), null);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
