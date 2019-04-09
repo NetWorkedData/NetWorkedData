@@ -1285,7 +1285,7 @@ namespace NetWorkedData
             {
                 if (string.IsNullOrEmpty(sAccountReference))
                 {
-                    sAccountReference = NWDAccount.GetCurrentAccountReference();
+                    sAccountReference = NWDAccount.CurrentReference();
                 }
                 if (BasisHelper().DatasByReference != null)
                 {
@@ -1343,7 +1343,7 @@ namespace NetWorkedData
                     // autofill sAccountReference if necessary
                     if (string.IsNullOrEmpty(sAccountReference))
                     {
-                        sAccountReference = NWDAccount.GetCurrentAccountReference();
+                        sAccountReference = NWDAccount.CurrentReference();
                     }
                     //Debug.Log("chercher les data pour " + sAccountReference + " ");
                 }
@@ -1351,7 +1351,7 @@ namespace NetWorkedData
                 {
                     if (sGameSave == null)
                     {
-                        sGameSave = NWDGameSave.CurrentForAccount(sAccountReference);
+                        sGameSave = NWDGameSave.CurrentByAccount(sAccountReference);
                     }
                     //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
                 }
@@ -1472,7 +1472,7 @@ namespace NetWorkedData
             return rList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K FindFirstDatasByInternalKey(
+        public static K FindFirstDataByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
                                          NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
@@ -1515,7 +1515,7 @@ namespace NetWorkedData
                 // autofill sAccountReference if necessary
                 if (string.IsNullOrEmpty(sAccountReference))
                 {
-                    sAccountReference = NWDAccount.GetCurrentAccountReference();
+                    sAccountReference = NWDAccount.CurrentReference();
                 }
                 //Debug.Log("chercher les data pour " + sAccountReference + " ");
             }
@@ -1523,7 +1523,7 @@ namespace NetWorkedData
             {
                 if (sGameSave == null)
                 {
-                    sGameSave = NWDGameSave.CurrentForAccount(sAccountReference);
+                    sGameSave = NWDGameSave.CurrentByAccount(sAccountReference);
                 }
                 //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
             }
@@ -1532,7 +1532,7 @@ namespace NetWorkedData
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
                 //Debug.Log(" must create object !");
-                if (sAccountReference == null || sAccountReference == NWDAccount.GetCurrentAccountReference())
+                if (sAccountReference == null || sAccountReference == NWDAccount.CurrentReference())
                 {
                     if (sGameSave == NWDGameSave.Current())
                     {
@@ -1555,13 +1555,13 @@ namespace NetWorkedData
             return rArray;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_LoadReindexAll)]
-        public static void LoadReindexAll()
+        [NWDAliasMethod(NWDConstants.M_IndexAll)]
+        public static void IndexAll()
         {
             NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
             foreach (NWDTypeClass tObject in tTypeInfos.Datas)
             {
-                tObject.ReIndex();
+                tObject.Index();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1662,17 +1662,17 @@ namespace NetWorkedData
             return TestIntegrity();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override bool TrashState()
-        {
-            if (XX > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public override bool TrashState()
+        //{
+        //    if (XX > 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override void TrashAction()
         {
@@ -1685,15 +1685,15 @@ namespace NetWorkedData
             UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override bool EnableState()
-        {
-            return AC;
-        }
+        //public override bool EnableState()
+        //{
+        //    return AC;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public override bool ReachableState()
-        {
-            return IsReacheableByAccount();
-        }
+        //public override bool ReachableState()
+        //{
+        //    return IsReacheableByAccount();
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------

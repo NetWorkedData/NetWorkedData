@@ -15,6 +15,43 @@ namespace NetWorkedData
     public partial class NWDUserNewsRead : NWDBasis<NWDUserNewsRead>
     {
         //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDNews, NWDUserNewsRead> kAchievementKeyIndex = new NWDIndex<NWDNews, NWDUserNewsRead>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = News.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kAchievementKeyIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kAchievementKeyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserNewsRead FindFisrtByNews(NWDNews sKey, bool sOrCreate = true)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserNewsRead rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.News.SetObject(sKey);
+                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+
+        /*
+        //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserNewsRead>> kIndex = new Dictionary<string, List<NWDUserNewsRead>>();
         private List<NWDUserNewsRead> kIndexList;
@@ -145,6 +182,7 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
+        */
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

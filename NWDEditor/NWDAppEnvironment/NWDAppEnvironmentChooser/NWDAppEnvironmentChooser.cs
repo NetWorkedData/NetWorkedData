@@ -146,7 +146,12 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-            NWDAccount tAccount = NWDAccount.CurrentAccount();
+            NWDAccount tAccount = null;
+            string tAccountReference = NWDAccount.CurrentReference();
+            if (NWDAccount.BasisHelper().DatasByReference.ContainsKey(tAccountReference))
+            {
+                tAccount = NWDAccount.BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
+            }
             if (tAccount != null)
             {
                 NWDGUILayout.SubSection("Account");
@@ -166,9 +171,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Account informations");
                 string tAccountInfosReference = "?";
-                if (NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null) != null)
+                if (NWDAccountInfos.GetFirstData(NWDAccount.CurrentReference(), null) != null)
                 {
-                    NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
+                    NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData(NWDAccount.CurrentReference(), null);
                     tAccountInfosReference = tAccountInfos.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, tAccountInfosReference);
 
@@ -183,9 +188,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Gamse save informations");
                 string tGameSaveReference = "?";
-                if (NWDGameSave.CurrentForAccount(tAccount.Reference) != null)
+                if (NWDGameSave.CurrentByAccount(tAccount.Reference) != null)
                 {
-                    NWDGameSave tGameSave = NWDGameSave.CurrentForAccount(tAccount.Reference);
+                    NWDGameSave tGameSave = NWDGameSave.CurrentByAccount(tAccount.Reference);
                     tGameSaveReference = tGameSave.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
                     if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))

@@ -44,12 +44,12 @@ namespace NetWorkedData
             {
                 case NWDPreferencesDomain.AccountPreference:
                     {
-                        NWDAccountPreference.PreferencesForKey(Reference).AddEnter(sValue);
+                        NWDAccountPreference.FindFisrtByPreferenceKey(this).AddEnter(sValue);
                     }
                     break;
                 case NWDPreferencesDomain.UserPreference:
                     {
-                        NWDUserPreference.PreferencesForKey(Reference).AddEnter(sValue);
+                        NWDUserPreference.FindFisrtByPreferenceKey(this).AddEnter(sValue);
                     }
                     break;
                 case NWDPreferencesDomain.LocalPreference:
@@ -72,12 +72,12 @@ namespace NetWorkedData
             {
                 case NWDPreferencesDomain.AccountPreference:
                     {
-                        rReturn = NWDAccountPreference.PreferencesForKey(Reference).GetEnter();
+                        rReturn = NWDAccountPreference.FindFisrtByPreferenceKey(this).GetEnter();
                     }
                     break;
                 case NWDPreferencesDomain.UserPreference:
                     {
-                        rReturn =  NWDUserPreference.PreferencesForKey(Reference).GetEnter();
+                        rReturn =  NWDUserPreference.FindFisrtByPreferenceKey(this).GetEnter();
                     }
                     break;
                 case NWDPreferencesDomain.LocalPreference:

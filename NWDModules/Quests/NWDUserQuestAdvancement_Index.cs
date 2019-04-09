@@ -21,6 +21,8 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserQuestAdvancement : NWDBasis<NWDUserQuestAdvancement>
     {
+
+        /*
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserQuestAdvancement>> kIndex = new Dictionary<string, List<NWDUserQuestAdvancement>>();
@@ -148,6 +150,7 @@ namespace NetWorkedData
             }
             return rObject;
         }
+        */
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

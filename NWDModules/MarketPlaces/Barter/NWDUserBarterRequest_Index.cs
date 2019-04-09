@@ -22,8 +22,6 @@ namespace NetWorkedData
         [NWDIndexInsert]
         public void InsertInBarterPlaceIndex()
         {
-            // Remove from the actual indexation
-            kBarterPlaceIndex.RemoveFromIndex(this);
             // Re-add to the actual indexation ?
             if (IsUsable())
             {

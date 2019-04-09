@@ -95,12 +95,12 @@ namespace NetWorkedData
             {
                 case NWDGameDomain.Account:
                     {
-                        NWDAccountStatistic.UserStatForKey(Reference).AddEnter(sValue);
+                        NWDAccountStatistic.FindFisrtByStatistic(this).AddEnter(sValue);
                     }
                     break;
                 case NWDGameDomain.GameSave:
                     {
-                        NWDUserStatistic.UserStatForKey(Reference).AddEnter(sValue);
+                        NWDUserStatistic.FindFisrtByStatistic(this).AddEnter(sValue);
                     }
                     break;
             }
@@ -113,12 +113,12 @@ namespace NetWorkedData
             {
                 case NWDGameDomain.Account:
                     {
-                        rReturn = NWDAccountStatistic.UserStatForKey(Reference).AddEnterForParent(sValue, this);
+                        rReturn = NWDAccountStatistic.FindFisrtByStatistic(this).AddEnterForParent(sValue, this);
                     }
                     break;
                 case NWDGameDomain.GameSave:
                     {
-                        rReturn = NWDUserStatistic.UserStatForKey(Reference).AddEnterForParent(sValue, this);
+                        rReturn = NWDUserStatistic.FindFisrtByStatistic(this).AddEnterForParent(sValue, this);
                     }
                     break;
             }
@@ -132,12 +132,12 @@ namespace NetWorkedData
             {
                 case NWDGameDomain.Account:
                     {
-                        rReturn = NWDAccountStatistic.UserStatForKey(Reference).Counter;
+                        rReturn = NWDAccountStatistic.FindFisrtByStatistic(this).Counter;
                     }
                     break;
                 case NWDGameDomain.GameSave:
                     {
-                        rReturn = NWDUserStatistic.UserStatForKey(Reference).Counter;
+                        rReturn = NWDUserStatistic.FindFisrtByStatistic(this).Counter;
                     }
                     break;
             }

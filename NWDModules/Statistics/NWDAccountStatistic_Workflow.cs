@@ -85,7 +85,7 @@ namespace NetWorkedData
             {
                 Average = 0.0F;
             }
-            UpdateData(true, kWritingMode);
+            UpdateData(true);
             return Counter;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            UpdateData(true, kWritingMode);
+            UpdateData(true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddEnter(float sValue)
@@ -138,7 +138,7 @@ namespace NetWorkedData
             {
                 tStatKeyChild.AddEnterForParent(sValue);
             }
-            UpdateData(true, kWritingMode);
+            UpdateData(true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string TotalStylized()

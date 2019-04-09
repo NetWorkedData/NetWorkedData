@@ -106,7 +106,7 @@ namespace NetWorkedData
             NWDUserInterMessage[] tMessages = FindDatas();
             foreach (NWDUserInterMessage tMessage in tMessages)
             {
-                if (tMessage.Sender.GetReference() == NWDAccount.GetCurrentAccountReference())
+                if (tMessage.Sender.GetReference() == NWDAccount.CurrentReference())
                 {
                     rList.Add(tMessage);
                 }
@@ -121,7 +121,7 @@ namespace NetWorkedData
             NWDUserInterMessage[] tMessages = FindDatas();
             foreach (NWDUserInterMessage tMessage in tMessages)
             {
-                if (tMessage.Receiver.GetReference() == NWDAccount.GetCurrentAccountReference())
+                if (tMessage.Receiver.GetReference() == NWDAccount.CurrentReference())
                 {
                     rList.Add(tMessage);
                 }
@@ -190,12 +190,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
         {
-            return NWDUserAvatar.GetFirstData(Sender.GetReference(),NWDGameSave.CurrentForAccount(Sender.GetReference()));
+            return NWDUserAvatar.GetFirstData(Sender.GetReference(),NWDGameSave.CurrentByAccount(Sender.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar ReceiverAvatar()
         {
-            return NWDUserAvatar.GetFirstData(Receiver.GetReference(), NWDGameSave.CurrentForAccount(Receiver.GetReference()));
+            return NWDUserAvatar.GetFirstData(Receiver.GetReference(), NWDGameSave.CurrentByAccount(Receiver.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage = null, bool sBold = true)

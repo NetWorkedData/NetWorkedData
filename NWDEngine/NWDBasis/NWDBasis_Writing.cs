@@ -133,7 +133,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                tAtt.Value = NWDAccount.GetCurrentAccountReference();
+                tAtt.Value = NWDAccount.CurrentReference();
                 tPropInfo.SetValue(this, tAtt, null);
             }
             if (BasisHelper().ClassGameSaveDependent == true)
@@ -679,10 +679,12 @@ namespace NetWorkedData
                 this.AddonUpdatedMe(); // call override method
             }
             //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
-            this.ReIndex();
             //UpdateObjectInListOfEdition(this);
 
+            this.ReIndex();
+
             BasisHelper().UpdateData(this);
+
 
             bool tDoUpdate = true;
             switch (sWritingMode)

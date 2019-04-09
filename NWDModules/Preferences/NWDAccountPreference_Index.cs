@@ -15,6 +15,46 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
     {
+
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDPreferenceKey, NWDAccountPreference> kAchievementKeyIndex = new NWDIndex<NWDPreferenceKey, NWDAccountPreference>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = PreferenceKey.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
+                kAchievementKeyIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kAchievementKeyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountPreference FindFisrtByPreferenceKey(NWDPreferenceKey sKey, bool sOrCreate = true)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
+            NWDAccountPreference rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.PreferenceKey.SetObject(sKey);
+                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                rReturn.Value.SetValue(sKey.Default.Value);
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+
+
+        /*
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDAccountPreference>> kIndex = new Dictionary<string, List<NWDAccountPreference>>();
@@ -183,6 +223,7 @@ namespace NetWorkedData
             
             return rReturn;
         }
+        */
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

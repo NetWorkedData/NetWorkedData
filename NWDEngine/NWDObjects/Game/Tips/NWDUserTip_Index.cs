@@ -18,8 +18,40 @@ namespace NetWorkedData
     public partial class NWDUserTip : NWDBasis<NWDUserTip>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // TODO : Change for new index
         static protected NWDIndex<NWDTipKey, NWDUserTip> kTipKeyIndex = new NWDIndex<NWDTipKey, NWDUserTip>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInTipKeyIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = Tip.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kTipKeyIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromTipKeyIndex()
+        {
+            // Remove from the actual indexation
+            kTipKeyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserTip FindFisrtByTipKey(NWDTipKey sKey, bool sOrCreate = false)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserTip rReturn = kTipKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.Tip.SetObject(sKey);
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+        /*
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserTip>> kIndex = new Dictionary<string, List<NWDUserTip>>();
@@ -148,6 +180,7 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
+        */
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -15,6 +15,45 @@ using UnityEngine;
 namespace NetWorkedData
 {
     /*
+
+    //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDLevel, NWDExample> kLevelIndex = new NWDIndex<NWDLevel, NWDExample>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = Level.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kLevelIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kLevelIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDExample FindFisrtByLevel(NWDLevel sKey, bool sOrCreate = false)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserLevelScore rReturn = kLevelIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.Level.SetObject(sKey);
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+
+
+
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Example with fictive class NWDSomething
     // Connect by property Something

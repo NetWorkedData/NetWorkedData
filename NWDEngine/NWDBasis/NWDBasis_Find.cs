@@ -128,7 +128,7 @@ namespace NetWorkedData
                 // is account dependency : get all value and test
                 if (sAccountReference == null || sAccountReference == "") // TODO : replace by  string.IsNullOrEmpty
                 {
-                    sAccountReference = NWDAccount.GetCurrentAccountReference();
+                    sAccountReference = NWDAccount.CurrentReference();
                 }
                 foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
                 {

@@ -16,6 +16,47 @@ namespace NetWorkedData
     {
 
         //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDStatisticKey, NWDUserStatistic> kStatisticKeyIndex = new NWDIndex<NWDStatisticKey, NWDUserStatistic>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = StatKey.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kStatisticKeyIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kStatisticKeyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStatistic FindFisrtByStatistic(NWDStatisticKey sKey, bool sOrCreate = true)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserStatistic rReturn = kStatisticKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.StatKey.SetObject(sKey);
+                // init the stat with default value
+                rReturn.Total = sKey.InitTotal;
+                rReturn.Counter = sKey.InitCounter;
+                rReturn.Last = sKey.InitLast;
+                rReturn.Average = sKey.InitAverage;
+                rReturn.Max = sKey.InitMax;
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+        /*
+        //-------------------------------------------------------------------------------------------------------------
         // TODO : Change for new index
         static protected NWDIndex<NWDStatisticKey, NWDUserStatistic> kStatisticKeyIndex = new NWDIndex<NWDStatisticKey, NWDUserStatistic>();
         //-------------------------------------------------------------------------------------------------------------
@@ -180,6 +221,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
             return rReturn;
         }
+        */
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

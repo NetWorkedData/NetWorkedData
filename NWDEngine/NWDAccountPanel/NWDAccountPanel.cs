@@ -336,7 +336,8 @@ namespace NetWorkedData
         // Update is called once per frame
         void Update()
         {
-            NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
+            //NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
+            NWDAccountInfos tActiveUser = NWDAccountInfos.Current();
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
             TextEnvironment.text = tApp.Environment;
@@ -407,7 +408,7 @@ namespace NetWorkedData
             int tCpt = 0;
 
             // Init all options
-            AccountList = NWDAccount.GetTestsAccounts();
+            AccountList = NWDAccount.FindAccountsForTest();
             foreach (NWDAccounTest acc in AccountList)
             {
                 tOptions.Add(acc.InternalKey);

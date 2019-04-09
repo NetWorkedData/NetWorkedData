@@ -25,8 +25,6 @@ namespace NetWorkedData
         [NWDIndexInsert]
         public void InsertInCategoryIndex()
         {
-            // Remove from the actual indexation
-            kCategoryIndex.RemoveFromIndex(this);
             // Re-add to the actual indexation ?
             if (IsUsable())
                 {
@@ -65,8 +63,6 @@ namespace NetWorkedData
         [NWDIndexInsert]
         public void InsertInFamilyIndex()
         {
-            // Remove from the actual indexation
-            kFamilyIndex.RemoveFromIndex(this);
             // Re-add to the actual indexation ?
             if (IsUsable())
             {

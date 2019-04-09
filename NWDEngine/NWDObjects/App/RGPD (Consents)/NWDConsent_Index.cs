@@ -1,0 +1,50 @@
+//=====================================================================================================================
+//
+// ideMobi copyright 2019
+// All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
+//
+//=====================================================================================================================
+using System.Collections.Generic;
+using BasicToolBox;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+//=====================================================================================================================
+namespace NetWorkedData
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDConsent : NWDBasis<NWDConsent>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDConsent[] FindLastVersion()
+        {
+            List<NWDConsent> rList = new List<NWDConsent>();
+            Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>();
+            NWDConsent[] tConsentList = NWDConsent.FindDatas();
+            foreach (NWDConsent tConsent in tConsentList)
+            {
+                if (tDico.ContainsKey(tConsent.KeyOfConsent) == false)
+                {
+                    tDico.Add(tConsent.KeyOfConsent, tConsent);
+                }
+                else
+                {
+                    if (tDico[tConsent.KeyOfConsent].Version.ToInt() < tConsent.Version.ToInt())
+                    {
+                        tDico[tConsent.KeyOfConsent] = tConsent;
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, NWDConsent> tConsentKeyValue in tDico)
+            {
+                rList.Add(tConsentKeyValue.Value);
+            }
+            return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+//=====================================================================================================================

@@ -15,6 +15,48 @@ namespace NetWorkedData
     public partial class NWDAccountStatistic : NWDBasis<NWDAccountStatistic>
     {
         //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDStatisticKey, NWDAccountStatistic> kStatisticKeyIndex = new NWDIndex<NWDStatisticKey, NWDAccountStatistic>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = StatKey.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
+                kStatisticKeyIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kStatisticKeyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountStatistic FindFisrtByStatistic(NWDStatisticKey sKey, bool sOrCreate = true)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
+            NWDAccountStatistic rReturn = kStatisticKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.StatKey.SetObject(sKey);
+                // init the stat with default value
+                rReturn.Total = sKey.InitTotal;
+                rReturn.Counter = sKey.InitCounter;
+                rReturn.Last = sKey.InitLast;
+                rReturn.Average = sKey.InitAverage;
+                rReturn.Max = sKey.InitMax;
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+        /*
+       
+        //-------------------------------------------------------------------------------------------------------------
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDAccountStatistic>> kIndex = new Dictionary<string, List<NWDAccountStatistic>>();
         private List<NWDAccountStatistic> kIndexList;
@@ -172,7 +214,7 @@ namespace NetWorkedData
             }
             //BTBBenchmark.Finish();
             return rReturn;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

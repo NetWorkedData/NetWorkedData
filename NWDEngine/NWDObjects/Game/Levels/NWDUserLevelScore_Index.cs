@@ -15,8 +15,41 @@ namespace NetWorkedData
     public partial class NWDUserLevelScore : NWDBasis<NWDUserLevelScore>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // TODO : Change for new index
         static protected NWDIndex<NWDLevel, NWDUserLevelScore> kLevelIndex = new NWDIndex<NWDLevel, NWDUserLevelScore>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = Level.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kLevelIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kLevelIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserLevelScore FindFisrtByLevel(NWDLevel sKey, bool sOrCreate = false)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserLevelScore rReturn = kLevelIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.Level.SetObject(sKey);
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+
+        /*
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserLevelScore>> kIndex = new Dictionary<string, List<NWDUserLevelScore>>();
@@ -143,7 +176,7 @@ namespace NetWorkedData
                 }
             }
             return rObject;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -37,38 +37,12 @@ namespace NetWorkedData
             ExpectedState = BTBSwitchState.Unknow;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDConsent[] GetAllLastVersionObjects()
-        {
-            List<NWDConsent> rList = new List<NWDConsent>();
-            Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>();
-            NWDConsent[] tConsentList = NWDConsent.FindDatas();
-            foreach (NWDConsent tConsent in tConsentList)
-            {
-                if (tDico.ContainsKey(tConsent.KeyOfConsent) == false)
-                {
-                    tDico.Add(tConsent.KeyOfConsent, tConsent);
-                }
-                else
-                {
-                    if (tDico[tConsent.KeyOfConsent].Version.ToInt() < tConsent.Version.ToInt())
-                    {
-                        tDico[tConsent.KeyOfConsent] = tConsent;
-                    }
-                }
-            }
-            foreach (KeyValuePair<string, NWDConsent> tConsentKeyValue in tDico)
-            {
-                rList.Add(tConsentKeyValue.Value);
-            }
-            return rList.ToArray();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static bool ConsentsAreValid(NWDConsent[] sConsentsArray)
         {
             bool rReturn = true;
             foreach (NWDConsent tConsent in sConsentsArray)
             {
-                NWDAccountConsent tUserConsent = NWDAccountConsent.ForConsent(tConsent, false);
+                NWDAccountConsent tUserConsent = NWDAccountConsent.FindFisrtByConsent(tConsent, false);
                 if (tUserConsent == null)
                 {
                     rReturn = false;
@@ -88,13 +62,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConsentsAreAllValid()
         {
-            bool rReturn = ConsentsAreValid(GetAllLastVersionObjects());
+            bool rReturn = ConsentsAreValid(FindLastVersion());
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConsentsCheck()
         {
-            bool rReturn = ConsentsAreValid(GetAllLastVersionObjects());
+            bool rReturn = ConsentsAreValid(FindLastVersion());
             if (rReturn == false)
             {
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDConsent.K_APPCONSENTS_NEED_VALIDATION);
@@ -102,15 +76,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountConsent GetUserConsent(bool sCreateIfNull = false)
-        {
-            return NWDAccountConsent.ForConsent(this, sCreateIfNull);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public BTBSwitchState GetUserAuthorization(bool sCreateIfNull = false)
         {
             BTBSwitchState rReturn = BTBSwitchState.Unknow;
-            NWDAccountConsent tUserConsent = NWDAccountConsent.ForConsent(this, sCreateIfNull);
+            NWDAccountConsent tUserConsent = NWDAccountConsent.FindFisrtByConsent(this, sCreateIfNull);
             if (tUserConsent == null)
             {
                 rReturn = BTBSwitchState.Unknow;
@@ -140,7 +109,7 @@ namespace NetWorkedData
                         sDefault = sText;
                     }
 
-                    NWDConsent tObject = FindFirstDatasByInternalKey(sText, true) as NWDConsent;
+                    NWDConsent tObject = FindFirstDataByInternalKey(sText, true) as NWDConsent;
                     if (tObject != null)
                     {
                         // Title

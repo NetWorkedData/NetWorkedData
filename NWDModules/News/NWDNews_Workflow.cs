@@ -125,7 +125,7 @@ namespace NetWorkedData
                 {
                     if (tNew.NewsType != NWDNewsType.Programmatically)
                     {
-                        NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
+                        NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(tNew);
                         if (tRead != null)
                         {
                             tRead.IsInstalled = false;
@@ -143,7 +143,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CancelNotification()
         {
-            NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(this);
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
@@ -180,7 +180,7 @@ namespace NetWorkedData
             #endif
 
             // user satut for this message 
-            NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(this);
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
@@ -253,7 +253,7 @@ namespace NetWorkedData
             #endif
 
             // user satut for this message 
-            NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(this);
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();

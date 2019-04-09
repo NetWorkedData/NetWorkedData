@@ -23,8 +23,8 @@ namespace NetWorkedData
     public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);
-        public SyncNicknameBlock SyncNicknameBlockDelegate;
+        //public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);
+        //public SyncNicknameBlock SyncNicknameBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountNickname()
         {
@@ -79,64 +79,54 @@ namespace NetWorkedData
 
             return rText;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountNickname NewNickname(string name)
-        {
-            NWDAccountNickname rNickname = NewData();
-            rNickname.InternalKey = name;
-            rNickname.InternalDescription = string.Empty;
-            rNickname.Nickname = name;
-            rNickname.UpdateData();
-            return rNickname;
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDAccountNickname NewNickname(string name)
+        //{
+        //    NWDAccountNickname rNickname = NewData();
+        //    rNickname.InternalKey = name;
+        //    rNickname.InternalDescription = string.Empty;
+        //    rNickname.Nickname = name;
+        //    rNickname.UpdateData();
+        //    return rNickname;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static string GetNickname()
         {
-            string rNickname = string.Empty;
-            NWDAccountNickname[] tNickname = FindDatas();
-            if (tNickname.Length > 0)
-            {
-                rNickname = tNickname[0].Nickname;
-            }
-            return rNickname;
+            NWDAccountNickname tNickname = NWDAccountNickname.Current();
+            return tNickname.Nickname;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string GetUniqueNickname()
         {
-            string rUniqueNickname = string.Empty;
-            NWDAccountNickname[] tNickname = FindDatas();
-            if (tNickname.Length > 0)
-            {
-                rUniqueNickname = tNickname[0].UniqueNickname;
-            }
-            return rUniqueNickname;
+            NWDAccountNickname tNickname = NWDAccountNickname.Current();
+            return tNickname.UniqueNickname;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SyncNickname()
-        {
-            // Sync with the server
-            List<Type> tList = new List<Type>
-            {
-                typeof(NWDAccountNickname)
-            };
+        //public void SyncNickname()
+        //{
+        //    // Sync with the server
+        //    List<Type> tList = new List<Type>
+        //    {
+        //        typeof(NWDAccountNickname)
+        //    };
 
-            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                if (SyncNicknameBlockDelegate != null)
-                {
-                    SyncNicknameBlockDelegate(false);
-                }
-            };
-            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
-            {
-                NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                if (SyncNicknameBlockDelegate != null)
-                {
-                    SyncNicknameBlockDelegate(true, tInfos);
-                }
-            };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
-        }
+        //    BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+        //    {
+        //        if (SyncNicknameBlockDelegate != null)
+        //        {
+        //            SyncNicknameBlockDelegate(false);
+        //        }
+        //    };
+        //    BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+        //    {
+        //        NWDOperationResult tInfos = bInfos as NWDOperationResult;
+        //        if (SyncNicknameBlockDelegate != null)
+        //        {
+        //            SyncNicknameBlockDelegate(true, tInfos);
+        //        }
+        //    };
+        //    NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
+        //}
         //-------------------------------------------------------------------------------------------------------------
 
     }

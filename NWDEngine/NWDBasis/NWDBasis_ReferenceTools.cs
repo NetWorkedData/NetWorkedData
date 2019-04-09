@@ -158,7 +158,7 @@ namespace NetWorkedData
         {
             if (AccountDependent() == true)
             {
-                return NewReferenceFromUUID(NWDAccount.GetCurrentAccountReference());
+                return NewReferenceFromUUID(NWDAccount.CurrentReference());
             }
             else
             {

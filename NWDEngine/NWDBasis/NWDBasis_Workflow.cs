@@ -60,7 +60,7 @@ namespace NetWorkedData
         /// <returns>The datas.</returns>
         public static K[] FindDatas()
         {
-            return FindDatas(NWDAccount.GetCurrentAccountReference(), NWDGameSave.Current());
+            return FindDatas(NWDAccount.CurrentReference(), NWDGameSave.Current());
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllObjects(string sAccountReference = null)

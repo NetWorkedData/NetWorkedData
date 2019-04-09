@@ -40,7 +40,8 @@ namespace NetWorkedData
             rGameSave.Name = "GameSave " + DateTime.Today.ToShortDateString();
             rGameSave.Tag = NWDBasisTag.TagUserCreated;
             rGameSave.IsCurrent = true;
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.Current();
             if (tAccountInfos != null)
             {
                 tAccountInfos.CurrentGameSave.SetReference(rGameSave.Reference);
@@ -50,80 +51,18 @@ namespace NetWorkedData
             return rGameSave;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave Current()
-        {
-            NWDGameSave rParty = null;
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-            if (tAccountInfos != null)
-            {
-                if (tAccountInfos.CurrentGameSave != null)
-                {
-                    NWDGameSave tParty = NWDGameSave.FindDataByReference(tAccountInfos.CurrentGameSave.GetReference());
-                    if (tParty != null)
-                    {
-                        rParty = tParty;
-                    }
-                }
-                else
-                {
-                }
-            }
-            if (rParty == null)
-            {
-                NWDGameSave[] tParties = NWDGameSave.FindDatas(NWDAccount.GetCurrentAccountReference(), null);
-                foreach (NWDGameSave tPart in tParties)
-                {
-                    if (tPart != null)
-                    {
-                        rParty = tPart;
-                        if (tAccountInfos != null)
-                        {
-                            if (tAccountInfos.CurrentGameSave == null)
-                            {
-                                tAccountInfos.CurrentGameSave = new NWDReferenceFreeType<NWDGameSave>();
-                            }
-                            tAccountInfos.CurrentGameSave.SetReference(rParty.Reference);
-                            tAccountInfos.SaveData();
-                        }
-                        break;
-                    }
-                }
-            }
-            if (rParty == null)
-            {
-                rParty = NewCurrent();
-            }
-            return rParty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave CurrentForAccount(string sAccountReference)
-        {
-            NWDGameSave rParty = null;
-            foreach (NWDGameSave tParty in BasisHelper().Datas)
-            {
-                if (tParty.Account.GetReference() == sAccountReference)
-                {
-                    if (tParty.IsCurrent == true && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
-                    {
-                        rParty = tParty;
-                        break;
-                    }
-                }
-            }
-            return rParty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void SetCurrent()
         {
             foreach (NWDGameSave tParty in BasisHelper().Datas)
             {
-                if (tParty.Account.GetReference() == NWDAccount.GetCurrentAccountReference() && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
+                if (tParty.Account.GetReference() == NWDAccount.CurrentReference() && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
                 {
                     tParty.IsCurrent = false;
                     tParty.SaveDataIfModified();
                 }
             }
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.Current();
             if (tAccountInfos != null)
             {
                 if (tAccountInfos.CurrentGameSave == null)

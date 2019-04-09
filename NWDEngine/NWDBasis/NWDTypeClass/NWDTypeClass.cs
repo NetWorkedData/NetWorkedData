@@ -179,8 +179,14 @@ namespace NetWorkedData
         //    return string.Empty;
         //}
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void Index()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void ReIndex()
         {
+            Desindex();
+            Index();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void Desindex()
@@ -197,10 +203,10 @@ namespace NetWorkedData
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool TrashState()
-        {
-            return false;
-        }
+        //public virtual bool TrashState()
+        //{
+        //    return false;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void TrashAction()
         {
@@ -210,24 +216,24 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool EnableState()
-        {
-            return true;
-        }
+        //public virtual bool EnableState()
+        //{
+        //    return true;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool ReachableState()
-        {
-            return true;
-        }
+        //public virtual bool ReachableState()
+        //{
+        //    return true;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool InGameSaveState()
-        {
-            return true;
-        }
+        //public virtual bool InGameSaveState()
+        //{
+        //    return true;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void SetCurrentGameSave()
-        {
-        }
+        //public virtual void SetCurrentGameSave()
+        //{
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public string DatasMenu()
         {

@@ -792,7 +792,7 @@ namespace NetWorkedData
                                                                  // delete all datas for this user
                 foreach (NWDBasis<K> tObject in BasisHelper().Datas)
                 {
-                    if (tObject.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
+                    if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))
                     {
                         tObject.DeleteData();
                     }

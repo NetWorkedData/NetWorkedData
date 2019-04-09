@@ -193,7 +193,7 @@ namespace NetWorkedData
                 case NWDStatut.DataAccountLoaded:
                     {
                         // Reload all Index
-                        NWDDataManager.SharedInstance().ReindexAllObjects();
+                        NWDDataManager.SharedInstance().IndexAllObjects();
                         State = NWDStatut.NetWorkedDataReady; // Sucesss!!!!!!
                     }
                     break;
