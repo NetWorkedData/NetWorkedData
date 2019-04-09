@@ -645,7 +645,7 @@ namespace NetWorkedData
                 }
             }
             AddonUpdatedMeFromWeb();
-            AddonIndexMe();
+            ReIndex();
         }
 
         //public string DynamiqueDataAssembly(bool sAsssemblyAsCSV = false)

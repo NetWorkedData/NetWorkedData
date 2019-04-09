@@ -22,16 +22,7 @@ namespace NetWorkedData
         static Dictionary<string, List<NWDUserGuildFinder>> kIndex = new Dictionary<string, List<NWDUserGuildFinder>>();
         private List<NWDUserGuildFinder> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (GuildPlace.GetReference() != null
@@ -91,6 +82,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

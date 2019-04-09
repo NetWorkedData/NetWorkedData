@@ -288,7 +288,7 @@ namespace NetWorkedData
 
                 GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
                 GUI.Label(CardReferenceRect, ReferenceString);
-                GUI.Label(CardInternalKeyRect, DataObject.InternalKeyValue());
+                GUI.Label(CardInternalKeyRect, DataObject.InternalKey);
 
                 // Draw informations box with the color of informations
                 Color tOldBackgroundColor = GUI.backgroundColor;

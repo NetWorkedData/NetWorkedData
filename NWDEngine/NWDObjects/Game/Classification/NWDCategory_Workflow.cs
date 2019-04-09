@@ -8,6 +8,7 @@
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -281,6 +282,24 @@ namespace NetWorkedData
         {
             UpdateCascade();
         }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            foreach (NWDItem tItem in NWDItem.FindByCategory(this))
+            {
+                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), tItem.InternalKey+" "+ tItem.Reference, NWDGUI.kLabelStyle);
+                tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            }
+            return tY;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

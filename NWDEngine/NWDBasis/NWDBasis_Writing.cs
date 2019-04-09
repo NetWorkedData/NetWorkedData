@@ -133,7 +133,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                tAtt.Value = NWDAccount.GetCurrentAccountReference();
+                tAtt.Value = NWDAccount.CurrentReference();
                 tPropInfo.SetValue(this, tAtt, null);
             }
             if (BasisHelper().ClassGameSaveDependent == true)
@@ -202,7 +202,7 @@ namespace NetWorkedData
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
                     rReturnObject.AddonDuplicateMe();
-                    rReturnObject.AddonIndexMe();
+                    rReturnObject.ReIndex();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }
                 else
@@ -678,10 +678,13 @@ namespace NetWorkedData
             {
                 this.AddonUpdatedMe(); // call override method
             }
-            this.AddonIndexMe();
+            //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
             //UpdateObjectInListOfEdition(this);
 
+            this.ReIndex();
+
             BasisHelper().UpdateData(this);
+
 
             bool tDoUpdate = true;
             switch (sWritingMode)
@@ -966,7 +969,7 @@ namespace NetWorkedData
                     WritingLockRemove();
                 }
                 this.AddonDeleteMe(); // call override method
-                this.AddonDesindexMe(); // call override method
+                this.Desindex(); // call override method
                 DeleteDataOperation();
                 BasisHelper().RemoveData(this);
                 //RemoveObjectInListOfEdition(this);
@@ -1066,7 +1069,11 @@ if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
 #else
             WebserviceVersionCheckMe();
 #endif
-            AddonIndexMe();
+            //foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+            //{
+            //    tMethod.Invoke(this, null);
+            //}
+            //AddonIndexMe();
             BasisHelper().AddData(this);
             //BTBBenchmark.Finish();
         }

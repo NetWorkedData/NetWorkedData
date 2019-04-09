@@ -69,6 +69,7 @@ namespace NetWorkedData
             {
                 Debug.Log("<b>"+ sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D TextureFromColor(Color sColor)

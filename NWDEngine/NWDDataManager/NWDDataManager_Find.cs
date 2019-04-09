@@ -145,6 +145,17 @@ namespace NetWorkedData
             }
             BTBBenchmark.Finish();
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void IndexAllObjects()
+        {
+            BTBBenchmark.Start();
+            foreach (Type tType in mTypeList)
+                {
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
+                }
+            BTBBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsEditor()
         {

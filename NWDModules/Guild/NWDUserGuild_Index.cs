@@ -20,16 +20,7 @@ namespace NetWorkedData
         static Dictionary<string, List<NWDUserGuild>> kIndex = new Dictionary<string, List<NWDUserGuild>>();
         private List<NWDUserGuild> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (GuildPlace.GetReference() != null
@@ -89,6 +80,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

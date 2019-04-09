@@ -25,34 +25,6 @@ namespace NetWorkedData
             //Debug.Log("NWDMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDMessage GetMessageWithCode(string sCode)
-        {
-            NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.FindDatas())
-            {
-                if (tObject.Code == sCode)
-                {
-                    rReturn = tObject;
-                    break;
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDMessage GetMessageWithDomainAndCode(string sDomain, string sCode)
-        {
-            NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.FindDatas())
-            {
-                if (tObject.Code == sCode && tObject.Domain == sDomain)
-                {
-                    rReturn = tObject;
-                    break;
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
             string rText = NWDLocalization.Enrichment(sText, sLanguage, sBold);

@@ -607,7 +607,7 @@ namespace NetWorkedData
             {
                 if (SQLiteConnectionAccountIsValid())
                 {
-                    Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+                    //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
                     SQLiteConnectionAccount.CreateTableByType(sType);
                 }
             }
@@ -615,7 +615,7 @@ namespace NetWorkedData
             {
                 if (SQLiteConnectionEditorIsValid())
                 {
-                    Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+                    //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
                     SQLiteConnectionEditor.CreateTableByType(sType);
                 }
             }

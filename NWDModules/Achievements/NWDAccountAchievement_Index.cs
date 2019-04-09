@@ -14,22 +14,51 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountAchievement : NWDBasis<NWDAccountAchievement>
-    {
+    { 
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDAchievementKey, NWDAccountAchievement> kAchievementKeyIndex = new NWDIndex<NWDAchievementKey, NWDAccountAchievement>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = Achievement.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
+                kAchievementKeyIndex.InsertInIndex(this, tKey);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
+        {
+            // Remove from the actual indexation
+            kAchievementKeyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountAchievement FindFisrtByAchievement(NWDAchievementKey sKey, bool sOrCreate = true)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
+            NWDAccountAchievement rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.Achievement.SetObject(sKey);
+                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+
+        /*
+
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDAccountAchievement>> kIndex = new Dictionary<string, List<NWDAccountAchievement>>();
         private List<NWDAccountAchievement> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (Achievement.GetReference() != null
@@ -89,6 +118,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)
@@ -150,6 +180,7 @@ namespace NetWorkedData
             }
             return rObject;
         }
+        */
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

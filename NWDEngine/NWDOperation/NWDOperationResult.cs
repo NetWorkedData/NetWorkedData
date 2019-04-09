@@ -178,7 +178,7 @@ namespace NetWorkedData
 
             if (isError)
             {
-                errorDesc = NWDError.GetErrorWithCode(errorCode) as NWDError;
+                errorDesc = NWDError.FindByCode(errorCode) as NWDError;
                 // Move to the good place
                 //if (errorDesc != null)
                 //{
@@ -191,7 +191,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetErrorCode(string sCode)
         {
-            errorDesc = NWDError.GetErrorWithCode(sCode) as NWDError;
+            errorDesc = NWDError.FindByCode(sCode) as NWDError;
             isError = true;
             errorCode = sCode;
         }

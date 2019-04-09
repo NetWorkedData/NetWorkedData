@@ -323,7 +323,7 @@ namespace NetWorkedData
                             //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
                             //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
                             //{
-                                foreach (NWDAccounTest tAccount in NWDAccount.GetTestsAccounts())
+                                foreach (NWDAccounTest tAccount in NWDAccount.FindAccountsForTest())
                                 {
                                     if (tAccount.Reference == tEnvironment.PlayerAccountReference)
                                     {

@@ -32,39 +32,40 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDAccountInfos kCurrent = null;
+        //private static NWDAccountInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos GetAccountInfosOrCreate()
-        {
-            if (kCurrent != null)
-            {
-                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
-                {
-                    kCurrent = null;
-                }
-            }
+        //public static NWDAccountInfos GetAccountInfosOrCreate()
+        //{
+        //    if (kCurrent != null)
+        //    {
+        //        if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
+        //        {
+        //            kCurrent = null;
+        //        }
+        //    }
 
-            if (kCurrent == null)
-            {
-                NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
-                if (tAccountInfos == null)
-                {
-                    NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                    tAccountInfos = NewData();
-                    tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                    tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
-                    tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
-                    tAccountInfos.SaveData();
-                }
-                kCurrent = tAccountInfos;
-            }
+        //    if (kCurrent == null)
+        //    {
+        //        NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.CurrentReference(), null);
+        //        if (tAccountInfos == null)
+        //        {
+        //            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        //            tAccountInfos = NewData();
+        //            tAccountInfos.Account.SetReference(NWDAccount.CurrentReference());
+        //            tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
+        //            tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
+        //            tAccountInfos.SaveData();
+        //        }
+        //        kCurrent = tAccountInfos;
+        //    }
 
-            return kCurrent;
-        }
+        //    return kCurrent;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
         {
-            NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
+            //NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
+            NWDAccountInfos tActiveAccount = Current();
             if (tActiveAccount != null)
             {
                 tActiveAccount.AccountType = tStatus;

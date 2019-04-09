@@ -67,18 +67,18 @@ namespace NetWorkedData
             {
                 Launched = true;
 
-                NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
+                //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
 #if UNITY_EDITOR
                 EditorApplication.quitting += Quit;
                 if (EditorApplication.isPlayingOrWillChangePlaymode == false)
                 {
-                    Debug.Log("EditorByPass = true");
+                    //Debug.Log("EditorByPass = true");
                     EditorByPass = true;
                     if (EditorPrefs.HasKey(K_PINCODE_KEY))
                     {
                         string tPincode = EditorPrefs.GetString(K_PINCODE_KEY);
-                        Debug.Log("and tPincode found with value = '" + tPincode + "'");
+                        //Debug.Log("and tPincode found with value = '" + tPincode + "'");
                     }
                 }
 #endif
@@ -103,8 +103,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void LaunchNext()
         {
-            Debug.Log("LaunchNext() with state = "+ State.ToString());
-            NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
+            //Debug.Log("LaunchNext() with state = "+ State.ToString());
+            //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
                 case NWDStatut.Error:
@@ -192,6 +192,8 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountLoaded:
                     {
+                        // Reload all Index
+                        NWDDataManager.SharedInstance().IndexAllObjects();
                         State = NWDStatut.NetWorkedDataReady; // Sucesss!!!!!!
                     }
                     break;

@@ -50,16 +50,17 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccount CurrentAccount()
-        {
-            NWDAccount rAccount = null;
-            string tAccountReference = GetCurrentAccountReference();
-            if (BasisHelper().DatasByReference.ContainsKey(tAccountReference))
-            {
-                rAccount = BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
-            }
-            return rAccount;
-        }
+        // TOO DANGEROUS FONCTION ...
+        //public static NWDAccount Current()
+        //{
+        //    NWDAccount rAccount = null;
+        //    string tAccountReference = CurrentReference();
+        //    if (BasisHelper().DatasByReference.ContainsKey(tAccountReference))
+        //    {
+        //        rAccount = BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
+        //    }
+        //    return rAccount;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonEdited(bool sNeedBeUpdate)
         {

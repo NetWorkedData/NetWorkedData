@@ -191,7 +191,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Visualized()
         {
-            NWDUserTip tUserTip = NWDUserTip.FindFirstByIndex(Reference);
+            NWDUserTip tUserTip = NWDUserTip.FindFisrtByTipKey(this);
             if (tUserTip == null)
             {
                 tUserTip = NWDUserTip.NewData();

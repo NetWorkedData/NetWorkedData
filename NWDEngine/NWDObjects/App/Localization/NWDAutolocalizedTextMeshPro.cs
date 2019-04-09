@@ -93,7 +93,7 @@ namespace NetWorkedData
                                         break;
                                     case NWDAutolocalizedTag.KeyInternal:
                                         {
-                                            tTextString = tLocalization.InternalKeyValue();
+                                            tTextString = tLocalization.InternalKey;
                                         }
                                         break;
                                 }
@@ -142,7 +142,7 @@ namespace NetWorkedData
                                         break;
                                     case NWDAutolocalizedTag.KeyInternal:
                                         {
-                                            tTextString = tLocalization.InternalKeyValue();
+                                            tTextString = tLocalization.InternalKey;
                                         }
                                         break;
                                 }

@@ -15,21 +15,51 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
     {
+
+
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
+        static protected NWDIndex<NWDPreferenceKey, NWDUserPreference> kAchievementKeyIndex = new NWDIndex<NWDPreferenceKey, NWDUserPreference>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
         {
-            InsertInIndex();
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                string tKey = PreferenceKey.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
+                kAchievementKeyIndex.InsertInIndex(this, tKey);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
         {
-            RemoveFromIndex();
+            // Remove from the actual indexation
+            kAchievementKeyIndex.RemoveFromIndex(this);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserPreference FindFisrtByPreferenceKey(NWDPreferenceKey sKey, bool sOrCreate = true)
+        {
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
+            NWDUserPreference rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
+            {
+                rReturn = NewData();
+                rReturn.PreferenceKey.SetObject(sKey);
+                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                rReturn.Value.SetValue(sKey.Default.Value);
+                rReturn.UpdateData();
+            }
+            return rReturn;
+        }
+        /*
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDUserPreference>> kIndex = new Dictionary<string, List<NWDUserPreference>>();
         private List<NWDUserPreference> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
@@ -97,6 +127,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)
@@ -194,7 +225,7 @@ namespace NetWorkedData
             }
 
             return rReturn;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

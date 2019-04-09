@@ -143,7 +143,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_CreateTable)]
         public static void CreateTable()
         {
-            Debug.Log("<color=orange>CreateTable() "+ ClassType() + " </color>");
+            //Debug.Log("<color=orange>CreateTable() "+ ClassType() + " </color>");
             NWDDataManager.SharedInstance().CreateTable(ClassType(), AccountDependent());
         }
         //-------------------------------------------------------------------------------------------------------------

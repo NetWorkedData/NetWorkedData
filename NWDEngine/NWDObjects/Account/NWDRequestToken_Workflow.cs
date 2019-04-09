@@ -46,19 +46,19 @@ namespace NetWorkedData
         {
             if (kCurrent != null)
             {
-                if (kCurrent.UUIDHash.GetReference() != NWDAccount.GetCurrentAccountReference())
+                if (kCurrent.UUIDHash.GetReference() != NWDAccount.CurrentReference())
                 {
                     kCurrent = null;
                 }
             }
             if (kCurrent == null)
             {
-                NWDRequestToken tResquestToken = GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
+                NWDRequestToken tResquestToken = GetFirstData(NWDAccount.CurrentReference(), null);
                 if (tResquestToken == null)
                 {
                     NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                     tResquestToken = NewData();
-                    tResquestToken.UUIDHash.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tResquestToken.UUIDHash.SetReference(NWDAccount.CurrentReference());
                     tResquestToken.Tag = NWDBasisTag.TagUserCreated;
                     tResquestToken.SaveData();
                 }

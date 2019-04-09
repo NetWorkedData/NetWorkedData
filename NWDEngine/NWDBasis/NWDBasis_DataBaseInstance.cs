@@ -92,20 +92,42 @@ namespace NetWorkedData
             this.InsertData();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string ReferenceValue()
+        //public override string ReferenceValue()
+        //{
+        //    return Reference;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public override void ReIndex()
         {
-            return Reference;
+            Desindex();
+            Index();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string InternalKeyValue()
+        public override void Index()
         {
-            return InternalKey;
+            foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+            {
+                tMethod.Invoke(this, null);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string InternalDescriptionValue()
+        public override void Desindex()
         {
-            return InternalDescription;
+            foreach (MethodInfo tMethod in BasisHelper().IndexRemoveMethodList)
+            {
+                tMethod.Invoke(this, null);
+            }
         }
+        //-------------------------------------------------------------------------------------------------------------
+        //public override string InternalKeyValue()
+        //{
+        //    return InternalKey;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public override string InternalDescriptionValue()
+        //{
+        //    return InternalDescription;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// New instance.

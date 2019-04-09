@@ -58,6 +58,7 @@ namespace NetWorkedData
         public const string M_UpdateDataTable= "M_UpdateDataTable";
         public const string M_ResetTable= "M_ResetTable";
         public const string M_LoadFromDatabase= "M_LoadFromDatabase";
+        public const string M_IndexAll = "M_IndexAll";
         public const string M_Informations= "M_Informations";
         public const string M_TryToChangeUserForAllObjects= "M_TryToChangeUserForAllObjects";
         public const string M_SynchronizationPullData= "M_SynchronizationPullData";

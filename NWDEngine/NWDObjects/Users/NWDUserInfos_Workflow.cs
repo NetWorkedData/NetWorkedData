@@ -50,7 +50,7 @@ namespace NetWorkedData
         {
             if (kCurrent != null)
             {
-                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
+                if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
                 {
                     kCurrent = null;
                 }
@@ -58,14 +58,14 @@ namespace NetWorkedData
             
             if (kCurrent == null)
             {
-                NWDUserInfos tUserInfos = GetFirstData(NWDAccount.GetCurrentAccountReference());
+                NWDUserInfos tUserInfos = GetFirstData(NWDAccount.CurrentReference());
                 if (tUserInfos == null)
                 {
                     tUserInfos = NewData();
                     #if UNITY_EDITOR
-                    tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
                     #endif
-                    tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
                     tUserInfos.Tag = NWDBasisTag.TagUserCreated;
                     tUserInfos.SaveData();
                 }

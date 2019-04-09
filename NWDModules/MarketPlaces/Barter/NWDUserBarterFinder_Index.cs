@@ -18,20 +18,50 @@ namespace NetWorkedData
     public partial class NWDUserBarterFinder : NWDBasis<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDBarterPlace, NWDUserBarterFinder> kBarterPlaceIndex = new NWDIndex<NWDBarterPlace, NWDUserBarterFinder>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInBarterPlaceIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                kBarterPlaceIndex.InsertInIndex(this, BarterPlace.GetObject());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromBarterPlaceIndex()
+        {
+            // Remove from the actual indexation
+            kBarterPlaceIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDUserBarterFinder> FindByBarterPlace(NWDBarterPlace sKey)
+        {
+            return kBarterPlaceIndex.FindByKey(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserBarterFinder FindFirstByBarterPlace(NWDBarterPlace sKey)
+        {
+            return kBarterPlaceIndex.FindFirstByKey(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+            /*
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserBarterFinder>> kIndex = new Dictionary<string, List<NWDUserBarterFinder>>();
         private List<NWDUserBarterFinder> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (BarterPlace.GetReference() != null
@@ -91,6 +121,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)
@@ -153,7 +184,7 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------------------------
+        */
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
