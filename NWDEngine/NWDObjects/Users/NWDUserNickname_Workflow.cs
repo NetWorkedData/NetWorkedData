@@ -29,14 +29,14 @@ namespace NetWorkedData
             //Debug.Log("NWDUserNickname Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
+        public static string Enrichment(string sText, bool sBold = true)
         {
             // Get First nickname found and return a new string
-            return Enrichment(sText, GetFirstData(), sLanguage, sBold);
+            return Enrichment(sText, GetFirstData(), sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : clean
-        public static string Enrichment(string sText, NWDUserNickname sNickname, string sLanguage = null , bool sBold = true)
+        public static string Enrichment(string sText, NWDUserNickname sNickname, bool sBold = true)
         {
             string rText = sText;
             string tBstart = "<b>";
@@ -46,10 +46,10 @@ namespace NetWorkedData
                 tBstart = string.Empty;
                 tBend = string.Empty;
             }
-            if (sLanguage == null)
+            /*if (sLanguage == null)
             {
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
-            }
+            }*/
             // Replace the nickname
             string tNickname = string.Empty;
             string tNicknameID = string.Empty;
