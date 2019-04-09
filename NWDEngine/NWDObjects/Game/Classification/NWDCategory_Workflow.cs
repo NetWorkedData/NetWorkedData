@@ -291,7 +291,7 @@ namespace NetWorkedData
             float tX = sInRect.x;
             float tY = sInRect.y;
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
-            foreach (NWDItem tItem in NWDItem.kCategoryIndex.FindByKey(this))
+            foreach (NWDItem tItem in NWDItem.FindByCategory(this))
             {
                 GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), tItem.InternalKey+" "+ tItem.Reference, NWDGUI.kLabelStyle);
                 tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;

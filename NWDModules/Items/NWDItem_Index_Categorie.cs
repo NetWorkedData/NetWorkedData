@@ -20,7 +20,7 @@ namespace NetWorkedData
     public partial class NWDItem : NWDBasis<NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
+        static protected NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
         public void InsertInCategoryIndex()
@@ -58,7 +58,13 @@ namespace NetWorkedData
             kCategoryIndex.RemoveFromIndex(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
+        // NWDItem.kCategoryIndex.FindByKey(sCategory); => NWDItem.FindByCategory(NWDCategory sCategory)
+        public static List<NWDItem> FindByCategory(NWDCategory sCategory)
+        {
+            return kCategoryIndex.FindByKey(sCategory); 
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
         public void InsertInFamilyIndex()
@@ -86,6 +92,11 @@ namespace NetWorkedData
         {
             // Remove from the actual indexation
             kFamilyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> FindByFamily(NWDCategory sCategory)
+        {
+            return kCategoryIndex.FindByKey(sCategory);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
