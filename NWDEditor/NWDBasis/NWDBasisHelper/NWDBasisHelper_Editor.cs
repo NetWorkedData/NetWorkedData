@@ -366,12 +366,12 @@ namespace NetWorkedData
                     break;
                 case NWDBasisEditorDatasSortType.ByReferenceAscendant:
                     {
-                        EditorTableDatas.Sort((x, y) => string.Compare(x.ReferenceValue(), y.ReferenceValue(), StringComparison.OrdinalIgnoreCase));
+                        EditorTableDatas.Sort((x, y) => string.Compare(x.Reference, y.Reference, StringComparison.OrdinalIgnoreCase));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.ByReferenceDescendant:
                     {
-                        EditorTableDatas.Sort((x, y) => string.Compare(y.ReferenceValue(), x.ReferenceValue(), StringComparison.OrdinalIgnoreCase));
+                        EditorTableDatas.Sort((x, y) => string.Compare(y.Reference, x.Reference, StringComparison.OrdinalIgnoreCase));
                     }
                     break;
                 case NWDBasisEditorDatasSortType.BySelectAscendant:

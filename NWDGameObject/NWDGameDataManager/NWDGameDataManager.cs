@@ -410,7 +410,7 @@ namespace NetWorkedData
             //    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
             //}
 
-            NWDToolbox.EditorAndPlaying("NWDGameDataManager Awake()");
+            //NWDToolbox.EditorAndPlaying("NWDGameDataManager Awake()");
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)

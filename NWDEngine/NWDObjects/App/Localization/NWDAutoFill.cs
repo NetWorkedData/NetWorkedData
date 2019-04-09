@@ -95,7 +95,7 @@ namespace NetWorkedData
                                     break;
                                 case NWDAutolocalizedTag.KeyInternal:
                                     {
-                                        string tTextString = tLocalization.InternalKeyValue();
+                                        string tTextString = tLocalization.InternalKey;
                                         TextTarget.text = tTextString;
                                     }
                                     break;

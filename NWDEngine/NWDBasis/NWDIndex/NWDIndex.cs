@@ -46,50 +46,50 @@ namespace NetWorkedData
         TObject FindFirstByKey(TKey sKey);
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class BTBIndex<K, O>
+    public class BTBIndex<TKey, TObject>
     {
         //-------------------------------------------------------------------------------------------------------------
-        private Dictionary<K, List<O>> kIndex = new Dictionary<K, List<O>>();
-        private Dictionary<O, List<List<O>>> kIndexInversed = new Dictionary<O, List<List<O>>>();
+        private Dictionary<TKey, List<TObject>> kIndex = new Dictionary<TKey, List<TObject>>();
+        private Dictionary<TObject, List<List<TObject>>> kIndexInversed = new Dictionary<TObject, List<List<TObject>>>();
         //-------------------------------------------------------------------------------------------------------------
-        public void InsertInIndex(O sObject, K sKey)
+        public void InsertInIndex(TObject sObject, TKey sKey)
         {
             RemoveFromIndex(sObject);
             if (kIndex.ContainsKey(sKey) == false)
             {
-                kIndex.Add(sKey, new List<O>());
+                kIndex.Add(sKey, new List<TObject>());
             }
             kIndex[sKey].Add(sObject);
             if (kIndexInversed.ContainsKey(sObject) == false)
             {
-                kIndexInversed.Add(sObject, new List<List<O>>());
+                kIndexInversed.Add(sObject, new List<List<TObject>>());
             }
             kIndexInversed[sObject].Add(kIndex[sKey]);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void InsertInIndex(O sObject, K[] sKeys)
+        public void InsertInIndex(TObject sObject, TKey[] sKeys)
         {
             RemoveFromIndex(sObject);
-            foreach (K tKey in sKeys)
+            foreach (TKey tKey in sKeys)
             {
                 if (kIndex.ContainsKey(tKey) == false)
                 {
-                    kIndex.Add(tKey, new List<O>());
+                    kIndex.Add(tKey, new List<TObject>());
                 }
                 kIndex[tKey].Add(sObject);
                 if (kIndexInversed.ContainsKey(sObject) == false)
                 {
-                    kIndexInversed.Add(sObject, new List<List<O>>());
+                    kIndexInversed.Add(sObject, new List<List<TObject>>());
                 }
                 kIndexInversed[sObject].Add(kIndex[tKey]);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveFromIndex(O sObject)
+        public void RemoveFromIndex(TObject sObject)
         {
             if (kIndexInversed.ContainsKey(sObject))
             {
-                foreach (List<O> tIndex in kIndexInversed[sObject])
+                foreach (List<TObject> tIndex in kIndexInversed[sObject])
                 {
                     tIndex.Remove(sObject);
                 }
@@ -97,7 +97,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<O> FindByKey(K sKey)
+        public List<TObject> FindByKey(TKey sKey)
         {
             return FindByKey(sKey);
         }
@@ -108,7 +108,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int CountReferenceToObject(O sObject)
+        public int CountReferenceToObject(TObject sObject)
         {
             int rReturn = 0;
             if (kIndexInversed.ContainsKey(sObject))
@@ -124,7 +124,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int CountKey(K sKey)
+        public int CountKey(TKey sKey)
         {
             int rReturn = 0;
             if (kIndex.ContainsKey(sKey))
@@ -134,73 +134,73 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public O FindFirstByKey(K sKey)
+        public TObject FindFirstByKey(TKey sKey)
         {
             return FindFirstByKey(sKey);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDIndex<K, O> where K : NWDTypeClass where O : NWDTypeClass
+    public class NWDIndex<TKey, TObject> where TKey : NWDTypeClass where TObject : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        private Dictionary<string, List<O>> kIndex = new Dictionary<string, List<O>>();
-        private Dictionary<string, List<List<O>>> kIndexInversed = new Dictionary<string, List<List<O>>>();
+        private Dictionary<string, List<TObject>> kIndex = new Dictionary<string, List<TObject>>();
+        private Dictionary<string, List<List<TObject>>> kIndexInversed = new Dictionary<string, List<List<TObject>>>();
         //-------------------------------------------------------------------------------------------------------------
-        public void InsertInIndex(O sObject, K sKey)
+        public void InsertInIndex(TObject sObject, TKey sKey)
         {
             RemoveFromIndex(sObject);
             if (sKey != null)
             {
-                InsertInIndex(sObject, sKey.ReferenceValue());
+                InsertInIndex(sObject, sKey.Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void InsertInIndex(O sObject, string sReference)
+        public void InsertInIndex(TObject sObject, string sReference)
         {
             RemoveFromIndex(sObject);
             if (string.IsNullOrEmpty(sReference) == false)
             {
                 if (kIndex.ContainsKey(sReference) == false)
                 {
-                    kIndex.Add(sReference, new List<O>());
+                    kIndex.Add(sReference, new List<TObject>());
                 }
                 kIndex[sReference].Add(sObject);
-                if (kIndexInversed.ContainsKey(sObject.ReferenceValue()) == false)
+                if (kIndexInversed.ContainsKey(sObject.Reference) == false)
                 {
-                    kIndexInversed.Add(sObject.ReferenceValue(), new List<List<O>>());
+                    kIndexInversed.Add(sObject.Reference, new List<List<TObject>>());
                 }
-                kIndexInversed[sObject.ReferenceValue()].Add(kIndex[sReference]);
+                kIndexInversed[sObject.Reference].Add(kIndex[sReference]);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void InsertInIndex(O sObject, K[] sKeys)
+        public void InsertInIndex(TObject sObject, TKey[] sKeys)
         {
             RemoveFromIndex(sObject);
-            foreach (K tKey in sKeys)
+            foreach (TKey tKey in sKeys)
             {
-                if (kIndex.ContainsKey(tKey.ReferenceValue()) == false)
+                if (kIndex.ContainsKey(tKey.Reference) == false)
                 {
-                    kIndex.Add(tKey.ReferenceValue(), new List<O>());
+                    kIndex.Add(tKey.Reference, new List<TObject>());
                 }
-                kIndex[tKey.ReferenceValue()].Add(sObject);
-                if (kIndexInversed.ContainsKey(sObject.ReferenceValue()) == false)
+                kIndex[tKey.Reference].Add(sObject);
+                if (kIndexInversed.ContainsKey(sObject.Reference) == false)
                 {
-                    kIndexInversed.Add(sObject.ReferenceValue(), new List<List<O>>());
+                    kIndexInversed.Add(sObject.Reference, new List<List<TObject>>());
                 }
-                kIndexInversed[sObject.ReferenceValue()].Add(kIndex[tKey.ReferenceValue()]);
+                kIndexInversed[sObject.Reference].Add(kIndex[tKey.Reference]);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveFromIndex(O sObject)
+        public void RemoveFromIndex(TObject sObject)
         {
-            if (kIndexInversed.ContainsKey(sObject.ReferenceValue()))
+            if (kIndexInversed.ContainsKey(sObject.Reference))
             {
-                foreach (List<O> tIndex in kIndexInversed[sObject.ReferenceValue()])
+                foreach (List<TObject> tIndex in kIndexInversed[sObject.Reference])
                 {
                     tIndex.Remove(sObject);
                 }
-                kIndexInversed.Remove(sObject.ReferenceValue());
+                kIndexInversed.Remove(sObject.Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -210,9 +210,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int CountObjectOccurence(O sObject)
+        public int CountObjectOccurence(TObject sObject)
         {
-            return CountObjectReferenceOccurence(sObject.ReferenceValue());
+            return CountObjectReferenceOccurence(sObject.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public int CountObjectReferenceOccurence(string sReference)
@@ -230,9 +230,9 @@ namespace NetWorkedData
             return kIndex.Count;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int CountKeyOccurence(K sKey)
+        public int CountKeyOccurence(TKey sKey)
         {
-            return CountKeyReferenceOccurence(sKey.ReferenceValue());
+            return CountKeyReferenceOccurence(sKey.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public int CountKeyReferenceOccurence(string sReference)
@@ -245,34 +245,34 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<O> FindByKey(K sKey)
+        public List<TObject> FindByKey(TKey sKey)
         {
-            return FinByReference(sKey.ReferenceValue());
+            return FinByReference(sKey.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<O> FinByReference(string sReference)
+        public List<TObject> FinByReference(string sReference)
         {
-            List<O> rReturn;
+            List<TObject> rReturn;
             if (kIndex.ContainsKey(sReference) == true)
             {
                 rReturn = kIndex[sReference];
             }
             else
             {
-                rReturn = new List<O>();
+                rReturn = new List<TObject>();
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public O FindFirstByKey(K sKey)
+        public TObject FindFirstByKey(TKey sKey)
         {
-            return FindFirstByReference(sKey.ReferenceValue());
+            return FindFirstByReference(sKey.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public O FindFirstByReference(string sReference)
+        public TObject FindFirstByReference(string sReference)
         {
-            List<O> tList = FinByReference(sReference);
-            O rReturn = null;
+            List<TObject> tList = FinByReference(sReference);
+            TObject rReturn = null;
             if (tList.Count > 0)
             {
                 rReturn = tList[0];

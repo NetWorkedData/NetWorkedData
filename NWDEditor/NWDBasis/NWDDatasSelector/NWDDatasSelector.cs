@@ -159,7 +159,7 @@ namespace NetWorkedData
                             {
                                 if (sSelection != null)
                                 {
-                                    bResult = sSelection.ReferenceValue();
+                                    bResult = sSelection.Reference;
                                 }
                             }
                             if (ControllerResult.ContainsKey(sID))
@@ -327,7 +327,7 @@ namespace NetWorkedData
                     ResultList.Add(tItem);
                 }
             }
-            ResultList.Sort((tA, tB) => string.Compare(tA.InternalKeyValue(), tB.InternalKeyValue(), StringComparison.Ordinal));
+            ResultList.Sort((tA, tB) => string.Compare(tA.InternalKey, tB.InternalKey, StringComparison.Ordinal));
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void OnGUI()
@@ -382,7 +382,7 @@ namespace NetWorkedData
                 {
                     GUIContent Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
                     GUIStyle tSytle = NWDGUI.kSelectorRowStyle;
-                    if (ActualSelection == tItem.ReferenceValue())
+                    if (ActualSelection == tItem.Reference)
                     {
                         tSytle = NWDGUI.kSelectorRowDarkStyle;
                         if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)
@@ -440,7 +440,7 @@ namespace NetWorkedData
                     }
                     GUIContent Content = new GUIContent(tItem.InternalKey, tItem.PreviewTexture2D(), tItem.InternalDescription);
                     GUIStyle tSytle = NWDGUI.kSelectorTileStyle;
-                    if (ActualSelection == tItem.ReferenceValue())
+                    if (ActualSelection == tItem.Reference)
                     {
                         tSytle = NWDGUI.kSelectorTileDarkStyle;
                         if (SelectorWindow.ScrollInit == false && Event.current.type == EventType.Repaint)

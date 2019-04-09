@@ -611,13 +611,13 @@ namespace NetWorkedData
             //Debug.Log("NWDDatas AddData()");
             //BTBBenchmark.Start();
             // get reference
-            string tReference = sData.ReferenceValue();
+            string tReference = sData.Reference;
             // Anyway I check if Data is allready in datalist
             if (DatasByReference.ContainsKey(tReference) == false)
             {
                 //Debug.Log("NWDDatas AddData() add data");
                 // get internal key
-                string tInternalKey = sData.InternalKeyValue();
+                string tInternalKey = sData.InternalKey;
                 // Anyway I add Data in datalist
                 Datas.Add(sData);
                 DatasByReference.Add(tReference, sData);
@@ -677,9 +677,9 @@ namespace NetWorkedData
             {
                 EditorTableDatasSelected.Add(sData, false);
             }
-            if (EditorDatasMenu.ContainsKey(sData.ReferenceValue()) == false)
+            if (EditorDatasMenu.ContainsKey(sData.Reference) == false)
             {
-                EditorDatasMenu.Add(sData.ReferenceValue(), sData.DatasMenu());
+                EditorDatasMenu.Add(sData.Reference, sData.DatasMenu());
             }
             /*NEW*/
 
@@ -718,12 +718,12 @@ namespace NetWorkedData
             //Debug.Log("NWDDatas RemoveData()");
             //BTBBenchmark.Start();
             // get reference
-            string tReference = sData.ReferenceValue();
+            string tReference = sData.Reference;
             // Anyway I check if Data is allready in datalist
             if (DatasByReference.ContainsKey(tReference) == true)
             {
                 // get internal key
-                string tInternalKey = sData.InternalKeyValue();
+                string tInternalKey = sData.InternalKey;
                 // Anyway I add Data in datalist
                 //int tIndex = Datas.IndexOf(sData);
                 Datas.Remove(sData);
@@ -800,8 +800,8 @@ namespace NetWorkedData
         public void UpdateData(NWDTypeClass sData)
         {
             //Debug.Log("NWDDatas UpdateData()");
-            string tReference = sData.ReferenceValue();
-            string tInternalKey = sData.InternalKeyValue();
+            string tReference = sData.Reference;
+            string tInternalKey = sData.InternalKey;
             string tOldInternalKey = "";
             if (DatasByReverseInternalKey.ContainsKey(sData))
             {
@@ -877,7 +877,7 @@ namespace NetWorkedData
             }
             if (EditorDatasMenu.ContainsKey(tReference) == true)
             {
-                EditorDatasMenu[sData.ReferenceValue()] = sData.DatasMenu();
+                EditorDatasMenu[sData.Reference] = sData.DatasMenu();
             }
             /*NEW*/
 #endif
@@ -1299,6 +1299,15 @@ namespace NetWorkedData
                     }
                 }
             }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // ANCIEN GetAllObjects()
+        public static K[] AllDatas()
+        {
+            //BTBBenchmark.Start();
+            K[] rReturn = BasisHelper().Datas.ToArray() as K[];
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
