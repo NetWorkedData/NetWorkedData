@@ -202,6 +202,10 @@ namespace NetWorkedData
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
                     rReturnObject.AddonDuplicateMe();
+                    foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+                    {
+                        tMethod.Invoke(rReturnObject, null);
+                    }
                     rReturnObject.AddonIndexMe();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }
@@ -678,6 +682,11 @@ namespace NetWorkedData
             {
                 this.AddonUpdatedMe(); // call override method
             }
+            //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
+            foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+            {
+                tMethod.Invoke(this, null);
+            }
             this.AddonIndexMe();
             //UpdateObjectInListOfEdition(this);
 
@@ -966,6 +975,10 @@ namespace NetWorkedData
                     WritingLockRemove();
                 }
                 this.AddonDeleteMe(); // call override method
+                foreach (MethodInfo tMethod in BasisHelper().IndexRemoveMethodList)
+                {
+                    tMethod.Invoke(this, null);
+                }
                 this.AddonDesindexMe(); // call override method
                 DeleteDataOperation();
                 BasisHelper().RemoveData(this);
@@ -1066,7 +1079,11 @@ if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
 #else
             WebserviceVersionCheckMe();
 #endif
-            AddonIndexMe();
+            //foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+            //{
+            //    tMethod.Invoke(this, null);
+            //}
+            //AddonIndexMe();
             BasisHelper().AddData(this);
             //BTBBenchmark.Finish();
         }

@@ -645,6 +645,10 @@ namespace NetWorkedData
                 }
             }
             AddonUpdatedMeFromWeb();
+            foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+            {
+                tMethod.Invoke(this, null);
+            }
             AddonIndexMe();
         }
 

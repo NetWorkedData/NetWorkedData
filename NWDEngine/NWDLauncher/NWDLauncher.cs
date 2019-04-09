@@ -103,7 +103,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void LaunchNext()
         {
-            Debug.Log("LaunchNext() with state = "+ State.ToString());
+            //Debug.Log("LaunchNext() with state = "+ State.ToString());
             NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
@@ -192,6 +192,8 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountLoaded:
                     {
+                        // Reload all Index
+                        NWDDataManager.SharedInstance().ReindexAllObjects();
                         State = NWDStatut.NetWorkedDataReady; // Sucesss!!!!!!
                     }
                     break;

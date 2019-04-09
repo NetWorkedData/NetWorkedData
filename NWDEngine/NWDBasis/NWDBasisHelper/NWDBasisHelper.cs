@@ -76,6 +76,10 @@ namespace NetWorkedData
         public string SaltEnd = string.Empty;
         public bool SaltValid = false;
 
+        //-------------------------------------------------------------------------------------------------------------
+        public List<MethodInfo> IndexInsertMethodList = new List<MethodInfo>();
+        public List<MethodInfo> IndexRemoveMethodList = new List<MethodInfo>();
+        //-------------------------------------------------------------------------------------------------------------
 
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -144,6 +148,23 @@ namespace NetWorkedData
                 tTypeInfos.ClassMenuName = sMenuName;
                 tTypeInfos.ClassDescription = sDescription;
                 tTypeInfos.ClassSynchronize = sClassSynchronize;
+
+                //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Instance))
+                foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
+                {
+                    //if (sType.Name == "NWDItem")
+                    //{
+                    //    Debug.Log("<color=blue>tMethod</color> " + tMethod.Name + " "+ tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length);
+                    //}
+                    if (tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length > 0)
+                        {
+                            tTypeInfos.IndexInsertMethodList.Add(tMethod);
+                        }
+                        if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
+                        {
+                            tTypeInfos.IndexRemoveMethodList.Add(tMethod);
+                        }
+                }
                 //BTBBenchmark.Finish("Declare() step C");
                 //BTBBenchmark.Start("Declare() step D");
                 // create GUI object
@@ -166,7 +187,7 @@ namespace NetWorkedData
                 // get salt 
                 tTypeInfos.PrefLoad();
                 //BTBBenchmark.Finish("Declare() step F");
-            }
+    }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1523,6 +1544,16 @@ namespace NetWorkedData
                 }
             }
             return rArray;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_LoadReindexAll)]
+        public static void LoadReindexAll()
+        {
+            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+            foreach (NWDTypeClass tObject in tTypeInfos.Datas)
+            {
+                tObject.ReIndex();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]

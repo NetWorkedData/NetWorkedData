@@ -1,0 +1,94 @@
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2019
+// All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
+//
+//=====================================================================================================================
+
+using System;
+using System.Reflection;
+using System.Collections.Generic;
+using UnityEngine;
+
+//=====================================================================================================================
+namespace NetWorkedData
+{
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDItem : NWDBasis<NWDItem>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInCategoryIndex()
+        {
+            // Remove from the actual indexation
+            kCategoryIndex.RemoveFromIndex(this);
+            // Re-add to the actual indexation ?
+            if (
+            IsEnable() == true
+            && IsTrashed() == false
+            && TestIntegrity() == true
+            )
+            {
+                // Re-add ! but for wichn categories?
+                List<NWDCategory> tCategoriesList = new List<NWDCategory>();
+                foreach (NWDCategory tCategories in CategoryList.GetObjectsAbsolute())
+                {
+                    foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.GetObjects())
+                    {
+                        if (tCategoriesList.Contains(tSubCategories) == false)
+                        {
+                            tCategoriesList.Add(tSubCategories);
+                        }
+                    }
+                }
+                // Re-add !
+                kCategoryIndex.InsertInIndex(this, tCategoriesList.ToArray());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromCategoryIndex()
+        {
+            // Remove from the actual indexation
+            kCategoryIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInFamilyIndex()
+        {
+            // Remove from the actual indexation
+            kFamilyIndex.RemoveFromIndex(this);
+            // Re-add to the actual indexation ?
+            if (
+            IsEnable() == true
+            && IsTrashed() == false
+            && TestIntegrity() == true
+            )
+            {
+                // Re-add ! but for wichn Family?
+                foreach (NWDFamily tFamily in FamilyList.GetObjectsAbsolute())
+                {
+                    // Re-add !
+                    kFamilyIndex.InsertInIndex(this, tFamily);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromFamilyIndex()
+        {
+            // Remove from the actual indexation
+            kFamilyIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+//=====================================================================================================================

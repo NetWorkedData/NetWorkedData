@@ -34,6 +34,10 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void ReIndex()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public virtual string ClassNameUsedValue()
         //{
         //    return string.Empty;

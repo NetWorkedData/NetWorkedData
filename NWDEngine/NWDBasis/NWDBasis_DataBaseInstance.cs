@@ -97,6 +97,15 @@ namespace NetWorkedData
             return Reference;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void ReIndex()
+        {
+            foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
+            {
+                tMethod.Invoke(this, null);
+            }
+            AddonIndexMe();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override string InternalKeyValue()
         {
             return InternalKey;
