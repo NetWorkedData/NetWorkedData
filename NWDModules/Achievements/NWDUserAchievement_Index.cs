@@ -16,20 +16,14 @@ namespace NetWorkedData
     public partial class NWDUserAchievement : NWDBasis<NWDUserAchievement>
     {
         //-------------------------------------------------------------------------------------------------------------
+        // TODO : Change for new index
+        static protected NWDIndex<NWDAchievementKey, NWDUserAchievement> kDAchievementKeyIndex = new NWDIndex<NWDAchievementKey, NWDUserAchievement>();
+        //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserAchievement>> kIndex = new Dictionary<string, List<NWDUserAchievement>>();
         private List<NWDUserAchievement> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (Achievement.GetReference() != null
@@ -89,6 +83,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)
@@ -150,7 +145,6 @@ namespace NetWorkedData
             }
             return rObject;
         }
-        //-------------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -15,20 +15,14 @@ namespace NetWorkedData
     public partial class NWDUserLevelScore : NWDBasis<NWDUserLevelScore>
     {
         //-------------------------------------------------------------------------------------------------------------
+        // TODO : Change for new index
+        static protected NWDIndex<NWDLevel, NWDUserLevelScore> kLevelIndex = new NWDIndex<NWDLevel, NWDUserLevelScore>();
+        //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserLevelScore>> kIndex = new Dictionary<string, List<NWDUserLevelScore>>();
         private List<NWDUserLevelScore> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (Level.GetReference() != null
@@ -88,6 +82,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

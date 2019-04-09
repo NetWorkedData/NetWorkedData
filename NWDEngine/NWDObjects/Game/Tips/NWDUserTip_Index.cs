@@ -18,20 +18,14 @@ namespace NetWorkedData
     public partial class NWDUserTip : NWDBasis<NWDUserTip>
     {
         //-------------------------------------------------------------------------------------------------------------
+        // TODO : Change for new index
+        static protected NWDIndex<NWDTipKey, NWDUserTip> kTipKeyIndex = new NWDIndex<NWDTipKey, NWDUserTip>();
+        //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserTip>> kIndex = new Dictionary<string, List<NWDUserTip>>();
         private List<NWDUserTip> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (Tip.GetReference() != null
@@ -91,6 +85,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

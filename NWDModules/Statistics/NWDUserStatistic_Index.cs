@@ -14,21 +14,16 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserStatistic : NWDBasis<NWDUserStatistic>
     {
+
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : Change for new index
+        static protected NWDIndex<NWDStatisticKey, NWDUserStatistic> kStatisticKeyIndex = new NWDIndex<NWDStatisticKey, NWDUserStatistic>();
         //-------------------------------------------------------------------------------------------------------------
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDUserStatistic>> kIndex = new Dictionary<string, List<NWDUserStatistic>>();
         private List<NWDUserStatistic> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
@@ -93,6 +88,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

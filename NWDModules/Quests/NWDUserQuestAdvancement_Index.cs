@@ -26,16 +26,7 @@ namespace NetWorkedData
         static Dictionary<string, List<NWDUserQuestAdvancement>> kIndex = new Dictionary<string, List<NWDUserQuestAdvancement>>();
         private List<NWDUserQuestAdvancement> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (QuestReference.GetReference() != null
@@ -95,6 +86,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

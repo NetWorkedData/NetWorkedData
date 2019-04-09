@@ -28,12 +28,8 @@ namespace NetWorkedData
             // Remove from the actual indexation
             kCategoryIndex.RemoveFromIndex(this);
             // Re-add to the actual indexation ?
-            if (
-            IsEnable() == true
-            && IsTrashed() == false
-            && TestIntegrity() == true
-            )
-            {
+            if (IsUsable())
+                {
                 // Re-add ! but for wichn categories?
                 List<NWDCategory> tCategoriesList = new List<NWDCategory>();
                 foreach (NWDCategory tCategories in CategoryList.GetObjectsAbsolute())
@@ -72,11 +68,7 @@ namespace NetWorkedData
             // Remove from the actual indexation
             kFamilyIndex.RemoveFromIndex(this);
             // Re-add to the actual indexation ?
-            if (
-            IsEnable() == true
-            && IsTrashed() == false
-            && TestIntegrity() == true
-            )
+            if (IsUsable())
             {
                 // Re-add ! but for wichn Family?
                 foreach (NWDFamily tFamily in FamilyList.GetObjectsAbsolute())

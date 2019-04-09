@@ -19,8 +19,43 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
+
         //-------------------------------------------------------------------------------------------------------------
-        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
+        static protected NWDIndex<NWDBarterPlace, NWDUserBarterProposition> kBarterPlaceIndex = new NWDIndex<NWDBarterPlace, NWDUserBarterProposition>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInBarterPlaceIndex()
+        {
+            // Remove from the actual indexation
+            kBarterPlaceIndex.RemoveFromIndex(this);
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                kBarterPlaceIndex.InsertInIndex(this, BarterPlace.GetObject());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromBarterPlaceIndex()
+        {
+            // Remove from the actual indexation
+            kBarterPlaceIndex.RemoveFromIndex(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDUserBarterProposition> FindByBarterPlace(NWDBarterPlace sKey)
+        {
+            return kBarterPlaceIndex.FindByKey(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserBarterProposition FindFirstByBarterPlace(NWDBarterPlace sKey)
+        {
+            return kBarterPlaceIndex.FindFirstByKey(sKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /*
+
+            //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserBarterProposition>> kIndex = new Dictionary<string, List<NWDUserBarterProposition>>();
         private List<NWDUserBarterProposition> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
@@ -155,7 +190,7 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------------------------
+        */
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

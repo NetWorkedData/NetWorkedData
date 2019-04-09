@@ -202,11 +202,7 @@ namespace NetWorkedData
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
                     rReturnObject.AddonDuplicateMe();
-                    foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
-                    {
-                        tMethod.Invoke(rReturnObject, null);
-                    }
-                    rReturnObject.AddonIndexMe();
+                    rReturnObject.ReIndex();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }
                 else
@@ -683,11 +679,7 @@ namespace NetWorkedData
                 this.AddonUpdatedMe(); // call override method
             }
             //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
-            foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
-            {
-                tMethod.Invoke(this, null);
-            }
-            this.AddonIndexMe();
+            this.ReIndex();
             //UpdateObjectInListOfEdition(this);
 
             BasisHelper().UpdateData(this);
@@ -975,11 +967,7 @@ namespace NetWorkedData
                     WritingLockRemove();
                 }
                 this.AddonDeleteMe(); // call override method
-                foreach (MethodInfo tMethod in BasisHelper().IndexRemoveMethodList)
-                {
-                    tMethod.Invoke(this, null);
-                }
-                this.AddonDesindexMe(); // call override method
+                this.Desindex(); // call override method
                 DeleteDataOperation();
                 BasisHelper().RemoveData(this);
                 //RemoveObjectInListOfEdition(this);

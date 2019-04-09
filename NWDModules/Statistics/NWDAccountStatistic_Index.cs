@@ -19,16 +19,7 @@ namespace NetWorkedData
         static Dictionary<string, List<NWDAccountStatistic>> kIndex = new Dictionary<string, List<NWDAccountStatistic>>();
         private List<NWDAccountStatistic> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
@@ -91,6 +82,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

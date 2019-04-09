@@ -26,15 +26,8 @@ namespace NetWorkedData
     public partial class NWDItemRarity : NWDBasis<NWDItemRarity>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
+        // TODO : Change for new index
+        static protected NWDIndex<NWDItem, NWDItemRarity> kItemIndex = new NWDIndex<NWDItem, NWDItemRarity>();
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDItemRarity>> kIndex = new Dictionary<string, List<NWDItemRarity>>();
@@ -42,6 +35,7 @@ namespace NetWorkedData
         // lors du changement si kIndexList !=  de kIndexItemReverse[item.ref + gamesave.ref] => on a changer l'item ou le gamesave 
         // je retire de la kIndexList et je cherche la nuvelle kIndexList et je la memorise et la rajoute
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
         private void InsertInIndex()
         {
             if (ItemReference.GetReference() != null
@@ -101,6 +95,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
         private void RemoveFromIndex()
         {
             if (kIndexList != null)

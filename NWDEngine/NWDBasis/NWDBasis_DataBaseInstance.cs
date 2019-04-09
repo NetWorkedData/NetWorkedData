@@ -103,7 +103,14 @@ namespace NetWorkedData
             {
                 tMethod.Invoke(this, null);
             }
-            AddonIndexMe();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Desindex()
+        {
+            foreach (MethodInfo tMethod in BasisHelper().IndexRemoveMethodList)
+            {
+                tMethod.Invoke(this, null);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string InternalKeyValue()
