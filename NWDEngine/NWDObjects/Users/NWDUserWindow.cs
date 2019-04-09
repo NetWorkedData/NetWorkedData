@@ -17,8 +17,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Users",
-                                 "Users",
+    [NWDTypeWindowParamAttribute(
+        "Users",
+        "Users",
         new Type[] {
             typeof(NWDUserInfos),
             typeof(NWDUserNickname),
@@ -29,7 +30,8 @@ namespace NetWorkedData
             typeof(NWDUserInterMessage),
             typeof(NWDMessage),
 		}
-                                )]
+    )]
+    //-----------------------------------------------------------------------------------------------------------------
     public class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
