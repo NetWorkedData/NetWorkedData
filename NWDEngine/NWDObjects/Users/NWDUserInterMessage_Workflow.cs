@@ -21,6 +21,9 @@ namespace NetWorkedData
     public partial class NWDUserInterMessage : NWDBasis<NWDUserInterMessage>
     {
         //-------------------------------------------------------------------------------------------------------------
+        public delegate void messageBlock(bool error, NWDOperationResult result);
+        public messageBlock messageBlockDelegate;
+        //-------------------------------------------------------------------------------------------------------------
         public NWDUserInterMessage()
         {
         }
@@ -29,7 +32,7 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        public override void Initialization()
         {
             PublicationDate.SetDateTime(DateTime.Now);
         }
@@ -40,26 +43,24 @@ namespace NetWorkedData
             return new List<Type> { typeof(NWDUserInterMessage) };
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SendMessage(NWDMessage sMessage,
-                                       string sReceiver,
-                                       BTBOperationBlock sSuccessBlock = null,
-                                       BTBOperationBlock sErrorBlock = null,
-                                       int sPushDelayInSeconds = 0,
-                                       NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
-                                       NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
-                                       NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
-                                       NWDReferencesQuantityType<NWDPack> sReplacePacks = null
-                                      )
+        public static NWDUserInterMessage CreateNewMessageWith(NWDMessage sMessage,
+                                          string sReceiver,
+                                          int sPushDelayInSeconds = 0,
+                                          NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                          NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
+                                          NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
+                                          NWDReferencesQuantityType<NWDPack> sReplacePacks = null
+                                         )
         {
-            NWDUserInterMessage tInterMessage = NewData();
+            NWDUserInterMessage rInterMessage = NewData();
 
             // Set Sender
             string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
-            tInterMessage.Sender.SetReference(tPublisher);
-            tInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
+            rInterMessage.Sender.SetReference(tPublisher);
+            rInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
 
             // Set Receiver
-            tInterMessage.Receiver.SetReference(sReceiver);
+            rInterMessage.Receiver.SetReference(sReceiver);
 
             // Add Replaceable object if any set in Message
             /*if (sMessage.AttachmentItemPack != null)
@@ -78,26 +79,19 @@ namespace NetWorkedData
             }*/
 
             // Set Message and insert the Replaceable object
-            tInterMessage.Message.SetObject(sMessage);
-            tInterMessage.ReplaceSenderNickname = NWDUserNickname.GetNickname();
-            tInterMessage.ReplaceCharacters = sReplaceCharacters;
-            tInterMessage.ReplaceItems = sReplaceItems;
-            tInterMessage.ReplaceItemPacks = sReplaceItemPack;
-            tInterMessage.ReplacePacks = sReplacePacks;
+            rInterMessage.Message.SetObject(sMessage);
+            rInterMessage.ReplaceSenderNickname = NWDUserNickname.GetNickname();
+            rInterMessage.ReplaceCharacters = sReplaceCharacters;
+            rInterMessage.ReplaceItems = sReplaceItems;
+            rInterMessage.ReplaceItemPacks = sReplaceItemPack;
+            rInterMessage.ReplacePacks = sReplacePacks;
             #if UNITY_EDITOR
-            tInterMessage.InternalKey = NWDUserNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
+            rInterMessage.InternalKey = NWDUserNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
             #endif
-            tInterMessage.Tag = NWDBasisTag.TagUserCreated;
-            tInterMessage.SaveData();
+            rInterMessage.Tag = NWDBasisTag.TagUserCreated;
+            rInterMessage.SaveData();
 
-            // Push System
-            //TODO : set a push system here, not implemented yet
-
-            // Send message
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserInterMessage) }, sSuccessBlock, sErrorBlock);
-
-            // Delay System
-            //TODO : set a WebRequest with a delay, not implemented yet
+            return rInterMessage;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserInterMessage[] FindSenderDatas()
@@ -128,6 +122,33 @@ namespace NetWorkedData
             }
 
             return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SendMessage()
+        {
+            // Push System
+            //TODO : set a push system here, not implemented yet
+
+            //Ask server to generate a new Code Pin
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (messageBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    messageBlockDelegate(false, tResult);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (messageBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    messageBlockDelegate(true, tResult);
+                }
+            };
+
+            // Sync NWDUserRelationship
+            SynchronizationFromWebService(tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string MessageRichText(bool sBold = true)

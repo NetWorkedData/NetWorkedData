@@ -99,7 +99,8 @@ namespace NetWorkedData
                 NWDUserTradeRequest tTrade = TradeRequest.GetObjectAbsolute();
                 if (tTrade != null)
                 {
-                    NWDUserInterMessage.SendMessage(Message, tTrade.Account.GetReference());
+                    NWDUserInterMessage tMessage = NWDUserInterMessage.CreateNewMessageWith(Message, tTrade.Account.GetReference());
+                    tMessage.SendMessage();
                 }
             }
 
