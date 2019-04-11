@@ -1057,7 +1057,7 @@ if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void LoadedFromDatabase()
+        public override void LoadedFromDatabase()
         {
             //BTBBenchmark.Start();
             InDatabase = true;

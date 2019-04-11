@@ -244,7 +244,43 @@ namespace NetWorkedData
         public virtual void New_LoadFromDatabase()
         {
             // TODO remove invoke ... BUT HOW!!!!!!?????????
-            NWDAliasMethod.InvokeClassMethod(ClassType, NWDConstants.M_LoadFromDatabase);
+
+#if UNITY_EDITOR
+            RowAnalyzed = false;
+#endif
+            ResetDatas();
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            if (kAccountDependent)
+            {
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            }
+            if (tSQLiteConnection != null)
+            {
+                if (tSQLiteConnection.IsValid())
+                {
+                    //List<NWDTypeClass> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
+                    List<object> tSelect = tSQLiteConnection.Query(new TableMapping(ClassType) ,"SELECT * FROM " + ClassNamePHP);
+                    int tCount = 0;
+                    // Prepare the datas
+                    if (tSelect != null)
+                    {
+                        foreach (object tItem in tSelect)
+                        {
+                            tCount++;
+                            ((NWDTypeClass)tItem).LoadedFromDatabase();
+                        }
+                    }
+                }
+            }
+            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+#if UNITY_EDITOR
+            New_FilterTableEditor();
+            New_RepaintTableEditor();
+#endif
+
+
+
+            //NWDAliasMethod.InvokeClassMethod(ClassType, NWDConstants.M_LoadFromDatabase);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void New_ResetTable()

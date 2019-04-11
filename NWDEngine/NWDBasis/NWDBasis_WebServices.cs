@@ -303,7 +303,8 @@ namespace NetWorkedData
             // loads data unloaded but not sync
             if (sSpecial == NWDOperationSpecial.None)
             {
-                LoadDataToSync(sEnvironment);
+                //TODO Tht lag the webservice
+                //LoadDataToSync(sEnvironment);
             }
             //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
@@ -334,7 +335,7 @@ namespace NetWorkedData
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
                 if (sSpecial != NWDOperationSpecial.Pull)
                 {
-                    LoadFromDatabase();
+                    BasisHelper().New_LoadFromDatabase();
                     foreach (K tO in BasisHelper().Datas)
                     {
                         bool tAddEnv = true;
@@ -808,7 +809,7 @@ namespace NetWorkedData
                 }
                 // need to reload this data now : to remove all tObjects from memory!
                 //LoadTableEditor();
-                LoadFromDatabase();
+                BasisHelper().New_LoadFromDatabase();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

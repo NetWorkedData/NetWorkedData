@@ -40,7 +40,7 @@ namespace NetWorkedData
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            LoadFromDatabase();
+            BasisHelper().New_LoadFromDatabase();
             foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
@@ -50,7 +50,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            LoadFromDatabase();
+            BasisHelper().New_LoadFromDatabase();
             foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
@@ -193,7 +193,7 @@ namespace NetWorkedData
             }
             Reference = tNewReference;
             UpdateData();
-            LoadFromDatabase();
+            BasisHelper().New_LoadFromDatabase();
             //BasisHelper().SortEditorTableDatas();
             RestaureDataInEditionByReference(tNewReference);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());

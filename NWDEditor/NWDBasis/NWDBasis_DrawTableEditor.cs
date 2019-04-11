@@ -953,23 +953,26 @@ namespace NetWorkedData
                 }
 
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
+
+                if (false)
                 {
-                    List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
                     {
-                        if (tKeyValue.Value == true)
+                        List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
+                        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                         {
-                            tListToUnload.Add(tKeyValue.Key);
+                            if (tKeyValue.Value == true)
+                            {
+                                tListToUnload.Add(tKeyValue.Key);
+                            }
+                        }
+                        foreach (NWDTypeClass tObject in tListToUnload)
+                        {
+                            UnloadDataByReference(tObject.Reference);
                         }
                     }
-                    foreach (NWDTypeClass tObject in tListToUnload)
-                    {
-                        UnloadDataByReference(tObject.Reference);
-                    }
+                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 }
-
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.EndRedArea();
 
@@ -1103,7 +1106,7 @@ namespace NetWorkedData
                     BasisHelper().m_SearchInternalDescription = string.Empty;
                     //ReloadAllObjects ();
                     //LoadTableEditor ();
-                    LoadFromDatabase();
+                    BasisHelper().New_LoadFromDatabase();
                     RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;

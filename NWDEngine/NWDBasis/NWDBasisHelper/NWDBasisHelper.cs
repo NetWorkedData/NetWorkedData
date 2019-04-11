@@ -68,7 +68,7 @@ namespace NetWorkedData
         public virtual List<Type> New_OverrideClasseInThisSync()
         {
             Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
-            return new List<Type>();
+            return new List<Type>() { ClassType };
         }
         //-------------------------------------------------------------------------------------------------------------
         public void New_ModelReset()
@@ -1548,7 +1548,8 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = LoadDataByReference(sReference);
+                // TODO : fait lagguer la connection : trouver une solution
+                //rReturn = LoadDataByReference(sReference);
             }
             return rReturn;
         }
@@ -1845,44 +1846,44 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]
-        public static void LoadFromDatabase()
-        {
-            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
-            tTypeInfos = BasisHelper();
-#if UNITY_EDITOR
-            tTypeInfos.RowAnalyzed = false;
-#endif
-            tTypeInfos.ResetDatas();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (AccountDependent())
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP);
-                    int tCount = 0;
-                    // Prepare the datas
-                    if (tSelect != null)
-                    {
-                        foreach (NWDBasis<K> tItem in tSelect)
-                        {
-                            tCount++;
-                            tItem.LoadedFromDatabase();
-                        }
-                    }
-                }
-            }
-            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
-#if UNITY_EDITOR
-            BasisHelper().New_FilterTableEditor();
-            BasisHelper().New_RepaintTableEditor();
-#endif
-            //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
-        }
+//        [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]
+//        public static void LoadFromDatabase()
+//        {
+//            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+//            tTypeInfos = BasisHelper();
+//#if UNITY_EDITOR
+//            tTypeInfos.RowAnalyzed = false;
+//#endif
+//            tTypeInfos.ResetDatas();
+//            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+//            if (AccountDependent())
+//            {
+//                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+//            }
+//            if (tSQLiteConnection != null)
+//            {
+//                if (tSQLiteConnection.IsValid())
+//                {
+//                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP);
+//                    int tCount = 0;
+//                    // Prepare the datas
+//                    if (tSelect != null)
+//                    {
+//                        foreach (NWDBasis<K> tItem in tSelect)
+//                        {
+//                            tCount++;
+//                            tItem.LoadedFromDatabase();
+//                        }
+//                    }
+//                }
+//            }
+//            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+//#if UNITY_EDITOR
+//            BasisHelper().New_FilterTableEditor();
+//            BasisHelper().New_RepaintTableEditor();
+//#endif
+        //    //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static void UnloadDataByReference(string sReference)
         {
@@ -1960,14 +1961,14 @@ namespace NetWorkedData
                     //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
                     //List<string> tSelect = tCommand.ExecuteQuery<string>();
                     string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
-                    Debug.Log(tQuery);
+                    //Debug.Log(tQuery);
                     SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
                     List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
                     if (tSelect != null)
                     {
                         foreach (NWDTypeClassReference tReference in tSelect)
                         {
-                            Debug.Log("tReference = " + tReference.Reference);
+                            //Debug.Log("tReference = " + tReference.Reference);
                             if (tReference.Reference != null)
                             {
                                 GetDataByReference(tReference.Reference);

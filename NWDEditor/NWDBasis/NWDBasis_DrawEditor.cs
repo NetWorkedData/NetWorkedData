@@ -858,20 +858,21 @@ namespace NetWorkedData
             // Action Zone
             GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
             tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "UnloadMe", NWDGUI.kMiniButtonStyle))
+            if (false)
             {
-                BasisHelper().New_SetObjectInEdition(null);
-                UnloadDataByReference(this.Reference);
-            }
-            if (GUI.Button(new Rect(tX + tButtonWidth + NWDGUI.kFieldMarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "ReloadMe", NWDGUI.kMiniButtonStyle))
-            {
-                K tLoaded = LoadDataByReference(this.Reference);
-                BasisHelper().New_SetObjectInEdition(tLoaded);
-            }
+                if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "UnloadMe", NWDGUI.kMiniButtonStyle))
+                {
+                    BasisHelper().New_SetObjectInEdition(null);
+                    UnloadDataByReference(this.Reference);
+                }
+                if (GUI.Button(new Rect(tX + tButtonWidth + NWDGUI.kFieldMarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "ReloadMe", NWDGUI.kMiniButtonStyle))
+                {
+                    K tLoaded = LoadDataByReference(this.Reference);
+                    BasisHelper().New_SetObjectInEdition(tLoaded);
+                }
 
                 tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-
+            }
 
 
             if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
