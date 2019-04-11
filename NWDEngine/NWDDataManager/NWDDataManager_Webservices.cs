@@ -569,17 +569,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference, string sAnonymousResetPassword)
 		{
-			// change account refrence 
-			// generate new Reference for this objetc (based on account reference)
+            // change account refrence 
+            // generate new Reference for this objetc (based on account reference)
             //Debug.Log("NWDDataManager ChangeAllDatasForUserToAnotherUser()");
-
             if (sEnvironment.AnonymousPlayerAccountReference == sEnvironment.PlayerAccountReference)
             {
                 sEnvironment.AnonymousPlayerAccountReference = sNewAccountReference;
                 sEnvironment.AnonymousResetPassword = sAnonymousResetPassword;
             }
 
-			foreach (Type tType in mTypeList)
+            NWDDataManager.SharedInstance().DataQueueExecute();
+            foreach (Type tType in mTypeList)
             {
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -707,7 +707,7 @@ namespace NetWorkedData
 			return rSend;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
+       /* public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
 
             //#if UNITY_EDITOR 
@@ -736,7 +736,7 @@ namespace NetWorkedData
                 }
             }
             return rSend;
-        }
+        }*/
 		//-------------------------------------------------------------------------------------------------------------
 		public void TokenError (NWDAppEnvironment sEnvironment)
 		{

@@ -35,7 +35,7 @@ namespace NetWorkedData
     public partial class NWDVersion : NWDBasis<NWDVersion>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion FindMaxVersionByEnvironment(NWDAppEnvironment sEnvironment)
+        public static NWDVersion SelectMaxDataForEnvironment(NWDAppEnvironment sEnvironment)
         {
             //Debug.Log("NWDVersion FindMaxVersionByEnvironment()");
             NWDVersion tVersion = null;
@@ -67,13 +67,13 @@ namespace NetWorkedData
             return tVersion;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion Current()
+        public static NWDVersion CurrentData()
         {
             //Debug.Log("NWDVersion Current()");
-            return CurrentByEnvironment(NWDAppEnvironment.SelectedEnvironment());
+            return SelectCurrentDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion CurrentByEnvironment(NWDAppEnvironment sEnvironment)
+        public static NWDVersion SelectCurrentDataForEnvironment(NWDAppEnvironment sEnvironment)
         {
             //Debug.Log("NWDVersion CurrentByEnvironment()");
             NWDVersion tVersion = null;

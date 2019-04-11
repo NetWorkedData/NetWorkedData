@@ -139,9 +139,9 @@ namespace NetWorkedData
             if (BasisHelper().ClassGameSaveDependent == true)
             {
                 NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
-                if (NWDGameSave.Current() != null)
+                if (NWDGameSave.CurrentData() != null)
                 {
-                    tAtt.SetReference(NWDGameSave.Current().Reference);
+                    tAtt.SetReference(NWDGameSave.CurrentData().Reference);
                 }
                 PropertyInfo tPropInfo = BasisHelper().ClassGameDependentProperties;
                 tPropInfo.SetValue(this, tAtt, null);
@@ -627,7 +627,7 @@ namespace NetWorkedData
             UpdateData(true, sWritingMode, true);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
+        public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
             //BTBBenchmark.Start();
             // Determine the default mode
@@ -886,7 +886,7 @@ namespace NetWorkedData
         #endregion Update Data
         #region Delete Data
         //-------------------------------------------------------------------------------------------------------------
-        public void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             // Verif if Systeme can use the thread (option in Environment)

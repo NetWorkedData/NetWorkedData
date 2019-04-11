@@ -176,7 +176,7 @@ namespace NetWorkedData
         {
             K tNewObject = NWDBasis<K>.NewData(sWritingMode);
             this.SetObject(tNewObject);
-            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+            NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()

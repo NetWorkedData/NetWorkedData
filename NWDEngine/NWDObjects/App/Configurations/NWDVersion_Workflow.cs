@@ -63,7 +63,7 @@ namespace NetWorkedData
         public static void RecommendationBy(NWDRecommendationType sType)
         {
             //Debug.Log("NWDVersion RecommendationBy()");
-            NWDVersion tVersion = FindMaxVersionByEnvironment(NWDAppEnvironment.SelectedEnvironment());
+            NWDVersion tVersion = SelectMaxDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
 
             string tToFlash = tVersion.URLMyApp(false);
             switch (sType)
@@ -238,7 +238,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDVersion GetMaxVersionStringForEnvironemt()");
             string tVersionString = "0.00.00";
-            NWDVersion tVersion = FindMaxVersionByEnvironment(sEnvironment);
+            NWDVersion tVersion = SelectMaxDataForEnvironment(sEnvironment);
             if (tVersion != null)
             {
                 tVersionString = tVersion.Version.ToString();

@@ -188,9 +188,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Gamse save informations");
                 string tGameSaveReference = "?";
-                if (NWDGameSave.CurrentByAccount(tAccount.Reference) != null)
+                if (NWDGameSave.SelectCurrentDataForAccount(tAccount.Reference) != null)
                 {
-                    NWDGameSave tGameSave = NWDGameSave.CurrentByAccount(tAccount.Reference);
+                    NWDGameSave tGameSave = NWDGameSave.SelectCurrentDataForAccount(tAccount.Reference);
                     tGameSaveReference = tGameSave.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
                     if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))

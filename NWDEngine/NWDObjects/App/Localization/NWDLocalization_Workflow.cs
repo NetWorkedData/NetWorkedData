@@ -18,8 +18,6 @@ namespace NetWorkedData
     public partial class NWDLocalization : NWDBasis<NWDLocalization>
     {
         //-------------------------------------------------------------------------------------------------------------
-        private static List<NWDLocalization> GlobalLocalizerKeys;
-        //-------------------------------------------------------------------------------------------------------------
         public NWDLocalization()
         {
             //Debug.Log("NWDLocalization Constructor");
@@ -45,15 +43,6 @@ namespace NetWorkedData
             rReturn.UpdateData();
             return rReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public static NWDLocalization CreateLocalizationAnnexe(string sKey, string sDefault)
-        //{
-        //    NWDLocalization rReturn = NewData();
-        //    rReturn.InternalKey = sKey;
-        //    //rReturn.AnnexeValue = new NWDMultiType(sDefault);
-        //    rReturn.UpdateData();
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public static string GetLocalText(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
@@ -85,13 +74,11 @@ namespace NetWorkedData
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             }
             int tI = 0;
-            if (GlobalLocalizerKeys!=null)
-            {
                 while (tI <= 10)
                 {
                     tI++;
                     int tJ = 0;
-                    foreach (NWDLocalization tObject in GlobalLocalizerKeys)
+                    foreach (NWDLocalization tObject in RawDatasByIndex())
                     {
                         if (sText.Contains(tObject.KeyValue))
                         {
@@ -107,76 +94,10 @@ namespace NetWorkedData
                         break;
                     }
                 }
-            }
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetLocalString()         {             string tText = TextValue.GetLocalString();             return tText.Replace("<br>", Environment.NewLine);         }
-        //-------------------------------------------------------------------------------------------------------------
-        private void UpdateInEnrichment()
-        {
-            if (GlobalLocalizerKeys == null)
-            {
-                GlobalLocalizerKeys = new List<NWDLocalization>();
-            }
-            if (XX > 0)
-            {
-                RemoveEnrichment();
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(KeyValue) == false && GlobalLocalizerKeys.Contains(this) == false)
-                {
-                    GlobalLocalizerKeys.Add(this);
-                }
-                else if (string.IsNullOrEmpty(KeyValue) == true && GlobalLocalizerKeys.Contains(this) == true)
-                {
-                    GlobalLocalizerKeys.Remove(this);
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void RemoveEnrichment()
-        {
-            if (GlobalLocalizerKeys == null)
-            {
-                GlobalLocalizerKeys = new List<NWDLocalization>();
-            }
-            if (GlobalLocalizerKeys.Contains(this) == true)
-            {
-                GlobalLocalizerKeys.Remove(this);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonLoadedMe()
-        {
-            UpdateInEnrichment();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnloadMe()
-        {
-            RemoveEnrichment();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-            UpdateInEnrichment();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            UpdateInEnrichment();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            UpdateInEnrichment();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            UpdateInEnrichment();
-        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------

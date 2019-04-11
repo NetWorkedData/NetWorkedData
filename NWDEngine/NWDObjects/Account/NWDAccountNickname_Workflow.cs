@@ -92,13 +92,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetNickname()
         {
-            NWDAccountNickname tNickname = NWDAccountNickname.Current();
+            NWDAccountNickname tNickname = NWDAccountNickname.CurrentData();
             return tNickname.Nickname;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string GetUniqueNickname()
         {
-            NWDAccountNickname tNickname = NWDAccountNickname.Current();
+            NWDAccountNickname tNickname = NWDAccountNickname.CurrentData();
             return tNickname.UniqueNickname;
         }
         //-------------------------------------------------------------------------------------------------------------

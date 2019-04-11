@@ -26,6 +26,7 @@ namespace NetWorkedData
         public int ClassDataLoaded = 0;
         public int ClassEditorDataLoaded = 0;
         public int ClassAccountDataLoaded = 0;
+        public int ClassIndexation = 0;
         //-------------------------------------------------------------------------------------------------------------
         public bool DataAccountConnected = false;
         public bool DataAccountConnectionInProgress = false;

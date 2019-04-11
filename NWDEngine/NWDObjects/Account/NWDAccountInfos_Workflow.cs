@@ -65,7 +65,7 @@ namespace NetWorkedData
         public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
         {
             //NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
-            NWDAccountInfos tActiveAccount = Current();
+            NWDAccountInfos tActiveAccount = CurrentData();
             if (tActiveAccount != null)
             {
                 tActiveAccount.AccountType = tStatus;

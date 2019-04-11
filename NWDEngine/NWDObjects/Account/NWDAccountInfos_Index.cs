@@ -23,7 +23,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Account.GetReference();
-                kAccountIndex.InsertInIndex(this, tKey);
+                kAccountIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -31,16 +31,16 @@ namespace NetWorkedData
         public void RemoveFromAccountIndex()
         {
             // Remove from the actual indexation
-            kAccountIndex.RemoveFromIndex(this);
+            kAccountIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos FindFisrtByAccount(string sAccount, bool sOrCreate = true)
+        public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
-            NWDAccountInfos rReturn = kAccountIndex.FindFirstByReference(sAccount);
+            NWDAccountInfos rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.Account.SetReference(sAccount);
+                rReturn.Account.SetReference(sAccountReference);
                 rReturn.AccountType = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerStatut;
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();
@@ -48,9 +48,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos Current()
+        public static NWDAccountInfos CurrentData()
         {
-            return FindFisrtByAccount(NWDAccount.CurrentReference(), true);
+            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
         }
             //-------------------------------------------------------------------------------------------------------------
         }

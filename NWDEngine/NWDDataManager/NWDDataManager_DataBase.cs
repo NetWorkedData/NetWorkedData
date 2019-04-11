@@ -495,8 +495,10 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_CreateTable();
                     //Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
             }
         }
@@ -507,7 +509,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_CleanTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
                 }
             }
         }
@@ -518,7 +522,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_PurgeTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
                 }
             }
         }
@@ -529,7 +535,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_UpdateDataTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
                 }
             }
         }
@@ -540,7 +548,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_ResetTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
                 }
             }
         }
@@ -551,7 +561,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_CreateTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
             }
         }
@@ -562,7 +574,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_CleanTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
                 }
             }
         }
@@ -573,7 +587,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_PurgeTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
                 }
             }
         }
@@ -584,7 +600,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_UpdateDataTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
                 }
             }
         }
@@ -595,7 +613,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_ResetTable();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
                 }
             }
         }

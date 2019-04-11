@@ -36,7 +36,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("ForRelationshipOnly")]
+      //  [NWDAlias("ForRelationshipOnly")]
         public bool ForRelationshipOnly
         {
             get; set;
@@ -71,7 +71,7 @@ namespace NetWorkedData
        
 
         [NWDInspectorGroupStart("Results", true, true, true)]
-        [NWDAlias("BarterRequestsList")]
+       // [NWDAlias("BarterRequestsList")]
         public NWDReferencesListType<NWDUserBarterRequest> BarterRequestsList
         {
             get; set;

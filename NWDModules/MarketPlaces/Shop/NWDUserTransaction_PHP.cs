@@ -10,11 +10,10 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserTransaction : NWDBasis<NWDUserTransaction>
+    public partial class NWDUserTransactionHelper : NWDHelper<NWDUserTransaction>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
             // TODO 
             string sScript = "" +

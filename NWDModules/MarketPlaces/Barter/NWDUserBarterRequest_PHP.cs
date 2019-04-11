@@ -21,25 +21,57 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserBarterRequest : NWDBasis<NWDUserBarterRequest>
+    public partial class NWDUserBarterRequestHelper : NWDHelper<NWDUserBarterRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string tBarterStatus = NWDUserBarterProposition.FindAliasName("BarterStatus");
-            string tBarterRequest = NWDUserBarterProposition.FindAliasName("BarterRequest");
-            string tBarterRequestHash = NWDUserBarterProposition.FindAliasName("BarterRequestHash");
-            string tItemsSend = NWDUserBarterProposition.FindAliasName("ItemsSend");
 
-            string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
-            string t_THIS_Propositions = FindAliasName("Propositions");
-            string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
-            string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
-            string t_THIS_BarterStatus = FindAliasName("BarterStatus");
-            string t_THIS_BarterHash = FindAliasName("BarterHash");
-            string t_THIS_BarterPlace = FindAliasName("BarterPlace");
-            string t_THIS_LimitDayTime = FindAliasName("LimitDayTime");
+            string tBarterStatus = NWDToolbox.PropertyName(() => NWDUserBarterProposition.FictiveData().BarterStatus);
+            string tBarterRequest = NWDToolbox.PropertyName(() => NWDUserBarterProposition.FictiveData().BarterRequest);
+            string tBarterRequestHash = NWDToolbox.PropertyName(() => NWDUserBarterProposition.FictiveData().BarterRequestHash);
+            string tItemsSend = NWDToolbox.PropertyName(() => NWDUserBarterProposition.FictiveData().ItemsSend);
+
+            string tMaxRequestPerUser = NWDToolbox.PropertyName(() => NWDBarterPlace.FictiveData().MaxRequestPerUser);
+            string tMaxPropositionsPerUser = NWDToolbox.PropertyName(() => NWDBarterPlace.FictiveData().MaxPropositionsPerUser);
+            string tMaxPropositionsPerRequest = NWDToolbox.PropertyName(() => NWDBarterPlace.FictiveData().MaxPropositionsPerRequest);
+            string tRequestLifeTime = NWDToolbox.PropertyName(() => NWDBarterPlace.FictiveData().RequestLifeTime);
+
+            string t_THIS_WinnerProposition = NWDToolbox.PropertyName(() => FictiveData().WinnerProposition);
+            string t_THIS_Propositions = NWDToolbox.PropertyName(() => FictiveData().Propositions);
+            string t_THIS_PropositionsCounter = NWDToolbox.PropertyName(() => FictiveData().PropositionsCounter);
+            string t_THIS_MaxPropositions = NWDToolbox.PropertyName(() => FictiveData().MaxPropositions);
+            string t_THIS_BarterStatus = NWDToolbox.PropertyName(() => FictiveData().BarterStatus);
+            string t_THIS_BarterHash = NWDToolbox.PropertyName(() => FictiveData().BarterHash);
+            string t_THIS_BarterPlace = NWDToolbox.PropertyName(() => FictiveData().BarterPlace);
+            string t_THIS_LimitDayTime = NWDToolbox.PropertyName(() => FictiveData().LimitDayTime);
+            string t_THIS_ItemsReceived = NWDToolbox.PropertyName(() => FictiveData().ItemsReceived);
+            string t_THIS_ItemsSuggested = NWDToolbox.PropertyName(() => FictiveData().ItemsSuggested);
+            string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
+
+
+
+            //string tBarterStatus = NWDUserBarterProposition.FindAliasName("BarterStatus");
+            //string tBarterRequest = NWDUserBarterProposition.FindAliasName("BarterRequest");
+            //string tBarterRequestHash = NWDUserBarterProposition.FindAliasName("BarterRequestHash");
+            //string tItemsSend = NWDUserBarterProposition.FindAliasName("ItemsSend");
+
+            //string tMaxRequestPerUser = NWDBarterPlace.FindAliasName("MaxRequestPerUser");
+            //string tMaxPropositionsPerUser = NWDBarterPlace.FindAliasName("MaxPropositionsPerUser");
+            //string tMaxPropositionsPerRequest = NWDBarterPlace.FindAliasName("MaxPropositionsPerRequest");
+            //string tRequestLifeTime = NWDBarterPlace.FindAliasName("RequestLifeTime");
+
+            //string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
+            //string t_THIS_Propositions = FindAliasName("Propositions");
+            //string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
+            //string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
+            //string t_THIS_BarterStatus = FindAliasName("BarterStatus");
+            //string t_THIS_BarterHash = FindAliasName("BarterHash");
+            //string t_THIS_BarterPlace = FindAliasName("BarterPlace");
+            //string t_THIS_LimitDayTime = FindAliasName("LimitDayTime");
+            //string t_THIS_ItemsReceived = FindAliasName("ItemsReceived");
+            //string t_THIS_ItemsSuggested = FindAliasName("ItemsSuggested");
+            //string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
 
             int t_THIS_Index_WinnerProposition = CSV_IndexOf(t_THIS_WinnerProposition);
             int t_THIS_Index_Propositions = CSV_IndexOf(t_THIS_Propositions);
@@ -50,19 +82,12 @@ namespace NetWorkedData
             int t_THIS_Index_BarterPlace = CSV_IndexOf(t_THIS_BarterPlace);
             int t_THIS_Index_LimitDayTime = CSV_IndexOf(t_THIS_LimitDayTime);
 
-            string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
             int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
-            string t_THIS_ItemsSuggested = FindAliasName("ItemsSuggested");
             int t_THIS_Index_ItemsSuggested = CSV_IndexOf(t_THIS_ItemsSuggested);
-            string t_THIS_ItemsReceived = FindAliasName("ItemsReceived");
             int t_THIS_Index_ItemsReceived = CSV_IndexOf(t_THIS_ItemsReceived);
 
 
 
-            string tMaxRequestPerUser = NWDBarterPlace.FindAliasName("MaxRequestPerUser");
-            string tMaxPropositionsPerUser = NWDBarterPlace.FindAliasName("MaxPropositionsPerUser");
-            string tMaxPropositionsPerRequest = NWDBarterPlace.FindAliasName("MaxPropositionsPerRequest");
-            string tRequestLifeTime = NWDBarterPlace.FindAliasName("RequestLifeTime");
 
             string sScript = "" +
                 "// start Addon \n" +
@@ -71,7 +96,7 @@ namespace NetWorkedData
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerHash = '';\n" +
                 "$tServerPropositions = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterHash + "`, `" + t_THIS_Propositions + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterHash + "`, `" + t_THIS_Propositions + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
                 "WHERE " +
                 "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';" +
                 "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
@@ -101,7 +126,7 @@ namespace NetWorkedData
                 ")\n" +
                     "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -132,15 +157,15 @@ namespace NetWorkedData
                                         "$tRowBarterPlace = $tResultBarterPlace->fetch_assoc();\n" +
                                         "$sReplaces[" + t_THIS_Index_LimitDayTime + "] = $TIME_SYNC + $tRowBarterPlace['" + tRequestLifeTime + "'];\n" +
                                         "$sReplaces[" + t_THIS_Index_MaxPropositions + "]= $tRowBarterPlace['" + tMaxPropositionsPerRequest + "'];\n" +
-                                        //"$sReplaces[" + t_THIS_Index_Propositions + "]= $tRowBarterPlace['" + t_THIS_BarterHash + "'];\n" +
-                                        //"$sReplaces[" + t_THIS_Index_Propositions + "]= $tRowBarterPlace['" + t_THIS_Propositions + "'];\n" +
+                                    //"$sReplaces[" + t_THIS_Index_Propositions + "]= $tRowBarterPlace['" + t_THIS_BarterHash + "'];\n" +
+                                    //"$sReplaces[" + t_THIS_Index_Propositions + "]= $tRowBarterPlace['" + t_THIS_Propositions + "'];\n" +
                                     "}\n" +
                             "}\n" +
                         "$sReplaces[" + t_THIS_Index_BarterHash + "] = $TIME_SYNC.RandomString();\n" +
                         "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
                         "$sReplaces[" + t_THIS_Index_Propositions + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO NONE 
@@ -159,7 +184,7 @@ namespace NetWorkedData
                         "$sReplaces[" + t_THIS_Index_Propositions + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_PropositionsCounter + "]='0';\n" +
                         "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO CANCEL 
@@ -167,7 +192,7 @@ namespace NetWorkedData
                 " $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.NoDeal).ToString() + ") && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -232,10 +257,10 @@ namespace NetWorkedData
                                             "}\n" +
                                         // FINISH CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I can integrate data to expired!\n" +
-                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
+                                        "Integrity" + ClassNamePHP + "Reevalue ($tReference);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
@@ -245,7 +270,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -311,10 +336,10 @@ namespace NetWorkedData
                                             "}\n" +
                                         // FINISH CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I can integrate data to expired!\n" +
-                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
+                                        "Integrity" + ClassNamePHP + "Reevalue ($tReference);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
@@ -324,7 +349,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryDeal = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -397,7 +422,7 @@ namespace NetWorkedData
                                                                         "$tItemsSend = $tRowBarterProposition['" + tItemsSend + "'];\n" +
                                                                     "}\n" +
                                                             "}\n" +
-                                                        "$tQueryAcceptedDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                                                        "$tQueryAcceptedDeal = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                                         "`" + t_THIS_ItemsReceived + "` = \\''.$tItemsSend.'\\', " +
@@ -418,7 +443,7 @@ namespace NetWorkedData
                                                     "}\n" +
                                                 "else\n" +
                                                     "{\n" +
-                                                        "$tQueryExpiredDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                                                        "$tQueryExpiredDeal = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -480,10 +505,10 @@ namespace NetWorkedData
                                             "}\n" +
                                         // FINISH CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I can integrate data to expired!\n" +
-                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
+                                        "Integrity" + ClassNamePHP + "Reevalue ($tReference);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
@@ -506,14 +531,14 @@ namespace NetWorkedData
                         "$sReplaces[" + t_THIS_Index_Propositions + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_PropositionsCounter + "]='0';\n" +
                         "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // OTHER
                 "else\n" +
                       "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
                 "// finish Addon \n";

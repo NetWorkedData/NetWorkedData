@@ -29,11 +29,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public string GetIAPKey()
         {
             if (Application.platform == RuntimePlatform.Android)

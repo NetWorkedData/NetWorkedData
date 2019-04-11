@@ -504,7 +504,7 @@ namespace NetWorkedData
         {
             K tNewObject = NWDBasis<K>.NewData();
             this.AddObjectValue(tNewObject, 0.0F);
-            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+            NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)

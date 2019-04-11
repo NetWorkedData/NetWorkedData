@@ -106,17 +106,25 @@ namespace NetWorkedData
                 {
                     foreach (Type tType in sTypeList)
                     {
-                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodInfo != null)
+                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                        foreach (Type tR in tHelper.ClasseInThisSync())
                         {
-                            foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
+                            if (tReturn.Contains(tR) == false)
                             {
-                                if (tReturn.Contains(tR) == false)
-                                {
-                                    tReturn.Add(tR);
-                                }
+                                tReturn.Add(tR);
                             }
                         }
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        //if (tMethodInfo != null)
+                        //{
+                        //    foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
+                        //    {
+                        //        if (tReturn.Contains(tR) == false)
+                        //        {
+                        //            tReturn.Add(tR);
+                        //        }
+                        //    }
+                        //}
                     }
                 }
                 rReturn.TypeList = tReturn;

@@ -16,31 +16,44 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
+public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
+            string tTradeHash = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeHash);
+            string tTradeStatus = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeStatus);
+            string tLimitDayTime = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().LimitDayTime);
+            string tTradePlace = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradePlace);
+            //string tTradeRequest = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeRequest);
+            string tWinnerProposition = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().WinnerProposition);
 
-            string tTradeHash = NWDUserTradeRequest.FindAliasName("TradeHash");
-            string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
-            string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
-            string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
-            string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
-            string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
+            string t_THIS_TradeRequestHash = NWDToolbox.PropertyName(() => FictiveData().TradeRequestHash);
+            string t_THIS_TradePlace = NWDToolbox.PropertyName(() => FictiveData().TradePlace);
+            string t_THIS_TradeRequest = NWDToolbox.PropertyName(() => FictiveData().TradeRequest);
+            string t_THIS_TradeStatus = NWDToolbox.PropertyName(() => FictiveData().TradeStatus);
+            string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
+            string t_THIS_ItemsAsked = NWDToolbox.PropertyName(() => FictiveData().ItemsAsked);
 
-            string t_THIS_TradeRequestHash = FindAliasName("TradeRequestHash");
-            string t_THIS_TradePlace = FindAliasName("TradePlace");
-            string t_THIS_TradeRequest = FindAliasName("TradeRequest");
-            string t_THIS_TradeStatus = FindAliasName("TradeStatus");
+
+            //string tTradeHash = NWDUserTradeRequest.FindAliasName("TradeHash");
+            //string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
+            //string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
+            //string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
+            //string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
+            //string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
+
+            //string t_THIS_TradeRequestHash = FindAliasName("TradeRequestHash");
+            //string t_THIS_TradePlace = FindAliasName("TradePlace");
+            //string t_THIS_TradeRequest = FindAliasName("TradeRequest");
+            //string t_THIS_TradeStatus = FindAliasName("TradeStatus");
             int t_THIS_Index_tTradeRequestHash = CSV_IndexOf(t_THIS_TradeRequestHash);
             int t_THIS_Index_TradePlace = CSV_IndexOf(t_THIS_TradePlace);
             int t_THIS_Index_TradeRequest = CSV_IndexOf(t_THIS_TradeRequest);
             int t_THIS_Index_TradeStatus = CSV_IndexOf(t_THIS_TradeStatus);
-            string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
+            //string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
             int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
-            string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
+            //string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
             int t_THIS_Index_ItemsAsked = CSV_IndexOf(t_THIS_ItemsAsked);
             string sScript = "" +
                 "// start Addon \n" +
@@ -48,7 +61,7 @@ namespace NetWorkedData
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerRequestHash = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeRequestHash + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeRequestHash + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
                 "WHERE " +
                 "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
                 "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
@@ -77,7 +90,7 @@ namespace NetWorkedData
                 " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
                 "{\n" +
                 //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                 "return;\n" +
                 "}\n" +
                 // change the statut from CSV TO NONE 
@@ -92,7 +105,7 @@ namespace NetWorkedData
                 "$sReplaces[" + t_THIS_Index_ItemsAsked + "]='';\n" +
                 "$sReplaces[" + t_THIS_Index_tTradeRequestHash + "]='';\n" +
                 "$sReplaces[" + t_THIS_Index_TradeRequest + "]='';\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                 "}\n" +
                 // change the statut from CSV TO ACTIVE 
                 "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
@@ -127,13 +140,13 @@ namespace NetWorkedData
                 "if ($tNumberOfRow == 1)\n" +
                 "{\n" +
                 "// I need update the proposition too !\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
+                "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
                 "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "Integrity" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
+                "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
                 "\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
                 "GetDatas" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
@@ -151,7 +164,7 @@ namespace NetWorkedData
                 "{\n" +
                 // not possible return preview value
                 //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                 "return;\n" +
                 "}\n" +
                 "// finish Addon \n";
@@ -159,19 +172,18 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string t_THIS_TradeRequest = FindAliasName("TradeRequest");
+            string t_THIS_TradeRequest = NWDToolbox.PropertyName(() => FictiveData().TradeRequest);
+            //string t_THIS_TradeRequest = FindAliasName("TradeRequest");
             int t_THIS_Index_TradeRequest = CSV_IndexOf(t_THIS_TradeRequest);
-
             return "// write your php script here to update after sync on server\n " +
                 "GetDatas" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script here to special operation, example : \n$REP['" + ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }

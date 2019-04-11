@@ -95,7 +95,7 @@ namespace NetWorkedData
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tValue);
             if (tAutoChange == true)
             {
-                SetObjectInEdition(tObject);
+                BasisHelper().New_SetObjectInEdition(tObject);
             }
             if (tObject != null)
             {
@@ -103,7 +103,7 @@ namespace NetWorkedData
                 {
                     if (GUI.Button(tButtonRect, NWDGUI.kEditContentIcon, NWDGUI.kEditButtonStyle))
                     {
-                        SetObjectInEdition(tObject);
+                        BasisHelper().New_SetObjectInEdition(tObject);
                     }
                 }
                 float tHelpBoxHeight = 0;
@@ -162,7 +162,7 @@ namespace NetWorkedData
                         tObject.UpdateData(true);
 
                         tValue = tObject.Reference;
-                        SetObjectInEdition(tObject); // PROVOQUE UN GROS BUG!!!
+                        BasisHelper().New_SetObjectInEdition(tObject); // PROVOQUE UN GROS BUG!!!
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(tObject.GetType());
                     }
                 }
@@ -304,7 +304,7 @@ namespace NetWorkedData
                 }
                 if (tAutoChange == true)
                 {
-                    SetObjectInEdition(tObject, true, false);
+                    BasisHelper().New_SetObjectInEdition(tObject, true, false);
                 }
                 if (tObject != null)
                 {

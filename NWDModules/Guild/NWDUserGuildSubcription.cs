@@ -39,18 +39,18 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("GuildPlace")]
+       // [NWDAlias("GuildPlace")]
         public NWDReferenceType<NWDGuildPlace> GuildPlace
         {
             get; set;
         }
-        [NWDAlias("GuildRequest")]
+       // [NWDAlias("GuildRequest")]
         public NWDReferenceType<NWDUserGuild> GuildRequest
         {
             get; set;
         }
         [NWDInspectorGroupEnd]
-        [NWDAlias("GuildStatus")]
+       // [NWDAlias("GuildStatus")]
         public NWDGuildStatus GuildStatus
         {
             get; set;

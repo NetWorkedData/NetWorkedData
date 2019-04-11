@@ -183,15 +183,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserTip), typeof(NWDTipKey) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void Visualized()
         {
-            NWDUserTip tUserTip = NWDUserTip.FindFisrtByTipKey(this);
+            NWDUserTip tUserTip = NWDUserTip.FindDataByTip(this);
             if (tUserTip == null)
             {
                 tUserTip = NWDUserTip.NewData();

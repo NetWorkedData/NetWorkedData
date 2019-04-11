@@ -25,7 +25,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Level.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
-                kLevelIndex.InsertInIndex(this, tKey);
+                kLevelIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -33,13 +33,13 @@ namespace NetWorkedData
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
-            kLevelIndex.RemoveFromIndex(this);
+            kLevelIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserLevelScore FindFisrtByLevel(NWDLevel sKey, bool sOrCreate = false)
+        public static NWDUserLevelScore FindDataByLevel(NWDLevel sKey, bool sOrCreate = false)
         {
-            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
-            NWDUserLevelScore rReturn = kLevelIndex.FindFirstByReference(tKey);
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
+            NWDUserLevelScore rReturn = kLevelIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
@@ -48,135 +48,6 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-
-        /*
-        //-------------------------------------------------------------------------------------------------------------
-        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
-        static Dictionary<string, List<NWDUserLevelScore>> kIndex = new Dictionary<string, List<NWDUserLevelScore>>();
-        private List<NWDUserLevelScore> kIndexList;
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
-        private void InsertInIndex()
-        {
-            if (Level.GetReference() != null
-                && IsEnable() == true
-                && IsTrashed() == false
-                && TestIntegrity() == true)
-            {
-                string tKey = Level.GetReference();
-                if (kIndexList != null)
-                {
-                    // I have allready index
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        if (kIndex[tKey] == kIndexList)
-                        {
-                            // I am in the good index ... do nothing
-                        }
-                        else
-                        {
-                            // I Changed index! during update ?!!
-                            kIndexList.Remove(this);
-                            kIndexList = null;
-                            kIndexList = kIndex[tKey];
-                            kIndexList.Add(this);
-                        }
-                    }
-                    else
-                    {
-                        kIndexList.Remove(this);
-                        kIndexList = null;
-                        kIndexList = new List<NWDUserLevelScore>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
-                }
-                else
-                {
-                    // I need add in index!
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        // index exists
-                        kIndexList = kIndex[tKey];
-                        kIndexList.Add(this);
-                    }
-                    else
-                    {
-                        // index must be create
-                        kIndexList = new List<NWDUserLevelScore>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
-                }
-            }
-            else
-            {
-                RemoveFromIndex();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
-        private void RemoveFromIndex()
-        {
-            if (kIndexList != null)
-            {
-                kIndexList.Contains(this);
-                {
-                    kIndexList.Remove(this);
-                }
-                kIndexList = null;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserLevelScore> FindByIndex(NWDLevel sLevel)
-        {
-            List<NWDUserLevelScore> rReturn = null;
-            if (sLevel != null)
-            {
-                string tKey = sLevel.Reference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserLevelScore> FindByIndex(string sLevelReference)
-        {
-            List<NWDUserLevelScore> rReturn = null;
-            if (sLevelReference != null)
-            {
-                string tKey = sLevelReference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public NWDUserLevelScore FindFirstByIndex(string sLevelReference)
-        {
-            NWDUserLevelScore rObject = null;
-            List<NWDUserLevelScore> rReturn = null;
-            if (sLevelReference != null)
-            {
-                string tKey = sLevelReference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            if (rReturn != null)
-            {
-                if (rReturn.Count > 0)
-                {
-                    rObject = rReturn[0];
-                }
-            }
-            return rObject;
-        }*/
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

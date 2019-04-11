@@ -25,7 +25,7 @@ namespace NetWorkedData
             return NWDAppConfiguration.SharedInstance().SelectedEnvironment().AnonymousPlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDAccounTest> FindAccountsForTest()
+        public static List<NWDAccounTest> SelectDatasForTests()
         {
             List<NWDAccounTest> rReturn = new List<NWDAccounTest>();
             string tValue = NWDAppConfiguration.SharedInstance().SelectedEnvironment().AccountsForTests;

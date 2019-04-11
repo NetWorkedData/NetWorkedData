@@ -215,9 +215,9 @@ namespace NetWorkedData
                     if (CodePinTentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
                     {
                         State = NWDStatut.DataAccountCodePinFail;
-//#if UNITY_EDITOR
-//                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
-//#endif
+                        //#if UNITY_EDITOR
+                        //                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
+                        //#endif
                         //Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
                         BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
                         //DatabaseAccountLauncher();
@@ -284,6 +284,38 @@ namespace NetWorkedData
             yield return tWaitTime;
             State = NWDStatut.DataAccountLoaded;
             BTBBenchmark.Finish();
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static private void DatabaseIndexation()
+        {
+            BTBBenchmark.Start();
+            State = NWDStatut.DataIndexationStart;
+            NWDDataManager.SharedInstance().IndexAllObjects();
+            State = NWDStatut.DataIndexationFinish;
+            BTBBenchmark.Finish();
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public IEnumerator DatabaseIndexationAsync()
+        {
+            BTBBenchmark.Start();
+            State = NWDStatut.DataIndexationStart;
+            IEnumerator tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
+            yield return tWaitTime;
+            State = NWDStatut.DataIndexationFinish;
+            BTBBenchmark.Finish();
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static private void Ready()
+        {
+            BTBBenchmark.Start();
+            State = NWDStatut.NetWorkedDataReady;
+            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
+            BTBBenchmark.Finish();
+            BTBBenchmark.Finish("NetWorkedData");
+            Debug.Log("FINAL TEST Fictive Data : " + NWDToolbox.PropertyName(() => NWDTipKey.FictiveData().CheckList));
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------

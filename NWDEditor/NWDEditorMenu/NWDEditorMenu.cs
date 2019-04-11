@@ -481,14 +481,14 @@ namespace NetWorkedData
         {
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+                NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
 
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
-                if (tMethodInfo != null)
-                {
-                    NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
+                //if (tMethodInfo != null)
+                //{
+                    //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
                     if (tBasisHelper != null)
                     {
                         foreach (NWDTypeClass tObject in tBasisHelper.Datas)
@@ -499,7 +499,7 @@ namespace NetWorkedData
                             }
                         }
                     }
-                }
+                //}
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
@@ -509,14 +509,14 @@ namespace NetWorkedData
         {
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+                NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
 
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
-                if (tMethodInfo != null)
-                {
-                    NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
+                //if (tMethodInfo != null)
+                //{
+                    //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
                     if (tBasisHelper != null)
                     {
                         foreach (NWDTypeClass tObject in tBasisHelper.Datas)
@@ -524,7 +524,7 @@ namespace NetWorkedData
                             tObject.UpdateIntegrityAction();
                         }
                     }
-                }
+                //}
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }

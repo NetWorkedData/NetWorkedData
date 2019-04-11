@@ -25,7 +25,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = StatKey.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
-                kStatisticKeyIndex.InsertInIndex(this, tKey);
+                kStatisticKeyIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -33,13 +33,13 @@ namespace NetWorkedData
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
-            kStatisticKeyIndex.RemoveFromIndex(this);
+            kStatisticKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountStatistic FindFisrtByStatistic(NWDStatisticKey sKey, bool sOrCreate = true)
+        public static NWDAccountStatistic FindDataByStatistic(NWDStatisticKey sKey, bool sOrCreate = true)
         {
             string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
-            NWDAccountStatistic rReturn = kStatisticKeyIndex.FindFirstByReference(tKey);
+            NWDAccountStatistic rReturn = kStatisticKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();

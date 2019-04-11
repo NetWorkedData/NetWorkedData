@@ -381,12 +381,12 @@ namespace NetWorkedData
             // no auto update data
             if (sObject != null)
             {
-                MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sObject.GetType(), NWDConstants.M_CheckError);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(sObject, null);
-                }
-
+                //MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sObject.GetType(), NWDConstants.M_CheckError);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(sObject, null);
+                //}
+                sObject.ErrorCheck();
             }
 #endif
             //BTBBenchmark.Finish();

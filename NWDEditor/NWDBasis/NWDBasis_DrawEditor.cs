@@ -29,84 +29,84 @@ namespace NetWorkedData
             {
                 K sObject = BasisHelper().EditorTableDatas.ElementAt(0) as K;
                 //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
-                SetObjectInEdition(sObject);
+                BasisHelper().New_SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
-        public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_RestaureObjectInEdition)]
-        public static NWDBasis<K> RestaureObjectInEdition()
-        {
-            string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
-            string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
-            NWDBasis<K> rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
-            if (rObject != null)
-            {
-                SetObjectInEdition(rObject);
-            }
-            return rObject;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDBasis<K> ObjectInEditionReccord(string sClassPHP, string sReference)
-        {
-            NWDBasis<K> rObject = null;
-            if (!string.IsNullOrEmpty(sClassPHP) && !string.IsNullOrEmpty(sReference))
-            {
-                if (sClassPHP == BasisHelper().ClassNamePHP)
-                {
-                    K tObj = NWDBasis<K>.GetDataByReference(sReference);
-                    rObject = tObj;
-                }
-            }
-            return rObject;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SaveObjectInEdition()
-        {
-            NWDBasis<K> tObject = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-            if (tObject == null)
-            {
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
-                EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
-            }
-            else
-            {
+        //public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
+        //public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
+        ////-------------------------------------------------------------------------------------------------------------
+        //[NWDAliasMethod(NWDConstants.M_RestaureObjectInEdition)]
+        //public static NWDBasis<K> RestaureObjectInEdition()
+        //{
+        //    string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
+        //    string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
+        //    NWDBasis<K> rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
+        //    if (rObject != null)
+        //    {
+        //        SetObjectInEdition(rObject);
+        //    }
+        //    return rObject;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDBasis<K> ObjectInEditionReccord(string sClassPHP, string sReference)
+        //{
+        //    NWDBasis<K> rObject = null;
+        //    if (!string.IsNullOrEmpty(sClassPHP) && !string.IsNullOrEmpty(sReference))
+        //    {
+        //        if (sClassPHP == BasisHelper().ClassNamePHP)
+        //        {
+        //            K tObj = NWDBasis<K>.GetDataByReference(sReference);
+        //            rObject = tObj;
+        //        }
+        //    }
+        //    return rObject;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SaveObjectInEdition()
+        //{
+        //    NWDBasis<K> tObject = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+        //    if (tObject == null)
+        //    {
+        //        EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
+        //        EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
+        //    }
+        //    else
+        //    {
 
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
-                EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetObjectInEdition(object sObject, bool sResetStack = true, bool sFocus = true)
-        {
+        //        EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
+        //        EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetObjectInEdition(object sObject, bool sResetStack = true, bool sFocus = true)
+        //{
 
-            GUI.FocusControl(null);
-            NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
-            if (sObject != null)
-            {
-                NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-            }
-            else if (NWDBasisEditor.ObjectEditorLastType != null)
-            {
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-                NWDBasisEditor.ObjectEditorLastType = null;
-            }
-            SaveObjectInEdition();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool IsObjectInEdition(object sObject)
-        {
-            bool rReturn = false;
-            if (NWDDataInspector.ObjectInEdition() == sObject)
-            {
-                rReturn = true;
-            }
-            return rReturn;
-        }
+        //    GUI.FocusControl(null);
+        //    NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
+        //    if (sObject != null)
+        //    {
+        //        NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
+        //        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+        //    }
+        //    else if (NWDBasisEditor.ObjectEditorLastType != null)
+        //    {
+        //        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+        //        NWDBasisEditor.ObjectEditorLastType = null;
+        //    }
+        //    SaveObjectInEdition();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static bool IsObjectInEdition(object sObject)
+        //{
+        //    bool rReturn = false;
+        //    if (NWDDataInspector.ObjectInEdition() == sObject)
+        //    {
+        //        rReturn = true;
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
@@ -508,7 +508,7 @@ namespace NetWorkedData
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 PreviewTexture2D();
                 RowAnalyze();
-                RepaintTableEditor();
+               BasisHelper().New_RepaintTableEditor();
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
@@ -532,7 +532,7 @@ namespace NetWorkedData
                     UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     RowAnalyze();
-                    RepaintTableEditor();
+                    BasisHelper().New_RepaintTableEditor();
                     NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
@@ -555,7 +555,7 @@ namespace NetWorkedData
                 UpdateIntegrity();
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 RowAnalyze();
-                RepaintTableEditor();
+                BasisHelper().New_RepaintTableEditor();
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
@@ -619,7 +619,7 @@ namespace NetWorkedData
                     //UpdateObjectInListOfEdition(this);
                     UpdateData(true, NWDWritingMode.ByEditorDefault, false);
                     RowAnalyze();
-                    RepaintTableEditor();
+                    BasisHelper().New_RepaintTableEditor();
                     NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
@@ -652,7 +652,7 @@ namespace NetWorkedData
                 UpdateIntegrity();
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 RowAnalyze();
-                RepaintTableEditor();
+                BasisHelper().New_RepaintTableEditor();
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
@@ -676,7 +676,7 @@ namespace NetWorkedData
                     UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.MainThread);
                     RowAnalyze();
-                    RepaintTableEditor();
+                    BasisHelper().New_RepaintTableEditor();
                     NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
@@ -746,7 +746,7 @@ namespace NetWorkedData
                     }
                 }
                 UpdateData();
-                RepaintTableEditor();
+                BasisHelper().New_RepaintTableEditor();
             }
             if (tPreprodLockAnalyze != tPreprodLock)
             {
@@ -777,7 +777,7 @@ namespace NetWorkedData
                     }
                 }
                 UpdateData();
-                RepaintTableEditor();
+                BasisHelper().New_RepaintTableEditor();
             }
             if (tProdLockAnalyze != tProdLock)
             {
@@ -808,7 +808,7 @@ namespace NetWorkedData
                     }
                 }
                 UpdateData();
-                RepaintTableEditor();
+                BasisHelper().New_RepaintTableEditor();
             }
             tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
@@ -859,6 +859,20 @@ namespace NetWorkedData
             GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
             tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
+            if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "UnloadMe", NWDGUI.kMiniButtonStyle))
+            {
+                BasisHelper().New_SetObjectInEdition(null);
+                UnloadDataByReference(this.Reference);
+            }
+            if (GUI.Button(new Rect(tX + tButtonWidth + NWDGUI.kFieldMarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "ReloadMe", NWDGUI.kMiniButtonStyle))
+            {
+                K tLoaded = LoadDataByReference(this.Reference);
+                BasisHelper().New_SetObjectInEdition(tLoaded);
+            }
+
+                tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+
 
             if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
             {
@@ -891,7 +905,7 @@ namespace NetWorkedData
                     tNexObject.Tag = BasisHelper().m_SearchTag;
                     tNexObject.UpdateData();
                 }
-                SetObjectInEdition(tNexObject);
+                BasisHelper().New_SetObjectInEdition(tNexObject);
                 BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
@@ -947,8 +961,8 @@ namespace NetWorkedData
                 {
 
                     DeleteData(NWDWritingMode.ByEditorDefault);
-                    SetObjectInEdition(null);
-                    RepaintTableEditor();
+                    BasisHelper().New_SetObjectInEdition(null);
+                    BasisHelper().New_RepaintTableEditor();
                     NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
@@ -996,7 +1010,7 @@ namespace NetWorkedData
                         if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
-                            SetObjectInEdition(tNextSelected);
+                            BasisHelper().New_SetObjectInEdition(tNextSelected);
                             ChangeScroolPositionToSelection();
                             Event.current.Use();
                         }
@@ -1017,7 +1031,7 @@ namespace NetWorkedData
                         if (tIndexSelected > 0)
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
-                            SetObjectInEdition(tNextSelected);
+                            BasisHelper().New_SetObjectInEdition(tNextSelected);
                             ChangeScroolPositionToSelection();
                             Event.current.Use();
                         }
@@ -1038,7 +1052,7 @@ namespace NetWorkedData
                     if (tIndexSel < BasisHelper().EditorTableDatas.Count)
                     {
                         K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
-                        SetObjectInEdition(tNextSelected);
+                        BasisHelper().New_SetObjectInEdition(tNextSelected);
                         ChangeScroolPositionToSelection();
                         Event.current.Use();
                     }
@@ -1053,7 +1067,7 @@ namespace NetWorkedData
                 {
                     BasisHelper().m_PageSelected--;
                     K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
-                    SetObjectInEdition(tNextSelected);
+                    BasisHelper().New_SetObjectInEdition(tNextSelected);
                     ChangeScroolPositionToSelection();
                     Event.current.Use();
                 }
@@ -1078,8 +1092,8 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_CheckError)]
-        public void ErrorCheck()
+        //[NWDAliasMethod(NWDConstants.M_CheckError)]
+        public override void ErrorCheck()
         {
             //  Debug.Log("NWDBasis ErrorCheck()");
             bool tErrorResult = false;

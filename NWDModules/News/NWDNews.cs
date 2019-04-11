@@ -57,6 +57,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("News Message")]
     [NWDClassMenuNameAttribute("News Message")]
     //[NWDInternalKeyNotEditableAttribute]
+    // TODO : rename NWDNewsKey
     public partial class NWDNews : NWDBasis<NWDNews>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
        
         [NWDInspectorGroupStart("Type of Event")]
-        [NWDAlias("NewsType")]
+       // [NWDAlias("NewsType")]
         public NWDNewsType NewsType
         {
             get; set;

@@ -101,8 +101,8 @@ namespace NetWorkedData
             ParentsUpdate();
 #if UNITY_EDITOR
             // just for improvment
-            RepaintTableEditor();
-            RepaintInspectorEditor();
+            BasisHelper().New_RepaintTableEditor();
+            BasisHelper().New_RepaintInspectorEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -26,17 +26,17 @@ namespace NetWorkedData
         #region properties
         //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
-        [NWDAlias(NWD.K_DevEnvironment)]
+       // [NWDAlias(NWD.K_DevEnvironment)]
         public NWDAppEnvironment DevEnvironment
         {
             set; get;
         }
-        [NWDAlias(NWD.K_PreprodEnvironment)]
+       // [NWDAlias(NWD.K_PreprodEnvironment)]
         public NWDAppEnvironment PreprodEnvironment
         {
             set; get;
         }
-        [NWDAlias(NWD.K_ProdEnvironment)]
+       // [NWDAlias(NWD.K_ProdEnvironment)]
         public NWDAppEnvironment ProdEnvironment
         {
             set; get;
@@ -323,7 +323,7 @@ namespace NetWorkedData
                             //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
                             //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
                             //{
-                                foreach (NWDAccounTest tAccount in NWDAccount.FindAccountsForTest())
+                                foreach (NWDAccounTest tAccount in NWDAccount.SelectDatasForTests())
                                 {
                                     if (tAccount.Reference == tEnvironment.PlayerAccountReference)
                                     {

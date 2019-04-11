@@ -16,24 +16,39 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserBarterFinder : NWDBasis<NWDUserBarterFinder>
+    public partial class NWDUserBarterFinderHelper : NWDHelper<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
-            string tLimitDayTime = NWDUserBarterRequest.FindAliasName("LimitDayTime");
-            string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
-            string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
-            string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
-            int tIndex_tBarterStatus = NWDUserBarterRequest.CSV_IndexOf(tBarterStatus);
+            //string tTradeHash = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeHash);
 
-            string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
-            string t_THIS_BarterPlace = FindAliasName("BarterPlace");
-            string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
-            string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
-            string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
+            string tBarterStatus = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().BarterStatus);
+            string tLimitDayTime = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().LimitDayTime);
+            string tBarterPlaceRequest = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().BarterPlace);
+            string tForRelationshipOnly = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().ForRelationshipOnly);
+            string tRelationshipAccountReferences = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().UserRelationship);
+
+            string t_THIS_BarterRequestsList = NWDToolbox.PropertyName(() => FictiveData().BarterRequestsList);
+            string t_THIS_BarterPlace = NWDToolbox.PropertyName(() => FictiveData().BarterPlace);
+            string t_THIS_ForRelationshipOnly = NWDToolbox.PropertyName(() => FictiveData().ForRelationshipOnly);
+            string t_THIS_MaxPropositions = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().MaxPropositions);
+            string t_THIS_PropositionsCounter = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().PropositionsCounter);
+
+
+            //string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
+            //string tLimitDayTime = NWDUserBarterRequest.FindAliasName("LimitDayTime");
+            //string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
+            //string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
+            //string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
+
+            //string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
+            //string t_THIS_BarterPlace = FindAliasName("BarterPlace");
+            //string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
+            //string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
+            //string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
+
+            int tIndex_tBarterStatus = NWDUserBarterRequest.CSV_IndexOf(tBarterStatus);
 
             int tIndex_BarterRequestsList = CSV_IndexOf(t_THIS_BarterRequestsList);
             int tIndex_BarterPlace = CSV_IndexOf(t_THIS_BarterPlace);

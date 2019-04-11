@@ -380,7 +380,7 @@ namespace NetWorkedData
             if (BasisHelper().m_ShowEnable != t_ShowEnableLine)
             {
                 BasisHelper().m_ShowEnable = t_ShowEnableLine;
-                FilterTableEditor();
+                BasisHelper().New_FilterTableEditor();
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
             // draw toogle disable
@@ -388,7 +388,7 @@ namespace NetWorkedData
             if (BasisHelper().m_ShowDisable != t_ShowDisableLine)
             {
                 BasisHelper().m_ShowDisable = t_ShowDisableLine;
-                FilterTableEditor();
+                BasisHelper().New_FilterTableEditor();
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
             // draw toogle trashed
@@ -397,7 +397,7 @@ namespace NetWorkedData
             if (BasisHelper().m_ShowTrashed != t_ShowTrashedLine)
             {
                 BasisHelper().m_ShowTrashed = t_ShowTrashedLine;
-                FilterTableEditor();
+                BasisHelper().New_FilterTableEditor();
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
             // draw toogle corrupted
@@ -406,7 +406,7 @@ namespace NetWorkedData
             if (BasisHelper().m_ShowIntegrityError != t_ShowIntegrityErrorLine)
             {
                 BasisHelper().m_ShowIntegrityError = t_ShowIntegrityErrorLine;
-                FilterTableEditor();
+                BasisHelper().New_FilterTableEditor();
             }
             bool tShowMoreInfos = false;
             if (tShowMoreInfos)
@@ -466,7 +466,7 @@ namespace NetWorkedData
                     tNewObject.UpdateData();
                 }
                 BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
+                BasisHelper().New_SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
         }
@@ -815,7 +815,7 @@ namespace NetWorkedData
             Rect tRectRowLineBLack = new Rect(0, NWDGUI.kTableRowHeight * (sRow + 1) * sZoom, sRectRow.width, 1);
             Rect tRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kTableRowHeight * sRow * sZoom, 0, NWDGUI.kTableRowHeight * sZoom);
             EditorGUI.DrawRect(tRectRow, tBoxColor);
-            if (IsObjectInEdition(this) == true)
+            if (BasisHelper().New_IsObjectInEdition(this) == true)
             {
                 Rect tRectRowSelected = new Rect(tRectRow.x, tRectRow.y +2, tRectRow.width, tRectRow.height-2);
                 EditorGUI.DrawRect(tRectRowSelected, NWDGUI.kRowColorSelected);
@@ -824,7 +824,7 @@ namespace NetWorkedData
             if (tRectRow.Contains(sMouseClickPosition))
             {
                 GUI.FocusControl(null);
-                SetObjectInEdition(this);
+                BasisHelper().New_SetObjectInEdition(this);
                 if (sSelectAndClick == true)
                 {
                     if (XX == 0 && TestIntegrity())

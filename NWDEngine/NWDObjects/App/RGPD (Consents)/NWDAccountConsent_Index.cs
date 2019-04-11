@@ -27,7 +27,7 @@ namespace NetWorkedData
                 if (Consent.GetObject() != null)
                 {
                     string tKey = Consent.GetReference() + NWDConstants.kFieldSeparatorA + Consent.GetObject().Version.ToString() + NWDConstants.kFieldSeparatorA + Account.GetReference();
-                    kAccountIndex.InsertInIndex(this, tKey);
+                    kAccountIndex.InsertData(this, tKey);
                 }
             }
         }
@@ -36,13 +36,13 @@ namespace NetWorkedData
         public void RemoveFromAccountIndex()
         {
             // Remove from the actual indexation
-            kAccountIndex.RemoveFromIndex(this);
+            kAccountIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountConsent FindFisrtByConsent(NWDConsent sConsent, bool sOrCreate = true)
+        public static NWDAccountConsent FindDataByConsent(NWDConsent sConsent, bool sOrCreate = true)
         {
             string tKey = sConsent.Reference + NWDConstants.kFieldSeparatorA + sConsent.Version.ToString() + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
-            NWDAccountConsent rReturn = kAccountIndex.FindFirstByReference(tKey);
+            NWDAccountConsent rReturn = kAccountIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();

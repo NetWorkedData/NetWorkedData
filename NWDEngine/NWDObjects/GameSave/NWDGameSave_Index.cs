@@ -15,11 +15,11 @@ namespace NetWorkedData
     public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave Current()
+        public static NWDGameSave CurrentData()
         {
             NWDGameSave rParty = null;
             //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.Current();
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
                 if (tAccountInfos.CurrentGameSave != null)
@@ -62,7 +62,7 @@ namespace NetWorkedData
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave CurrentByAccount(string sAccountReference)
+        public static NWDGameSave SelectCurrentDataForAccount(string sAccountReference)
         {
             NWDGameSave rParty = null;
             foreach (NWDGameSave tParty in BasisHelper().Datas)

@@ -29,8 +29,11 @@ namespace NetWorkedData
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " errors and messages", tOperation / tCountClass);
                 tOperation++;
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.New_CreateErrorAndMessage();
+                tHelper.New_ErrorRegenerate();
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
             }
 
             NWDDataManager.SharedInstance().DataQueueExecute();

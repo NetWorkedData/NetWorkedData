@@ -29,12 +29,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDCraftReward), typeof(NWDCraftBook), typeof(NWDCraftRecipient) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>

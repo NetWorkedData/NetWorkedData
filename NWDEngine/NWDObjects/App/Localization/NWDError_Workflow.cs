@@ -88,7 +88,7 @@ namespace NetWorkedData
                         BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), delegate (BTBMessageState state)
                         {
                             string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
-                            NWDVersion tVersion = NWDVersion.Current();
+                            NWDVersion tVersion = NWDVersion.CurrentData();
 #if UNITY_EDITOR
                             // NO CHANGE
 #elif UNITY_IOS

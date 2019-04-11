@@ -33,7 +33,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("TradePlace")]
+       // [NWDAlias("TradePlace")]
         public NWDReferenceType<NWDTradePlace> TradePlace
         {
             get; set;
@@ -41,28 +41,28 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Trade References", true, true, true)]
-        [NWDAlias("TradeRequest")]
+       // [NWDAlias("TradeRequest")]
         public NWDReferenceType<NWDUserTradeRequest> TradeRequest
         {
             get; set;
         }
-        [NWDAlias("ItemsProposed")]
+        //[NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed
         {
             get; set;
         }
-        [NWDAlias("ItemsAsked")]
+        //[NWDAlias("ItemsAsked")]
         public NWDReferencesQuantityType<NWDItem> ItemsAsked
         {
             get; set;
         }
-        [NWDAlias("TradeStatus")]
+        //[NWDAlias("TradeStatus")]
         public NWDTradeStatus TradeStatus
         {
             get; set;
         }
         [NWDNotEditable]
-        [NWDAlias("TradeRequestHash")]
+       // [NWDAlias("TradeRequestHash")]
         public string TradeRequestHash
         {
             get; set;

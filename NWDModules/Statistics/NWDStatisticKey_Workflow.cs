@@ -50,12 +50,6 @@ namespace NetWorkedData
             //Debug.Log("NWDStatKey Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserStatistic), typeof(NWDAccountStatistic), typeof(NWDStatisticKey) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
             NoCounterFormat.AddBaseString("#x#");
@@ -95,12 +89,12 @@ namespace NetWorkedData
             {
                 case NWDGameDomain.Account:
                     {
-                        NWDAccountStatistic.FindFisrtByStatistic(this).AddEnter(sValue);
+                        NWDAccountStatistic.FindDataByStatistic(this).AddEnter(sValue);
                     }
                     break;
                 case NWDGameDomain.GameSave:
                     {
-                        NWDUserStatistic.FindFisrtByStatistic(this).AddEnter(sValue);
+                        NWDUserStatistic.FindDataByStatistic(this).AddEnter(sValue);
                     }
                     break;
             }
@@ -113,12 +107,12 @@ namespace NetWorkedData
             {
                 case NWDGameDomain.Account:
                     {
-                        rReturn = NWDAccountStatistic.FindFisrtByStatistic(this).AddEnterForParent(sValue, this);
+                        rReturn = NWDAccountStatistic.FindDataByStatistic(this).AddEnterForParent(sValue, this);
                     }
                     break;
                 case NWDGameDomain.GameSave:
                     {
-                        rReturn = NWDUserStatistic.FindFisrtByStatistic(this).AddEnterForParent(sValue, this);
+                        rReturn = NWDUserStatistic.FindDataByStatistic(this).AddEnterForParent(sValue, this);
                     }
                     break;
             }
@@ -132,12 +126,12 @@ namespace NetWorkedData
             {
                 case NWDGameDomain.Account:
                     {
-                        rReturn = NWDAccountStatistic.FindFisrtByStatistic(this).Counter;
+                        rReturn = NWDAccountStatistic.FindDataByStatistic(this).Counter;
                     }
                     break;
                 case NWDGameDomain.GameSave:
                     {
-                        rReturn = NWDUserStatistic.FindFisrtByStatistic(this).Counter;
+                        rReturn = NWDUserStatistic.FindDataByStatistic(this).Counter;
                     }
                     break;
             }

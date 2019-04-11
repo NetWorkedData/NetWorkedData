@@ -37,7 +37,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Item.GetReference() + NWDConstants.kFieldSeparatorA + GameSave.GetReference();
-                kAchievementKeyIndex.InsertInIndex(this, tKey);
+                kAchievementKeyIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ namespace NetWorkedData
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
-            kAchievementKeyIndex.RemoveFromIndex(this);
+            kAchievementKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership FindFisrtByItem (NWDItem sKey, bool sOrCreate = true)
@@ -55,8 +55,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership FindFisrtByItemReference(string sReference, bool sOrCreate = true)
         {
-            string tKey = sReference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
-            NWDUserOwnership rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            string tKey = sReference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
+            NWDUserOwnership rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();

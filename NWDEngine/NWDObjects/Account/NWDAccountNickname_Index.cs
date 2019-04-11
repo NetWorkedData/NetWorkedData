@@ -23,7 +23,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Account.GetReference();
-                kAccountIndex.InsertInIndex(this, tKey);
+                kAccountIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -31,25 +31,25 @@ namespace NetWorkedData
         public void RemoveFromAccountIndex()
         {
             // Remove from the actual indexation
-            kAccountIndex.RemoveFromIndex(this);
+            kAccountIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountNickname FindFisrtByAccount(string sAccount, bool sOrCreate = true)
+        public static NWDAccountNickname FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
-            NWDAccountNickname rReturn = kAccountIndex.FindFirstByReference(sAccount);
+            NWDAccountNickname rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.Account.SetReference(sAccount);
+                rReturn.Account.SetReference(sAccountReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountNickname Current()
+        public static NWDAccountNickname CurrentData()
         {
-            return FindFisrtByAccount(NWDAccount.CurrentReference(), true);
+            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
         }
             //-------------------------------------------------------------------------------------------------------------
         }

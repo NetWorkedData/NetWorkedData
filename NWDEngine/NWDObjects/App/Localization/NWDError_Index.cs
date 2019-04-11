@@ -21,8 +21,60 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDError : NWDBasis<NWDError>
     {
+        /*
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDError FindByCode(string sCode)
+        static protected NWDIndexSimple<NWDError> kCodeIndex = new NWDIndexSimple<NWDError>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInCodeIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                kCodeIndex.InsertData(this, this.Code);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromCodeIndex()
+        {
+            // Remove from the actual indexation
+            kCodeIndex.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDError FindDataByCode(string sCode)
+        {
+            return kCodeIndex.RawFirstDataByKey(sCode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndexSimple<NWDError> kDomainCodeIndex = new NWDIndexSimple<NWDError>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInDomainCodeIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add !
+                kDomainCodeIndex.InsertData(this, this.Domain + NWDConstants.kFieldSeparatorA + this.Code);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromDomainCodeIndex()
+        {
+            // Remove from the actual indexation
+            kDomainCodeIndex.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDError FindDataByDomainAndCode(string sDomain, string sCode)
+        {
+            return kDomainCodeIndex.RawFirstDataByKey(sDomain + NWDConstants.kFieldSeparatorA + sCode);
+        }
+        */
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDError FindDataByCode(string sCode)
         {
             NWDError rReturn = null;
             foreach (NWDError tObject in NWDError.FindDatas())
@@ -36,7 +88,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDError FindByDomainAndCode(string sDomain, string sCode)
+        public static NWDError FindDataByDomainAndCode(string sDomain, string sCode)
         {
             NWDError rReturn = null;
             foreach (NWDError tObject in NWDError.FindDatas())

@@ -30,12 +30,6 @@ namespace NetWorkedData
             RequestLifeTime = 60 * 60 * 24;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public string GetLifeTime()
         {
             // Return value

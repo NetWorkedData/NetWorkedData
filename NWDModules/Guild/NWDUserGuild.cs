@@ -33,7 +33,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("GuildPlace")]
+       // [NWDAlias("GuildPlace")]
         public NWDReferenceType<NWDGuildPlace> GuildPlace
         {
             get; set;
@@ -55,24 +55,24 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDIntSlider(NWDGuildPlace.K_Guild_REQUEST_MIN, NWDGuildPlace.K_Guild_REQUEST_MAX)]
-        [NWDAlias("MaxMembers")]
+       // [NWDAlias("MaxMembers")]
         public int MaxMembers
         {
             get; set;
         }
         [NWDNotEditable]
-        [NWDAlias("SubscriptionCounter")]
+        //[NWDAlias("SubscriptionCounter")]
         public int SubscriptionCounter
         {
             get; set;
         }
         [NWDNotEditable]
-        [NWDAlias("Subscriptions")]
+        //[NWDAlias("Subscriptions")]
         public NWDReferencesListType<NWDUserGuildSubcription> Subscriptions
         {
             get; set;
         }
-        [NWDAlias("SubscriptionsWaiting")]
+       // [NWDAlias("SubscriptionsWaiting")]
         public NWDReferencesListType<NWDUserGuildSubcription> SubscriptionsWaiting
         {
             get; set;

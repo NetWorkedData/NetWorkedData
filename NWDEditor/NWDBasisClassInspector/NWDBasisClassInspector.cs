@@ -33,7 +33,8 @@ namespace NetWorkedData
             NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
             if (tTarget.mTypeInEdition != null)
             {
-                NWDAliasMethod.InvokeClassMethod(tTarget.mTypeInEdition, NWDConstants.M_DrawTypeInInspector);
+                NWDBasisHelper.FindTypeInfos(tTarget.mTypeInEdition).New_DrawTypeInInspector();
+                //NWDAliasMethod.InvokeClassMethod(tTarget.mTypeInEdition, NWDConstants.M_DrawTypeInInspector);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

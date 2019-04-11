@@ -41,7 +41,7 @@ namespace NetWorkedData
             rGameSave.Tag = NWDBasisTag.TagUserCreated;
             rGameSave.IsCurrent = true;
             //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.Current();
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
                 tAccountInfos.CurrentGameSave.SetReference(rGameSave.Reference);
@@ -62,7 +62,7 @@ namespace NetWorkedData
                 }
             }
             //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.Current();
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
                 if (tAccountInfos.CurrentGameSave == null)
@@ -74,12 +74,6 @@ namespace NetWorkedData
             }
             IsCurrent = true;
             SaveDataIfModified();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDAccountInfos), typeof(NWDGameSave) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

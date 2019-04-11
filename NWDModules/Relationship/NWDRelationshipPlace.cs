@@ -50,24 +50,24 @@ namespace NetWorkedData
        
         [NWDInspectorGroupStart("Classes Shared in relationship", true, true, true)]
         [NWDTooltips("Classes Shared")]
-        [NWDAlias("ClassesSharedToStartRelation")]
+        //[NWDAlias("ClassesSharedToStartRelation")]
         public NWDAccountClassesListType ClassesSharedToStartRelation
         {
             get; set;
         }
-        [NWDAlias("ClassesShared")]
+       // [NWDAlias("ClassesShared")]
         public NWDAccountClassesListType ClassesShared
         {
             get; set;
         }
         [NWDIntSlider(K_CODE_LENGHT_MIN, K_CODE_LENGHT_MAX)]
-        [NWDAlias("CodeLenght")]
+       // [NWDAlias("CodeLenght")]
         public int CodeLenght
         {
             get; set;
         }
         [NWDIntSlider(K_EXPIRE_TIME_MIN, K_EXPIRE_TIME_MAX)]
-        [NWDAlias("ExpireTime")]
+       // [NWDAlias("ExpireTime")]
         public int ExpireTime
         {
             get; set;

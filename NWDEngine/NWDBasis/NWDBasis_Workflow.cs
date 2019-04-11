@@ -58,10 +58,6 @@ namespace NetWorkedData
         /// Finds the datas. = ANCIEN GetAllObjects()
         /// </summary>
         /// <returns>The datas.</returns>
-        public static K[] FindDatas()
-        {
-            return FindDatas(NWDAccount.CurrentReference(), NWDGameSave.Current());
-        }
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllObjects(string sAccountReference = null)
         //{
@@ -103,18 +99,6 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
-        {
-            K rReturn = null;
-            K[] rDatas = FindDatas(sAccountReference, sGameSave);
-            if (rDatas.Length > 0)
-            {
-                rReturn = rDatas[0];
-            }
-            return rReturn;
-        }
-
-        //-------------------------------------------------------------------------------------------------------------
         //public static K GetFirstEnableObject(string sAccountReference = null)
         //{
         //    K rReturn = null;
@@ -138,8 +122,8 @@ namespace NetWorkedData
                 rReturn.Add(tObject);
             }
 #if UNITY_EDITOR
-            RepaintTableEditor();
-            RepaintInspectorEditor();
+            BasisHelper().New_RepaintTableEditor();
+            BasisHelper().New_RepaintInspectorEditor();
 #endif
             return rReturn.ToArray();
         }
@@ -373,32 +357,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Methods
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsEnable()
-        {
-            return AC;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool IsTrashed()
-        {
-            if (XX > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public bool IsEnable()
+        //{
+        //    return AC;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool IsTrashed()
+        //{
+        //    if (XX > 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        //-------------------------------------------------------------------------------------------------------------
-        public bool IsUsable()
-        {
-            if (AC == true && XX <= 0 && TestIntegrity() == true)
-            {
-                return true;
-            }
-            return false;
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool IsUsable()
+        //{
+        //    if (AC == true && XX <= 0 && TestIntegrity() == true)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDBasisTag GetTag()
         //{
