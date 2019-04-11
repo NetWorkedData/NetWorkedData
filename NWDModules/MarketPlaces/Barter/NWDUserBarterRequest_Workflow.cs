@@ -347,7 +347,8 @@ namespace NetWorkedData
                 NWDUserBarterProposition tWinner = WinnerProposition.GetObjectAbsolute();
                 if (tWinner != null)
                 {
-                    NWDUserInterMessage.SendMessage(Message, tWinner.Account.GetReference());
+                    NWDUserInterMessage tMessage = NWDUserInterMessage.CreateNewMessageWith(Message, tWinner.Account.GetReference());
+                    tMessage.SendMessage();
                 }
             }
 

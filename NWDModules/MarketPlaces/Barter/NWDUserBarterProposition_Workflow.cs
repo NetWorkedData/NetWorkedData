@@ -190,7 +190,8 @@ namespace NetWorkedData
                 NWDUserBarterRequest tBarter = BarterRequest.GetObjectAbsolute();
                 if (tBarter != null)
                 {
-                    NWDUserInterMessage.SendMessage(Message, tBarter.Account.GetReference());
+                    NWDUserInterMessage tMessage = NWDUserInterMessage.CreateNewMessageWith(Message, tBarter.Account.GetReference());
+                    tMessage.SendMessage();
                 }
             }
 
