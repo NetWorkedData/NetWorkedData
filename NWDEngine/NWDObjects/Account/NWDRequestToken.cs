@@ -27,10 +27,6 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDRequestTokenHelper : NWDHelper<NWDRequestToken>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]

@@ -473,7 +473,9 @@ namespace NetWorkedData
                 // delete all sync of data 
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
                 {
-                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationUpadteTimestamp);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.New_SynchronizationUpadteTimestamp();
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationUpadteTimestamp);
                 }
                 BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
             }

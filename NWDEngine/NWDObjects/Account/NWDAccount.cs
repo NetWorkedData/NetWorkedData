@@ -15,10 +15,6 @@ using SQLite.Attribute;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountHelper : NWDHelper<NWDAccount>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("ACC")]
     [NWDClassDescriptionAttribute("Account descriptions Class")]

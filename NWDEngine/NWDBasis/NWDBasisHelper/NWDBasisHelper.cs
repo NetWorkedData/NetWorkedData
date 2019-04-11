@@ -186,10 +186,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void New_IndexAll()
         {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void New_SynchronizationUpadteTimestamp()
-        {
+            foreach (NWDTypeClass tObject in Datas)
+            {
+                tObject.Index();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void New_RepaintTableEditor()
@@ -253,41 +253,41 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void New_LoadFromDatabase()
-        {
+        //        public override void New_LoadFromDatabase()
+        //        {
 
-#if UNITY_EDITOR
-            RowAnalyzed = false;
-#endif
-            ResetDatas();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (kAccountDependent)
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            if (tSQLiteConnection != null)
-            {
-                if (tSQLiteConnection.IsValid())
-                {
-                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
-                    int tCount = 0;
-                    // Prepare the datas
-                    if (tSelect != null)
-                    {
-                        foreach (NWDBasis<K> tItem in tSelect)
-                        {
-                            tCount++;
-                            tItem.LoadedFromDatabase();
-                        }
-                    }
-                }
-            }
-            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
-#if UNITY_EDITOR
-            New_FilterTableEditor();
-            New_RepaintTableEditor();
-#endif
-        }
+        //#if UNITY_EDITOR
+        //            RowAnalyzed = false;
+        //#endif
+        //            ResetDatas();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (kAccountDependent)
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            if (tSQLiteConnection != null)
+        //            {
+        //                if (tSQLiteConnection.IsValid())
+        //                {
+        //                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
+        //                    int tCount = 0;
+        //                    // Prepare the datas
+        //                    if (tSelect != null)
+        //                    {
+        //                        foreach (NWDBasis<K> tItem in tSelect)
+        //                        {
+        //                            tCount++;
+        //                            tItem.LoadedFromDatabase();
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+        //#if UNITY_EDITOR
+        //            New_FilterTableEditor();
+        //            New_RepaintTableEditor();
+        //#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -384,16 +384,32 @@ namespace NetWorkedData
                 else
                 {
                     //TODO : find all NWDHelper and generic compare!
-                    Debug.Log("sType.Name + Helper = " + sType.Name + "Helper");
-                    Type tTypeHelper = Type.GetType("NetWorkedData."+sType.Name + "Helper");
+                    //Debug.Log("sType.Name + Helper = " + sType.Name + "Helper");
+                    //Type tTypeHelper = Type.GetType("NetWorkedData." + sType.Name + "Helper");
+
+                    Type tTypeHelper = null;
+                    Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+                    Type[] tAllHelperDTypes = (from System.Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
+                    foreach (Type tPossibleHelper in tAllHelperDTypes)
+                    {
+                        if (tPossibleHelper.ContainsGenericParameters == false)
+                        {
+                            if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(sType))
+                            {
+                                tTypeHelper = tPossibleHelper;
+                                break;
+                            }
+                        }
+                    }
                     if (tTypeHelper != null)
                     {
                         tTypeInfos = Activator.CreateInstance(tTypeHelper) as NWDBasisHelper;
-                        Debug.Log("<color=red> YES </color> create NWDHelper<" + sType.Name + "> as " + tTypeInfos.GetType().Name);
+                        //Debug.Log("<color=green> YES </color> create "+ tTypeInfos.GetType().Name + " instance for " + sType.Name + " ");
                     }
                     else
                     {
                         tTypeInfos = new NWDBasisHelper();
+                        //Debug.Log("<color=red> NO </color> create "+ tTypeInfos.GetType().Name + " instance for " + sType.Name + " ");
                     }
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
@@ -1836,52 +1852,52 @@ namespace NetWorkedData
             return rArray;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_IndexAll)]
-        public static void IndexAll()
-        {
-            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
-            foreach (NWDTypeClass tObject in tTypeInfos.Datas)
-            {
-                tObject.Index();
-            }
-        }
+        //[NWDAliasMethod(NWDConstants.M_IndexAll)]
+        //public static void IndexAll()
+        //{
+        //    NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+        //    foreach (NWDTypeClass tObject in tTypeInfos.Datas)
+        //    {
+        //        tObject.Index();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-//        [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]
-//        public static void LoadFromDatabase()
-//        {
-//            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
-//            tTypeInfos = BasisHelper();
-//#if UNITY_EDITOR
-//            tTypeInfos.RowAnalyzed = false;
-//#endif
-//            tTypeInfos.ResetDatas();
-//            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-//            if (AccountDependent())
-//            {
-//                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-//            }
-//            if (tSQLiteConnection != null)
-//            {
-//                if (tSQLiteConnection.IsValid())
-//                {
-//                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP);
-//                    int tCount = 0;
-//                    // Prepare the datas
-//                    if (tSelect != null)
-//                    {
-//                        foreach (NWDBasis<K> tItem in tSelect)
-//                        {
-//                            tCount++;
-//                            tItem.LoadedFromDatabase();
-//                        }
-//                    }
-//                }
-//            }
-//            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
-//#if UNITY_EDITOR
-//            BasisHelper().New_FilterTableEditor();
-//            BasisHelper().New_RepaintTableEditor();
-//#endif
+        //        [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]
+        //        public static void LoadFromDatabase()
+        //        {
+        //            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+        //            tTypeInfos = BasisHelper();
+        //#if UNITY_EDITOR
+        //            tTypeInfos.RowAnalyzed = false;
+        //#endif
+        //            tTypeInfos.ResetDatas();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (AccountDependent())
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            if (tSQLiteConnection != null)
+        //            {
+        //                if (tSQLiteConnection.IsValid())
+        //                {
+        //                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP);
+        //                    int tCount = 0;
+        //                    // Prepare the datas
+        //                    if (tSelect != null)
+        //                    {
+        //                        foreach (NWDBasis<K> tItem in tSelect)
+        //                        {
+        //                            tCount++;
+        //                            tItem.LoadedFromDatabase();
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+        //#if UNITY_EDITOR
+        //            BasisHelper().New_FilterTableEditor();
+        //            BasisHelper().New_RepaintTableEditor();
+        //#endif
         //    //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
         //}
         //-------------------------------------------------------------------------------------------------------------

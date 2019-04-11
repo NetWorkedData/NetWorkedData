@@ -215,7 +215,9 @@ namespace NetWorkedData
             if (sCounter >= 0 && sCounter < mTypeList.Count)
             {
                 Type tType = mTypeList[sCounter];
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.New_IndexAll();
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
             }
             return rReturn;
         }
@@ -226,7 +228,9 @@ namespace NetWorkedData
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.New_IndexAll();
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);

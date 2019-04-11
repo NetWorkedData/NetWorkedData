@@ -50,16 +50,16 @@ namespace NetWorkedData
         //public const string M_ReferenceConnectionFieldSerialized= "M_ReferenceConnectionFieldSerialized";
         //public const string M_ReOrderAllLocalizations= "M_ReOrderAllLocalizations";
         //public const string M_ChangeAssetPath= "M_ChangeAssetPath";
-        public const string M_SynchronizationSetToZeroTimestamp= "M_SynchronizationSetToZeroTimestamp";
-        public const string M_SynchronizationUpadteTimestamp= "M_SynchronizationUpadteTimestamp";
+        //public const string M_SynchronizationSetToZeroTimestamp= "M_SynchronizationSetToZeroTimestamp";
+        //public const string M_SynchronizationUpadteTimestamp= "M_SynchronizationUpadteTimestamp";
         //public const string M_CreateTable= "M_CreateTable";
         //public const string M_CleanTable= "M_CleanTable";
         //public const string M_PurgeTable= "M_PurgeTable";
         //public const string M_UpdateDataTable= "M_UpdateDataTable";
         //public const string M_ResetTable= "M_ResetTable";
         //public const string M_LoadFromDatabase= "M_LoadFromDatabase";
-        public const string M_IndexAll = "M_IndexAll";
-        public const string M_Informations= "M_Informations";
+        //public const string M_IndexAll = "M_IndexAll";
+        //public const string M_Informations= "M_Informations";
         public const string M_TryToChangeUserForAllObjects= "M_TryToChangeUserForAllObjects";
         public const string M_SynchronizationPullData= "M_SynchronizationPullData";
         public const string M_SynchronizationPushData= "M_SynchronizationPushData";
@@ -82,7 +82,7 @@ namespace NetWorkedData
         //public const string M_AddOnNodeDraw = "M_AddOnNodeDraw";
         //public const string M_AddOnNodePropertyDraw = "M_AddOnNodePropertyDraw";
         //public const string M_EditorAddNewObject = "M_EditorAddNewObject";
-        public const string M_PathOfPackage = "M_PathOfPackage";
+        //public const string M_PathOfPackage = "M_PathOfPackage";
         public const string M_ModelAnalyze = "M_ModelAnalyze";
 #endif
         //-------------------------------------------------------------------------------------------------------------

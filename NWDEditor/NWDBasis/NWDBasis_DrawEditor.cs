@@ -451,15 +451,15 @@ namespace NetWorkedData
                 tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + "(" + DevSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DevSync).ToString("yyyy/MM/dd HH:mm:ss")
-                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
                 tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + "(" + PreprodSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(PreprodSync).ToString("yyyy/MM/dd HH:mm:ss")
-                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
                 tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + "(" + ProdSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(ProdSync).ToString("yyyy/MM/dd HH:mm:s")
-                            + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                            + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
                 tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
 
                 GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_xx + XX.ToString(), NWDGUI.kMiniLabelStyle);

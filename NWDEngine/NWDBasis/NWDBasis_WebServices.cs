@@ -80,33 +80,33 @@ namespace NetWorkedData
         /// Synchronizations the prefs key.
         /// </summary>
         /// <returns>The prefs key.</returns>
-        public static string SynchronizationPrefsKey(NWDAppEnvironment sEnvironment)
-        {
-            // use the accountReference with prefbase key associated with environement and key time 
-            //if (AccountDependent())
-            //{
-            //    return sEnvironment.PlayerAccountReference + BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
-            //}
-            //return BasisHelper().ClassPrefBaseKey +"_"+ sEnvironment.Environment + "_"+ SynchronizeKeyLastTimestamp;
-            return BasisHelper().ClassPrefBaseKey + SynchronizeKeyLastTimestamp;
-        }
+        //public static string SynchronizationPrefsKey(NWDAppEnvironment sEnvironment)
+        //{
+        //    // use the accountReference with prefbase key associated with environement and key time 
+        //    //if (AccountDependent())
+        //    //{
+        //    //    return sEnvironment.PlayerAccountReference + BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+        //    //}
+        //    //return BasisHelper().ClassPrefBaseKey +"_"+ sEnvironment.Environment + "_"+ SynchronizeKeyLastTimestamp;
+        //    return BasisHelper().ClassPrefBaseKey + SynchronizeKeyLastTimestamp;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_SynchronizationUpadteTimestamp)]
-        public static void SynchronizationUpadteTimestamp()
-        {
-            Debug.Log(BasisHelper().ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
-            SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
-        }
+        //[NWDAliasMethod(NWDConstants.M_SynchronizationUpadteTimestamp)]
+        //public static void SynchronizationUpadteTimestamp()
+        //{
+        //    Debug.Log(BasisHelper().ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
+        //    SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
-        {
-            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, AccountDependent());
-//#if UNITY_EDITOR
-//            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
-//#else
-//			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
-//#endif
-        }
+//        public static void SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
+//        {
+//            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, AccountDependent());
+////#if UNITY_EDITOR
+////            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
+////#else
+////			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
+////#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
 //        public static void SynchronizationSetToZeroTimestamp()
 //        {
@@ -128,45 +128,45 @@ namespace NetWorkedData
         /// Synchronizations the get last timestamp.
         /// </summary>
         /// <returns>The get last timestamp.</returns>
-        public static int SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
-        {
-            int rReturn = sEnvironment.BuildTimestamp;
-            rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, AccountDependent());
-//#if UNITY_EDITOR
-//            rReturn = 0;
-//            if (EditorPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
-//            {
-//                rReturn = EditorPrefs.GetInt(SynchronizationPrefsKey(sEnvironment));
-//            }
-//#else
-//			if (PlayerPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
-//				{
-//			rReturn = PlayerPrefs.GetInt (SynchronizationPrefsKey(sEnvironment));
-//				};
-//#endif
-            return rReturn;
-        }
+//        public static int SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
+//        {
+//            int rReturn = sEnvironment.BuildTimestamp;
+//            rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, AccountDependent());
+////#if UNITY_EDITOR
+////            rReturn = 0;
+////            if (EditorPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
+////            {
+////                rReturn = EditorPrefs.GetInt(SynchronizationPrefsKey(sEnvironment));
+////            }
+////#else
+////			if (PlayerPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
+////				{
+////			rReturn = PlayerPrefs.GetInt (SynchronizationPrefsKey(sEnvironment));
+////				};
+////#endif
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the set new timestamp.
         /// </summary>
         /// <param name="sNewTimestamp">S new timestamp.</param>
-        public static void SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
-        {
-            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, AccountDependent());
-//#if UNITY_EDITOR
-//            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
-//#else
-//            if (AccountDependent() == false)
-//            {
-//                if (sNewTimestamp < sEnvironment.BuildTimestamp)
-//                {
-//                    sNewTimestamp = sEnvironment.BuildTimestamp;
-//                }
-//            }
-//			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
-//#endif
-        }
+//        public static void SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
+//        {
+//            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, AccountDependent());
+////#if UNITY_EDITOR
+////            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
+////#else
+////            if (AccountDependent() == false)
+////            {
+////                if (sNewTimestamp < sEnvironment.BuildTimestamp)
+////                {
+////                    sNewTimestamp = sEnvironment.BuildTimestamp;
+////                }
+////            }
+////			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
+////#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ namespace NetWorkedData
             // create List 
             List<object> tDatas = new List<object>();
             // get last synchro
-            int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
+            int tLastSynchronization = BasisHelper().New_SynchronizationGetLastTimestamp(sEnvironment);
             // I get all objects 
             //IEnumerable<K> tResults = null;
             List<K> tResults = new List<K>();
@@ -484,7 +484,7 @@ namespace NetWorkedData
                 int tTimestampServer = sData.timestamp;
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    SynchronizationSetNewTimestamp(sEnvironment, tTimestampServer);
+                    BasisHelper().New_SynchronizationSetNewTimestamp(sEnvironment, tTimestampServer);
                 }
                 // now i need get only datas for this class tablename
                 string tTableName = BasisHelper().ClassTableName;
@@ -798,7 +798,7 @@ namespace NetWorkedData
             if (AccountDependent() == true)
             {
                 // reset last sync to zero
-                SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
+                BasisHelper().New_SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
                                                                  // delete all datas for this user
                 foreach (NWDBasis<K> tObject in BasisHelper().Datas)
                 {

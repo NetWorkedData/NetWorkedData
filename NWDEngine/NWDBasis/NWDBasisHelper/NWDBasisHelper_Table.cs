@@ -6,18 +6,8 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
-using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -36,7 +26,6 @@ namespace NetWorkedData
             List<NWDTypeClass> tObjectsListToDelete = new List<NWDTypeClass>();
             foreach (NWDTypeClass tObject in Datas)
             {
-                //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
                 if (tObject.XX > 0)
                 {
                     tObjectsListToDelete.Add(tObject);
@@ -241,10 +230,8 @@ namespace NetWorkedData
             SortEditorTableDatas();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_LoadFromDatabase()
+        public void New_LoadFromDatabase()
         {
-            // TODO remove invoke ... BUT HOW!!!!!!?????????
-
 #if UNITY_EDITOR
             RowAnalyzed = false;
 #endif
@@ -278,9 +265,6 @@ namespace NetWorkedData
             New_RepaintTableEditor();
 #endif
 
-
-
-            //NWDAliasMethod.InvokeClassMethod(ClassType, NWDConstants.M_LoadFromDatabase);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void New_ResetTable()

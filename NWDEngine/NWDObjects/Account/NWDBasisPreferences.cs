@@ -27,10 +27,6 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisPreferencesHelper : NWDHelper<NWDBasisPreferences>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("BSP")]
     [NWDClassDescriptionAttribute("Basis Preferences Class! Never use by yourself in game!")]

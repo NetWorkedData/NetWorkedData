@@ -38,15 +38,17 @@ namespace NetWorkedData
                                    "_______________\n";
             foreach (Type tType in mTypeLoadedList)
             {
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Informations);
-                if (tMethodInfo != null)
-                {
-                    tInformations += " • " + tMethodInfo.Invoke(null, null);
-                }
-                else
-                {
-                    tInformations += tType.Name + " error \n";
-                }
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tInformations += " • " + tHelper.New_Informations();
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Informations);
+                //if (tMethodInfo != null)
+                //{
+                //    tInformations += " • " + tMethodInfo.Invoke(null, null);
+                //}
+                //else
+                //{
+                //    tInformations += tType.Name + " error \n";
+                //}
             }
             InformationsString = tInformations;
         }
