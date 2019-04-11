@@ -37,144 +37,144 @@ namespace NetWorkedData
             NWDTypeLauncher.Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ClassDeclare)]
-        public static void ClassDeclare()
-        {
-           // Debug.Log("ClassDeclare for " + typeof(K).Name);
-            //BTBBenchmark.Start();
-            //BTBBenchmark.Start("ClassDeclare step 1");
-            Type tActualType = typeof(K);
-            bool tServerSynchronize = true;
-            if (tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
-            {
-                NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
-                tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
-            }
-            string tClassTrigramme = "XXX";
-            if (tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
-            {
-                NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true)[0];
-                tClassTrigramme = tTrigrammeAttribut.Trigramme;
-                if (string.IsNullOrEmpty(tClassTrigramme))
-                {
-                    tClassTrigramme = "EEE";
-                }
-            }
-            string tDescription = "No description!";
-            if (tActualType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
-            {
-                NWDClassDescriptionAttribute tDescriptionAttribut = (NWDClassDescriptionAttribute)tActualType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true)[0];
-                tDescription = tDescriptionAttribut.Description;
-                if (string.IsNullOrEmpty(tDescription))
-                {
-                    tDescription = "Empty description!";
-                }
-            }
-            string tMenuName = tActualType.Name + " menu";
-            if (tActualType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true).Length > 0)
-            {
-                NWDClassMenuNameAttribute tMenuNameAttribut = (NWDClassMenuNameAttribute)tActualType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true)[0];
-                tMenuName = tMenuNameAttribut.MenuName;
-                if (string.IsNullOrEmpty(tMenuName))
-                {
-                    tMenuName = tActualType.Name + " menu";
-                }
-            }
-            //BTBBenchmark.Finish("ClassDeclare step 1");
-            //BTBBenchmark.Start("ClassDeclare step 2");
-            NWDBasisHelper.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
-            //BTBBenchmark.Finish("ClassDeclare step 2");
-            //BTBBenchmark.Start("ClassDeclare step 3");
-            AccountDependentAnalyze();
-            //BTBBenchmark.Finish("ClassDeclare step 3");
-            //BTBBenchmark.Start("ClassDeclare step 4");
-            if (NWDDataManager.SharedInstance().mTypeList.Contains(tActualType) == false)
-            {
-                NWDDataManager.SharedInstance().mTypeList.Add(tActualType);
-            }
+        //[NWDAliasMethod(NWDConstants.M_ClassDeclare)]
+        //public static void ClassDeclare()
+        //{
+        //   // Debug.Log("ClassDeclare for " + typeof(K).Name);
+        //    //BTBBenchmark.Start();
+        //    //BTBBenchmark.Start("ClassDeclare step 1");
+        //    Type tActualType = typeof(K);
+        //    bool tServerSynchronize = true;
+        //    if (tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
+        //    {
+        //        NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
+        //        tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
+        //    }
+        //    string tClassTrigramme = "XXX";
+        //    if (tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
+        //    {
+        //        NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true)[0];
+        //        tClassTrigramme = tTrigrammeAttribut.Trigramme;
+        //        if (string.IsNullOrEmpty(tClassTrigramme))
+        //        {
+        //            tClassTrigramme = "EEE";
+        //        }
+        //    }
+        //    string tDescription = "No description!";
+        //    if (tActualType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
+        //    {
+        //        NWDClassDescriptionAttribute tDescriptionAttribut = (NWDClassDescriptionAttribute)tActualType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true)[0];
+        //        tDescription = tDescriptionAttribut.Description;
+        //        if (string.IsNullOrEmpty(tDescription))
+        //        {
+        //            tDescription = "Empty description!";
+        //        }
+        //    }
+        //    string tMenuName = tActualType.Name + " menu";
+        //    if (tActualType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true).Length > 0)
+        //    {
+        //        NWDClassMenuNameAttribute tMenuNameAttribut = (NWDClassMenuNameAttribute)tActualType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true)[0];
+        //        tMenuName = tMenuNameAttribut.MenuName;
+        //        if (string.IsNullOrEmpty(tMenuName))
+        //        {
+        //            tMenuName = tActualType.Name + " menu";
+        //        }
+        //    }
+        //    //BTBBenchmark.Finish("ClassDeclare step 1");
+        //    //BTBBenchmark.Start("ClassDeclare step 2");
+        //    NWDBasisHelper.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
+        //    //BTBBenchmark.Finish("ClassDeclare step 2");
+        //    //BTBBenchmark.Start("ClassDeclare step 3");
+        //    AccountDependentAnalyze();
+        //    //BTBBenchmark.Finish("ClassDeclare step 3");
+        //    //BTBBenchmark.Start("ClassDeclare step 4");
+        //    if (NWDDataManager.SharedInstance().mTypeList.Contains(tActualType) == false)
+        //    {
+        //        NWDDataManager.SharedInstance().mTypeList.Add(tActualType);
+        //    }
 
-            if (AccountDependent())
-            {
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
-                }
-            }
-            else
-            {
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
-                }
-            }
+        //    if (AccountDependent())
+        //    {
+        //        if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
+        //        }
+        //        if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
+        //        }
+        //        if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
+        //        }
+        //    }
 
-            if (tServerSynchronize == true)
-            {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(tActualType);
-                }
-            }
-            else
-            {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(tActualType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(tActualType);
-                }
-            }
-            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
-            {
-                Debug.LogWarning("ERROR in " + tActualType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
-            }
-            else
-            {
-                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, tActualType);
-            }
-            NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
-            //BTBBenchmark.Finish("ClassDeclare step 4");
-            //BTBBenchmark.Start("ClassDeclare step 5");
+        //    if (tServerSynchronize == true)
+        //    {
+        //        if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == false)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(tActualType);
+        //        }
+        //        if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == true)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(tActualType);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == true)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(tActualType);
+        //        }
+        //        if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == false)
+        //        {
+        //            NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(tActualType);
+        //        }
+        //    }
+        //    if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
+        //    {
+        //        Debug.LogWarning("ERROR in " + tActualType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
+        //    }
+        //    else
+        //    {
+        //        NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, tActualType);
+        //    }
+        //    NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
+        //    //BTBBenchmark.Finish("ClassDeclare step 4");
+        //    //BTBBenchmark.Start("ClassDeclare step 5");
 
-            // TODO : Change to remove invoke!
-            //var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //NWDAliasMethod.InvokeClassMethod(ClassType(),NWDConstants.M_ClassInitialization);
-            //var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tMethodInfo != null)
-            //{
-            //    tMethodInfo.Invoke(null, null);
-            //}
-            BasisHelper().New_ClassInitialization();
+        //    // TODO : Change to remove invoke!
+        //    //var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        //    //NWDAliasMethod.InvokeClassMethod(ClassType(),NWDConstants.M_ClassInitialization);
+        //    //var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        //    //if (tMethodInfo != null)
+        //    //{
+        //    //    tMethodInfo.Invoke(null, null);
+        //    //}
+        //    BasisHelper().New_ClassInitialization();
 
 
-            BasisHelper().ClassLoaded = true;
-            //BTBBenchmark.Finish("ClassDeclare step 5");
-            //BTBBenchmark.Finish();
-        }
+        //    BasisHelper().ClassLoaded = true;
+        //    //BTBBenchmark.Finish("ClassDeclare step 5");
+        //    //BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.GetBasisHelper)]
         public static NWDBasisHelper BasisHelper()
         {
-            NWDBasisHelper rDatas = NWDBasisHelper.FindTypeInfos(typeof(K));
-            if (rDatas == null)
+            NWDBasisHelper rHelper= NWDBasisHelper.FindTypeInfos(typeof(K));
+            if (rHelper == null)
             {
                 Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
             }
-            return rDatas;
+            return rHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string ClassID()

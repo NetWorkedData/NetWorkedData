@@ -792,26 +792,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Special delete user
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_DeleteUser)]
-        public static void DeleteUser(NWDAppEnvironment sEnvironment)
-        {
-            if (AccountDependent() == true)
-            {
-                // reset last sync to zero
-                BasisHelper().New_SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
-                                                                 // delete all datas for this user
-                foreach (NWDBasis<K> tObject in BasisHelper().Datas)
-                {
-                    if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))
-                    {
-                        tObject.DeleteData();
-                    }
-                }
-                // need to reload this data now : to remove all tObjects from memory!
-                //LoadTableEditor();
-                BasisHelper().New_LoadFromDatabase();
-            }
-        }
+        //[NWDAliasMethod(NWDConstants.M_DeleteUser)]
+        //public static void DeleteUser(NWDAppEnvironment sEnvironment)
+        //{
+        //    if (AccountDependent() == true)
+        //    {
+        //        // reset last sync to zero
+        //        BasisHelper().New_SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
+        //                                                         // delete all datas for this user
+        //        foreach (NWDBasis<K> tObject in BasisHelper().Datas)
+        //        {
+        //            if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))
+        //            {
+        //                tObject.DeleteData();
+        //            }
+        //        }
+        //        // need to reload this data now : to remove all tObjects from memory!
+        //        //LoadTableEditor();
+        //        BasisHelper().New_LoadFromDatabase();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

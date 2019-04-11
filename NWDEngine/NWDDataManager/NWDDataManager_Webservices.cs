@@ -750,12 +750,16 @@ namespace NetWorkedData
 			foreach (Type tType in mTypeList) {
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod ("DeleteUser", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_DeleteUser);
+    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_DeleteUser);
 
-                if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, new object[]{ sEnvironment });
-				}
-			}
+    //            if (tMethodInfo != null) {
+				//	tMethodInfo.Invoke (null, new object[]{ sEnvironment });
+				//}
+
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.New_DeleteUser(sEnvironment);
+
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

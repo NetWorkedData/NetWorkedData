@@ -98,6 +98,26 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void New_DeleteUser(NWDAppEnvironment sEnvironment)
+        {
+            if (kAccountDependent== true)
+            {
+                // reset last sync to zero
+                New_SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
+                                                                                   // delete all datas for this user
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))
+                    {
+                        tObject.DeleteData();
+                    }
+                }
+                // need to reload this data now : to remove all tObjects from memory!
+                //LoadTableEditor();
+                New_LoadFromDatabase();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

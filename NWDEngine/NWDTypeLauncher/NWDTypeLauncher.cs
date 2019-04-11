@@ -112,12 +112,15 @@ namespace NetWorkedData
                         // add type in list of class
                         tTypeList.Add(tType);
                         // invoke the ClassDeclare method!
-                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
 
-                        if (tMethodInfo != null)
-                        {
-                            tMethodInfo.Invoke(null, null);
-                        }
+                        NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType);
+
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
+
+                        //if (tMethodInfo != null)
+                        //{
+                        //    tMethodInfo.Invoke(null, null);
+                        //}
                     }
                 }
                 AllTypes = tTypeList.ToArray();
