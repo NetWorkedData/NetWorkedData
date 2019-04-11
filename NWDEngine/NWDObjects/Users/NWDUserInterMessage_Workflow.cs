@@ -34,12 +34,6 @@ namespace NetWorkedData
             PublicationDate.SetDateTime(DateTime.Now);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserInterMessage) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static void SendMessage(NWDMessage sMessage,
                                        string sReceiver,
                                        BTBOperationBlock sSuccessBlock = null,
@@ -190,12 +184,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
         {
-            return NWDUserAvatar.GetFirstData(Sender.GetReference(),NWDGameSave.CurrentByAccount(Sender.GetReference()));
+            return NWDUserAvatar.GetFirstData(Sender.GetReference(),NWDGameSave.SelectCurrentDataForAccount(Sender.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar ReceiverAvatar()
         {
-            return NWDUserAvatar.GetFirstData(Receiver.GetReference(), NWDGameSave.CurrentByAccount(Receiver.GetReference()));
+            return NWDUserAvatar.GetFirstData(Receiver.GetReference(), NWDGameSave.SelectCurrentDataForAccount(Receiver.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage = null, bool sBold = true)

@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDConsent : NWDBasis<NWDConsent>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDConsent[] FindLastVersion()
+        public static NWDConsent[] SelectCurrentDatas()
         {
             List<NWDConsent> rList = new List<NWDConsent>();
             Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>();

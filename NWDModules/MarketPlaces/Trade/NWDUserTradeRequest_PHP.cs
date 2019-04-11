@@ -13,28 +13,34 @@ using UnityEngine;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
-	{
+public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
+    {
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
 		{
-			string t_THIS_TradeStatus = FindAliasName("TradeStatus");
-			string t_THIS_TradeHash = FindAliasName("TradeHash");
-			string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
-			int t_THIS_Index_TradeStatus = CSV_IndexOf(t_THIS_TradeStatus);
+
+            string t_THIS_TradeStatus = NWDToolbox.PropertyName(() => FictiveData().TradeStatus);
+            string t_THIS_TradeHash = NWDToolbox.PropertyName(() => FictiveData().TradeHash);
+            string t_THIS_WinnerProposition = NWDToolbox.PropertyName(() => FictiveData().WinnerProposition);
+            string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
+            string t_THIS_ItemsAsked = NWDToolbox.PropertyName(() => FictiveData().ItemsAsked);
+
+            //         string t_THIS_TradeStatus = FindAliasName("TradeStatus");
+            //string t_THIS_TradeHash = FindAliasName("TradeHash");
+            //string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
+            int t_THIS_Index_TradeStatus = CSV_IndexOf(t_THIS_TradeStatus);
 			int t_THIS_Index_TradeHash = CSV_IndexOf(t_THIS_TradeHash);
 			int t_THIS_Index_WinnerProposition = CSV_IndexOf(t_THIS_WinnerProposition);
-			string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
+			//string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
 			int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
-			string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
+			//string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
 			int t_THIS_Index_ItemsAsked = CSV_IndexOf(t_THIS_ItemsAsked);
 			string sScript = "" +
 				"// start Addon \n" +
 				// get the actual state
 				"$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
 				"$tServerHash = '';\n" +
-				"$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeHash + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+				"$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeHash + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
 				"WHERE " +
 				"`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
 				"$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
@@ -61,7 +67,7 @@ namespace NetWorkedData
 				" || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
 				"{\n" +
 				//"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-				"GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+				"GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
 				"return;\n" +
 				"}\n" +
 				// change the statut from CSV TO ACTIVE 
@@ -71,7 +77,7 @@ namespace NetWorkedData
 				"$sReplaces[" + t_THIS_Index_TradeHash + "] = $TIME_SYNC;\n" +
 				"$sReplaces[" + t_THIS_Index_TradeStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
 				"$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-				"$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+				"$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
 				"}\n" +
 				// change the statut from CSV TO NONE 
 				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && (" +
@@ -86,13 +92,13 @@ namespace NetWorkedData
 				"$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
 				"$sReplaces[" + t_THIS_Index_ItemsAsked + "]='';\n" +
 				"$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-				"$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+				"$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
 				"}\n" +
 				// change the statut from CSV TO CANCEL 
 				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
 				"$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
 				"{\n" +
-				"$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+				"$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
 				"`DM` = \\''.$TIME_SYNC.'\\', " +
 				"`DS` = \\''.$TIME_SYNC.'\\', " +
 				"`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -114,14 +120,14 @@ namespace NetWorkedData
 				"if ($tNumberOfRow == 1)\n" +
 				"{\n" +
 				"// I can change data to expired!\n" +
-				"Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
-				"GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+				"Integrity" + ClassNamePHP + "Reevalue ($tReference);\n" +
+				"GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
 				"return;\n" +
 			   "}\n" +
 				"else\n" +
 				"{\n" +
 				//"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-				"GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+				"GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
 				"//stop the function!\n" +
 				"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
 				"return;\n" +
@@ -139,22 +145,12 @@ namespace NetWorkedData
 				"else\n" +
 				"{\n" +
 				//"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-				"GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+				"GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
 				"return;\n" +
 				"}\n" +
 				"// finish Addon \n";
 
 			return sScript;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string AddonPhpPostCalculate(NWDAppEnvironment sAppEnvironment)
-		{
-			return "// write your php script here to update afetr sync on server\n";
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string AddonPhpSpecialCalculate(NWDAppEnvironment sAppEnvironment)
-		{
-			return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

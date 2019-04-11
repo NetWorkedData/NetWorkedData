@@ -41,7 +41,7 @@ namespace NetWorkedData
                     }
                 }
                 // Re-add !
-                kCategoryIndex.InsertInIndex(this, tCategoriesList.ToArray());
+                kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ namespace NetWorkedData
         public void RemoveFromCategoryIndex()
         {
             // Remove from the actual indexation
-            kCategoryIndex.RemoveFromIndex(this);
+            kCategoryIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         // NWDItem.kCategoryIndex.FindByKey(sCategory); => NWDItem.FindByCategory(NWDCategory sCategory)
         public static List<NWDItem> FindByCategory(NWDCategory sCategory)
         {
-            return kCategoryIndex.FindByKey(sCategory); 
+            return kCategoryIndex.RawDatasByKey(sCategory); 
         }
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
@@ -70,7 +70,7 @@ namespace NetWorkedData
                 foreach (NWDFamily tFamily in FamilyList.GetObjectsAbsolute())
                 {
                     // Re-add !
-                    kFamilyIndex.InsertInIndex(this, tFamily);
+                    kFamilyIndex.InsertData(this, tFamily);
                 }
             }
         }
@@ -79,12 +79,12 @@ namespace NetWorkedData
         public void RemoveFromFamilyIndex()
         {
             // Remove from the actual indexation
-            kFamilyIndex.RemoveFromIndex(this);
+            kFamilyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDItem> FindByFamily(NWDCategory sCategory)
         {
-            return kCategoryIndex.FindByKey(sCategory);
+            return kCategoryIndex.RawDatasByKey(sCategory);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

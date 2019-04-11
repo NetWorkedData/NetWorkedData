@@ -176,7 +176,7 @@ namespace NetWorkedData
 
                     if (GUI.Button(tEditRect, NWDGUI.kEditContentIcon, NWDGUI.kEditButtonStyle))
                     {
-                        NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(sReference), false);
+                        NWDBasis<K>.BasisHelper().New_SetObjectInEdition(NWDBasis<K>.GetDataByReference(sReference), false);
                     }
                 }
                 else

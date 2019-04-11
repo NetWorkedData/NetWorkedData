@@ -20,11 +20,10 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExampleHelper : NWDHelper<NWDExample>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t ..."
@@ -37,8 +36,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t{\n" 
@@ -52,26 +50,23 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpGetCalculate)]
-        public static string AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
         {
             //"while($tRow = $tResult->fetch_row()")
             //"{"
-            return "// write your php script string here to special operation, example : \n$REP['" + BasisHelper().ClassName + " After Get'] ='success!!!';\n";
+            return "// write your php script string here to special operation, example : \n$REP['" + ClassName + " After Get'] ='success!!!';\n";
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpSpecialCalculate)]
-        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
             //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
             //"\t{\n" 
-            return "// write your php script string here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script string here to special operation, example : \n$REP['" + ClassName + " Special'] ='success!!!';\n";
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpFunctions)]
-        public static string AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script string here to add function in php file;\n";
         }

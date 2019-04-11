@@ -32,24 +32,18 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDPreferenceKey), typeof(NWDAccountPreference), typeof(NWDUserPreference) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void AddEnter(NWDMultiType sValue)
         {
             switch (Domain)
             {
                 case NWDPreferencesDomain.AccountPreference:
                     {
-                        NWDAccountPreference.FindFisrtByPreferenceKey(this).AddEnter(sValue);
+                        NWDAccountPreference.FindDataByPreferenceKey(this).AddEnter(sValue);
                     }
                     break;
                 case NWDPreferencesDomain.UserPreference:
                     {
-                        NWDUserPreference.FindFisrtByPreferenceKey(this).AddEnter(sValue);
+                        NWDUserPreference.FindDataByPreferenceKey(this).AddEnter(sValue);
                     }
                     break;
                 case NWDPreferencesDomain.LocalPreference:
@@ -72,12 +66,12 @@ namespace NetWorkedData
             {
                 case NWDPreferencesDomain.AccountPreference:
                     {
-                        rReturn = NWDAccountPreference.FindFisrtByPreferenceKey(this).GetEnter();
+                        rReturn = NWDAccountPreference.FindDataByPreferenceKey(this).GetEnter();
                     }
                     break;
                 case NWDPreferencesDomain.UserPreference:
                     {
-                        rReturn =  NWDUserPreference.FindFisrtByPreferenceKey(this).GetEnter();
+                        rReturn =  NWDUserPreference.FindDataByPreferenceKey(this).GetEnter();
                     }
                     break;
                 case NWDPreferencesDomain.LocalPreference:

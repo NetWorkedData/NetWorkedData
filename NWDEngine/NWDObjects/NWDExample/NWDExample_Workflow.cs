@@ -31,17 +31,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDExample)/*, typeof(NWDUserNickname), etc*/ };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
@@ -174,10 +163,10 @@ namespace NetWorkedData
             // do something when object will be delete from local base
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonSyncForce()
-        {
-            return false;
-        }
+        //public override bool AddonSyncForce()
+        //{
+        //    return false;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {

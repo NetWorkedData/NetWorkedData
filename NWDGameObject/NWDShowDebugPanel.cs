@@ -158,7 +158,7 @@ namespace NetWorkedData
             }
             if (CartridgeImageSecond != null)
             {
-                NWDVersion tVersion = NWDVersion.Current();
+                NWDVersion tVersion = NWDVersion.CurrentData();
                 if (tVersion != null)
                 {
                     CartridgeImageSecond.color = tVersion.Cartridge.GetColor();

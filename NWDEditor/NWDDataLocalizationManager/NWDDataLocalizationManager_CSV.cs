@@ -61,12 +61,14 @@ namespace NetWorkedData
                 // populate file by class result
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                 {
-                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
-                    if (tMethodInfo != null)
-                    {
-                        string tResult = tMethodInfo.Invoke(null, null) as string;
-                        tFile += tResult;
-                    }
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tFile +=  tHelper.New_ExportLocalizationInCSV();
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    string tResult = tMethodInfo.Invoke(null, null) as string;
+                    //    tFile += tResult;
+                    //}
                 }
                 // write file
                 File.WriteAllText(tPath, tFile);
@@ -90,12 +92,13 @@ namespace NetWorkedData
                 {
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                     {
-                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
-                        if (tMethodInfo != null)
-                        {
-                            string tResult = tMethodInfo.Invoke(null, new object[] { tLanguageArray, tFileRows }) as string;
-                            tFile += tResult;
-                        }
+                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                        tHelper.New_ImportAllLocalizations(tLanguageArray, tFileRows);
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
+                        //if (tMethodInfo != null)
+                        //{
+                        //    string tResult = tMethodInfo.Invoke(null, new object[] { tLanguageArray, tFileRows }) as string;
+                        //}
                     }
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();

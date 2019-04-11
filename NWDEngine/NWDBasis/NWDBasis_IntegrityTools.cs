@@ -191,7 +191,7 @@ namespace NetWorkedData
         /// <summary>
         /// Updates the integrity. Set the integrity value of object's data in the field Integrity.
         /// </summary>
-        public void UpdateIntegrity()
+        public override void UpdateIntegrity()
         {
             //Debug.Log("NWDBasis<K> UpdateIntegrity()");
             NotNullChecker();
@@ -205,7 +205,7 @@ namespace NetWorkedData
         /// Tests the integrity.
         /// </summary>
         /// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
-        public bool TestIntegrity()
+        public override bool TestIntegrity()
         {
             bool rReturn = false;
             if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)

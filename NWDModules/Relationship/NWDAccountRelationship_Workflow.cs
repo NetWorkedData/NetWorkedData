@@ -40,18 +40,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            List<Type> tClasses = new List<Type> { typeof(NWDAccountRelationship), typeof(NWDRelationshipPlace) };
-            foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.FindDatas())
-            {
-                tClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
-                tClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());
-            }
-            return tClasses;
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

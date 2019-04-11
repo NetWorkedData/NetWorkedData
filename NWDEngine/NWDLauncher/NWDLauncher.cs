@@ -25,24 +25,28 @@ namespace NetWorkedData
         EngineLaunching = 10,
         EngineLaunched = 19,
 
-        DataEditorConnecting =20,
-        DataEditorConnected=21,
+        DataEditorConnecting = 20,
+        DataEditorConnected = 21,
         DataEditorTableUpdated = 22,
-        DataEditorLoading =23,
-        DataEditorLoaded=29,
+        DataEditorLoading = 23,
+        DataEditorLoaded = 29,
 
-        DataAccountConnecting=30,
-        DataAccountCodePinCreate=31,
-        DataAccountCodePinRequest=32,
-        DataAccountCodePinFail=33,
-        DataAccountCodePinStop=34,
-        DataAccountCodePinSuccess=35,
-        DataAccountConnected=36,
+        DataAccountConnecting = 30,
+        DataAccountCodePinCreate = 31,
+        DataAccountCodePinRequest = 32,
+        DataAccountCodePinFail = 33,
+        DataAccountCodePinStop = 34,
+        DataAccountCodePinSuccess = 35,
+        DataAccountConnected = 36,
         DataAccountTableUpdated = 37,
-        DataAccountLoading =38,
-        DataAccountLoaded=39,
+        DataAccountLoading = 38,
+        DataAccountLoaded = 39,
 
-        NetWorkedDataReady=99,
+        DataIndexationStart = 40,
+        DataIndexationStep = 41,
+        DataIndexationFinish = 42,
+
+        NetWorkedDataReady = 99,
 
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -63,6 +67,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
+            BTBBenchmark.Start("NetWorkedData");
             if (Launched == false)
             {
                 Launched = true;
@@ -193,8 +198,20 @@ namespace NetWorkedData
                 case NWDStatut.DataAccountLoaded:
                     {
                         // Reload all Index
-                        NWDDataManager.SharedInstance().IndexAllObjects();
-                        State = NWDStatut.NetWorkedDataReady; // Sucesss!!!!!!
+                        DatabaseIndexation();
+                    }
+                    break;
+                case NWDStatut.DataIndexationStart:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationStep:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationFinish:
+                    {
+                        Ready();
                     }
                     break;
                 case NWDStatut.NetWorkedDataReady:
@@ -286,6 +303,18 @@ namespace NetWorkedData
                     }
                     break;
                 case NWDStatut.DataAccountLoaded:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationStart:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationStep:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationFinish:
                     {
                     }
                     break;

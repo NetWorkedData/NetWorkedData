@@ -15,10 +15,52 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsReacheableByGameSave(NWDGameSave sGameSave)
+        //TODO : use in place of ...
+        public List<K> RawDatas()
+        {
+            return BasisHelper().Datas as List<K>;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //TODO : use in place of ...
+        public K RawDataByReference(string sReference)
+        {
+            return BasisHelper().DatasByReference[sReference] as K;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //TODO : use in place of ...
+        public List<K> RawDatasByInternalKey(string sInternalKey)
+        {
+            return BasisHelper().DatasByInternalKey[sInternalKey] as List<K>;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] FindDatas()
+        {
+            return FindDatas(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            K rReturn = null;
+            K[] rDatas = FindDatas(sAccountReference, sGameSave);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            return rReturn;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
             bool rReturn = false;
             if (BasisHelper().GameSaveMethod != null)
@@ -42,7 +84,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool VisibleByGameSave(string sGameSaveReference)
+        public override bool VisibleByGameSave(string sGameSaveReference)
         {
             bool rReturn = false;
             if (BasisHelper().GameSaveMethod != null)
@@ -65,7 +107,7 @@ namespace NetWorkedData
         }
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public bool VisibleByAccountByEqual(string sAccountReference)
+        public override bool VisibleByAccountByEqual(string sAccountReference)
         {
             bool rReturn = false;
             if (AccountDependent())
@@ -92,7 +134,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool VisibleByAccount(string sAccountReference)
+        public override bool VisibleByAccount(string sAccountReference)
         {
             bool rReturn = false;
             if (AccountDependent())
@@ -120,7 +162,7 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsReacheableByAccount(string sAccountReference = null)
+        public override bool IsReacheableByAccount(string sAccountReference = null)
         {
             bool rReturn = false;
             if (AccountDependent())
@@ -153,5 +195,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

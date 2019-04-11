@@ -49,12 +49,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserNewsRead), typeof(NWDNews) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static void Check() // call by invoke
         {
             kCheckReinstall.Clear();
@@ -125,7 +119,7 @@ namespace NetWorkedData
                 {
                     if (tNew.NewsType != NWDNewsType.Programmatically)
                     {
-                        NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(tNew);
+                        NWDUserNewsRead tRead = NWDUserNewsRead.FindDataByNews(tNew);
                         if (tRead != null)
                         {
                             tRead.IsInstalled = false;
@@ -143,7 +137,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CancelNotification()
         {
-            NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(this);
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindDataByNews(this);
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
@@ -180,7 +174,7 @@ namespace NetWorkedData
             #endif
 
             // user satut for this message 
-            NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(this);
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindDataByNews(this);
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
@@ -253,7 +247,7 @@ namespace NetWorkedData
             #endif
 
             // user satut for this message 
-            NWDUserNewsRead tRead = NWDUserNewsRead.FindFisrtByNews(this);
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindDataByNews(this);
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();

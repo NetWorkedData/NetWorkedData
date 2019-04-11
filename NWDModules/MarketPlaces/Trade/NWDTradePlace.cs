@@ -64,7 +64,7 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Trade Detail", true, true, true)]
-        [NWDAlias("ForRelationshipOnly")]
+        //[NWDAlias("ForRelationshipOnly")]
         public bool ForRelationshipOnly
         {
             get; set;

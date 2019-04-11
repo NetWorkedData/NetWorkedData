@@ -51,23 +51,23 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
        
         [NWDInspectorGroupStart("Relationship informations", true, true, true)]
-        [NWDAlias("RelationshipStatus")]
+       // [NWDAlias("RelationshipStatus")]
         public NWDRelationshipStatus RelationshipStatus
         {
             get; set;
         }
         [NWDNotEditable]
-        [NWDAlias("RelationshipHash")]
+       // [NWDAlias("RelationshipHash")]
         public string RelationshipHash
         {
             get; set;
         }
-        [NWDAlias("RelationshipCode")]
+       // [NWDAlias("RelationshipCode")]
         public string RelationshipCode
         {
             get; set;
         }
-        [NWDAlias("LimitDayTime")]
+       // [NWDAlias("LimitDayTime")]
         public NWDDateTimeUtcType LimitDayTime
         {
             get; set;

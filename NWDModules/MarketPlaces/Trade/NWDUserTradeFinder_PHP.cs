@@ -15,23 +15,32 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserTradeFinder : NWDBasis<NWDUserTradeFinder>
+    public partial class NWDUserTradeFinderHelper : NWDHelper<NWDUserTradeFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+       public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
-            string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
-            string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
-            string tForRelationshipOnly = NWDUserTradeRequest.FindAliasName("ForRelationshipOnly");
-            string tRelationshipAccountReferences = NWDUserTradeRequest.FindAliasName("RelationshipAccountReferences");
+            string tTradeStatus = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeStatus);
+            string tLimitDayTime = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().LimitDayTime);
+            string tTradePlaceRequest = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradePlace);
+            string tForRelationshipOnly = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().ForRelationshipOnly);
+            string tRelationshipAccountReferences = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().RelationshipAccountReferences);
+
+            string t_THIS_TradeRequestsList = NWDToolbox.PropertyName(() => FictiveData().TradeRequestsList);
+            string t_THIS_TradePlace = NWDToolbox.PropertyName(() => FictiveData().TradePlace);
+            string t_THIS_ForRelationshipOnly = NWDToolbox.PropertyName(() => FictiveData().ForRelationshipOnly);
+
+            //string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
+            //string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
+            //string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
+            //string tForRelationshipOnly = NWDUserTradeRequest.FindAliasName("ForRelationshipOnly");
+            //string tRelationshipAccountReferences = NWDUserTradeRequest.FindAliasName("RelationshipAccountReferences");
+
+            //string t_THIS_TradeRequestsList = FindAliasName("TradeRequestsList");
+            //string t_THIS_TradePlace = FindAliasName("TradePlace");
+            //string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
+
             int tIndex_tTradeStatus = NWDUserTradeRequest.CSV_IndexOf(tTradeStatus);
-
-            string t_THIS_TradeRequestsList = FindAliasName("TradeRequestsList");
-            string t_THIS_TradePlace = FindAliasName("TradePlace");
-            string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
-
             int tIndex_TradeRequestsList = CSV_IndexOf(t_THIS_TradeRequestsList);
             int tIndex_TradePlace = CSV_IndexOf(t_THIS_TradePlace);
             int tIndex_THIS_ForRelationshipOnly = CSV_IndexOf(t_THIS_ForRelationshipOnly);
@@ -106,21 +115,10 @@ namespace NetWorkedData
                 "}\n" +
                 "}\n" +
                 "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
+                "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
                 "// finish Addon \n";
 
             return sScript;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "\n" +
-                "\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }

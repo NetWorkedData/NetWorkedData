@@ -23,7 +23,8 @@ namespace NetWorkedData
             string tPropertyName = "null";
             if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
             {
-                tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_DevEnvironment);
+                //tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_DevEnvironment);
+                tPropertyName = NWDToolbox.PropertyName(()=>NWDAppConfiguration.SharedInstance().DevEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
                 {
@@ -38,7 +39,8 @@ namespace NetWorkedData
             }
             if (NWDAppConfiguration.SharedInstance().PreprodEnvironment == this)
             {
-                tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_PreprodEnvironment);
+                //tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_PreprodEnvironment);
+                tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
                 {
@@ -53,7 +55,8 @@ namespace NetWorkedData
             }
             if (NWDAppConfiguration.SharedInstance().ProdEnvironment == this)
             {
-                tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_ProdEnvironment);
+                //tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_ProdEnvironment);
+                tPropertyName = NWDToolbox.PropertyName(() => NWDAppConfiguration.SharedInstance().ProdEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
                 {

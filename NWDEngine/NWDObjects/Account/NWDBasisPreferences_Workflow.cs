@@ -42,7 +42,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public string GetString(string sKey, NWDAppEnvironment sEnvironment, string sDefault = null, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences tPrefs = FindData(sKey, sEnvironment, sDefault, 0, sLimitByAccount);
+            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, sDefault, 0, sLimitByAccount);
             if (tPrefs != null)
             {
                 return tPrefs.StringValue;
@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public int GetInt(string sKey, NWDAppEnvironment sEnvironment, int sDefault = 0, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences tPrefs = FindData(sKey, sEnvironment, string.Empty, sDefault, sLimitByAccount);
+            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, sDefault, sLimitByAccount);
             if (tPrefs != null)
             {
                 return tPrefs.IntValue;
@@ -68,7 +68,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void SetString(string sKey, NWDAppEnvironment sEnvironment, string sValue, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences tPrefs = FindData(sKey, sEnvironment, string.Empty, 0, sLimitByAccount);
+            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, 0, sLimitByAccount);
             if (tPrefs != null)
             {
                 tPrefs.StringValue = sValue;
@@ -78,7 +78,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void SetInt(string sKey, NWDAppEnvironment sEnvironment, int sValue, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences tPrefs = FindData(sKey, sEnvironment, string.Empty, 0, sLimitByAccount);
+            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, 0, sLimitByAccount);
             if (tPrefs != null)
             {
                 tPrefs.IntValue = sValue;

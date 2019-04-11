@@ -13,6 +13,21 @@ using SQLite.Attribute;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDTypeClassReference
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string Reference
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClassReference(bool sFromDatabase)
+        {
+            // come from table select
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -193,6 +208,10 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public virtual string ClassNameUsedValue()
         //{
         //    return string.Empty;
@@ -201,6 +220,70 @@ namespace NetWorkedData
         public virtual bool DataIntegrityState()
         {
             return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool TestIntegrity()
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsEnable()
+        {
+            return AC;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ReOrderLocalizationsValues(string[] sLanguageArray)
+        {
+        }
+        public virtual string ExportCSV(string[] sLanguageArray)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsTrashed()
+        {
+            if (XX > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool VisibleByGameSave(string sGameSaveReference)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool VisibleByAccountByEqual(string sAccountReference)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool VisibleByAccount(string sAccountReference)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool IsReacheableByAccount(string sAccountReference = null)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+            public bool IsUsable()
+        {
+            if (AC == true && XX <= 0 && TestIntegrity() == true)
+            {
+                return true;
+            }
+            return false;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public virtual bool TrashState()
@@ -216,6 +299,22 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateIntegrity()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ErrorCheck()
+        {
+        }
+        //------------------------------------------------------------------------------------------------------------- 
         //public virtual bool EnableState()
         //{
         //    return true;
@@ -311,6 +410,16 @@ namespace NetWorkedData
         {
             return Color.white;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Delete()
+        {
+            //this = null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        ~NWDTypeClass()
+        {
+            //Debug.Log("Destructor : " + Reference);
+        }
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -395,7 +504,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string PHPstring(string sPropertyName)
         {
-            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDAccountNickname'][$tRow['"+sPropertyName+"']]= true;}\n";
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDAccountNickname'][$tRow['" + sPropertyName + "']]= true;}\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -426,7 +535,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string PHPstring(string sPropertyName)
         {
-            return "$REF_NEEDED['"+this.ClassName+"'][$tRow['" + sPropertyName + "']]= true;\n";
+            return "$REF_NEEDED['" + this.ClassName + "'][$tRow['" + sPropertyName + "']]= true;\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }

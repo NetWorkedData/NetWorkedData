@@ -13,19 +13,19 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
-        public static void ChangeAssetPath(string sOldPath, string sNewPath)
-        {
-            if (AssetDependent() == true)
-            {
-                foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
-                {
-                    tObject.ChangeAssetPathMe(sOldPath, sNewPath);
-                }
-            }
-        }
+        //[NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
+        //public static void ChangeAssetPath(string sOldPath, string sNewPath)
+        //{
+        //    if (AssetDependent() == true)
+        //    {
+        //        foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
+        //        {
+        //            tObject.ChangeAssetPathMe(sOldPath, sNewPath);
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
+        public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
             if (TestIntegrity() == true)
             {

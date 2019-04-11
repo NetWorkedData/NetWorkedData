@@ -26,7 +26,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Achievement.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
-                kAchievementKeyIndex.InsertInIndex(this, tKey);
+                kAchievementKeyIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -34,13 +34,13 @@ namespace NetWorkedData
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
-            kAchievementKeyIndex.RemoveFromIndex(this);
+            kAchievementKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountAchievement FindFisrtByAchievement(NWDAchievementKey sKey, bool sOrCreate = true)
+        public static NWDAccountAchievement FindDataByAchievement(NWDAchievementKey sKey, bool sOrCreate = true)
         {
             string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
-            NWDAccountAchievement rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            NWDAccountAchievement rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();

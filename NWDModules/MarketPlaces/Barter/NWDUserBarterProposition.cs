@@ -63,12 +63,12 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("BarterPlace")]
+        //[NWDAlias("BarterPlace")]
         public NWDReferenceType<NWDBarterPlace> BarterPlace
         {
             get; set;
         }
-        [NWDAlias("BarterRequest")]
+        //[NWDAlias("BarterRequest")]
         public NWDReferenceType<NWDUserBarterRequest> BarterRequest
         {
             get; set;
@@ -79,23 +79,23 @@ namespace NetWorkedData
 
         [NWDInspectorGroupStart("Barter References", true, true, true)]
         [NWDNotEditable]
-        [NWDAlias("ItemsProposed")]
+        //[NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed
         {
             get; set;
         }
-        [NWDAlias("ItemsSend")]
+        //[NWDAlias("ItemsSend")]
         public NWDReferencesQuantityType<NWDItem> ItemsSend
         {
             get; set;
         }
-        [NWDAlias("BarterStatus")]
+        //[NWDAlias("BarterStatus")]
         public NWDTradeStatus BarterStatus
         {
             get; set;
         }
         [NWDNotEditable]
-        [NWDAlias("BarterRequestHash")]
+       //[NWDAlias("BarterRequestHash")]
         public string BarterRequestHash
         {
             get; set;

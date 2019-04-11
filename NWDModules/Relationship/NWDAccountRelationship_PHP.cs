@@ -22,23 +22,36 @@ using System.Text;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountRelationship : NWDBasis<NWDAccountRelationship>
+public partial class NWDAccountRelationshipHelper : NWDHelper<NWDAccountRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string tRelationStatus = FindAliasName("RelationshipStatus");
-            string tRelationPlace = FindAliasName("RelationPlace");
-            string tRelationshipHash = FindAliasName("RelationshipHash");
-            string tRelationshipCode = FindAliasName("RelationshipCode");
-            string tLimitDayTime = FindAliasName("LimitDayTime");
-            string tFriendLastSynchronization = FindAliasName("FriendLastSynchronization");
 
-            string tFriendAccount = FindAliasName("FriendAccount");
+            string tRelationStatus = NWDToolbox.PropertyName(() => FictiveData().RelationshipStatus);
 
-            string tAccount = FindAliasName("Account");
-            string tFriendUserRelationShip = FindAliasName("FriendUserRelationShip");
+            string tRelationPlace = NWDToolbox.PropertyName(() => FictiveData().RelationPlace);
+            string tRelationshipHash = NWDToolbox.PropertyName(() => FictiveData().RelationshipHash);
+            string tRelationshipCode = NWDToolbox.PropertyName(() => FictiveData().RelationshipCode);
+            string tLimitDayTime = NWDToolbox.PropertyName(() => FictiveData().LimitDayTime);
+            string tFriendLastSynchronization = NWDToolbox.PropertyName(() => FictiveData().FriendLastSynchronization);
+
+            string tFriendAccount = NWDToolbox.PropertyName(() => FictiveData().FriendAccount);
+
+            string tAccount = NWDToolbox.PropertyName(() => FictiveData().Account);
+            string tFriendUserRelationShip = NWDToolbox.PropertyName(() => FictiveData().FriendUserRelationShip);
+
+            //string tRelationStatus = FindAliasName("RelationshipStatus");
+            //string tRelationPlace = FindAliasName("RelationPlace");
+            //string tRelationshipHash = FindAliasName("RelationshipHash");
+            //string tRelationshipCode = FindAliasName("RelationshipCode");
+            //string tLimitDayTime = FindAliasName("LimitDayTime");
+            //string tFriendLastSynchronization = FindAliasName("FriendLastSynchronization");
+
+            //string tFriendAccount = FindAliasName("FriendAccount");
+
+            //string tAccount = FindAliasName("Account");
+            //string tFriendUserRelationShip = FindAliasName("FriendUserRelationShip");
 
             int t_Index_RelationStatus = CSV_IndexOf(tRelationStatus);
             int t_Index_RelationPlace = CSV_IndexOf(tRelationPlace);
@@ -52,11 +65,17 @@ namespace NetWorkedData
             int t_Index_Account = CSV_IndexOf(tAccount);
             int t_Index_FriendUserRelationShip = CSV_IndexOf(tFriendUserRelationShip);
 
-            string tCodeLenght = NWDRelationshipPlace.FindAliasName("CodeLenght");
+            string tCodeLenght = NWDToolbox.PropertyName(() => NWDRelationshipPlace.FictiveData().CodeLenght);
 
-            string tExpireTime = NWDRelationshipPlace.FindAliasName("ExpireTime");
-            string tClassesSharedToStartRelation = NWDRelationshipPlace.FindAliasName("ClassesSharedToStartRelation");
-            string tClassesShared = NWDRelationshipPlace.FindAliasName("ClassesShared");
+            string tExpireTime = NWDToolbox.PropertyName(() => NWDRelationshipPlace.FictiveData().ExpireTime);
+            string tClassesSharedToStartRelation = NWDToolbox.PropertyName(() => NWDRelationshipPlace.FictiveData().ClassesSharedToStartRelation);
+            string tClassesShared = NWDToolbox.PropertyName(() => NWDRelationshipPlace.FictiveData().ClassesShared);
+
+            //string tCodeLenght = NWDRelationshipPlace.FindAliasName("CodeLenght");
+
+            //string tExpireTime = NWDRelationshipPlace.FindAliasName("ExpireTime");
+            //string tClassesSharedToStartRelation = NWDRelationshipPlace.FindAliasName("ClassesSharedToStartRelation");
+            //string tClassesShared = NWDRelationshipPlace.FindAliasName("ClassesShared");
 
             string sScript = "" +
                 "// start Addon \n" +
@@ -84,7 +103,7 @@ namespace NetWorkedData
                 " `" + tFriendAccount + "`," +
                 " `" + tFriendLastSynchronization + "`," +
                 " `" + tFriendUserRelationShip + "" +
-                "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
                 "AND `WebModel` <= '.$WSBUILD.' " +
@@ -122,7 +141,7 @@ namespace NetWorkedData
                 " || $sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Expired).ToString() +
                 ")\n" +
                     "{\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -137,7 +156,7 @@ namespace NetWorkedData
                         "$sReplaces[" + t_Index_RelationshipCode + "]= '' ;\n" +
                         "$sReplaces[" + t_Index_LimitDayTime + "]= 0 ;\n" +
                         "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                         "}\n" +
                         "else\n" +
                         "{\n" +
@@ -145,7 +164,7 @@ namespace NetWorkedData
                         // TODO RETURN THE DEFAULT CLASSE TO RELATIONSHIP VISIBLE INFORMATIONS
 
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                         "}\n" +
                     "}\n" +
@@ -182,7 +201,7 @@ namespace NetWorkedData
                                                     "$sReplaces[" + t_Index_FriendAccount + "]= '' ;\n" +
                                                     "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
                                                     "$sReplaces[" + t_Index_LimitDayTime + "]= $tLimitDayTime ;\n" +
-                                                    "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                                    "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                                 "}\n" +
                                         "}\n" +
                                 "else\n" +
@@ -194,7 +213,7 @@ namespace NetWorkedData
                                             "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                                             "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
                                             "$sReplaces[" + t_Index_LimitDayTime + "]= 0 ;\n" +
-                                            "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                            "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                         "}\n" +
                                 "}\n" +
                     "}\n" +
@@ -204,7 +223,7 @@ namespace NetWorkedData
                 "$sCsvList[" + t_Index_RelationshipCode + "] != '' &&" +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.None).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryRequestor = 'SELECT `" + tAccount + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                        "$tQueryRequestor = 'SELECT `" + tAccount + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
                         "WHERE " +
                         "`" + tRelationshipHash + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
@@ -230,7 +249,7 @@ namespace NetWorkedData
                                             "{\n" +
                                                 "$tAccountRequestor = $tRowRequestor['" + tAccount + "'];\n" +
                                             "}\n" +
-                                        "$tQueryFriend = 'SELECT `Reference` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                                        "$tQueryFriend = 'SELECT `Reference` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
                                         "WHERE " +
                                         "(" +
                                         "`AC`= \\'1\\' " +
@@ -268,11 +287,11 @@ namespace NetWorkedData
                                                         "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                                                         "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
                                                         "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                                     "}\n" +
                                                 "else" +
                                                     "{\n" +
-                                                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                                                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -302,7 +321,7 @@ namespace NetWorkedData
                                                                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                                                                 "if ($tNumberOfRow == 1)\n" +
                                                                     "{\n" +
-                                                                        "$tQueryIntegrity = 'SELECT `Reference` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
+                                                                        "$tQueryIntegrity = 'SELECT `Reference` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
                                                                         "WHERE " +
                                                                         "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
                                                                         "AND `" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
@@ -317,19 +336,19 @@ namespace NetWorkedData
                                                                             "{\n" +
                                                                                 "while($tRowIntegrity = $tResultIntegrity->fetch_row())\n" +
                                                                                     "{\n" +
-                                                                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue($tRowIntegrity[0]);\n" +
+                                                                                        "Integrity" + ClassNamePHP + "Reevalue($tRowIntegrity[0]);\n" +
                                                                                         "$sReplaces[" + t_Index_FriendUserRelationShip + "]= $tRowIntegrity[0];\n" +
                                                                                     "}\n" +
                                                                             "}\n" +
                                                                         "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.WaitingValidation).ToString() + ";\n" +
                                                                         "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                                                     "}\n" +
                                                                 "else\n" +
                                                                     "{\n" +
                                                                         "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.CodeInvalid).ToString() + ";\n" +
                                                                         "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                                                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                                                     "}\n" +
                                                             "}\n" +
                                                     "}\n" +
@@ -339,7 +358,7 @@ namespace NetWorkedData
                                     "{\n" +
                                         "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.CodeInvalid).ToString() + ";\n" +
                                         "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
-                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                     "}\n" +
                             "}\n" +
                     "}\n" +
@@ -348,7 +367,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.AcceptFriend).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryAccept = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryAccept = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -379,8 +398,8 @@ namespace NetWorkedData
                                     "{\n" +
                                         "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.Valid).ToString() + ";\n" +
                                         "$sReplaces[" + t_Index_LimitDayTime + "]= 0 ;\n" +
-                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
+                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                        "Integrity" + ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
                                     "}\n" +
                                 "else" +
                                     "{\n" +
@@ -391,7 +410,7 @@ namespace NetWorkedData
                                         "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                                         "$sReplaces[" + t_Index_FriendLastSynchronization + "] = 0;\n" +
                                         "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                     "}\n" +
                             "}\n" +
                             "" +
@@ -401,7 +420,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.RefuseFriend).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -430,7 +449,7 @@ namespace NetWorkedData
                                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
-                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
+                                        "Integrity" + ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
                                     "}\n" +
                                 "$sReplaces[" + t_Index_RelationStatus + "] = " + ((int)NWDRelationshipStatus.Expired).ToString() + ";\n" +
                                 "$sReplaces[" + t_Index_RelationshipHash + "] = '';\n" +
@@ -439,7 +458,7 @@ namespace NetWorkedData
                                 "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                                 "$sReplaces[" + t_Index_FriendLastSynchronization + "] = 0;\n" +
                                 "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                             "}\n" +
                         "" +
                     "}\n" +
@@ -448,7 +467,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Delete).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.Valid).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -477,7 +496,7 @@ namespace NetWorkedData
                                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
-                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
+                                        "Integrity" + ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
                                     "}\n" +
                                 "$sReplaces[" + t_Index_RelationStatus + "] = " + ((int)NWDRelationshipStatus.Expired).ToString() + ";\n" +
                                 "$sReplaces[" + t_Index_RelationshipHash + "] = '';\n" +
@@ -486,7 +505,7 @@ namespace NetWorkedData
                                 "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                                 "$sReplaces[" + t_Index_FriendLastSynchronization + "] = 0;\n" +
                                 "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                                "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                             "}\n" +
                         "" +
                     "}\n" +
@@ -501,7 +520,7 @@ namespace NetWorkedData
                     "{\n" +
                         "$sReplaces[" + t_Index_RelationshipHash + "] = '';\n" +
                         "$sReplaces[" + t_Index_RelationshipCode + "] = '';\n" +
-                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
 
@@ -511,7 +530,7 @@ namespace NetWorkedData
                     "{\n" +
                         "myLog('###OK IS EXPIRED?###', __FILE__, __FUNCTION__, __LINE__);\n" +
 
-                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
+                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -547,11 +566,11 @@ namespace NetWorkedData
                                         "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                                         "$sReplaces[" + t_Index_FriendLastSynchronization + "] = 0;\n" +
                                         "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                                     "}\n" +
                                 "else" +
                                     "{\n" +
-                                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                                         "return;\n" +
                                     "}\n" +
                             "}\n" +
@@ -606,7 +625,7 @@ namespace NetWorkedData
                             "}\n" +
                             "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.Valid).ToString() + ";\n" +
                             "$sReplaces[" + t_Index_FriendLastSynchronization + "]= $TIME_SYNC ;\n" +
-                            "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                            "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO FORCE // ADMIN ONLY 
@@ -624,35 +643,19 @@ namespace NetWorkedData
                             "$sReplaces[" + t_Index_FriendAccount + "] = '';\n" +
                             "$sReplaces[" + t_Index_FriendLastSynchronization + "]= 0 ;\n" +
                             "$sReplaces[" + t_Index_LimitDayTime + "] = 0;\n" +
-                            "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                            "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // OTHER
                 "else\n" +
                       "{\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
                 "// finish Addon \n";
 
             return sScript;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            StringBuilder rReturn = new StringBuilder();
-            // If propose friends add basic informations force
-            return rReturn.ToString();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpGetCalculate)]
-        public static string AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            StringBuilder rReturn = new StringBuilder();
-            // If propose friends add basic informations force
-            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

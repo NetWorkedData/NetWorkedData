@@ -22,32 +22,32 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_CreateErrorsAndMessages)]
-        public static void CreateAllError()
-        {
-            // Create error in local data base
-            string tClassName = BasisHelper().ClassTableName;
-            string tTrigramme = BasisHelper().ClassTrigramme;
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x01", "Error in " + tClassName, "error in request creation in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x02", "Error in " + tClassName, "error in request creation add primary key in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x03", "Error in " + tClassName, "error in request creation add autoincrement modify in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x05", "Error in " + tClassName, "error in sql index creation in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x07", "Error in " + tClassName, "error in sql defragment in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x08", "Error in " + tClassName, "error in sql drop in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x09", "Error in " + tClassName, "error in sql Flush in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x11", "Error in " + tClassName, "error in sql add columns in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x12", "Error in " + tClassName, "error in sql alter columns in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x31", "Error in " + tClassName, "error in request insert new datas before update in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x32", "Error in " + tClassName, "error in request select datas to update in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x33", "Error in " + tClassName, "error in request select updatable datas in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x38", "Error in " + tClassName, "error in request update datas in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x39", "Error in " + tClassName, "error more than one row for this reference in  " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x40", "Error in " + tClassName, "error in flush trashed in  " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x91", "Error in " + tClassName, "error update integrity in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x99", "Error in " + tClassName, "error columns number in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in " + tClassName, "integrity of one datas is false, break in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(tClassName, tTrigramme + "x77", "Error in " + tClassName, "error update log in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-        }
+        //[NWDAliasMethod(NWDConstants.M_CreateErrorsAndMessages)]
+        //public static void CreateAllError()
+        //{
+        //    // Create error in local data base
+        //    string tClassName = BasisHelper().ClassTableName;
+        //    string tTrigramme = BasisHelper().ClassTrigramme;
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x01", "Error in " + tClassName, "error in request creation in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x02", "Error in " + tClassName, "error in request creation add primary key in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x03", "Error in " + tClassName, "error in request creation add autoincrement modify in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x05", "Error in " + tClassName, "error in sql index creation in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x07", "Error in " + tClassName, "error in sql defragment in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x08", "Error in " + tClassName, "error in sql drop in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x09", "Error in " + tClassName, "error in sql Flush in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x11", "Error in " + tClassName, "error in sql add columns in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x12", "Error in " + tClassName, "error in sql alter columns in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x31", "Error in " + tClassName, "error in request insert new datas before update in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x32", "Error in " + tClassName, "error in request select datas to update in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x33", "Error in " + tClassName, "error in request select updatable datas in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x38", "Error in " + tClassName, "error in request update datas in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x39", "Error in " + tClassName, "error more than one row for this reference in  " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x40", "Error in " + tClassName, "error in flush trashed in  " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x91", "Error in " + tClassName, "error update integrity in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x99", "Error in " + tClassName, "error columns number in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in " + tClassName, "integrity of one datas is false, break in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //    NWDError.CreateGenericError(tClassName, tTrigramme + "x77", "Error in " + tClassName, "error update log in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> CreatePHPConstant(NWDAppEnvironment sEnvironment)
         {
@@ -284,11 +284,11 @@ namespace NetWorkedData
                 }
 
 
-                        if (indexName == K_BASIS_INDEX)
+                if (indexName == K_BASIS_INDEX)
                 {
                     foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
-                        
+
                         Type tTypeOfThis = tProp.PropertyType;
                         if (tTypeOfThis != null)
                         {
@@ -596,7 +596,7 @@ namespace NetWorkedData
             tFile.AppendLine("function Log" + tClassName + " ($sReference, $sLog)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $ENV;");
-            tFile.AppendLine("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `ServerLog` = CONCAT(`ServerLog`, \\' ; '.$SQL_CON->real_escape_string($sLog).'\\') WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ServerLog) + "` = CONCAT(`" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ServerLog) + "`, \\' ; '.$SQL_CON->real_escape_string($sLog).'\\') WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
@@ -651,7 +651,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -671,11 +671,11 @@ namespace NetWorkedData
             tFile.AppendLine("$tRow['WebModel'] = $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("$tCalculate = Integrity" + tClassName + "Generate ($tRow);");
             tFile.AppendLine("$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);");
-            tFile.Append("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\',");
+            tFile.Append("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Integrity) + "` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\',");
             tFile.Append(" `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\',");
             tFile.Append(" `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' ,");
             //tSynchronizationFile.Append(" `WebModel` = \\''.$WSBUILD.'\\'" );
-            tFile.AppendLine(" `WebModel` = \\''.$SQL_" + tClassName + "_WebService.'\\'" + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine(" `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` = \\''.$SQL_" + tClassName + "_WebService.'\\'" + " WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
@@ -695,7 +695,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $ENV, $NWD_SLT_SRV;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;");
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -727,7 +727,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $NWD_SLT_SRV;");
             tFile.AppendLine("$tCalculateServer = IntegrityServer" + tClassName + "Generate ($sRow);");
-            tFile.AppendLine("if ($tCalculateServer == $sRow['ServerHash'])");
+            tFile.AppendLine("if ($tCalculateServer == $sRow['" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ServerHash) + "'])");
             tFile.AppendLine("{");
             tFile.AppendLine("return true;");
             tFile.AppendLine("}");
@@ -740,7 +740,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $ENV, $NWD_SLT_SRV;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;");
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -774,7 +774,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("$tCalculate =Integrity" + tClassName + "Generate ($sRow);");
-            tFile.AppendLine("if ($tCalculate == $sRow['Integrity'])");
+            tFile.AppendLine("if ($tCalculate == $sRow['" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Integrity) + "'])");
             tFile.AppendLine("{");
             tFile.AppendLine("return true;");
             tFile.AppendLine("}");
@@ -797,11 +797,13 @@ namespace NetWorkedData
                 tIndex++;
             }
 
-            MethodInfo tMethodDeclareFunctions = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpFunctions, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodDeclareFunctions != null)
-            {
-                tFile.Append((string)tMethodDeclareFunctions.Invoke(null, new object[] { sEnvironment }));
-            }
+            //MethodInfo tMethodDeclareFunctions = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpFunctions, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodDeclareFunctions != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareFunctions.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpFunctions(sEnvironment));
+
             tFile.AppendLine("{");
             if (sEnvironment.LogMode == true)
             {
@@ -822,12 +824,13 @@ namespace NetWorkedData
             tFile.AppendLine("$tReference = $sCsvList[0];");
             tFile.AppendLine("// find solution for pre calculate on server");
 
-            MethodInfo tMethodDeclarePre = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPreCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodDeclarePre != null)
-            {
-                tFile.Append((string)tMethodDeclarePre.Invoke(null, new object[] { sEnvironment }));
-            }
-            tFile.AppendLine("$tQuery = 'SELECT `Reference`, `DM` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';");
+            //MethodInfo tMethodDeclarePre = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPreCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodDeclarePre != null)
+            //{
+            //    tFile.Append((string)tMethodDeclarePre.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpPreCalculate(sEnvironment));
+            tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "`, `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().DM) + "` FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -859,7 +862,7 @@ namespace NetWorkedData
             //"while($tRow = $tResult->fetch_row())"+
             //"{" );
             tFile.Append("$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET ");
-            tFile.Append(string.Join(", ", tModify.ToArray()) + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' ");
+            tFile.Append(string.Join(", ", tModify.ToArray()) + " WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' ");
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
                 // tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') "; 
@@ -886,7 +889,7 @@ namespace NetWorkedData
             }
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebModel` <= '.$WSBUILD.'';");
+            tFile.AppendLine("$tUpdate = $tUpdate.$tUpdateRestriction.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.'';");
             tFile.AppendLine("}");
             //"else" );
             //"{" );
@@ -904,11 +907,13 @@ namespace NetWorkedData
             //"}" );
             tFile.AppendLine("}");
             tFile.AppendLine("// Solution for post calculate on server");
-            MethodInfo tMethodDeclarePost = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPostCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodDeclarePost != null)
-            {
-                tFile.Append((string)tMethodDeclarePost.Invoke(null, new object[] { sEnvironment }));
-            }
+            //MethodInfo tMethodDeclarePost = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPostCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodDeclarePost != null)
+            //{
+            //    tFile.Append((string)tMethodDeclarePost.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpPostCalculate(sEnvironment));
+
             tFile.AppendLine("// Update is finished!");
             /*
             tFile.AppendLine("$tLigneAffected = $SQL_CON->affected_rows;");
@@ -952,7 +957,7 @@ namespace NetWorkedData
                 tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
             }
             tFile.AppendLine("global $SQL_CON, $ENV;");
-            tFile.AppendLine("$tQuery = 'DELETE FROM `'.$ENV.'_" + tTableName + "` WHERE XX>0';");
+            tFile.AppendLine("$tQuery = 'DELETE FROM `'.$ENV.'_" + tTableName + "` WHERE " + NWDToolbox.PropertyName(() => NWDExample.FictiveData().XX) + ">0';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -972,10 +977,10 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($sReference).'\\'';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -990,13 +995,16 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            MethodInfo tMethodDeclareGet = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpGetCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodDeclareGet != null)
-            {
-                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            }
+            //MethodInfo tMethodDeclareGet = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpGetCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodDeclareGet != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            //}
+
+            tFile.Append(BasisHelper().New_AddonPhpGetCalculate(sEnvironment));
+
             tFile.AppendLine("}");
             string tSpecialAdd = string.Empty;
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -1041,10 +1049,10 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -1059,11 +1067,12 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            if (tMethodDeclareGet != null)
-            {
-                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            }
+            tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            //if (tMethodDeclareGet != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1100,7 +1109,7 @@ namespace NetWorkedData
             tFile.AppendLine("';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             // I do the result operation
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
@@ -1116,11 +1125,12 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            if (tMethodDeclareGet != null)
-            {
-                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            }
+            tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            //if (tMethodDeclareGet != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1164,7 +1174,7 @@ namespace NetWorkedData
             tFile.AppendLine("';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuery = $tQuery.' AND `WebModel` <= '.$WSBUILD.';';");
+            tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.';';");
             tFile.AppendLine("}");
             // I do the result operation
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
@@ -1180,11 +1190,12 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            if (tMethodDeclareGet != null)
-            {
-                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            }
+            tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            //if (tMethodDeclareGet != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1217,7 +1228,7 @@ namespace NetWorkedData
             {
                 tFile.Append("AND (" + string.Join("OR ", tAccountReferences.ToArray()) + ") ");
             }
-            tFile.AppendLine(" AND `WebModel` <= '.$SQL_" + tClassName + "_WebService.';';");
+            tFile.AppendLine(" AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$SQL_" + tClassName + "_WebService.';';");
             // I do the result operation
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -1232,11 +1243,12 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
-            tFile.AppendLine("$REP['" + tClassName + "']['"+ SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            if (tMethodDeclareGet != null)
-            {
-                tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            }
+            tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
+            //if (tMethodDeclareGet != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
+            //}
+            tFile.Append(BasisHelper().New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1256,11 +1268,14 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $admin, $uuid;");
-            MethodInfo tMethodDeclareSpecial = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpSpecialCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodDeclareSpecial != null)
-            {
-                tFile.Append((string)tMethodDeclareSpecial.Invoke(null, new object[] { sEnvironment }));
-            }
+            //MethodInfo tMethodDeclareSpecial = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpSpecialCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodDeclareSpecial != null)
+            //{
+            //    tFile.Append((string)tMethodDeclareSpecial.Invoke(null, new object[] { sEnvironment }));
+            //}
+
+            tFile.Append(BasisHelper().New_AddonPhpSpecialCalculate(sEnvironment));
+
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 

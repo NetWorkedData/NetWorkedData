@@ -15,32 +15,54 @@ namespace NetWorkedData
     public partial class NWDMessage : NWDBasis<NWDMessage>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDMessage FindByCode(string sCode)
+        static protected NWDIndexSimple<NWDMessage> kCodeIndex = new NWDIndexSimple<NWDMessage>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInCodeIndex()
         {
-            NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.FindDatas())
+            // Re-add to the actual indexation ?
+            if (IsUsable())
             {
-                if (tObject.Code == sCode)
-                {
-                    rReturn = tObject;
-                    break;
-                }
+                // Re-add !
+                kCodeIndex.InsertData(this, this.Code);
             }
-            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDMessage FindByDomainAndCode(string sDomain, string sCode)
+        [NWDIndexRemove]
+        public void RemoveFromCodeIndex()
         {
-            NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.FindDatas())
+            // Remove from the actual indexation
+            kCodeIndex.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDMessage FindDataByCode(string sCode)
+        {
+            return kCodeIndex.RawFirstDataByKey(sCode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndexSimple<NWDMessage> kDomainCodeIndex = new NWDIndexSimple<NWDMessage>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInDomainCodeIndex()
+        {
+            // Re-add to the actual indexation ?
+            if (IsUsable())
             {
-                if (tObject.Code == sCode && tObject.Domain == sDomain)
-                {
-                    rReturn = tObject;
-                    break;
-                }
+                // Re-add !
+                kDomainCodeIndex.InsertData(this, this.Domain + NWDConstants.kFieldSeparatorA + this.Code);
             }
-            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromDomainCodeIndex()
+        {
+            // Remove from the actual indexation
+            kDomainCodeIndex.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDMessage FindDataByDomainAndCode(string sDomain, string sCode)
+        {
+            return kDomainCodeIndex.RawFirstDataByKey(sDomain + NWDConstants.kFieldSeparatorA + sCode);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

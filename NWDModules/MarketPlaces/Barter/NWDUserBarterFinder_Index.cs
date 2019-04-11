@@ -27,7 +27,7 @@ namespace NetWorkedData
             if (IsUsable())
             {
                 // Re-add !
-                kBarterPlaceIndex.InsertInIndex(this, BarterPlace.GetObject());
+                kBarterPlaceIndex.InsertData(this, BarterPlace.GetObject());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -35,17 +35,17 @@ namespace NetWorkedData
         public void RemoveFromBarterPlaceIndex()
         {
             // Remove from the actual indexation
-            kBarterPlaceIndex.RemoveFromIndex(this);
+            kBarterPlaceIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDUserBarterFinder> FindByBarterPlace(NWDBarterPlace sKey)
         {
-            return kBarterPlaceIndex.FindByKey(sKey);
+            return kBarterPlaceIndex.RawDatasByKey(sKey);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserBarterFinder FindFirstByBarterPlace(NWDBarterPlace sKey)
         {
-            return kBarterPlaceIndex.FindFirstByKey(sKey);
+            return kBarterPlaceIndex.RawFirstDataByKey(sKey);
         }
         //-------------------------------------------------------------------------------------------------------------
 

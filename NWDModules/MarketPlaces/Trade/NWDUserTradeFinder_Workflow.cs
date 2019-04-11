@@ -30,12 +30,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
         {
             NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
@@ -111,7 +105,7 @@ namespace NetWorkedData
             SaveData();
 
             // Remove stranger data request
-            NWDUserTradeRequest.PurgeTable();
+            NWDUserTradeRequest.BasisHelper().New_PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

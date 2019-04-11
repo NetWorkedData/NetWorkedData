@@ -48,19 +48,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            // Todo : list the all classe shared in App 
-            List<Type> rClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDRelationshipPlace) };
-            foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.FindDatas())
-            {
-                rClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
-                rClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());
-            }
-            return rClasses;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserRelationship CreateNewRelationshipWith(NWDRelationshipPlace sPlace)
         {
             // Create a new Proposal

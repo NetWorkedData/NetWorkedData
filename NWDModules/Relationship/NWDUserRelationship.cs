@@ -26,35 +26,35 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("User Relationship Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        [NWDAlias("Account")]
+       // [NWDAlias("Account")]
         public NWDReferenceType<NWDAccount> Account  {  get; set;
         }
-        [NWDAlias("GameSave")]
+       // [NWDAlias("GameSave")]
         public NWDReferenceType<NWDGameSave> GameSave  {  get; set;}
-        [NWDAlias("RelationPlace")]
+       // [NWDAlias("RelationPlace")]
         public NWDReferenceType<NWDRelationshipPlace> RelationPlace  {  get; set;   }
-        [NWDAlias("FriendUserRelationShip")]
+       // [NWDAlias("FriendUserRelationShip")]
         public NWDReferenceFreeType<NWDUserRelationship> FriendUserRelationShip  { get; set;
         }
-        [NWDAlias("FriendAccount")]
+       // [NWDAlias("FriendAccount")]
         public NWDReferenceFreeType<NWDAccount> FriendAccount  {   get; set;
         }
-        [NWDAlias("FriendGameSave")]
+       // [NWDAlias("FriendGameSave")]
         public NWDReferenceFreeType<NWDGameSave> FriendGameSave  {   get; set; }
         [NWDNotEditable]
-        [NWDAlias("FriendLastSynchronization")]
+       // [NWDAlias("FriendLastSynchronization")]
         public NWDDateTimeUtcType FriendLastSynchronization  {  get; set; }
         [NWDInspectorGroupEnd]
        
         [NWDInspectorGroupStart("Relationship informations", true, true, true)]
-        [NWDAlias("RelationshipStatus")]
+       // [NWDAlias("RelationshipStatus")]
         public NWDRelationshipStatus RelationshipStatus { get; set; }
         [NWDNotEditable]
-        [NWDAlias("RelationshipHash")]
+       // [NWDAlias("RelationshipHash")]
         public string RelationshipHash { get; set;  }
-        [NWDAlias("RelationshipCode")]
+       // [NWDAlias("RelationshipCode")]
         public string RelationshipCode { get; set; }
-        [NWDAlias("LimitDayTime")]
+       // [NWDAlias("LimitDayTime")]
         public NWDDateTimeUtcType LimitDayTime {get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -337,7 +337,7 @@ namespace NetWorkedData
         void Update()
         {
             //NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
-            NWDAccountInfos tActiveUser = NWDAccountInfos.Current();
+            NWDAccountInfos tActiveUser = NWDAccountInfos.CurrentData();
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
             TextEnvironment.text = tApp.Environment;
@@ -408,7 +408,7 @@ namespace NetWorkedData
             int tCpt = 0;
 
             // Init all options
-            AccountList = NWDAccount.FindAccountsForTest();
+            AccountList = NWDAccount.SelectDatasForTests();
             foreach (NWDAccounTest acc in AccountList)
             {
                 tOptions.Add(acc.InternalKey);
@@ -437,7 +437,7 @@ namespace NetWorkedData
             string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             //Debug.Log("tAccountReference = " + tAccountReference);
             NWDAccount tAccount = NWDAccount.GetDataByReference(tAccountReference);
-            NWDAccount.SetObjectInEdition(tAccount);
+            NWDAccount.BasisHelper().New_SetObjectInEdition(tAccount);
             tEditorWindow.Focus();
 #endif
         }

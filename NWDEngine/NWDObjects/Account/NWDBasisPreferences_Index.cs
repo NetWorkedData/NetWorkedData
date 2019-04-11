@@ -30,7 +30,7 @@ namespace NetWorkedData
     public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDBasisPreferences FindData(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault, bool sLimitByAccount)
+        static public NWDBasisPreferences SelectDataForEngine(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault, bool sLimitByAccount)
         {
             NWDBasisPreferences rPref = null;
             string tAccountReference = string.Empty;
@@ -42,7 +42,14 @@ namespace NetWorkedData
             {
                 tAccountReference = "";
             }
-            string tKey = sEnvironment.Environment + "_" + sKey + "_" + tAccountReference;
+#if UNITY_EDITOR
+            if (Application.isPlaying==false)
+            {
+                tAccountReference = "EDITOR";
+            }
+#endif
+            string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
+
             rPref = NWDBasisPreferences.GetDataByReference(tKey);
             if (rPref == null)
             {

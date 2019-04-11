@@ -34,11 +34,13 @@ namespace NetWorkedData
 			{
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
 				tOperation++;
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeAssetPath);
-				if (tMethodInfo != null) 
-				{
-					tMethodInfo.Invoke(null, new object[] {sOldPath, sNewPath});
-				}
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.New_ChangeAssetPath(sOldPath,sNewPath);
+    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeAssetPath);
+				//if (tMethodInfo != null) 
+				//{
+				//	tMethodInfo.Invoke(null, new object[] {sOldPath, sNewPath});
+				//}
 			}
             DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);

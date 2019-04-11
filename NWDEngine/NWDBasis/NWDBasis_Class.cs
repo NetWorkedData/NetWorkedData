@@ -152,18 +152,21 @@ namespace NetWorkedData
 
             // TODO : Change to remove invoke!
             //var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            NWDAliasMethod.InvokeClassMethod(ClassType(),NWDConstants.M_ClassInitialization);
+            //NWDAliasMethod.InvokeClassMethod(ClassType(),NWDConstants.M_ClassInitialization);
             //var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             //if (tMethodInfo != null)
             //{
             //    tMethodInfo.Invoke(null, null);
             //}
+            BasisHelper().New_ClassInitialization();
+
+
             BasisHelper().ClassLoaded = true;
             //BTBBenchmark.Finish("ClassDeclare step 5");
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.GetBasisHelper)]
+        //[NWDAliasMethod(NWDConstants.GetBasisHelper)]
         public static NWDBasisHelper BasisHelper()
         {
             NWDBasisHelper rDatas = NWDBasisHelper.FindTypeInfos(typeof(K));
@@ -185,11 +188,13 @@ namespace NetWorkedData
             return typeof(K);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /*
         public static string FindAliasName(string sAlias)
         {
 
             return NWDAlias.FindAliasName(ClassType(), sAlias);
         }
+        */
         //-------------------------------------------------------------------------------------------------------------
         //public static Dictionary<string, string> kMenuNameType = new Dictionary<string, string>();
         ////-------------------------------------------------------------------------------------------------------------

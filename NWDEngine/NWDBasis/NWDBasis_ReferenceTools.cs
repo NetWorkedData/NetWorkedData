@@ -40,6 +40,7 @@ namespace NetWorkedData
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
+            LoadFromDatabase();
             foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
@@ -49,6 +50,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
+            LoadFromDatabase();
             foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
@@ -180,6 +182,7 @@ namespace NetWorkedData
             {
                 tNewReference = NewShortReference();
             }
+            NWDDataManager.SharedInstance().DataQueueExecute();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);

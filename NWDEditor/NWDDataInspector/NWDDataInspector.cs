@@ -21,8 +21,8 @@ namespace NetWorkedData
     public class NWDDataInspector : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        public object mObjectInEdition;
-        public List<object> mObjectsList = new List<object>();
+        public NWDTypeClass mObjectInEdition;
+        public List<NWDTypeClass> mObjectsList = new List<NWDTypeClass>();
         public int ActualIndex = 0;
         public bool RemoveActualFocus = true;
         //-------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace NetWorkedData
             {
                 ActualIndex = 0;
             }
-            object tTarget = mObjectsList[ActualIndex];
+            NWDTypeClass tTarget = mObjectsList[ActualIndex];
             mObjectInEdition = tTarget;
             Repaint();
             RemoveActualFocus = true;
@@ -87,7 +87,7 @@ namespace NetWorkedData
             {
                 ActualIndex = 0;
             }
-            object tTarget = mObjectsList[ActualIndex];
+            NWDTypeClass tTarget = mObjectsList[ActualIndex];
             mObjectInEdition = tTarget;
             Repaint();
             RemoveActualFocus = true;
@@ -114,7 +114,7 @@ namespace NetWorkedData
             return (ActualIndex < mObjectsList.Count - 1);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void InspectNetWorkedData(object sTarget, bool sResetStack = true, bool sFocus = true)
+        public static void InspectNetWorkedData(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
             if (sTarget != null)
             {
@@ -129,20 +129,23 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Data(object sTarget, bool sResetStack = true, bool sFocus = true)
+        public void Data(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
                 {
-                    MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(sTarget, null);
-                    }
+                    //MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(sTarget, null);
+                    //}
+                    NWDTypeClass tTarget = sTarget as NWDTypeClass;
+                    tTarget.ErrorCheck();
+
                     if (sResetStack == true)
                     {
-                        mObjectsList = new List<object>();
+                        mObjectsList = new List<NWDTypeClass>();
                     }
                     else
                     {

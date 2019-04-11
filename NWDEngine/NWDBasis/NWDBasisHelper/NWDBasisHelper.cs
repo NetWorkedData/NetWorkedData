@@ -29,6 +29,267 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        // virtual method
+
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void New_ErrorRegenerate()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
+        }//-------------------------------------------------------------------------------------------------------------
+        public virtual void New_ClassInitialization()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual List<Type> New_OverrideClasseInThisSync()
+        {
+            return new List<Type>();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_ModelReset()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_ModelAnalyze()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_CreateErrorAndMessage()
+        {
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x01", "Error in " + ClassTableName, "error in request creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x02", "Error in " + ClassTableName, "error in request creation add primary key in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x03", "Error in " + ClassTableName, "error in request creation add autoincrement modify in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x05", "Error in " + ClassTableName, "error in sql index creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x07", "Error in " + ClassTableName, "error in sql defragment in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x08", "Error in " + ClassTableName, "error in sql drop in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x09", "Error in " + ClassTableName, "error in sql Flush in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x11", "Error in " + ClassTableName, "error in sql add columns in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x12", "Error in " + ClassTableName, "error in sql alter columns in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x31", "Error in " + ClassTableName, "error in request insert new datas before update in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x32", "Error in " + ClassTableName, "error in request select datas to update in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x33", "Error in " + ClassTableName, "error in request select updatable datas in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x38", "Error in " + ClassTableName, "error in request update datas in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x39", "Error in " + ClassTableName, "error more than one row for this reference in  " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x40", "Error in " + ClassTableName, "error in flush trashed in  " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x91", "Error in " + ClassTableName, "error update integrity in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x99", "Error in " + ClassTableName, "error columns number in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x88", "Error in " + ClassTableName, "integrity of one datas is false, break in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x77", "Error in " + ClassTableName, "error update log in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_DrawTypeInInspector()
+        {
+            if (SaltValid == false)
+            {
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
+            }
+            EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_DESCRIPTION, EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(ClassDescription, MessageType.Info);
+            if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true)
+            {
+                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_DEV, EditorStyles.boldLabel);
+            }
+            if (NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected == true)
+            {
+                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_PREPROD, EditorStyles.boldLabel);
+            }
+            if (NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected == true)
+            {
+                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_PROD, EditorStyles.boldLabel);
+            }
+            GUIStyle tStyle = EditorStyles.foldout;
+            FontStyle tPreviousStyle = tStyle.fontStyle;
+            tStyle.fontStyle = FontStyle.Bold;
+            mSettingsShowing = EditorGUILayout.Foldout(mSettingsShowing, NWDConstants.K_APP_BASIS_CLASS_WARNING_ZONE, tStyle);
+            tStyle.fontStyle = tPreviousStyle;
+            if (mSettingsShowing == true)
+            {
+                EditorGUILayout.HelpBox(NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
+
+                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton))
+                {
+                    New_ResetTable();
+                }
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, SaltStart);
+                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton))
+                {
+                    GUI.FocusControl(null);
+                    SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                    New_RecalculateAllIntegrities();
+                }
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_SECOND_SALT, SaltEnd);
+                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton))
+                {
+                    GUI.FocusControl(null);
+                    SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                    New_RecalculateAllIntegrities();
+                }
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, EditorStyles.miniButton))
+                {
+                    GUI.FocusControl(null);
+                    New_RecalculateAllIntegrities();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_ReorderAllLocalization()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_RecalculateAllIntegrities()
+        {
+            foreach (NWDTypeClass tObject in Datas)
+            {
+                // update integrity value
+                tObject.UpdateIntegrity();
+                // force to write object in database
+                tObject.UpdateData();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        // replace basis static method method
+        //-------------------------------------------------------------------------------------------------------------
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_IndexAll()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_SynchronizationUpadteTimestamp()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_RepaintTableEditor()
+        {
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_RepaintInspectorEditor()
+        {
+            NWDDataInspector.ActiveRepaint();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void New_ChangeAssetPath(string sOldPath, string sNewPath)
+        {
+            if (kAssetDependent == true)
+            {
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    tObject.ChangeAssetPathMe(sOldPath, sNewPath);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass New_GetDataByReference(string sReference)
+        {
+            NWDTypeClass rReturn = null;
+            if (DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = DatasByReference[sReference];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<Type> ClasseInThisSync()
+        {
+            List<Type> rReturn = New_OverrideClasseInThisSync();
+            rReturn = new List<Type>(rReturn.Distinct<Type>());
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public K FictiveData()
+        {
+            return NWDBasis < K >.FictiveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
+        {
+            return NWDBasis<K>.CSV_IndexOf(sPropertyName, sWebBuilt);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override List<Type> New_OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(K) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void New_LoadFromDatabase()
+        {
+
+#if UNITY_EDITOR
+            RowAnalyzed = false;
+#endif
+            ResetDatas();
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            if (kAccountDependent)
+            {
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            }
+            if (tSQLiteConnection != null)
+            {
+                if (tSQLiteConnection.IsValid())
+                {
+                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
+                    int tCount = 0;
+                    // Prepare the datas
+                    if (tSelect != null)
+                    {
+                        foreach (NWDBasis<K> tItem in tSelect)
+                        {
+                            tCount++;
+                            tItem.LoadedFromDatabase();
+                        }
+                    }
+                }
+            }
+            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+#if UNITY_EDITOR
+            New_FilterTableEditor();
+            New_RepaintTableEditor();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasisHelper
+    {
+        //-------------------------------------------------------------------------------------------------------------
         static NWDBasisHelper()
         {
             //Debug.Log("NWDDatas Static Class Constructor()");
@@ -118,7 +379,16 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tTypeInfos = new NWDBasisHelper();
+                    Debug.Log("sType.Name + Helper = " + sType.Name + "Helper");
+                    Type tTypeHelper = Type.GetType(sType.Name + "Helper");
+                    if (tTypeHelper != null)
+                    {
+                        tTypeInfos = Activator.CreateInstance(tTypeHelper) as NWDBasisHelper;
+                    }
+                    else
+                    {
+                        tTypeInfos = new NWDBasisHelper();
+                    }
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
                 // insert basic infos
@@ -135,7 +405,7 @@ namespace NetWorkedData
                 tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassNamePHP + "_";
                 if (StringsDictionary.ContainsKey(rClassName))
                 {
-                    Debug.LogWarning(rClassName+ " allready in StringsDictionary!");
+                    Debug.LogWarning(rClassName + " allready in StringsDictionary!");
                 }
                 else
                 {
@@ -157,13 +427,13 @@ namespace NetWorkedData
                     //    Debug.Log("<color=blue>tMethod</color> " + tMethod.Name + " "+ tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length);
                     //}
                     if (tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length > 0)
-                        {
-                            tTypeInfos.IndexInsertMethodList.Add(tMethod);
-                        }
-                        if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
-                        {
-                            tTypeInfos.IndexRemoveMethodList.Add(tMethod);
-                        }
+                    {
+                        tTypeInfos.IndexInsertMethodList.Add(tMethod);
+                    }
+                    if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
+                    {
+                        tTypeInfos.IndexRemoveMethodList.Add(tMethod);
+                    }
                 }
                 //BTBBenchmark.Finish("Declare() step C");
                 //BTBBenchmark.Start("Declare() step D");
@@ -187,7 +457,7 @@ namespace NetWorkedData
                 // get salt 
                 tTypeInfos.PrefLoad();
                 //BTBBenchmark.Finish("Declare() step F");
-    }
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -215,7 +485,7 @@ namespace NetWorkedData
             //SaltEnd = SaltB;
             //SaltValid = true;
         }
-       
+
         //-------------------------------------------------------------------------------------------------------------
         //public void SaltRegenerate()
         //{
@@ -253,10 +523,10 @@ namespace NetWorkedData
         public static NWDBasisHelper FindTypeInfos(string sTypeName)
         {
             NWDBasisHelper tTypeInfos = null;
-                if (StringsDictionary.ContainsKey(sTypeName))
-                {
-                    tTypeInfos = StringsDictionary[sTypeName];
-                }
+            if (StringsDictionary.ContainsKey(sTypeName))
+            {
+                tTypeInfos = StringsDictionary[sTypeName];
+            }
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1270,6 +1540,10 @@ namespace NetWorkedData
             {
                 rReturn = BasisHelper().DatasByReference[sReference] as K;
             }
+            else
+            {
+                rReturn = LoadDataByReference(sReference);
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1351,7 +1625,7 @@ namespace NetWorkedData
                 {
                     if (sGameSave == null)
                     {
-                        sGameSave = NWDGameSave.CurrentByAccount(sAccountReference);
+                        sGameSave = NWDGameSave.SelectCurrentDataForAccount(sAccountReference);
                     }
                     //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
                 }
@@ -1523,7 +1797,7 @@ namespace NetWorkedData
             {
                 if (sGameSave == null)
                 {
-                    sGameSave = NWDGameSave.CurrentByAccount(sAccountReference);
+                    sGameSave = NWDGameSave.SelectCurrentDataForAccount(sAccountReference);
                 }
                 //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
             }
@@ -1534,7 +1808,7 @@ namespace NetWorkedData
                 //Debug.Log(" must create object !");
                 if (sAccountReference == null || sAccountReference == NWDAccount.CurrentReference())
                 {
-                    if (sGameSave == NWDGameSave.Current())
+                    if (sGameSave == NWDGameSave.CurrentData())
                     {
                         //Debug.Log("Creat Ok");
                         K rReturn = NewData(sWritingMode);
@@ -1573,17 +1847,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             tTypeInfos.RowAnalyzed = false;
 #endif
-            //BTBBenchmark.Start("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
-            // Reset the Handler of datas index
-            //BTBBenchmark.Start("reset " + tTypeInfos.ClassNamePHP);
             tTypeInfos.ResetDatas();
-           // BTBBenchmark.Finish("reset " + tTypeInfos.ClassNamePHP);
-
-           // BTBBenchmark.Start("create " + tTypeInfos.ClassNamePHP);
-           // CreateTable();
-           // BTBBenchmark.Finish("create " + tTypeInfos.ClassNamePHP);
-            //Debug.Log("NWDBasis<K> LoadFromDatabase()");
-            // select the good database
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
@@ -1593,68 +1857,124 @@ namespace NetWorkedData
             {
                 if (tSQLiteConnection.IsValid())
                 {
-                    //BTBBenchmark.Start("sql "+ tTypeInfos.ClassNamePHP);
-                    //IEnumerable tEnumerable = tSQLiteConnection.Table<K>();
-                    //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
-                    //// Prepare the datas
-                    //int tCount = 0;
-                    //if (tEnumerable != null)
-                    //{
-                    //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
-                    //    foreach (NWDBasis<K> tItem in tEnumerable)
-                    //    {
-                    //       tCount++;
-                    //       tItem.LoadedFromDatabase();
-                    //    }
-                    //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
-                    //}
-                    //Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
-
-
-
-                    //BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
-                    //TableQuery<K> tSelect = tSQLiteConnection.Table<K>();
-                    //BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
-                    //// Prepare the datas
-                    //if (tSelect != null)
-                    //{
-                    //    BTBBenchmark.Start("array " + tTypeInfos.ClassNamePHP);
-                    //    K[] tArray = tSelect.ToArray();
-                    //    BTBBenchmark.Finish("array " + tTypeInfos.ClassNamePHP);
-                    //    BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
-                    //    for (int tI = 0; tI < tArray.Length; tI++)
-                    //    {
-                    //        NWDBasis<K> tItem = tArray[tI];
-                    //       tItem.LoadedFromDatabase();
-                    //    }
-                    //    BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
-                    //    Debug.Log(tTypeInfos.ClassNamePHP + " use " + tArray.Length + " objects");
-                    //}
-
-                    // BTBBenchmark.Start("sql " + tTypeInfos.ClassNamePHP);
                     List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP);
-                    // BTBBenchmark.Finish("sql " + tTypeInfos.ClassNamePHP);
                     int tCount = 0;
                     // Prepare the datas
                     if (tSelect != null)
                     {
-                        //  BTBBenchmark.Start("loop " + tTypeInfos.ClassNamePHP);
                         foreach (NWDBasis<K> tItem in tSelect)
                         {
                             tCount++;
                             tItem.LoadedFromDatabase();
                         }
-                        // BTBBenchmark.Finish("loop " + tTypeInfos.ClassNamePHP);
-                        // Debug.Log(tTypeInfos.ClassNamePHP + " use " + tCount + " objects");
                     }
                 }
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
 #if UNITY_EDITOR
-            FilterTableEditor();
-            RepaintTableEditor();
+            BasisHelper().New_FilterTableEditor();
+            BasisHelper().New_RepaintTableEditor();
 #endif
             //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void UnloadDataByReference(string sReference)
+        {
+            //Debug.Log("UnloadDataByReference(" + sReference + ")");
+            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+            tTypeInfos = BasisHelper();
+            if (tTypeInfos.DatasByReference.ContainsKey(sReference))
+            {
+                NWDTypeClass tData = tTypeInfos.DatasByReference[sReference];
+                tData.Desindex(); // call override method
+                tTypeInfos.RemoveData(tData);
+                tData.Delete();
+            }
+#if UNITY_EDITOR
+            BasisHelper().New_FilterTableEditor();
+            BasisHelper().New_RepaintTableEditor();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K LoadDataByReference(string sReference)
+        {
+            Debug.Log("LoadDataByReference(" + sReference + ")");
+            BTBBenchmark.Start();
+            K rReturn = null;
+            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+            tTypeInfos = BasisHelper();
+            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
+            {
+                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+                if (AccountDependent())
+                {
+                    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+                }
+                if (tSQLiteConnection != null)
+                {
+                    if (tSQLiteConnection.IsValid())
+                    {
+                        List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData().Reference) + "` = '" + sReference + "';");
+                        if (tSelect != null)
+                        {
+                            foreach (NWDBasis<K> tItem in tSelect)
+                            {
+                                rReturn = tItem as K;
+                                tItem.LoadedFromDatabase();
+#if UNITY_EDITOR
+                                tItem.RowAnalyze();
+#endif
+                            }
+                        }
+                    }
+                }
+            }
+            BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            BasisHelper().New_FilterTableEditor();
+            BasisHelper().New_RepaintTableEditor();
+#endif
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LoadDataToSync(NWDAppEnvironment sEnvironment)
+        {
+            BTBBenchmark.Start();
+            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+            tTypeInfos = BasisHelper();
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            if (AccountDependent())
+            {
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            }
+            if (tSQLiteConnection != null)
+            {
+                if (tSQLiteConnection.IsValid())
+                {
+                    //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
+                    //List<string> tSelect = tCommand.ExecuteQuery<string>();
+                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData().WebModel) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
+                    Debug.Log(tQuery);
+                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+                    if (tSelect != null)
+                    {
+                        foreach (NWDTypeClassReference tReference in tSelect)
+                        {
+                            Debug.Log("tReference = " + tReference.Reference);
+                            if (tReference.Reference != null)
+                            {
+                                GetDataByReference(tReference.Reference);
+                            }
+                        }
+                    }
+                }
+            }
+            BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            BasisHelper().New_FilterTableEditor();
+            BasisHelper().New_RepaintTableEditor();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool DataIntegrityState()

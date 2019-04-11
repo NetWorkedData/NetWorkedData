@@ -235,8 +235,11 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().CreateErrorsAndMessagesEngine();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.New_CreateErrorAndMessage();
+                tHelper.New_ErrorRegenerate();
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
             }
             //BTBBenchmark.Finish();
         }

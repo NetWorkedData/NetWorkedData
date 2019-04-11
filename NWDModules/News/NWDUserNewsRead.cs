@@ -16,6 +16,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("User News Read")]
     [NWDClassMenuNameAttribute("User News Read")]
     //[NWDInternalKeyNotEditableAttribute]
+    // TODO : rename NWDUserNews
     public partial class NWDUserNewsRead : NWDBasis<NWDUserNewsRead>
     {
         //-------------------------------------------------------------------------------------------------------------

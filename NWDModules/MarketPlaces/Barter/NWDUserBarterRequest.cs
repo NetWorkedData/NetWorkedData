@@ -27,45 +27,45 @@ namespace NetWorkedData
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        [NWDAlias("BarterPlace")]
+        //[NWDAlias("BarterPlace")]
         public NWDReferenceType<NWDBarterPlace> BarterPlace { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("For Relationship Only", true, true, true)]
 
-        [NWDAlias("ForRelationshipOnly")]
+       // [NWDAlias("ForRelationshipOnly")]
         public bool ForRelationshipOnly { get; set; }
-        [NWDAlias("RelationshipAccountReferences")]
+        //[NWDAlias("RelationshipAccountReferences")]
         public NWDReferenceType<NWDUserRelationship> UserRelationship { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Barter References", true, true, true)]
-        [NWDAlias("ItemsProposed")]
+        //[NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
-        [NWDAlias("ItemsSuggested")]
+        //[NWDAlias("ItemsSuggested")]
         public NWDReferencesQuantityType<NWDItem> ItemsSuggested { get; set; }
-        [NWDAlias("ItemsReceived")]
+        //[NWDAlias("ItemsReceived")]
         [NWDNotEditable]
         public NWDReferencesQuantityType<NWDItem> ItemsReceived { get; set; }
-        [NWDAlias("BarterStatus")]
+        //[NWDAlias("BarterStatus")]
         public NWDTradeStatus BarterStatus { get; set; }
         [NWDNotEditable]
-        [NWDAlias("BarterHash")]
+       // [NWDAlias("BarterHash")]
         public string BarterHash { get; set; }
         [NWDNotEditable]
-        [NWDAlias("LimitDayTime")]
+        //[NWDAlias("LimitDayTime")]
         public NWDDateTimeUtcType LimitDayTime { get; set; }
         [NWDNotEditable]
         [NWDIntSlider(NWDBarterPlace.K_BARTER_PROPOSITIONS_PER_REQUEST_MIN, NWDBarterPlace.K_BARTER_PROPOSITIONS_PER_REQUEST_MAX)]
-        [NWDAlias("MaxPropositions")]
+        //[NWDAlias("MaxPropositions")]
         public int MaxPropositions { get; set; }
         [NWDNotEditable]
-        [NWDAlias("PropositionsCounter")]
+        //[NWDAlias("PropositionsCounter")]
         public int PropositionsCounter { get; set; }
         [NWDNotEditable]
-        [NWDAlias("Propositions")]
+        //[NWDAlias("Propositions")]
         public NWDReferencesListType<NWDUserBarterProposition> Propositions { get; set; }
-        [NWDAlias("WinnerProposition")]
+        //[NWDAlias("WinnerProposition")]
         public NWDReferenceType<NWDUserBarterProposition> WinnerProposition { get; set; }
         [NWDInspectorGroupEnd]
 

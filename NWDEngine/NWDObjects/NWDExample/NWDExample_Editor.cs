@@ -23,16 +23,6 @@ namespace NetWorkedData
     public partial class NWDExample : NWDBasis<NWDExample>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ErrorRegenerate)]
-        public static void ErrorRegenerate()
-        {
-            NWDError.CreateGenericError(BasisHelper().ClassNamePHP, BasisHelper().ClassTrigramme + "01", "your error 01", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError(BasisHelper().ClassNamePHP, BasisHelper().ClassTrigramme + "02", "your error 02", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
-
-            NWDMessage.CreateGenericMessage(BasisHelper().ClassNamePHP, BasisHelper().ClassTrigramme + "01", "your message 01", "your description", "OK", "Cancel", NWDMessageType.InGame, NWDBasisTag.TagInternal);
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons in edition state of object.
         /// </summary>

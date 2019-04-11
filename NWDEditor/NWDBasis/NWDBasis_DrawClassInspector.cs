@@ -16,8 +16,8 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_DrawTypeInInspector)]
-        public static void DrawTypeInInspector()
+        //[NWDAliasMethod(NWDConstants.M_DrawTypeInInspector)]
+       /*public static void DrawTypeInInspector()
         {
             if (BasisHelper().SaltValid == false)
             {
@@ -81,6 +81,7 @@ namespace NetWorkedData
                 }
             }
         }
+        */
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

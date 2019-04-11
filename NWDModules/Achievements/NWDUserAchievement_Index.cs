@@ -27,7 +27,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Achievement.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
-                kAchievementKeyIndex.InsertInIndex(this, tKey);
+                kAchievementKeyIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -35,13 +35,13 @@ namespace NetWorkedData
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
-            kAchievementKeyIndex.RemoveFromIndex(this);
+            kAchievementKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserAchievement FindFisrtByAchievement(NWDAchievementKey sKey, bool sOrCreate = true)
+        public static NWDUserAchievement FindDataByAchievement(NWDAchievementKey sKey, bool sOrCreate = true)
         {
-            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
-            NWDUserAchievement rReturn = kAchievementKeyIndex.FindFirstByReference(tKey);
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
+            NWDUserAchievement rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();

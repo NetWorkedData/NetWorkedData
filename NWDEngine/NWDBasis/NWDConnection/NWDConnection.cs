@@ -38,7 +38,7 @@ namespace NetWorkedData
         /// Get the object instance referenced.
         /// </summary>
         /// <returns>The object.</returns>
-		public K GetObject ()
+		public K GetObject () // TODO rename GetData
 		{
             return NWDBasis <K>.FindDataByReference (Reference);
 		}
@@ -47,8 +47,8 @@ namespace NetWorkedData
         /// Set the object instance by its reference.
         /// </summary>
         /// <param name="sObject">S object.</param>
-		public void SetObject (K sObject)
-		{
+		public void SetObject (K sObject) // TODO rename SetData
+        {
 			if (sObject != null) {
 				Reference = sObject.Reference;
 			} else {
@@ -60,8 +60,8 @@ namespace NetWorkedData
         /// Object instance creation and reference it automatically.
         /// </summary>
         /// <returns>The object.</returns>
-        public K NewObject (NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-		{
+        public K NewObject (NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) // TODO rename NewData
+        {
             K tObject = NWDBasis <K>.NewData (sWritingMode);
 			Reference = tObject.Reference;
 			return tObject;

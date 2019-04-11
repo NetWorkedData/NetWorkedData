@@ -44,7 +44,7 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Guild Detail", true, true, true)]
         [NWDIntSlider(K_Guild_REQUEST_MIN, K_Guild_REQUEST_MAX)]
-        [NWDAlias("MaxMember")]
+        //[NWDAlias("MaxMember")]
         public int MaxMember
         {
             get; set;

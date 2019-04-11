@@ -147,10 +147,10 @@ namespace NetWorkedData
 
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool AddonSyncForce()
-        {
-            return false;
-        }
+        //public virtual bool AddonSyncForce()
+        //{
+        //    return false;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {

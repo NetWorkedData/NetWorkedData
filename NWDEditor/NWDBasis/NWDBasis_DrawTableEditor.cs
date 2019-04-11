@@ -42,7 +42,7 @@ namespace NetWorkedData
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tObject))
                     {
-                        SetObjectInEdition(tObject);
+                        BasisHelper().New_SetObjectInEdition(tObject);
                     }
                 }
             }
@@ -134,161 +134,162 @@ namespace NetWorkedData
             //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void FilterTableEditor()
-        {
-            BasisHelper().EditorTableDatas = new List<NWDTypeClass>();
-            BasisHelper().EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
-            foreach (K tObject in BasisHelper().Datas)
-            {
-                bool tOccurence = true;
+        //public static void FilterTableEditor()
+        //{
+        //    BasisHelper().EditorTableDatas = new List<NWDTypeClass>();
+        //    BasisHelper().EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+        //    foreach (K tObject in BasisHelper().Datas)
+        //    {
+        //        bool tOccurence = true;
 
-                if (tObject.TestIntegrity() == false && BasisHelper().m_ShowIntegrityError == false)
-                {
-                    tOccurence = false;
-                }
-                if (tObject.IsEnable() == true && BasisHelper().m_ShowEnable == false)
-                {
-                    tOccurence = false;
-                }
-                if (tObject.IsEnable() == false && BasisHelper().m_ShowDisable == false)
-                {
-                    tOccurence = false;
-                }
-                if (tObject.XX > 0 && BasisHelper().m_ShowTrashed == false)
-                {
-                    tOccurence = false;
-                }
+        //        if (tObject.TestIntegrity() == false && BasisHelper().m_ShowIntegrityError == false)
+        //        {
+        //            tOccurence = false;
+        //        }
+        //        if (tObject.IsEnable() == true && BasisHelper().m_ShowEnable == false)
+        //        {
+        //            tOccurence = false;
+        //        }
+        //        if (tObject.IsEnable() == false && BasisHelper().m_ShowDisable == false)
+        //        {
+        //            tOccurence = false;
+        //        }
+        //        if (tObject.XX > 0 && BasisHelper().m_ShowTrashed == false)
+        //        {
+        //            tOccurence = false;
+        //        }
 
-                if (BasisHelper().ClassType != typeof(NWDAccount))
-                {
-                    if (string.IsNullOrEmpty(BasisHelper().m_SearchAccount) == false)
-                    {
-                        if (BasisHelper().m_SearchAccount == "-=-") // empty
-                        {
-                            if (tObject.VisibleByAccountByEqual(string.Empty) == false)
-                            {
-                                tOccurence = false;
-                            }
-                        }
-                        else if (BasisHelper().m_SearchAccount == "-+-") // not empty
-                        {
-                            if (tObject.VisibleByAccountByEqual(string.Empty) == true)
-                            {
-                                tOccurence = false;
-                            }
-                        }
-                        else
-                        {
-                            if (tObject.VisibleByAccount(BasisHelper().m_SearchAccount) == false)
-                            {
-                                tOccurence = false;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(BasisHelper().m_SearchAccount) == false)
-                    {
-                        if (BasisHelper().m_SearchAccount == "-=-") // empty
-                        {
-                        }
-                        else if (BasisHelper().m_SearchAccount == "-+-") // not empty
-                        {
-                        }
-                        else if (tObject.Reference != BasisHelper().m_SearchAccount)
-                        {
-                            tOccurence = false;
-                        }
-                    }
-                }
+        //        if (BasisHelper().ClassType != typeof(NWDAccount))
+        //        {
+        //            if (string.IsNullOrEmpty(BasisHelper().m_SearchAccount) == false)
+        //            {
+        //                if (BasisHelper().m_SearchAccount == "-=-") // empty
+        //                {
+        //                    if (tObject.VisibleByAccountByEqual(string.Empty) == false)
+        //                    {
+        //                        tOccurence = false;
+        //                    }
+        //                }
+        //                else if (BasisHelper().m_SearchAccount == "-+-") // not empty
+        //                {
+        //                    if (tObject.VisibleByAccountByEqual(string.Empty) == true)
+        //                    {
+        //                        tOccurence = false;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if (tObject.VisibleByAccount(BasisHelper().m_SearchAccount) == false)
+        //                    {
+        //                        tOccurence = false;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (string.IsNullOrEmpty(BasisHelper().m_SearchAccount) == false)
+        //            {
+        //                if (BasisHelper().m_SearchAccount == "-=-") // empty
+        //                {
+        //                }
+        //                else if (BasisHelper().m_SearchAccount == "-+-") // not empty
+        //                {
+        //                }
+        //                else if (tObject.Reference != BasisHelper().m_SearchAccount)
+        //                {
+        //                    tOccurence = false;
+        //                }
+        //            }
+        //        }
 
-                if (string.IsNullOrEmpty(BasisHelper().m_SearchGameSave) == false)
-                {
-                    if (BasisHelper().m_SearchGameSave == "-=-")
-                    {
-                        if (tObject.VisibleByGameSave(string.Empty) == false)
-                        {
-                            tOccurence = false;
-                        }
-                    }
-                    else if (BasisHelper().m_SearchGameSave == "-+-")
-                    {
-                        if (tObject.VisibleByGameSave(string.Empty) == true)
-                        {
-                            tOccurence = false;
-                        }
-                    }
-                    else
-                    {
-                        if (tObject.VisibleByGameSave(BasisHelper().m_SearchGameSave) == false)
-                        {
-                            tOccurence = false;
-                        }
-                    }
-                }
-                if (string.IsNullOrEmpty(BasisHelper().m_SearchReference) == false)
-                {
-                    if (tObject.Reference.Contains(BasisHelper().m_SearchReference) == false)
-                    {
-                        tOccurence = false;
-                    }
-                }
-                if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalName) == false)
-                {
-                    if (tObject.InternalKey.ToLower().Contains(BasisHelper().m_SearchInternalName.ToLower()) == false)
-                    {
-                        tOccurence = false;
-                    }
-                }
-                if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalDescription) == false)
-                {
-                    if (tObject.InternalDescription.ToLower().Contains(BasisHelper().m_SearchInternalDescription.ToLower()) == false)
-                    {
-                        tOccurence = false;
-                    }
-                }
-                if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
-                {
-                    if (tObject.Tag != BasisHelper().m_SearchTag /*&& tObject.Tag != NWDBasisTag.NoTag*/)
-                    {
-                        tOccurence = false;
-                    }
-                }
-                if (BasisHelper().m_SearchCheckList != NWDBasisCheckList.Nothing)
-                {
-                    if (tObject.CheckList != null)
-                    {
-                        if (tObject.CheckList.ContainsMask(BasisHelper().m_SearchCheckList) == false)
-                        {
-                            tOccurence = false;
-                        }
-                    }
-                }
-                if (tOccurence == true)
-                {
-                    if (BasisHelper().EditorTableDatas.Contains(tObject) == false)
-                    {
-                        BasisHelper().EditorTableDatas.Add(tObject);
-                    }
-                    if (BasisHelper().EditorTableDatasSelected.ContainsKey(tObject) == false)
-                    {
-                        BasisHelper().EditorTableDatasSelected.Add(tObject, false);
-                    }
-                }
-            }
-            BasisHelper().SortEditorTableDatas();
-        }
+        //        if (string.IsNullOrEmpty(BasisHelper().m_SearchGameSave) == false)
+        //        {
+        //            if (BasisHelper().m_SearchGameSave == "-=-")
+        //            {
+        //                if (tObject.VisibleByGameSave(string.Empty) == false)
+        //                {
+        //                    tOccurence = false;
+        //                }
+        //            }
+        //            else if (BasisHelper().m_SearchGameSave == "-+-")
+        //            {
+        //                if (tObject.VisibleByGameSave(string.Empty) == true)
+        //                {
+        //                    tOccurence = false;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (tObject.VisibleByGameSave(BasisHelper().m_SearchGameSave) == false)
+        //                {
+        //                    tOccurence = false;
+        //                }
+        //            }
+        //        }
+        //        if (string.IsNullOrEmpty(BasisHelper().m_SearchReference) == false)
+        //        {
+        //            if (tObject.Reference.Contains(BasisHelper().m_SearchReference) == false)
+        //            {
+        //                tOccurence = false;
+        //            }
+        //        }
+        //        if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalName) == false)
+        //        {
+        //            if (tObject.InternalKey.ToLower().Contains(BasisHelper().m_SearchInternalName.ToLower()) == false)
+        //            {
+        //                tOccurence = false;
+        //            }
+        //        }
+        //        if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalDescription) == false)
+        //        {
+        //            if (tObject.InternalDescription.ToLower().Contains(BasisHelper().m_SearchInternalDescription.ToLower()) == false)
+        //            {
+        //                tOccurence = false;
+        //            }
+        //        }
+        //        if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
+        //        {
+        //            if (tObject.Tag != BasisHelper().m_SearchTag /*&& tObject.Tag != NWDBasisTag.NoTag*/)
+        //            {
+        //                tOccurence = false;
+        //            }
+        //        }
+        //        if (BasisHelper().m_SearchCheckList != NWDBasisCheckList.Nothing)
+        //        {
+        //            if (tObject.CheckList != null)
+        //            {
+        //                if (tObject.CheckList.ContainsMask(BasisHelper().m_SearchCheckList) == false)
+        //                {
+        //                    tOccurence = false;
+        //                }
+        //            }
+        //        }
+        //        if (tOccurence == true)
+        //        {
+        //            if (BasisHelper().EditorTableDatas.Contains(tObject) == false)
+        //            {
+        //                BasisHelper().EditorTableDatas.Add(tObject);
+        //            }
+        //            if (BasisHelper().EditorTableDatasSelected.ContainsKey(tObject) == false)
+        //            {
+        //                BasisHelper().EditorTableDatasSelected.Add(tObject, false);
+        //            }
+        //        }
+        //    }
+        //    BasisHelper().SortEditorTableDatas();
+        //}
+
         //-------------------------------------------------------------------------------------------------------------
-        public static void RepaintTableEditor()
-        {
-            NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void RepaintInspectorEditor()
-        {
-            NWDDataInspector.ActiveRepaint();
-        }
+        //public static void RepaintTableEditor()
+        //{
+        //    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void RepaintInspectorEditor()
+        //{
+        //    NWDDataInspector.ActiveRepaint();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static float DrawPagesTab(Rect sRect)
         {
@@ -298,7 +299,7 @@ namespace NetWorkedData
             //float tPopupWidth = 60.0f;
             int tToogleToListPageLimit = (int)Math.Floor(tWidth / tTabWidth);
             //GUILayout.Space(NWDConstants.KTablePageMarge);
-            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kFieldMarge*2, EditorStyles.toolbar.fixedHeight);
+            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kFieldMarge * 2, EditorStyles.toolbar.fixedHeight);
             BasisHelper().m_ItemPerPage = int.Parse(BasisHelper().m_ItemPerPageOptions[BasisHelper().m_ItemPerPageSelection]);
             float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
             int tPagesExpected = (int)Math.Floor(tNumberOfPage);
@@ -401,8 +402,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Rect DrawTableEditorTop(Rect sRect)
         {
-                EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
-                Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
+            EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
+            Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
             if (BasisHelper().SearchActions() == true)
             {
                 Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width, 0);
@@ -533,8 +534,8 @@ namespace NetWorkedData
                 {
                     string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                    SetObjectInEdition(null);
-                    FilterTableEditor();
+                    BasisHelper().New_SetObjectInEdition(null);
+                    BasisHelper().New_FilterTableEditor();
                     RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -544,7 +545,7 @@ namespace NetWorkedData
 
                     string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                    SetObjectInEdition(null);
+                    BasisHelper().New_SetObjectInEdition(null);
                     //m_SearchReference = "";
                     BasisHelper().m_SearchReference = string.Empty;
                     BasisHelper().m_SearchInternalName = string.Empty;
@@ -553,7 +554,7 @@ namespace NetWorkedData
                     BasisHelper().m_SearchAccount = string.Empty;
                     BasisHelper().m_SearchGameSave = string.Empty;
                     BasisHelper().m_SearchCheckList.Value = 0;
-                    FilterTableEditor();
+                    BasisHelper().New_FilterTableEditor();
                     RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -715,7 +716,7 @@ namespace NetWorkedData
                 tRectActionRight.height = NWDGUI.KTableSearchTextfield.fixedHeight;
                 tRectActionRight.width = NWDGUI.KTableSearchWidth;
             }
-            
+
             if (BasisHelper().TableActions() == true)
             {
                 Rect tFoldoutRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + tHeightAction, 0, 0);
@@ -888,7 +889,7 @@ namespace NetWorkedData
                     {
                         tNextObjectSelected = null;
                     }
-                    SetObjectInEdition(tNextObjectSelected);
+                    BasisHelper().New_SetObjectInEdition(tNextObjectSelected);
                     //ReorderListOfManagementByName ();
                     BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                     NWDDataInspector.ActiveRepaint();
@@ -949,6 +950,23 @@ namespace NetWorkedData
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REINTEGRATE_ZONE, NWDGUI.KTableSearchButton))
                 {
                     tReintegrateSelection = true;
+                }
+
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
+                {
+                    List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            tListToUnload.Add(tKeyValue.Key);
+                        }
+                    }
+                    foreach (NWDTypeClass tObject in tListToUnload)
+                    {
+                        UnloadDataByReference(tObject.Reference);
+                    }
                 }
 
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1080,7 +1098,7 @@ namespace NetWorkedData
                     //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
                     string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                    SetObjectInEdition(null);
+                    BasisHelper().New_SetObjectInEdition(null);
                     BasisHelper().m_SearchInternalName = string.Empty;
                     BasisHelper().m_SearchInternalDescription = string.Empty;
                     //ReloadAllObjects ();
@@ -1361,7 +1379,7 @@ namespace NetWorkedData
                         tObjectToDelete.DeleteData();
                         //tObjectToDelete.RowAnalyze();
                     }
-                    SetObjectInEdition(null);
+                    BasisHelper().New_SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1402,7 +1420,7 @@ namespace NetWorkedData
                         tObjectToTrash.TrashData();
                         tObjectToTrash.RowAnalyze();
                     }
-                    SetObjectInEdition(null);
+                    BasisHelper().New_SetObjectInEdition(null);
                     //                  sEditorWindow.Repaint ();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
                     NWDDataInspector.ActiveRepaint();
@@ -1444,7 +1462,7 @@ namespace NetWorkedData
                         tObjectToUntrash.UnTrashData();
                         tObjectToUntrash.RowAnalyze();
                     }
-                    SetObjectInEdition(null);
+                    BasisHelper().New_SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1485,7 +1503,7 @@ namespace NetWorkedData
                         tObjectToReintegrate.UpdateData();
                         tObjectToReintegrate.RowAnalyze();
                     }
-                    SetObjectInEdition(null);
+                    BasisHelper().New_SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1497,7 +1515,7 @@ namespace NetWorkedData
                                                 NWDConstants.K_APP_TABLE_RESET_YES,
                                                 NWDConstants.K_APP_TABLE_RESET_NO))
                 {
-                    NWDBasis<K>.ResetTable();
+                    NWDBasis<K>.BasisHelper().New_ResetTable();
                 }
             }
             if (tPullProd == true)
@@ -1560,7 +1578,7 @@ namespace NetWorkedData
                             NWDConstants.K_CLEAN_ALERT_OK,
                             NWDConstants.K_CLEAN_ALERT_CANCEL))
                 {
-                    CleanTable();
+                    BasisHelper().New_CleanTable();
                 }
             }
             if (tCleanLocalTableWithAccount == true)
@@ -1570,12 +1588,12 @@ namespace NetWorkedData
                             NWDConstants.K_PURGE_ALERT_OK,
                             NWDConstants.K_PURGE_ALERT_CANCEL))
                 {
-                    PurgeTable();
+                    BasisHelper().New_PurgeTable();
                 }
             }
             if (tLocalizeLocalTable == true)
             {
-                ExportLocalization();
+                BasisHelper().New_ExportLocalization();
             }
             if (tCreateAllPHPForOnlyThisClass == true)
             {
@@ -1625,7 +1643,7 @@ namespace NetWorkedData
             tRect.y += NWDGUI.KTAB_BAR_HEIGHT + NWDGUI.kFieldMarge;
 
             float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 3.0F);
-            Rect tRectToogle = new Rect( NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
+            Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
             //GUI.DrawTexture(tRectToogle, NWDToolbox.TextureFromColor(Color.red));
             BasisHelper().SetSearchActions(GUI.Toggle(tRectToogle, BasisHelper().SearchActions(), "Search"));
             tRectToogle.x += tWidthTiers;
@@ -1635,7 +1653,7 @@ namespace NetWorkedData
 
             tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            tRect.y += NWDGUI.Line(tRect).height ;
+            tRect.y += NWDGUI.Line(tRect).height;
 
             // if necessary recalcul row informations
             BasisHelper().RowAnalyze();
@@ -1841,7 +1859,7 @@ namespace NetWorkedData
                     {
                         tValid = false;
                     }
-                    if (NWDLauncher.CodePinValue.Length < NWDAppConfiguration.SharedInstance().PinCodeLenghtMin  || NWDLauncher.CodePinValue.Length > NWDAppConfiguration.SharedInstance().PinCodeLenghtMax)
+                    if (NWDLauncher.CodePinValue.Length < NWDAppConfiguration.SharedInstance().PinCodeLenghtMin || NWDLauncher.CodePinValue.Length > NWDAppConfiguration.SharedInstance().PinCodeLenghtMax)
                     {
                         tValid = false;
                     }
@@ -1929,7 +1947,7 @@ namespace NetWorkedData
                 Rect tScrollContentRect = new Rect(0, 0, tWindowRect.width - NWDGUI.kScrollbar, tIndexRowInPage * tRowHeight);
 
 
-                Rect tScrollHeader = new Rect(tScrollRect.x, tScrollRect.y- NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kTableHeaderHeight);
+                Rect tScrollHeader = new Rect(tScrollRect.x, tScrollRect.y - NWDGUI.kTableHeaderHeight, tWindowRect.width, NWDGUI.kTableHeaderHeight);
                 Rect tScrollHeaderBottom = new Rect(tScrollRect.x, tScrollRect.y + tScrollRect.height, tWindowRect.width, NWDGUI.kTableHeaderHeight);
 
                 DrawHeaderInEditor(tScrollHeader, tScrollRect, BasisHelper().RowZoom);
@@ -1999,7 +2017,7 @@ namespace NetWorkedData
                             if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
                             {
                                 K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
-                                SetObjectInEdition(tNextSelected);
+                                BasisHelper().New_SetObjectInEdition(tNextSelected);
                                 //float tNumberPage = (tIndexSelected + 1) / BasisHelper().m_ItemPerPage;
                                 //int tPageExpected = (int)Math.Floor(tNumberPage);
                                 //BasisHelper().m_PageSelected = tPageExpected;
@@ -2027,7 +2045,7 @@ namespace NetWorkedData
                             if (tIndexSelected > 0)
                             {
                                 K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
-                                SetObjectInEdition(tNextSelected);
+                                BasisHelper().New_SetObjectInEdition(tNextSelected);
                                 //float tNumberPage = (tIndexSelected - 1) / BasisHelper().m_ItemPerPage;
                                 //int tPageExpected = (int)Math.Floor(tNumberPage);
                                 //BasisHelper().m_PageSelected = tPageExpected;
@@ -2056,7 +2074,7 @@ namespace NetWorkedData
                         if (tIndexSel < BasisHelper().EditorTableDatas.Count)
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
-                            SetObjectInEdition(tNextSelected);
+                            BasisHelper().New_SetObjectInEdition(tNextSelected);
                             ChangeScroolPositionToSelection(tScrollRect);
                             Event.current.Use();
                             sEditorWindow.Focus();
@@ -2076,7 +2094,7 @@ namespace NetWorkedData
                         BasisHelper().m_PageSelected--;
                         // TODO : reselect first object
                         K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
-                        SetObjectInEdition(tNextSelected);
+                        BasisHelper().New_SetObjectInEdition(tNextSelected);
                         ChangeScroolPositionToSelection(tScrollRect);
                         Event.current.Use();
                         sEditorWindow.Focus();
@@ -2097,7 +2115,7 @@ namespace NetWorkedData
                 Rect tRectRow = new Rect(sEditorWindow.position.x, sEditorWindow.position.y,
                      sEditorWindow.position.width, sEditorWindow.position.height);
 
-            if (tRectRow.width < NWDGUI.KTableMinWidth)
+                if (tRectRow.width < NWDGUI.KTableMinWidth)
                 {
                     tRectRow.width = NWDGUI.KTableMinWidth;
                 }

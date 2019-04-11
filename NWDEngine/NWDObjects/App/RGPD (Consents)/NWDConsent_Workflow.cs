@@ -42,7 +42,7 @@ namespace NetWorkedData
             bool rReturn = true;
             foreach (NWDConsent tConsent in sConsentsArray)
             {
-                NWDAccountConsent tUserConsent = NWDAccountConsent.FindFisrtByConsent(tConsent, false);
+                NWDAccountConsent tUserConsent = NWDAccountConsent.FindDataByConsent(tConsent, false);
                 if (tUserConsent == null)
                 {
                     rReturn = false;
@@ -62,13 +62,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConsentsAreAllValid()
         {
-            bool rReturn = ConsentsAreValid(FindLastVersion());
+            bool rReturn = ConsentsAreValid(SelectCurrentDatas());
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConsentsCheck()
         {
-            bool rReturn = ConsentsAreValid(FindLastVersion());
+            bool rReturn = ConsentsAreValid(SelectCurrentDatas());
             if (rReturn == false)
             {
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDConsent.K_APPCONSENTS_NEED_VALIDATION);
@@ -79,7 +79,7 @@ namespace NetWorkedData
         public BTBSwitchState GetUserAuthorization(bool sCreateIfNull = false)
         {
             BTBSwitchState rReturn = BTBSwitchState.Unknow;
-            NWDAccountConsent tUserConsent = NWDAccountConsent.FindFisrtByConsent(this, sCreateIfNull);
+            NWDAccountConsent tUserConsent = NWDAccountConsent.FindDataByConsent(this, sCreateIfNull);
             if (tUserConsent == null)
             {
                 rReturn = BTBSwitchState.Unknow;

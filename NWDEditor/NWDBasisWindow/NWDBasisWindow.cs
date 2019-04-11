@@ -162,18 +162,18 @@ namespace NetWorkedData
             mTabContentList = tTabContentList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDatas()
-        {
-            foreach (Type tType in mTabTypeList)
-            {
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ApplyAllModifications, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                }
-            }
-            this.Repaint();
-        }
+        //public void UpdateDatas()
+        //{
+        //    foreach (Type tType in mTabTypeList)
+        //    {
+        //        MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ApplyAllModifications, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        //        if (tMethodInfo != null)
+        //        {
+        //            tMethodInfo.Invoke(null, null);
+        //        }
+        //    }
+        //    this.Repaint();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Call on enable this window

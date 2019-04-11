@@ -28,7 +28,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Tip.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
-                kTipKeyIndex.InsertInIndex(this, tKey);
+                kTipKeyIndex.InsertData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -36,13 +36,13 @@ namespace NetWorkedData
         public void RemoveFromTipKeyIndex()
         {
             // Remove from the actual indexation
-            kTipKeyIndex.RemoveFromIndex(this);
+            kTipKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserTip FindFisrtByTipKey(NWDTipKey sKey, bool sOrCreate = false)
+        public static NWDUserTip FindDataByTip(NWDTipKey sKey, bool sOrCreate = false)
         {
-            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
-            NWDUserTip rReturn = kTipKeyIndex.FindFirstByReference(tKey);
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
+            NWDUserTip rReturn = kTipKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
@@ -51,136 +51,7 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-        /*
         //-------------------------------------------------------------------------------------------------------------
-        //static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
-        static Dictionary<string, List<NWDUserTip>> kIndex = new Dictionary<string, List<NWDUserTip>>();
-        private List<NWDUserTip> kIndexList;
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
-        private void InsertInIndex()
-        {
-            if (Tip.GetReference() != null
-                && IsEnable() == true
-                && IsTrashed() == false
-                && TestIntegrity() == true)
-            {
-                string tKey = Tip.GetReference();
-                if (kIndexList != null)
-                {
-                    // I have allready index
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        if (kIndex[tKey] == kIndexList)
-                        {
-                            // I am in the good index ... do nothing
-                        }
-                        else
-                        {
-                            // I Changed index! during update ?!!
-                            kIndexList.Remove(this);
-                            kIndexList = null;
-                            kIndexList = kIndex[tKey];
-                            kIndexList.Add(this);
-                        }
-                    }
-                    else
-                    {
-                        kIndexList.Remove(this);
-                        kIndexList = null;
-                        kIndexList = new List<NWDUserTip>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
-                }
-                else
-                {
-                    // I need add in index!
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        // index exists
-                        kIndexList = kIndex[tKey];
-                        kIndexList.Add(this);
-                    }
-                    else
-                    {
-                        // index must be create
-                        kIndexList = new List<NWDUserTip>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
-                }
-            }
-            else
-            {
-                RemoveFromIndex();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
-        private void RemoveFromIndex()
-        {
-            if (kIndexList != null)
-            {
-                kIndexList.Contains(this);
-                {
-                    kIndexList.Remove(this);
-                }
-                kIndexList = null;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserTip> FindByIndex(NWDTipKey sTip)
-        {
-            List<NWDUserTip> rReturn = null;
-            if (sTip != null)
-            {
-                string tKey = sTip.Reference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserTip> FindByIndex(string sTipReference)
-        {
-            List<NWDUserTip> rReturn = null;
-            if (sTipReference != null)
-            {
-                string tKey = sTipReference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public NWDUserTip FindFirstByIndex(string sTipReference)
-        {
-            NWDUserTip rObject = null;
-            List<NWDUserTip> rReturn = null;
-            if (sTipReference != null)
-            {
-                string tKey = sTipReference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            if (rReturn != null)
-            {
-                if (rReturn.Count > 0)
-                {
-                    rObject = rReturn[0];
-                }
-            }
-            return rObject;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        */
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
