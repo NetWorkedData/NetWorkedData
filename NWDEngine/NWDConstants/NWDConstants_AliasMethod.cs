@@ -46,9 +46,9 @@ namespace NetWorkedData
         public const string M_EditorGetObjects = "M_EditorGetObjects";
         public const string M_ChangeReferenceForAnotherInAllObjects = "M_ChangeReferenceForAnotherInAllObjects";
         public const string M_ChangeReferenceForAnother = "M_ChangeReferenceForAnother";
-        public const string M_ReferenceConnectionHeightSerializedString = "M_ReferenceConnectionHeightSerializedString";
-        public const string M_ReferenceConnectionFieldSerialized= "M_ReferenceConnectionFieldSerialized";
-        public const string M_ReOrderAllLocalizations= "M_ReOrderAllLocalizations";
+        //public const string M_ReferenceConnectionHeightSerializedString = "M_ReferenceConnectionHeightSerializedString";
+        //public const string M_ReferenceConnectionFieldSerialized= "M_ReferenceConnectionFieldSerialized";
+        //public const string M_ReOrderAllLocalizations= "M_ReOrderAllLocalizations";
         //public const string M_ChangeAssetPath= "M_ChangeAssetPath";
         public const string M_SynchronizationSetToZeroTimestamp= "M_SynchronizationSetToZeroTimestamp";
         public const string M_SynchronizationUpadteTimestamp= "M_SynchronizationUpadteTimestamp";

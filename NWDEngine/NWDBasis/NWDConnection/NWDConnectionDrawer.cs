@@ -54,14 +54,18 @@ namespace NetWorkedData
 				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
                 // DID : Change to remove invoke!
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionHeightSerializedString);
-                //var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null)
-				{
-					string tHeightString = tMethodInfo.Invoke (null, new object[]{property, tReferenceConnection.ShowInspector}) as string;
-					float.TryParse (tHeightString, out tHeight);
-				}
-			}
+                //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionHeightSerializedString);
+                //            //var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tMethodInfo != null)
+                //{
+                //	string tHeightString = tMethodInfo.Invoke (null, new object[]{property, tReferenceConnection.ShowInspector}) as string;
+                //	float.TryParse (tHeightString, out tHeight);
+                //}
+
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeDefintion);
+
+                tHeight = tHelper.New_ReferenceConnectionHeightSerialized(property, tReferenceConnection.ShowInspector);
+            }
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -85,12 +89,15 @@ namespace NetWorkedData
             {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionFieldSerialized);
-                if (tMethodInfo != null)
-				{
-					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector});
-				}
-			}
+    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionFieldSerialized);
+    //            if (tMethodInfo != null)
+				//{
+				//	tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector});
+				//}
+
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeDefintion);
+                tHelper.New_ReferenceConnectionFieldSerialized(position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector);
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
