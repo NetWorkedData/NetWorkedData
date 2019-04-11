@@ -107,7 +107,7 @@ namespace NetWorkedData
                     foreach (Type tType in sTypeList)
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        foreach (Type tR in tHelper.ClasseInThisSync())
+                        foreach (Type tR in tHelper.New_ClasseInThisSync())
                         {
                             if (tReturn.Contains(tR) == false)
                             {
@@ -127,6 +127,7 @@ namespace NetWorkedData
                         //}
                     }
                 }
+                Debug.Log("New_ClasseInThisSync return : " + string.Join(" ", tReturn));
                 rReturn.TypeList = tReturn;
                 rReturn.ForceSync = sForceSync;
                 rReturn.Special = sSpecial;

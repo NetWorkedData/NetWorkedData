@@ -67,6 +67,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual List<Type> New_OverrideClasseInThisSync()
         {
+            Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
             return new List<Type>();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -222,10 +223,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<Type> ClasseInThisSync()
+        public List<Type> New_ClasseInThisSync()
         {
             List<Type> rReturn = New_OverrideClasseInThisSync();
-            rReturn = new List<Type>(rReturn.Distinct<Type>());
+            //rReturn = new List<Type>(rReturn.Distinct<Type>());
+            Debug.Log("New_ClasseInThisSync calculate : " + string.Join(" ", rReturn));
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -236,7 +238,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K FictiveData()
         {
-            return NWDBasis < K >.FictiveData();
+            return NWDBasis<K>.FictiveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
@@ -246,7 +248,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> New_OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(K) };
+            List<Type> rReturn = new List<Type> { typeof(K) };
+            Debug.Log("New_OverrideClasseInThisSync first override : " + string.Join(" ", rReturn));
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void New_LoadFromDatabase()
@@ -379,11 +383,13 @@ namespace NetWorkedData
                 }
                 else
                 {
+                    //TODO : find all NWDHelper and generic compare!
                     Debug.Log("sType.Name + Helper = " + sType.Name + "Helper");
-                    Type tTypeHelper = Type.GetType(sType.Name + "Helper");
+                    Type tTypeHelper = Type.GetType("NetWorkedData."+sType.Name + "Helper");
                     if (tTypeHelper != null)
                     {
                         tTypeInfos = Activator.CreateInstance(tTypeHelper) as NWDBasisHelper;
+                        Debug.Log("<color=red> YES </color> create NWDHelper<" + sType.Name + "> as " + tTypeInfos.GetType().Name);
                     }
                     else
                     {
@@ -1953,7 +1959,7 @@ namespace NetWorkedData
                 {
                     //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
                     //List<string> tSelect = tCommand.ExecuteQuery<string>();
-                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData().WebModel) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
+                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
                     Debug.Log(tQuery);
                     SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
                     List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
