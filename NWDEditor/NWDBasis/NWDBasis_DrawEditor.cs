@@ -15,17 +15,6 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDTypeClass
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float New_DrawObjectInspectorHeight()
-        {
-            return 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
@@ -33,17 +22,17 @@ namespace NetWorkedData
         protected Texture2D PreviewTexture;
         protected UnityEngine.Object PreviewObject = null;
         protected bool PreviewTextureIsLoaded = false;
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
-        {
-            if (BasisHelper().EditorTableDatas.Count > 0)
-            {
-                K sObject = BasisHelper().EditorTableDatas.ElementAt(0) as K;
-                //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
-                BasisHelper().New_SetObjectInEdition(sObject);
-                sEditorWindow.Focus();
-            }
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
+        //{
+        //    if (BasisHelper().EditorTableDatas.Count > 0)
+        //    {
+        //        K sObject = BasisHelper().EditorTableDatas.ElementAt(0) as K;
+        //        //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+        //        BasisHelper().New_SetObjectInEdition(sObject);
+        //        sEditorWindow.Focus();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         //public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
@@ -247,8 +236,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         Editor gameObjectEditor;
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_DrawObjectEditor)]
-        public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
+        public override void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
             BasisHelper().RowAnalyze();
             float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;

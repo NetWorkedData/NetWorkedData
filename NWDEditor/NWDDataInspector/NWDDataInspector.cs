@@ -231,12 +231,13 @@ namespace NetWorkedData
             }
             else
             {
-                Type tType = mObjectInEdition.GetType();
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
-                }
+                //Type tType = mObjectInEdition.GetType();
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
+                //}
+                mObjectInEdition.New_DrawObjectEditor(position, true);
             }
             //			GUI.EndScrollView();
         }

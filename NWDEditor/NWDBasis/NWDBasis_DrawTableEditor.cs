@@ -17,36 +17,36 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
+        ////-------------------------------------------------------------------------------------------------------------
+        //private static string GetReferenceOfDataInEdition()
+        //{
+        //    string rReturn = null;
+        //    NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+        //    if (tObject != null)
+        //    {
+        //        rReturn = string.Copy(tObject.Reference);
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private static string GetReferenceOfDataInEdition()
-        {
-            string rReturn = null;
-            NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
-            if (tObject != null)
-            {
-                rReturn = string.Copy(tObject.Reference);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void RestaureDataInEditionByReference(string sReference)
-        {
-            K tObject = null;
-            if (sReference != null)
-            {
-                if (BasisHelper().DatasByReference.ContainsKey(sReference))
-                {
-                    tObject = BasisHelper().DatasByReference[sReference] as K;
-                }
-                if (tObject != null)
-                {
-                    if (BasisHelper().EditorTableDatas.Contains(tObject))
-                    {
-                        BasisHelper().New_SetObjectInEdition(tObject);
-                    }
-                }
-            }
-        }
+        //private static void RestaureDataInEditionByReference(string sReference)
+        //{
+        //    K tObject = null;
+        //    if (sReference != null)
+        //    {
+        //        if (BasisHelper().DatasByReference.ContainsKey(sReference))
+        //        {
+        //            tObject = BasisHelper().DatasByReference[sReference] as K;
+        //        }
+        //        if (tObject != null)
+        //        {
+        //            if (BasisHelper().EditorTableDatas.Contains(tObject))
+        //            {
+        //                BasisHelper().New_SetObjectInEdition(tObject);
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public static void IntegritySelection()
         //{
@@ -60,79 +60,79 @@ namespace NetWorkedData
         //            }
         //        }
         //    }
+        ////}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SelectAllObjectInTableList()
+        //{
+        //    List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+        //    {
+        //        tListToUse.Add(tKeyValue.Key);
+        //    }
+        //    foreach (NWDTypeClass tObject in tListToUse)
+        //    {
+        //        BasisHelper().EditorTableDatasSelected[tObject] = true;
+        //    }
+        //    //IntegritySelection();
         //}
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SelectAllObjectInTableList()
-        {
-            List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            {
-                tListToUse.Add(tKeyValue.Key);
-            }
-            foreach (NWDTypeClass tObject in tListToUse)
-            {
-                BasisHelper().EditorTableDatasSelected[tObject] = true;
-            }
-            //IntegritySelection();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void DeselectAllObjectInTableList()
-        {
-            List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            {
-                tListToUse.Add(tKeyValue.Key);
-            }
-            foreach (NWDTypeClass tObject in tListToUse)
-            {
-                BasisHelper().EditorTableDatasSelected[tObject] = false;
-            }
-            //IntegritySelection();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void InverseSelectionOfAllObjectInTableList()
-        {
-            List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            {
-                tListToUse.Add(tKeyValue.Key);
-            }
-            foreach (NWDTypeClass tObject in tListToUse)
-            {
-                BasisHelper().EditorTableDatasSelected[tObject] = !BasisHelper().EditorTableDatasSelected[tObject];
-            }
-            //IntegritySelection();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SelectAllObjectEnableInTableList()
-        {
-            List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            {
-                tListToUse.Add(tKeyValue.Key);
-            }
-            foreach (NWDTypeClass tObject in tListToUse)
-            {
-                K tObjectK = tObject as K;
-                BasisHelper().EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
-            }
-            //IntegritySelection();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SelectAllObjectDisableInTableList()
-        {
-            List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            {
-                tListToUse.Add(tKeyValue.Key);
-            }
-            foreach (NWDTypeClass tObject in tListToUse)
-            {
-                K tObjectK = tObject as K;
-                BasisHelper().EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
-            }
-            //IntegritySelection();
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void DeselectAllObjectInTableList()
+        //{
+        //    List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+        //    {
+        //        tListToUse.Add(tKeyValue.Key);
+        //    }
+        //    foreach (NWDTypeClass tObject in tListToUse)
+        //    {
+        //        BasisHelper().EditorTableDatasSelected[tObject] = false;
+        //    }
+        //    //IntegritySelection();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void InverseSelectionOfAllObjectInTableList()
+        //{
+        //    List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+        //    {
+        //        tListToUse.Add(tKeyValue.Key);
+        //    }
+        //    foreach (NWDTypeClass tObject in tListToUse)
+        //    {
+        //        BasisHelper().EditorTableDatasSelected[tObject] = !BasisHelper().EditorTableDatasSelected[tObject];
+        //    }
+        //    //IntegritySelection();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SelectAllObjectEnableInTableList()
+        //{
+        //    List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+        //    {
+        //        tListToUse.Add(tKeyValue.Key);
+        //    }
+        //    foreach (NWDTypeClass tObject in tListToUse)
+        //    {
+        //        K tObjectK = tObject as K;
+        //        BasisHelper().EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
+        //    }
+        //    //IntegritySelection();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SelectAllObjectDisableInTableList()
+        //{
+        //    List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+        //    {
+        //        tListToUse.Add(tKeyValue.Key);
+        //    }
+        //    foreach (NWDTypeClass tObject in tListToUse)
+        //    {
+        //        K tObjectK = tObject as K;
+        //        BasisHelper().EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
+        //    }
+        //    //IntegritySelection();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public static void FilterTableEditor()
         //{
@@ -532,18 +532,18 @@ namespace NetWorkedData
                 // draw button filter
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_FILTER, NWDGUI.KTableSearchButton))
                 {
-                    string tReference = GetReferenceOfDataInEdition();
+                    string tReference = BasisHelper().New_GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
                     BasisHelper().New_SetObjectInEdition(null);
                     BasisHelper().New_FilterTableEditor();
-                    RestaureDataInEditionByReference(tReference);
+                    BasisHelper().New_RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw Remove filter
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, NWDGUI.KTableSearchButton))
                 {
 
-                    string tReference = GetReferenceOfDataInEdition();
+                    string tReference = BasisHelper().New_GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
                     BasisHelper().New_SetObjectInEdition(null);
                     //m_SearchReference = "";
@@ -555,7 +555,7 @@ namespace NetWorkedData
                     BasisHelper().m_SearchGameSave = string.Empty;
                     BasisHelper().m_SearchCheckList.Value = 0;
                     BasisHelper().New_FilterTableEditor();
-                    RestaureDataInEditionByReference(tReference);
+                    BasisHelper().New_RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
@@ -793,7 +793,7 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(tSelectionCount == tActualItems);
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_ALL, NWDGUI.KTableSearchButton))
                 {
-                    SelectAllObjectInTableList();
+                    BasisHelper().New_SelectAllObjectInTableList();
                 }
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -801,26 +801,26 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_DESELECT_ALL, NWDGUI.KTableSearchButton))
                 {
-                    DeselectAllObjectInTableList();
+                    BasisHelper().New_DeselectAllObjectInTableList();
                 }
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw inverse
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_INVERSE, NWDGUI.KTableSearchButton))
                 {
-                    InverseSelectionOfAllObjectInTableList();
+                    BasisHelper().New_InverseSelectionOfAllObjectInTableList();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw select all enable
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_ENABLED, NWDGUI.KTableSearchButton))
                 {
-                    SelectAllObjectEnableInTableList();
+                    BasisHelper().New_SelectAllObjectEnableInTableList();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw select all disable
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SELECT_DISABLED, NWDGUI.KTableSearchButton))
                 {
-                    SelectAllObjectDisableInTableList();
+                    BasisHelper().New_SelectAllObjectDisableInTableList();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // Change Colmun
@@ -1099,7 +1099,7 @@ namespace NetWorkedData
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDGUI.KTableSearchButton))
                 {
                     //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
-                    string tReference = GetReferenceOfDataInEdition();
+                    string tReference = BasisHelper().New_GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
                     BasisHelper().New_SetObjectInEdition(null);
                     BasisHelper().m_SearchInternalName = string.Empty;
@@ -1107,7 +1107,7 @@ namespace NetWorkedData
                     //ReloadAllObjects ();
                     //LoadTableEditor ();
                     BasisHelper().New_LoadFromDatabase();
-                    RestaureDataInEditionByReference(tReference);
+                    BasisHelper().New_RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 

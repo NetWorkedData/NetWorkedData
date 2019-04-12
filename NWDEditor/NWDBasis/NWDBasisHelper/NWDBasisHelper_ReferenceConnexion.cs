@@ -70,16 +70,16 @@ namespace NetWorkedData
             List<string> tInternalNameList = new List<string>();
             tReferenceList.Add(NWDConstants.kFieldSeparatorA);
             tInternalNameList.Add(" ");
-            var tReferenceListInfo = tType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tReferenceListInfo != null)
-            {
-                tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
-            }
-            var tInternalNameListInfo = tType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tInternalNameListInfo != null)
-            {
-                tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
-            }
+            //var tReferenceListInfo = tType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tReferenceListInfo != null)
+            //{
+            //    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+            //}
+            //var tInternalNameListInfo = tType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tInternalNameListInfo != null)
+            //{
+            //    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
+            //}
             string tValue = sValue;
             int tIndex = tReferenceList.IndexOf(tValue);
             var tPopupRect = new Rect(tX, tY, sPosition.width - NWDGUI.kEditWidth - NWDGUI.kFieldMarge, tPopupdStyle.fixedHeight);

@@ -195,7 +195,7 @@ namespace NetWorkedData
             UpdateData();
             BasisHelper().New_LoadFromDatabase();
             //BasisHelper().SortEditorTableDatas();
-            RestaureDataInEditionByReference(tNewReference);
+            BasisHelper().New_RestaureDataInEditionByReference(tNewReference);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
             if (BasisHelper().ConnexionType != null)

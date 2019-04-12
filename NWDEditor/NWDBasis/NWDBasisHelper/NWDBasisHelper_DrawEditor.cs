@@ -1,25 +1,36 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Reflection;
+using UnityEngine;
+using SQLite4Unity3d;
+using BasicToolBox;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_DrawInEditor)]
-        public static void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
+        public void New_SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            DrawTableEditor(sEditorWindow);
-            if (sAutoSelect == true)
+            if (EditorTableDatas.Count > 0)
             {
-                BasisHelper().New_SelectedFirstObjectInTable(sEditorWindow);
+                NWDTypeClass sObject = EditorTableDatas.ElementAt(0);
+                New_SetObjectInEdition(sObject);
+                sEditorWindow.Focus();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

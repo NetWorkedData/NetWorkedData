@@ -764,13 +764,13 @@ namespace NetWorkedData
         public static NWDBasisHelper FindTypeInfos(Type sType)
         {
             NWDBasisHelper tTypeInfos = null;
-            if (sType.IsSubclassOf(typeof(NWDTypeClass)))
-            {
+            //if (sType.IsSubclassOf(typeof(NWDTypeClass)))
+            //{
                 if (TypesDictionary.ContainsKey(sType))
                 {
                     tTypeInfos = TypesDictionary[sType];
                 }
-            }
+            //}
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------

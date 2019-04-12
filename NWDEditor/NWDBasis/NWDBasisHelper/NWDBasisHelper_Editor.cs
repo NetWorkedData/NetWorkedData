@@ -113,8 +113,6 @@ namespace NetWorkedData
 
 
 
-
-
         public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
         public float RowZoom = 1.0F;
         public string m_SearchReference = string.Empty;

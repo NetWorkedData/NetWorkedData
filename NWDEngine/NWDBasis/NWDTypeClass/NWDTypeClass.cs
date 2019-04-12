@@ -265,6 +265,15 @@ namespace NetWorkedData
             return Rect.zero;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual float New_DrawObjectInspectorHeight()
+        {
+            return 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
             return true;

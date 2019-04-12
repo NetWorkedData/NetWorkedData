@@ -19,7 +19,7 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBasisObjectInspector : ScriptableObject
 	{
-		public object mObjectInEdition;
+		public NWDTypeClass mObjectInEdition;
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[CustomEditor (typeof(NWDBasisObjectInspector))]
@@ -34,13 +34,15 @@ namespace NetWorkedData
 			NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
-                Type tType = tTarget.mObjectInEdition.GetType ();
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-                if (tMethodInfo != null) 
-				{
-					tMethodInfo.Invoke (tTarget.mObjectInEdition, new object[]{Rect.zero,false});
-				}
-			}
+    //            Type tType = tTarget.mObjectInEdition.GetType ();
+    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
+    //            if (tMethodInfo != null) 
+				//{
+				//	tMethodInfo.Invoke (tTarget.mObjectInEdition, new object[]{Rect.zero,false});
+				//}
+                tTarget.mObjectInEdition.New_DrawObjectEditor(Rect.zero, false);
+
+        }
 		}
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
