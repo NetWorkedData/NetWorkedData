@@ -576,7 +576,7 @@ namespace NetWorkedData
                     tV = tLineValue[0];
                     tQ = new NWDAverage(tLineValue[1]);
                 }
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     float tYb = tY + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge;

@@ -893,17 +893,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public static GUIContent GetGuiContent(string sReference)
+        public GUIContent New_GetGuiContent(string sReference)
         {
             GUIContent rReturn = null;
-            if (BasisHelper().DatasByReference.ContainsKey(sReference))
+            if (DatasByReference.ContainsKey(sReference))
             {
-                NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
+                NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
                 if (string.IsNullOrEmpty(tObject.InternalKey))
                 {
                     rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
@@ -926,6 +921,40 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        //public static GUIContent GetGuiContent(string sReference)
+        //{
+        //    GUIContent rReturn = null;
+        //    if (BasisHelper().DatasByReference.ContainsKey(sReference))
+        //    {
+        //        NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
+        //        if (string.IsNullOrEmpty(tObject.InternalKey))
+        //        {
+        //            rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+        //        }
+        //        else
+        //        {
+        //            rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (string.IsNullOrEmpty(sReference))
+        //        {
+        //            rReturn = new GUIContent("none");
+        //        }
+        //        else
+        //        {
+        //            rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight()
         {

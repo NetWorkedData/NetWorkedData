@@ -642,7 +642,7 @@ namespace NetWorkedData
                     tC = NWDToolbox.IntFromString(tLineValue[2]);
                 }
 
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + tConWidth + NWDGUI.kFieldMarge*2);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + tConWidth + NWDGUI.kFieldMarge*2);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
 

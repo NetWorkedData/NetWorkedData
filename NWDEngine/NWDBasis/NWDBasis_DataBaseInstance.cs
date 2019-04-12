@@ -46,6 +46,7 @@ namespace NetWorkedData
             NewNetWorkedData();
         }
         //-------------------------------------------------------------------------------------------------------------
+        // TODO : Change to remove this process! (if possible)
         public NWDBasis(bool sInsertInNetWorkedData = false)
         {
             //Debug.Log("NWDBasis <K> NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + " inserted = " + NWDInserted.ToString());

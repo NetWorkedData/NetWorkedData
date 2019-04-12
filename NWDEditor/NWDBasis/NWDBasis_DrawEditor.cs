@@ -15,6 +15,17 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDTypeClass
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual float New_DrawObjectInspectorHeight()
+        {
+            return 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
@@ -129,7 +140,7 @@ namespace NetWorkedData
             return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture2D PreviewTexture2D()
+        public override Texture2D PreviewTexture2D()
         {
             //if (PreviewTextureIsLoaded == false)
             //{
@@ -162,7 +173,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float DrawObjectInspectorHeight()
+        public override float New_DrawObjectInspectorHeight()
         {
             NWDGUI.LoadStyles();
             float tY = 0;
@@ -173,7 +184,7 @@ namespace NetWorkedData
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Rect DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
+        public override Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
         {
             NWDGUI.LoadStyles();
 
@@ -189,7 +200,7 @@ namespace NetWorkedData
             if (sWithScrollview == true)
             {
                 float tScrollBarMarge = 0;
-                float tHeightContent = DrawObjectInspectorHeight();
+                float tHeightContent = New_DrawObjectInspectorHeight();
                 if (tHeightContent >= sInRect.height)
                 {
                     tScrollBarMarge = NWDGUI.kScrollbar;
@@ -833,7 +844,7 @@ namespace NetWorkedData
 
 
 
-            DrawObjectInspector(tRectProperty, sWithScrollview, tCanBeEdit);
+            New_DrawObjectInspector(tRectProperty, sWithScrollview, tCanBeEdit);
 
 
             EditorGUI.BeginDisabledGroup(tCanBeEdit == false);

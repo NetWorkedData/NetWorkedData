@@ -193,7 +193,7 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            tTemporary.Value =BTBSecurityTools.GenerateSha( NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tTemporary.Value));
+            tTemporary.Value =BTBSecurityTools.GenerateSha( NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tTemporary.Value));
             tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
             return tTemporary;
         }

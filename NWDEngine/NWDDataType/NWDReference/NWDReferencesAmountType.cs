@@ -521,7 +521,7 @@ namespace NetWorkedData
                     tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                     tV = tLineValue[0];
                 }
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + NWDGUI.kFieldMarge * 2);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + NWDGUI.kFieldMarge * 2);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     int tIndentLevel = EditorGUI.indentLevel;

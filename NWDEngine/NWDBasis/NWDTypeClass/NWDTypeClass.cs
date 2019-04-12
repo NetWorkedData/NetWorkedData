@@ -6,8 +6,8 @@
 //=====================================================================================================================
 
 using System;
-using UnityEngine;
 using SQLite.Attribute;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -254,6 +254,15 @@ namespace NetWorkedData
             {
                 return false;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual Texture2D PreviewTexture2D()
+        {
+            return null;
+        }
+        public virtual Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
+        {
+            return Rect.zero;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)

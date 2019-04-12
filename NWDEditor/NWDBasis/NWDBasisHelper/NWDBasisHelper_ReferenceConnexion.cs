@@ -24,37 +24,17 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_ReferenceConnectionHeight(string sValue, bool sShowInspector)
-        {
-            return string.Empty;
-        }
+        const float tBorder = 1.0f;
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_ReferenceConnectionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
-        {
-            return string.Empty;
-        }
+        public bool kInspectorFoldout = false;
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float New_ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
-        {
-            return 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public override string New_ReferenceConnectionHeight(string sValue, bool sShowInspector)
+        public string New_ReferenceConnectionHeight(string sValue, bool sShowInspector)
         {
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
-            NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sValue);
+            NWDTypeClass tObject = New_GetDataByReference(sValue);
             if (tObject != null)
             {
                 if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
@@ -68,22 +48,15 @@ namespace NetWorkedData
                     GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
                     tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                     rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    rReturn += tObject.DrawObjectInspectorHeight() + NWDGUI.kFieldMarge * 2;
+                    rReturn += tObject.New_DrawObjectInspectorHeight() + NWDGUI.kFieldMarge * 2;
                 }
             }
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        const float tButtonWidth = 40.0f;
-        //-------------------------------------------------------------------------------------------------------------
-        const float tButtonMarge = 3.0f;
-        //-------------------------------------------------------------------------------------------------------------
-        const float tMargeInspector = 20.0f;
-        //-------------------------------------------------------------------------------------------------------------
-        const float tBorder = 1.0f;
-        //-------------------------------------------------------------------------------------------------------------
-        public override string New_ReferenceConnectionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
+        public virtual string New_ReferenceConnectionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         {
+
             NWDGUI.LoadStyles();
             float tX = sPosition.x;
             float tY = sPosition.y;
@@ -109,8 +82,8 @@ namespace NetWorkedData
             }
             string tValue = sValue;
             int tIndex = tReferenceList.IndexOf(tValue);
-            var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
-            var tButtonRect = new Rect(tX + sPosition.width - tButtonWidth, tY, tButtonWidth, tMiniButtonStyle.fixedHeight);
+            var tPopupRect = new Rect(tX, tY, sPosition.width - NWDGUI.kEditWidth - NWDGUI.kFieldMarge, tPopupdStyle.fixedHeight);
+            var tButtonRect = new Rect(tX + sPosition.width - NWDGUI.kEditWidth, tY, NWDGUI.kEditWidth, tMiniButtonStyle.fixedHeight);
             tY += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
             int rIndex = EditorGUI.Popup(tPopupRect, sEntitled, tIndex, tInternalNameList.ToArray(), EditorStyles.popup);
             bool tAutoChange = false;
@@ -121,7 +94,7 @@ namespace NetWorkedData
                 tValue = tNextValue;
                 tAutoChange = true;
             }
-            NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tValue);
+            NWDTypeClass tObject = New_GetDataByReference(tValue);
             if (tAutoChange == true)
             {
                 New_SetObjectInEdition(tObject);
@@ -140,7 +113,7 @@ namespace NetWorkedData
                 {
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth);
-                    EditorGUI.HelpBox(new Rect(tX + tMargeInspector, tY, tWidth - tMargeInspector, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
+                    EditorGUI.HelpBox(new Rect(tX + NWDGUI.kConnectionIndent, tY, tWidth - NWDGUI.kConnectionIndent, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
                     tY += tHelpBoxHeight + NWDGUI.kFieldMarge;
                     tHelpBoxHeight += NWDGUI.kFieldMarge;
                 }
@@ -150,17 +123,17 @@ namespace NetWorkedData
                     tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
                     tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
                     //Rect tRectToDrawHeader = new Rect(
-                    //                             tX + tMargeInspector,
+                    //                             tX + NWDGUI.kConnectionIndent,
                     //                             tY,
-                    //                             sPosition.width - tMargeInspector,
+                    //                             sPosition.width - NWDGUI.kConnectionIndent,
                     //                             sPosition.height - tPopupdStyle.fixedHeight - NWDGUI.kFieldMarge - tHelpBoxHeight);
 
                     //EditorGUI.DrawRect(tRectToDrawHeader, NWDConstants.kHeaderColorBackground);
 
                     Rect tRectToDrawProperties = new Rect(
-                                                     tX + tMargeInspector + tBorder,
+                                                     tX + NWDGUI.kConnectionIndent + tBorder,
                                                      tY + tBoldLabelStyle.fixedHeight,
-                                                     sPosition.width - tMargeInspector - tBorder * 2,
+                                                     sPosition.width - NWDGUI.kConnectionIndent - tBorder * 2,
                                                      sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDGUI.kFieldMarge - tBorder - tHelpBoxHeight);
 
                     EditorGUI.DrawRect(tRectToDrawProperties, NWDGUI.kIdentityColor);
@@ -170,11 +143,11 @@ namespace NetWorkedData
                     tY += tBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     // draw properties in this rect
                     Rect tRectToDawInspector = new Rect(
-                                                   tX + tMargeInspector + tBorder,
+                                                   tX + NWDGUI.kConnectionIndent + tBorder,
                                                    tY,
-                                                   sPosition.width - tMargeInspector - tBorder,
+                                                   sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                    sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                    tObject.DrawObjectInspector(tRectToDawInspector, false, sEditionEnable);
+                    tObject.New_DrawObjectInspector(tRectToDawInspector, false, sEditionEnable);
                 }
             }
             else
@@ -183,11 +156,7 @@ namespace NetWorkedData
                 {
                     if (GUI.Button(tButtonRect, NWDGUI.kNewContentIcon, NWDGUI.kEditButtonStyle))
                     {
-                        //                      tObject = NewInstance ();
-                        //                      tObject.UpdateMe (true);
-                        //                      AddObjectInListOfEdition (tObject);
-                        //
-                        tObject = NWDBasis<K>.NewData();
+                        tObject = New_NewData();
                         tObject.UpdateData(true);
 
                         tValue = tObject.Reference;
@@ -199,14 +168,14 @@ namespace NetWorkedData
             return tValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float New_ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
+        public virtual float New_ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
         {
             NWDGUI.LoadStyles();
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = NWDGUI.kDatasSelectorRowStyle.fixedHeight;
-            NWDBasis<K> tObject = NWDBasis < K>.GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
+            NWDTypeClass tObject = New_GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
             if (tObject != null)
             {
                 if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
@@ -225,7 +194,7 @@ namespace NetWorkedData
                         tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                         rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                         rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                        rReturn += tObject.DrawObjectInspectorHeight() + NWDGUI.kFieldMarge * 2;
+                        rReturn += tObject.New_DrawObjectInspectorHeight() + NWDGUI.kFieldMarge * 2;
                     }
                 }
             }
@@ -233,7 +202,7 @@ namespace NetWorkedData
             string tValue = sProperty.FindPropertyRelative("Reference").stringValue;
             if (tValue != null && tValue != string.Empty)
             {
-                if (NWDBasis<K>.GetDataByReference(tValue) == null)
+                if (New_GetDataByReference(tValue) == null)
                 {
                     GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                     tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -243,14 +212,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public string New_ReferenceConnectionHeightSerializedString(SerializedProperty sProperty, bool sShowInspector)
-        //{
-        //    return New_ReferenceConnectionHeightSerialized(sProperty, sShowInspector).ToString();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool kInspectorFoldout = false;
-        //-------------------------------------------------------------------------------------------------------------
-        public override void New_ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
+        public virtual void New_ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
         {
 
             GUIContent tLabelContent = new GUIContent(sEntitled);
@@ -282,9 +244,9 @@ namespace NetWorkedData
                 tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
 
-                tFuturValue = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tLabelContent, tValue);
+                tFuturValue = NWDDatasSelector.Field(this, new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tLabelContent, tValue);
                 tY += NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge;
-                NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tFuturValue);
+                NWDTypeClass tObject = New_GetDataByReference(tFuturValue);
                 if (tValue != tFuturValue)
                 {
                     tAutoChange = true;
@@ -301,7 +263,7 @@ namespace NetWorkedData
                     {
                         GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                         tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth);
-                        EditorGUI.HelpBox(new Rect(tX + tMargeInspector, tY, tWidth - tMargeInspector, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
+                        EditorGUI.HelpBox(new Rect(tX + NWDGUI.kConnectionIndent, tY, tWidth - NWDGUI.kConnectionIndent, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
                         tY += tHelpBoxHeight + NWDGUI.kFieldMarge;
                         tHelpBoxHeight += NWDGUI.kFieldMarge;
                     }
@@ -309,7 +271,7 @@ namespace NetWorkedData
                     {
 
                         // kInspectorFoldout = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight),kInspectorFoldout,NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT);
-                        kInspectorFoldout = EditorGUI.ToggleLeft(new Rect(tX + tMargeInspector, tY, tWidth - tMargeInspector, tPopupdStyle.fixedHeight), NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT, kInspectorFoldout);
+                        kInspectorFoldout = EditorGUI.ToggleLeft(new Rect(tX + NWDGUI.kConnectionIndent, tY, tWidth - NWDGUI.kConnectionIndent, tPopupdStyle.fixedHeight), NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT, kInspectorFoldout);
                         tY += tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
                         if (kInspectorFoldout == true)
                         {
@@ -328,11 +290,11 @@ namespace NetWorkedData
                             tY += tBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                             // draw properties in this rect
                             Rect tRectToDawInspector = new Rect(
-                                                           tX + tMargeInspector + tBorder,
+                                                           tX + NWDGUI.kConnectionIndent + tBorder,
                                                            tY,
-                                                           sPosition.width - tMargeInspector - tBorder,
+                                                           sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                            sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                            tObject.DrawObjectInspector(tRectToDawInspector, false, true);
+                            tObject.New_DrawObjectInspector(tRectToDawInspector, false, true);
                         }
                     }
                 }
@@ -346,7 +308,6 @@ namespace NetWorkedData
             }
             EditorGUI.EndProperty();
         }
-        //-------------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
