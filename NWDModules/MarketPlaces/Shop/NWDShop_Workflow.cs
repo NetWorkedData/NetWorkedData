@@ -18,17 +18,15 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDShop :NWDBasis <NWDShop>
+	public partial class NWDShop : NWDBasis <NWDShop>
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public NWDShop()
         {
-            //Debug.Log("NWDShop Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDShop(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-           //Debug.Log("NWDShop Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -65,6 +63,7 @@ namespace NetWorkedData
             
             // Add a new NWDTransaction to user Account
             NWDItem tItemDescribe = sPack.ItemDescription.GetObject();
+
             return NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -80,16 +79,6 @@ namespace NetWorkedData
         /// <param name="sType">Enum to represente the type of the transaction (Daily, Weekly, Monthly).</param>
         public void BuyPack(NWDRack sRack, NWDPack sPack, NWDTransactionType sType)
         {
-            // Sync with the server
-            List<Type> tList = new List<Type>
-            {
-                typeof(NWDUserOwnership),
-                typeof(NWDItem),
-                typeof(NWDItemPack),
-                typeof(NWDPack),
-                typeof(NWDUserTransaction)
-            };
-
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 // Define a new NWDTransaction
@@ -102,7 +91,8 @@ namespace NetWorkedData
                 if (bResult == BuyPackResult.Enable)
                 {
                     // Check if there is enough pack to buy
-                    bResult = EnoughPackToBuy(this, sRack, sPack, sType);
+                    int tQte = 0;
+                    bResult = EnoughPackToBuy(sRack, sPack, sType, out tQte);
 
                     // User can buy if there is enough Pack to buy
                     if (bResult == BuyPackResult.EnoughPackToBuy)
@@ -173,10 +163,72 @@ namespace NetWorkedData
                     BuyPackBlockDelegate(BuyPackResult.Failed, null);
                 }
             };
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
+
+            SynchronizationFromWebService(tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult PackEnable(NWDPack sPack)
+        public BuyPackResult EnoughPackToBuy(NWDRack sRack, NWDPack sPack, NWDTransactionType sType, out int oQuantity)
+        {
+            BuyPackResult rEnoughPackToBuy = BuyPackResult.NotFound;
+            oQuantity = 0;
+
+            // Create Transactions array
+            List<NWDUserTransaction> tTransactionList = new List<NWDUserTransaction>();
+
+            // Create Racks array
+            List<NWDRack> tRackList = new List<NWDRack>();
+
+            // Init all transactions done by the user for selected shop and type
+            tRackList.Add(sRack);
+            tTransactionList = NWDUserTransaction.GetTransactionsByShopAndType(this, tRackList, sType);
+
+            // Search for the right Pack in Rack (for quantities)
+            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
+            foreach (KeyValuePair<NWDPack, int> pair in tPacks)
+            {
+                NWDPack tPack = pair.Key;
+                oQuantity = pair.Value;
+
+                if (tPack.Equals(sPack))
+                {
+                    // Verify if there is enough number of pack to buy
+                    foreach (NWDUserTransaction transaction in tTransactionList)
+                    {
+                        if (transaction.RackReference.ContainsObject(sRack) &&
+                            transaction.PackReference.ContainsObject(sPack))
+                        {
+                            oQuantity--;
+                        }
+                    }
+
+                    if (oQuantity > 0 || sPack.Quantity == 0)
+                    {
+                        rEnoughPackToBuy = BuyPackResult.EnoughPackToBuy;
+                    }
+                    else
+                    {
+                        rEnoughPackToBuy = BuyPackResult.NotEnoughPackToBuy;
+                    }
+
+                    break;
+                }
+            }
+
+            /*}
+            else
+            {
+                // Search for the right Pack in Rack (for missing pack)
+                Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
+                if (tPacks.Count > 0)
+                {
+                    rEnoughPackToBuy = BuyPackResult.EnoughPackToBuy;
+                }
+            }*/
+
+            return rEnoughPackToBuy;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        BuyPackResult PackEnable(NWDPack sPack)
         {
             BuyPackResult rPackEnable = BuyPackResult.NotFound;
 
@@ -195,7 +247,7 @@ namespace NetWorkedData
             return rPackEnable;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult UserCanBuy(Dictionary<NWDItem, int> sPackCost)
+        BuyPackResult UserCanBuy(Dictionary<NWDItem, int> sPackCost)
         {
             BuyPackResult rUserCanBuy = BuyPackResult.MissingPayCost;
 
@@ -226,66 +278,6 @@ namespace NetWorkedData
             }
 
             return rUserCanBuy;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult EnoughPackToBuy(NWDShop sShop, NWDRack sRack, NWDPack sPack, NWDTransactionType sType)
-        {
-            BuyPackResult rEnoughPackToBuy = BuyPackResult.NotFound;
-
-            // Create Transactions array
-            List<NWDUserTransaction> tTransactionList = new List<NWDUserTransaction>();
-
-            // Create Racks array
-            List<NWDRack> tRackList = new List<NWDRack>();
-
-            // Init all transactions done by the user for selected shop and type
-            tRackList.Add(sRack);
-            tTransactionList = NWDUserTransaction.GetTransactionsByShopAndType(sShop, tRackList, sType);
-
-            // Search for the right Pack in Rack (for quantities)
-            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
-            foreach (KeyValuePair<NWDPack, int> pair in tPacks)
-            {
-                NWDPack tPack = pair.Key;
-                int tPackQte = pair.Value;
-
-                if (tPack.Equals(sPack))
-                {
-                    // Verify if there is enough number of pack to buy
-                    foreach (NWDUserTransaction transaction in tTransactionList)
-                    {
-                        if (transaction.RackReference.ContainsObject(sRack) &&
-                            transaction.PackReference.ContainsObject(sPack))
-                        {
-                            tPackQte--;
-                        }
-                    }
-
-                    if (tPackQte > 0 || sPack.Quantity == 0)
-                    {
-                        rEnoughPackToBuy = BuyPackResult.EnoughPackToBuy;
-                    }
-                    else
-                    {
-                        rEnoughPackToBuy = BuyPackResult.NotEnoughPackToBuy;
-                    }
-
-                    break;
-                }
-            }
-
-            /*}
-            else
-            {
-                // Search for the right Pack in Rack (for missing pack)
-                Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
-                if (tPacks.Count > 0)
-                {
-                    rEnoughPackToBuy = BuyPackResult.EnoughPackToBuy;
-                }
-            }*/
-
-            return rEnoughPackToBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
