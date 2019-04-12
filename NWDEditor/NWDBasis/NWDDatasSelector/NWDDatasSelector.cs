@@ -125,6 +125,7 @@ namespace NetWorkedData
             GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
 
             GUIContent sDataLabel = sHelper.New_GetGuiContent(sReference);
+            NWDTypeClass tData = sHelper.New_GetDataByReference(sReference);
             if (string.IsNullOrEmpty(sReference) == false && sHelper.New_GetDataByReference(sReference) == null)
             {
                 GUI.Label(tField, sDataLabel, NWDGUI.kDatasSelectorRowErrorStyle);
@@ -144,6 +145,25 @@ namespace NetWorkedData
             }
             else
             {
+                if (tData != null)
+                {
+                    if (tData.IsTrashed())
+                    {
+                        NWDGUI.BeginColorArea(NWDGUI.kRowColorTrash);
+                    }
+                    else if (tData.IsEnable() == false)
+                    {
+                        NWDGUI.BeginColorArea(NWDGUI.kRowColorDisactive);
+                    }
+                    else if (tData.TestIntegrity() == false)
+                    {
+                        NWDGUI.BeginColorArea(NWDGUI.kRowColorWarning);
+                    }
+                    else
+                    {
+                        NWDGUI.EndColorArea();
+                    }
+                }
                 if (GUI.Button(tField, sDataLabel, NWDGUI.kDatasSelectorRowStyle))
                 {
                     ShowNow(sHelper, tID, "", "", NWDBasisTag.NoTag, delegate (int sID, bool sChange, bool sNone, NWDTypeClass sSelection)
@@ -171,6 +191,7 @@ namespace NetWorkedData
                     }, sReference);
                     GUIUtility.ExitGUI();
                 }
+                NWDGUI.EndColorArea();
                 if (string.IsNullOrEmpty(sReference) == false)
                 {
 
@@ -403,6 +424,22 @@ namespace NetWorkedData
                     }
                     else
                     {
+                        if (tItem.IsTrashed())
+                        {
+                            NWDGUI.BeginColorArea(NWDGUI.kRowColorTrash);
+                        }
+                        else if (tItem.IsEnable() ==false)
+                        {
+                            NWDGUI.BeginColorArea(NWDGUI.kRowColorDisactive);
+                        }
+                        else if (tItem.TestIntegrity() ==false)
+                        {
+                            NWDGUI.BeginColorArea(NWDGUI.kRowColorWarning);
+                        }
+                        else
+                        {
+                            NWDGUI.EndColorArea();
+                        }
                         if (GUILayout.Button(Content, tSytle))
                         {
                             if (SelectedBlock != null)
@@ -411,6 +448,7 @@ namespace NetWorkedData
                             }
                             SelectorWindow.Close();
                         }
+                        NWDGUI.EndColorArea();
                     }
                 }
             }

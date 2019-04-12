@@ -1,4 +1,14 @@
-﻿//
+﻿// =====================================================================================================================
+//
+//  ideMobi copyright 2019
+//  All rights reserved by ideMobi
+//
+//  Author Kortex (Jean-François CONTART) jfcontart@idemobi.com
+//  Date 2019 4 12 18:5:10
+//
+// =====================================================================================================================
+
+//
 //  Copyright 2017  Kortex
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +34,18 @@
 // [CONVENTION] xxxxxService
 // [CONVENTION] xxxxxRequestor
 
+/* 
+=====================================================================================================================
+
+ ideMobi copyright ${Year}
+ All rights reserved by ideMobi
+
+ Author ${AuthorName} 
+ Email ${AuthorEmail}
+ Date ${Year}-${Month}-${Day} ${Hour}:${Minute}:${Second}
+
+=====================================================================================================================
+*/
 //=====================================================================================================================
 //
 // ideMobi copyright 2017 
