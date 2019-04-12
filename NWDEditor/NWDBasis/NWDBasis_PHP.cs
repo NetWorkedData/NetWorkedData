@@ -15,12 +15,26 @@ using SQLite4Unity3d;
 using BasicToolBox;
 using UnityEditor;
 using System.Text;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
+        //-------------------------------------------------------------------------------------------------------------
+        static K sFictive;
+        //-------------------------------------------------------------------------------------------------------------
+        public static K FictiveData()
+        {
+            if (sFictive == null)
+            {
+                sFictive = NewDataWithReference("FICTIVE");
+                sFictive.DeleteData();
+                //Debug.Log("Test Fictive Data : " + NWDToolbox.ExposeProperty(() => sFictive.Reference));
+            }
+            return sFictive;
+        }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_CreateErrorsAndMessages)]
         //public static void CreateAllError()

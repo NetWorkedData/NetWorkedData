@@ -83,6 +83,8 @@ namespace NetWorkedData
                 tObject.UpdateData();
             }
         }
+
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void New_FilterTableEditor()
         {
@@ -229,6 +231,7 @@ namespace NetWorkedData
             }
             SortEditorTableDatas();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void New_LoadFromDatabase()
         {

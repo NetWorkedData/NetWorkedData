@@ -567,6 +567,7 @@ namespace NetWorkedData
         {
             return Color.white;
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference)
         {
@@ -596,8 +597,8 @@ namespace NetWorkedData
         public virtual void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
         }
-            //-------------------------------------------------------------------------------------------------------------
-            public void Delete()
+        //-------------------------------------------------------------------------------------------------------------
+        public void Delete()
         {
             //this = null;
         }
@@ -606,7 +607,6 @@ namespace NetWorkedData
         {
             //Debug.Log("Destructor : " + Reference);
         }
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -8,16 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -32,7 +23,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual List<Type> New_OverrideClasseInThisSync()
         {
-            Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
+            //Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
             return new List<Type>() { ClassType };
         }
         //-------------------------------------------------------------------------------------------------------------
