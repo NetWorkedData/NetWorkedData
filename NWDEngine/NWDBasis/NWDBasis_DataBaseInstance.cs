@@ -70,11 +70,6 @@ namespace NetWorkedData
             Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void Initialization()
-        {
-            //Debug.Log("NWDBasis <K> virtual NWDBasis Initialization() inserted = " + NWDInserted.ToString());
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void NewNetWorkedData()
         {
             //Debug.Log("NWDBasis <K> NewNetWorkedData()");
@@ -232,7 +227,7 @@ namespace NetWorkedData
         /// <summary>
         /// Init the instance if it's necessary (not used by default).
         /// </summary>
-        public void InstanceInit()
+        public override void InstanceInit()
         {
             AC = true;
             DM = NWDToolbox.Timestamp();
@@ -362,31 +357,31 @@ namespace NetWorkedData
         /// <summary>
         /// Flushs the trash.
         /// </summary>
-        /// <param name="sObject">S object.</param>
-        public static void FlushTrash(NWDBasis<K> sObject)
-        {
-            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
-#if UNITY_EDITOR
-            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
-            {
-                //				Debug.Log (sObject.Reference + "Must be trashed!");
-                //				RemoveObjectInListOfEdition (sObject);
-                //				if (IsObjectInEdition (sObject)) {
-                //					SetObjectInEdition (null);
-                //				}
-                //				this.AddonDeleteMe();
-                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
-            }
-#else
-			if (sObject.XX > 0) 
-			{
-			    //Debug.Log (sObject.Reference + "Must be trashed!");
-    			//RemoveObjectInListOfEdition (sObject);
-                //sObject.AddonDeleteMe();
-                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
-			}
-#endif
-        }
+//        /// <param name="sObject">S object.</param>
+//        public static void FlushTrash(NWDTypeClass sObject)
+//        {
+//            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
+//#if UNITY_EDITOR
+//            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
+//            {
+//                //				Debug.Log (sObject.Reference + "Must be trashed!");
+//                //				RemoveObjectInListOfEdition (sObject);
+//                //				if (IsObjectInEdition (sObject)) {
+//                //					SetObjectInEdition (null);
+//                //				}
+//                //				this.AddonDeleteMe();
+//                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
+//            }
+//#else
+//			if (sObject.XX > 0) 
+//			{
+//			    //Debug.Log (sObject.Reference + "Must be trashed!");
+//    			//RemoveObjectInListOfEdition (sObject);
+//                //sObject.AddonDeleteMe();
+//                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
+//			}
+//#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Trashs the instance.
@@ -564,7 +559,7 @@ namespace NetWorkedData
         //    //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void WebserviceVersionCheckMe()
+        public override void WebserviceVersionCheckMe()
         {
             //Debug.Log("NWDBasis WebserviceVersionCheckMe()");
             // Find the good webservice version
@@ -581,7 +576,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool WebserviceVersionIsValid()
+        public override bool WebserviceVersionIsValid()
         {
             // Find the good webservice version
             //bool rReturn = true;

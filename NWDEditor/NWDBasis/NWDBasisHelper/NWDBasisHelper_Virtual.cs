@@ -5,6 +5,7 @@
 //
 //=====================================================================================================================
 
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,10 +15,7 @@ using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
 using BasicToolBox;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -26,38 +24,37 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const string SynchronizeKeyLastTimestamp = "last";
-        public const string SynchronizeKeyInWaitingTimestamp = "waiting";
-        //-------------------------------------------------------------------------------------------------------------
-        public string New_SynchronizationPrefsKey(NWDAppEnvironment sEnvironment)
+        public virtual void New_ErrorRegenerate()
         {
-            return ClassPrefBaseKey + SynchronizeKeyLastTimestamp;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
+        public virtual string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            NWDBasisPreferences.SetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, kAccountDependent);
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int New_SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
+        public virtual string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
-            int rReturn = sEnvironment.BuildTimestamp;
-            rReturn = NWDBasisPreferences.GetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
-            return rReturn;
-        //-------------------------------------------------------------------------------------------------------------
-        }
-        public void New_SynchronizationUpadteTimestamp()
-        {
-            Debug.Log(ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
-            New_SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
+        public virtual string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
         {
-            NWDBasisPreferences.SetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, kAccountDependent);
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        {
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

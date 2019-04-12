@@ -30,7 +30,7 @@ namespace NetWorkedData
     public class NWDReferenceSimple : BTBDataType
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
         public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
         {
             string rReturn = "NO";
@@ -49,7 +49,7 @@ namespace NetWorkedData
     public class NWDReferenceMultiple : BTBDataType
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
         public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
         {
             string rReturn = "NO";

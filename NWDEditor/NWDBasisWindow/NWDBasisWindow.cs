@@ -345,7 +345,11 @@ namespace NetWorkedData
                     //SetClassInEdition (tType);
                 }
                 mTabSelected = tTabSelected;
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
+
+                NWDBasisHelper.FindTypeInfos(tType).New_DrawInEditor(this, tAutoselect);
+
+
             }
 
         }

@@ -29,80 +29,6 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        // virtual method
-
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ErrorRegenerate()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
-        {
-            return string.Empty;
-        }//-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ClassInitialization()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual List<Type> New_OverrideClasseInThisSync()
-        {
-            Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
-            return new List<Type>() { ClassType };
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void New_ModelReset()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void New_ModelAnalyze()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void New_CreateErrorAndMessage()
-        {
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x01", "Error in " + ClassTableName, "error in request creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x02", "Error in " + ClassTableName, "error in request creation add primary key in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x03", "Error in " + ClassTableName, "error in request creation add autoincrement modify in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x05", "Error in " + ClassTableName, "error in sql index creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x07", "Error in " + ClassTableName, "error in sql defragment in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x08", "Error in " + ClassTableName, "error in sql drop in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x09", "Error in " + ClassTableName, "error in sql Flush in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x11", "Error in " + ClassTableName, "error in sql add columns in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x12", "Error in " + ClassTableName, "error in sql alter columns in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x31", "Error in " + ClassTableName, "error in request insert new datas before update in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x32", "Error in " + ClassTableName, "error in request select datas to update in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x33", "Error in " + ClassTableName, "error in request select updatable datas in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x38", "Error in " + ClassTableName, "error in request update datas in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x39", "Error in " + ClassTableName, "error more than one row for this reference in  " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x40", "Error in " + ClassTableName, "error in flush trashed in  " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x91", "Error in " + ClassTableName, "error update integrity in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x99", "Error in " + ClassTableName, "error columns number in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x88", "Error in " + ClassTableName, "integrity of one datas is false, break in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x77", "Error in " + ClassTableName, "error update log in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void New_DrawTypeInInspector()
         {
             if (SaltValid == false)
@@ -163,22 +89,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ReorderAllLocalization()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void New_RecalculateAllIntegrities()
-        {
-            foreach (NWDTypeClass tObject in Datas)
-            {
-                // update integrity value
-                tObject.UpdateIntegrity();
-                // force to write object in database
-                tObject.UpdateData();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
+
         //-------------------------------------------------------------------------------------------------------------
         // replace basis static method method
         //-------------------------------------------------------------------------------------------------------------
@@ -239,11 +150,6 @@ namespace NetWorkedData
         public K FictiveData()
         {
             return NWDBasis<K>.FictiveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
-        {
-            return NWDBasis<K>.CSV_IndexOf(sPropertyName, sWebBuilt);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> New_OverrideClasseInThisSync()
@@ -1751,12 +1657,12 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        public static Dictionary<string, string> EditorDatasMenu()
-        {
-            return BasisHelper().EditorDatasMenu;
-        }
-#endif
+//#if UNITY_EDITOR
+//        public static Dictionary<string, string> EditorDatasMenu()
+//        {
+//            return BasisHelper().EditorDatasMenu;
+//        }
+//#endif
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// News the get all datas. IT S A GLOBAL ACCESS!!!!

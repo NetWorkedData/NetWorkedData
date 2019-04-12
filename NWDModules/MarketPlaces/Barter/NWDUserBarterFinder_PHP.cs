@@ -50,9 +50,9 @@ namespace NetWorkedData
 
             int tIndex_tBarterStatus = NWDUserBarterRequest.CSV_IndexOf(tBarterStatus);
 
-            int tIndex_BarterRequestsList = CSV_IndexOf(t_THIS_BarterRequestsList);
-            int tIndex_BarterPlace = CSV_IndexOf(t_THIS_BarterPlace);
-            int tIndex_THIS_ForRelationshipOnly = CSV_IndexOf(t_THIS_ForRelationshipOnly);
+            int tIndex_BarterRequestsList = New_CSV_IndexOf(t_THIS_BarterRequestsList);
+            int tIndex_BarterPlace = New_CSV_IndexOf(t_THIS_BarterPlace);
+            int tIndex_THIS_ForRelationshipOnly = New_CSV_IndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 300; // minutes before stop to get the datas!
             string sScript = "" +

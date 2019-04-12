@@ -26,55 +26,55 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Lock Data
-        /// <summary>
-        /// The current state of the writing for this object.
-        /// </summary>
-        private NWDWritingState WritingState = NWDWritingState.Free;
-        /// <summary>
-        /// The writing lock counter. If lock is close the number is the number of lock!
-        /// </summary>
-        private int WritingLocksCounter = 0;
-        /// <summary>
-        /// The writing pending.
-        /// </summary>
-        private NWDWritingPending WritingPending = NWDWritingPending.Unknow;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDWritingPending DatabasePending()
-        {
-            return WritingPending;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Writing lock close once more.
-        /// </summary>
-        private void WritingLockAdd()
-        {
-            //BTBBenchmark.Start();
-            WritingLocksCounter++;
-            if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
-            {
-                NWDDataManager.SharedInstance().kDataInWriting.Add(this);
-            }
-            //BTBBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Writing lock open once. If lock =0 then the object can change writing mode.
-        /// </summary>
-        private void WritingLockRemove()
-        {
-            //BTBBenchmark.Start();
-            WritingLocksCounter--;
-            if (WritingLocksCounter == 0)
-            {
-                WritingState = NWDWritingState.Free;
-                if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
-                {
-                    NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
-                }
-            }
-            //BTBBenchmark.Finish();
-        }
+        ///// <summary>
+        ///// The current state of the writing for this object.
+        ///// </summary>
+        //private NWDWritingState WritingState = NWDWritingState.Free;
+        ///// <summary>
+        ///// The writing lock counter. If lock is close the number is the number of lock!
+        ///// </summary>
+        //private int WritingLocksCounter = 0;
+        ///// <summary>
+        ///// The writing pending.
+        ///// </summary>
+        //private NWDWritingPending WritingPending = NWDWritingPending.Unknow;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDWritingPending DatabasePending()
+        //{
+        //    return WritingPending;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// Writing lock close once more.
+        ///// </summary>
+        //private void WritingLockAdd()
+        //{
+        //    //BTBBenchmark.Start();
+        //    WritingLocksCounter++;
+        //    if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
+        //    {
+        //        NWDDataManager.SharedInstance().kDataInWriting.Add(this);
+        //    }
+        //    //BTBBenchmark.Finish();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// Writing lock open once. If lock =0 then the object can change writing mode.
+        ///// </summary>
+        //private void WritingLockRemove()
+        //{
+        //    //BTBBenchmark.Start();
+        //    WritingLocksCounter--;
+        //    if (WritingLocksCounter == 0)
+        //    {
+        //        WritingState = NWDWritingState.Free;
+        //        if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
+        //        {
+        //            NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
+        //        }
+        //    }
+        //    //BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion Lock Data
         #region New Data
@@ -92,6 +92,14 @@ namespace NetWorkedData
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
+        //static public T NewData<T>(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //BTBBenchmark.Start();
+        //    T rReturnObject = NewDataWithReference(null, true, sWritingMode) as T;
+        //    //BTBBenchmark.Finish();
+        //    return rReturnObject;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// New data with reference.
         /// </summary>
@@ -102,10 +110,10 @@ namespace NetWorkedData
         static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
-            NWDBasis<K> rReturnObject = null;
+            K rReturnObject = null;
             if (ClassType() != null)
             {
-                rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
+                rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
                 rReturnObject.InstanceInit();
                 if (sReference == null || sReference == string.Empty)
                 {
@@ -124,7 +132,7 @@ namespace NetWorkedData
                 Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
             }
             //BTBBenchmark.Finish();
-            return rReturnObject as K;
+            return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         private void PropertiesAutofill()
@@ -157,15 +165,20 @@ namespace NetWorkedData
         /// <returns>The data.</returns>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
+        public override NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            return DuplicateData(sAutoDate, sWritingMode) as NWDTypeClass;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public K DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
-            NWDBasis<K> rReturnObject = null;
+            K rReturnObject = null;
             if (TestIntegrity() == true)
             {
                 if (ClassType() != null)
                 {
-                    rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
+                    rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
                     rReturnObject.InstanceInit();
                     //rReturnObject.PropertiesAutofill();
                     rReturnObject.Initialization();
@@ -211,7 +224,7 @@ namespace NetWorkedData
                 }
             }
             //BTBBenchmark.Finish();
-            return rReturnObject as K;
+            return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -240,10 +253,10 @@ namespace NetWorkedData
         /// Copy the data.
         /// </summary>
         /// <param name="sOriginal">S original.</param>
-        public void CopyData(NWDBasis<K> sOriginal)
+        public void CopyData(NWDTypeClass sOriginal)
         {
             //BTBBenchmark.Start();
-            string[] tKey = SLQAssemblyOrderArray();
+            string[] tKey = BasisHelper().New_SLQAssemblyOrderArray();
             Type tType = ClassType();
             foreach (string tPropertyString in tKey)
             {
@@ -842,7 +855,7 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             this.AC = true;
@@ -851,7 +864,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             this.DD = NWDToolbox.Timestamp();
@@ -861,7 +874,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             int tTimestamp = NWDToolbox.Timestamp();
@@ -873,7 +886,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             this.XX = 0;

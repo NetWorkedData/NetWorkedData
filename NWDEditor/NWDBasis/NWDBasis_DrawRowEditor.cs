@@ -61,417 +61,417 @@ namespace NetWorkedData
         const int KAnalyzeStateModelError = 8;
         const int KAnalyzeStateCorrupted = 9;
 
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
+        //{
+        //    EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
+        //    //EditorGUI.DrawRect(sRect, Color.yellow);
+        //    //Rect ColorRect = new Rect(sRect.x + 2, sRect.y + 2, sRect.width - 4, sRect.height - 4);
+        //    //EditorGUI.DrawRect(ColorRect, Color.red);
+        //    sRect.x += NWDGUI.kFieldMarge;
+        //    sRect.width = sRect.width - NWDGUI.kScrollbar;
+
+        //    if (sRect.width < NWDGUI.KTableMinWidth)
+        //    {
+        //        sRect.width = NWDGUI.KTableMinWidth;
+        //    }
+        //    //EditorGUI.DrawRect(sRect, Color.blue);
+        //    Rect tRect = new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kTableSelectWidth, sRect.height - NWDGUI.kFieldMarge * 2);
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDGUI.KTableHeaderSelect))
+        //    {
+        //        //Debug.Log("sort by selected toggle");
+        //        // Update select in real time
+        //        foreach (NWDTypeClass tData in BasisHelper().Datas)
+        //        {
+        //            tData.AnalyzeSelected = BasisHelper().EditorTableDatasSelected[tData];
+        //        }
+        //        // toogle sort
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySelectAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySelectDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.kTableIDWidth;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
+        //    {
+        //        //Debug.Log("sort by ID toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByIDDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDGUI.KTableHeaderPrefab))
+        //    {
+        //        //Debug.Log("sort by prefab toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPrefabAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPrefabDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = sRect.width
+        //        - NWDGUI.kFieldMarge
+        //        - NWDGUI.kTableIDWidth
+        //        - NWDGUI.kTableSelectWidth
+        //        - NWDGUI.kTablePrefabWidth * sZoom
+        //        - NWDGUI.KTableSearchWidth
+        //        - NWDGUI.KTableReferenceWidth
+        //        - NWDGUI.KTableRowWebModelWidth
+        //        - NWDGUI.kTableIconWidth * 6;
+
+        //    if (tRect.width < NWDGUI.KTableSearchWidth)
+        //    {
+        //        tRect.width = NWDGUI.KTableSearchWidth;
+        //    }
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, NWDGUI.KTableHeaderInformations))
+        //    {
+        //        //Debug.Log("sort by internal key toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByInternalKeyAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByInternalKeyDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.KTableRowWebModelWidth;
+        //    if (GUI.Button(tRect, "webservice", NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by disk webservice");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.kTableIconWidth;
+        //    if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by disk checklist");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.kTableIconWidth;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DISK, NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by disk toggle ???");
+        //    }
+        //    tRect.x += tRect.width;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by synchro toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by dev sync toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by preprod sync toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO, NWDGUI.KTableHeaderIcon))
+        //    {
+        //        //Debug.Log("sort by prod sync toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.KTableSearchWidth;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_STATUT, NWDGUI.KTableHeaderStatut))
+        //    {
+        //        //Debug.Log("sort by statut toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //    tRect.x += tRect.width;
+        //    tRect.width = NWDGUI.KTableReferenceWidth;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_REFERENCE + " ", NWDGUI.KTableHeaderReference))
+        //    {
+        //        //Debug.Log("sort by reference toggle");
+        //        if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByReferenceAscendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceDescendant;
+        //        }
+        //        else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByReferenceDescendant)
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceAscendant;
+        //        }
+        //        else
+        //        {
+        //            BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceDescendant;
+        //        }
+        //        BasisHelper().SortEditorTableDatas();
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void DrawHeaderBottomInEditor(Rect sRect, Rect sScrollRect)
+        //{
+        //    EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
+        //    sRect.width = sRect.width - NWDGUI.kScrollbar;
+
+        //    if (sRect.width < NWDGUI.KTableMinWidth)
+        //    {
+        //        sRect.width = NWDGUI.KTableMinWidth;
+        //    }
+
+        //    Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge,
+        //         sRect.y + NWDGUI.kFieldMarge,
+        //         NWDGUI.KTableSearchWidth,
+        //         NWDGUI.KTableSearchToggle.fixedHeight);
+        //    // TODO MOVE THIS CAC
+        //    int tSelectionCount = 0;
+        //    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
+        //    {
+        //        if (tKeyValue.Value == true)
+        //        {
+        //            tSelectionCount++;
+        //        }
+        //    }
+        //    int t_ItemPerPageSelection = EditorGUI.Popup(tRect, BasisHelper().m_ItemPerPageSelection, BasisHelper().m_ItemPerPageOptions, NWDGUI.KTableSearchEnum);
+        //    if (t_ItemPerPageSelection != BasisHelper().m_ItemPerPageSelection)
+        //    {
+        //        BasisHelper().m_PageSelected = 0;
+        //    }
+        //    BasisHelper().m_ItemPerPageSelection = t_ItemPerPageSelection;
+        //    tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //    float tRowZoom = EditorGUI.Slider(tRect, BasisHelper().RowZoom, 1.0F, 2.0F);
+        //    if (System.Math.Abs(tRowZoom - BasisHelper().RowZoom) > 0.01F)
+        //    {
+        //        BasisHelper().RowZoom = tRowZoom;
+        //        BasisHelper().New_ChangeScroolPositionToSelection(sScrollRect);
+        //        //GUIUtility.ExitGUI();
+        //    }
+        //    tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //    // draw toogle enable
+        //    bool t_ShowEnableLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, BasisHelper().m_ShowEnable);
+        //    if (BasisHelper().m_ShowEnable != t_ShowEnableLine)
+        //    {
+        //        BasisHelper().m_ShowEnable = t_ShowEnableLine;
+        //        BasisHelper().New_FilterTableEditor();
+        //    }
+        //    tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //    // draw toogle disable
+        //    bool t_ShowDisableLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, BasisHelper().m_ShowDisable);
+        //    if (BasisHelper().m_ShowDisable != t_ShowDisableLine)
+        //    {
+        //        BasisHelper().m_ShowDisable = t_ShowDisableLine;
+        //        BasisHelper().New_FilterTableEditor();
+        //    }
+        //    tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //    // draw toogle trashed
+        //    EditorGUI.BeginDisabledGroup(!BasisHelper().m_ShowDisable);
+        //    bool t_ShowTrashedLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, BasisHelper().m_ShowTrashed);
+        //    if (BasisHelper().m_ShowTrashed != t_ShowTrashedLine)
+        //    {
+        //        BasisHelper().m_ShowTrashed = t_ShowTrashedLine;
+        //        BasisHelper().New_FilterTableEditor();
+        //    }
+        //    tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //    // draw toogle corrupted
+        //    EditorGUI.EndDisabledGroup();
+        //    bool t_ShowIntegrityErrorLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, BasisHelper().m_ShowIntegrityError);
+        //    if (BasisHelper().m_ShowIntegrityError != t_ShowIntegrityErrorLine)
+        //    {
+        //        BasisHelper().m_ShowIntegrityError = t_ShowIntegrityErrorLine;
+        //        BasisHelper().New_FilterTableEditor();
+        //    }
+        //    bool tShowMoreInfos = false;
+        //    if (tShowMoreInfos)
+        //    {
+        //        // draw objects in database
+        //        int tRealReference = BasisHelper().Datas.Count;
+        //        if (tRealReference == 0)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT, NWDGUI.KTableSearchLabel);
+        //        }
+        //        else if (tRealReference == 1)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDGUI.KTableSearchLabel);
+        //        }
+        //        else
+        //        {
+        //            GUI.Label(tRect, tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDGUI.KTableSearchLabel);
+        //        }
+        //        tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //        // draw objects in results
+        //        int tResultReference = BasisHelper().EditorTableDatas.Count;
+        //        if (tResultReference == 0)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
+        //        }
+        //        else if (tResultReference == 1)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
+        //        }
+        //        else
+        //        {
+        //            GUI.Label(tRect, tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDGUI.KTableSearchLabel);
+        //        }
+        //        tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //        // draw selection
+        //        if (tSelectionCount == 0)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+        //        }
+        //        else if (tSelectionCount == 1)
+        //        {
+        //            GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+        //        }
+        //        else
+        //        {
+        //            GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
+        //        }
+        //        tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
+        //    }
+        //    tRect.x = sRect.width - NWDGUI.KTableSearchWidth;
+        //    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_ADD_ROW, NWDGUI.KTableSearchButton))
+        //    {
+        //        K tNewObject = NWDBasis<K>.NewData();
+        //        if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
+        //        {
+        //            tNewObject.Tag = BasisHelper().m_SearchTag;
+        //            tNewObject.UpdateData();
+        //        }
+        //        BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
+        //        BasisHelper().New_SetObjectInEdition(tNewObject);
+        //        NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
-        {
-            EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
-            //EditorGUI.DrawRect(sRect, Color.yellow);
-            //Rect ColorRect = new Rect(sRect.x + 2, sRect.y + 2, sRect.width - 4, sRect.height - 4);
-            //EditorGUI.DrawRect(ColorRect, Color.red);
-            sRect.x += NWDGUI.kFieldMarge;
-            sRect.width = sRect.width - NWDGUI.kScrollbar;
-
-            if (sRect.width < NWDGUI.KTableMinWidth)
-            {
-                sRect.width = NWDGUI.KTableMinWidth;
-            }
-            //EditorGUI.DrawRect(sRect, Color.blue);
-            Rect tRect = new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kTableSelectWidth, sRect.height - NWDGUI.kFieldMarge * 2);
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDGUI.KTableHeaderSelect))
-            {
-                //Debug.Log("sort by selected toggle");
-                // Update select in real time
-                foreach (NWDTypeClass tData in BasisHelper().Datas)
-                {
-                    tData.AnalyzeSelected = BasisHelper().EditorTableDatasSelected[tData];
-                }
-                // toogle sort
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySelectAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySelectDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySelectDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.kTableIDWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
-            {
-                //Debug.Log("sort by ID toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByIDDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDGUI.KTableHeaderPrefab))
-            {
-                //Debug.Log("sort by prefab toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPrefabAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPrefabDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPrefabDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-            }
-            tRect.x += tRect.width;
-            tRect.width = sRect.width
-                - NWDGUI.kFieldMarge
-                - NWDGUI.kTableIDWidth
-                - NWDGUI.kTableSelectWidth
-                - NWDGUI.kTablePrefabWidth * sZoom
-                - NWDGUI.KTableSearchWidth
-                - NWDGUI.KTableReferenceWidth
-                - NWDGUI.KTableRowWebModelWidth
-                - NWDGUI.kTableIconWidth * 6;
-
-            if (tRect.width < NWDGUI.KTableSearchWidth)
-            {
-                tRect.width = NWDGUI.KTableSearchWidth;
-            }
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, NWDGUI.KTableHeaderInformations))
-            {
-                //Debug.Log("sort by internal key toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByInternalKeyAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByInternalKeyDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.KTableRowWebModelWidth;
-            if (GUI.Button(tRect, "webservice", NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by disk webservice");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByModelDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.kTableIconWidth;
-            if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by disk checklist");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByChecklistDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.kTableIconWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DISK, NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by disk toggle ???");
-            }
-            tRect.x += tRect.width;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by synchro toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.BySyncDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by dev sync toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByDevSyncDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by preprod sync toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByPreprodSyncDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO, NWDGUI.KTableHeaderIcon))
-            {
-                //Debug.Log("sort by prod sync toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByProdSyncDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.KTableSearchWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_STATUT, NWDGUI.KTableHeaderStatut))
-            {
-                //Debug.Log("sort by statut toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByStatutDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-            tRect.x += tRect.width;
-            tRect.width = NWDGUI.KTableReferenceWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_REFERENCE + " ", NWDGUI.KTableHeaderReference))
-            {
-                //Debug.Log("sort by reference toggle");
-                if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByReferenceAscendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceDescendant;
-                }
-                else if (BasisHelper().SortType == NWDBasisEditorDatasSortType.ByReferenceDescendant)
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceAscendant;
-                }
-                else
-                {
-                    BasisHelper().SortType = NWDBasisEditorDatasSortType.ByReferenceDescendant;
-                }
-                BasisHelper().SortEditorTableDatas();
-                ChangeScroolPositionToSelection(sScrollRect);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void DrawHeaderBottomInEditor(Rect sRect, Rect sScrollRect)
-        {
-            EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
-            sRect.width = sRect.width - NWDGUI.kScrollbar;
-
-            if (sRect.width < NWDGUI.KTableMinWidth)
-            {
-                sRect.width = NWDGUI.KTableMinWidth;
-            }
-
-            Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge,
-                 sRect.y + NWDGUI.kFieldMarge,
-                 NWDGUI.KTableSearchWidth,
-                 NWDGUI.KTableSearchToggle.fixedHeight);
-            // TODO MOVE THIS CAC
-            int tSelectionCount = 0;
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
-            {
-                if (tKeyValue.Value == true)
-                {
-                    tSelectionCount++;
-                }
-            }
-            int t_ItemPerPageSelection = EditorGUI.Popup(tRect, BasisHelper().m_ItemPerPageSelection, BasisHelper().m_ItemPerPageOptions, NWDGUI.KTableSearchEnum);
-            if (t_ItemPerPageSelection != BasisHelper().m_ItemPerPageSelection)
-            {
-                BasisHelper().m_PageSelected = 0;
-            }
-            BasisHelper().m_ItemPerPageSelection = t_ItemPerPageSelection;
-            tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            float tRowZoom = EditorGUI.Slider(tRect, BasisHelper().RowZoom, 1.0F, 2.0F);
-            if (System.Math.Abs(tRowZoom - BasisHelper().RowZoom) > 0.01F)
-            {
-                BasisHelper().RowZoom = tRowZoom;
-                ChangeScroolPositionToSelection(sScrollRect);
-                //GUIUtility.ExitGUI();
-            }
-            tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            // draw toogle enable
-            bool t_ShowEnableLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, BasisHelper().m_ShowEnable);
-            if (BasisHelper().m_ShowEnable != t_ShowEnableLine)
-            {
-                BasisHelper().m_ShowEnable = t_ShowEnableLine;
-                BasisHelper().New_FilterTableEditor();
-            }
-            tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            // draw toogle disable
-            bool t_ShowDisableLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, BasisHelper().m_ShowDisable);
-            if (BasisHelper().m_ShowDisable != t_ShowDisableLine)
-            {
-                BasisHelper().m_ShowDisable = t_ShowDisableLine;
-                BasisHelper().New_FilterTableEditor();
-            }
-            tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            // draw toogle trashed
-            EditorGUI.BeginDisabledGroup(!BasisHelper().m_ShowDisable);
-            bool t_ShowTrashedLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, BasisHelper().m_ShowTrashed);
-            if (BasisHelper().m_ShowTrashed != t_ShowTrashedLine)
-            {
-                BasisHelper().m_ShowTrashed = t_ShowTrashedLine;
-                BasisHelper().New_FilterTableEditor();
-            }
-            tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            // draw toogle corrupted
-            EditorGUI.EndDisabledGroup();
-            bool t_ShowIntegrityErrorLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, BasisHelper().m_ShowIntegrityError);
-            if (BasisHelper().m_ShowIntegrityError != t_ShowIntegrityErrorLine)
-            {
-                BasisHelper().m_ShowIntegrityError = t_ShowIntegrityErrorLine;
-                BasisHelper().New_FilterTableEditor();
-            }
-            bool tShowMoreInfos = false;
-            if (tShowMoreInfos)
-            {
-                // draw objects in database
-                int tRealReference = BasisHelper().Datas.Count;
-                if (tRealReference == 0)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else if (tRealReference == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else
-                {
-                    GUI.Label(tRect, tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDGUI.KTableSearchLabel);
-                }
-                tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-                // draw objects in results
-                int tResultReference = BasisHelper().EditorTableDatas.Count;
-                if (tResultReference == 0)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
-                }
-                else if (tResultReference == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDGUI.KTableSearchLabel);
-                }
-                else
-                {
-                    GUI.Label(tRect, tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDGUI.KTableSearchLabel);
-                }
-                tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-                // draw selection
-                if (tSelectionCount == 0)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else if (tSelectionCount == 1)
-                {
-                    GUI.Label(tRect, NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                else
-                {
-                    GUI.Label(tRect, tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDGUI.KTableSearchLabel);
-                }
-                tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
-            }
-            tRect.x = sRect.width - NWDGUI.KTableSearchWidth;
-            if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_ADD_ROW, NWDGUI.KTableSearchButton))
-            {
-                K tNewObject = NWDBasis<K>.NewData();
-                if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
-                {
-                    tNewObject.Tag = BasisHelper().m_SearchTag;
-                    tNewObject.UpdateData();
-                }
-                BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
-                BasisHelper().New_SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void RowAnalyze()
+        public override void RowAnalyze()
         {
             //Debug.Log("RowAnalyze");
             AnalyzeID = ID;
@@ -808,7 +808,7 @@ namespace NetWorkedData
         //    return rRect;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
+        public override Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
         {
             Rect tRectRow = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom, sRectRow.width, NWDGUI.kTableRowHeight * sZoom);
             Rect tRectRowLineWhite = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom +1, sRectRow.width, 1);

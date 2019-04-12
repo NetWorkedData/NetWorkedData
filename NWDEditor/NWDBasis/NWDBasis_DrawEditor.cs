@@ -22,6 +22,7 @@ namespace NetWorkedData
         protected Texture2D PreviewTexture;
         protected UnityEngine.Object PreviewObject = null;
         protected bool PreviewTextureIsLoaded = false;
+        Editor gameObjectEditor;
         ////-------------------------------------------------------------------------------------------------------------
         //public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         //{
@@ -233,8 +234,6 @@ namespace NetWorkedData
             Rect tFinalRect = new Rect(sInRect.position.x, tY, sInRect.width, tY - sInRect.position.y);
             return tFinalRect;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        Editor gameObjectEditor;
         //-------------------------------------------------------------------------------------------------------------
         public override void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
@@ -897,7 +896,7 @@ namespace NetWorkedData
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
                 //K tNexObject = (K)DuplicateMe();
-                NWDBasis<K> tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
+                NWDTypeClass tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tNexObject);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
@@ -1011,7 +1010,7 @@ namespace NetWorkedData
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
                             BasisHelper().New_SetObjectInEdition(tNextSelected);
-                            ChangeScroolPositionToSelection();
+                            BasisHelper().New_ChangeScroolPositionToSelection();
                             Event.current.Use();
                         }
                     }
@@ -1032,7 +1031,7 @@ namespace NetWorkedData
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
                             BasisHelper().New_SetObjectInEdition(tNextSelected);
-                            ChangeScroolPositionToSelection();
+                            BasisHelper().New_ChangeScroolPositionToSelection();
                             Event.current.Use();
                         }
                     }
@@ -1053,7 +1052,7 @@ namespace NetWorkedData
                     {
                         K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
                         BasisHelper().New_SetObjectInEdition(tNextSelected);
-                        ChangeScroolPositionToSelection();
+                        BasisHelper().New_ChangeScroolPositionToSelection();
                         Event.current.Use();
                     }
                 }
@@ -1068,7 +1067,7 @@ namespace NetWorkedData
                     BasisHelper().m_PageSelected--;
                     K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
                     BasisHelper().New_SetObjectInEdition(tNextSelected);
-                    ChangeScroolPositionToSelection();
+                    BasisHelper().New_ChangeScroolPositionToSelection();
                     Event.current.Use();
                 }
                 else

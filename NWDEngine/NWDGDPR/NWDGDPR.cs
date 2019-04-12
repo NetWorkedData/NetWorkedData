@@ -21,7 +21,7 @@ namespace NetWorkedData
             Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = string.Empty;
             Type tType = ClassType();
-            List<string> tPropertiesList = PropertiesOrderArray();
+            List<string> tPropertiesList = BasisHelper().New_PropertiesOrderArray();
 
             tPropertiesList.Remove("Integrity");
             tPropertiesList.Remove("Reference");
