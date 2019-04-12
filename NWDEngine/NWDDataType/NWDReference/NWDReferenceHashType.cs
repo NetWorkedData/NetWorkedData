@@ -157,8 +157,8 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public K[] EditorGetObjects()
+        //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
+        public override object[] EditorGetObjects()
         {
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)

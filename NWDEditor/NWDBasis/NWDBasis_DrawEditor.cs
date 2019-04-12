@@ -861,7 +861,7 @@ namespace NetWorkedData
                 if (GUI.Button(new Rect(tX, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "UnloadMe", NWDGUI.kMiniButtonStyle))
                 {
                     BasisHelper().New_SetObjectInEdition(null);
-                    UnloadDataByReference(this.Reference);
+                    BasisHelper().New_UnloadDataByReference(this.Reference);
                 }
                 if (GUI.Button(new Rect(tX + tButtonWidth + NWDGUI.kFieldMarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "ReloadMe", NWDGUI.kMiniButtonStyle))
                 {

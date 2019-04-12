@@ -29,72 +29,6 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void New_DrawTypeInInspector()
-        {
-            if (SaltValid == false)
-            {
-                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
-            }
-            EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_DESCRIPTION, EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox(ClassDescription, MessageType.Info);
-            if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true)
-            {
-                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_DEV, EditorStyles.boldLabel);
-            }
-            if (NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected == true)
-            {
-                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_PREPROD, EditorStyles.boldLabel);
-            }
-            if (NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected == true)
-            {
-                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_PROD, EditorStyles.boldLabel);
-            }
-            GUIStyle tStyle = EditorStyles.foldout;
-            FontStyle tPreviousStyle = tStyle.fontStyle;
-            tStyle.fontStyle = FontStyle.Bold;
-            mSettingsShowing = EditorGUILayout.Foldout(mSettingsShowing, NWDConstants.K_APP_BASIS_CLASS_WARNING_ZONE, tStyle);
-            tStyle.fontStyle = tPreviousStyle;
-            if (mSettingsShowing == true)
-            {
-                EditorGUILayout.HelpBox(NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
-
-                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton))
-                {
-                    New_ResetTable();
-                }
-                GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, SaltStart);
-                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton))
-                {
-                    GUI.FocusControl(null);
-                    SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-                    New_RecalculateAllIntegrities();
-                }
-                GUILayout.EndHorizontal();
-                GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_SECOND_SALT, SaltEnd);
-                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton))
-                {
-                    GUI.FocusControl(null);
-                    SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-                    New_RecalculateAllIntegrities();
-                }
-                GUILayout.EndHorizontal();
-
-                if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, EditorStyles.miniButton))
-                {
-                    GUI.FocusControl(null);
-                    New_RecalculateAllIntegrities();
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-
-        //-------------------------------------------------------------------------------------------------------------
-        // replace basis static method method
-        //-------------------------------------------------------------------------------------------------------------
-
-        //-------------------------------------------------------------------------------------------------------------
         public void New_IndexAll()
         {
             foreach (NWDTypeClass tObject in Datas)
@@ -147,10 +81,12 @@ namespace NetWorkedData
     public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public K FictiveData()
         {
             return NWDBasis<K>.FictiveData();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> New_OverrideClasseInThisSync()
         {
@@ -2039,23 +1975,23 @@ namespace NetWorkedData
         //    //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void UnloadDataByReference(string sReference)
-        {
-            //Debug.Log("UnloadDataByReference(" + sReference + ")");
-            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
-            tTypeInfos = BasisHelper();
-            if (tTypeInfos.DatasByReference.ContainsKey(sReference))
-            {
-                NWDTypeClass tData = tTypeInfos.DatasByReference[sReference];
-                tData.Desindex(); // call override method
-                tTypeInfos.RemoveData(tData);
-                tData.Delete();
-            }
-#if UNITY_EDITOR
-            BasisHelper().New_FilterTableEditor();
-            BasisHelper().New_RepaintTableEditor();
-#endif
-        }
+//        public static void UnloadDataByReference(string sReference)
+//        {
+//            //Debug.Log("UnloadDataByReference(" + sReference + ")");
+//            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+//            tTypeInfos = BasisHelper();
+//            if (tTypeInfos.DatasByReference.ContainsKey(sReference))
+//            {
+//                NWDTypeClass tData = tTypeInfos.DatasByReference[sReference];
+//                tData.Desindex(); // call override method
+//                tTypeInfos.RemoveData(tData);
+//                tData.Delete();
+//            }
+//#if UNITY_EDITOR
+//            BasisHelper().New_FilterTableEditor();
+//            BasisHelper().New_RepaintTableEditor();
+//#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static K LoadDataByReference(string sReference)
         {

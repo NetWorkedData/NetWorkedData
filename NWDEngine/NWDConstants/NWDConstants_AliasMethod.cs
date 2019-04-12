@@ -61,7 +61,7 @@ namespace NetWorkedData
         //public const string M_IndexAll = "M_IndexAll";
         //public const string M_Informations= "M_Informations";
         //public const string M_TryToChangeUserForAllObjects= "M_TryToChangeUserForAllObjects";
-        public const string M_SynchronizationPullData= "M_SynchronizationPullData";
+        //public const string M_SynchronizationPullData= "M_SynchronizationPullData";
         //public const string M_SynchronizationPushData= "M_SynchronizationPushData";
         //public const string M_CheckoutPushData= "M_CheckoutPushData";
         //public const string M_DeleteUser= "M_DeleteUser";

@@ -18,12 +18,14 @@ namespace NetWorkedData
     public partial class NWDExampleHelper : NWDHelper<NWDExample>
     {
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public override void New_ErrorRegenerate()
         {
             NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "01", "your error 01", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "02", "your error 02", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
             NWDMessage.CreateGenericMessage(ClassNamePHP, ClassTrigramme + "01", "your message 01", "your description", "OK", "Cancel", NWDMessageType.InGame, NWDBasisTag.TagInternal);
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public override void New_ClassInitialization()
         {

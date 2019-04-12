@@ -25,6 +25,8 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
+
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
@@ -97,6 +99,7 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void New_DeleteUser(NWDAppEnvironment sEnvironment)
         {

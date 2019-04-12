@@ -118,15 +118,28 @@ namespace NetWorkedData
                                         if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
                                         {
                                             // TODO : Change to remove invoke!
-                                            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_EditorGetObjects);
-                                            //var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                                            if (tMethodInfo != null)
-                                            {
+                                            //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_EditorGetObjects);
+                                            ////var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                            //if (tMethodInfo != null)
+                                            //{
                                                 var tVar = tProp.GetValue(this, null);
                                                 if (tVar != null)
                                                 {
-                                                    object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
-                                                    bool tButtonAdd = true;
+                                                //object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
+
+                                                object[] tObjects = new object[]{null};
+                                                if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+                                                {
+                                                    NWDReferenceSimple tTTVar = tVar as NWDReferenceSimple;
+                                                    tObjects = tTTVar.EditorGetObjects();
+                                                }
+
+                                                if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                                                {
+                                                    NWDReferenceMultiple tTTVar = tVar as NWDReferenceMultiple;
+                                                    tObjects = tTTVar.EditorGetObjects();
+                                                }
+                                                bool tButtonAdd = true;
                                                     int tObjectCounter = 0;
                                                     foreach (object tObj in tObjects)
                                                     {
@@ -170,7 +183,7 @@ namespace NetWorkedData
                                                         tNewCard.Analyze(sCard.ParentDocument);
                                                     }
                                                 }
-                                            }
+                                            //}
                                         }
                                         else
                                         {
