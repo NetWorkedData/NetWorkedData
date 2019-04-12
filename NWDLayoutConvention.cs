@@ -1,10 +1,13 @@
 ﻿// =====================================================================================================================
 //
-//  ideMobi copyright 2019
-//  All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-//  Author Kortex (Jean-François CONTART) jfcontart@idemobi.com
-//  Date 2019 4 12 18:5:10
+//  Date		2019-4-12 18:19:58
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 // =====================================================================================================================
 
@@ -37,12 +40,14 @@
 /* 
 =====================================================================================================================
 
- ideMobi copyright ${Year}
- All rights reserved by ideMobi
+ ideMobi ${Year}©
 
+ Date   ${Year}-${Month}-${Day} ${Hour}:${Minute}:${Second}
  Author ${AuthorName} 
- Email ${AuthorEmail}
- Date ${Year}-${Month}-${Day} ${Hour}:${Minute}:${Second}
+ Email  ${AuthorEmail}
+ Project    NetWorkedData for Unity3D
+
+ All rights reserved by ideMobi
 
 =====================================================================================================================
 */

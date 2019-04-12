@@ -1,10 +1,13 @@
 ﻿// =====================================================================================================================
 //
-//  ideMobi copyright 2019
-//  All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-//  Author Kortex (Jean-François CONTART) jfcontart@idemobi.com
-//  Date 2019 4 12 18:3:29
+//  Date		2019-4-12 18:20:11
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 // =====================================================================================================================
 #if UNITY_EDITOR

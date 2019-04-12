@@ -1,11 +1,15 @@
-﻿//=====================================================================================================================
+﻿// =====================================================================================================================
 //
-// ideMobi copyright 2019 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:26:45
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
 //
-//=====================================================================================================================
+//  All rights reserved by ideMobi
+//
+// =====================================================================================================================
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
