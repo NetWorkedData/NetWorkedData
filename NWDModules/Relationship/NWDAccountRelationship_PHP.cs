@@ -53,17 +53,17 @@ public partial class NWDAccountRelationshipHelper : NWDHelper<NWDAccountRelation
             //string tAccount = FindAliasName("Account");
             //string tFriendUserRelationShip = FindAliasName("FriendUserRelationShip");
 
-            int t_Index_RelationStatus = CSV_IndexOf(tRelationStatus);
-            int t_Index_RelationPlace = CSV_IndexOf(tRelationPlace);
-            int t_Index_RelationshipHash = CSV_IndexOf(tRelationshipHash);
-            int t_Index_RelationshipCode = CSV_IndexOf(tRelationshipCode);
-            int t_Index_LimitDayTime = CSV_IndexOf(tLimitDayTime);
-            int t_Index_FriendLastSynchronization = CSV_IndexOf(tFriendLastSynchronization);
+            int t_Index_RelationStatus = New_CSV_IndexOf(tRelationStatus);
+            int t_Index_RelationPlace = New_CSV_IndexOf(tRelationPlace);
+            int t_Index_RelationshipHash = New_CSV_IndexOf(tRelationshipHash);
+            int t_Index_RelationshipCode = New_CSV_IndexOf(tRelationshipCode);
+            int t_Index_LimitDayTime = New_CSV_IndexOf(tLimitDayTime);
+            int t_Index_FriendLastSynchronization = New_CSV_IndexOf(tFriendLastSynchronization);
 
-            int t_Index_FriendAccount = CSV_IndexOf(tFriendAccount);
+            int t_Index_FriendAccount = New_CSV_IndexOf(tFriendAccount);
 
-            int t_Index_Account = CSV_IndexOf(tAccount);
-            int t_Index_FriendUserRelationShip = CSV_IndexOf(tFriendUserRelationShip);
+            int t_Index_Account = New_CSV_IndexOf(tAccount);
+            int t_Index_FriendUserRelationShip = New_CSV_IndexOf(tFriendUserRelationShip);
 
             string tCodeLenght = NWDToolbox.PropertyName(() => NWDRelationshipPlace.FictiveData().CodeLenght);
 

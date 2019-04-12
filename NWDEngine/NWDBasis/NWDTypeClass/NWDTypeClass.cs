@@ -179,6 +179,79 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The current state of the writing for this object.
+        /// </summary>
+        public NWDWritingState WritingState = NWDWritingState.Free;
+        /// <summary>
+        /// The writing lock counter. If lock is close the number is the number of lock!
+        /// </summary>
+        private int WritingLocksCounter = 0;
+        /// <summary>
+        /// The writing pending.
+        /// </summary>
+        public NWDWritingPending WritingPending = NWDWritingPending.Unknow;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDWritingPending DatabasePending()
+        {
+            return WritingPending;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Writing lock close once more.
+        /// </summary>
+        public void WritingLockAdd()
+        {
+            //BTBBenchmark.Start();
+            WritingLocksCounter++;
+            if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
+            {
+                NWDDataManager.SharedInstance().kDataInWriting.Add(this);
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Writing lock open once. If lock =0 then the object can change writing mode.
+        /// </summary>
+        public void WritingLockRemove()
+        {
+            //BTBBenchmark.Start();
+            WritingLocksCounter--;
+            if (WritingLocksCounter == 0)
+            {
+                WritingState = NWDWritingState.Free;
+                if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
+                {
+                    NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
+                }
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void InstanceInit()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void Initialization()
+        {
+            // for developper
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string NewReference()
+        {
+            return "ERROR";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void WebserviceVersionCheckMe()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool WebserviceVersionIsValid()
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public virtual string InternalKeyValue()
         //{
         //    return string.Empty;
@@ -265,6 +338,24 @@ namespace NetWorkedData
             return Rect.zero;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void RowAnalyze()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            return null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual float New_DrawObjectInspectorHeight()
         {
             return 0;
@@ -274,9 +365,22 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
             return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
+        {
+            return Rect.zero;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool VisibleByGameSave(string sGameSaveReference)
@@ -336,27 +440,58 @@ namespace NetWorkedData
         public virtual void ErrorCheck()
         {
         }
-        //------------------------------------------------------------------------------------------------------------- 
-        //public virtual bool EnableState()
-        //{
-        //    return true;
-        //}
         //-------------------------------------------------------------------------------------------------------------
-        //public virtual bool ReachableState()
-        //{
-        //    return true;
-        //}
+        public virtual bool IsSynchronized()
+        {
+            int tD = 0;
+            if (NWDAppConfiguration.SharedInstance().IsDevEnvironement())
+            {
+                tD = DevSync;
+            }
+            else if (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement())
+            {
+                tD = PreprodSync;
+            }
+            else if (NWDAppConfiguration.SharedInstance().IsProdEnvironement())
+            {
+                tD = ProdSync;
+            }
+
+            if (tD > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-        //public virtual bool InGameSaveState()
-        //{
-        //    return true;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public virtual void SetCurrentGameSave()
-        //{
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public string DatasMenu()
+        public virtual int WebModelToUse()
+        {
+            return 0;
+        }
+            //------------------------------------------------------------------------------------------------------------- 
+            //public virtual bool EnableState()
+            //{
+            //    return true;
+            //}
+            //-------------------------------------------------------------------------------------------------------------
+            //public virtual bool ReachableState()
+            //{
+            //    return true;
+            //}
+            //-------------------------------------------------------------------------------------------------------------
+            //public virtual bool InGameSaveState()
+            //{
+            //    return true;
+            //}
+            //-------------------------------------------------------------------------------------------------------------
+            //public virtual void SetCurrentGameSave()
+            //{
+            //}
+            //-------------------------------------------------------------------------------------------------------------
+            public string DatasMenu()
         {
             string rReturn = InternalKey + " <" + Reference + ">";
             rReturn = rReturn.Replace("/", " ");
@@ -433,7 +568,36 @@ namespace NetWorkedData
             return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Delete()
+        public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ChangeUser(string sOldUser, string sNewUser)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool IsLockedObject()
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string CSVAssembly()
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
+                                      string[] sDataArray,
+                                      NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        {
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            public void Delete()
         {
             //this = null;
         }

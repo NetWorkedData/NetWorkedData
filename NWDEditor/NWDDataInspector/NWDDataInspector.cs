@@ -169,7 +169,7 @@ namespace NetWorkedData
             //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static object ObjectInEdition()
+        public static NWDTypeClass ObjectInEdition()
         {
             return ShareInstance().mObjectInEdition;
         }

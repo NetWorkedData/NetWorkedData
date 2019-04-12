@@ -255,7 +255,8 @@ namespace NetWorkedData
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset " + tType.Name + " model", tOperation / tCountClass);
                 tOperation++;
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ModelReset);
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ModelReset); 
+                NWDBasisHelper.FindTypeInfos(tType).New_DeleteOldsModels();
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();

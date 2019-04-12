@@ -28,13 +28,13 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
             //         string t_THIS_TradeStatus = FindAliasName("TradeStatus");
             //string t_THIS_TradeHash = FindAliasName("TradeHash");
             //string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
-            int t_THIS_Index_TradeStatus = CSV_IndexOf(t_THIS_TradeStatus);
-			int t_THIS_Index_TradeHash = CSV_IndexOf(t_THIS_TradeHash);
-			int t_THIS_Index_WinnerProposition = CSV_IndexOf(t_THIS_WinnerProposition);
+            int t_THIS_Index_TradeStatus = New_CSV_IndexOf(t_THIS_TradeStatus);
+			int t_THIS_Index_TradeHash = New_CSV_IndexOf(t_THIS_TradeHash);
+			int t_THIS_Index_WinnerProposition = New_CSV_IndexOf(t_THIS_WinnerProposition);
 			//string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
-			int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
+			int t_THIS_Index_ItemsProposed = New_CSV_IndexOf(t_THIS_ItemsProposed);
 			//string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
-			int t_THIS_Index_ItemsAsked = CSV_IndexOf(t_THIS_ItemsAsked);
+			int t_THIS_Index_ItemsAsked = New_CSV_IndexOf(t_THIS_ItemsAsked);
 			string sScript = "" +
 				"// start Addon \n" +
 				// get the actual state

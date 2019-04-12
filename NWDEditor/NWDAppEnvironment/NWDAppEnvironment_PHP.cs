@@ -125,15 +125,20 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
                 EditorUtility.DisplayProgressBar(tTitle, "Create " + tType.Name + " files", tOperation++ / tCountClass);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_BasisCreatePHP);
-                if (tMethodInfo != null)
-                {
-                    Dictionary<string, string> tResult = (Dictionary<string, string>)tMethodInfo.Invoke(null, new object[] { this, true });
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_BasisCreatePHP);
+                //if (tMethodInfo != null)
+                //{
+                //    Dictionary<string, string> tResult = (Dictionary<string, string>)tMethodInfo.Invoke(null, new object[] { this, true });
+                //    foreach (KeyValuePair<string, string> tKeyValue in tResult)
+                //    {
+                //        tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
+                //    }
+                //}
+                    Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).New_CreatePHP(this, true);
                     foreach (KeyValuePair<string, string> tKeyValue in tResult)
                     {
                         tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
                     }
-                }
                 if (sWriteOnDisk == true)
                 {
                     EditorUtility.DisplayProgressBar(tTitle, "Writing " + tType.Name + " files on disk", tOperation++ / tCountClass);

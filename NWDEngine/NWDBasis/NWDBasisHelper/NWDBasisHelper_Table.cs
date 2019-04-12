@@ -267,6 +267,22 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void New_UnloadDataByReference(string sReference)
+        {
+            //Debug.Log("UnloadDataByReference(" + sReference + ")");
+            if (DatasByReference.ContainsKey(sReference))
+            {
+                NWDTypeClass tData = DatasByReference[sReference];
+                tData.Desindex(); // call override method
+                RemoveData(tData);
+                tData.Delete();
+            }
+#if UNITY_EDITOR
+            New_FilterTableEditor();
+            New_RepaintTableEditor();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void New_ResetTable()
         {
             NWDDataManager.SharedInstance().ResetTable(ClassType, kAccountDependent);

@@ -113,20 +113,20 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] TrashAllObjects(string sAccountReference = null)
-        {
-            List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.FindDatas(sAccountReference))
-            {
-                tObject.TrashData();
-                rReturn.Add(tObject);
-            }
-#if UNITY_EDITOR
-            BasisHelper().New_RepaintTableEditor();
-            BasisHelper().New_RepaintInspectorEditor();
-#endif
-            return rReturn.ToArray();
-        }
+//        public static K[] TrashAllObjects(string sAccountReference = null)
+//        {
+//            List<K> rReturn = new List<K>();
+//            foreach (K tObject in NWDBasis<K>.FindDatas(sAccountReference))
+//            {
+//                tObject.TrashData();
+//                rReturn.Add(tObject);
+//            }
+//#if UNITY_EDITOR
+//            BasisHelper().New_RepaintTableEditor();
+//            BasisHelper().New_RepaintInspectorEditor();
+//#endif
+        //    return rReturn.ToArray();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public static K GetObjectByReference(string sReference, string sAccountReference = null)
         //{

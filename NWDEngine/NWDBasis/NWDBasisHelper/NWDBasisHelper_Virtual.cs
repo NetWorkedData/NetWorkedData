@@ -26,7 +26,15 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-
+        public virtual void New_ClassInitialization()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual List<Type> New_OverrideClasseInThisSync()
+        {
+            Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
+            return new List<Type>() { ClassType };
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

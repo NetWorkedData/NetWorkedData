@@ -177,6 +177,7 @@ namespace NetWorkedData
             return rHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
+        //TODO : REMOVE?!!
         public static string ClassID()
         {
             string tReturn = typeof(K).Name;
@@ -808,7 +809,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsLockedObject() // return true during the player game
+        public override bool IsLockedObject() // return true during the player game
         {
             return BasisHelper().kLockedObject;
         }

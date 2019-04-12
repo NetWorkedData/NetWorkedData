@@ -36,7 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public const string M_ApplyAllModifications = "ApplyAllModifications";
         //-------------------------------------------------------------------------------------------------------------
-        public const string M_DrawInEditor = "DrawInEditor";
+        //public const string M_DrawInEditor = "DrawInEditor";
         //-------------------------------------------------------------------------------------------------------------
         //public const string M_RestaureConfigurations = "M_RestaureConfigurations";
         //public const string M_PrepareToProdPublish = "M_PrepareToProdPublish";
@@ -44,8 +44,8 @@ namespace NetWorkedData
         //public const string M_DrawTypeInInspector = "M_DrawTypeInInspector";
         //public const string M_DrawObjectEditor = "M_DrawObjectEditor";
         public const string M_EditorGetObjects = "M_EditorGetObjects";
-        public const string M_ChangeReferenceForAnotherInAllObjects = "M_ChangeReferenceForAnotherInAllObjects";
-        public const string M_ChangeReferenceForAnother = "M_ChangeReferenceForAnother";
+        //public const string M_ChangeReferenceForAnotherInAllObjects = "M_ChangeReferenceForAnotherInAllObjects";
+        //public const string M_ChangeReferenceForAnother = "M_ChangeReferenceForAnother";
         //public const string M_ReferenceConnectionHeightSerializedString = "M_ReferenceConnectionHeightSerializedString";
         //public const string M_ReferenceConnectionFieldSerialized= "M_ReferenceConnectionFieldSerialized";
         //public const string M_ReOrderAllLocalizations= "M_ReOrderAllLocalizations";
@@ -60,9 +60,9 @@ namespace NetWorkedData
         //public const string M_LoadFromDatabase= "M_LoadFromDatabase";
         //public const string M_IndexAll = "M_IndexAll";
         //public const string M_Informations= "M_Informations";
-        public const string M_TryToChangeUserForAllObjects= "M_TryToChangeUserForAllObjects";
+        //public const string M_TryToChangeUserForAllObjects= "M_TryToChangeUserForAllObjects";
         public const string M_SynchronizationPullData= "M_SynchronizationPullData";
-        public const string M_SynchronizationPushData= "M_SynchronizationPushData";
+        //public const string M_SynchronizationPushData= "M_SynchronizationPushData";
         //public const string M_CheckoutPushData= "M_CheckoutPushData";
         //public const string M_DeleteUser= "M_DeleteUser";
         //public const string M_UpdateMe= "M_UpdateMe";
@@ -75,15 +75,15 @@ namespace NetWorkedData
         //public const string M_ImportAllLocalizations = "M_ImportAllLocalizations";
         //public const string M_RestaureObjectInEdition = "M_RestaureObjectInEdition";
         //public const string M_CreateErrorsAndMessages = "M_CreateAllError";
-        public const string M_ModelReset = "M_ModelReset";
+        //public const string M_ModelReset = "M_ModelReset";
         //public const string M_CreateAllPHP = "M_CreateAllPHP";
-        public const string M_BasisCreatePHP = "M_BasisCreatePHP";
+        //public const string M_BasisCreatePHP = "M_BasisCreatePHP";
         //public const string M_NodeCardAnalyze = "M_NodeCardAnalyze";
         //public const string M_AddOnNodeDraw = "M_AddOnNodeDraw";
         //public const string M_AddOnNodePropertyDraw = "M_AddOnNodePropertyDraw";
         //public const string M_EditorAddNewObject = "M_EditorAddNewObject";
         //public const string M_PathOfPackage = "M_PathOfPackage";
-        public const string M_ModelAnalyze = "M_ModelAnalyze";
+        //public const string M_ModelAnalyze = "M_ModelAnalyze";
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }

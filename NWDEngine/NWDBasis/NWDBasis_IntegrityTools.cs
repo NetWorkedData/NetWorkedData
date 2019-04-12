@@ -31,45 +31,45 @@ namespace NetWorkedData
     {
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Determines hash sum of specified strToEncrypt.
-        /// </summary>
-        /// <returns>Integrity value</returns>
-        /// <param name="strToEncrypt">String to encrypt.</param>
-        public static string HashSum(string strToEncrypt)
-        {
-            // force to utf-8
-            System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
-            byte[] bytes = ue.GetBytes(strToEncrypt);
-            // encrypt bytes
-            System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            byte[] hashBytes = md5.ComputeHash(bytes);
-            // Convert the encrypted bytes back to a string (base 16)
-            string hashString = string.Empty;
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
-            }
-            // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
-            hashString = hashString.Replace(NWDConstants.kStandardSeparator, string.Empty);
-            // return value
-            return hashString.PadLeft(24, '0');
-        }
+        ///// <summary>
+        ///// Determines hash sum of specified strToEncrypt.
+        ///// </summary>
+        ///// <returns>Integrity value</returns>
+        ///// <param name="strToEncrypt">String to encrypt.</param>
+        //public static string HashSum(string strToEncrypt)
+        //{
+        //    // force to utf-8
+        //    System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
+        //    byte[] bytes = ue.GetBytes(strToEncrypt);
+        //    // encrypt bytes
+        //    System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+        //    byte[] hashBytes = md5.ComputeHash(bytes);
+        //    // Convert the encrypted bytes back to a string (base 16)
+        //    string hashString = string.Empty;
+        //    for (int i = 0; i < hashBytes.Length; i++)
+        //    {
+        //        hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
+        //    }
+        //    // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
+        //    hashString = hashString.Replace(NWDConstants.kStandardSeparator, string.Empty);
+        //    // return value
+        //    return hashString.PadLeft(24, '0');
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Recalculates all integrities for all objects in ObjectsList.
         /// </summary>
-        public static void RecalculateAllIntegrities()
-        {
-            //loop
-            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
-            {
-                // update integrity value
-                tObject.UpdateIntegrity();
-                // force to write object in database
-                tObject.UpdateData();
-            }
-        }
+        //public static void RecalculateAllIntegrities()
+        //{
+        //    //loop
+        //    foreach (NWDBasis<K> tObject in BasisHelper().Datas)
+        //    {
+        //        // update integrity value
+        //        tObject.UpdateIntegrity();
+        //        // force to write object in database
+        //        tObject.UpdateData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region Instance Methods
@@ -79,7 +79,7 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> NotNullChecker()");
             Type tType = ClassType();
             //List<string> tPropertiesList = PropertiesOrderArray();
-            List<string> tPropertiesList = SLQIntegrityOrder();
+            List<string> tPropertiesList = BasisHelper().New_SLQIntegrityOrder();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -229,7 +229,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            return HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            return BasisHelper().New_HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

@@ -132,6 +132,7 @@ namespace NetWorkedData
                 rReturn.ForceSync = sForceSync;
                 rReturn.Special = sSpecial;
                 rReturn.SecureData = sEnvironment.AllwaysSecureData;
+                // TODO : Mettre dans le helper!!!!
                 foreach (Type tType in sTypeList)
                 {
                     if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)

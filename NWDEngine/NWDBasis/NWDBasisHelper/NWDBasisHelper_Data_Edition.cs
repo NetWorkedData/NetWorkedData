@@ -124,6 +124,46 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+//        public NWDTypeClass[] New_TrashAllObjects(string sAccountReference = null)
+//        {
+//            List<NWDTypeClass> rReturn = new List<NWDTypeClass>();
+//            foreach (NWDTypeClass tObject in FindDatas(sAccountReference))
+//            {
+//                tObject.TrashData();
+//                rReturn.Add(tObject);
+//            }
+//#if UNITY_EDITOR
+//            New_RepaintTableEditor();
+//            New_RepaintInspectorEditor();
+//#endif
+        //    return rReturn.ToArray();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public void FlushTrash(NWDTypeClass sObject)
+        {
+            //Debug.Log ("Flush trash ... the delete this object if it's necessary");
+#if UNITY_EDITOR
+            if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0)
+            {
+                //              Debug.Log (sObject.Reference + "Must be trashed!");
+                //              RemoveObjectInListOfEdition (sObject);
+                //              if (IsObjectInEdition (sObject)) {
+                //                  SetObjectInEdition (null);
+                //              }
+                //              this.AddonDeleteMe();
+                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
+            }
+#else
+            if (sObject.XX > 0) 
+            {
+                //Debug.Log (sObject.Reference + "Must be trashed!");
+                //RemoveObjectInListOfEdition (sObject);
+                //sObject.AddonDeleteMe();
+                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
+            }
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

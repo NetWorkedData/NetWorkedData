@@ -12,16 +12,16 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_DrawInEditor)]
-        public static void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
-        {
-            DrawTableEditor(sEditorWindow);
-            if (sAutoSelect == true)
-            {
-                BasisHelper().New_SelectedFirstObjectInTable(sEditorWindow);
-            }
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //[NWDAliasMethod(NWDConstants.M_DrawInEditor)]
+        //public static void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
+        //{
+        //    BasisHelper().New_DrawTableEditor(sEditorWindow);
+        //    if (sAutoSelect == true)
+        //    {
+        //        BasisHelper().New_SelectedFirstObjectInTable(sEditorWindow);
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

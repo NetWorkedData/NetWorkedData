@@ -20,28 +20,22 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         //TODO : use in place of ...
-        public List<K> RawDatas()
+        public static List<K> RawDatas()
         {
             return BasisHelper().Datas as List<K>;
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : use in place of ...
-        public K RawDataByReference(string sReference)
+        public static K RawDataByReference(string sReference)
         {
             return BasisHelper().DatasByReference[sReference] as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : use in place of ...
-        public List<K> RawDatasByInternalKey(string sInternalKey)
+        public static List<K> RawDatasByInternalKey(string sInternalKey)
         {
             return BasisHelper().DatasByInternalKey[sInternalKey] as List<K>;
         }
-        //-------------------------------------------------------------------------------------------------------------
-
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public static K[] FindDatas()
         {
@@ -58,7 +52,6 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
