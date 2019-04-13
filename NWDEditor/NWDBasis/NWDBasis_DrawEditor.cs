@@ -240,12 +240,12 @@ namespace NetWorkedData
             GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kInspectorReferenceCenter.fixedHeight), Reference, NWDGUI.kInspectorReferenceCenter);
             tY += NWDGUI.kInspectorReferenceCenter.fixedHeight + NWDGUI.kFieldMarge;
 
-            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
-            if (tTextureOfClass != null)
-            {
-                GUI.DrawTexture(new Rect(tX + tWidth / 2.0F - 16, tY, 32, 32), tTextureOfClass);
-            }
-            tY += 32 + NWDGUI.kFieldMarge;
+            //Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
+            //if (tTextureOfClass != null)
+            //{
+            //    GUI.DrawTexture(new Rect(tX + tWidth / 2.0F - tImageWidth/2.0F, tY, tImageWidth, tImageWidth), tTextureOfClass);
+            //}
+            //tY += tImageWidth + NWDGUI.kFieldMarge;
             if (WebserviceVersionIsValid())
             {
                 if (tTestIntegrity == false)
@@ -302,6 +302,33 @@ namespace NetWorkedData
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     tY += NWDGUI.kFieldMarge;
                 }
+
+                else if (IsEnable()==false)
+                {
+                    EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDGUI.kRowColorDisactive);
+                    tCanBeEdit = true;
+
+                    GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISABLED, NWDGUI.kBoldLabelStyle);
+                    tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                    EditorGUI.HelpBox(new Rect(tX, tY, tWidth, NWDGUI.kHelpBoxStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISABLED_HELPBOX, MessageType.Warning);
+                    tY += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                    if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE_LONG, NWDGUI.kMiniButtonStyle))
+                    {
+                        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
+                                NWDConstants.K_APP_BASIS_REACTIVE_WARNING_MESSAGE,
+                                NWDConstants.K_APP_BASIS_REACTIVE_OK,
+                                NWDConstants.K_APP_BASIS_REACTIVE_CANCEL
+                            ))
+                        {
+                            EnableData();
+                            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                        }
+                    }
+                    tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    tY += NWDGUI.kFieldMarge;
+                }
             }
             else
             {
@@ -341,8 +368,15 @@ namespace NetWorkedData
 
             tY += NWDGUI.kFieldMarge;
 
+            // draw preview
             DrawPreviewTexture2D(new Rect(NWDGUI.kFieldMarge, tY, tImageWidth, tImageWidth));
-
+            //draw class icon
+            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
+            if (tTextureOfClass != null)
+            {
+                GUI.DrawTexture(new Rect(sInRect.width - NWDGUI.kFieldMarge - tImageWidth, tY, tImageWidth, tImageWidth), tTextureOfClass);
+            }
+            // draw button reload preview
             if (GUI.Button(new Rect(NWDGUI.kFieldMarge, tY + tImageWidth + NWDGUI.kFieldMarge, tImageWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reload", NWDGUI.kMiniButtonStyle))
             {
                 Debug.Log("Reload");

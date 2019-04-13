@@ -327,6 +327,7 @@ namespace NetWorkedData
             State = NWDStatut.NetWorkedDataReady;
             BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
             //BTBBenchmark.Finish();
+            BTBBenchmark.Finish("NetWorkedData");
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------

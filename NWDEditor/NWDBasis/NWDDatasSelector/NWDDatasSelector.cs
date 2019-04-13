@@ -25,7 +25,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public int ID = -1;
-        GUIContent IconAndTitle;
+        public GUIContent IconAndTitle;
         public Vector2 ScrollPosition;
         public bool ScrollInit = false;
         public NWDDatasSelectorBasis SelectorBasis;
@@ -374,6 +374,24 @@ namespace NetWorkedData
             SelectorWindow.SelectorBasis = this;
             SelectorWindow.ScrollInit = false;
             SelectorWindow.ID = sID;
+            SelectorWindow.minSize = new Vector2(480, 400);
+            SelectorWindow.IconAndTitle = new GUIContent();
+            SelectorWindow.IconAndTitle.text = NWDConstants.K_DATA_SELECTOR_TITLE_FOR + Helper.ClassMenuName;
+            if (SelectorWindow.IconAndTitle.image == null)
+            {
+                string[] sGUIDs = AssetDatabase.FindAssets("NWDBasisHelper t:texture");
+                foreach (string tGUID in sGUIDs)
+                {
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    if (tPathFilename.Equals("NWDBasisHelper"))
+                    {
+                        SelectorWindow.IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                    }
+                }
+            }
+            SelectorWindow.titleContent = SelectorWindow.IconAndTitle;
+
             SelectorWindow.ShowUtility();
             SelectorWindow.Focus();
             //BTBBenchmark.Finish();
@@ -383,12 +401,14 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             LoadPreference();
+
             // Tag management
             foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
             {
                 TagIntList.Add(tTag.Key);
                 TagStringList.Add(tTag.Value);
             }
+
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -516,6 +536,13 @@ namespace NetWorkedData
                 DesignChange();
                 NeedInitDesing = false;
             }
+
+
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical(GUILayout.Width(NWDGUI.kIconWidth));
+            GUILayout.Label(Helper.TextureOfClass(), GUILayout.Width(NWDGUI.kIconWidth), GUILayout.Height(NWDGUI.kIconWidth));
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
             //BTBBenchmark.Start();
             //Vector2 tSelectionVector = SelectorWindow.ScrollPosition;
             //Debug.Log("OnGUI with selection : " + ActualSelection);
@@ -575,15 +602,20 @@ namespace NetWorkedData
                 Filter();
             }
             GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(NWDGUI.kFieldMarge);
             NWDGUILayout.Line();
             bool tByTile = false;
             if (kZoom >= kZoomRowLimit)
             {
                 tByTile = true;
             }
-            SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true));
+            //SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true));
+            //SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition,false,true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true));
+            SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             {
-                float tWidth = (SelectorWindow.position.width - NWDGUI.kScrollbar);
+                float tWidth = (SelectorWindow.position.width - NWDGUI.kScrollbar- NWDGUI.kFieldMarge);
                 int tColumn = 1;
                 if (tByTile)
                 {

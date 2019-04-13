@@ -229,7 +229,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.NetWorkedDataReady:
                     {
-                        BTBBenchmark.Finish("NetWorkedData");
+                       
                     }
                     break;
             }

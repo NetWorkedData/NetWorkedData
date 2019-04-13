@@ -40,6 +40,7 @@ namespace NetWorkedData
         public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
         public static string K_APP_CONFIGURATION_TITLE = "NWD App";
         public static string K_DATA_SELECTOR_TITLE = "NWD Selector";
+        public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
         public static string K_LOCALIZATION_CONFIGURATION_TITLE = "NWD Localization";
         public static string K_EDITOR_CONFIGURATION_TITLE = "NWD Editor";
 
@@ -207,6 +208,14 @@ namespace NetWorkedData
         public const string K_APP_BASIS_UNTRASH_WARNING_MESSAGE = "Are-you sure to untrash this object?";
         public const string K_APP_BASIS_UNTRASH_OK = "Yes";
         public const string K_APP_BASIS_UNTRASH_CANCEL = "No";
+
+        public const string K_APP_BASIS_DISABLED = "OBJECT IS DISABLED";
+        public const string K_APP_BASIS_DISABLED_HELPBOX = "This object is disabled! It'll be not use in game (assume by developpers)";
+        public const string K_APP_BASIS_REACTIVE_LONG = "Click to reactive";
+        public const string K_APP_BASIS_REACTIVE_WARNING = "Warning";
+        public const string K_APP_BASIS_REACTIVE_WARNING_MESSAGE = "Are-you sure to ractive this object?";
+        public const string K_APP_BASIS_REACTIVE_OK = "Yes";
+        public const string K_APP_BASIS_REACTIVE_CANCEL = "No";
 
         public const string K_APP_BASIS_WS_ERROR = "OBJECT IS OUTGRADE";
         public const string K_APP_BASIS_WS_ERROR_HELPBOX = "This object is formatted with newer webservice version. Change it can delete some informations!";
