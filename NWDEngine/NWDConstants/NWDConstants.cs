@@ -93,6 +93,7 @@ namespace NetWorkedData
         public static string kStandardSeparator = "|";
         public static string kStandardSeparatorSubstitute = "@0#";
         //-------------------------------------------------------------------------------------------------------------
+        //public static string kFieldNone = "<color=gray>none</color>";
         public static string kFieldNone = "none";
         public static string kFieldEmpty = "empty";
         public static string kFieldNotEmpty = "not empty";

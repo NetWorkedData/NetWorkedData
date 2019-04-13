@@ -33,7 +33,6 @@ namespace NetWorkedData
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
 
             StringBuilder rReturn = new StringBuilder(string.Empty);
-            //rReturn.AppendLine("//NWDAppConfiguration");
             rReturn.AppendLine("//=====================================================================================================================");
             rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
             rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
@@ -65,8 +64,7 @@ namespace NetWorkedData
             rReturn.AppendLine("PreloadDatas = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine("PinCodeLenghtMin = " + PinCodeLenghtMin.ToString().ToLower() + ";");
             rReturn.AppendLine("PinCodeLenghtMax = " + PinCodeLenghtMax.ToString().ToLower() + ";");
-        //rReturn.AppendLine("PreloadDatasInEditor = " + PreloadDatasInEditor.ToString().ToLower() + ";");
-        rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");
+            rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
                 rReturn.AppendLine("BundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");
@@ -114,8 +112,8 @@ namespace NetWorkedData
             rReturn.Append(PreprodEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.Append(ProdEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.AppendLine("DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";");
-            rReturn.AppendLine("AnonymousPlayerIsLocal = "+ AnonymousPlayerIsLocal.ToString().ToLower()+ ";");
-            rReturn.AppendLine("SurProtected = "+ SurProtected.ToString().ToLower()+ ";");
+            rReturn.AppendLine("AnonymousPlayerIsLocal = " + AnonymousPlayerIsLocal.ToString().ToLower() + ";");
+            rReturn.AppendLine("SurProtected = " + SurProtected.ToString().ToLower() + ";");
             rReturn.AppendLine("ProtectionTentativeMax = " + ProtectionTentativeMax.ToString() + ";");
             rReturn.AppendLine("return true;");
             rReturn.AppendLine("}");

@@ -30,8 +30,6 @@ namespace NetWorkedData
         public void DrawInEditor(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
-            //float tMinWidht = 270.0F;
-            //float tScrollMarge = 20.0f;
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
             NWDGUILayout.Informations(Environment);
             NWDGUILayout.SubSection("AppName for server action " + Environment);
@@ -98,10 +96,8 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Token Historic limit for " + Environment);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
 
-            //GUILayout.Label("Options for game in " + Environment, EditorStyles.boldLabel);
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of Game Time", SpeedOfGameTime);
 
-            //GUILayout.Label("Version for " + Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("version", NWDVersion.GetMaxVersionStringForEnvironemt(this), EditorStyles.boldLabel);
 
             NWDGUILayout.SubSection("SQL Thread Activation " + Environment);

@@ -31,6 +31,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void New_DrawTypeInInspector()
         {
+            //BTBBenchmark.Start();
             if (SaltValid == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
@@ -87,16 +88,19 @@ namespace NetWorkedData
                     New_RecalculateAllIntegrities();
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void New_SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
+            //BTBBenchmark.Start();
             if (EditorTableDatas.Count > 0)
             {
                 NWDTypeClass sObject = EditorTableDatas.ElementAt(0);
                 New_SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -93,8 +93,6 @@ namespace NetWorkedData
                 CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static Functions file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
-                //EditorUtility.DisplayProgressBar(tTitle, "Static Relationship file generate", tOperation++ / tCountClass);
-                //CreatePHP_StaticRelationshipFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static Request file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static RequestToken file generate", tOperation++ / tCountClass);
@@ -107,8 +105,6 @@ namespace NetWorkedData
                 CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Static Values file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
-                //EditorUtility.DisplayProgressBar(tTitle, "Static Flash file generate", tOperation++ / tCountClass);
-                //CreatePHPFlashMyAppFile(tFilesAndDatas, sWriteOnDisk);
             }
             if (sWriteOnDisk == true)
             {
@@ -129,15 +125,7 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
                 EditorUtility.DisplayProgressBar(tTitle, "Create " + tType.Name + " files", tOperation++ / tCountClass);
-                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_BasisCreatePHP);
-                //if (tMethodInfo != null)
-                //{
-                //    Dictionary<string, string> tResult = (Dictionary<string, string>)tMethodInfo.Invoke(null, new object[] { this, true });
-                //    foreach (KeyValuePair<string, string> tKeyValue in tResult)
-                //    {
-                //        tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
-                //    }
-                //}
+
                     Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).New_CreatePHP(this, true);
                     foreach (KeyValuePair<string, string> tKeyValue in tResult)
                     {
@@ -247,8 +235,6 @@ namespace NetWorkedData
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.New_CreateErrorAndMessage();
                 tHelper.New_ErrorRegenerate();
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
             }
             //BTBBenchmark.Finish();
         }
@@ -384,30 +370,6 @@ namespace NetWorkedData
             }
             tManagementFile.AppendLine("}");
             tManagementFile.AppendLine(NWD.K_CommentSeparator);
-            //tManagementFile.AppendLine("function DefragmentAllTables () ");
-            //tManagementFile.AppendLine("{");
-            //if (LogMode)
-            //{
-            //    tManagementFile.AppendLine("myLog('DREFAGMENT ALL TABALES ON SERVER', __FILE__, __FUNCTION__, __LINE__);");
-            //}
-            //tManagementFile.AppendLine("}");
-            //tManagementFile.AppendLine(NWD.K_CommentSeparator);
-            //tManagementFile.AppendLine("function DropAllTables ()");
-            //tManagementFile.AppendLine("{");
-            //if (LogMode)
-            //{
-            //    tManagementFile.AppendLine("myLog('DROP ALL TABALES ON SERVER', __FILE__, __FUNCTION__, __LINE__);");
-            //}
-            //tManagementFile.AppendLine("}");
-            //tManagementFile.AppendLine(NWD.K_CommentSeparator);
-            //tManagementFile.AppendLine("function FlushAllTables ()");
-            //tManagementFile.AppendLine("{");
-            //if (LogMode)
-            //{
-            //    tManagementFile.AppendLine("myLog('FLUSH ALL TABALES ON SERVER', __FILE__, __FUNCTION__, __LINE__);");
-            //}
-            //tManagementFile.AppendLine("}");
-            //tManagementFile.AppendLine(NWD.K_CommentSeparator);
             tManagementFile.AppendLine("if($admin == true)\n{\nCreateAllTables ();\n}\n;");
             tManagementFile.AppendLine(NWD.K_CommentSeparator);
             tManagementFile.AppendLine("// finish the generic process");

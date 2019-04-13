@@ -55,7 +55,6 @@ namespace NetWorkedData
         /// </summary>
         private int mTabSelected = 0;
         public  bool TabSort = false;
-
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes the <see cref="NWDEditor.NWDBasisWindow"/> class.
@@ -72,28 +71,6 @@ namespace NetWorkedData
         {
             //Debug.Log ("NWDBasisWindow basic construtor");
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public Texture FromGizmos(string sName)
-        //{
-        //    Texture rTexture = NWDFindPackage.PackageEditorTexture(sName+".png");
-        //    if (rTexture == null)
-        //    {
-        //        string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
-        //        foreach (string tGUID in sGUIDs)
-        //        {
-        //            //Debug.Log("TextureOfClass GUID " + tGUID);
-        //            string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-        //            string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-        //            //Debug.Log("tPathFilename = " + tPathFilename);
-        //            if (tPathFilename.Equals(sName))
-        //            {
-        //                //Debug.Log("TextureOfClass " + tPath);
-        //                rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-        //            }
-        //        }
-        //    }
-        //    return rTexture;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisWindow(string sTitleKey = BTBConstants.K_EMPTY_STRING, string sDescriptionKey = BTBConstants.K_EMPTY_STRING, Type[] sTabTypeList = null)
         {
@@ -117,11 +94,13 @@ namespace NetWorkedData
         /// </summary>
         void OnInspectorUpdate()
         {
+            //BTBBenchmark.Start();
             // Add to detect mouse event and redraw the widow
             if (EditorWindow.focusedWindow == this && EditorWindow.mouseOverWindow == this)
             {
                 this.Repaint();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -129,6 +108,7 @@ namespace NetWorkedData
         /// </summary>
         public void DefineTab()
         {
+            //BTBBenchmark.Start();
             // force to check database connection
             //NWDDataManager.SharedInstance().ConnectToDatabase ();
             // prepare futur list results
@@ -164,26 +144,15 @@ namespace NetWorkedData
                 tTabContentList.Sort((GUIContent x, GUIContent y) => string.Compare(x.text, y.text, StringComparison.OrdinalIgnoreCase));
             }
             mTabContentList = tTabContentList.ToArray();
+            //BTBBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public void UpdateDatas()
-        //{
-        //    foreach (Type tType in mTabTypeList)
-        //    {
-        //        MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ApplyAllModifications, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-        //        if (tMethodInfo != null)
-        //        {
-        //            tMethodInfo.Invoke(null, null);
-        //        }
-        //    }
-        //    this.Repaint();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Call on enable this window
         /// </summary>
         void OnEnable()
         {
+            //BTBBenchmark.Start();
             NWDDataManager.SharedInstance().DataQueueExecute();
             if (typeof(K).GetCustomAttributes(typeof(NWDTypeWindowParamAttribute), true).Length > 0)
             {
@@ -217,6 +186,7 @@ namespace NetWorkedData
                 // redefine the TabBar navigation
                 DefineTab();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -254,6 +224,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetClassInEdition(Type sClassType)
         {
+            //BTBBenchmark.Start();
             //			ApplyUpdate();
             NWDDataManager.SharedInstance().DataQueueExecute();
             GUI.FocusControl(null);
@@ -261,6 +232,7 @@ namespace NetWorkedData
             tBasisClassInspector.mTypeInEdition = sClassType;
             //			tBasisClassInspector.mWindowInEdition = this;
             Selection.activeObject = tBasisClassInspector;
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -268,29 +240,12 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
-            // prepare the style
-            // get width of window
-            //float tWidthUsed = EditorGUIUtility.currentViewWidth;
-
 
             float tWidthUsed = position.width;
             // determine height
             float tHeight = NWDGUI.KTAB_BAR_HEIGHT;
-            //tHeight+=tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
-            //if (mTabContentList.Length > 1)
-            //{
-            //    if (tWidthUsed > TabsTotalWidthExpected)
-            //    {
-            //        tHeight += tToolbarStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
-            //    }
-            //    else
-            //    {
-            //        tHeight += tPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
-            //    }
-            //    tHeight += NWDGUI.kFieldMarge * 2;
-            //}
-            // draw background for toolbar
 
 
             EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDGUI.KTAB_BAR_BACK_COLOR);
@@ -355,7 +310,7 @@ namespace NetWorkedData
 
 
             }
-
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -34,21 +34,17 @@ namespace NetWorkedData
         public static Type ObjectEditorLastType;
         //-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
-		{
-			NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
+        {
+            //BTBBenchmark.Start();
+            NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
-    //            Type tType = tTarget.mObjectInEdition.GetType ();
-    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-    //            if (tMethodInfo != null) 
-				//{
-				//	tMethodInfo.Invoke (tTarget.mObjectInEdition, new object[]{Rect.zero,false});
-				//}
                 tTarget.mObjectInEdition.New_DrawObjectEditor(Rect.zero, false);
-
+            }
+            //BTBBenchmark.Finish();
         }
-		}
-	}
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

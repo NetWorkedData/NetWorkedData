@@ -541,7 +541,7 @@ namespace NetWorkedData
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
             }
-            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge * 2 - NWDGUI.kTextFieldStyle.fixedHeight;
+            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge * 2 - NWDGUI.kTextFieldStyle.fixedHeight;
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -586,11 +586,11 @@ namespace NetWorkedData
                     tQ = new NWDRange(tLineValue[1]);
                 }
 
-                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV);
 
                 if (string.IsNullOrEmpty(tV) == false)
                 {
-                    float tYb = tY + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    float tYb = tY + NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                     float tXb = sPosition.x + EditorGUIUtility.labelWidth;
                     float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 2.0F);
                     float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
@@ -628,7 +628,7 @@ namespace NetWorkedData
                 {
                     tValueList[i] = string.Empty;
                 }
-                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
                 tY = tY + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight;
             }
 

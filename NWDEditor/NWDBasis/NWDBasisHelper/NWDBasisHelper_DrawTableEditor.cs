@@ -32,23 +32,27 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void New_DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
         {
+            //BTBBenchmark.Start();
             New_DrawTableEditor(sEditorWindow);
             if (sAutoSelect == true)
             {
                 New_SelectedFirstObjectInTable(sEditorWindow);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public string New_GetReferenceOfDataInEdition()
         {
+            //BTBBenchmark.Start();
             string rReturn = null;
             NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
             if (tObject != null)
             {
                 rReturn = string.Copy(tObject.Reference);
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -56,6 +60,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void New_RestaureDataInEditionByReference(string sReference)
         {
+            //BTBBenchmark.Start();
             NWDTypeClass tObject = null;
             if (sReference != null)
             {
@@ -71,12 +76,14 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_SelectAllObjectInTableList()
         {
+            //BTBBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -87,12 +94,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = true;
             }
             //IntegritySelection();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_DeselectAllObjectInTableList()
         {
+            //BTBBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -103,12 +112,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = false;
             }
             //IntegritySelection();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_InverseSelectionOfAllObjectInTableList()
         {
+            //BTBBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -118,6 +129,7 @@ namespace NetWorkedData
             {
                 EditorTableDatasSelected[tObject] = !EditorTableDatasSelected[tObject];
             }
+            //BTBBenchmark.Finish();
             //IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -125,6 +137,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void New_SelectAllObjectEnableInTableList()
         {
+            //BTBBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -135,12 +148,14 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = tObject.IsEnable();
             }
             //IntegritySelection();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_SelectAllObjectDisableInTableList()
         {
+            //BTBBenchmark.Start();
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -151,18 +166,18 @@ namespace NetWorkedData
                 EditorTableDatasSelected[tObject] = !tObject.IsEnable();
             }
             //IntegritySelection();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public float New_DrawPagesTab(Rect sRect)
         {
+            //BTBBenchmark.Start();
             float rReturn = sRect.height;
             float tWidth = sRect.width;
             float tTabWidth = 35.0f;
-            //float tPopupWidth = 60.0f;
             int tToogleToListPageLimit = (int)Math.Floor(tWidth / tTabWidth);
-            //GUILayout.Space(NWDConstants.KTablePageMarge);
             Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width - NWDGUI.kFieldMarge * 2, EditorStyles.toolbar.fixedHeight);
             m_ItemPerPage = int.Parse(m_ItemPerPageOptions[m_ItemPerPageSelection]);
             float tNumberOfPage = EditorTableDatas.Count / m_ItemPerPage;
@@ -196,12 +211,10 @@ namespace NetWorkedData
             {
                 rReturn = NWDGUI.KTableToolbar.fixedHeight + NWDGUI.kFieldMarge;
                 tRect.height = EditorStyles.toolbar.fixedHeight;
-                //m_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.ExpandWidth (true));
                 t_PageSelected = GUI.Toolbar(tRect, m_PageSelected, tListOfPagesName);
             }
             else
             {
-                //rReturn = EditorStyles.popup.fixedHeight + NWDGUI.kFieldMarge;
                 rReturn = NWDGUI.KTableToolbar.fixedHeight + NWDGUI.kFieldMarge;
                 tRect.height = EditorStyles.popup.fixedHeight;
                 tRect.y += 2;
@@ -212,6 +225,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
             m_PageSelected = t_PageSelected;
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -219,6 +233,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public void New_ChangeScroolPositionToSelection()
         {
+            //BTBBenchmark.Start();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
             foreach (EditorWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType))
             {
@@ -230,18 +245,19 @@ namespace NetWorkedData
                 Rect tRect = new Rect(0, 0, tWindowRect.width, 0);
                 // offset the tab bar 
                 tRect.y += 50;
-                //float tScrollHeight = tWindowRect.height - tRect.y - tPagesBarHeight - tRectForBottom.height - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
                 float tScrollHeight = tWindowRect.height - tRect.y - NWDGUI.kTableHeaderHeight - NWDGUI.kFieldMarge;
                 Rect tScrollHeader = new Rect(0, tRect.y, tWindowRect.width, NWDGUI.kTableHeaderHeight);
                 Rect tScrollRect = new Rect(0, tRect.y + NWDGUI.kTableHeaderHeight, tWindowRect.width, tScrollHeight);
                 New_ChangeScroolPositionToSelection(tScrollRect);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_ChangeScroolPositionToSelection(Rect sScrollRect)
         {
+            //BTBBenchmark.Start();
             int tIndexSelected = EditorTableDatas.IndexOf((NWDTypeClass)NWDDataInspector.ObjectInEdition());
             float tNumberPage = tIndexSelected / m_ItemPerPage;
             int tPageExpected = (int)Math.Floor(tNumberPage);
@@ -257,7 +273,6 @@ namespace NetWorkedData
             int tCountSecurity = m_ItemPerPage;
             while ((tAreaVisible.Contains(tMouseScrollTop) == false || tAreaVisible.Contains(tMouseScrollBottom) == false) && tCountSecurity > 0)
             {
-                //Debug.Log("Analyze next ");
                 tCountSecurity--;
                 if (tAreaVisible.Contains(tMouseScrollBottom) == false)
                 {
@@ -269,16 +284,15 @@ namespace NetWorkedData
                 }
                 tAreaVisible = new Rect(m_ScrollPositionList.x, m_ScrollPositionList.y, sScrollRect.width, sScrollRect.height);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_DrawHeaderInEditor(Rect sRect, Rect sScrollRect, float sZoom)
         {
+            //BTBBenchmark.Start();
             EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
-            //EditorGUI.DrawRect(sRect, Color.yellow);
-            //Rect ColorRect = new Rect(sRect.x + 2, sRect.y + 2, sRect.width - 4, sRect.height - 4);
-            //EditorGUI.DrawRect(ColorRect, Color.red);
             sRect.x += NWDGUI.kFieldMarge;
             sRect.width = sRect.width - NWDGUI.kScrollbar;
 
@@ -286,11 +300,9 @@ namespace NetWorkedData
             {
                 sRect.width = NWDGUI.KTableMinWidth;
             }
-            //EditorGUI.DrawRect(sRect, Color.blue);
             Rect tRect = new Rect(sRect.x, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kTableSelectWidth, sRect.height - NWDGUI.kFieldMarge * 2);
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SELECT, NWDGUI.KTableHeaderSelect))
             {
-                //Debug.Log("sort by selected toggle");
                 // Update select in real time
                 foreach (NWDTypeClass tData in Datas)
                 {
@@ -316,7 +328,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.kTableIDWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_ID, NWDGUI.KTableHeaderId))
             {
-                //Debug.Log("sort by ID toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByIDAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByIDDescendant;
@@ -336,7 +347,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.kTablePrefabWidth * sZoom;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREFAB, NWDGUI.KTableHeaderPrefab))
             {
-                //Debug.Log("sort by prefab toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByPrefabAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByPrefabDescendant;
@@ -368,7 +378,6 @@ namespace NetWorkedData
             }
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, NWDGUI.KTableHeaderInformations))
             {
-                //Debug.Log("sort by internal key toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByInternalKeyAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
@@ -388,7 +397,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.KTableRowWebModelWidth;
             if (GUI.Button(tRect, "webservice", NWDGUI.KTableHeaderIcon))
             {
-                //Debug.Log("sort by disk webservice");
                 if (SortType == NWDBasisEditorDatasSortType.ByModelAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByModelDescendant;
@@ -408,7 +416,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.kTableIconWidth;
             if (GUI.Button(tRect, "Check", NWDGUI.KTableHeaderIcon))
             {
-                //Debug.Log("sort by disk checklist");
                 if (SortType == NWDBasisEditorDatasSortType.ByChecklistAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByChecklistDescendant;
@@ -433,7 +440,6 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, NWDGUI.KTableHeaderIcon))
             {
-                //Debug.Log("sort by synchro toggle");
                 if (SortType == NWDBasisEditorDatasSortType.BySyncAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.BySyncDescendant;
@@ -452,7 +458,6 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, NWDGUI.KTableHeaderIcon))
             {
-                //Debug.Log("sort by dev sync toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByDevSyncAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByDevSyncDescendant;
@@ -471,7 +476,6 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, NWDGUI.KTableHeaderIcon))
             {
-                //Debug.Log("sort by preprod sync toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByPreprodSyncAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByPreprodSyncDescendant;
@@ -490,7 +494,6 @@ namespace NetWorkedData
             tRect.x += tRect.width;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO, NWDGUI.KTableHeaderIcon))
             {
-                //Debug.Log("sort by prod sync toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByProdSyncAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByProdSyncDescendant;
@@ -510,7 +513,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.KTableSearchWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_STATUT, NWDGUI.KTableHeaderStatut))
             {
-                //Debug.Log("sort by statut toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByStatutAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByStatutDescendant;
@@ -530,7 +532,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.KTableReferenceWidth;
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_HEADER_REFERENCE + " ", NWDGUI.KTableHeaderReference))
             {
-                //Debug.Log("sort by reference toggle");
                 if (SortType == NWDBasisEditorDatasSortType.ByReferenceAscendant)
                 {
                     SortType = NWDBasisEditorDatasSortType.ByReferenceDescendant;
@@ -546,12 +547,14 @@ namespace NetWorkedData
                 SortEditorTableDatas();
                 New_ChangeScroolPositionToSelection(sScrollRect);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public void New_DrawHeaderBottomInEditor(Rect sRect, Rect sScrollRect)
         {
+            //BTBBenchmark.Start();
             EditorGUI.DrawRect(sRect, NWDGUI.kTableHeaderColor);
             sRect.width = sRect.width - NWDGUI.kScrollbar;
 
@@ -585,7 +588,6 @@ namespace NetWorkedData
             {
                 RowZoom = tRowZoom;
                 New_ChangeScroolPositionToSelection(sScrollRect);
-                //GUIUtility.ExitGUI();
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
             // draw toogle enable
@@ -682,12 +684,14 @@ namespace NetWorkedData
                 New_SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : put in private
         //TODO : RENAME!
         public Rect New_DrawTableEditorTop(Rect sRect)
         {
+            //BTBBenchmark.Start();
             EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
             if (SearchActions() == true)
@@ -912,25 +916,6 @@ namespace NetWorkedData
                     }
                     tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 }
-
-
-
-
-                // draw reload all datas
-                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDConstants.KTableSearchButton))
-                //{
-                //    //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
-                //    string tReference = GetReferenceOfDataInEdition();
-                //    GUI.FocusControl(null);
-                //    SetObjectInEdition(null);
-                //    m_SearchInternalName = string.Empty;
-                //    m_SearchInternalDescription = string.Empty;
-                //    //ReloadAllObjects ();
-                //    //LoadTableEditor ();
-                //    LoadFromDatabase();
-                //    RestaureDataInEditionByReference(tReference);
-                //}
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw before last column
                 tRect.x = sRect.width - NWDGUI.KTableSearchFieldWidth - NWDGUI.KTableSearchToggle.fixedHeight * 3 - NWDGUI.kFieldMarge * 4;
                 tRect.y = sRect.y;
@@ -957,11 +942,9 @@ namespace NetWorkedData
                     GUI.Label(tRect, tTextureOfClass, NWDGUI.KTableSearchClassIcon);
                 }
                 tRect.height = NWDGUI.KTableSearchToggle.fixedHeight;
-
-
                 rRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 5 + NWDGUI.kFieldMarge * 5;
-                //EditorGUI.DrawRect(rRect, Color.red);
             }
+            //BTBBenchmark.Finish();
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -969,6 +952,7 @@ namespace NetWorkedData
         //TODO : RENAME!
         public Rect New_DrawTableEditorBottom(Rect sRect)
         {
+            //BTBBenchmark.Start();
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
 
             Rect tRectActionLeft = Rect.zero;
@@ -1039,6 +1023,7 @@ namespace NetWorkedData
             bool tCleanLocalTable = false; //prevent GUIlayout error
             bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
             bool tDisableProd = false;
+
             if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType))
             {
                 tDisableProd = true;
@@ -1047,7 +1032,6 @@ namespace NetWorkedData
             {
                 tDisableProd = true;
             }
-            // TODO Extract in Basishelper()
             int tSelectionCount = 0;
             foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
             {
@@ -1116,7 +1100,6 @@ namespace NetWorkedData
                 tRect.y = tRectActionLeft.y;
 
                 // draw row Actions 
-
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
@@ -1178,7 +1161,6 @@ namespace NetWorkedData
                         tNextObjectSelected = null;
                     }
                     New_SetObjectInEdition(tNextObjectSelected);
-                    //ReorderListOfManagementByName ();
                     m_PageSelected = m_MaxPage * 3;
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1197,17 +1179,13 @@ namespace NetWorkedData
                     NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //EditorGUI.EndDisabledGroup();
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
                 {
                     tLocalizeLocalTable = true;
                 }
-
-
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionLeft.y;
-
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 NWDGUI.BeginRedArea();
                 // DELETE SELECTION
@@ -1302,12 +1280,9 @@ namespace NetWorkedData
                     New_PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
                 }
 
-
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionRight.y;
-
-
 
                 GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tPreprodContent, NWDGUI.KTableSearchTitle);
@@ -1386,14 +1361,11 @@ namespace NetWorkedData
 
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_SEARCH_RELOAD, NWDGUI.KTableSearchButton))
                 {
-                    //Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
                     string tReference = New_GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
                     New_SetObjectInEdition(null);
                     m_SearchInternalName = string.Empty;
                     m_SearchInternalDescription = string.Empty;
-                    //ReloadAllObjects ();
-                    //LoadTableEditor ();
                     New_LoadFromDatabase();
                     New_RestaureDataInEditionByReference(tReference);
                 }
@@ -1406,14 +1378,6 @@ namespace NetWorkedData
                     Selection.activeObject = tBasisInspector;
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                //NWDGUI.BeginRedButton()
-                //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDConstants.KTableSearchButton)
-                //
-                //    GUI.FocusControl(null)
-                //    RecalculateAllIntegrities()
-                //
-                //NWDGUI.EndRedButton()
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge
                 // reset icon of clas
                 if (GUI.Button(tRect, "Select script", NWDGUI.KTableSearchButton))
                 {
@@ -1632,8 +1596,6 @@ namespace NetWorkedData
 
             }
             // Page end!
-
-
             if (tDeleteSelection == true)
             {
                 string tDialog = string.Empty;
@@ -1666,9 +1628,7 @@ namespace NetWorkedData
                     foreach (NWDTypeClass tObject in tListToDelete)
                     {
                         NWDTypeClass tObjectToDelete = tObject;
-                        //RemoveObjectInListOfEdition(tObjectToDelete);
                         tObjectToDelete.DeleteData();
-                        //tObjectToDelete.RowAnalyze();
                     }
                     New_SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
@@ -1906,11 +1866,7 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
             }
-
-            //EditorGUI.DrawRect(rRect, Color.yellow);
-            //rRect.height += NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge * 3;
-            //Debug.Log("rRect height : " +rRect.height);
-            //rRect.height = 0;
+            //BTBBenchmark.Finish();
             return rRect;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1933,7 +1889,6 @@ namespace NetWorkedData
 
             float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 3.0F);
             Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
-            //GUI.DrawTexture(tRectToogle, NWDToolbox.TextureFromColor(Color.red));
             SetSearchActions(GUI.Toggle(tRectToogle, SearchActions(), "Search"));
             tRectToogle.x += tWidthTiers;
             SetRowActions(GUI.Toggle(tRectToogle, RowActions(), "Actions"));
@@ -1957,7 +1912,6 @@ namespace NetWorkedData
                 }
                 tMargeNeed = true;
                 tRect.height = NWDGUI.kTableRowHeight;
-                //tRect.y += NWDGUI.kFieldMarge;
                 Rect tRectInfos = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge * 2, tRect.height);
                 EditorGUI.HelpBox(tRectInfos, NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1978,18 +1932,6 @@ namespace NetWorkedData
                     tRect.y += NWDGUI.kFieldMarge;
                 }
                 tMargeNeed = true;
-                //string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
-                //GUIContent tCC = new GUIContent(tTEXTWARNING);
-                //GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
-                //tWarningBoxStyle.normal.background = new Texture2D(1, 1);
-                //tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
-                //tWarningBoxStyle.normal.background.Apply();
-                //tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
-                //tWarningBoxStyle.richText = true;
-                //tRect.height = tWarningBoxStyle.CalcHeight(tCC, tRect.width);
-                //tRect.y += NWDGUI.kFieldMarge;
-                //GUI.Label(tRect, tCC, tWarningBoxStyle);
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
 
@@ -2002,18 +1944,7 @@ namespace NetWorkedData
                     tRect.y += NWDGUI.kFieldMarge;
                 }
                 tMargeNeed = true;
-                //string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
-                //GUIContent tCC = new GUIContent(tTEXTWARNING);
-                //GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
-                //tWarningBoxStyle.normal.background = new Texture2D(1, 1);
-                //tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
-                //tWarningBoxStyle.normal.background.Apply();
-                //tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
-                //tWarningBoxStyle.richText = true;
-                //tRect.height = tWarningBoxStyle.CalcHeight(tCC, tRect.width);
-                //tRect.y += NWDGUI.kFieldMarge;
-                //GUI.Label(tRect, tCC, tWarningBoxStyle);
-                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
 
             }
@@ -2224,14 +2155,6 @@ namespace NetWorkedData
                 }
                 int tIndexRowInPage = tIndexPageStop - tIndexPageStart + 1;
                 // create rects for scrollview
-                // TODO get put this line!
-                //NWDGUI.kRowHeaderHeight = NWDConstants.KTableSearchToggle.fixedHeight;
-
-                //if (tPagesBarHeight > 0)
-                //{
-                //    tScrollHeight += NWDGUI.kFieldMarge;
-                //}
-                // draw headers
 
                 Rect tScrollContentRect = new Rect(0, 0, tWindowRect.width - NWDGUI.kScrollbar, tIndexRowInPage * tRowHeight);
 
@@ -2427,112 +2350,6 @@ namespace NetWorkedData
                 tRect.y += NWDGUI.kFieldMarge;
                 New_DrawPagesTab(tRect);
                 //tRect.y += NWDGUI.Line(tRect).height;
-                // ===========================================
-
-
-                /*
-                GUILayout.BeginHorizontal(NWDConstants.KTableAreaColorDark);
-                // draw number of page enum
-                t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, NWDConstants.KTableSearchEnum, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                if (t_ItemPerPageSelection != m_ItemPerPageSelection)
-                {
-                    m_PageSelected = 0;
-                }
-                m_ItemPerPageSelection = t_ItemPerPageSelection;
-                // draw toogle enable
-                bool t_ShowEnableLine = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, m_ShowEnable,
-                 GUILayout.Height(NWDConstants.KTableSearchTextfield.fixedHeight), GUILayout.Width(NWDConstants.KTableSearchWidth));
-                if (m_ShowEnable != t_ShowEnableLine)
-                {
-                    m_ShowEnable = t_ShowEnableLine;
-                    FilterTableEditor();
-                }
-                // draw toogle disable
-                bool t_ShowDisableLine = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, m_ShowDisable,
-                 GUILayout.Height(NWDConstants.KTableSearchTextfield.fixedHeight), GUILayout.Width(NWDConstants.KTableSearchWidth));
-                if (m_ShowDisable != t_ShowDisableLine)
-                {
-                    m_ShowDisable = t_ShowDisableLine;
-                    FilterTableEditor();
-                }
-                // draw toogle trashed
-                EditorGUI.BeginDisabledGroup(!m_ShowDisable);
-                bool t_ShowTrashedLine = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, m_ShowTrashed,
-                 GUILayout.Height(NWDConstants.KTableSearchTextfield.fixedHeight), GUILayout.Width(NWDConstants.KTableSearchWidth));
-                if (m_ShowTrashed != t_ShowTrashedLine)
-                {
-                    m_ShowTrashed = t_ShowTrashedLine;
-                    FilterTableEditor();
-                }
-                // draw toogle corrupted
-                EditorGUI.EndDisabledGroup();
-                bool t_ShowIntegrityErrorLine = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, m_ShowIntegrityError,
-                 GUILayout.Height(NWDConstants.KTableSearchTextfield.fixedHeight), GUILayout.Width(NWDConstants.KTableSearchWidth));
-                if (m_ShowIntegrityError != t_ShowIntegrityErrorLine)
-                {
-                    m_ShowIntegrityError = t_ShowIntegrityErrorLine;
-                    FilterTableEditor();
-                }
-                bool tShowMoreInfos = false;
-                if (tShowMoreInfos)
-                {
-                    // draw objects in database
-                    tRealReference = Datas.Count;
-                    if (tRealReference == 0)
-                    {
-                        GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    else if (tRealReference == 1)
-                    {
-                        GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    else
-                    {
-                        GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    // draw objects in results
-                    tResultReference = EditorTableDatas.Count;
-                    if (tResultReference == 0)
-                    {
-                        GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    else if (tResultReference == 1)
-                    {
-                        GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    else
-                    {
-                        GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    // draw selection
-                    if (tSelectionCount == 0)
-                    {
-                        GUILayout.Label(NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    else if (tSelectionCount == 1)
-                    {
-                        GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                    else
-                    {
-                        GUILayout.Label(tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, NWDConstants.KTableSearchLabel, GUILayout.Width(NWDConstants.KTableSearchWidth));
-                    }
-                }
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW, NWDConstants.KTableSearchButton, GUILayout.Width(NWDConstants.KTableSearchWidth)))
-                {
-                    K tNewObject = NWDBasis<K>.NewData();
-                    if (m_SearchTag != NWDBasisTag.NoTag)
-                    {
-                        tNewObject.Tag = m_SearchTag;
-                        tNewObject.UpdateData();
-                    }
-                    m_PageSelected = m_MaxPage * 3;
-                    SetObjectInEdition(tNewObject);
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-                }
-                GUILayout.EndHorizontal();
-                */
                 // ===========================================
 
                 EditorGUI.EndDisabledGroup();

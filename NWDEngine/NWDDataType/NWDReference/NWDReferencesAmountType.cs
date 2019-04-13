@@ -492,7 +492,7 @@ namespace NetWorkedData
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
             }
-            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
+            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
 
             return tHeight;
         }
@@ -534,7 +534,7 @@ namespace NetWorkedData
                     tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                     tV = tLineValue[0];
                 }
-                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV, tIntWidth + NWDGUI.kFieldMarge * 2);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV, tIntWidth + NWDGUI.kFieldMarge * 2);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     int tIndentLevel = EditorGUI.indentLevel;
@@ -570,7 +570,7 @@ namespace NetWorkedData
                     tValueList[i] = string.Empty;
                 }
 
-                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
             }
             if (tDown == true)
             {

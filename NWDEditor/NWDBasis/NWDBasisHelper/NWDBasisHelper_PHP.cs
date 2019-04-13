@@ -31,6 +31,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> New_CreatePHPConstant(NWDAppEnvironment sEnvironment)
         {
+            //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
 
             string tClassName = ClassNamePHP;
@@ -84,11 +85,13 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(tClassName + "/" + NWD.K_CONSTANTS_FILE, tFileFormatted);
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> New_CreatePHPManagement(NWDAppEnvironment sEnvironment)
         {
+            //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             string tClassName = ClassNamePHP;
             string tTrigramme = ClassTrigramme;
@@ -378,11 +381,13 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(tClassName + "/" + NWD.K_MANAGEMENT_FILE, tFileFormatted);
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> New_CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
         {
+            //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             string tClassName = ClassNamePHP;
             string tTableName = ClassNamePHP;
@@ -571,7 +576,6 @@ namespace NetWorkedData
             tFile.AppendLine("return $sCsvList;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
 
             tFile.AppendLine("function Log" + tClassName + " ($sReference, $sLog)");
             tFile.AppendLine("{");
@@ -777,11 +781,6 @@ namespace NetWorkedData
                 tIndex++;
             }
 
-            //MethodInfo tMethodDeclareFunctions = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpFunctions, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tMethodDeclareFunctions != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareFunctions.Invoke(null, new object[] { sEnvironment }));
-            //}
             tFile.Append(New_AddonPhpFunctions(sEnvironment));
 
             tFile.AppendLine("{");
@@ -804,11 +803,6 @@ namespace NetWorkedData
             tFile.AppendLine("$tReference = $sCsvList[0];");
             tFile.AppendLine("// find solution for pre calculate on server");
 
-            //MethodInfo tMethodDeclarePre = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPreCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tMethodDeclarePre != null)
-            //{
-            //    tFile.Append((string)tMethodDeclarePre.Invoke(null, new object[] { sEnvironment }));
-            //}
             tFile.Append(New_AddonPhpPreCalculate(sEnvironment));
             tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "`, `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().DM) + "` FROM `'.$ENV.'_" + tTableName + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
@@ -871,10 +865,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$tUpdate = $tUpdate.$tUpdateRestriction.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.'';");
             tFile.AppendLine("}");
-            //"else" );
-            //"{" );
-            //"//$tUpdate = $tUpdate.' AND `DM`<= \\''.$SQL_CON->real_escape_string($sCsvList[1]).'\\'';" );
-            //"}" );
+
             tFile.AppendLine("$tUpdateResult = $SQL_CON->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
@@ -887,11 +878,7 @@ namespace NetWorkedData
             //"}" );
             tFile.AppendLine("}");
             tFile.AppendLine("// Solution for post calculate on server");
-            //MethodInfo tMethodDeclarePost = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPostCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tMethodDeclarePost != null)
-            //{
-            //    tFile.Append((string)tMethodDeclarePost.Invoke(null, new object[] { sEnvironment }));
-            //}
+
             tFile.Append(New_AddonPhpPostCalculate(sEnvironment));
 
             tFile.AppendLine("// Update is finished!");
@@ -977,12 +964,6 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            //MethodInfo tMethodDeclareGet = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpGetCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tMethodDeclareGet != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            //}
-
             tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
 
             tFile.AppendLine("}");
@@ -1048,10 +1029,7 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            //if (tMethodDeclareGet != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            //}
+
             tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
@@ -1106,10 +1084,7 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            //if (tMethodDeclareGet != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            //}
+
             tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
@@ -1120,7 +1095,6 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
 
             tFile.AppendLine("function GetDatasByGameSave" + tClassName + " ($sTimeStamp, $sAccountReference, $sGameSaveReference)");
             tFile.AppendLine("{");
@@ -1171,10 +1145,7 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            //if (tMethodDeclareGet != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            //}
+
             tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
@@ -1185,11 +1156,6 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
-
-
-
-
 
             tFile.AppendLine("function GetDatas" + tClassName + "ByAccounts ($sTimeStamp, $sAccountReferences)");
             tFile.AppendLine("{");
@@ -1224,10 +1190,7 @@ namespace NetWorkedData
             tFile.AppendLine("while($tRow = $tResult->fetch_row())");
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + tClassName + "']['" + SynchronizeKeyData + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
-            //if (tMethodDeclareGet != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareGet.Invoke(null, new object[] { sEnvironment }));
-            //}
+
             tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
@@ -1248,11 +1211,6 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $admin, $uuid;");
-            //MethodInfo tMethodDeclareSpecial = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpSpecialCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tMethodDeclareSpecial != null)
-            //{
-            //    tFile.Append((string)tMethodDeclareSpecial.Invoke(null, new object[] { sEnvironment }));
-            //}
 
             tFile.Append(New_AddonPhpSpecialCalculate(sEnvironment));
 
@@ -1386,12 +1344,13 @@ namespace NetWorkedData
 
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(tClassName + "/" + NWD.K_WS_SYNCHRONISATION, tFileFormatted);
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_BasisCreatePHP)]
         public Dictionary<string, string> New_CreatePHP(NWDAppEnvironment sEnvironment, bool sPrepareOrder = true)
         {
+            //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             PrefLoad();
             if (sPrepareOrder == true)
@@ -1410,6 +1369,7 @@ namespace NetWorkedData
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

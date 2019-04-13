@@ -49,9 +49,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetDrawable(bool sOpen = true)
         {
+            //BTBBenchmark.Start();
             string tKey = Key();
             //EditorPrefs.HasKey(tKey);
             EditorPrefs.SetBool(tKey, sOpen);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool GetDrawable()
@@ -91,6 +93,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight(object sObject)
         {
+            //BTBBenchmark.Start();
             float tY = SpaceBefore;
             if (Separator == true)
             {
@@ -123,10 +126,6 @@ namespace NetWorkedData
                     {
                         tY += NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge;
                     }
-                    //else if (Property.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
-                    //{
-                    //    tY += NWDGUI.tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    //}
                     else
                     {
                         Type tTypeOfThis = Property.PropertyType;
@@ -270,10 +269,12 @@ namespace NetWorkedData
                 }
             }
             return tY;
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspector(object sObject, float sX, float sY, float sWidth)
         {
+            //BTBBenchmark.Start();
             float tWidth = sWidth;
             float tX = sX;
             float tY = sY;
@@ -346,33 +347,6 @@ namespace NetWorkedData
                         }
                         //EditorGUI.indentLevel = tIndentLevel;
                     }
-                    //else if (Property.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
-                    //{
-                    //    NWDEnumAttribute tInfo = Property.GetCustomAttributes(typeof(NWDEnumAttribute), true)[0] as NWDEnumAttribute;
-                    //    string[] tV = tInfo.mEnumString;
-                    //    int[] tI = tInfo.mEnumInt;
-                    //    int tValue = (int)Property.GetValue(sObject, null);
-                    //    int tValueInt = Array.IndexOf<int>(tI, tValue);
-                    //    EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.tTextFieldStyle.fixedHeight), Content());
-
-                    //    //remove EditorGUI.indentLevel to draw next controller without indent 
-                    //    int tIndentLevel = EditorGUI.indentLevel;
-                    //    EditorGUI.indentLevel = 0;
-
-                    //    int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, NWDGUI.tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, NWDGUI.tPopupdStyle);
-                    //    tY += NWDGUI.tPopupdStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    //    int tValueNext = 0;
-                    //    if (tValueIntNext < tI.Length && tValueIntNext >= 0)
-                    //    {
-                    //        tValueNext = tI[tValueIntNext];
-                    //    }
-                    //    if (tValueNext != tValue)
-                    //    {
-                    //        Property.SetValue(sObject, tValueNext, null);
-                    //        //rNeedBeUpdate = true;
-                    //    }
-                    //    EditorGUI.indentLevel = tIndentLevel;
-                    //}
                     else
                     {
                         Type tTypeOfThis = Property.PropertyType;
@@ -687,6 +661,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -701,6 +676,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AnalyzeForInspector()
         {
+            //BTBBenchmark.Start();
             if (LoadStyle == false)
             {
                 LoadStyle = true;
@@ -760,10 +736,6 @@ namespace NetWorkedData
                         {
                             tProperty.Information = tInsideReference.Content();
                         }
-                        //foreach (NWDGroupSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
-                        //{
-                        //    tProperty.Separator = true;
-                        //}
 
                         foreach (NWDInspectorGroupStart tInsideReference in tProp.GetCustomAttributes(typeof(NWDInspectorGroupStart), true))
                         {
@@ -895,10 +867,12 @@ namespace NetWorkedData
                 InspectorHelper.Open = true;
                 InspectorHelper.Name = ClassNamePHP + "_hj444gf445675xhcjh444vk";
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public GUIContent New_GetGuiContent(string sReference)
         {
+            //BTBBenchmark.Start();
             GUIContent rReturn = null;
             if (DatasByReference.ContainsKey(sReference))
             {
@@ -916,79 +890,15 @@ namespace NetWorkedData
             {
                 if (string.IsNullOrEmpty(sReference))
                 {
-                    rReturn = new GUIContent("none");
+                    rReturn = new GUIContent(NWDConstants.kFieldNone);
                 }
                 else
                 {
                     rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        //public static GUIContent GetGuiContent(string sReference)
-        //{
-        //    GUIContent rReturn = null;
-        //    if (BasisHelper().DatasByReference.ContainsKey(sReference))
-        //    {
-        //        NWDBasis<K> tObject = BasisHelper().DatasByReference[sReference] as K;
-        //        if (string.IsNullOrEmpty(tObject.InternalKey))
-        //        {
-        //            rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-        //        }
-        //        else
-        //        {
-        //            rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (string.IsNullOrEmpty(sReference))
-        //        {
-        //            rReturn = new GUIContent("none");
-        //        }
-        //        else
-        //        {
-        //            rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
-        //        }
-        //    }
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public float NewDrawObjectInspectorHeight()
-        {
-            float tY = 0;
-            BasisHelper().AnalyzeForInspector();
-            NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
-            foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
-            {
-                tY += tElement.NewDrawObjectInspectorHeight(this);
-            }
-            tY += AddonEditorHeight();
-            return tY;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public Rect NewDrawObjectInspector(Rect sInRect, bool sEditionEnable)
-        {
-            Rect tRect = Rect.zero;
-            BasisHelper().AnalyzeForInspector();
-            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
-            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
-            BasisHelper().AnalyzeForInspector();
-            NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
-            foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
-            {
-                tY = tElement.NewDrawObjectInspector(this, tX, tY, tWidth);
-            }
-            tRect = new Rect(sInRect.position.x, tY, sInRect.width, sInRect.height);
-            tY += AddonEditor(tRect);
-            return tRect;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

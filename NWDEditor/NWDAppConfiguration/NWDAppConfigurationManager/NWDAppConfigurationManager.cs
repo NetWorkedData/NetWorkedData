@@ -41,34 +41,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppConfigurationManager SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
             }
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public static bool IsSharedInstance()
+        //{
+        //    if (kSharedInstance != null)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppConfigurationManager SharedInstanceFocus()
         {
+            //BTBBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             // Init Title and icon 
             if (IconAndTitle == null)
             {
@@ -89,10 +94,12 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
@@ -193,7 +200,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             if (GUILayout.Button("Editor Database File"))
             {
-                EditorUtility.RevealInFinder("Assets/" +tDatabasePathEditor);
+                EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("Editor Pass Result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
             }
@@ -232,6 +239,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

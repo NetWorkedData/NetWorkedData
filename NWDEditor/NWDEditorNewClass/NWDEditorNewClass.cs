@@ -69,6 +69,7 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewClass()
         {
+            //BTBBenchmark.Start();
             GUI.FocusControl(null);
             // get the NWDExample code source
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample.cs";
@@ -175,10 +176,12 @@ namespace NetWorkedData
 
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -244,6 +247,7 @@ namespace NetWorkedData
             }
             tListOfclass.Insert(0, "  ");
             tListOfclass.Insert(0, "NWDBasis");
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -251,6 +255,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUILayout.Title("Custom class Generator");
             NWDGUILayout.Informations("Custom your class!");
             NWDGUILayout.Line();
@@ -405,6 +410,7 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -414,11 +420,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
+            //BTBBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == string.Empty && tObject.Value == " ")
             {
                 tReturn = true;
             }
+            //BTBBenchmark.Finish();
             return tReturn;
         }
 

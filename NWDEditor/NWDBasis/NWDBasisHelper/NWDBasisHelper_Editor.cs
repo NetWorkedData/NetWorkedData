@@ -69,50 +69,54 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 ObjectEditorScrollPosition = Vector2.zero;
         public bool kSyncAndMoreInformations = false;
-
-        //// TODO move in basichelper
-        //public bool SearchActions = true;
-        //// TODO move in basichelper
-        //public bool RowActions = true;
-        //// TODO move in basichelper
-        //public bool TableActions = true;
+        //-------------------------------------------------------------------------------------------------------------
 
         public string ActionsPrefkey()
         {
+            //BTBBenchmark.Start();
             string tKey = string.Empty;
             if (NWDAppConfiguration.SharedInstance().EditorTableCommun == false)
             {
                 tKey = ClassNamePHP;
             }
+            //BTBBenchmark.Finish();
             return tKey;
-        }
+        }        //-------------------------------------------------------------------------------------------------------------
+
         const string kSearchEditorState= "SearchEditorState";
         const string kTableEditorState = "TableEditorState";
         const string kRowEditorState = "RowEditorState";
+        //-------------------------------------------------------------------------------------------------------------
         public bool SearchActions()
         {
             return EditorPrefs.GetBool(ActionsPrefkey()+ kSearchEditorState);
         }
+        //-------------------------------------------------------------------------------------------------------------
         public bool RowActions()
         {
             return EditorPrefs.GetBool(ActionsPrefkey()+ kRowEditorState);
         }
+        //-------------------------------------------------------------------------------------------------------------
         public bool TableActions()
         {
             return EditorPrefs.GetBool(ActionsPrefkey()+ kTableEditorState);
         }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetSearchActions(bool sValue)
         {
             EditorPrefs.SetBool(ActionsPrefkey()+ kSearchEditorState, sValue);
         }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetRowActions(bool sValue)
         {
             EditorPrefs.SetBool(ActionsPrefkey()+ kRowEditorState, sValue);
         }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetTableActions(bool sValue)
         {
             EditorPrefs.SetBool(ActionsPrefkey()+ kTableEditorState, sValue);
         }
+        //-------------------------------------------------------------------------------------------------------------
 
 
 
@@ -156,6 +160,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetIconByDefaultIcon()
         {
+            //BTBBenchmark.Start();
             string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Resources/Textures/NWDExample.psd";
             string tLookFor = ClassNamePHP + "";
             //Debug.Log("Loook for :" + tLookFor);
@@ -206,10 +211,12 @@ namespace NetWorkedData
             }
             Texture = null;
             TextureOfClass();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D TextureOfClass()
         {
+            //BTBBenchmark.Start();
             if (Texture == null)
             {
                 Texture2D rTexture = null;
@@ -233,11 +240,13 @@ namespace NetWorkedData
                     Texture = NWDGUI.kImageDefaultIcon;
                 }
             }
+            //BTBBenchmark.Finish();
             return Texture;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SelectScript()
         {
+            //BTBBenchmark.Start();
             string tLookFor = ClassNamePHP + " t:script";
             //Debug.Log("Loook for :"+ tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
@@ -257,10 +266,12 @@ namespace NetWorkedData
                 EditorUtility.FocusProjectWindow();
                 Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(tPathString);
             }
-        } 
+            //BTBBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
+            //BTBBenchmark.Start();
             if (RowAnalyzed == false)
             {
                 foreach (NWDTypeClass tData in Datas)
@@ -271,11 +282,13 @@ namespace NetWorkedData
                 SortType = (NWDBasisEditorDatasSortType)EditorPrefs.GetInt(ClassNamePHP + "_SortEditor");
                 SortEditorTableDatas();
             }
+            //BTBBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
         public void SortEditorTableDatas()
         {
+            //BTBBenchmark.Start();
             // first sort to order result constant
             EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
             // reccord the new pref!
@@ -409,10 +422,12 @@ namespace NetWorkedData
                     }
                     break;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void New_CreateErrorAndMessage()
         {
+            //BTBBenchmark.Start();
             NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x01", "Error in " + ClassTableName, "error in request creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x02", "Error in " + ClassTableName, "error in request creation add primary key in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x03", "Error in " + ClassTableName, "error in request creation add autoincrement modify in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
@@ -432,6 +447,7 @@ namespace NetWorkedData
             NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x99", "Error in " + ClassTableName, "error columns number in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x88", "Error in " + ClassTableName, "integrity of one datas is false, break in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x77", "Error in " + ClassTableName, "error update log in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

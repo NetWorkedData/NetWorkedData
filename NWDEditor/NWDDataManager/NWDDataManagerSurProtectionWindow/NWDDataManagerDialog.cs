@@ -97,6 +97,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnGUI()
         {
+            //BTBBenchmark.Start();
             EditorGUILayout.HelpBox(Message, DialogType);
             bool tValid = true;
             Value = EditorGUILayout.TextField("Code", Value);
@@ -119,6 +120,7 @@ namespace NetWorkedData
             Rect tLastRect = GUILayoutUtility.GetLastRect();
             maxSize = new Vector2(NWDGUI.KTableSearchWidth * 2, tLastRect.y + tLastRect.height + NWDGUI.kFieldMarge);
             minSize = new Vector2(NWDGUI.KTableSearchWidth * 2, tLastRect.y + tLastRect.height + NWDGUI.kFieldMarge);
+            //BTBBenchmark.Finish();
         }
         //------------------------------------------------------------------------------------------------------------- 
     }

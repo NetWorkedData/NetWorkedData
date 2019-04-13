@@ -19,20 +19,9 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
-        //public static void ChangeAssetPath(string sOldPath, string sNewPath)
-        //{
-        //    if (AssetDependent() == true)
-        //    {
-        //        foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
-        //        {
-        //            tObject.ChangeAssetPathMe(sOldPath, sNewPath);
-        //        }
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
+            //BTBBenchmark.Start();
             if (TestIntegrity() == true)
             {
                 bool tUpdate = false;
@@ -61,6 +50,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByDefaultLocal);
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

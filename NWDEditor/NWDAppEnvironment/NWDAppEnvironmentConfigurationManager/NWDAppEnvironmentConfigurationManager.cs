@@ -32,34 +32,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentConfigurationManager SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager)) as NWDAppEnvironmentConfigurationManager;
             }
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentConfigurationManager SharedInstanceFocus()
         {
+            //BTBBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
-        {
-            if (kSharedInstance != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public static bool IsSharedInstance()
+        //{
+        //    if (kSharedInstance != null)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -79,10 +84,12 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Configuration environments");
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
@@ -109,7 +116,6 @@ namespace NetWorkedData
                 NWDConstants.K_APP_CONFIGURATION_PROD
             };
             // Draw interface for environment chooser
-            //NWDGUILayout.LittleSpace();
             int tTabSelect = GUILayout.Toolbar(TabSelected, tTabList);
             if (tTabSelect != TabSelected)
             {
@@ -149,6 +155,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -69,6 +69,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawBackgroundLine()
         {
+            //BTBBenchmark.Start();
             //Debug.Log("NWDNodeConnection DrawLine()");
             foreach (NWDNodeConnectionLine tCardLine in ChildrenList)
             {
@@ -141,10 +142,12 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawForwardPlot()
         {
+            //BTBBenchmark.Start();
             // Debug.Log("NWDNodeConnection DrawPlot()");
             if (ChildrenList.Count > 0)
             {
@@ -153,6 +156,7 @@ namespace NetWorkedData
                 Handles.color = NWDGUI.kNodeOverLineColor;
                 Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthMiniHalf-1.0F);
             }
+            //BTBBenchmark.Finish();
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

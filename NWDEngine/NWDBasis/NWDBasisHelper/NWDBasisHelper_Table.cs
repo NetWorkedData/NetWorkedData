@@ -100,7 +100,7 @@ namespace NetWorkedData
             {
                 bool tOccurence = true;
 
-                if (tObject.TestIntegrity() == false && m_ShowIntegrityError == false)
+                if (tObject.TestIntegrityResult == false && m_ShowIntegrityError == false)
                 {
                     tOccurence = false;
                 }

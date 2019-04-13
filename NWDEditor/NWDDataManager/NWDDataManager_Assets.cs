@@ -28,9 +28,11 @@ namespace NetWorkedData
 	public partial class NWDDataManager
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public void ChangeAssetPath (string sOldPath, string sNewPath) {
-			//Debug.Log ("ChangeAssetPath " + sOldPath + " to " + sNewPath);
-			string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
+		public void ChangeAssetPath (string sOldPath, string sNewPath)
+        {
+            //BTBBenchmark.Start();
+            //Debug.Log ("ChangeAssetPath " + sOldPath + " to " + sNewPath);
+            string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = mTypeList.Count + 1;
 			float tOperation = 1;
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation/tCountClass);
@@ -49,9 +51,10 @@ namespace NetWorkedData
             DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

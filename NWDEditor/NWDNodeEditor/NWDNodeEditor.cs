@@ -72,12 +72,14 @@ namespace NetWorkedData
         /// </summary>
         public static NWDNodeEditor SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance == null)
             {
                 kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
                 kNodeEditorSharedInstance.Show();
                 kNodeEditorSharedInstance.Focus();
             }
+            //BTBBenchmark.Finish();
             return kNodeEditorSharedInstance;
         }
 
@@ -87,6 +89,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RestaureObjectInEdition()
         {
+            //BTBBenchmark.Start();
             string tTypeEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
             string tLastReferenceEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
 
@@ -101,10 +104,12 @@ namespace NetWorkedData
                 }
                 SetObjectInNodeWindow(tSelection);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SaveObjectInEdition(NWDTypeClass sSelection)
         {
+            //BTBBenchmark.Start();
             if (sSelection == null)
             {
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
@@ -115,6 +120,7 @@ namespace NetWorkedData
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -123,6 +129,7 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
+            //BTBBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
             {
                 kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
@@ -131,6 +138,7 @@ namespace NetWorkedData
                 kNodeEditorSharedInstance.Focus();
                 kNodeEditorSharedInstance.SetSelection(sSelection);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -138,10 +146,12 @@ namespace NetWorkedData
         /// </summary>
         public static void ReDraw()
         {
+            //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Repaint();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -149,11 +159,13 @@ namespace NetWorkedData
         /// </summary>
         public static void ReAnalyzeIfNecessary(object sObjectModified)
         {
+            //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
                 kNodeEditorSharedInstance.Repaint();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -171,13 +183,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void UpdateNodeWindow(NWDTypeClass sSelection)
         {
-           // Debug.Log("NWDNodeEditor UpdateNodeWindow");
+            //BTBBenchmark.Start();
+            // Debug.Log("NWDNodeEditor UpdateNodeWindow");
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
-
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -186,18 +199,21 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public void SetSelection(NWDTypeClass sSelection)
         {
+            //BTBBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
             {
                 Document.SetData(sSelection);
                 Repaint();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the enable event.
-		/// </summary>
-		public void OnEnable ()
-		{
+        /// <summary>
+        /// Raises the enable event.
+        /// </summary>
+        public void OnEnable ()
+        {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -221,13 +237,15 @@ namespace NetWorkedData
             //titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
             Document.LoadClasses();
             Repaint();
-		}
+            //BTBBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the OnGUI event. Create the interface to enter a new class.
-		/// </summary>
-		public void OnGUI ()
-		{
+        /// <summary>
+        /// Raises the OnGUI event. Create the interface to enter a new class.
+        /// </summary>
+        public void OnGUI ()
+        {
+            //BTBBenchmark.Start();
             // Debug.Log("NWDNodeEditor OnGUI");
             //NWDConstants.LoadImages();
             NWDGUI.LoadStyles();
@@ -268,6 +286,7 @@ namespace NetWorkedData
                     mLastMousePosition = currPos;
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetLanguage()

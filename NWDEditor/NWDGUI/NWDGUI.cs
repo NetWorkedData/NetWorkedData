@@ -113,6 +113,7 @@ namespace NetWorkedData
         public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6.0F;
 
         public static Color kRowColorSelected;
+        public static Color kRowColorSelectedDark;
         public static Color kRowColorError;
         public static Color kRowColorWarning;
         public static Color kRowColorTrash;
@@ -161,14 +162,16 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         // Datas Selector
-        public static Color kSelectorTileSelected;
-        public static GUIStyle kSelectorTileStyle;
-        public static GUIStyle kSelectorTileDarkStyle;
-        public static Color kSelectorRowSelected;
-        public static GUIStyle kSelectorRowStyle;
-        public static GUIStyle kSelectorRowDarkStyle;
-        public static GUIStyle kDatasSelectorRowStyle;
-        public static GUIStyle kDatasSelectorRowErrorStyle;
+        //public static Color kSelectorTileSelected;
+        //public static GUIStyle kSelectorTileDarkStyle;
+        //public static Color kSelectorRowSelected;
+        //public static GUIStyle kSelectorRowDarkStyle;
+        ////public static GUIStyle kDatasSelectorRowStyle;
+        //public static GUIStyle kDatasSelectorRowErrorStyle;
+
+        public static GUIStyle kDataSelectorFieldStyle;
+        public static GUIStyle kDataSelectorTileStyle;
+        public static GUIStyle kDataSelectorRowStyle;
         public static float kDatasSelectorYOffset;
         //-------------------------------------------------------------------------------------------------------------
         // Data inspector properties
@@ -260,10 +263,17 @@ namespace NetWorkedData
             StyleLoaded = false;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void LoadStylesReforce()
+        {
+            StyleLoaded = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void LoadStyles()
         {
+            //BTBBenchmark.Start();
             if (StyleLoaded == false)
             {
+                //Debug.Log("LoadStyles()");
                 StyleLoaded = true;
 
                 // color force 
@@ -290,6 +300,7 @@ namespace NetWorkedData
                 kSubSectionColor = new Color(0, 0, 0, 0.1F);
 
                 kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
+                kRowColorSelectedDark = new Color(0.55f, 0.55f, 1.00f, 0.75f);
                 kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
                 kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
                 kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
@@ -302,9 +313,9 @@ namespace NetWorkedData
                 kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
 
 
-                kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+                //kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
 
-                kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+                //kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
 
                 kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
                 kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
@@ -565,46 +576,50 @@ namespace NetWorkedData
 
                 // Data Selector design
 
-                kDatasSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
-                kDatasSelectorRowStyle.richText = true;
-                kDatasSelectorRowStyle.fontSize = 12;
-                kDatasSelectorRowStyle.wordWrap = false;
-                kDatasSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kDatasSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
-                kDatasSelectorRowStyle.border = new RectOffset(2, 2, 2, 2);
-                kDatasSelectorRowStyle.fixedHeight = kDatasSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                kDatasSelectorRowErrorStyle = new GUIStyle(kDatasSelectorRowStyle);
-                kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
+                kDataSelectorFieldStyle = new GUIStyle(EditorStyles.helpBox);
+                kDataSelectorFieldStyle.richText = true;
+                kDataSelectorFieldStyle.fontSize = 12;
+                kDataSelectorFieldStyle.wordWrap = false;
+                kDataSelectorFieldStyle.alignment = TextAnchor.MiddleLeft;
+                kDataSelectorFieldStyle.imagePosition = ImagePosition.ImageLeft;
+                kDataSelectorFieldStyle.border = new RectOffset(2, 2, 2, 2);
+                kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kDatasSelectorRowErrorStyle = new GUIStyle(kDataSelectorFieldStyle);
+                //kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
 
                 // Selector design
 
-                kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorTileStyle.fontSize = 14;
-                kSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
-                kSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
-                kSelectorTileStyle.alignment = TextAnchor.LowerCenter;
-                kSelectorTileStyle.fixedHeight = kSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
+                kDataSelectorTileStyle.richText = true;
+                kDataSelectorTileStyle.fontSize = 10;
+                kDataSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
+                kDataSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
+                kDataSelectorTileStyle.alignment = TextAnchor.LowerCenter;
+                kDataSelectorTileStyle.fixedHeight = kDataSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorTileDarkStyle.fontSize = 14;
-                kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
-                kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
-                kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
-                kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
+                //kSelectorTileDarkStyle.richText = true;
+                //kSelectorTileDarkStyle.fontSize = 14;
+                //kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
+                //kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
+                //kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
+                //kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorRowStyle.fontSize = 14;
-                kSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
-                kSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
-                kSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowStyle.fixedHeight = kSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
+                kDataSelectorRowStyle.richText = true;
+                kDataSelectorRowStyle.fontSize = 14;
+                kDataSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
+                kDataSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
+                kDataSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
+                kDataSelectorRowStyle.fixedHeight = kDataSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorRowDarkStyle.fontSize = 14;
-                kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
-                kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
-                kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
+                //kSelectorRowDarkStyle.richText = true;
+                //kSelectorRowDarkStyle.fontSize = 14;
+                //kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
+                //kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
+                //kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
+                //kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
 
                 // References content
@@ -640,6 +655,7 @@ namespace NetWorkedData
                 //kLeftContentIcon = new GUIContent("<");
                 //kRightContentIcon = new GUIContent(">");
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect MargeLeftRight(Rect sRect)
@@ -696,6 +712,16 @@ namespace NetWorkedData
             {
                 GUI.backgroundColor = kOldColor;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color DefaultColorArea()
+        {
+            if (kOldColorInit == false)
+            {
+                kOldColor = GUI.backgroundColor;
+                kOldColorInit = true;
+            }
+            return kOldColor;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void BeginColorArea(Color sColor)

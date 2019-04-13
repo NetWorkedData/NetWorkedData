@@ -36,6 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataInspector ShareInstance()
         {
+            //BTBBenchmark.Start();
             if (kShareInstance == null)
             {
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
@@ -44,6 +45,7 @@ namespace NetWorkedData
                 kShareInstance.minSize = new Vector2(300, 500);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
+            //BTBBenchmark.Finish();
             return kShareInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -67,6 +69,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataPreview()
         {
+            //BTBBenchmark.Start();
             ActualIndex--;
             if (ActualIndex < 0)
             {
@@ -77,6 +80,7 @@ namespace NetWorkedData
             Repaint();
             RemoveActualFocus = true;
             Focus();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedDataNext()
@@ -86,6 +90,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataNext()
         {
+            //BTBBenchmark.Start();
             ActualIndex++;
             if (ActualIndex >= mObjectsList.Count)
             {
@@ -96,6 +101,7 @@ namespace NetWorkedData
             Repaint();
             RemoveActualFocus = true;
             Focus();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool InspectNetWorkedPreview()
@@ -120,6 +126,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedData(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
+            //BTBBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
@@ -131,10 +138,12 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Data(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
+            //BTBBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
@@ -170,7 +179,7 @@ namespace NetWorkedData
                     NWDNodeEditor.ReDraw();
                 }
             }
-            //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDTypeClass ObjectInEdition()
@@ -202,6 +211,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             if (RemoveActualFocus == true)
             {
                 GUI.FocusControl(null);
@@ -243,7 +253,7 @@ namespace NetWorkedData
                 //}
                 mObjectInEdition.New_DrawObjectEditor(position, true);
             }
-            //			GUI.EndScrollView();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

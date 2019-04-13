@@ -194,7 +194,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
-            return NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+            return NWDGUI.kDataSelectorFieldStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
@@ -206,8 +206,8 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            tTemporary.Value = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)),new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tTemporary.Value);
-            tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+            tTemporary.Value = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)),new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tTemporary.Value);
+            tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------

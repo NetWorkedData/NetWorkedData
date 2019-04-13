@@ -31,6 +31,7 @@ namespace NetWorkedData
         //[NWDAliasMethod(NWDConstants.M_NodeCardAnalyze)]
         public override void  NodeCardAnalyze(NWDNodeCard sCard)
         {
+            //BTBBenchmark.Start();
             //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + BasisHelper().ClassNamePHP);
             // insert informations
             sCard.ClassTexture = BasisHelper().TextureOfClass();
@@ -202,6 +203,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
@@ -222,11 +224,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
         {
+            //BTBBenchmark.Start();
             GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
             tBox.alignment = TextAnchor.MiddleLeft;
             GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
             //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
             //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Color AddOnNodeColor()

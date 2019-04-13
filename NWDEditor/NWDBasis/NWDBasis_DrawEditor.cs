@@ -29,94 +29,10 @@ namespace NetWorkedData
         protected UnityEngine.Object PreviewObject = null;
         protected bool PreviewTextureIsLoaded = false;
         Editor gameObjectEditor;
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
-        //{
-        //    if (BasisHelper().EditorTableDatas.Count > 0)
-        //    {
-        //        K sObject = BasisHelper().EditorTableDatas.ElementAt(0) as K;
-        //        //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
-        //        BasisHelper().New_SetObjectInEdition(sObject);
-        //        sEditorWindow.Focus();
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
-        //public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
-        ////-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_RestaureObjectInEdition)]
-        //public static NWDBasis<K> RestaureObjectInEdition()
-        //{
-        //    string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
-        //    string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
-        //    NWDBasis<K> rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
-        //    if (rObject != null)
-        //    {
-        //        SetObjectInEdition(rObject);
-        //    }
-        //    return rObject;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasis<K> ObjectInEditionReccord(string sClassPHP, string sReference)
-        //{
-        //    NWDBasis<K> rObject = null;
-        //    if (!string.IsNullOrEmpty(sClassPHP) && !string.IsNullOrEmpty(sReference))
-        //    {
-        //        if (sClassPHP == BasisHelper().ClassNamePHP)
-        //        {
-        //            K tObj = NWDBasis<K>.GetDataByReference(sReference);
-        //            rObject = tObj;
-        //        }
-        //    }
-        //    return rObject;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static void SaveObjectInEdition()
-        //{
-        //    NWDBasis<K> tObject = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-        //    if (tObject == null)
-        //    {
-        //        EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
-        //        EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
-        //    }
-        //    else
-        //    {
-
-        //        EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
-        //        EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
-        //    }
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static void SetObjectInEdition(object sObject, bool sResetStack = true, bool sFocus = true)
-        //{
-
-        //    GUI.FocusControl(null);
-        //    NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
-        //    if (sObject != null)
-        //    {
-        //        NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
-        //        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-        //    }
-        //    else if (NWDBasisEditor.ObjectEditorLastType != null)
-        //    {
-        //        NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
-        //        NWDBasisEditor.ObjectEditorLastType = null;
-        //    }
-        //    SaveObjectInEdition();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static bool IsObjectInEdition(object sObject)
-        //{
-        //    bool rReturn = false;
-        //    if (NWDDataInspector.ObjectInEdition() == sObject)
-        //    {
-        //        rReturn = true;
-        //    }
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
+            //BTBBenchmark.Start();
             PreviewTexture = null;
             PreviewObject = null;
             if (string.IsNullOrEmpty(Preview) == false)
@@ -124,7 +40,6 @@ namespace NetWorkedData
                 PreviewObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
                 if (PreviewObject is GameObject)
                 {
-                    //Debug.Log("change rotation");
                     ((GameObject)PreviewObject).transform.rotation = Quaternion.Euler(-180, -180, -180);
                 }
                 if (PreviewObject != null)
@@ -133,55 +48,85 @@ namespace NetWorkedData
                     PreviewTextureIsLoaded = true;
                 }
             }
+            //BTBBenchmark.Finish();
             return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Texture2D PreviewTexture2D()
         {
-            //if (PreviewTextureIsLoaded == false)
-            //{
-                ReloadPreview();
-            //}
+            ReloadPreview();
             return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public Texture2D GetPreviewTexture2D()
-        //{
-        //    if (PreviewTextureIsLoaded == false)
-        //    {
-        //        ReloadPreviewTexture2D();
-        //    }
-        //    return AssetPreview.GetAssetPreview(PreviewObject);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Vector2 sOrigin)
         {
+            //BTBBenchmark.Start();
             DrawPreviewTexture2D(new Rect(sOrigin.x, sOrigin.y, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize));
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Rect sRect)
         {
+            //BTBBenchmark.Start();
             Texture2D tTexture = PreviewTexture2D();
             if (tTexture != null)
             {
-               // EditorGUI.DrawPreviewTexture(sRect, tTexture);
                 GUI.DrawTexture(sRect, tTexture, ScaleMode.ScaleToFit, true);
             }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float DrawObjectInspectorHeight()
+        {
+            //BTBBenchmark.Start();
+            float tY = 0;
+            BasisHelper().AnalyzeForInspector();
+            NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
+            foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
+            {
+                tY += tElement.NewDrawObjectInspectorHeight(this);
+            }
+            tY += AddonEditorHeight();
+            //BTBBenchmark.Finish();
+            return tY;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Rect DrawObjectInspector(Rect sInRect, bool sEditionEnable)
+        {
+            //BTBBenchmark.Start();
+            Rect tRect = Rect.zero;
+            BasisHelper().AnalyzeForInspector();
+            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
+            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
+            BasisHelper().AnalyzeForInspector();
+            NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
+            foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
+            {
+                tY = tElement.NewDrawObjectInspector(this, tX, tY, tWidth);
+            }
+            tRect = new Rect(sInRect.position.x, tY, sInRect.width, sInRect.height);
+            tY += AddonEditor(tRect);
+            //BTBBenchmark.Finish();
+            return tRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float New_DrawObjectInspectorHeight()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             float tY = 0;
             Type tType = ClassType();
-            tY += NewDrawObjectInspectorHeight();
+            tY += DrawObjectInspectorHeight();
             tY += NWDGUI.kFieldMarge;
             tY += AddonEditorHeight();
+            //BTBBenchmark.Finish();
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
 
             float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
@@ -208,7 +153,7 @@ namespace NetWorkedData
                 tY = NWDGUI.kFieldMarge;
             }
             EditorGUI.BeginDisabledGroup(sEditionEnable == false);
-            NewDrawObjectInspector(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), sEditionEnable);
+            DrawObjectInspector(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), sEditionEnable);
             EditorGUI.EndDisabledGroup();
             // finish scrollview 
             if (sWithScrollview == true)
@@ -238,11 +183,13 @@ namespace NetWorkedData
                 }
             }
             Rect tFinalRect = new Rect(sInRect.position.x, tY, sInRect.width, tY - sInRect.position.y);
+            //BTBBenchmark.Finish();
             return tFinalRect;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
+            //BTBBenchmark.Start();
             BasisHelper().RowAnalyze();
             float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
             float tX = NWDGUI.kFieldMarge;
@@ -255,22 +202,12 @@ namespace NetWorkedData
 
             if (BasisHelper().WebModelChanged == true)
             {
-                tY +=NWDGUI.WarningBox(new Rect(tX+ NWDGUI.kFieldMarge, tY, tWidth- NWDGUI.kFieldMarge*2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
-                //string tWarning = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
-                //GUIContent tCC = new GUIContent(tWarning);
-                //NWDConstants.tWarningBoxStyle.fixedHeight = NWDConstants.tWarningBoxStyle.CalcHeight(tCC, tWidth);
-                //GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tWarningBoxStyle.fixedHeight), tCC, NWDConstants.tWarningBoxStyle);
-                //tY += NWDConstants.tWarningBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tY += NWDGUI.WarningBox(new Rect(tX + NWDGUI.kFieldMarge, tY, tWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
             }
 
             if (BasisHelper().WebModelDegraded == true)
             {
-                tY += NWDGUI.WarningBox(new Rect(tX+ NWDGUI.kFieldMarge, tY, tWidth- NWDGUI.kFieldMarge*2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
-                //string tWarning = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
-                //GUIContent tCC = new GUIContent(tWarning);
-                //NWDConstants.tWarningBoxStyle.fixedHeight = NWDConstants.tWarningBoxStyle.CalcHeight(tCC, tWidth);
-                //GUI.Label(new Rect(tX, tY, tWidth, NWDConstants.tWarningBoxStyle.fixedHeight), tCC, NWDConstants.tWarningBoxStyle);
-                //tY += NWDConstants.tWarningBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tY += NWDGUI.WarningBox(new Rect(tX + NWDGUI.kFieldMarge, tY, tWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
             }
             if (string.IsNullOrEmpty(tTitle))
             {
@@ -403,27 +340,10 @@ namespace NetWorkedData
             EditorGUI.DrawRect(new Rect(0, tY - NWDGUI.kFieldMarge, sInRect.width, sInRect.height), NWDGUI.kIdentityColor);
 
             tY += NWDGUI.kFieldMarge;
-            //Texture2D tTexture2D = PreviewTexture2D();
-            //if (tTexture2D != null)
-            //{
-            //   EditorGUI.DrawPreviewTexture(new Rect(NWDGUI.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
-            //    //if (PreviewObject != null)
-            //    //{
-            //    //    //if (gameObjectEditor == null)
-            //    //    //{
-            //    //        gameObjectEditor = Editor.CreateEditor(PreviewObject);
-            //    //    //}
-            //    //    //else
-            //    //    //{
-            //    //    //    //gameObjectEditor.
-            //    //    //}
-            //    //    gameObjectEditor.OnInteractivePreviewGUI(new Rect(NWDGUI.kFieldMarge, tY, tImageWidth, tImageWidth), EditorStyles.whiteLabel);
-            //    //}
-            //}
 
             DrawPreviewTexture2D(new Rect(NWDGUI.kFieldMarge, tY, tImageWidth, tImageWidth));
-                
-            if (GUI.Button(new Rect(NWDGUI.kFieldMarge, tY + tImageWidth + NWDGUI.kFieldMarge, tImageWidth, NWDGUI.kMiniButtonStyle.fixedHeight),"Reload",NWDGUI.kMiniButtonStyle))
+
+            if (GUI.Button(new Rect(NWDGUI.kFieldMarge, tY + tImageWidth + NWDGUI.kFieldMarge, tImageWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reload", NWDGUI.kMiniButtonStyle))
             {
                 Debug.Log("Reload");
                 ReloadPreview();
@@ -512,7 +432,7 @@ namespace NetWorkedData
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 PreviewTexture2D();
                 RowAnalyze();
-               BasisHelper().New_RepaintTableEditor();
+                BasisHelper().New_RepaintTableEditor();
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
@@ -660,16 +580,13 @@ namespace NetWorkedData
                 NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
-
-
             if (BasisHelper().kAccountDependent == false)
             {
-                //NWDBasisCheckList tCheckList = (NWDBasisCheckList)EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, NWDGUI.tTextFieldStyle.fixedHeight), "Check List", CheckList);
                 if (CheckList == null)
                 {
                     CheckList = new NWDBasisCheckList();
                 }
-                    NWDBasisCheckList tCheckList = (NWDBasisCheckList)CheckList.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
+                NWDBasisCheckList tCheckList = (NWDBasisCheckList)CheckList.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
 
                 tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
@@ -833,12 +750,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             /*Rect tPropertyRect =*/
 
-
-
-
-
             New_DrawObjectInspector(tRectProperty, sWithScrollview, tCanBeEdit);
-
 
             EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
             tY = sInRect.height - tBottomHeight;
@@ -849,15 +761,11 @@ namespace NetWorkedData
 
             EditorGUI.DrawRect(new Rect(0, tY, tWidth + NWDGUI.kFieldMarge * 2, tBottomHeight), NWDGUI.kIdentityColor);
 
-
-
             // Prepare Action and Warning zone 
 
             tY += NWDGUI.kFieldMarge; // Add marge 
 
             float tButtonWidth = (tWidth - (NWDGUI.kFieldMarge * 3)) / 4.0f;
-
-
 
             // Action Zone
             GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
@@ -904,7 +812,6 @@ namespace NetWorkedData
                 //K tNexObject = (K)DuplicateMe();
                 NWDTypeClass tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tNexObject);
-                //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                 {
                     tNexObject.Tag = BasisHelper().m_SearchTag;
@@ -931,9 +838,6 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
-
-
-
 
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
@@ -994,13 +898,6 @@ namespace NetWorkedData
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             NWDGUI.EndRedArea();
-
-
-
-
-
-
-
 
             // Shortcut navigation
 
@@ -1080,6 +977,7 @@ namespace NetWorkedData
                 {
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditor(Rect sInRect)
@@ -1100,6 +998,7 @@ namespace NetWorkedData
         //[NWDAliasMethod(NWDConstants.M_CheckError)]
         public override void ErrorCheck()
         {
+            //BTBBenchmark.Start();
             //  Debug.Log("NWDBasis ErrorCheck()");
             bool tErrorResult = false;
             Type tType = ClassType();
@@ -1178,6 +1077,7 @@ namespace NetWorkedData
             {
                 InError = tErrorResult;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

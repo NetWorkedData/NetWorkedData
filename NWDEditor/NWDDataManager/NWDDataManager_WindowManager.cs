@@ -29,8 +29,9 @@ namespace NetWorkedData
         public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
         //-------------------------------------------------------------------------------------------------------------
 		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
-		{
-			foreach (Type tType in sType) 
+        {
+            //BTBBenchmark.Start();
+            foreach (Type tType in sType) 
 			{
 				if (mTypeWindowDico.ContainsKey (tType))
 				{
@@ -47,35 +48,41 @@ namespace NetWorkedData
 					mTypeWindowDico.Add (tType, tList);
 						
 				}
-			}
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void RemoveWindowFromManager (NWDTypeWindow sWindow)
-		{
-			foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
+        public void RemoveWindowFromManager (NWDTypeWindow sWindow)
+        {
+            //BTBBenchmark.Start();
+            foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
 			{
 				List<NWDTypeWindow> tList = tKeyValue.Value;
 				if (tList.Contains (sWindow) == true) 
 				{
 					tList.Remove (sWindow);
                 }
-			}
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void RepaintWindowsInManager (Type sType)
-		{
+        public void RepaintWindowsInManager (Type sType)
+        {
+            //BTBBenchmark.Start();
             //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-			if (mTypeWindowDico.ContainsKey (sType))
+            if (mTypeWindowDico.ContainsKey (sType))
 			{
 				foreach (NWDTypeWindow tWindow in mTypeWindowDico [sType])
 				{
 					tWindow.Repaint ();
 				}
-			}
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<EditorWindow> EditorWindowsInManager(Type sType)
         {
+            //BTBBenchmark.Start();
             List<EditorWindow> tReturn = new List<EditorWindow>();
             if (mTypeWindowDico.ContainsKey(sType))
             {
@@ -84,20 +91,9 @@ namespace NetWorkedData
                     tReturn.Add(tWindow);
                 }
             }
+            //BTBBenchmark.Finish();
             return tReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public void RepaintWindowForData(Type sType)
-        //{
-        //    //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-        //    if (mTypeWindowDico.ContainsKey(sType))
-        //    {
-        //        foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
-        //        {
-        //            tWindow.Repaint();
-        //        }
-        //    }
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
