@@ -182,9 +182,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Account informations");
                 string tAccountInfosReference = "?";
-                if (NWDAccountInfos.GetFirstData(NWDAccount.CurrentReference(), null) != null)
+                if (NWDAccountInfos.FilterFirstData(NWDAccount.CurrentReference(), null) != null)
                 {
-                    NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData(NWDAccount.CurrentReference(), null);
+                    NWDAccountInfos tAccountInfos = NWDAccountInfos.FilterFirstData(NWDAccount.CurrentReference(), null);
                     tAccountInfosReference = tAccountInfos.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, tAccountInfosReference);
 

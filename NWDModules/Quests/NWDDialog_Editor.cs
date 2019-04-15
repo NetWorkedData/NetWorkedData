@@ -83,12 +83,6 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 350.0f;
-            //return sDocumentWidth;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
@@ -100,7 +94,7 @@ namespace NetWorkedData
             float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
 
             NWDDialog[] tDialogs = NextDialogs.GetObjects();
-            float tAnswers = tDialogs.Length * NWDNodeEditor.SharedInstance().GetHeightProperty();
+            float tAnswers = tDialogs.Length * 20;
 
             return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
         }
@@ -213,75 +207,6 @@ namespace NetWorkedData
                     GUI.backgroundColor = tBackgroundColor;
                 }
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
-        {
-            LoadImages();
-            GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
-            tBox.alignment = TextAnchor.MiddleLeft;
-            GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
-            //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
-            //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
-
-            //string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
-
-            //float tButtonWidth = 150.0F;
-
-            Color tBackgroundColor = GUI.backgroundColor;
-
-            //if (AnswerState == NWDDialogState.Stop)
-            //{
-            //    GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
-            //}
-            //else 
-            //    if (AnswerState == NWDDialogState.Step)
-            //{
-            //    GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
-            //}
-            //else if (AnswerState == NWDDialogState.Sequent)
-            //{
-            //    GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
-            //}
-
-
-            //string tAnswer = Answer.GetLanguageString(tLangue);
-            //string tAnswer = AnswerRichTextForLanguage(tLangue, false);
-            //GUIContent tContent = new GUIContent(tAnswer);
-            //GUIContent tContent = null;
-            //switch (AnswerState)
-            //{
-            //    case NWDDialogState.Sequent:
-            //        {
-            //            tContent = new GUIContent(tAnswer, kImageSequent);
-            //        }
-            //        break;
-            //    case NWDDialogState.Step:
-            //        {
-            //            tContent = new GUIContent(tAnswer, kImageStep);
-            //        }
-            //        break;
-            //    default:
-            //    case NWDDialogState.Normal:
-            //        {
-            //            tContent = new GUIContent(tAnswer, kImageNormal);
-            //        }
-            //        break;
-            //}
-            // if (string.IsNullOrEmpty(tAnswer) == false)
-            {
-                //if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDGUI.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
-                //{
-                //    NWDDataInspector.InspectNetWorkedData(this, false, false);
-                //}
-            }
-            GUI.backgroundColor = tBackgroundColor;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override Color AddOnNodeColor()
-        {
-
-            return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -30,12 +30,6 @@ namespace NetWorkedData
     public partial class NWDSetOfQuests : NWDBasis<NWDSetOfQuests>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 250.0f;
-            //return sDocumentWidth;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             return 130.0f;
@@ -46,11 +40,6 @@ namespace NetWorkedData
             GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
             string tText = InternalDescription ;
             GUI.Label(sRect, tText, tStyle);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override Color AddOnNodeColor()
-        {
-            return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

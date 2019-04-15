@@ -122,7 +122,7 @@ namespace NetWorkedData
                         sDefault = sText;
                     }
 
-                    NWDConsent tObject = FindFirstDataByInternalKey(sText, true) as NWDConsent;
+                    NWDConsent tObject = FilterFirstDataByInternalKey(sText, true) as NWDConsent;
                     if (tObject != null)
                     {
                         // Title

@@ -59,7 +59,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetLocalText(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
-            NWDLocalization tObject = FindFirstDataByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FilterFirstDataByInternalKey(sKey, true) as NWDLocalization;
             string rReturn = sDefault;
             if (tObject != null)
             {

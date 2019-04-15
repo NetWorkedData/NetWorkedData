@@ -527,7 +527,7 @@ namespace NetWorkedData
                     {
                         foreach (NWDTypeClass tObject in tBasisHelper.Datas)
                         {
-                            tObject.UpdateIntegrityAction();
+                            tObject.UpdateData();
                         }
                     }
                 //}

@@ -63,7 +63,7 @@ namespace NetWorkedData
 #endif
             string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
 
-            rPref = NWDBasisPreferences.GetDataByReference(tKey);
+            rPref = NWDBasisPreferences.RawDataByReference(tKey);
             if (rPref == null)
             {
                 rPref = NWDBasisPreferences.NewDataWithReference(tKey);

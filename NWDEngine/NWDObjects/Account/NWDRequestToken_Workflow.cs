@@ -66,7 +66,7 @@ namespace NetWorkedData
             }
             if (kCurrent == null)
             {
-                NWDRequestToken tResquestToken = GetFirstData(NWDAccount.CurrentReference(), null);
+                NWDRequestToken tResquestToken = FilterFirstData(NWDAccount.CurrentReference(), null);
                 if (tResquestToken == null)
                 {
                     NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();

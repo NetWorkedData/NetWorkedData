@@ -118,7 +118,7 @@ namespace NetWorkedData
             List< List<string>> Final = new List<List<string>>();
             foreach (string tA in sItemGroupIngredient)
             {
-                NWDItemGroup tItemGroup = NWDItemGroup.GetDataByReference(tA);
+                NWDItemGroup tItemGroup = NWDItemGroup.RawDataByReference(tA);
                 if (tItemGroup != null)
                 {
                     NWDItem[] tItems = tItemGroup.ItemList.GetObjectsAbsolute();

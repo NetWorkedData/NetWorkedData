@@ -44,7 +44,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserPreference GetByInternalKeyOrCreate(string sInternalKey, NWDMultiType sDefaultValue, string sInternalDescription = BTBConstants.K_EMPTY_STRING)
         {
-            NWDUserPreference rObject = FindFirstDataByInternalKey(sInternalKey);
+            NWDUserPreference rObject = FilterFirstDataByInternalKey(sInternalKey);
             if (rObject == null)
             {
                 rObject = NewData();

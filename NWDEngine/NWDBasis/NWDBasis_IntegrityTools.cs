@@ -206,6 +206,13 @@ namespace NetWorkedData
 #endif
             Integrity = IntegrityValue();
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        //public override void UpdateIntegrityAction()
+        //{
+        //    //UpdateIntegrity();
+        //    UpdateData();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Tests the integrity.

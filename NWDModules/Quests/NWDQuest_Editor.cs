@@ -30,12 +30,6 @@ namespace NetWorkedData
     public partial class NWDQuest : NWDBasis<NWDQuest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 250.0f;
-            //return sDocumentWidth;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             return 240.0f;
@@ -70,11 +64,6 @@ namespace NetWorkedData
                 "\n <b>Required Items Groups: </b>\n"+ tRequiredItemGroupsDescription+
                 "\n ";
             GUI.Label(sRect, tText, tStyle);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override Color AddOnNodeColor()
-        {
-            return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

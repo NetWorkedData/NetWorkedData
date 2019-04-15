@@ -125,7 +125,7 @@ namespace NetWorkedData
         public static List<NWDUserBarterRequest> FindRequestsSentWith(NWDBarterPlace sBarterPlace, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
-            foreach (NWDUserBarterRequest k in FindDatas(sAccountReference, sGameSave))
+            foreach (NWDUserBarterRequest k in FilterDatas(sAccountReference, sGameSave))
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
                 {

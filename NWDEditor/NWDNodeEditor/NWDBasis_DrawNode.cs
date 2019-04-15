@@ -35,20 +35,18 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + BasisHelper().ClassNamePHP);
             // insert informations
             sCard.ClassTexture = BasisHelper().TextureOfClass();
-            sCard.ReferenceString = Reference;
-            sCard.TypeString = BasisHelper().ClassNamePHP;
-            sCard.InternalKeyString = InternalKey;
+            //sCard.ReferenceString = Reference;
+            //sCard.TypeString = BasisHelper().ClassNamePHP;
+            //sCard.InternalKeyString = InternalKey;
 
-            sCard.Width = AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth());
+            //sCard.Width = NWDGUI.kNodeCardWidth;
             //sCard.Width = 250.0F;
-            sCard.ParentDocument.SetWidth(AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth()));
-
-            sCard.InformationsHeight = AddOnNodeDrawHeight(sCard.Width);
-            //sCard.InformationsHeight = 250.0F;
-            sCard.ParentDocument.SetInformationsHeight(sCard.InformationsHeight);
+            //sCard.InformationsHeight = AddOnNodeDrawHeight(sCard.Width);
+            ////sCard.InformationsHeight = 250.0F;
+            //sCard.ParentDocument.SetInformationsHeight(sCard.InformationsHeight);
 
 
-            sCard.InformationsColor = AddOnNodeColor();
+            //sCard.InformationsColor = AddOnNodeColor();
             // data must be analyzed
             // data is in a preview card?
             //bool tDataAllReadyShow = false;
@@ -78,7 +76,8 @@ namespace NetWorkedData
                 Type tType = ClassType();
 
 
-                if (sCard.ParentDocument.AnalyzeTheseClasses[tType.Name] == true)
+                if (sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Analyze ||
+                    sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Both)
                 {
                     foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
@@ -122,7 +121,9 @@ namespace NetWorkedData
 
 
                                         Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                        if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
+
+                                        if (sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Show ||
+                    sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Both)
                                         {
                                             // TODO : Change to remove invoke!
                                             //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_EditorGetObjects);
@@ -207,36 +208,36 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 250.0f;
-        }
+        //public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        //{
+        //    return 300.0f;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight(float sCardWidth)
-        {
-            return 130.0f;
-        }
+        //public override float AddOnNodeDrawHeight(float sCardWidth)
+        //{
+        //    return 130.0f;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        //{
+        //    GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
-        {
-            GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
-        {
-            //BTBBenchmark.Start();
-            GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
-            tBox.alignment = TextAnchor.MiddleLeft;
-            GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
-            //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
-            //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
-            //BTBBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override Color AddOnNodeColor()
-        {
-            return Color.white;
-        }
+        //public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
+        //{
+        //    //BTBBenchmark.Start();
+        //    GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+        //    tBox.alignment = TextAnchor.MiddleLeft;
+        //    GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
+        //    //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
+        //    //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
+        //    //BTBBenchmark.Finish();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public override Color AddOnNodeColor()
+        //{
+        //    return Color.white;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

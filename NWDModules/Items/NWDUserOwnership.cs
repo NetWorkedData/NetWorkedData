@@ -260,7 +260,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDItem tItem = NWDItem.GetDataByReference(tQte.Key);
+                    NWDItem tItem = NWDItem.RawDataByReference(tQte.Key);
                     AddItemToOwnership(tItem, tQte.Value);
                 }
             }
@@ -272,7 +272,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDItem tItem = NWDItem.GetDataByReference(tQte.Key);
+                    NWDItem tItem = NWDItem.RawDataByReference(tQte.Key);
                     AddItemToOwnership(tItem, -tQte.Value);
                 }
             }
@@ -449,7 +449,7 @@ namespace NetWorkedData
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
-            NWDItemGroup tItemGroup = NWDItemGroup.FindDataByReference(sConditional.Reference);
+            NWDItemGroup tItemGroup = NWDItemGroup.FilterDataByReference(sConditional.Reference);
             if (tItemGroup != null)
             {
                 rReturn = false;

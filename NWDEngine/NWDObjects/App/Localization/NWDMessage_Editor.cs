@@ -35,7 +35,7 @@ namespace NetWorkedData
         {
             string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDMessage tMessage = NWDMessage.GetDataByReference(tReference);
+            NWDMessage tMessage = NWDMessage.RawDataByReference(tReference);
             //NWDMessage tError = InstanceByReference(tReference) as NWDMessage;
             if (tMessage == null)
             {

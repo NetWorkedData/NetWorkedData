@@ -45,7 +45,7 @@ namespace NetWorkedData
         public static string Enrichment(string sText, bool sBold = true)
         {
             // Get First nickname found and return a new string
-            return Enrichment(sText, GetFirstData(), sBold);
+            return Enrichment(sText, FilterFirstData(), sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : clean

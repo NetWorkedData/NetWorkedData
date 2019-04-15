@@ -34,6 +34,7 @@ namespace NetWorkedData
         public bool Reducible = false;
         public bool Separator = true;
         public string ClassName;
+        public bool Visible = true;
         //public List<NWDBasisHelperGroup> Groups = new List<NWDBasisHelperGroup>();
         public List<NWDBasisHelperElement> Elements = new List<NWDBasisHelperElement>();
         //-------------------------------------------------------------------------------------------------------------
@@ -84,6 +85,8 @@ namespace NetWorkedData
         public float SpaceBefore = 0.0F;
         public bool Separator = false;
         public string Tooltips;
+        public bool IsReconnection = false;
+        public bool IsReconnectionMultiple = false;
 
         //-------------------------------------------------------------------------------------------------------------
         public GUIContent Content()
@@ -91,7 +94,7 @@ namespace NetWorkedData
             return new GUIContent(Name, Tooltips);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float NewDrawObjectInspectorHeight(object sObject)
+        public float NewDrawObjectInspectorHeight(object sObject, NWDNodeCard sNodalCard)
         {
             //BTBBenchmark.Start();
             float tY = SpaceBefore;
@@ -170,6 +173,16 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                         {
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+                            {
+                                IsReconnection = true;
+                                IsReconnectionMultiple = false;
+                            }
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                            {
+                                IsReconnection = true;
+                                IsReconnectionMultiple = true;
+                            }
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
@@ -233,38 +246,42 @@ namespace NetWorkedData
             }
             if (Group != null)
             {
-                if (Group.Separator == true)
+                if (Group.Visible == true)
                 {
-                    tY += NWDGUI.kFieldMarge * 2;
-                }
-                if (Group.Reducible == true)
-                {
-                    if (Group.Bold == true)
+                    if (Group.Separator == true)
                     {
-                        tY += NWDGUI.kBoldFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        tY += NWDGUI.kFieldMarge * 2;
+                    }
+                    if (Group.Reducible == true)
+                    {
+                        if (Group.Bold == true)
+                        {
+                            tY += NWDGUI.kBoldFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
+                        else
+                        {
+                            tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
                     }
                     else
                     {
-                        tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        if (Group.Bold == true)
+                        {
+                            tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
+                        else
+                        {
+                            tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
                     }
-                }
-                else
-                {
-                    if (Group.Bold == true)
+                    tY += NWDGUI.kFieldMarge;
+                    if (Group.IsDrawable() == true)
                     {
-                        tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    }
-                    else
-                    {
-                        tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    }
-                }
-                tY += NWDGUI.kFieldMarge;
-                if (Group.IsDrawable() == true)
-                {
-                    foreach (NWDBasisHelperElement tElement in Group.Elements)
-                    {
-                        tY += tElement.NewDrawObjectInspectorHeight(sObject);
+                        foreach (NWDBasisHelperElement tElement in Group.Elements)
+                        {
+
+                            tY += tElement.NewDrawObjectInspectorHeight(sObject, sNodalCard);
+                        }
                     }
                 }
             }
@@ -272,7 +289,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float NewDrawObjectInspector(object sObject, float sX, float sY, float sWidth)
+        public float NewDrawObjectInspector(object sObject, NWDNodeCard sNodalCard, float sX, float sY, float sWidth)
         {
             //BTBBenchmark.Start();
             float tWidth = sWidth;
@@ -621,43 +638,50 @@ namespace NetWorkedData
             }
             if (Group != null)
             {
-                if (Group.Separator == true)
+                if (Group.Visible == true)
                 {
-                    tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
-                }
-                if (Group.Reducible == true)
-                {
-                    bool tActualDraw = Group.IsDrawable();
-                    if (Group.Bold == true)
+                    if (Group.Separator == true)
                     {
-                        tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, NWDGUI.kBoldFoldoutStyle.fixedHeight), tActualDraw, Group.Content(), NWDGUI.kBoldFoldoutStyle);
-                        tY += NWDGUI.kBoldFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+                    }
+                    if (Group.Reducible == true)
+                    {
+                        bool tActualDraw = Group.IsDrawable();
+                        if (Group.Bold == true)
+                        {
+                            tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, NWDGUI.kBoldFoldoutStyle.fixedHeight), tActualDraw, Group.Content(), NWDGUI.kBoldFoldoutStyle);
+                            tY += NWDGUI.kBoldFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
+                        else
+                        {
+                            tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, NWDGUI.kFoldoutStyle.fixedHeight), tActualDraw, Group.Content(), NWDGUI.kFoldoutStyle);
+                            tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
+                        if (tActualDraw != Group.IsDrawable())
+                        {
+                            Group.SetDrawable(tActualDraw);
+                            NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
+                        }
                     }
                     else
                     {
-                        tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, NWDGUI.kFoldoutStyle.fixedHeight), tActualDraw, Group.Content(), NWDGUI.kFoldoutStyle);
-                        tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        if (Group.Bold == true)
+                        {
+                            EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), Group.Content(), NWDGUI.kBoldLabelStyle);
+                            tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
+                        else
+                        {
+                            EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), Group.Content(), NWDGUI.kLabelStyle);
+                            tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                        }
                     }
-                    Group.SetDrawable(tActualDraw);
-                }
-                else
-                {
-                    if (Group.Bold == true)
+                    if (Group.IsDrawable() == true)
                     {
-                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), Group.Content(), NWDGUI.kBoldLabelStyle);
-                        tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    }
-                    else
-                    {
-                        EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), Group.Content(), NWDGUI.kLabelStyle);
-                        tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    }
-                }
-                if (Group.IsDrawable() == true)
-                {
-                    foreach (NWDBasisHelperElement tElement in Group.Elements)
-                    {
-                        tY = tElement.NewDrawObjectInspector(sObject, sX, tY, sWidth);
+                        foreach (NWDBasisHelperElement tElement in Group.Elements)
+                        {
+                            tY = tElement.NewDrawObjectInspector(sObject, sNodalCard, sX, tY, sWidth);
+                        }
                     }
                 }
             }
@@ -743,6 +767,10 @@ namespace NetWorkedData
                             tElement.Order = tGroup.Elements.Count();
                             tGroup.Elements.Add(tElement);
                             NWDBasisHelperGroup tSubGroup = new NWDBasisHelperGroup();
+                            if (tInsideReference.mGroupName == NWDTypeClass.K_INSPECTOR_BASIS)
+                            {
+                                tSubGroup.Visible = false;
+                            }
                             if (tGroup == InspectorHelper && InspectorHelper.Elements.Count == 1)
                             {
                                 tSubGroup.Separator = false;
@@ -784,7 +812,7 @@ namespace NetWorkedData
                         }
                         foreach (NWDTooltips tReference in tProp.GetCustomAttributes(typeof(NWDTooltips), true))
                         {
-                            tProperty.Tooltips+= tReference.ToolsTips;
+                            tProperty.Tooltips += tReference.ToolsTips;
                         }
                         foreach (NWDNotEditable tReference in tProp.GetCustomAttributes(typeof(NWDNotEditable), true))
                         {
@@ -813,7 +841,7 @@ namespace NetWorkedData
                                 }
                                 if (string.IsNullOrEmpty(tReference.mToolsTips) == false)
                                 {
-                                    tProperty.Tooltips+= tReference.mToolsTips;
+                                    tProperty.Tooltips += tReference.mToolsTips;
                                 }
                                 tProperty.Order = tReference.mGroupOrder;
 

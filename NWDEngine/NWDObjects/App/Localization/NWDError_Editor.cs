@@ -35,7 +35,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDError tError = NWDError.GetDataByReference(tReference);
+            NWDError tError = NWDError.RawDataByReference(tReference);
             if (tError != null && tError.IsTrashed())
             {
                 tError = null;

@@ -148,12 +148,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject(string sAccountReference = null)
         {
-            return NWDBasis<K>.FindDataByReference(Value, sAccountReference) as K;
+            return NWDBasis<K>.FilterDataByReference(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.FindDataByReference(Value, sAccountReference) as K;
+            K tObject = NWDBasis<K>.FilterDataByReference(Value, sAccountReference) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -166,12 +166,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObjectAbsolute(string sAccountReference = null)
         {
-            return NWDBasis<K>.GetDataByReference(Value) as K;
+            return NWDBasis<K>.RawDataByReference(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjectsAbsolute(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.GetDataByReference(Value) as K;
+            K tObject = NWDBasis<K>.RawDataByReference(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -199,7 +199,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetDataByReference(tReference) == null)
+                if (NWDBasis<K>.RawDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -214,7 +214,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (NWDBasis<K>.GetDataByReference(Value) == null)
+                if (NWDBasis<K>.RawDataByReference(Value) == null)
                 {
                     rReturn = true;
                 }
@@ -229,7 +229,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.GetDataByReference(Value) as K;
+                K tObj = NWDBasis<K>.RawDataByReference(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -250,7 +250,7 @@ namespace NetWorkedData
             return NWDGUI.kDataSelectorFieldStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDReferenceType<K> tTemporary = new NWDReferenceType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

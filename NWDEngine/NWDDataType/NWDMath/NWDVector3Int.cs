@@ -115,7 +115,7 @@ namespace NetWorkedData
             return tHeight*2;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDVector3Int tTemporary = new NWDVector3Int();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

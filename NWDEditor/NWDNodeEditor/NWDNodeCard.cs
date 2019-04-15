@@ -19,6 +19,7 @@ using System;
 using System.Reflection;
 using System.IO;
 using UnityEditor;
+using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -35,15 +36,15 @@ namespace NetWorkedData
         public int Line = 0;
         public int Column = 0;
         public NWDNodeDocument ParentDocument;
-        public Color InformationsColor = Color.white;
+        //public Color InformationsColor = Color.white;
 
         public Texture2D ClassTexture;
         //-------------------------------------------------------------------------------------------------------------
-        float tX;
-        float tY;
-        public float Width;
-        public float Height;
-        public float InformationsHeight;
+        //float tX;
+        //float tY;
+        //public float Width;
+        //public float Height;
+        //public float InformationsHeight;
         //string Infos = string.Empty;
         //string InfosCard = string.Empty;
         //string InfosCardCustom = string.Empty;
@@ -54,15 +55,15 @@ namespace NetWorkedData
         Vector2 CardBottomLeft;
         Vector2 CardBottomRight;
 
-        Rect CardTypeRect;
-        Rect CardReferenceRect;
-        Rect CardInternalKeyRect;
-        Rect InfoRect;
-        Rect IconRect;
-        Rect InfoUsableRect;
-        public string TypeString;
-        public string ReferenceString;
-        public string InternalKeyString;
+        //Rect CardTypeRect;
+        //Rect CardReferenceRect;
+        //Rect CardInternalKeyRect;
+        //Rect InfoRect;
+        //Rect IconRect;
+        //Rect InfoUsableRect;
+        //public string TypeString;
+        //public string ReferenceString;
+        //public string InternalKeyString;
         //public string Informations;
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(NWDTypeClass sData)
@@ -116,7 +117,7 @@ namespace NetWorkedData
             }
             else
             {
-                if (ParentDocument.ReGroupProperties == true || (ParentDocument.UsedOnlyProperties == false && sObjectsArray.Length == 0))
+                if (/*ParentDocument.ReGroupProperties == true || */(ParentDocument.UsedOnlyProperties == false && sObjectsArray.Length == 0))
                 {
                     //foreach (NWDNodeConnection tConnection in ConnectionList)
                     //{
@@ -147,7 +148,7 @@ namespace NetWorkedData
                 }
                 foreach (NWDTypeClass tObject in sObjectsArray)
                 {
-                    if (ParentDocument.ReGroupProperties == false)
+                    //if (ParentDocument.ReGroupProperties == false)
                     {
                         tNewConnection = new NWDNodeConnection();
                         tNewConnection.PropertyName = sProperty.Name;
@@ -196,6 +197,12 @@ namespace NetWorkedData
                             tCard.SetData(tObject);
                             rResult.Add(tCard);
                             ParentDocument.AllCards.Add(tCard);
+                            if (ParentDocument.MatrixCards.ContainsKey(tCard.Column) == false)
+                            {
+                                ParentDocument.MatrixCards.Add(tCard.Column, new List<NWDNodeCard>());
+                            }
+                            ParentDocument.MatrixCards[tCard.Column].Add(tCard);
+
                             tCardLine.Style = NWDNodeConnectionType.Valid;
                         }
                         tCardLine.Child = tCard;
@@ -216,16 +223,18 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReEvaluateHeightWidth()
-        {
-            //BTBBenchmark.Start();
-            tX = ParentDocument.MargeWidth + NWDGUI.kNodeCardHeight + Column * (ParentDocument.GetWidth() + NWDGUI.kNodeCardHeight);
-            tY = NWDGUI.kNodeCardHeight + Line * (ParentDocument.Height + NWDGUI.kNodeCardHeight);
-            Height = NWDGUI.kFieldMarge + (ParentDocument.HeightLabel + NWDGUI.kFieldMarge) * 3 + InformationsHeight + NWDGUI.kFieldMarge + (ParentDocument.HeightProperty + NWDGUI.kFieldMarge) * ConnectionList.Count;
-            //BTBBenchmark.Finish();
-        }
+        //public void ReEvaluateHeightWidth()
+        //{
+        //    //BTBBenchmark.Start();
+        //    //tY = NWDGUI.kNodeCardHeight + Line * (ParentDocument.Height + NWDGUI.kNodeCardHeight);
+        //    //Height = NWDGUI.kFieldMarge + (ParentDocument.HeightLabel + NWDGUI.kFieldMarge) * 3 + InformationsHeight + NWDGUI.kFieldMarge + (ParentDocument.HeightProperty + NWDGUI.kFieldMarge) * ConnectionList.Count;
+
+        //    //Height = DataObject.New_DrawObjectInspectorHeight(ParentDocument);
+
+        //    //BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void ReEvaluateLayout()
+        public float ReEvaluateLayout(float sY)
         {
             //BTBBenchmark.Start();
             //Infos = "";//Data.GetType().AssemblyQualifiedName;
@@ -233,48 +242,44 @@ namespace NetWorkedData
             //InfosCardCustom = "";
             //Width = 250;
             //Height = 250;
-            CardRect = new Rect(tX, tY, Width, Height);
+            float tX = ParentDocument.DocumentMarge + ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth +ParentDocument.CardMarge);
+            float tY = sY;
+
+            CardRect = new Rect(tX, tY, NWDGUI.kNodeCardWidth, DataObject.New_DrawObjectEditorHeight(this));
+
 
             CardTopLeft = new Vector2(CardRect.xMin, CardRect.yMax);
             CardTopRight = new Vector2(CardRect.xMax, CardRect.yMax);
             CardBottomLeft = new Vector2(CardRect.xMin, CardRect.yMin);
             CardBottomRight = new Vector2(CardRect.xMax, CardRect.yMin);
 
-            IconRect = new Rect(CardRect.x + NWDGUI.kFieldMarge + NWDGUI.kEditWidthHalf, CardRect.y + NWDGUI.kFieldMarge, NWDGUI.kIconWidth, NWDGUI.kIconWidth);
-
-            CardTypeRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kFieldMarge * 4 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDGUI.kFieldMarge * 2, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX + NWDGUI.kIconWidth + NWDGUI.kEditWidthHalf + NWDGUI.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDGUI.kFieldMarge * 3, Width - NWDGUI.kEditWidth * 2 - NWDGUI.kIconWidth, ParentDocument.HeightLabel);
-
-            InfoRect = new Rect(tX + NWDGUI.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 4, Width - +NWDGUI.kFieldMarge * 2, InformationsHeight);
-            InfoUsableRect = new Rect(InfoRect.x + NWDGUI.kFieldMarge, InfoRect.y + NWDGUI.kFieldMarge, InfoRect.width - NWDGUI.kFieldMarge * 2, InfoRect.height - NWDGUI.kFieldMarge * 2);
-
             Position = new Vector2(tX, tY);
             CirclePosition = new Vector2(tX + 0, tY + NWDGUI.kIconWidth / 2.0F + NWDGUI.kFieldMarge);
             PositionTangent = new Vector2(CirclePosition.x - NWDGUI.kNodeCardHeight, CirclePosition.y);
-
+            //sY += CardRect.height;
             int tPropertyCounter = 0;
-            foreach (NWDNodeConnection tConnection in ConnectionList)
-            {
-                //Debug.Log("NWDNodeCard DrawCard() draw connection");
-                tConnection.Rectangle = new Rect(tX + NWDGUI.kFieldMarge,
-                                                tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 5 + InformationsHeight + (NWDGUI.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                Width - NWDGUI.kFieldMarge * 2 - NWDGUI.kEditWidthMini / 2.0F,
-                                                ParentDocument.HeightProperty);
+            //foreach (NWDNodeConnection tConnection in ConnectionList)
+            //{
+            //    //Debug.Log("NWDNodeCard DrawCard() draw connection");
+            //    //tConnection.Rectangle = new Rect(tX + NWDGUI.kFieldMarge,
+            //    //                                tY + ParentDocument.HeightLabel * 3 + NWDGUI.kFieldMarge * 5 + InformationsHeight + (NWDGUI.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
+            //    //                                Width - NWDGUI.kFieldMarge * 2 - NWDGUI.kEditWidthMini / 2.0F,
+            //    //                                ParentDocument.HeightProperty);
 
-                ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnection.PropertyName);
-                tConnection.Position = new Vector2(tX + Width - NWDGUI.kFieldMarge,
-                                                  tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
+            //    //////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnection.PropertyName);
+            //    //tConnection.Position = new Vector2(tX + Width - NWDGUI.kFieldMarge,
+            //    //                                  tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
 
 
-                tConnection.CirclePosition = new Vector2(
-                    tX + Width,
-                                                  //                      tX + Width - NWDGUI.kFieldMarge - NWDGUI.kEditWidth/2.0F,
-                                                  tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
-                tConnection.PositionTangent = new Vector2(tConnection.CirclePosition.x + NWDGUI.kNodeCardHeight, tConnection.CirclePosition.y);
-                tPropertyCounter++;
-            }
+            //    //tConnection.CirclePosition = new Vector2(
+            //    //    tX + Width,
+            //    //                                  //                      tX + Width - NWDGUI.kFieldMarge - NWDGUI.kEditWidth/2.0F,
+            //    //                                  tConnection.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
+            //    //tConnection.PositionTangent = new Vector2(tConnection.CirclePosition.x + NWDGUI.kNodeCardHeight, tConnection.CirclePosition.y);
+            //    //tPropertyCounter++;
+            //}
             //BTBBenchmark.Finish();
+            return CardRect.height;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawCard(Rect sVisibleRect)
@@ -288,123 +293,146 @@ namespace NetWorkedData
             {
                 // Debug.Log("NWDNodeCard DrawCard() rect = " + CardRect.ToString());
                 GUI.Box(CardRect, " ", EditorStyles.helpBox);
-                if (NWDDataInspector.ObjectInEdition() == DataObject)
-                {
-                    Color tOldColor = GUI.backgroundColor;
-                    GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
-                    GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
-                    GUI.backgroundColor = tOldColor;
-                }
-                if (ClassTexture != null)
-                {
-                    GUI.DrawTexture(IconRect, ClassTexture);
-                }
+                GUI.DrawTexture(CardRect, NWDToolbox.TextureFromColor(Color.red));
+                //if (NWDDataInspector.ObjectInEdition() == DataObject)
+                //{
+                //    Color tOldColor = GUI.backgroundColor;
+                //    GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
+                //    GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
+                //    GUI.backgroundColor = tOldColor;
+                //}
+                //if (ClassTexture != null)
+                //{
+                //    GUI.DrawTexture(IconRect, ClassTexture);
+                //}
 
-                GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
-                GUI.Label(CardReferenceRect, ReferenceString);
-                GUI.Label(CardInternalKeyRect, DataObject.InternalKey);
+                //GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
+                //GUI.Label(CardReferenceRect, ReferenceString);
+                //GUI.Label(CardInternalKeyRect, DataObject.InternalKey);
 
-                // Draw informations box with the color of informations
-                Color tOldBackgroundColor = GUI.backgroundColor;
-                GUI.backgroundColor = InformationsColor;
-                GUI.Box(InfoRect, " ", EditorStyles.helpBox);
-                GUI.backgroundColor = tOldBackgroundColor;
-                // add button to edit data
-                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
-                {
-                    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
-                }
-                // add button to center node on this data
-                if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
-                {
-                    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
-                    ParentDocument.SetData(DataObject);
-                }
+                //// Draw informations box with the color of informations
+                //Color tOldBackgroundColor = GUI.backgroundColor;
+                //GUI.backgroundColor = InformationsColor;
+                //GUI.Box(InfoRect, " ", EditorStyles.helpBox);
+                //GUI.backgroundColor = tOldBackgroundColor;
+                //// add button to edit data
+                //if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide - NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
+                //{
+                //    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
+                //}
+                //// add button to center node on this data
+                //if (GUI.Button(new Rect(tX + Width - NWDGUI.kEditIconSide * 2 - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
+                //{
+                //    NWDDataInspector.InspectNetWorkedData(DataObject, true, true);
+                //    ParentDocument.SetData(DataObject);
+                //}
 
                 //NWDBasisHelper.FindTypeInfos(Data.GetType());
                 string tPrefName = "NWDEditorAnalyze_" + DataObject.GetType().Name;
                 bool tAnalyze = EditorPrefs.GetBool(tPrefName, true);
-                bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDGUI.kEditIconSide * 3 - NWDGUI.kFieldMarge * 3, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), "", tAnalyze);
-                if (tAnalyzeChange != tAnalyze)
-                {
-                    EditorPrefs.SetBool(tPrefName, tAnalyzeChange);
-                    ParentDocument.LoadClasses();
-                    ParentDocument.ReAnalyze();
-                }
+                //bool tAnalyzeChange = EditorGUI.ToggleLeft(new Rect(tX + Width - NWDGUI.kEditIconSide * 3 - NWDGUI.kFieldMarge * 3, tY + NWDGUI.kFieldMarge, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), "", tAnalyze);
+                //if (tAnalyzeChange != tAnalyze)
+                //{
+                //    EditorPrefs.SetBool(tPrefName, tAnalyzeChange);
+                //    ParentDocument.LoadClasses();
+                //    ParentDocument.ReAnalyze();
+                //}
 
-                DataObject.AddOnNodeDraw(InfoUsableRect, ParentDocument.ReGroupProperties);
+                //DataObject.AddOnNodeDraw(InfoUsableRect, /*ParentDocument.ReGroupProperties*/ false);
 
-                foreach (NWDNodeConnection tConnection in ConnectionList)
-                {
-                    GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
-                    tBox.alignment = TextAnchor.MiddleLeft;
-                    Type tTypeProperty = tConnection.Property.GetValue(DataObject, null).GetType();
+                DataObject.New_DrawObjectEditor(CardRect, false, this);
 
-                    if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
-                    {
-                        NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
-                        if (tSubCard != null)
-                        {
-                            // draw properties distinct
-                            GUI.Box(tConnection.Rectangle, string.Empty, tBox);
-                            // add special infos in this property draw
-                            NWDTypeClass tSubData = tSubCard.DataObject;
-                            tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDGUI.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDGUI.kEditWidth + NWDGUI.kFieldMarge) * 3, tConnection.Rectangle.height));
-                            // Add button to edit this data
-                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
-                            {
-                                NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
-                            }
-                            // add button to center node on this data
-                            if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
-                            {
-                                NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
-                                ParentDocument.SetData(tSubCard.DataObject);
-                            }
-                        }
-                        else
-                        {
-                            GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
-                        }
-                    }
-                    else
-                    {
-                        // draw properties group
-                        GUI.Box(tConnection.Rectangle, tConnection.PropertyName, tBox);
-                    }
 
-                    if (tConnection.AddButton == true)
-                    {
+                //foreach (NWDNodeConnection tConnection in ConnectionList)
+                //{
+                //    GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+                //    tBox.alignment = TextAnchor.MiddleLeft;
+                //    Type tTypeProperty = tConnection.Property.GetValue(DataObject, null).GetType();
 
-                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDGUI.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNewContentIcon, EditorStyles.miniButton))
-                        {
-                            // TODO : Change to remove invoke!
-                            //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
-                            // call the method EditorAddNewObject();
-                            // TODO : Change to remove invoke!
-                            //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
-                            var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                            if (tMethodProperty != null)
-                            {
-                                tMethodProperty.Invoke(tConnection.Property.GetValue(DataObject, null), null);
-                                // Ok I update the data
-                                Type tDataType = DataObject.GetType();
-                                // TODO : Change to remove invoke!
-                                var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                                if (tDataTypeUpdate != null)
-                                {
-                                    //Debug.Log("UpdateMe is Ok ");
-                                    tDataTypeUpdate.Invoke(DataObject, new object[] { true });
-                                    ParentDocument.ReAnalyze();
-                                }
-                            }
-                            else
-                            {
-                                //Debug.Log("NO tMethodProperty ");
-                            }
-                        }
-                    }
-                }
+
+                //  //  object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+                //    var tMethodPropertyField = tTypeProperty.GetMethod("ControlField", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                //    if (tMethodPropertyField != null)
+                //    {
+                //        BTBDataType tOld = (BTBDataType)tConnection.Property.GetValue(DataObject, null);
+                //        BTBDataType tResult = (BTBDataType)tMethodPropertyField.Invoke(tOld, new object[] { tConnection.Rectangle, tConnection.PropertyName, BTBConstants.K_EMPTY_STRING });
+                //        if (tOld.Value != tResult.Value)
+                //        {
+                //            tConnection.Property.SetValue(DataObject, tResult);
+                //            DataObject.UpdateData();
+                //            ParentDocument.ReAnalyze();
+                //            ParentDocument.ReEvaluateLayout();
+                //        }
+                //    }
+
+
+
+                //    //if (/*ParentDocument.ReGroupProperties == false &&*/ tConnection.ChildrenList.Count > 0)
+                //    //{
+                //    //    NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
+                //    //    if (tSubCard != null)
+                //    //    {
+                //    //        // draw properties distinct
+                //    //        GUI.Box(tConnection.Rectangle, string.Empty, tBox);
+                //    //        // add special infos in this property draw
+                //    //        NWDTypeClass tSubData = tSubCard.DataObject;
+                //    //        tSubData.AddOnNodePropertyDraw(tConnection.PropertyName, new Rect(tConnection.Rectangle.x + NWDGUI.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDGUI.kEditWidth + NWDGUI.kFieldMarge) * 3, tConnection.Rectangle.height));
+                //    //        // Add button to edit this data
+                //    //        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kEditContentIcon, EditorStyles.miniButton))
+                //    //        {
+                //    //            NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
+                //    //        }
+                //    //        // add button to center node on this data
+                //    //        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDGUI.kFieldMarge - (NWDGUI.kEditIconSide + NWDGUI.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNodeContentIcon, EditorStyles.miniButton))
+                //    //        {
+                //    //            NWDDataInspector.InspectNetWorkedData(tSubCard.DataObject, true, true);
+                //    //            ParentDocument.SetData(tSubCard.DataObject);
+                //    //        }
+                //    //    }
+                //    //    else
+                //    //    {
+                //    //        GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
+                //    //    }
+                //    //}
+                //    //else
+                //    //{
+                //    //    // draw properties group
+                //    //    GUI.Box(tConnection.Rectangle, tConnection.PropertyName, tBox);
+                //    //}
+
+                //    //if (tConnection.AddButton == true)
+                //    //{
+
+                //    //    if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDGUI.kEditIconSide - 2, tConnection.Rectangle.y + 2, NWDGUI.kEditIconSide, NWDGUI.kEditIconSide), NWDGUI.kNewContentIcon, EditorStyles.miniButton))
+                //    //    {
+                //    //        // TODO : Change to remove invoke!
+                //    //        //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
+                //    //        // call the method EditorAddNewObject();
+                //    //        // TODO : Change to remove invoke!
+                //    //        //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
+                //    //        var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                //    //        if (tMethodProperty != null)
+                //    //        {
+                //    //            tMethodProperty.Invoke(tConnection.Property.GetValue(DataObject, null), null);
+                //    //            // Ok I update the data
+                //    //            Type tDataType = DataObject.GetType();
+                //    //            // TODO : Change to remove invoke!
+                //    //            var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                //    //            if (tDataTypeUpdate != null)
+                //    //            {
+                //    //                //Debug.Log("UpdateMe is Ok ");
+                //    //                tDataTypeUpdate.Invoke(DataObject, new object[] { true });
+                //    //                ParentDocument.ReAnalyze();
+                //    //            }
+                //    //        }
+                //    //        else
+                //    //        {
+                //    //            //Debug.Log("NO tMethodProperty ");
+                //    //        }
+                //    //    }
+                //    //}
+                //}
+
             }
             //BTBBenchmark.Finish();
         }

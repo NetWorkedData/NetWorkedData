@@ -251,7 +251,8 @@ namespace NetWorkedData
                 //{
                 //    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
                 //}
-                mObjectInEdition.New_DrawObjectEditor(position, true);
+                //mObjectInEdition.New_DrawObjectEditor(position, true);
+                mObjectInEdition.New_DrawObjectEditor(new Rect (0,0,position.width, position.height), true, null);
             }
             //BTBBenchmark.Finish();
         }

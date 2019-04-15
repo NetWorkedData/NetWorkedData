@@ -442,7 +442,7 @@ namespace NetWorkedData
             EditorWindow tEditorWindow = EditorWindow.focusedWindow;
             string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             //Debug.Log("tAccountReference = " + tAccountReference);
-            NWDAccount tAccount = NWDAccount.GetDataByReference(tAccountReference);
+            NWDAccount tAccount = NWDAccount.RawDataByReference(tAccountReference);
             NWDAccount.BasisHelper().New_SetObjectInEdition(tAccount);
             tEditorWindow.Focus();
 #endif

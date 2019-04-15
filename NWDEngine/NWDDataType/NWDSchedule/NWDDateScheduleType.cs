@@ -115,7 +115,7 @@ namespace NetWorkedData
 			return tHeight * (tCount + tCountB  + tCountD) + tHeightTitle*5;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDateScheduleType tTemporary = new NWDDateScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

@@ -74,7 +74,7 @@ namespace NetWorkedData
             {
                 rReturn = NewData();
 #if UNITY_EDITOR
-                NWDItem tItem = NWDItem.GetDataByReference(sReference);
+                NWDItem tItem = NWDItem.RawDataByReference(sReference);
                 if (tItem != null)
                 {
                     if (tItem.Name != null)

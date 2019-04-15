@@ -37,7 +37,7 @@ namespace NetWorkedData
             {
                 if (tAccountInfos.CurrentGameSave != null)
                 {
-                    NWDGameSave tParty = NWDGameSave.FindDataByReference(tAccountInfos.CurrentGameSave.GetReference());
+                    NWDGameSave tParty = NWDGameSave.FilterDataByReference(tAccountInfos.CurrentGameSave.GetReference());
                     if (tParty != null)
                     {
                         rParty = tParty;
@@ -49,7 +49,7 @@ namespace NetWorkedData
             }
             if (rParty == null)
             {
-                NWDGameSave[] tParties = NWDGameSave.FindDatas(NWDAccount.CurrentReference(), null);
+                NWDGameSave[] tParties = NWDGameSave.FilterDatas(NWDAccount.CurrentReference(), null);
                 foreach (NWDGameSave tPart in tParties)
                 {
                     if (tPart != null)

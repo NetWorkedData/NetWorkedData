@@ -239,9 +239,9 @@ namespace NetWorkedData
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 200.0F;
-        public static float kNodeCardHeight = 200.0F;
-        public static float kNodeCardMarging = 50.0F;
+        public static float kNodeCardWidth = 300.0F;
+        public static float kNodeCardHeight = 300.0F;
+        //public static float kNodeCardMarging = 50.0F;
 
         public static float kNodeCanvasFraction = 20;
         public static Color kNodeCanvasMajor;

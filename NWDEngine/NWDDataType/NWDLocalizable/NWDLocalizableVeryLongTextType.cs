@@ -156,7 +156,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDLocalizableVeryLongTextType tTemporary = new NWDLocalizableVeryLongTextType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

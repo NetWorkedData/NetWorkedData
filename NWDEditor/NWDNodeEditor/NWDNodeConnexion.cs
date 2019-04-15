@@ -26,6 +26,25 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDNodePloter
+    {
+        public NWDNodeCard Card;
+        public Vector2 Point;
+        public NWDNodePloter(NWDNodeCard sCard, Vector2 sPoint)
+        {
+            Card = sCard;
+            Point = sPoint;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDNodeLiner
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDNodePloter Finisher;
+        public List<NWDNodePloter> Starter = new List<NWDNodePloter>();
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDNodeConnectionType : byte
     {
         None,

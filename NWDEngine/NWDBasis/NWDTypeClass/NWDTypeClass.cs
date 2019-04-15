@@ -40,12 +40,13 @@ namespace NetWorkedData
         public const string K_BASIS_INDEX = "BasisIndex";
         public const string K_INTERNAL_INDEX = "InternalIndex";
         public const string K_EDITOR_INDEX = "EditorIndex";
+        public const string K_INSPECTOR_BASIS = "Basis";
         //-------------------------------------------------------------------------------------------------------------
         protected bool InDatabase = false;
         protected bool FromDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset()]
-        [NWDInspectorGroupStart("Basis")]
+        [NWDInspectorGroupStart(K_INSPECTOR_BASIS)]
         [PrimaryKey, AutoIncrement, NWDNotEditable]
         [NWDCertified]
         public int ID
@@ -339,7 +340,7 @@ namespace NetWorkedData
         {
             return null;
         }
-        public virtual Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
+        public virtual Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
         {
             return Rect.zero;
         }
@@ -362,12 +363,17 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float New_DrawObjectInspectorHeight()
+        public virtual float New_DrawObjectEditorHeight(NWDNodeCard sNodalCard)
         {
             return 0;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview)
+        public virtual float New_DrawObjectInspectorHeight(NWDNodeCard sNodalCard)
+        {
+            return 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -427,9 +433,9 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateIntegrityAction()
-        {
-        }
+        //public virtual void UpdateIntegrityAction()
+        //{
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void UpdateIntegrity()
         {
@@ -549,29 +555,6 @@ namespace NetWorkedData
         public virtual void NodeCardAnalyze(NWDNodeCard sCard)
         {
 
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 250.0f;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddOnNodeDrawHeight(float sCardWidth)
-        {
-            return 130.0f;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual Color AddOnNodeColor()
-        {
-            return Color.white;
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------

@@ -10,15 +10,6 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -74,16 +65,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Adds the width of node draw.
-        /// </summary>
-        /// <returns>The on node draw width.</returns>
-        /// <param name="sDocumentWidth">S document width.</param>
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 250.0f;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
         /// Adds the height of node draw.
         /// </summary>
         /// <returns>The on node draw height.</returns>
@@ -99,15 +80,6 @@ namespace NetWorkedData
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
 
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Adds color on node.
-        /// </summary>
-        /// <returns>The on node color.</returns>
-        public override Color AddOnNodeColor()
-        {
-            return Color.gray;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonErrorFound()

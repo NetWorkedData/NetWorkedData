@@ -28,12 +28,6 @@ namespace NetWorkedData
     public partial class NWDCharacter : NWDBasis<NWDCharacter>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 350.0f;
-            //return sDocumentWidth;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             return 200f;
