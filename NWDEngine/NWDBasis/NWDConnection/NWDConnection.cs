@@ -37,14 +37,14 @@ namespace NetWorkedData
     /// NWDConnection is generic class to create connection to NWDBasis generic class by object's reference.
     /// </summary>
 	[Serializable]
-	public class NWDConnection <K> : NWDConnectionBasis where K : NWDBasis <K>, new()
+	public class NWDConnection <K> : NWDBasisConnection where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the object instance referenced.
         /// </summary>
         /// <returns>The object.</returns>
-		public K GetObject () // TODO rename GetData
+		public K GetData ()
 		{
             return NWDBasis <K>.RawDataByReference (Reference);
 		}
@@ -52,11 +52,11 @@ namespace NetWorkedData
         /// <summary>
         /// Set the object instance by its reference.
         /// </summary>
-        /// <param name="sObject">S object.</param>
-		public void SetObject (K sObject) // TODO rename SetData
+        /// <param name="sData">S object.</param>
+		public void SetData (K sData)
         {
-			if (sObject != null) {
-				Reference = sObject.Reference;
+			if (sData != null) {
+				Reference = sData.Reference;
 			} else {
 				Reference = string.Empty;
 			}
@@ -66,11 +66,11 @@ namespace NetWorkedData
         /// Object instance creation and reference it automatically.
         /// </summary>
         /// <returns>The object.</returns>
-        public K NewObject (NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) // TODO rename NewData
+        public K NewData (NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            K tObject = NWDBasis <K>.NewData (sWritingMode);
-			Reference = tObject.Reference;
-			return tObject;
+            K tData = NWDBasis <K>.NewData (sWritingMode);
+			Reference = tData.Reference;
+			return tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

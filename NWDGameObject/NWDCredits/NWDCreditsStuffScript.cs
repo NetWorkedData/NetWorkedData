@@ -26,7 +26,7 @@ public class NWDCreditsStuffScript : MonoBehaviour {
     public Image PanelImage;
 	// Use this for initialization
 	void Start () {
-        Stuff = StuffReference.GetObject();
+        Stuff = StuffReference.GetData();
         if (Stuff != null)
         {
             Title.text = Stuff.Title.GetLocalString();

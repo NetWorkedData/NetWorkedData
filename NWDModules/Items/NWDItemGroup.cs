@@ -55,7 +55,7 @@ namespace NetWorkedData
         public bool Contains(NWDItem sItem, bool sNotConnectedResult = false)
         {
             bool rReturn = sNotConnectedResult;
-            NWDItemGroup tItemGroup = GetObject();
+            NWDItemGroup tItemGroup = GetData();
             if (tItemGroup != null)
             {
                 rReturn = tItemGroup.ItemList.ContainsObject(sItem);

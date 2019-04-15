@@ -28,7 +28,7 @@ namespace NetWorkedData
 	[Serializable]
     public class NWDLocalizationConnection : NWDConnection<NWDLocalization>     {
         //-------------------------------------------------------------------------------------------------------------
-        public string GetLocalString(string sDefault = BTBConstants.K_EMPTY_STRING)         {             NWDLocalization tObject = GetObject();             if (tObject != null)             {                 return GetObject().GetLocalString();             }              return sDefault;         }
+        public string GetLocalString(string sDefault = BTBConstants.K_EMPTY_STRING)         {             NWDLocalization tObject = GetData();             if (tObject != null)             {                 return GetData().GetLocalString();             }              return sDefault;         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

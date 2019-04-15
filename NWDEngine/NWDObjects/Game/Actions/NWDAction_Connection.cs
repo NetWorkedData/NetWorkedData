@@ -36,7 +36,7 @@ namespace NetWorkedData
         /// <param name="sBlockToUse">S block to use.</param>
         public void TrackBy(object sObserver, BTBNotificationBlock sBlockToUse)
         {
-            NWDAction tAction = this.GetObject();
+            NWDAction tAction = this.GetData();
             if (tAction != null)
             {
                 tAction.TrackBy(sObserver, sBlockToUse);
@@ -49,7 +49,7 @@ namespace NetWorkedData
         /// <param name="sObserver">Observer.</param>
         public void UnTrackBy(object sObserver)
         {
-            NWDAction tAction = this.GetObject();
+            NWDAction tAction = this.GetData();
             if (tAction != null)
             {
                 tAction.UnTrackBy(sObserver);

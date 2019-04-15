@@ -100,7 +100,7 @@ namespace NetWorkedData
                             // set the localizable text
                             if (LocalizationReference != null)
                             {
-                                NWDLocalization tLocalization = LocalizationReference.GetObject();
+                                NWDLocalization tLocalization = LocalizationReference.GetData();
                                 if (tLocalization != null)
                                 {
                                     string tTextString = string.Empty;
@@ -152,7 +152,7 @@ namespace NetWorkedData
                             // set the localizable text
                             if (LocalizationReference != null)
                             {
-                                NWDLocalization tLocalization = LocalizationReference.GetObject();
+                                NWDLocalization tLocalization = LocalizationReference.GetData();
                                 if (tLocalization != null)
                                 {
                                     string tTextString = string.Empty;
@@ -212,7 +212,7 @@ namespace NetWorkedData
                     // set the localizable text
                     if (LocalizationReference != null)
                     {
-                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        NWDLocalization tLocalization = LocalizationReference.GetData();
                         if (tLocalization != null)
                         {
                             string tTextString = string.Empty;
@@ -259,7 +259,7 @@ namespace NetWorkedData
                     // set the localizable text
                     if (LocalizationReference != null)
                     {
-                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        NWDLocalization tLocalization = LocalizationReference.GetData();
                         if (tLocalization != null)
                         {
                             string tTextString = string.Empty;

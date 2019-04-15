@@ -89,7 +89,7 @@ namespace NetWorkedData
                     if (TextTarget != null)
                     {
                         // set the localizable text
-                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        NWDLocalization tLocalization = LocalizationReference.GetData();
                         if (tLocalization != null)
                         {
                             switch (AutoTag)
@@ -137,7 +137,7 @@ namespace NetWorkedData
             if (TextTarget != null)
             {
                 // set the localizable text
-                NWDLocalization tLocalization = LocalizationReference.GetObject();
+                NWDLocalization tLocalization = LocalizationReference.GetData();
                 if (tLocalization != null)
                 {
                     if (sUseBaseString == true)

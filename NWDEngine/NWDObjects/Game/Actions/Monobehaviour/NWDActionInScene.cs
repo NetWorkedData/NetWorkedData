@@ -36,7 +36,7 @@ namespace NetWorkedData
         public void PostNotification() // use in demo
         {
             //Debug.Log("NWDActionInScene PostNotification()");
-            NWDAction tAction = ActionReference.GetObject();
+            NWDAction tAction = ActionReference.GetData();
             if (tAction != null)
             {
                 tAction.PostNotification();
@@ -63,7 +63,7 @@ namespace NetWorkedData
                     {
                         ReceiptNotification((NWDAction)sNotification.Sender);
                     };
-                    NWDAction tAction = ActionReference.GetObject();
+                    NWDAction tAction = ActionReference.GetData();
                     if (tAction != null)
                     {
                         tAction.TrackBy(this, tListener);
@@ -76,7 +76,7 @@ namespace NetWorkedData
         private void RemoveAction()
         {
             //Debug.Log("NWDActionInScene RemoveAction()");
-            NWDAction tAction = ActionReference.GetObject();
+            NWDAction tAction = ActionReference.GetData();
             if (tAction != null)
             {
                 tAction.UnTrackBy(this);

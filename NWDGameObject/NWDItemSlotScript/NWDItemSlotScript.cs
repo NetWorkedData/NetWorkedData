@@ -41,7 +41,7 @@ namespace NetWorkedData
         public void PlugAction()
         {
             //Debug.Log("NWDItemSlotScript PlugAction()");
-            NWDItemSlot tItemSlot = ItemSlotConnection.GetObject();
+            NWDItemSlot tItemSlot = ItemSlotConnection.GetData();
             if (tItemSlot != null && EventAction!=null)
             {
                 EventAction.Invoke(this);
@@ -52,7 +52,7 @@ namespace NetWorkedData
         public void PlugInstall()
         {
             //Debug.Log("NWDItemSlotScript PlugInstall()");
-            NWDItemSlot tItemSlot = ItemSlotConnection.GetObject();
+            NWDItemSlot tItemSlot = ItemSlotConnection.GetData();
             SpritePlugged.sprite = null;
             if (tItemSlot != null)
             {

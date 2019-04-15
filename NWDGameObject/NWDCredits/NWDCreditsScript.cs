@@ -67,7 +67,7 @@ public class NWDCreditsScript : MonoBehaviour
     }
     void InstallCredits()
     {
-        Credits = CreditsReference.GetObject();
+        Credits = CreditsReference.GetData();
         if (Credits != null)
         {
             Title.text = Credits.Title.GetLocalString();

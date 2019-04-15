@@ -29,10 +29,10 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDConnectionBasis is an abstract class to refere to an NWDBasis generic class object by its reference.
+    /// NWDBasisConnection is an abstract class to refere to an NWDBasis generic class object by its reference.
     /// </summary>
 	[Serializable]
-	public abstract class NWDConnectionBasis
+	public abstract class NWDBasisConnection
 	{
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>
