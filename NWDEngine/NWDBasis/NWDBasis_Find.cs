@@ -40,7 +40,6 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        // ANCIEN GetAllObjects()
         public static K[] GetEditorDatas()
         {
             //BTBBenchmark.Start();
@@ -51,6 +50,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K GetEditorDataByReference(string sReference, bool sTryOnDisk = false)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             if (BasisHelper().DatasByReference.ContainsKey(sReference))
             {
@@ -64,11 +64,13 @@ namespace NetWorkedData
                     rReturn = LoadDataByReference(sReference);
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetEditorDatasByInternalKey(string sInternalKey)
         {
+            //BTBBenchmark.Start();
             List<K> rReturn;
             if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
             {
@@ -78,17 +80,20 @@ namespace NetWorkedData
             {
                 rReturn = new List<K>();
             }
+            //BTBBenchmark.Finish();
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetEditorFirstDataByInternalKey(string sInternalKey)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             K[] rDatas = GetEditorDatasByInternalKey(sInternalKey);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -113,17 +118,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K GetRawFirstData()
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             K[] rDatas = GetRawDatas();
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetRawDataByReference(string sReference, bool sTryOnDisk = false)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             if (BasisHelper().DatasByReference.ContainsKey(sReference))
             {
@@ -138,11 +146,13 @@ namespace NetWorkedData
                 }
             }
             rReturn = QuickFilter(rReturn, null, null);
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetRawDatasByInternalKey(string sInternalKey)
         {
+            //BTBBenchmark.Start();
             List<K> rReturn;
             if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
             {
@@ -153,17 +163,20 @@ namespace NetWorkedData
                 rReturn = new List<K>();
             }
             rReturn = QuickFilterDatas(rReturn as List<NWDTypeClass>, null, null);
+            //BTBBenchmark.Finish();
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetRawFirstDataByInternalKey(string sInternalKey)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             K[] rDatas = GetRawDatasByInternalKey(sInternalKey);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -182,17 +195,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K GetCorporateFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             K[] rDatas = GetCorporateDatas(sAccountReference, sGameSave);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetCorporateDataByReference(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null, bool sTryOnDisk = false)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             if (BasisHelper().DatasByReference.ContainsKey(sReference))
             {
@@ -207,11 +223,13 @@ namespace NetWorkedData
                 }
             }
             rReturn = QuickFilter(rReturn, sAccountReference, sGameSave);
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetCorporateDatasByInternalKey(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
+            //BTBBenchmark.Start();
             List<K> rReturn;
             if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
             {
@@ -222,17 +240,20 @@ namespace NetWorkedData
                 rReturn = new List<K>();
             }
             rReturn = QuickFilterDatas(rReturn as List<NWDTypeClass>, sAccountReference, sGameSave);
+            //BTBBenchmark.Finish();
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetCorporateFirstDataByInternalKey(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
             K[] rDatas = GetCorporateDatasByInternalKey(sInternalKey);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -241,62 +262,74 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<K> GetReachableDatasList(bool sLimitByGameSave = true)
         {
+            //BTBBenchmark.Start();
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
+            //BTBBenchmark.Finish();
             return GetCorporateDatasList(NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetReachableDatas(bool sLimitByGameSave = true)
         {
+            //BTBBenchmark.Start();
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
+            //BTBBenchmark.Finish();
             return GetCorporateDatas(NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetReachableFirstData(bool sLimitByGameSave = true)
         {
+            //BTBBenchmark.Start();
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
+            //BTBBenchmark.Finish();
             return GetCorporateFirstData(NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetReachableDataByReference(string sReference, bool sLimitByGameSave = true, bool sTryOnDisk = false)
         {
+            //BTBBenchmark.Start();
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
+            //BTBBenchmark.Finish();
             return GetCorporateDataByReference(sReference, NWDAccount.CurrentReference(), tGameSave, sTryOnDisk);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sLimitByGameSave = true)
         {
+            //BTBBenchmark.Start();
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
+            //BTBBenchmark.Finish();
             return GetCorporateDatasByInternalKey(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetReacheableFirstDataByInternalKey(string sInternalKey, bool sLimitByGameSave = true)
         {
+            //BTBBenchmark.Start();
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
             K rReturn = GetCorporateFirstDataByInternalKey(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -306,59 +339,65 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static K QuickFilter(K sData, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
+            //BTBBenchmark.Start();
             K rReturn = null;
-            if (sData.IsTrashed() == true || sData.IsEnable() == false || sData.TestIntegrityResult == true)
+            if (sData != null)
             {
-                bool tInsert = true;
-                if (BasisHelper().kAccountDependent)
+                if (sData.IsTrashed() == true || sData.IsEnable() == false || sData.TestIntegrityResult == true)
                 {
-                    if (sGameSave != null)
+                    bool tInsert = true;
+                    if (BasisHelper().kAccountDependent)
                     {
-                        // test game save if necessary
-                        if (BasisHelper().GameSaveMethod != null && sGameSave != null)
+                        if (sGameSave != null)
                         {
-                            string tGameIndex = sGameSave.Reference;
-                            var tValue = BasisHelper().ClassGameDependentProperties.GetValue(sData, null);
-                            if (tValue == null)
+                            // test game save if necessary
+                            if (BasisHelper().GameSaveMethod != null && sGameSave != null)
                             {
-                                tValue = string.Empty;
+                                string tGameIndex = sGameSave.Reference;
+                                var tValue = BasisHelper().ClassGameDependentProperties.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
+                                string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
+                                if (tSaveIndex != tGameIndex)
+                                {
+                                    tInsert = false;
+                                }
                             }
-                            string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
-                            if (tSaveIndex != tGameIndex)
+                        }
+                        if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                        {
+                            tInsert = false; // research by default false and true when found first solution
+                            foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
                             {
-                                tInsert = false;
+                                var tValue = tInfos.Key.GetValue(sData, null);
+                                string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                                if (tAccountValue.Contains(sAccountReference))
+                                {
+                                    tInsert = true;
+                                    break; // I fonud one solution! this user can see this informations
+                                }
                             }
                         }
                     }
-                    if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                    if (tInsert == true)
                     {
-                        tInsert = false; // research by default false and true when found first solution
-                        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
-                        {
-                            var tValue = tInfos.Key.GetValue(sData, null);
-                            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
-                            if (tAccountValue.Contains(sAccountReference))
-                            {
-                                tInsert = true;
-                                break; // I fonud one solution! this user can see this informations
-                            }
-                        }
+                        rReturn = sData;
                     }
                 }
-                if (tInsert == true)
+                else
                 {
-                    rReturn = sData;
-                }
-            }
-            else
-            {
 
+                }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private static List<K> QuickFilterDatas(List<NWDTypeClass> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
+            //BTBBenchmark.Start();
             List<K> rList = new List<K>();
             //Debug.Log("chercher les data ");
             if (sDatasArray != null)
@@ -376,6 +415,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("chercher les data a un tableau vide");
             }
+            //BTBBenchmark.Finish();
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
