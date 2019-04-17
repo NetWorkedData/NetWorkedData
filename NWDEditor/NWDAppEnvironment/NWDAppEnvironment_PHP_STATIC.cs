@@ -1521,6 +1521,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQL.='`GoogleID`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`GoogleNotificationToken`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`InError`, ';$tInsertSQLValue.= '\\'0\\', ';");
+            tFile.AppendLine("$tInsertSQL.='`CheckList`, ';$tInsertSQLValue.= '\\'0\\', ';");
             //tFile.AppendLine("$tInsertSQL.='`MinVersion`, ';$tInsertSQLValue.= '\\'0.00.00\\', ';");
             tFile.AppendLine("$tInsertSQL.='`Password`, ';$tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`Preview`, ';$tInsertSQLValue.= '\\'\\', ';");

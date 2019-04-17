@@ -212,6 +212,11 @@ namespace NetWorkedData
         public void OnGUI()
         {
             //BTBBenchmark.Start();
+
+            this.minSize = new Vector2 (NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
+            this.maxSize = new Vector2(NWDGUI.kNodeCardWidth*2, NWDGUI.kNodeCardHeight*2);
+
+
             if (RemoveActualFocus == true)
             {
                 GUI.FocusControl(null);

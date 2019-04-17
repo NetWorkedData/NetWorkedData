@@ -127,23 +127,23 @@ namespace NetWorkedData
 
         public string Language = NWDDataLocalizationManager.kBaseDev;
         //-------------------------------------------------------------------------------------------------------------
-        public void AddPropertyOrigin (NWDNodeCard sCard, string sReference, Vector2 sOrigin)
-        {
-            if (LinerCards.ContainsKey(sReference) ==false )
-            {
-                LinerCards.Add(sReference, new NWDNodeLiner());
-            }
-            LinerCards[sReference].Starter.Add(new NWDNodePloter (sCard, sOrigin));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddCardOrigin(NWDNodeCard sCard, string sReference, Vector2 sOrigin)
-        {
-            if (LinerCards.ContainsKey(sReference) == false)
-            {
-                LinerCards.Add(sReference, new NWDNodeLiner());
-            }
-            LinerCards[sReference].Finisher = new NWDNodePloter(sCard, sOrigin);
-        }
+        //public void AddPropertyOrigin (NWDNodeCard sCard, string sReference, Vector2 sOrigin)
+        //{
+        //    if (LinerCards.ContainsKey(sReference) ==false )
+        //    {
+        //        LinerCards.Add(sReference, new NWDNodeLiner());
+        //    }
+        //    LinerCards[sReference].Starter.Add(new NWDNodePloter (sCard, sOrigin));
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void AddCardOrigin(NWDNodeCard sCard, string sReference, Vector2 sOrigin)
+        //{
+        //    if (LinerCards.ContainsKey(sReference) == false)
+        //    {
+        //        LinerCards.Add(sReference, new NWDNodeLiner());
+        //    }
+        //    LinerCards[sReference].Finisher = new NWDNodePloter(sCard, sOrigin);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeDocument"/> class.
@@ -473,7 +473,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawAnalyzer(Rect sRect, string sClassName)
+        public float DrawAnalyzer(Rect sRect, string sClassName)
         {
             NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(sRect, sClassName, AnalyzeStyleClasses[sClassName]);
             if (AnalyzeStyleClasses[sClassName] != tNew)
@@ -482,6 +482,7 @@ namespace NetWorkedData
                 SavePreferences();
                 ReAnalyze();
             }
+            return NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -835,9 +836,15 @@ namespace NetWorkedData
         public void DrawBackgroundLine()
         {
             //BTBBenchmark.Start();
+            //foreach (NWDNodeCard tCard in AllCards)
+            //{
+            //    tCard.DrawBackgroundLine();
+            //}
+
+
             foreach (NWDNodeCard tCard in AllCards)
             {
-                tCard.DrawBackgroundLine();
+                tCard.DrawConnection(AllCards);
             }
             //BTBBenchmark.Finish();
         }

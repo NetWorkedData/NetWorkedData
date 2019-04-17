@@ -215,6 +215,23 @@ namespace NetWorkedData
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
+        {
+            sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, GetReference(), 
+                new Vector2(0, 
+                tHeight 
+                + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight*0.5F
+                )));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
+            sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, GetReference(), new Vector2(0, 
+                tHeight
+                + NWDGUI.kFieldMarge+  NWDGUI.kBoldFoldoutStyle.fixedHeight*0.5F
+                )));
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }

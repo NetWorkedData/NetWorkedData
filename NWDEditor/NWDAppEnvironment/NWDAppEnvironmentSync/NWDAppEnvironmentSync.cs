@@ -486,6 +486,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
+            GUILayout.Space(NWDGUI.kFieldMarge);
             // run button selected (if GUI prevent)
             if (tSync == true)
             {
@@ -646,6 +647,7 @@ namespace NetWorkedData
                 EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
                 EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
             }
+            GUILayout.Space(NWDGUI.kFieldMarge);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -706,6 +708,7 @@ namespace NetWorkedData
             NWDGUI.EndRedArea();
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
+            GUILayout.Space(NWDGUI.kFieldMarge);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -735,6 +738,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().PurgeAllTablesLocalEditor();
                 }
             }
+            GUILayout.Space(NWDGUI.kFieldMarge);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -755,6 +759,7 @@ namespace NetWorkedData
                 NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDAppEnvironment.SelectedEnvironment().LastPreviewRequesToken;
             }
             NWDGUI.EndRedArea();
+            GUILayout.Space(NWDGUI.kFieldMarge);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

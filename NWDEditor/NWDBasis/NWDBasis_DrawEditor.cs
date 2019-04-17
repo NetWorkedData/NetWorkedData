@@ -76,20 +76,20 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float DrawObjectInspectorHeight(NWDNodeCard sNodalCard)
-        {
-            //BTBBenchmark.Start();
-            float tY = 0;
-            BasisHelper().AnalyzeForInspector();
-            NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
-            foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
-            {
-                tY += tElement.NewDrawObjectInspectorHeight(this, sNodalCard);
-            }
-            tY += AddonEditorHeight();
-            //BTBBenchmark.Finish();
-            return tY;
-        }
+        //public float DrawObjectInspectorHeight(NWDNodeCard sNodalCard)
+        //{
+        //    //BTBBenchmark.Start();
+        //    float tY = 0;
+        //    BasisHelper().AnalyzeForInspector();
+        //    NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
+        //    foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
+        //    {
+        //        tY += tElement.NewDrawObjectInspectorHeight(this, sNodalCard);
+        //    }
+        //    tY += AddonEditorHeight();
+        //    //BTBBenchmark.Finish();
+        //    return tY;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public Rect DrawObjectInspector(Rect sInRect, NWDNodeCard sNodalCard, bool sEditionEnable)
         {
@@ -112,30 +112,38 @@ namespace NetWorkedData
             return tRect;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float New_DrawObjectEditorHeight(NWDNodeCard sNodalCard)
-        {
-            //BTBBenchmark.Start();
-            //Todo Calculate the real height
-            float tY = New_DrawObjectInspectorHeight(sNodalCard) +130;
-            return tY;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float New_DrawObjectInspectorHeight(NWDNodeCard sNodalCard)
-        {
-            //BTBBenchmark.Start();
-            float tY = 0;
-            if (sNodalCard != null)
-            {
+        //public override float New_DrawObjectEditorHeight(NWDNodeCard sNodalCard)
+        //{
+        //    //BTBBenchmark.Start();
+        //    //Todo Calculate the real height
+        //    float tHeightTop = 130;
 
-            }
-            NWDGUI.LoadStyles();
-            Type tType = ClassType();
-            tY += DrawObjectInspectorHeight(sNodalCard);
-            tY += NWDGUI.kFieldMarge;
-            tY += AddonEditorHeight();
-            //BTBBenchmark.Finish();
-            return tY;
-        }
+        //    if (sNodalCard != null)
+        //    {
+        //        sNodalCard.TotalHeightDynamique += tHeightTop;
+        //    }
+
+        //    float tHeightBottom = 60;
+        //    float tY = New_DrawObjectInspectorHeight(sNodalCard) +130;
+        //    return tY;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public override float New_DrawObjectInspectorHeight(NWDNodeCard sNodalCard)
+        //{
+        //    //BTBBenchmark.Start();
+        //    float tY = 0;
+        //    if (sNodalCard != null)
+        //    {
+
+        //    }
+        //    NWDGUI.LoadStyles();
+        //    Type tType = ClassType();
+        //    tY += DrawObjectInspectorHeight(sNodalCard);
+        //    tY += NWDGUI.kFieldMarge;
+        //    tY += AddonEditorHeight();
+        //    //BTBBenchmark.Finish();
+        //    return tY;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
         {
@@ -154,7 +162,7 @@ namespace NetWorkedData
             if (sWithScrollview == true)
             {
                 float tScrollBarMarge = 0;
-                float tHeightContent = New_DrawObjectInspectorHeight(sNodalCard);
+                float tHeightContent = New_DrawObjectInspectorHeight(null);
                 if (tHeightContent >= sInRect.height)
                 {
                     tScrollBarMarge = NWDGUI.kScrollbar;
@@ -215,7 +223,8 @@ namespace NetWorkedData
 
             if (sNodalCard!=null)
             {
-                sNodalCard.ParentDocument.DrawAnalyzer(new Rect(tXmarge, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight),GetType().Name);
+                tY += NWDGUI.kFieldMarge;
+                tY += sNodalCard.ParentDocument.DrawAnalyzer(new Rect(tXmarge, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight),GetType().Name);
             }
 
             //Draw Internal Key
@@ -290,6 +299,7 @@ namespace NetWorkedData
                         {
                             UpdateData(true);
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -318,6 +328,7 @@ namespace NetWorkedData
                         {
                             UnTrashData();
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -345,6 +356,7 @@ namespace NetWorkedData
                         {
                             EnableData();
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -372,6 +384,7 @@ namespace NetWorkedData
                     {
                         UpdateData();
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
                     }
                 }
                 tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -1047,10 +1060,10 @@ namespace NetWorkedData
             return 00.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddonEditorHeight()
-        {
-            return 00.0f;
-        }
+        //public virtual float AddonEditorHeight()
+        //{
+        //    return 00.0f;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool AddonEdited(bool sNeedBeUpdate)
         {
@@ -1062,10 +1075,10 @@ namespace NetWorkedData
         //    return 250.0f;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddOnNodeDrawHeight(float sCardWidth)
-        {
-            return 130.0f;
-        }
+        //public virtual float AddOnNodeDrawHeight(float sCardWidth)
+        //{
+        //    return 130.0f;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {

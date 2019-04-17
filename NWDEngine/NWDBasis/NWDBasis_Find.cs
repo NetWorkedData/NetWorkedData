@@ -343,8 +343,9 @@ namespace NetWorkedData
             K rReturn = null;
             if (sData != null)
             {
-                if (sData.IsTrashed() == true || sData.IsEnable() == false || sData.TestIntegrityResult == true)
-                {
+                //if (sData.IsTrashed() == false || sData.IsEnable() == true || sData.TestIntegrityResult == true)
+                if (sData.IsEnable() == true)
+                    {
                     bool tInsert = true;
                     if (BasisHelper().kAccountDependent)
                     {

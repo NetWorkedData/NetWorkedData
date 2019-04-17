@@ -223,7 +223,7 @@ namespace NetWorkedData
         /// <summary>
         /// Raises the enable event.
         /// </summary>
-        public void OnEnable ()
+        public void OnEnable()
         {
             //BTBBenchmark.Start();
             if (IconAndTitle == null)
@@ -255,7 +255,7 @@ namespace NetWorkedData
         /// <summary>
         /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
-        public void OnGUI ()
+        public void OnGUI()
         {
             //BTBBenchmark.Start();
             // Debug.Log("NWDNodeEditor OnGUI");
@@ -264,8 +264,8 @@ namespace NetWorkedData
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
-            mScrollPosition = GUI.BeginScrollView(tScrollViewRect,mScrollPosition,Document.Dimension());
-            Rect tVisibleRect = new Rect(mScrollPosition.x, mScrollPosition.y, position.width+ mScrollPosition.x, position.height+ mScrollPosition.y);
+            mScrollPosition = GUI.BeginScrollView(tScrollViewRect, mScrollPosition, Document.Dimension());
+            Rect tVisibleRect = new Rect(mScrollPosition.x, mScrollPosition.y, position.width + mScrollPosition.x, position.height + mScrollPosition.y);
             Document.Draw(tScrollViewRect, tVisibleRect);
             GUI.EndScrollView();
 
@@ -283,7 +283,7 @@ namespace NetWorkedData
 
                     // Only move if the distance between the last mouse position and the current is less than 50.
                     // Without this it jumps during the drag.
-                    if (Vector2.Distance(currPos, mLastMousePosition) < 50)
+                    if (Vector2.Distance(currPos, mLastMousePosition) < 5000)
                     {
                         // Calculate the delta x and y.
                         float x = mLastMousePosition.x - currPos.x;
@@ -295,6 +295,11 @@ namespace NetWorkedData
                         Event.current.Use();
                     }
                     // Set the last mouse position to the current mouse position.
+                    mLastMousePosition = currPos;
+                }
+                if (Event.current.type == EventType.MouseDown)
+                {
+                    Vector2 currPos = Event.current.mousePosition;
                     mLastMousePosition = currPos;
                 }
             }

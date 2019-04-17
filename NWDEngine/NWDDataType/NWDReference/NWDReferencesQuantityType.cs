@@ -684,6 +684,31 @@ namespace NetWorkedData
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
+        {
+            int tCounter = 0;
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef,
+                    new Vector2(0,
+                    tHeight
+                   + NWDGUI.kFieldMarge + (NWDGUI.kFieldMarge * tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight * (tCounter + 0.5f)
+                    )));
+                tCounter++;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef, new Vector2(0,
+                    tHeight
+                    + NWDGUI.kFieldMarge + NWDGUI.kBoldFoldoutStyle.fixedHeight * (0.5f)
+                    )));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
         //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)

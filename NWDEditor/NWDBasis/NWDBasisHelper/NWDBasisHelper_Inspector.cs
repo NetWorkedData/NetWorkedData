@@ -34,7 +34,7 @@ namespace NetWorkedData
         public bool Reducible = false;
         public bool Separator = true;
         public string ClassName;
-        public bool Visible = true;
+        //public bool Visible = true;
         //public List<NWDBasisHelperGroup> Groups = new List<NWDBasisHelperGroup>();
         public List<NWDBasisHelperElement> Elements = new List<NWDBasisHelperElement>();
         //-------------------------------------------------------------------------------------------------------------
@@ -93,15 +93,62 @@ namespace NetWorkedData
         {
             return new GUIContent(Name, Tooltips);
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void NewDrawObjectInspectorHeightInvisible(object sObject, NWDNodeCard sNodalCard)
+        {
+            //BTBBenchmark.Start();
+            if (Property != null)
+            {
+                Type tTypeOfThis = Property.PropertyType;
+                    if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        {
+
+                            var tValue = Property.GetValue(sObject, null);
+                            if (tValue == null)
+                            {
+                                tValue = Activator.CreateInstance(tTypeOfThis);
+                            }
+                            BTBDataType tBTBDataType = (BTBDataType)tValue;
+
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+                            {
+                                IsReconnection = true;
+                                IsReconnectionMultiple = false;
+                                if (sNodalCard != null)
+                                {
+                                    NWDReferenceSimple tV = (NWDReferenceSimple)tBTBDataType;
+                                    tV.CreatePlotersInvisible(sNodalCard, sNodalCard.TotalHeightDynamique );
+                                }
+                            }
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                            {
+                                IsReconnection = true;
+                                IsReconnectionMultiple = true;
+                                if (sNodalCard != null)
+                                {
+                                    NWDReferenceMultiple tV = (NWDReferenceMultiple)tBTBDataType;
+                                    tV.CreatePlotersInvisible(sNodalCard, sNodalCard.TotalHeightDynamique );
+                                }
+                            }
+                        }
+            }
+            if (Group != null)
+            {
+                foreach (NWDBasisHelperElement tElement in Group.Elements)
+                        {
+                            tElement.NewDrawObjectInspectorHeightInvisible(sObject, sNodalCard);
+                        }
+            };
+            //BTBBenchmark.Finish();
+        }
+
+
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight(object sObject, NWDNodeCard sNodalCard)
         {
             //BTBBenchmark.Start();
             float tY = SpaceBefore;
-            if (Separator == true)
-            {
-                tY += NWDGUI.kFieldMarge * 2;
-            }
             if (Property != null)
             {
                 bool tDraw = true;
@@ -119,6 +166,10 @@ namespace NetWorkedData
                 }
                 if (tDraw == true)
                 {
+                    if (Separator == true)
+                    {
+                        tY += NWDGUI.kSeparatorHeight + NWDGUI.kFieldMarge * 2;
+                    }
                     if (Information != null)
                     {
                         tY += 100;
@@ -173,22 +224,35 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                         {
-                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
-                            {
-                                IsReconnection = true;
-                                IsReconnectionMultiple = false;
-                            }
-                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
-                            {
-                                IsReconnection = true;
-                                IsReconnectionMultiple = true;
-                            }
+
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
                             BTBDataType tBTBDataType = (BTBDataType)tValue;
+
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+                            {
+                                IsReconnection = true;
+                                IsReconnectionMultiple = false;
+                                if (sNodalCard != null)
+                                {
+                                    NWDReferenceSimple tV = (NWDReferenceSimple)tBTBDataType;
+                                    tV.CreatePloters(sNodalCard, sNodalCard.TotalHeightDynamique + tY);
+                                }
+                            }
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                            {
+                                IsReconnection = true;
+                                IsReconnectionMultiple = true;
+                                if (sNodalCard != null)
+                                {
+                                    NWDReferenceMultiple tV = (NWDReferenceMultiple)tBTBDataType;
+                                    tV.CreatePloters(sNodalCard, sNodalCard.TotalHeightDynamique + tY);
+                                }
+                            }
+
                             float tHeight = tBTBDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
@@ -240,17 +304,23 @@ namespace NetWorkedData
                         {
                             tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
+
+                        if (sNodalCard != null)
+                        {
+                            sNodalCard.TotalHeightDynamique += tY;
+                        }
+
                     }
                     EditorGUI.EndDisabledGroup();
                 }
             }
             if (Group != null)
             {
-                if (Group.Visible == true)
+                //if (Group.Visible == true)
                 {
                     if (Group.Separator == true)
                     {
-                        tY += NWDGUI.kFieldMarge * 2;
+                        tY += NWDGUI.kSeparatorHeight + NWDGUI.kFieldMarge * 2;
                     }
                     if (Group.Reducible == true)
                     {
@@ -274,13 +344,37 @@ namespace NetWorkedData
                             tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
                     }
-                    tY += NWDGUI.kFieldMarge;
                     if (Group.IsDrawable() == true)
                     {
+                        if (sNodalCard != null)
+                        {
+                            sNodalCard.TotalHeightDynamique += tY;
+                        }
                         foreach (NWDBasisHelperElement tElement in Group.Elements)
                         {
-
                             tY += tElement.NewDrawObjectInspectorHeight(sObject, sNodalCard);
+                        }
+                    }
+                    else
+                    {
+                        if (sNodalCard != null)
+                        {
+                            if (Group.Separator == true)
+                            {
+                                sNodalCard.TotalHeightDynamique +=NWDGUI.kSeparatorHeight + NWDGUI.kFieldMarge * 2;
+                            }
+                        }
+                        foreach (NWDBasisHelperElement tElement in Group.Elements)
+                        {
+                            tElement.NewDrawObjectInspectorHeightInvisible(sObject, sNodalCard);
+                        }
+                        if (sNodalCard != null)
+                        {
+                            if (Group.Separator == true)
+                            {
+                                tY -= NWDGUI.kSeparatorHeight + NWDGUI.kFieldMarge * 2;
+                            }
+                            sNodalCard.TotalHeightDynamique += tY;
                         }
                     }
                 }
@@ -297,11 +391,6 @@ namespace NetWorkedData
             float tY = sY;
 
             // EditorGUI.indentLevel = Indent;
-
-            if (Separator == true)
-            {
-                tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
-            }
 
             if (Property != null)
             {
@@ -320,6 +409,11 @@ namespace NetWorkedData
                 }
                 if (tDraw == true)
                 {
+
+                    if (Separator == true)
+                    {
+                        tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 0))).height;
+                    }
                     //  draw informations? and add height in size operation?
                     if (Information != null)
                     {
@@ -638,11 +732,11 @@ namespace NetWorkedData
             }
             if (Group != null)
             {
-                if (Group.Visible == true)
+                //if (Group.Visible == true)
                 {
                     if (Group.Separator == true)
                     {
-                        tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
+                        tY += NWDGUI.Separator(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 0))).height;
                     }
                     if (Group.Reducible == true)
                     {
@@ -767,10 +861,10 @@ namespace NetWorkedData
                             tElement.Order = tGroup.Elements.Count();
                             tGroup.Elements.Add(tElement);
                             NWDBasisHelperGroup tSubGroup = new NWDBasisHelperGroup();
-                            if (tInsideReference.mGroupName == NWDTypeClass.K_INSPECTOR_BASIS)
-                            {
-                                tSubGroup.Visible = false;
-                            }
+                            //if (tInsideReference.mGroupName == NWDTypeClass.K_INSPECTOR_BASIS)
+                            //{
+                            //    tSubGroup.Visible = false;
+                            //}
                             if (tGroup == InspectorHelper && InspectorHelper.Elements.Count == 1)
                             {
                                 tSubGroup.Separator = false;

@@ -31,9 +31,10 @@ namespace NetWorkedData
         public NWDNodeCard Card;
         public string Reference;
         public Vector2 Point;
-        public NWDNodePloter(NWDNodeCard sCard, Vector2 sPoint)
+        public NWDNodePloter(NWDNodeCard sCard, string sReference, Vector2 sPoint)
         {
             Card = sCard;
+            Reference = sReference;
             Point = sPoint;
         }
     }

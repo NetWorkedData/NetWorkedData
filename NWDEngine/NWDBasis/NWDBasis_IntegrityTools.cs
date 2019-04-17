@@ -228,6 +228,10 @@ namespace NetWorkedData
                 {
                     rReturn = true;
                 }
+                else
+                {
+                    AC = false;
+                }
             }
             else
             {

@@ -36,6 +36,7 @@ namespace NetWorkedData
         public int Line = 0;
         public int Column = 0;
         public NWDNodeDocument ParentDocument;
+        public List<NWDNodePloter> PloterList = new List<NWDNodePloter>();
         //public Color InformationsColor = Color.white;
 
         public Texture2D ClassTexture;
@@ -54,6 +55,9 @@ namespace NetWorkedData
         Vector2 CardTopRight;
         Vector2 CardBottomLeft;
         Vector2 CardBottomRight;
+
+
+        public float TotalHeightDynamique = 0.0F;
 
         //Rect CardTypeRect;
         //Rect CardReferenceRect;
@@ -245,6 +249,8 @@ namespace NetWorkedData
             float tX = ParentDocument.DocumentMarge + ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth +ParentDocument.CardMarge);
             float tY = sY;
 
+            PloterList.Clear();
+            TotalHeightDynamique = 0;
             CardRect = new Rect(tX, tY, NWDGUI.kNodeCardWidth, DataObject.New_DrawObjectEditorHeight(this));
 
 
@@ -285,15 +291,21 @@ namespace NetWorkedData
         public void DrawCard(Rect sVisibleRect)
         {
             //BTBBenchmark.Start();
-            if (sVisibleRect.Contains(CardTopLeft) ||
-                sVisibleRect.Contains(CardTopRight) ||
-                sVisibleRect.Contains(CardBottomLeft) ||
-                sVisibleRect.Contains(CardBottomRight)
-            )
-            {
+            //if (sVisibleRect.Contains(CardTopLeft) ||
+            //    sVisibleRect.Contains(CardTopRight) ||
+            //    sVisibleRect.Contains(CardBottomLeft) ||
+            //    sVisibleRect.Contains(CardBottomRight)
+            //)
+
+                if (sVisibleRect.Overlaps(CardRect))
+                {
                 // Debug.Log("NWDNodeCard DrawCard() rect = " + CardRect.ToString());
                 GUI.Box(CardRect, " ", EditorStyles.helpBox);
-                GUI.DrawTexture(CardRect, NWDToolbox.TextureFromColor(Color.red));
+                //GUI.DrawTexture(CardRect, NWDToolbox.TextureFromColor(Color.red));
+
+
+
+
                 //if (NWDDataInspector.ObjectInEdition() == DataObject)
                 //{
                 //    Color tOldColor = GUI.backgroundColor;
@@ -444,6 +456,40 @@ namespace NetWorkedData
             foreach (NWDNodeConnection tConnection in ConnectionList)
             {
                 tConnection.DrawBackgroundLine();
+            }
+            //BTBBenchmark.Finish();
+        }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawConnection( List<NWDNodeCard> sAllCards)
+        {
+            //BTBBenchmark.Start();
+            //Debug.Log("DrawConnection DrawLine()");
+            float Tangent = ParentDocument.CardMarge;
+            Vector2 tOrign = new Vector2(Position.x - NWDGUI.kFieldMarge , Position.y);
+            Vector2 tOrignPa = new Vector2(Position.x - Tangent, Position.y);
+            foreach (NWDNodeCard tCard in sAllCards)
+            {
+                if (tCard != this)
+                {
+                    foreach (NWDNodePloter tPlot in tCard.PloterList)
+                    {
+                        if (tPlot.Reference == this.DataObject.Reference)
+                        {
+                            Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x + NWDGUI.kFieldMarge, tCard.Position.y + tPlot.Point.y);
+
+                            Vector2 tFinalPa = new Vector2(tFinal.x + Tangent, tFinal.y);
+                            // Draw line
+                            Handles.DrawBezier(tOrign, tFinal, tOrignPa, tFinalPa, NWDGUI.kNodeLineColor, NWDGUI.kImageBezierTexture, 2.0F);
+
+                            Vector2 tFinalPzzz = new Vector2(tFinal.x - 80, tFinal.y);
+                            //Debug.Log("DrawConnection line for" + tPlot.Reference);
+                            Handles.color = Color.white;
+                            Handles.DrawLine(tFinalPzzz, tFinal);
+                        }
+                    }
+                }
             }
             //BTBBenchmark.Finish();
         }

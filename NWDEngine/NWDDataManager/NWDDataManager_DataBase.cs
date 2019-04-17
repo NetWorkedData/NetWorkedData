@@ -478,7 +478,7 @@ namespace NetWorkedData
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_SynchronizationUpadteTimestamp();
+                    tHelper.New_SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), tBuildTimeStamp);
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationUpadteTimestamp);
                 }
                 BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);

@@ -101,6 +101,14 @@ namespace NetWorkedData
             //TODO : create analyze for nodal view and relative position of field/reference
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void CreatePloters(NWDNodeCard sNodalCard, float tHeight) 
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDReferenceMultiple : NWDReference
@@ -122,6 +130,14 @@ namespace NetWorkedData
         {
             Debug.LogWarning("GetEditorData not available for Multiple Datas");
             return null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
         }
         //-------------------------------------------------------------------------------------------------------------
     }

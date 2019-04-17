@@ -39,24 +39,23 @@ namespace NetWorkedData
         {
             return ClassPrefBaseKey + SynchronizeKeyLastTimestamp;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public void New_SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
-        {
-            NWDBasisPreferences.SetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, kAccountDependent);
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void New_SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
+        //{
+        //    NWDBasisPreferences.SetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, kAccountDependent);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public int New_SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
         {
-            int rReturn = sEnvironment.BuildTimestamp;
-            rReturn = NWDBasisPreferences.GetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
+            int rReturn = NWDBasisPreferences.GetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
             return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
-        }
-        public void New_SynchronizationUpadteTimestamp()
-        {
-            Debug.Log(ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
-            New_SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
-        }
+        //public void New_SynchronizationUpadteTimestamp()
+        //{
+        //    Debug.Log(ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
+        //    New_SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void New_SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {

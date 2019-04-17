@@ -87,10 +87,12 @@ namespace NetWorkedData
         public static GUIStyle kSeparatorStyle;
         static Texture2D kSeparatorTexture;
         static Color kSeparatorColor;
+        public static float kSeparatorHeight = 1.0F;
         //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kLineStyle;
         static Texture2D kLineTexture;
         static Color kLineColor;
+        public static float kLineHeight = 1.0F;
         //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kTitleStyle;
         static Texture2D kTitleTexture;
@@ -239,8 +241,8 @@ namespace NetWorkedData
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 300.0F;
-        public static float kNodeCardHeight = 300.0F;
+        public static float kNodeCardWidth = 360.0F;
+        public static float kNodeCardHeight = 360.0F;
         //public static float kNodeCardMarging = 50.0F;
 
         public static float kNodeCanvasFraction = 20;
@@ -361,7 +363,7 @@ namespace NetWorkedData
                 kSeparatorStyle.normal.background = kSeparatorTexture;
                 kSeparatorStyle.padding = new RectOffset(2, 2, 2, 2);
                 kSeparatorStyle.margin = new RectOffset(0, 0, 1, 1);
-                kSeparatorStyle.fixedHeight = 1.0f;
+                kSeparatorStyle.fixedHeight = kSeparatorHeight;
 
                 // Line
 
@@ -370,7 +372,7 @@ namespace NetWorkedData
                 kLineStyle.normal.background = kLineTexture;
                 kLineStyle.padding = new RectOffset(0, 0, 0, 0);
                 kLineStyle.margin = new RectOffset(0, 0, 0, 0);
-                kLineStyle.fixedHeight = 1.0f;
+                kLineStyle.fixedHeight = kLineHeight;
 
                 // general windows design 
 
