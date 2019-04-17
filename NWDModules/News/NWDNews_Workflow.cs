@@ -128,7 +128,7 @@ namespace NetWorkedData
             }
 #endif
                 // find NWDUserNewsRead and put in uninstalled
-                foreach (NWDNews tNew in FindDatas())
+                foreach (NWDNews tNew in GetDatas())
                 {
                     if (tNew.NewsType != NWDNewsType.Programmatically)
                     {
@@ -141,7 +141,7 @@ namespace NetWorkedData
                     }
                 }
                 // find NWDNews and install
-                foreach (NWDNews tNew in FindDatas())
+                foreach (NWDNews tNew in GetDatas())
                 {
                     tNew.InstallNotification(sPause);
                 }
@@ -154,7 +154,7 @@ namespace NetWorkedData
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
-                tRead.News.SetObject(this);
+                tRead.News.SetData(this);
                 tRead.SaveData();
             }
             if (kCheckScheduled.Contains(this) == true)
@@ -191,7 +191,7 @@ namespace NetWorkedData
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
-                tRead.News.SetObject(this);
+                tRead.News.SetData(this);
                 tRead.SaveData();
             }
             if (kCheckScheduled.Contains(this) == true)
@@ -264,7 +264,7 @@ namespace NetWorkedData
             if (tRead == null)
             {
                 tRead = NWDUserNewsRead.NewData();
-                tRead.News.SetObject(this);
+                tRead.News.SetData(this);
                 tRead.SaveData();
             }
             if (kCheckScheduled.Contains(this) == true)

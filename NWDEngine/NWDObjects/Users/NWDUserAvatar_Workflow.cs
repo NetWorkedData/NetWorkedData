@@ -46,10 +46,10 @@ namespace NetWorkedData
         public static NWDItem GetNWDItemAvatar()
         {
             NWDItem rItem = null;
-            NWDUserAvatar[] tAvatars = FindDatas();
+            NWDUserAvatar[] tAvatars = GetDatas();
             if (tAvatars.Length > 0)
             {
-                return tAvatars[0].RenderItem.GetObject();
+                return tAvatars[0].RenderItem.GetData();
             }
             return rItem;
         }
@@ -57,7 +57,7 @@ namespace NetWorkedData
         public static Sprite GetTextureAvatar()
         {
             Sprite rSprite = null;
-            NWDUserAvatar[] tAvatars = FindDatas();
+            NWDUserAvatar[] tAvatars = GetDatas();
             if (tAvatars.Length > 0)
             {
                 return tAvatars[0].RenderTexture.ToSprite();
@@ -67,7 +67,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDItem GetNWDItem()
         {
-            return RenderItem.GetObject();
+            return RenderItem.GetData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Sprite GetTexture()

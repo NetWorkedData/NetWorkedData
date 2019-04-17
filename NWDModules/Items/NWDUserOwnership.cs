@@ -141,7 +141,7 @@ namespace NetWorkedData
             {
                 DiscoveredDate.SetDateTime(DateTime.Now);
                 Discovered = true;
-                NWDItem tItem = Item.GetObject();
+                NWDItem tItem = Item.GetData();
                 if (tItem != null && tItem.FirstAcquisitionNotification != NWDItemNotification.NoNotification)
                 {
                     BTBNotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_FirstAcquisitionNotificationKey);
@@ -285,7 +285,7 @@ namespace NetWorkedData
             {
                 if (sItemsReferenceQuantity.IsNotEmpty())
                 {
-                    foreach (KeyValuePair<NWDItem, int> tItemQuantity in sItemsReferenceQuantity.GetObjectAndQuantity())
+                    foreach (KeyValuePair<NWDItem, int> tItemQuantity in sItemsReferenceQuantity.FindDataAndQuantity())
                     {
                         if (ContainsItem(tItemQuantity.Key, tItemQuantity.Value) == false)
                         {
@@ -338,7 +338,7 @@ namespace NetWorkedData
             {
                 if (sItemGroupsReferenceQuantity.IsNotEmpty())
                 {
-                    foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.GetObjectAndQuantity())
+                    foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.FindDataAndQuantity())
                     {
                         if (ContainsItemGroup(tItemQuantity.Key, tItemQuantity.Value) == false)
                         {
@@ -359,7 +359,7 @@ namespace NetWorkedData
             {
                 rReturn = false;
                 int tQ = 0;
-                foreach (NWDItem tItem in sItemGroup.ItemList.GetObjects())
+                foreach (NWDItem tItem in sItemGroup.ItemList.FindDatas())
                 {
                     if (tItem.Uncountable == true)
                     {
@@ -454,7 +454,7 @@ namespace NetWorkedData
             {
                 rReturn = false;
                 int tQ = 0;
-                foreach (NWDItem tItem in tItemGroup.ItemList.GetObjects())
+                foreach (NWDItem tItem in tItemGroup.ItemList.FindDatas())
                 {
                     NWDUserOwnership tOwnership = FindFisrtByItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
@@ -477,7 +477,7 @@ namespace NetWorkedData
         public bool CheckOwnershipAndItemValidity()
         {
             bool rReturn = false;
-            NWDItem tNWDItem = Item.GetObject();
+            NWDItem tNWDItem = Item.GetData();
             // Check if item is not null
             if (tNWDItem != null)
             {

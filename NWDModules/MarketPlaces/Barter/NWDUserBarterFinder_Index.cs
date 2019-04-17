@@ -40,7 +40,7 @@ namespace NetWorkedData
             if (IsUsable())
             {
                 // Re-add !
-                kBarterPlaceIndex.InsertData(this, BarterPlace.GetObject());
+                kBarterPlaceIndex.InsertData(this, BarterPlace.GetData());
             }
         }
         //-------------------------------------------------------------------------------------------------------------

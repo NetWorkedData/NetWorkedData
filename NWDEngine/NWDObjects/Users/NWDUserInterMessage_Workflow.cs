@@ -86,7 +86,7 @@ namespace NetWorkedData
             }*/
 
             // Set Message and insert the Replaceable object
-            rInterMessage.Message.SetObject(sMessage);
+            rInterMessage.Message.SetData(sMessage);
             rInterMessage.ReplaceSenderNickname = NWDUserNickname.GetNickname();
             rInterMessage.ReplaceCharacters = sReplaceCharacters;
             rInterMessage.ReplaceItems = sReplaceItems;
@@ -104,7 +104,7 @@ namespace NetWorkedData
         public static NWDUserInterMessage[] FindSenderDatas()
         {
             List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
-            NWDUserInterMessage[] tMessages = FindDatas();
+            NWDUserInterMessage[] tMessages = GetDatas();
             foreach (NWDUserInterMessage tMessage in tMessages)
             {
                 if (tMessage.Sender.GetReference() == NWDAccount.CurrentReference())
@@ -119,7 +119,7 @@ namespace NetWorkedData
         public static NWDUserInterMessage[] FindReceiverDatas()
         {
             List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
-            NWDUserInterMessage[] tMessages = FindDatas();
+            NWDUserInterMessage[] tMessages = GetDatas();
             foreach (NWDUserInterMessage tMessage in tMessages)
             {
                 if (tMessage.Receiver.GetReference() == NWDAccount.CurrentReference())
@@ -161,7 +161,7 @@ namespace NetWorkedData
         public string MessageRichText(bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetObject();
+            NWDMessage tMessage = Message.GetData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Description.GetLocalString();
@@ -173,7 +173,7 @@ namespace NetWorkedData
         public string MessageRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetObject();
+            NWDMessage tMessage = Message.GetData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Description.GetLanguageString(sLanguage);
@@ -185,7 +185,7 @@ namespace NetWorkedData
         public string TitleRichText(bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetObject();
+            NWDMessage tMessage = Message.GetData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Title.GetLocalString();
@@ -197,7 +197,7 @@ namespace NetWorkedData
         public string TitleRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetObject();
+            NWDMessage tMessage = Message.GetData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Title.GetLanguageString(sLanguage);
@@ -247,7 +247,7 @@ namespace NetWorkedData
 
             // Replace Tag by Characters
             int tCpt = 0;
-            foreach(NWDCharacter k in ReplaceCharacters.GetObjects())
+            foreach(NWDCharacter k in ReplaceCharacters.FindDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
@@ -255,7 +255,7 @@ namespace NetWorkedData
 
             // Replace Tag by Items
             tCpt = 0;
-            foreach (NWDItem k in ReplaceItems.GetObjects())
+            foreach (NWDItem k in ReplaceItems.FindDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
@@ -263,7 +263,7 @@ namespace NetWorkedData
 
             // Replace Tag by Items Groups
             tCpt = 0;
-            foreach (NWDItemPack k in ReplaceItemPacks.GetObjects())
+            foreach (NWDItemPack k in ReplaceItemPacks.FindDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
@@ -271,7 +271,7 @@ namespace NetWorkedData
 
             // Replace Tag by Pack
             tCpt = 0;
-            foreach (NWDPack k in ReplacePacks.GetObjects())
+            foreach (NWDPack k in ReplacePacks.FindDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;

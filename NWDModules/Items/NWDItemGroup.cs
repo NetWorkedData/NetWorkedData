@@ -58,7 +58,7 @@ namespace NetWorkedData
             NWDItemGroup tItemGroup = GetData();
             if (tItemGroup != null)
             {
-                rReturn = tItemGroup.ItemList.ContainsObject(sItem);
+                rReturn = tItemGroup.ItemList.ConstaintsData(sItem);
             }
             return rReturn;
         }
@@ -180,7 +180,7 @@ namespace NetWorkedData
         public List<NWDItem> OwnershipIntersection(int sQuantity = 1)
         {
             List<NWDItem> rReturn = new List<NWDItem>();
-            foreach (NWDItem tItem in ItemList.GetObjects())
+            foreach (NWDItem tItem in ItemList.FindDatas())
             {
                 if (tItem != null)
                 {
@@ -195,19 +195,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CheckMyItems()
         {
-            List<NWDItem> tActualItems = ItemList.GetObjectsList();
+            List<NWDItem> tActualItems = ItemList.FindDatasList();
             foreach (NWDItem tItem in NWDItem.BasisHelper().Datas)
             {
                 if (tActualItems.Contains(tItem))
                 {
-                    if (tItem.ItemGroupList.GetObjectsList().Contains(this) == true)
+                    if (tItem.ItemGroupList.FindDatasList().Contains(this) == true)
                     {
                         // ok It's contains me
                     }
                     else
                     {
                         // oh item group not contains me! WHYYYYYYYY
-                        tItem.ItemGroupList.AddObject(this);
+                        tItem.ItemGroupList.AddData(this);
                         tItem.UpdateData();
                         foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
                             {
@@ -221,10 +221,10 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (tItem.ItemGroupList.GetObjectsList().Contains(this))
+                    if (tItem.ItemGroupList.FindDatasList().Contains(this))
                     {
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
-                        tItem.ItemGroupList.RemoveObjects(new NWDItemGroup[] { this });
+                        tItem.ItemGroupList.RemoveDatas(new NWDItemGroup[] { this });
                         tItem.UpdateData();
                         foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
                         {

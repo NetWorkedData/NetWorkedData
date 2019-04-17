@@ -54,7 +54,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.GameSave.SetObject(NWDGameSave.CurrentData());
+                rReturn.GameSave.SetData(NWDGameSave.CurrentData());
                 rReturn.UpdateData();
             }
             return rReturn;

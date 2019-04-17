@@ -59,7 +59,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.Tip.SetObject(sKey);
+                rReturn.Tip.SetData(sKey);
                 rReturn.UpdateData();
             }
             return rReturn;

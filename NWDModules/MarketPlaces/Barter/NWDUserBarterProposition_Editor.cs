@@ -57,7 +57,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Copy-paste hash from selected BarterRequest", tMiniButtonStyle))
             {
                 Debug.Log("YES ? or Not " + BarterRequest.Value);
-                NWDUserBarterRequest tRequest = BarterRequest.GetObjectAbsolute();
+                NWDUserBarterRequest tRequest = BarterRequest.GetRawData();
                 if (tRequest != null)
                 {
                     Debug.Log("YES");

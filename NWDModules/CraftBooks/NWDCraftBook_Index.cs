@@ -88,10 +88,10 @@ namespace NetWorkedData
         static string[] IndexKeyByItem(bool sOrderIsImportant, NWDReferenceType<NWDCraftRecipient> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {
             List<string> rReturn = new List<string>();
-            NWDCraftRecipient tRecipientGroup = sRecipientGroup.GetObject();
+            NWDCraftRecipient tRecipientGroup = sRecipientGroup.GetData();
             if (tRecipientGroup != null)
             {
-                foreach (NWDItem tRecipient in tRecipientGroup.ItemGroup.GetObjectAbsolute().ItemList.GetObjectsAbsolute())
+                foreach (NWDItem tRecipient in tRecipientGroup.ItemGroup.GetRawData().ItemList.GetRawDatas())
                 {
                     if (sOrderIsImportant == false)
                     {
@@ -121,7 +121,7 @@ namespace NetWorkedData
                 NWDItemGroup tItemGroup = NWDItemGroup.RawDataByReference(tA);
                 if (tItemGroup != null)
                 {
-                    NWDItem[] tItems = tItemGroup.ItemList.GetObjectsAbsolute();
+                    NWDItem[] tItems = tItemGroup.ItemList.GetRawDatas();
                     List<List<string>> FinalIntermediares = new List<List<string>>();
                     foreach (NWDItem tItem in tItems)
                     {

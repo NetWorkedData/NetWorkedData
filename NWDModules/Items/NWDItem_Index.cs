@@ -43,9 +43,9 @@ namespace NetWorkedData
                 {
                 // Re-add ! but for wichn categories?
                 List<NWDCategory> tCategoriesList = new List<NWDCategory>();
-                foreach (NWDCategory tCategories in CategoryList.GetObjectsAbsolute())
+                foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
                 {
-                    foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.GetObjects())
+                    foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.FindDatas())
                     {
                         if (tCategoriesList.Contains(tSubCategories) == false)
                         {
@@ -80,7 +80,7 @@ namespace NetWorkedData
             if (IsUsable())
             {
                 // Re-add ! but for wichn Family?
-                foreach (NWDFamily tFamily in FamilyList.GetObjectsAbsolute())
+                foreach (NWDFamily tFamily in FamilyList.GetRawDatas())
                 {
                     // Re-add !
                     kFamilyIndex.InsertData(this, tFamily);

@@ -54,7 +54,7 @@ namespace NetWorkedData
             rRequest.InternalKey = NWDUserNickname.GetNickname() + " - " + sTradePlace.InternalKey;
             #endif
 			rRequest.Tag = NWDBasisTag.TagUserCreated;
-			rRequest.TradePlace.SetObject(sTradePlace);
+			rRequest.TradePlace.SetData(sTradePlace);
 			rRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
 			rRequest.ItemsAsked.SetReferenceAndQuantity(sAsked);
 			rRequest.TradeStatus = NWDTradeStatus.Submit;
@@ -67,7 +67,7 @@ namespace NetWorkedData
 		public static NWDUserTradeRequest[] FindRequestsWith(NWDTradePlace sTradePlace)
 		{
 			List<NWDUserTradeRequest> rUserTradesRequest = new List<NWDUserTradeRequest>();
-			foreach (NWDUserTradeRequest k in FindDatas())
+			foreach (NWDUserTradeRequest k in GetDatas())
 			{
 				if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
 				{
@@ -91,7 +91,7 @@ namespace NetWorkedData
 				case NWDTradeStatus.Waiting:
 					{
 						// Remove NWDItem from NWDUserOwnership
-						Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+						Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
 						foreach (KeyValuePair<NWDItem, int> pair in tProposed)
 						{
 							NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
@@ -101,7 +101,7 @@ namespace NetWorkedData
 				case NWDTradeStatus.Expired:
 					{
 						// Add NWDItem to NWDUserOwnership
-						Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+						Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
 						foreach (KeyValuePair<NWDItem, int> pair in tProposed)
 						{
 							NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -114,7 +114,7 @@ namespace NetWorkedData
 				case NWDTradeStatus.Accepted:
 					{
 						// Add NWDItem Ask to NWDUserOwnership
-						Dictionary<NWDItem, int> tProposed = ItemsAsked.GetObjectAndQuantity();
+						Dictionary<NWDItem, int> tProposed = ItemsAsked.FindDataAndQuantity();
 						foreach (KeyValuePair<NWDItem, int> pair in tProposed)
 						{
 							NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -137,7 +137,7 @@ namespace NetWorkedData
 			bool rCanBuy = false;
 
 			// Check Pack Cost
-			foreach (KeyValuePair<NWDItem, int> pair in ItemsAsked.GetObjectAndQuantity())
+			foreach (KeyValuePair<NWDItem, int> pair in ItemsAsked.FindDataAndQuantity())
 			{
 				// Get Item Cost data
 				NWDItem tNWDItem = pair.Key;
@@ -213,7 +213,7 @@ namespace NetWorkedData
             NWDUserTradeRequest rSlot = null;
 
             // Search for a empty NWDUserTradeRequest Slot
-            foreach (NWDUserTradeRequest k in FindDatas())
+            foreach (NWDUserTradeRequest k in GetDatas())
             {
                 if (k.TradeStatus == NWDTradeStatus.None)
                 {

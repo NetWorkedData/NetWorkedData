@@ -101,10 +101,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Reevaluate()
         {
-            NWDStatisticKey tStatKey = StatKey.GetObject();
+            NWDStatisticKey tStatKey = StatKey.GetData();
             if (tStatKey.Parent != null)
             {
-                NWDStatisticKey tStatKeyParent = tStatKey.Parent.GetObject();
+                NWDStatisticKey tStatKeyParent = tStatKey.Parent.GetData();
                 if (tStatKeyParent != null)
                 {
                     //I need transfert data to parent and use data for recalulate result
@@ -125,11 +125,11 @@ namespace NetWorkedData
         public void AddEnter(float sValue)
         {
             //Debug.Log("NWDUserStatKeyValue AddEnter(" + sValue.ToString() + ")");
-            NWDStatisticKey tStatKey = StatKey.GetObject();
+            NWDStatisticKey tStatKey = StatKey.GetData();
             AddEnterForParent(sValue, tStatKey);
             if (tStatKey.Parent != null)
             {
-                NWDStatisticKey tStatKeyParent = tStatKey.Parent.GetObject();
+                NWDStatisticKey tStatKeyParent = tStatKey.Parent.GetData();
                 if (tStatKeyParent != null)
                 {
                     //I need transfert data to parent and use data for recalulate result
@@ -144,7 +144,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            foreach (NWDStatisticKey tStatKeyChild in tStatKey.Dependent.GetObjects())
+            foreach (NWDStatisticKey tStatKeyChild in tStatKey.Dependent.FindDatas())
             {
                 tStatKeyChild.AddEnterForParent(sValue);
             }
@@ -153,37 +153,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string TotalStylized()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             return tStaKey.ReturnWithFormat(Total);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AverageStylized()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             return tStaKey.ReturnWithFormat(Average);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string LastStylized()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             return tStaKey.ReturnWithFormat(Last);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string MinStylized()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             return tStaKey.ReturnWithFormat(Min);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string MaxStylized()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             return tStaKey.ReturnWithFormat(Max);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string TotalDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tTotalFormatted = tStaKey.ReturnWithFormat(Total);
             string rReturn = string.Empty;
             if (Total == 0.0f)
@@ -203,7 +203,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string AverageDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tAverageFormatted = tStaKey.ReturnWithFormat(Average);
             if (tStaKey.ShowAverageAsPurcent == true)
             {
@@ -227,7 +227,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string AverageWithParentDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tAverageWithParentFormatted = tStaKey.ReturnWithFormat(AverageWithParent);
             if (tStaKey.ShowAverageWithParentAsPurcent == true)
             {
@@ -251,7 +251,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string LastDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tLastFormatted = tStaKey.ReturnWithFormat(Last);
             string rReturn = string.Empty;
             if (Last == 0.0f)
@@ -272,7 +272,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string MinDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tMinFormatted = tStaKey.ReturnWithFormat(Min);
             string rReturn = string.Empty;
             if (Min == 0.0f)
@@ -293,7 +293,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string MaxDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tMaxFormatted = tStaKey.ReturnWithFormat(Max);
             string rReturn = string.Empty;
             if (Max == 0.0f)
@@ -314,7 +314,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string CounterDescription()
         {
-            NWDStatisticKey tStaKey = StatKey.GetObject();
+            NWDStatisticKey tStaKey = StatKey.GetData();
             string tCounterFormatted = ((int)Counter).ToString();
             string rReturn = string.Empty;
             if (Counter == 0.0f)

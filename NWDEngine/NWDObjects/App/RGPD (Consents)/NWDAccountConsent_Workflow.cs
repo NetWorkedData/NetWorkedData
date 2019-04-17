@@ -38,10 +38,10 @@ namespace NetWorkedData
         public bool ConsentIsValid()
         {
             bool rReturn = true;
-            NWDConsent tAppConsent = Consent.GetObject();
+            NWDConsent tAppConsent = Consent.GetData();
             if (tAppConsent != null)
             {
-                switch (Consent.GetObject().ExpectedState)
+                switch (Consent.GetData().ExpectedState)
                 {
                     case BTBSwitchState.On:
                         {
@@ -74,9 +74,9 @@ namespace NetWorkedData
         public static NWDAccountConsent ForConsent(NWDConsent sAppConsent, bool sCreateIfNull = true)
         {
             NWDAccountConsent rUserConsent = null;
-            foreach (NWDAccountConsent tAuthorization in FindDatas())
+            foreach (NWDAccountConsent tAuthorization in GetDatas())
             {
-                if (tAuthorization.Consent.GetObject() == sAppConsent && tAuthorization.Version.GetValue() == sAppConsent.Version.GetValue())
+                if (tAuthorization.Consent.GetData() == sAppConsent && tAuthorization.Version.GetValue() == sAppConsent.Version.GetValue())
                 {
                     rUserConsent = tAuthorization;
                     break;

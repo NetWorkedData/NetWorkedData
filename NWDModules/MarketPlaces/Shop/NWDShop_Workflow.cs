@@ -55,14 +55,14 @@ namespace NetWorkedData
         /// <param name="sPack">NWDPack the pack we just buy.</param>
         public NWDUserTransaction BuyInAppPack(NWDRack sRack, NWDPack sPack)
         {
-            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetObjectAndQuantity())
+            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.FindDataAndQuantity())
             {
                 // Get Item Pack data
                 NWDItemPack tItemPack = pair.Key;
                 int tItemPackQte = pair.Value;
 
                 // Find all Items from Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
+                Dictionary<NWDItem, int> tItems = tItemPack.Items.FindDataAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> p in tItems)
                 {
                     // Get Item data
@@ -75,7 +75,7 @@ namespace NetWorkedData
             }
             
             // Add a new NWDTransaction to user Account
-            NWDItem tItemDescribe = sPack.ItemDescription.GetObject();
+            NWDItem tItemDescribe = sPack.ItemDescription.GetData();
 
             return NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
         }
@@ -119,7 +119,7 @@ namespace NetWorkedData
                         else
                         {
                             // Check if user have enough currency
-                            tCost = sPack.ItemsToPay.GetObjectAndQuantity();
+                            tCost = sPack.ItemsToPay.FindDataAndQuantity();
                             bResult = UserCanBuy(tCost);
                         }
 
@@ -127,14 +127,14 @@ namespace NetWorkedData
                         if (bResult == BuyPackResult.CanBuy)
                         {
                             // Find all Items Pack in Pack
-                            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetObjectAndQuantity())
+                            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.FindDataAndQuantity())
                             {
                                 // Get Item Pack data
                                 NWDItemPack tItemPack = pair.Key;
                                 int tItemPackQte = pair.Value;
 
                                 // Find all Items from Item Pack
-                                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
+                                Dictionary<NWDItem, int> tItems = tItemPack.Items.FindDataAndQuantity();
                                 foreach (KeyValuePair<NWDItem, int> p in tItems)
                                 {
                                     // Get Item data
@@ -158,7 +158,7 @@ namespace NetWorkedData
                             }
 
                             // Add a new NWDTransaction to user Account
-                            NWDItem tItemDescribe = sPack.ItemDescription.GetObject();
+                            NWDItem tItemDescribe = sPack.ItemDescription.GetData();
                             bTransaction = NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
                         }
                     }
@@ -196,7 +196,7 @@ namespace NetWorkedData
             tTransactionList = NWDUserTransaction.GetTransactionsByShopAndType(this, tRackList, sType);
 
             // Search for the right Pack in Rack (for quantities)
-            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
+            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.FindDataAndQuantity();
             foreach (KeyValuePair<NWDPack, int> pair in tPacks)
             {
                 NWDPack tPack = pair.Key;
@@ -207,8 +207,8 @@ namespace NetWorkedData
                     // Verify if there is enough number of pack to buy
                     foreach (NWDUserTransaction transaction in tTransactionList)
                     {
-                        if (transaction.RackReference.ContainsObject(sRack) &&
-                            transaction.PackReference.ContainsObject(sPack))
+                        if (transaction.RackReference.ContainsData(sRack) &&
+                            transaction.PackReference.ContainsData(sPack))
                         {
                             oQuantity--;
                         }

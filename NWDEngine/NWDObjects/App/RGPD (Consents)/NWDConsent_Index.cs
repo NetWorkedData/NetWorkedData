@@ -35,7 +35,7 @@ namespace NetWorkedData
         {
             List<NWDConsent> rList = new List<NWDConsent>();
             Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>();
-            NWDConsent[] tConsentList = NWDConsent.FindDatas();
+            NWDConsent[] tConsentList = NWDConsent.GetDatas();
             foreach (NWDConsent tConsent in tConsentList)
             {
                 if (tDico.ContainsKey(tConsent.KeyOfConsent) == false)

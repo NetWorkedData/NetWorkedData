@@ -77,24 +77,25 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-        #region FIND
+        #region Get datas for my account and my gamesave
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] FindDatas()
+        public static K[] GetDatas()
         {
             return FilterDatas(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K FindFirstData()
+        public static K GetFirstData()
         {
             return FilterFirstData(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static K FindDataByReference(string sReference)
-        //{
-        //    return FilterDataByReference(sReference, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
-        //}
+        public static K GetDataByReference(string sReference)
+        {
+            return FilterDataByReference(sReference, NWDAccount.CurrentReference());
+            //return FilterDataByReference(sReference, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+        }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] FindDataByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public static K[] GetDataByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             return FilterDatasByInternalKey(sInternalKey,sCreateIfNotExists, sWritingMode, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }

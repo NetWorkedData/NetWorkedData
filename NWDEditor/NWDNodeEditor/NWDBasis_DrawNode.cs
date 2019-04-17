@@ -139,13 +139,13 @@ namespace NetWorkedData
                                                 if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
                                                 {
                                                     NWDReferenceSimple tTTVar = tVar as NWDReferenceSimple;
-                                                    tObjects = tTTVar.EditorGetObjects();
+                                                    tObjects = tTTVar.EditorGetDatas();
                                                 }
 
                                                 if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
                                                 {
                                                     NWDReferenceMultiple tTTVar = tVar as NWDReferenceMultiple;
-                                                    tObjects = tTTVar.EditorGetObjects();
+                                                    tObjects = tTTVar.EditorGetDatas();
                                                 }
                                                 bool tButtonAdd = true;
                                                     int tObjectCounter = 0;

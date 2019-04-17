@@ -43,53 +43,38 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDReferenceSimple : BTBDataType
+    public class NWDReference : BTBDataType
     {
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        public void ChangeReferenceForAnother(string sOldReference, string sNewReference) // TODO rename Change Reference
         {
-            string rReturn = "NO";
             if (Value != null)
             {
                 if (Value.Contains(sOldReference))
                 {
                     Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
                 }
             }
-            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual object[] EditorGetObjects()
+        public virtual object[] EditorGetDatas()
         {
             return null;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDReferenceMultiple : BTBDataType
+    public class NWDReferenceSimple : NWDReference
     {
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+
         //-------------------------------------------------------------------------------------------------------------
-        public virtual object[] EditorGetObjects()
-        {
-            return null;
-        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDReferenceMultiple : NWDReference
+    {
+        //-------------------------------------------------------------------------------------------------------------
+
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -119,6 +104,15 @@ namespace NetWorkedData
             return Value.Contains(sReference);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool ContainsData(K sData)
+        {
+            if (sData == null)
+            {
+                return false;
+            }
+            return Value.Contains(sData.Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetReference(string sReference)
         {
             if (sReference == null)
@@ -137,21 +131,12 @@ namespace NetWorkedData
             return Value;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
-        {
-            if (sObject == null)
-            {
-                return false;
-            }
-            return Value.Contains(sObject.Reference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public K GetObject(string sAccountReference = null)
+        public K GetData(string sAccountReference = null)
         {
             return NWDBasis<K>.FilterDataByReference(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetDatas(string sAccountReference = null)
         {
             K tObject = NWDBasis<K>.FilterDataByReference(Value, sAccountReference) as K;
             if (tObject != null)
@@ -164,12 +149,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetObjectAbsolute(string sAccountReference = null)
+        public K GetRawData()
         {
             return NWDBasis<K>.RawDataByReference(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute(string sAccountReference = null)
+        public K[] GetRawDatas()
         {
             K tObject = NWDBasis<K>.RawDataByReference(Value) as K;
             if (tObject != null)
@@ -182,7 +167,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObject(K sObject)
+        public void SetData(K sObject)
         {
             if (sObject != null)
             {
@@ -224,7 +209,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public override object[] EditorGetObjects()
+        public override object[] EditorGetDatas()
         {
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
@@ -238,12 +223,12 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            K tNewObject = NWDBasis<K>.NewData(sWritingMode);
-            this.SetObject(tNewObject);
-            NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
-        }
+        //public void EditorAddNewObject(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    K tNewObject = NWDBasis<K>.NewData(sWritingMode);
+        //    this.SetObject(tNewObject);
+        //    NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {

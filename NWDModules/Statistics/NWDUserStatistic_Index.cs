@@ -57,7 +57,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.StatKey.SetObject(sKey);
+                rReturn.StatKey.SetData(sKey);
                 // init the stat with default value
                 rReturn.Total = sKey.InitTotal;
                 rReturn.Counter = sKey.InitCounter;

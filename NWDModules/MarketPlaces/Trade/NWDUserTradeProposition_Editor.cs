@@ -51,7 +51,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Copy-paste hash from selected TradeRequest", tMiniButtonStyle))
             {
                 Debug.Log("YES ? or Not " + TradeRequest.Value);
-                NWDUserTradeRequest tRequest = TradeRequest.GetObjectAbsolute();
+                NWDUserTradeRequest tRequest = TradeRequest.GetRawData();
                 if (tRequest != null)
                 {
                     Debug.Log("YES");

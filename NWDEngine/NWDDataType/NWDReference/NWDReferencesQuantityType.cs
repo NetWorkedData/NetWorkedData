@@ -57,7 +57,7 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
+        public bool ContainsData(K sObject)
         {
             return Value.Contains(sObject.Reference);
         }
@@ -160,7 +160,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjectQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveDataQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
             if (tThis.ContainsKey(sObject.Reference) == false)
@@ -233,11 +233,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectsList(List<K> sObjectsList)
+        public void AddDatasList(List<K> sDatasList)
         {
-            foreach (K tObject in sObjectsList)
+            foreach (K tObject in sDatasList)
             {
-                AddObjectQuantity(tObject, 1);
+                AddDataQuantity(tObject, 1);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -260,17 +260,17 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectQuantity(NWDBasis<K> sObject, int sQuantity)
+        public void AddDataQuantity(NWDBasis<K> sData, int sQuantity)
         {
             // I compare all element
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            if (tThis.ContainsKey(sObject.Reference) == false)
+            if (tThis.ContainsKey(sData.Reference) == false)
             {
-                tThis.Add(sObject.Reference, sQuantity);
+                tThis.Add(sData.Reference, sQuantity);
             }
             else
             {
-                tThis[sObject.Reference] = tThis[sObject.Reference] + sQuantity;
+                tThis[sData.Reference] = tThis[sData.Reference] + sQuantity;
             }
             SetReferenceAndQuantity(tThis);
         }
@@ -290,18 +290,18 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObject(NWDBasis<K> sObject)
+        public void RemoveData(NWDBasis<K> sData)
         {
             // I compare all element
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            if (tThis.ContainsKey(sObject.Reference) == true)
+            if (tThis.ContainsKey(sData.Reference) == true)
             {
-                tThis.Remove(sObject.Reference);
+                tThis.Remove(sData.Reference);
             }
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] FindDatas(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -316,7 +316,7 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -390,7 +390,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantity(string sAccountReference = null)
+        public Dictionary<K, int> FindDataAndQuantity(string sAccountReference = null)
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
             if (Value != null && Value != string.Empty)
@@ -415,7 +415,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantityAbsolute()
+        public Dictionary<K, int> GetRawDataAndQuantity()
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
             if (Value != null && Value != string.Empty)
@@ -440,14 +440,14 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetOneObjectByRandom()
+        public K GetOneDataByRandom()
         {
             List<K> tList = ExploseInItemsList();
             int tRandom = UnityEngine.Random.Range(0, tList.Count);
             return tList[tRandom];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsByRandom(int sQuantity)
+        public List<K> GetDatasByRandom(int sQuantity)
         {
             List<K> tList = ExploseInItemsList();
             while (tList.Count > sQuantity)
@@ -524,7 +524,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public override object[] EditorGetObjects()
+        public override object[] EditorGetDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
@@ -541,10 +541,10 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
+        public void EditorAddNewData()
         {
             K tNewObject = NWDBasis<K>.NewData();
-            this.AddObjectQuantity(tNewObject, 1);
+            this.AddDataQuantity(tNewObject, 1);
             NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -67,7 +67,7 @@ namespace NetWorkedData
             }
 
             // Replace Tag by Item Name
-            NWDItem tItem = ItemDescription.GetObject();
+            NWDItem tItem = ItemDescription.GetData();
             string tName = "[Missing Detail]";
             if (tItem != null)
             {
@@ -80,7 +80,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetIAPKey()
         {
-            NWDInAppPack tInAppPack = InAppReference.GetObject();
+            NWDInAppPack tInAppPack = InAppReference.GetData();
             if (tInAppPack != null)
             {
                 if (Application.platform == RuntimePlatform.Android)
@@ -99,8 +99,8 @@ namespace NetWorkedData
 		public NWDItem[] GetAllItemsInPack ()
 		{
 			List<NWDItem> tlist = new List<NWDItem> ();
-			foreach (NWDItemPack tItemPack in ItemPackReference.GetObjects ()) {
-				tlist.AddRange (tItemPack.Items.GetObjects ());
+			foreach (NWDItemPack tItemPack in ItemPackReference.FindDatas ()) {
+				tlist.AddRange (tItemPack.Items.FindDatas ());
 			}
 			return tlist.ToArray ();
 		}
@@ -110,14 +110,14 @@ namespace NetWorkedData
             NWDReferencesQuantityType<NWDItem> rResult = new NWDReferencesQuantityType<NWDItem>();
             Dictionary<string, int> tDico = new Dictionary<string, int>();
 
-            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.GetObjectAndQuantity())
+            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.FindDataAndQuantity())
             {
                 // Get Item Pack data
                 NWDItemPack tItemPack = pair.Key;
                 int tItemPackQte = pair.Value;
 
                 // Init all Items in Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
+                Dictionary<NWDItem, int> tItems = tItemPack.Items.FindDataAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> p in tItems)
                 {
                     // Get Item data

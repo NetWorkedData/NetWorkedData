@@ -141,7 +141,7 @@ namespace NetWorkedData
             Debug.Log("NWDBasis<K> DGPRExtract()");
             string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
             List<string> tList = new List<string>();
-            foreach (K tObject in FindDatas())
+            foreach (K tObject in GetDatas())
             {
                 tList.Add("{ \"csv\" : \""+tObject.DGPRLinearization()+"\"}");
             }

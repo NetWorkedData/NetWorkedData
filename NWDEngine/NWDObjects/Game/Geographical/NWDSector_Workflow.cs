@@ -63,9 +63,9 @@ namespace NetWorkedData
                 CascadeSectorList = new NWDReferencesListType<NWDSector>();
             }
             // prevent basic circularity
-            if (ParentSectorList.ContainsObject(this) == true)
+            if (ParentSectorList.ConstaintsData(this) == true)
             {
-                ParentSectorList.RemoveObjects(new NWDSector[] { this });
+                ParentSectorList.RemoveDatas(new NWDSector[] { this });
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -80,17 +80,17 @@ namespace NetWorkedData
                 // restaure the good parents
                 ChildSectorList.Flush();
                 List<NWDSector> tChildrensDirect = GetChildrensDirect();
-                ChildSectorList.AddObjects(tChildrensDirect.ToArray());
+                ChildSectorList.AddDatas(tChildrensDirect.ToArray());
 
                 CascadeSectorList.Flush();
                 List<NWDSector> tCascade = GetCascade();
-                CascadeSectorList.AddObjects(tCascade.ToArray());
+                CascadeSectorList.AddDatas(tCascade.ToArray());
 
                 foreach (NWDSector tP in tCascade)
                 {
-                    if (ParentSectorList.ContainsObject(tP))
+                    if (ParentSectorList.ConstaintsData(tP))
                     {
-                        ParentSectorList.RemoveObjects(new NWDSector[] { tP });
+                        ParentSectorList.RemoveDatas(new NWDSector[] { tP });
                         tTest = true;
                         break;
                     }
@@ -109,9 +109,9 @@ namespace NetWorkedData
             List<NWDSector> tParents = GetParents();
             foreach (NWDSector tParent in tParents)
             {
-                if (tParent.ParentSectorList.ContainsObject(this))
+                if (tParent.ParentSectorList.ConstaintsData(this))
                 {
-                    ParentSectorList.RemoveObjects(new NWDSector[] { tParent });
+                    ParentSectorList.RemoveDatas(new NWDSector[] { tParent });
                 }
             }
             // test de cicrcularité
@@ -130,7 +130,7 @@ namespace NetWorkedData
             List<NWDSector> tChildrenFound = new List<NWDSector>();
 
             // add know children
-            foreach (NWDSector tData in ParentSectorList.GetObjects())
+            foreach (NWDSector tData in ParentSectorList.FindDatas())
             {
                 tChildrenFound.Add(tData);
             }
@@ -139,7 +139,7 @@ namespace NetWorkedData
             {
                 if (tData != null)
                 {
-                    if (tData.ChildSectorList.ContainsObject(this))
+                    if (tData.ChildSectorList.ConstaintsData(this))
                     {
                         if (tChildrenFound.Contains(tData) == false)
                         {
@@ -160,7 +160,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private List<NWDSector> GetParentsDirect()
         {
-            List<NWDSector> rReturn = ParentSectorList.GetObjectsList();
+            List<NWDSector> rReturn = ParentSectorList.FindDatasList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace NetWorkedData
             {
                 sList.Add(sSector);
                 // analyze children
-                foreach (NWDSector tData in sSector.ParentSectorList.GetObjects())
+                foreach (NWDSector tData in sSector.ParentSectorList.FindDatas())
                 {
                     if (tData != null)
                     {
@@ -203,7 +203,7 @@ namespace NetWorkedData
                 tData.CascadeAnalyzePrevent();
                 if (tData != null)
                 {
-                    if (tData.ParentSectorList.ContainsObject(this))
+                    if (tData.ParentSectorList.ConstaintsData(this))
                     {
                         if (rReturn.Contains(tData) == false)
                         {
@@ -244,7 +244,7 @@ namespace NetWorkedData
                     tData.CascadeAnalyzePrevent();
                     if (tData != null)
                     {
-                        if (tData.ParentSectorList.ContainsObject(sSector))
+                        if (tData.ParentSectorList.ConstaintsData(sSector))
                         {
                             if (sList.Contains(tData) == false)
                             {
@@ -265,7 +265,7 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = CascadeSectorList.ContainsObject(sSector);
+                rReturn = CascadeSectorList.ConstaintsData(sSector);
             }
             return rReturn;
         }

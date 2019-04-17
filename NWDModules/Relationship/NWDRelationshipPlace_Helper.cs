@@ -45,7 +45,7 @@ namespace NetWorkedData
 public override List<Type> New_OverrideClasseInThisSync()
         {
             List<Type> tClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDAccountRelationship), typeof(NWDRelationshipPlace) };
-            foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.FindDatas())
+            foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.GetDatas())
             {
                 tClasses.AddRange(tPlace.ClassesSharedToStartRelation.GetClassesTypeList());
                 tClasses.AddRange(tPlace.ClassesShared.GetClassesTypeList());

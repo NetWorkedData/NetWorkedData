@@ -207,7 +207,7 @@ namespace NetWorkedData
             if (sReplaceCharacters != null)
             {
                 tCounter = 1;
-                foreach (NWDCharacter tCharacter in sReplaceCharacters.GetObjects())
+                foreach (NWDCharacter tCharacter in sReplaceCharacters.FindDatas())
                 {
                     if (tCharacter.LastName != null)
                     {
@@ -239,7 +239,7 @@ namespace NetWorkedData
             if (sReplaceItems != null)
             {
                 tCounter = 1;
-                foreach (KeyValuePair<NWDItem, int> tKeyValue in sReplaceItems.GetObjectAndQuantity())
+                foreach (KeyValuePair<NWDItem, int> tKeyValue in sReplaceItems.FindDataAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key;
                     if (tItem != null)
@@ -273,9 +273,9 @@ namespace NetWorkedData
             if (sReplaceItemGroups != null)
             {
                 tCounter = 1;
-                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.GetObjectAndQuantity())
+                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.FindDataAndQuantity())
                 {
-                    NWDItem tItem = tKeyValue.Key.ItemDescription.GetObject();
+                    NWDItem tItem = tKeyValue.Key.ItemDescription.GetData();
                     if (tItem != null)
                     {
                         string tNameQuantity = string.Empty;
@@ -307,9 +307,9 @@ namespace NetWorkedData
             if (sReplacePacks != null)
             {
                 tCounter = 1;
-                foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.GetObjectAndQuantity())
+                foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.FindDataAndQuantity())
                 {
-                    NWDItem tItem = tKeyValue.Key.ItemDescription.GetObject();
+                    NWDItem tItem = tKeyValue.Key.ItemDescription.GetData();
                     if (tItem != null)
                     {
                         string tNameQuantity = string.Empty;
@@ -349,7 +349,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDDialog> GetNextDialogs()
         {
-            List<NWDDialog> rDialogList = GetValidDialogs(NextDialogs.GetObjectsList());
+            List<NWDDialog> rDialogList = GetValidDialogs(NextDialogs.FindDatasList());
             // check if Next quest is valid ... and if Quest is master or not 
             //NWDQuest tNextQuest = NextQuest.GetObject();
             //if (tNextQuest != null)

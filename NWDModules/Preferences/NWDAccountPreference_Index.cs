@@ -58,7 +58,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.PreferenceKey.SetObject(sKey);
+                rReturn.PreferenceKey.SetData(sKey);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.Value.SetValue(sKey.Default.Value);
                 rReturn.UpdateData();

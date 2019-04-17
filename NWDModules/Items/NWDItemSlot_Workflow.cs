@@ -47,8 +47,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDItem> ItemPossibilities()
         {
-            List<NWDItem> rItemsPossibilities = ItemGroup.GetObject().OwnershipIntersection();
-            NWDItem tItemNone = ItemNone.GetObject();
+            List<NWDItem> rItemsPossibilities = ItemGroup.GetData().OwnershipIntersection();
+            NWDItem tItemNone = ItemNone.GetData();
             if (tItemNone != null)
             {
                 rItemsPossibilities.Insert(0, tItemNone);

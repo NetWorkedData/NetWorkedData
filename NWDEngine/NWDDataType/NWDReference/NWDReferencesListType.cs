@@ -121,16 +121,16 @@ namespace NetWorkedData
             return tResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
+        public bool ConstaintsData(K sData)
         {
-            if (sObject == null)
+            if (sData == null)
             {
                 return false;
             }
-            return Value.Contains(sObject.Reference);
+            return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] FindDatas(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -145,7 +145,7 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsList(string sAccountReference = null)
+        public List<K> FindDatasList(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -160,7 +160,7 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -175,7 +175,7 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsAbsoluteList()
+        public List<K> GetRawDatasList()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -190,7 +190,7 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObjects(K[] sObjects)
+        public void SetDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -200,7 +200,7 @@ namespace NetWorkedData
             SetReferences(tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObject(K sObject)
+        public void AddData(K sObject)
         {
             if (sObject != null)
             {
@@ -208,7 +208,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjects(K[] sObjects)
+        public void AddDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -218,7 +218,7 @@ namespace NetWorkedData
             AddReferences(tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjects(K[] sObjects)
+        public void RemoveDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -246,7 +246,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public override object[] EditorGetObjects()
+        public override object[] EditorGetDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
@@ -260,10 +260,10 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
+        public void EditorAddNewData()
         {
             K tNewObject = NWDBasis<K>.NewData();
-            this.AddObject(tNewObject);
+            this.AddData(tNewObject);
             NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------

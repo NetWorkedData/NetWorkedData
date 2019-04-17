@@ -72,7 +72,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDItem> ItemPossibilities()
         {
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            NWDItemSlot tSlot = ItemSlot.GetRawData();
             List<NWDItem> rResult = new List<NWDItem>();
             if (tSlot != null)
             {
@@ -88,7 +88,7 @@ namespace NetWorkedData
             {
                 List<NWDItem> rItemUsedList = ItemsUsed.GetObjectsList();
                 List<NWDItem> rItemAuthorizedList = new List<NWDItem>();
-                rItemAuthorizedList = sSlot.ItemGroup.GetObject().ItemList.GetObjectsList();
+                rItemAuthorizedList = sSlot.ItemGroup.GetData().ItemList.FindDatasList();
                 foreach (NWDItem tItem in rItemUsedList)
                 {
                     if (tItem != sNoneItem)
@@ -124,14 +124,14 @@ namespace NetWorkedData
         private bool SetItem(NWDItem sItem, int sIndex)
         {
             bool rReturn = false;
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
-            if (tSlot.ItemGroup.GetObject().ItemList.GetObjectsList().Contains(sItem) == false)
+            NWDItemSlot tSlot = ItemSlot.GetRawData();
+            if (tSlot.ItemGroup.GetData().ItemList.FindDatasList().Contains(sItem) == false)
             {
                 sItem = null;
             }
             if (tSlot != null)
             {
-                NWDItem tNoneItem = tSlot.ItemNone.GetObjectAbsolute();
+                NWDItem tNoneItem = tSlot.ItemNone.GetRawData();
                 List<NWDItem> tList = CheckedList(tSlot, tNoneItem);
                 // index is possibles
                 if (sIndex < tList.Count)
@@ -176,15 +176,15 @@ namespace NetWorkedData
         public NWDItem GetItem(int sIndex)
         {
             NWDItem rReturn = null;
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            NWDItemSlot tSlot = ItemSlot.GetRawData();
             if (tSlot != null)
             {
-                NWDItem tNoneItem = tSlot.ItemNone.GetObjectAbsolute();
+                NWDItem tNoneItem = tSlot.ItemNone.GetRawData();
                 List<NWDItem> tList = CheckedList(tSlot, tNoneItem);
                 if (sIndex < tList.Count)
                 {
                     rReturn = tList[sIndex];
-                    if (rReturn == tSlot.ItemNone.GetObject())
+                    if (rReturn == tSlot.ItemNone.GetData())
                     {
                         rReturn = null;
                     }
@@ -206,12 +206,12 @@ namespace NetWorkedData
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
 #if UNITY_EDITOR
-            NWDItemSlot tSlot = ItemSlot.GetObjectAbsolute();
+            NWDItemSlot tSlot = ItemSlot.GetRawData();
             if (tSlot != null)
             {
                 if (tSlot.ItemNone != null)
                 {
-                    NWDItem tNoneItem = tSlot.ItemNone.GetObjectAbsolute();
+                    NWDItem tNoneItem = tSlot.ItemNone.GetRawData();
                     CheckedList(tSlot, tNoneItem);
                 }   
             }

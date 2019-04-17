@@ -96,7 +96,7 @@ namespace NetWorkedData
         public static string GetNickname()
         {
             string rNickname = string.Empty;
-            NWDUserNickname[] tNickname = FindDatas();
+            NWDUserNickname[] tNickname = GetDatas();
             if (tNickname.Length > 0)
             {
                 rNickname = tNickname[0].Nickname;
@@ -107,7 +107,7 @@ namespace NetWorkedData
         public static string GetUniqueNickname()
         {
             string rUniqueNickname = string.Empty;
-            NWDUserNickname[] tNickname = FindDatas();
+            NWDUserNickname[] tNickname = GetDatas();
             if (tNickname.Length > 0)
             {
                 rUniqueNickname = tNickname[0].UniqueNickname;

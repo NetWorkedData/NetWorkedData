@@ -63,7 +63,7 @@ namespace NetWorkedData
                     if (SlotIndex < tItemList.Count)
                     {
                         NWDItem tItem = tItemList[SlotIndex];
-                        if (tItem != tItemSlot.ItemNone.GetObject())
+                        if (tItem != tItemSlot.ItemNone.GetData())
                         {
                             IsUsed = true;
                         }

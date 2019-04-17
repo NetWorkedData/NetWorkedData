@@ -90,7 +90,7 @@ namespace NetWorkedData
         public static NWDError FindDataByCode(string sCode)
         {
             NWDError rReturn = null;
-            foreach (NWDError tObject in NWDError.FindDatas())
+            foreach (NWDError tObject in NWDError.GetDatas())
             {
                 if (tObject.Code == sCode)
                 {
@@ -104,7 +104,7 @@ namespace NetWorkedData
         public static NWDError FindDataByDomainAndCode(string sDomain, string sCode)
         {
             NWDError rReturn = null;
-            foreach (NWDError tObject in NWDError.FindDatas())
+            foreach (NWDError tObject in NWDError.GetDatas())
             {
                 if (tObject.Code == sCode && tObject.Domain == sDomain)
                 {

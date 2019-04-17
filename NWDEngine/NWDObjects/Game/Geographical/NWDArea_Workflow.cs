@@ -58,9 +58,9 @@ namespace NetWorkedData
             {
                 CascadeAreaList = new NWDReferencesListType<NWDArea>();
             }
-            if (ParentAreaList.ContainsObject(this) == true)
+            if (ParentAreaList.ConstaintsData(this) == true)
             {
-                ParentAreaList.RemoveObjects(new NWDArea[] { this });
+                ParentAreaList.RemoveDatas(new NWDArea[] { this });
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -75,17 +75,17 @@ namespace NetWorkedData
                 // restaure the good parents
                 ChildAreaList.Flush();
                 List<NWDArea> tChildrensDirect = GetChildrensDirect();
-                ChildAreaList.AddObjects(tChildrensDirect.ToArray());
+                ChildAreaList.AddDatas(tChildrensDirect.ToArray());
 
                 CascadeAreaList.Flush();
                 List<NWDArea> tCascade = GetCascade();
-                CascadeAreaList.AddObjects(tCascade.ToArray());
+                CascadeAreaList.AddDatas(tCascade.ToArray());
 
                 foreach (NWDArea tP in tCascade)
                 {
-                    if (ParentAreaList.ContainsObject(tP))
+                    if (ParentAreaList.ConstaintsData(tP))
                     {
-                        ParentAreaList.RemoveObjects(new NWDArea[] { tP });
+                        ParentAreaList.RemoveDatas(new NWDArea[] { tP });
                         tTest = true;
                         break;
                     }
@@ -104,9 +104,9 @@ namespace NetWorkedData
             List<NWDArea> tParents = GetParents();
             foreach (NWDArea tParent in tParents)
             {
-                if (tParent.ParentAreaList.ContainsObject(this))
+                if (tParent.ParentAreaList.ConstaintsData(this))
                 {
-                    ParentAreaList.RemoveObjects(new NWDArea[] { tParent });
+                    ParentAreaList.RemoveDatas(new NWDArea[] { tParent });
                 }
             }
             // test de cicrcularité
@@ -125,7 +125,7 @@ namespace NetWorkedData
             List<NWDArea> tChildrenFound = new List<NWDArea>();
 
             // add know children
-            foreach (NWDArea tData in ParentAreaList.GetObjects())
+            foreach (NWDArea tData in ParentAreaList.FindDatas())
             {
                 tChildrenFound.Add(tData);
             }
@@ -134,7 +134,7 @@ namespace NetWorkedData
             {
                 if (tData != null)
                 {
-                    if (tData.ChildAreaList.ContainsObject(this))
+                    if (tData.ChildAreaList.ConstaintsData(this))
                     {
                         if (tChildrenFound.Contains(tData) == false)
                         {
@@ -155,7 +155,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private List<NWDArea> GetParentsDirect()
         {
-            List<NWDArea> rReturn = ParentAreaList.GetObjectsList();
+            List<NWDArea> rReturn = ParentAreaList.FindDatasList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ namespace NetWorkedData
             {
                 sList.Add(sArea);
                 // analyze children
-                foreach (NWDArea tData in sArea.ParentAreaList.GetObjects())
+                foreach (NWDArea tData in sArea.ParentAreaList.FindDatas())
                 {
                     if (tData != null)
                     {
@@ -198,7 +198,7 @@ namespace NetWorkedData
                 tData.CascadeAnalyzePrevent();
                 if (tData != null)
                 {
-                    if (tData.ParentAreaList.ContainsObject(this))
+                    if (tData.ParentAreaList.ConstaintsData(this))
                     {
                         if (rReturn.Contains(tData) == false)
                         {
@@ -239,7 +239,7 @@ namespace NetWorkedData
                     tData.CascadeAnalyzePrevent();
                     if (tData != null)
                     {
-                        if (tData.ParentAreaList.ContainsObject(sArea))
+                        if (tData.ParentAreaList.ConstaintsData(sArea))
                         {
                             if (sList.Contains(tData) == false)
                             {
@@ -260,7 +260,7 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = CascadeAreaList.ContainsObject(sArea);
+                rReturn = CascadeAreaList.ConstaintsData(sArea);
             }
             return rReturn;
         }

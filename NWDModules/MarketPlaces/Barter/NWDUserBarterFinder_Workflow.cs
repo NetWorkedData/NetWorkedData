@@ -52,12 +52,12 @@ namespace NetWorkedData
         public static List<NWDUserBarterRequest> FindPropositionsWith(NWDBarterPlace sBarterPlace)
         {
             //TODO: use index
-            NWDUserBarterFinder[] tUserBartersFinder = FindDatas();
+            NWDUserBarterFinder[] tUserBartersFinder = GetDatas();
             foreach (NWDUserBarterFinder k in tUserBartersFinder)
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
                 {
-                    return k.BarterRequestsList.GetObjectsAbsoluteList();
+                    return k.BarterRequestsList.GetRawDatasList();
                 }
             }
 
@@ -69,7 +69,7 @@ namespace NetWorkedData
         public static NWDUserBarterFinder GetBarterFinderWith(NWDBarterPlace sBarterPlace)
         {
             //TODO: use index
-            NWDUserBarterFinder[] tUserBartersFinder = FindDatas();
+            NWDUserBarterFinder[] tUserBartersFinder = GetDatas();
             foreach (NWDUserBarterFinder k in tUserBartersFinder)
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
@@ -89,7 +89,7 @@ namespace NetWorkedData
             tFinder.InternalKey = NWDUserNickname.GetNickname();
 #endif
             tFinder.Tag = NWDBasisTag.TagUserCreated;
-            tFinder.BarterPlace.SetObject(sBarterPlace);
+            tFinder.BarterPlace.SetData(sBarterPlace);
             tFinder.SaveData();
 
             return tFinder;

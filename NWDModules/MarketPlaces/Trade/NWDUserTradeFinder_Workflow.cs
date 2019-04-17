@@ -45,12 +45,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
+            NWDUserTradeFinder[] tUserTradesFinder = GetDatas();
             foreach (NWDUserTradeFinder k in tUserTradesFinder)
             {
                 if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
                 {
-                    return k.TradeRequestsList.GetObjectsAbsolute();
+                    return k.TradeRequestsList.GetRawDatas();
                 }
             }
 
@@ -61,7 +61,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeFinder GetTradeFinderWith(NWDTradePlace sTradePlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
+            NWDUserTradeFinder[] tUserTradesFinder = GetDatas();
             foreach (NWDUserTradeFinder k in tUserTradesFinder)
             {
                 if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
@@ -81,7 +81,7 @@ namespace NetWorkedData
             rFinder.InternalKey = NWDUserNickname.GetNickname() + " - " + sTradePlace.InternalKey;
 #endif
             rFinder.Tag = NWDBasisTag.TagUserCreated;
-            rFinder.TradePlace.SetObject(sTradePlace);
+            rFinder.TradePlace.SetData(sTradePlace);
             rFinder.SaveData();
 
             return rFinder;

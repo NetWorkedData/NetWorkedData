@@ -53,12 +53,12 @@ namespace NetWorkedData
             NWDUserTradeProposition rProposition = FindEmptySlot();
 
             #if UNITY_EDITOR
-            NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
+            NWDTradePlace tTrade = sRequest.TradePlace.GetData();
             rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tTrade.InternalKey;
             #endif
             rProposition.Tag = NWDBasisTag.TagUserCreated;
-            rProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
-            rProposition.TradeRequest.SetObject(sRequest);
+            rProposition.TradePlace.SetData(sRequest.TradePlace.GetData());
+            rProposition.TradeRequest.SetData(sRequest);
             rProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
             rProposition.ItemsAsked.SetReferenceAndQuantity(sRequest.ItemsAsked.GetReferenceAndQuantity());
             rProposition.TradeStatus = NWDTradeStatus.Submit;
@@ -103,7 +103,7 @@ namespace NetWorkedData
             // Notify the seller with an Inter Message
             if (Message != null)
             {
-                NWDUserTradeRequest tTrade = TradeRequest.GetObjectAbsolute();
+                NWDUserTradeRequest tTrade = TradeRequest.GetRawData();
                 if (tTrade != null)
                 {
                     NWDUserInterMessage tMessage = NWDUserInterMessage.CreateNewMessageWith(Message, tTrade.Account.GetReference());
@@ -138,14 +138,14 @@ namespace NetWorkedData
             if (TradeStatus == NWDTradeStatus.Accepted)
             {
                 // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
                 }
 
                 // Remove NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
+                Dictionary<NWDItem, int> tAsked = ItemsAsked.FindDataAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> pair in tAsked)
                 {
                     NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
@@ -164,7 +164,7 @@ namespace NetWorkedData
             NWDUserTradeProposition rSlot = null;
 
             // Search for a empty NWDUserTradeProposition Slot
-            foreach (NWDUserTradeProposition k in FindDatas())
+            foreach (NWDUserTradeProposition k in GetDatas())
             {
                 if (k.TradeStatus == NWDTradeStatus.None)
                 {

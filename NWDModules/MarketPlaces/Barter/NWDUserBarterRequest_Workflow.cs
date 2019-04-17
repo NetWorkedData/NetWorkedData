@@ -71,7 +71,7 @@ namespace NetWorkedData
             rRequest.InternalKey = NWDUserNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
             #endif
             rRequest.Tag = NWDBasisTag.TagUserCreated;
-            rRequest.BarterPlace.SetObject(sBarterPlace);
+            rRequest.BarterPlace.SetData(sBarterPlace);
             rRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
             rRequest.BarterStatus = NWDTradeStatus.Submit;
             rRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
@@ -92,8 +92,8 @@ namespace NetWorkedData
             rRequest.InternalKey = NWDUserNickname.GetNickname() + " - " + sBarterPlace.InternalKey;
             #endif
             rRequest.Tag = NWDBasisTag.TagUserCreated;
-            rRequest.BarterPlace.SetObject(sBarterPlace);
-            rRequest.UserRelationship.SetObject(sRelationship);
+            rRequest.BarterPlace.SetData(sBarterPlace);
+            rRequest.UserRelationship.SetData(sRelationship);
             rRequest.ForRelationshipOnly = true;
             rRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
             rRequest.BarterStatus = NWDTradeStatus.Submit;
@@ -106,7 +106,7 @@ namespace NetWorkedData
         public static List<NWDUserBarterRequest> FindRequestsReceivedWith(NWDBarterPlace sBarterPlace)
         {
             List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
-            NWDUserRelationship[] tRelationships = NWDUserRelationship.FindDatas();
+            NWDUserRelationship[] tRelationships = NWDUserRelationship.GetDatas();
             foreach (NWDUserRelationship k in tRelationships)
             {
                 if (k.RelationshipStatus == NWDRelationshipStatus.Valid)
@@ -143,9 +143,9 @@ namespace NetWorkedData
             if (sRelationship == null)
             {
                 // Count all Request sent by user
-                foreach (NWDUserBarterRequest k in FindDatas())
+                foreach (NWDUserBarterRequest k in GetDatas())
                 {
-                    NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                    NWDBarterPlace tPlace = k.BarterPlace.GetData();
                     if (tPlace != null && tPlace.Equals(sBarterPlace))
                     {
                         rCpt++;
@@ -155,11 +155,11 @@ namespace NetWorkedData
             else
             {
                 // Count all Request sent by user for a given relationship
-                foreach (NWDUserBarterRequest k in FindDatas())
+                foreach (NWDUserBarterRequest k in GetDatas())
                 {
-                    NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                    NWDBarterPlace tPlace = k.BarterPlace.GetData();
                     if (tPlace != null && tPlace.Equals(sBarterPlace) &&
-                        k.UserRelationship.GetObject().Equals(sRelationship))
+                        k.UserRelationship.GetData().Equals(sRelationship))
                     {
                         rCpt++;
                     }
@@ -177,7 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RefreshDatas()
         {
-            foreach (NWDUserBarterRequest k in FindDatas())
+            foreach (NWDUserBarterRequest k in GetDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.Waiting)
                 {
@@ -223,7 +223,7 @@ namespace NetWorkedData
                 case NWDTradeStatus.Waiting:
                     {
                         // Remove NWDItem from NWDUserOwnership
-                        Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                        Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
                         foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                         {
                             NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
@@ -233,7 +233,7 @@ namespace NetWorkedData
                 case NWDTradeStatus.Expired:
                     {
                         // Add NWDItem to NWDUserOwnership
-                        Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                        Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
                         foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                         {
                             NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -246,7 +246,7 @@ namespace NetWorkedData
                 case NWDTradeStatus.Accepted:
                     {
                         // Add NWDItem Ask to NWDUserOwnership
-                        Dictionary<NWDItem, int> tProposed = ItemsReceived.GetObjectAndQuantity();
+                        Dictionary<NWDItem, int> tProposed = ItemsReceived.FindDataAndQuantity();
                         foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                         {
                             NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -269,7 +269,7 @@ namespace NetWorkedData
             NWDUserBarterProposition tProposition = sProposition;
             if (tProposition == null)
             {
-                NWDUserBarterProposition[] tPropositions = Propositions.GetObjectsAbsolute();
+                NWDUserBarterProposition[] tPropositions = Propositions.GetRawDatas();
                 if (tPropositions.Length == 1)
                 {
                     tProposition = tPropositions[0];
@@ -287,7 +287,7 @@ namespace NetWorkedData
             }
 
             BarterStatus = NWDTradeStatus.Deal;
-            WinnerProposition.SetObject(tProposition);
+            WinnerProposition.SetData(tProposition);
             SaveData();
 
             // Keep Message for futur used
@@ -357,7 +357,7 @@ namespace NetWorkedData
             // Notify the seller with an Inter Message
             if (Message != null)
             {
-                NWDUserBarterProposition tWinner = WinnerProposition.GetObjectAbsolute();
+                NWDUserBarterProposition tWinner = WinnerProposition.GetRawData();
                 if (tWinner != null)
                 {
                     NWDUserInterMessage tMessage = NWDUserInterMessage.CreateNewMessageWith(Message, tWinner.Account.GetReference());
@@ -390,7 +390,7 @@ namespace NetWorkedData
             NWDUserBarterRequest rSlot = null;
 
             // Search for a empty NWDUserBarterRequest Slot
-            foreach (NWDUserBarterRequest k in FindDatas())
+            foreach (NWDUserBarterRequest k in GetDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.None)
                 {

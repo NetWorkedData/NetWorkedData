@@ -48,7 +48,7 @@ namespace NetWorkedData
         public NWDReferencesQuantityType<NWDItem> GetAdditionalItem(NWDReferencesQuantityType<NWDItem> sItemInCraft)
         {
             NWDReferencesQuantityType<NWDItem> rReturn = new NWDReferencesQuantityType<NWDItem>();
-            foreach (NWDCraftReward tAdd in AdditionalReward.GetObjects())
+            foreach (NWDCraftReward tAdd in AdditionalReward.FindDatas())
             {
                 if (tAdd.ItemConditional.IsValid(sItemInCraft))
                 {
@@ -319,10 +319,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RecalculMe()
         {
-            if (ItemDescription.GetObject() != null)
+            if (ItemDescription.GetData() != null)
             {
-                NWDItem tItem = ItemDescription.GetObject();
-                tItem.CraftBookAttachment.SetObject(this);
+                NWDItem tItem = ItemDescription.GetData();
+                tItem.CraftBookAttachment.SetData(this);
                 tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
                 tItem.UpdateDataIfModified();
             }

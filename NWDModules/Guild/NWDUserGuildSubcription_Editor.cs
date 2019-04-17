@@ -57,7 +57,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Copy-paste hash from selected GuildRequest", tMiniButtonStyle))
             {
                 Debug.Log("YES ? or Not " + GuildRequest.Value);
-                NWDUserGuild tRequest = GuildRequest.GetObjectAbsolute();
+                NWDUserGuild tRequest = GuildRequest.GetRawData();
                 if (tRequest != null)
                 {
                     Debug.Log("YES");

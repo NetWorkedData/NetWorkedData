@@ -56,7 +56,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.Level.SetObject(sKey);
+                rReturn.Level.SetData(sKey);
                 rReturn.UpdateData();
             }
             return rReturn;

@@ -62,9 +62,9 @@ namespace NetWorkedData
         {
             //Debug.Log("GetAdvancementForQuest");
             NWDUserQuestAdvancement rAdvancement = null;
-            foreach (NWDUserQuestAdvancement tAdvancement in FindDatas())
+            foreach (NWDUserQuestAdvancement tAdvancement in GetDatas())
             {
-                if (tAdvancement.QuestReference.GetObject() == sQuest)
+                if (tAdvancement.QuestReference.GetData() == sQuest)
                 {
                     rAdvancement = tAdvancement;
                     //Debug.Log("GetAdvancementForQuest NWDUserQuestAdvancement not null");
@@ -106,7 +106,7 @@ namespace NetWorkedData
                 if (rAdvancement.QuestReference.GetReference() != rAdvancement.QuestActualReference.GetReference())
                 {
                     //Debug.Log("GetAdvancementForQuest Whaooooooooo!");
-                    rAdvancement = GetAdvancementForQuest(rAdvancement.QuestActualReference.GetObject());
+                    rAdvancement = GetAdvancementForQuest(rAdvancement.QuestActualReference.GetData());
                 }
             }
             return rAdvancement;
@@ -116,13 +116,13 @@ namespace NetWorkedData
         {
             //return sQuest.FirstDialogOnShowQuest(this);
             NWDUserQuestAdvancement tQuestUserAdvancement = GetAdvancementForQuest(sQuest);
-            return tQuestUserAdvancement.QuestReference.GetObject().FirstDialogOnShowQuest(tQuestUserAdvancement);
+            return tQuestUserAdvancement.QuestReference.GetData().FirstDialogOnShowQuest(tQuestUserAdvancement);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AvailableQuest()
         {
             bool rReturn = true;
-            NWDQuest tQuest = QuestActualReference.GetObject();
+            NWDQuest tQuest = QuestActualReference.GetData();
             if (tQuest == null)
             {
                 rReturn = false;
@@ -186,7 +186,7 @@ namespace NetWorkedData
                     {
                         if (tQuest.DesiredDialogsList != null)
                         {
-                            NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.DesiredDialogsList.GetObjectsList());
+                            NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.DesiredDialogsList.FindDatasList());
                             if (tDialog == null)
                             {
                                 rReturn = false;
@@ -196,7 +196,7 @@ namespace NetWorkedData
                     else
                     {
                         NWDReferencesListType<NWDDialog> tAvailableDialogsList = tQuest.AvailableDialogsList; 
-                        List<NWDDialog> tDialogsList = tAvailableDialogsList.GetObjectsList();
+                        List<NWDDialog> tDialogsList = tAvailableDialogsList.FindDatasList();
                         NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tDialogsList);
                         if (tDialog == null)
                         {
@@ -206,7 +206,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.RequiredDialogsList.GetObjectsList());
+                    NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.RequiredDialogsList.FindDatasList());
                     if (tDialog == null)
                     {
                         rReturn = false;
@@ -286,7 +286,7 @@ namespace NetWorkedData
         public void AdvancementDialog(NWDDialog sDialog)
         {
             //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ")");
-            NWDQuest tQuest = QuestActualReference.GetObject();
+            NWDQuest tQuest = QuestActualReference.GetData();
             // If Dialog == null I need determine wich dialog I need to Use
             if (sDialog == null)
             {
@@ -294,7 +294,7 @@ namespace NetWorkedData
             }
             else
             {
-                DialogResumeList.AddObject(sDialog);
+                DialogResumeList.AddData(sDialog);
                 // Update Quest Advancement
                 switch (sDialog.QuestStep)
                 {
@@ -373,7 +373,7 @@ namespace NetWorkedData
                                 //}
                                 // increment counters
                                 SuccessCounter++;
-                                NWDQuest tNextQuest = sDialog.NextQuest.GetObject();
+                                NWDQuest tNextQuest = sDialog.NextQuest.GetData();
                                 if (tNextQuest != null)
                                 {
                                     QuestActualReference.SetReference(tNextQuest.Reference);
@@ -407,7 +407,7 @@ namespace NetWorkedData
                             QuestState = NWDQuestState.Fail;
                             // increment counters
                             FailCounter++;
-                            NWDQuest tNextQuest = sDialog.NextQuest.GetObject();
+                            NWDQuest tNextQuest = sDialog.NextQuest.GetData();
                             if (tNextQuest != null)
                             {
                                 QuestActualReference.SetReference(tNextQuest.Reference);
@@ -426,13 +426,13 @@ namespace NetWorkedData
                 }
                 if (sDialog.AnswerState == NWDDialogState.Step || sDialog.AnswerState == NWDDialogState.Sequent)
                 {
-                    LastDialogReference.SetObject(sDialog);
+                    LastDialogReference.SetData(sDialog);
                 }
                 if (sDialog.AnswerState == NWDDialogState.Reset)
                 {
                     // I remove the last dialog... waiting to decalre a new dialog or restart the quest
                     QuestState = NWDQuestState.None;
-                    LastDialogReference.SetObject(null);
+                    LastDialogReference.SetData(null);
                     QuestActualReference.SetReference(QuestReference.GetReference());
                 }
                 UpdateData();
@@ -441,14 +441,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void FinishQuest(bool sWithCounter = true)
         {
-            NWDQuest tOriginalQuest = QuestOriginalReference.GetObject();
-            NWDQuest tActualQuest = QuestActualReference.GetObject();
+            NWDQuest tOriginalQuest = QuestOriginalReference.GetData();
+            NWDQuest tActualQuest = QuestActualReference.GetData();
             if (tOriginalQuest != null)
             {
                 NWDUserQuestAdvancement tQuestUserAdvancement = null;
-                foreach (NWDUserQuestAdvancement tAdvancement in FindDatas())
+                foreach (NWDUserQuestAdvancement tAdvancement in GetDatas())
                 {
-                    if (tAdvancement.QuestReference.GetObject() == tOriginalQuest)
+                    if (tAdvancement.QuestReference.GetData() == tOriginalQuest)
                     {
                         tQuestUserAdvancement = tAdvancement;
                         tQuestUserAdvancement.FinishQuest(tActualQuest.DependantCounter);
@@ -456,7 +456,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            QuestOriginalReference.SetObject(null);
+            QuestOriginalReference.SetData(null);
             QuestActualReference.SetReference(QuestReference.GetReference());
             if (sWithCounter == true)
             {

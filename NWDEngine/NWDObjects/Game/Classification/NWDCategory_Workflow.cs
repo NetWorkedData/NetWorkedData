@@ -59,9 +59,9 @@ namespace NetWorkedData
             {
                 CascadeCategoryList = new NWDReferencesListType<NWDCategory>();
             }
-            if (ParentCategoryList.ContainsObject(this) == true)
+            if (ParentCategoryList.ConstaintsData(this) == true)
             {
-                ParentCategoryList.RemoveObjects(new NWDCategory[] { this });
+                ParentCategoryList.RemoveDatas(new NWDCategory[] { this });
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -75,17 +75,17 @@ namespace NetWorkedData
                 // restaure the good parents
                 ChildrenCategoryList.Flush();
                 List<NWDCategory> tChildrensDirect = GetChildrensDirect();
-                ChildrenCategoryList.AddObjects(tChildrensDirect.ToArray());
+                ChildrenCategoryList.AddDatas(tChildrensDirect.ToArray());
 
                 CascadeCategoryList.Flush();
                 List<NWDCategory> tCascade = GetCascade();
-                CascadeCategoryList.AddObjects(tCascade.ToArray());
+                CascadeCategoryList.AddDatas(tCascade.ToArray());
 
                 foreach (NWDCategory tP in tCascade)
                 {
-                    if (ParentCategoryList.ContainsObject(tP))
+                    if (ParentCategoryList.ConstaintsData(tP))
                     {
-                        ParentCategoryList.RemoveObjects(new NWDCategory[] { tP });
+                        ParentCategoryList.RemoveDatas(new NWDCategory[] { tP });
                         tTest = true;
                         break;
                     }
@@ -104,9 +104,9 @@ namespace NetWorkedData
             List<NWDCategory> tParents = GetParents();
             foreach (NWDCategory tParent in tParents)
             {
-                if (tParent.ParentCategoryList.ContainsObject(this))
+                if (tParent.ParentCategoryList.ConstaintsData(this))
                 {
-                    ParentCategoryList.RemoveObjects(new NWDCategory[] { tParent });
+                    ParentCategoryList.RemoveDatas(new NWDCategory[] { tParent });
                 }
             }
             // test de cicrcularité
@@ -125,7 +125,7 @@ namespace NetWorkedData
             List<NWDCategory> tChildrenFound = new List<NWDCategory>();
 
             // add know children
-            foreach (NWDCategory tData in ParentCategoryList.GetObjects())
+            foreach (NWDCategory tData in ParentCategoryList.FindDatas())
             {
                 tChildrenFound.Add(tData);
             }
@@ -136,7 +136,7 @@ namespace NetWorkedData
                 {
                     if (tData.ChildrenCategoryList != null)
                     {
-                        if (tData.ChildrenCategoryList.ContainsObject(this))
+                        if (tData.ChildrenCategoryList.ConstaintsData(this))
                         {
                             if (tChildrenFound.Contains(tData) == false)
                             {
@@ -158,7 +158,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private List<NWDCategory> GetParentsDirect()
         {
-            List<NWDCategory> rReturn = ParentCategoryList.GetObjectsList();
+            List<NWDCategory> rReturn = ParentCategoryList.FindDatasList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ namespace NetWorkedData
             {
                 sList.Add(sCat);
                 // analyze children
-                foreach (NWDCategory tData in sCat.ParentCategoryList.GetObjects())
+                foreach (NWDCategory tData in sCat.ParentCategoryList.FindDatas())
                 {
                     if (tData != null)
                     {
@@ -202,7 +202,7 @@ namespace NetWorkedData
                 {
                     if (tData.ParentCategoryList != null)
                     {
-                        if (tData.ParentCategoryList.ContainsObject(this))
+                        if (tData.ParentCategoryList.ConstaintsData(this))
                         {
                             if (rReturn.Contains(tData) == false)
                             {
@@ -245,7 +245,7 @@ namespace NetWorkedData
                     {
                         if (tData.ParentCategoryList!=null)
                         {
-                            if (tData.ParentCategoryList.ContainsObject(sCat))
+                            if (tData.ParentCategoryList.ConstaintsData(sCat))
                             {
                                 if (sList.Contains(tData) == false)
                                 {
@@ -266,7 +266,7 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = CascadeCategoryList.ContainsObject(sCategory);
+                rReturn = CascadeCategoryList.ConstaintsData(sCategory);
             }
             return rReturn;
         }

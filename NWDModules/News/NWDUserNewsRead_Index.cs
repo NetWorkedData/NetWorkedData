@@ -56,7 +56,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.News.SetObject(sKey);
+                rReturn.News.SetData(sKey);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();
             }

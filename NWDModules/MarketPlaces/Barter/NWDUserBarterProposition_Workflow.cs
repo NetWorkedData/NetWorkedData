@@ -61,12 +61,12 @@ namespace NetWorkedData
             NWDUserBarterProposition rProposition = FindEmptySlot();
 
             #if UNITY_EDITOR
-            NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
+            NWDBarterPlace tBarter = sRequest.BarterPlace.GetData();
             rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tBarter.InternalKey;
             #endif
             rProposition.Tag = NWDBasisTag.TagUserCreated;
-            rProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
-            rProposition.BarterRequest.SetObject(sRequest);
+            rProposition.BarterPlace.SetData(sRequest.BarterPlace.GetData());
+            rProposition.BarterRequest.SetData(sRequest);
             rProposition.ItemsSend.SetReferenceAndQuantity(sProposed);
             rProposition.BarterStatus = NWDTradeStatus.Submit;
             rProposition.BarterRequestHash = sRequest.BarterHash;
@@ -81,12 +81,12 @@ namespace NetWorkedData
             NWDUserBarterProposition rProposition = FindEmptySlot();
 
             #if UNITY_EDITOR
-            NWDBarterPlace tBarter = sRequest.BarterPlace.GetObject();
+            NWDBarterPlace tBarter = sRequest.BarterPlace.GetData();
             rProposition.InternalKey = NWDUserNickname.GetNickname() + " - " + tBarter.InternalKey;
             #endif
             rProposition.Tag = NWDBasisTag.TagUserCreated;
-            rProposition.BarterPlace.SetObject(sRequest.BarterPlace.GetObject());
-            rProposition.BarterRequest.SetObject(sRequest);
+            rProposition.BarterPlace.SetData(sRequest.BarterPlace.GetData());
+            rProposition.BarterRequest.SetData(sRequest);
             rProposition.BarterStatus = NWDTradeStatus.NoDeal;
             rProposition.BarterRequestHash = sRequest.BarterHash;
             rProposition.SaveData();
@@ -97,9 +97,9 @@ namespace NetWorkedData
         public static int GetNumberOfProposalSentFor(NWDUserBarterRequest sRequest)
         {
             int rCpt = 0;
-            foreach(NWDUserBarterProposition k in FindDatas())
+            foreach(NWDUserBarterProposition k in GetDatas())
             {
-                NWDUserBarterRequest tBarterRequest = k.BarterRequest.GetObjectAbsolute();
+                NWDUserBarterRequest tBarterRequest = k.BarterRequest.GetRawData();
                 if (tBarterRequest != null && tBarterRequest.Equals(sRequest))
                 {
                     rCpt++;
@@ -112,9 +112,9 @@ namespace NetWorkedData
         public static List<NWDUserBarterProposition> FindProposalWith(NWDBarterPlace sBarterPlace)
         {
             List<NWDUserBarterProposition> rUserBartersProposal = new List<NWDUserBarterProposition>();
-            foreach (NWDUserBarterProposition k in FindDatas())
+            foreach (NWDUserBarterProposition k in GetDatas())
             {
-                NWDBarterPlace tPlace = k.BarterPlace.GetObject();
+                NWDBarterPlace tPlace = k.BarterPlace.GetData();
                 if (tPlace != null && tPlace.Equals(sBarterPlace))
                 {
                     rUserBartersProposal.Add(k);
@@ -133,7 +133,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RefreshDatas()
         {
-            foreach (NWDUserBarterProposition k in FindDatas())
+            foreach (NWDUserBarterProposition k in GetDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.Waiting)
                 {
@@ -200,7 +200,7 @@ namespace NetWorkedData
             // Notify the seller with an Inter Message
             if (Message != null)
             {
-                NWDUserBarterRequest tBarter = BarterRequest.GetObjectAbsolute();
+                NWDUserBarterRequest tBarter = BarterRequest.GetRawData();
                 if (tBarter != null)
                 {
                     NWDUserInterMessage tMessage = NWDUserInterMessage.CreateNewMessageWith(Message, tBarter.Account.GetReference());
@@ -233,7 +233,7 @@ namespace NetWorkedData
             if (BarterStatus == NWDTradeStatus.Accepted)
             {
                 // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -248,7 +248,7 @@ namespace NetWorkedData
             else if(BarterStatus == NWDTradeStatus.Expired)
             {
                 // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsSend.GetObjectAndQuantity();
+                Dictionary<NWDItem, int> tProposed = ItemsSend.FindDataAndQuantity();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -267,7 +267,7 @@ namespace NetWorkedData
             NWDUserBarterProposition rSlot = null;
 
             // Search for a empty NWDUserBarterProposal Slot
-            foreach (NWDUserBarterProposition k in FindDatas())
+            foreach (NWDUserBarterProposition k in GetDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.None)
                 {

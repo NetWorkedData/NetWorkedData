@@ -78,7 +78,7 @@ namespace NetWorkedData
             if (tQuestUserAdvancement != null)
             {
                 // I try to get the last dialog reccord in advancement 
-                rDialog = tQuestUserAdvancement.LastDialogReference.GetObject();
+                rDialog = tQuestUserAdvancement.LastDialogReference.GetData();
             }
             if (rDialog == null)
             {
@@ -112,7 +112,7 @@ namespace NetWorkedData
                         // And I have the object wanted too ... 
                         if (DesiredDialogsList != null)
                         {
-                            rDialog = NWDDialog.GetFirstValidDialogs(DesiredDialogsList.GetObjectsList());
+                            rDialog = NWDDialog.GetFirstValidDialogs(DesiredDialogsList.FindDatasList());
                             if (tQuestUserAdvancement != null)
                             {
                                 tQuestUserAdvancement.QuestState = NWDQuestState.StartAlternate;
@@ -124,7 +124,7 @@ namespace NetWorkedData
                         {
                             if (AvailableDialogsList != null)
                                 {
-                                    rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.GetObjectsList());
+                                    rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.FindDatasList());
                                     if (tQuestUserAdvancement != null)
                                         {
                                             tQuestUserAdvancement.QuestState = NWDQuestState.Start;
@@ -138,7 +138,7 @@ namespace NetWorkedData
                         if (AvailableDialogsList != null)
                         {
                             //rDialog = DialogReference.GetObject();
-                            rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.GetObjectsList());
+                            rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.FindDatasList());
                             if (tQuestUserAdvancement != null)
                             {
                                 tQuestUserAdvancement.QuestState = NWDQuestState.Start;
@@ -152,7 +152,7 @@ namespace NetWorkedData
                     // Idon't have the objects required
                     if (RequiredDialogsList != null)
                     {
-                        rDialog = NWDDialog.GetFirstValidDialogs(RequiredDialogsList.GetObjectsList());
+                        rDialog = NWDDialog.GetFirstValidDialogs(RequiredDialogsList.FindDatasList());
                         //rDialog = NoRequiredDialogReference.GetObject();
                         if (tQuestUserAdvancement != null)
                         {

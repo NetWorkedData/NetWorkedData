@@ -73,7 +73,7 @@ public class NWDCreditsScript : MonoBehaviour
             Title.text = Credits.Title.GetLocalString();
             // install your company
             // add prefab company
-            NWDCreditsCompany tCompany = Credits.Company.GetObject();
+            NWDCreditsCompany tCompany = Credits.Company.GetData();
             if (tCompany != null && CompanyPanel != null)
             {
                 GameObject tPrefab = Instantiate(CompanyPrefab, CompanyPanel.transform, false);
@@ -85,7 +85,7 @@ public class NWDCreditsScript : MonoBehaviour
             // Install Stuff Member
             if (StuffListPanel != null)
             {
-                foreach (NWDCreditsStuff tStuff in Credits.StuffList.GetObjects())
+                foreach (NWDCreditsStuff tStuff in Credits.StuffList.FindDatas())
                 {
 
                     GameObject tPrefabData = null;
@@ -122,7 +122,7 @@ public class NWDCreditsScript : MonoBehaviour
             // Install Companies logo, etc.
             if (CompanyListPanel != null)
             {
-                foreach (NWDCreditsCompany tOtherCompany in Credits.CompanyList.GetObjects())
+                foreach (NWDCreditsCompany tOtherCompany in Credits.CompanyList.FindDatas())
                 {
                     if (OtherCompanyPrefab != null)
                     {

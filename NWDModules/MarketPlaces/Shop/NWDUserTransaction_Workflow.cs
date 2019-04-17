@@ -86,17 +86,17 @@ namespace NetWorkedData
             List<NWDUserTransaction> rTransactionList = new List<NWDUserTransaction>();
 
             // Init all transactions done by the user for selected shop and type
-            NWDUserTransaction[] tList = FindDatas();
+            NWDUserTransaction[] tList = GetDatas();
             foreach (NWDUserTransaction transaction in tList)
             {
                 // Verify we are in the right Shop
-                if (transaction.ShopReference.ContainsObject(sShop))
+                if (transaction.ShopReference.ContainsData(sShop))
                 {
                     // Parse selected Shop Racks
                     foreach (NWDRack tRack in sRacks)
                     {
                         // Verify the Rack
-                        if (transaction.RackReference.ContainsObject(tRack))
+                        if (transaction.RackReference.ContainsData(tRack))
                         {
                             // Take only transaction filter by ShopType
                             bool isValidate = false;

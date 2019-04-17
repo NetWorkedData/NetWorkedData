@@ -58,7 +58,7 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.Achievement.SetObject(sKey);
+                rReturn.Achievement.SetData(sKey);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();
             }

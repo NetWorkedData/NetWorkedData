@@ -52,7 +52,7 @@ namespace NetWorkedData
                 tBend = string.Empty;
             }
             // Replace Tag by Item Name
-            NWDItem tItem = ItemDescription.GetObject();
+            NWDItem tItem = ItemDescription.GetData();
             string tName = "[Missing Detail]";
             if (tItem != null)
             {

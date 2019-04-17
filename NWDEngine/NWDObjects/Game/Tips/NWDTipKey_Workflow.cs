@@ -58,7 +58,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom()
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
             {
                 /* I list the object compatible with request
 			 	* I insert in the list  each object (Frequency) times
@@ -75,7 +75,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom(NWDWorld sWorld)
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
             {
                 bool tAdd = true;
                 if (sWorld != null && tObject.WorldList.ContainsReference(sWorld.Reference) == false)
@@ -96,14 +96,14 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom(NWDCategory sCategory)
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
             {
                 bool tAdd = true;
 
                 if (sCategory != null)
                 {
                     bool tValid = false;
-                    foreach (NWDCategory tCat in tObject.CategoryList.GetObjects())
+                    foreach (NWDCategory tCat in tObject.CategoryList.FindDatas())
                     {
                         if (tCat.Containts(sCategory))
                         {
@@ -130,7 +130,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom(NWDWorld sWorld, NWDCategory sCategory, NWDFamily sFamily, NWDKeyword sKeyword)
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.FindDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
             {
                 bool tAdd = true;
                 if (sWorld != null && tObject.WorldList.ContainsReference(sWorld.Reference) == false)
@@ -140,7 +140,7 @@ namespace NetWorkedData
                 if (sCategory != null)
                 {
                     bool tValid = false;
-                    foreach (NWDCategory tCat in tObject.CategoryList.GetObjects())
+                    foreach (NWDCategory tCat in tObject.CategoryList.FindDatas())
                     {
                         if (tCat.Containts(sCategory))
                         {
@@ -202,7 +202,7 @@ namespace NetWorkedData
             if (tUserTip == null)
             {
                 tUserTip = NWDUserTip.NewData();
-                tUserTip.Tip.SetObject(this);
+                tUserTip.Tip.SetData(this);
             }
             tUserTip.AlreadyVisualize = true;
             tUserTip.ViewingNumber++;
