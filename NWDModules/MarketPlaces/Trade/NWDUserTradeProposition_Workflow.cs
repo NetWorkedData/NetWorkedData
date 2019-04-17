@@ -164,7 +164,7 @@ namespace NetWorkedData
             NWDUserTradeProposition rSlot = null;
 
             // Search for a empty NWDUserTradeProposition Slot
-            foreach (NWDUserTradeProposition k in GetDatas())
+            foreach (NWDUserTradeProposition k in GetReachableDatas())
             {
                 if (k.TradeStatus == NWDTradeStatus.None)
                 {

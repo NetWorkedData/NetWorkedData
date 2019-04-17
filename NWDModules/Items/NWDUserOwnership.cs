@@ -449,7 +449,7 @@ namespace NetWorkedData
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
-            NWDItemGroup tItemGroup = NWDItemGroup.FilterDataByReference(sConditional.Reference);
+            NWDItemGroup tItemGroup = NWDItemGroup.GetCorporateDataByReference(sConditional.Reference);
             if (tItemGroup != null)
             {
                 rReturn = false;

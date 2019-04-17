@@ -52,7 +52,7 @@ namespace NetWorkedData
         public static List<NWDUserBarterRequest> FindPropositionsWith(NWDBarterPlace sBarterPlace)
         {
             //TODO: use index
-            NWDUserBarterFinder[] tUserBartersFinder = GetDatas();
+            NWDUserBarterFinder[] tUserBartersFinder = GetReachableDatas();
             foreach (NWDUserBarterFinder k in tUserBartersFinder)
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
@@ -69,7 +69,7 @@ namespace NetWorkedData
         public static NWDUserBarterFinder GetBarterFinderWith(NWDBarterPlace sBarterPlace)
         {
             //TODO: use index
-            NWDUserBarterFinder[] tUserBartersFinder = GetDatas();
+            NWDUserBarterFinder[] tUserBartersFinder = GetReachableDatas();
             foreach (NWDUserBarterFinder k in tUserBartersFinder)
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))

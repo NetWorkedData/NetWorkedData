@@ -28,6 +28,60 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        #region EDITOR       
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<K> GetEditorDatasList()
+        {
+            return BasisHelper().Datas as List<K>;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // ANCIEN GetAllObjects()
+        public static K[] GetEditorDatas()
+        {
+            //BTBBenchmark.Start();
+            K[] rReturn = BasisHelper().Datas.ToArray() as K[];
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<K> GetEditorDatasByInternalKey(string sInternalKey)
+        {
+            List<K> rReturn;
+            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
+            {
+                rReturn = BasisHelper().DatasByInternalKey[sInternalKey] as List<K>;
+            }
+            else
+            {
+                rReturn = new List<K>();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetEditorDataByReference(string sReference, bool sTryOnDisk = false)
+        {
+            K rReturn = null;
+            if (BasisHelper().DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = BasisHelper().DatasByReference[sReference] as K;
+            }
+            else
+            {
+                if (sTryOnDisk == true)
+                {
+                    rReturn = LoadDataByReference(sReference);
+                }
+            }
+            return rReturn;
+        }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
         #region RAW
         //-------------------------------------------------------------------------------------------------------------
         public static List<K> RawDatasList()
@@ -69,39 +123,39 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                // TODO : fait lagguer la connection : trouver une solution
-                rReturn = LoadDataByReference(sReference);
+                    // TODO : fait lagguer la connection : trouver une solution
+                    rReturn = LoadDataByReference(sReference);
                 }
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-        #region Get datas for my account and my gamesave
+        #region REACHABLE Get datas for my account and my gamesave
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetDatas()
+        public static K[] GetReachableDatas()
         {
-            return FilterDatas(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+            return GetCorporateDatas(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetFirstData()
+        public static K GetReachableFirstData()
         {
-            return FilterFirstData(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+            return GetCorporateFirstData(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetDataByReference(string sReference)
+        public static K GetReachableDataByReference(string sReference)
         {
-            return FilterDataByReference(sReference, NWDAccount.CurrentReference());
+            return GetCorporateDataByReference(sReference, NWDAccount.CurrentReference());
             //return FilterDataByReference(sReference, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetDataByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            return FilterDatasByInternalKey(sInternalKey,sCreateIfNotExists, sWritingMode, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+            return GetCorporateDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-        #region FILTER
+        #region CORPORATE Get datas for by account and by gamesave
         //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
         /// <summary>
@@ -109,7 +163,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The get data by reference.</returns>
         /// <param name="sReference">S reference.</param>
-        public static K FilterDataByReference(string sReference, string sAccountReference = null)
+        public static K GetCorporateDataByReference(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             K rReturn = null;
             if (string.IsNullOrEmpty(sReference) == false)
@@ -133,7 +187,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] FilterDatas(string sAccountReference = null, // use default account
+        public static K[] GetCorporateDatas(string sAccountReference = null, // use default account
                                 NWDGameSave sGameSave = null, // use default gamesave
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
                                 NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
@@ -147,10 +201,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K FilterFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
+        public static K GetCorporateFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             K rReturn = null;
-            K[] rDatas = FilterDatas(sAccountReference, sGameSave);
+            K[] rDatas = GetCorporateDatas(sAccountReference, sGameSave);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
@@ -158,7 +212,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] FilterDatasByInternalKey(
+        public static K[] GetCorporateDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
             NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
@@ -233,7 +287,7 @@ namespace NetWorkedData
         {
             K rReturn = null;
 
-            K[] rDatas = FilterDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rDatas = GetCorporateDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
@@ -392,7 +446,7 @@ namespace NetWorkedData
         #region LOAD PARTIAL
 
         //-------------------------------------------------------------------------------------------------------------
-        public static K LoadDataByReference(string sReference)
+        private static K LoadDataByReference(string sReference)
         {
             Debug.Log("LoadDataByReference(" + sReference + ")");
             BTBBenchmark.Start();
@@ -433,7 +487,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void LoadDataToSync(NWDAppEnvironment sEnvironment)
+        private static void LoadDataToSync(NWDAppEnvironment sEnvironment)
         {
             BTBBenchmark.Start();
             NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
@@ -476,7 +530,7 @@ namespace NetWorkedData
         #endregion
         #region SELECT
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] SelectRawDatas(string sWhere ="`AC`=1;")
+        public static K[] SelectDatasWhereRequest(string sWhere = "`AC`=1;")
         {
             BTBBenchmark.Start();
             List<K> rResult = new List<K>();
@@ -491,7 +545,7 @@ namespace NetWorkedData
             {
                 if (tSQLiteConnection.IsValid())
                 {
-                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " +sWhere;
+                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " + sWhere;
                     Debug.Log(tQuery);
                     SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
                     List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
@@ -501,8 +555,8 @@ namespace NetWorkedData
                         {
                             if (tReference.Reference != null)
                             {
-                               K tData = RawDataByReference(tReference.Reference, true);
-                                if (tData!=null)
+                                K tData = RawDataByReference(tReference.Reference, true);
+                                if (tData != null)
                                 {
                                     rResult.Add(tData);
                                 }

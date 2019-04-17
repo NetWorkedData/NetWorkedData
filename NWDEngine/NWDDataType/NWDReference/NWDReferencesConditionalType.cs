@@ -97,7 +97,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
         {
-            K tObject = NWDBasis<K>.FilterDataByReference(Reference);
+            K tObject = NWDBasis<K>.GetCorporateDataByReference(Reference);
             string rDescription = Reference;
             if (tObject == null)
             {
@@ -148,7 +148,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject()
         {
-            return NWDBasis<K>.FilterDataByReference(Reference);
+            return NWDBasis<K>.GetCorporateDataByReference(Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool isValid(int sQuantity)
@@ -386,7 +386,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -535,7 +535,7 @@ namespace NetWorkedData
                         int tQ = NWDToolbox.IntFromString(tLineValue[1]);
                         //int tQ = 0;
                         //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.FilterDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)

@@ -77,7 +77,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static int GetNumberOfFriends()
         {
-            return GetDatas().Length;
+            return GetReachableDatas().Length;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AskPinCodeFromServer()
@@ -104,7 +104,7 @@ namespace NetWorkedData
             };
 
             string tUserNickName = BTBConstants.K_MINUS;
-            foreach (NWDUserNickname user in NWDUserNickname.GetDatas())
+            foreach (NWDUserNickname user in NWDUserNickname.GetReachableDatas())
             {
                 tUserNickName = user.Nickname;
                 if (user.IsSynchronized())
@@ -124,7 +124,7 @@ namespace NetWorkedData
             SaveData();
 
             string tUserNickName = BTBConstants.K_MINUS;
-            foreach (NWDUserNickname user in NWDUserNickname.GetDatas())
+            foreach (NWDUserNickname user in NWDUserNickname.GetReachableDatas())
             {
                 tUserNickName = user.Nickname;
                 if (user.IsSynchronized())
@@ -195,7 +195,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RefreshDatas()
         {
-            foreach (NWDUserRelationship k in GetDatas())
+            foreach (NWDUserRelationship k in GetReachableDatas())
             {
                 if (k.RelationshipStatus == NWDRelationshipStatus.Valid)
                 {

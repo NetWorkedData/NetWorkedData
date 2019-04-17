@@ -71,7 +71,7 @@ namespace NetWorkedData
                     OtherData.Add(typeof(NWDUserNetWorking));
                 }
                 // do something with this class
-                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.FilterFirstData();
+                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetCorporateFirstData();
                 if (tUserNetWorking == null)
                 {
                     tUserNetWorking = NWDUserNetWorking.NewData();
@@ -84,7 +84,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDUserNetWorking Static NetworkingUpdate()");
                 Started = true;
-            NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.FilterFirstData();
+            NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetCorporateFirstData();
                 if (tUserNetWorking != null)
                 {
                     DateTime tDateTime = DateTime.Now;
@@ -105,7 +105,7 @@ namespace NetWorkedData
             if (Started == true)
             {
                 Started = false;
-                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.FilterFirstData();
+                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetCorporateFirstData();
                 if (tUserNetWorking != null)
                 {
                     tUserNetWorking.Offline();

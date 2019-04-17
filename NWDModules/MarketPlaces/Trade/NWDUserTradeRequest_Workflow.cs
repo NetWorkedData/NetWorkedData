@@ -67,7 +67,7 @@ namespace NetWorkedData
 		public static NWDUserTradeRequest[] FindRequestsWith(NWDTradePlace sTradePlace)
 		{
 			List<NWDUserTradeRequest> rUserTradesRequest = new List<NWDUserTradeRequest>();
-			foreach (NWDUserTradeRequest k in GetDatas())
+			foreach (NWDUserTradeRequest k in GetReachableDatas())
 			{
 				if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
 				{
@@ -213,7 +213,7 @@ namespace NetWorkedData
             NWDUserTradeRequest rSlot = null;
 
             // Search for a empty NWDUserTradeRequest Slot
-            foreach (NWDUserTradeRequest k in GetDatas())
+            foreach (NWDUserTradeRequest k in GetReachableDatas())
             {
                 if (k.TradeStatus == NWDTradeStatus.None)
                 {

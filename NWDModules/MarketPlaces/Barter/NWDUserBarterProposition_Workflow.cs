@@ -97,7 +97,7 @@ namespace NetWorkedData
         public static int GetNumberOfProposalSentFor(NWDUserBarterRequest sRequest)
         {
             int rCpt = 0;
-            foreach(NWDUserBarterProposition k in GetDatas())
+            foreach(NWDUserBarterProposition k in GetReachableDatas())
             {
                 NWDUserBarterRequest tBarterRequest = k.BarterRequest.GetRawData();
                 if (tBarterRequest != null && tBarterRequest.Equals(sRequest))
@@ -112,7 +112,7 @@ namespace NetWorkedData
         public static List<NWDUserBarterProposition> FindProposalWith(NWDBarterPlace sBarterPlace)
         {
             List<NWDUserBarterProposition> rUserBartersProposal = new List<NWDUserBarterProposition>();
-            foreach (NWDUserBarterProposition k in GetDatas())
+            foreach (NWDUserBarterProposition k in GetReachableDatas())
             {
                 NWDBarterPlace tPlace = k.BarterPlace.GetData();
                 if (tPlace != null && tPlace.Equals(sBarterPlace))
@@ -133,7 +133,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RefreshDatas()
         {
-            foreach (NWDUserBarterProposition k in GetDatas())
+            foreach (NWDUserBarterProposition k in GetReachableDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.Waiting)
                 {
@@ -267,7 +267,7 @@ namespace NetWorkedData
             NWDUserBarterProposition rSlot = null;
 
             // Search for a empty NWDUserBarterProposal Slot
-            foreach (NWDUserBarterProposition k in GetDatas())
+            foreach (NWDUserBarterProposition k in GetReachableDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.None)
                 {

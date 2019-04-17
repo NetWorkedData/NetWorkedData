@@ -128,7 +128,7 @@ namespace NetWorkedData
             }
 #endif
                 // find NWDUserNewsRead and put in uninstalled
-                foreach (NWDNews tNew in GetDatas())
+                foreach (NWDNews tNew in GetReachableDatas())
                 {
                     if (tNew.NewsType != NWDNewsType.Programmatically)
                     {
@@ -141,7 +141,7 @@ namespace NetWorkedData
                     }
                 }
                 // find NWDNews and install
-                foreach (NWDNews tNew in GetDatas())
+                foreach (NWDNews tNew in GetReachableDatas())
                 {
                     tNew.InstallNotification(sPause);
                 }

@@ -106,7 +106,7 @@ namespace NetWorkedData
         public static List<NWDUserBarterRequest> FindRequestsReceivedWith(NWDBarterPlace sBarterPlace)
         {
             List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
-            NWDUserRelationship[] tRelationships = NWDUserRelationship.GetDatas();
+            NWDUserRelationship[] tRelationships = NWDUserRelationship.GetReachableDatas();
             foreach (NWDUserRelationship k in tRelationships)
             {
                 if (k.RelationshipStatus == NWDRelationshipStatus.Valid)
@@ -125,7 +125,7 @@ namespace NetWorkedData
         public static List<NWDUserBarterRequest> FindRequestsSentWith(NWDBarterPlace sBarterPlace, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             List<NWDUserBarterRequest> rUserBartersRequest = new List<NWDUserBarterRequest>();
-            foreach (NWDUserBarterRequest k in FilterDatas(sAccountReference, sGameSave))
+            foreach (NWDUserBarterRequest k in GetCorporateDatas(sAccountReference, sGameSave))
             {
                 if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
                 {
@@ -143,7 +143,7 @@ namespace NetWorkedData
             if (sRelationship == null)
             {
                 // Count all Request sent by user
-                foreach (NWDUserBarterRequest k in GetDatas())
+                foreach (NWDUserBarterRequest k in GetReachableDatas())
                 {
                     NWDBarterPlace tPlace = k.BarterPlace.GetData();
                     if (tPlace != null && tPlace.Equals(sBarterPlace))
@@ -155,7 +155,7 @@ namespace NetWorkedData
             else
             {
                 // Count all Request sent by user for a given relationship
-                foreach (NWDUserBarterRequest k in GetDatas())
+                foreach (NWDUserBarterRequest k in GetReachableDatas())
                 {
                     NWDBarterPlace tPlace = k.BarterPlace.GetData();
                     if (tPlace != null && tPlace.Equals(sBarterPlace) &&
@@ -177,7 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RefreshDatas()
         {
-            foreach (NWDUserBarterRequest k in GetDatas())
+            foreach (NWDUserBarterRequest k in GetReachableDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.Waiting)
                 {
@@ -390,7 +390,7 @@ namespace NetWorkedData
             NWDUserBarterRequest rSlot = null;
 
             // Search for a empty NWDUserBarterRequest Slot
-            foreach (NWDUserBarterRequest k in GetDatas())
+            foreach (NWDUserBarterRequest k in GetReachableDatas())
             {
                 if (k.BarterStatus == NWDTradeStatus.None)
                 {

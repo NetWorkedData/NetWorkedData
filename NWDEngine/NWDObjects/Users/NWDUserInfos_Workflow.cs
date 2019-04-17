@@ -71,7 +71,7 @@ namespace NetWorkedData
             
             if (kCurrent == null)
             {
-                NWDUserInfos tUserInfos = FilterFirstData(NWDAccount.CurrentReference());
+                NWDUserInfos tUserInfos = GetCorporateFirstData(NWDAccount.CurrentReference());
                 if (tUserInfos == null)
                 {
                     tUserInfos = NewData();

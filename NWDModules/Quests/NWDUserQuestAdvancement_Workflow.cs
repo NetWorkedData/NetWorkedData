@@ -62,7 +62,7 @@ namespace NetWorkedData
         {
             //Debug.Log("GetAdvancementForQuest");
             NWDUserQuestAdvancement rAdvancement = null;
-            foreach (NWDUserQuestAdvancement tAdvancement in GetDatas())
+            foreach (NWDUserQuestAdvancement tAdvancement in GetReachableDatas())
             {
                 if (tAdvancement.QuestReference.GetData() == sQuest)
                 {
@@ -446,7 +446,7 @@ namespace NetWorkedData
             if (tOriginalQuest != null)
             {
                 NWDUserQuestAdvancement tQuestUserAdvancement = null;
-                foreach (NWDUserQuestAdvancement tAdvancement in GetDatas())
+                foreach (NWDUserQuestAdvancement tAdvancement in GetReachableDatas())
                 {
                     if (tAdvancement.QuestReference.GetData() == tOriginalQuest)
                     {

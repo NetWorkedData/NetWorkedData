@@ -241,7 +241,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -340,7 +340,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.FilterDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -396,7 +396,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.FilterDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)
@@ -416,7 +416,7 @@ namespace NetWorkedData
             Dictionary<string, float> tDescDico = GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tKeyValue.Key);
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;

@@ -95,12 +95,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject(string sAccountReference = null)
         {
-            return NWDBasis<K>.FilterDataByReference(Value, sAccountReference) as K;
+            return NWDBasis<K>.GetCorporateDataByReference(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.FilterDataByReference(Value, sAccountReference) as K;
+            K tObject = NWDBasis<K>.GetCorporateDataByReference(Value, sAccountReference) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };

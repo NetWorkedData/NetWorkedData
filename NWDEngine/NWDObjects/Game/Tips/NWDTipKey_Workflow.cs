@@ -58,7 +58,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom()
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetReachableDatas())
             {
                 /* I list the object compatible with request
 			 	* I insert in the list  each object (Frequency) times
@@ -75,7 +75,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom(NWDWorld sWorld)
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetReachableDatas())
             {
                 bool tAdd = true;
                 if (sWorld != null && tObject.WorldList.ContainsReference(sWorld.Reference) == false)
@@ -96,7 +96,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom(NWDCategory sCategory)
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetReachableDatas())
             {
                 bool tAdd = true;
 
@@ -130,7 +130,7 @@ namespace NetWorkedData
         public static List<NWDTipKey> PrepareListForRandom(NWDWorld sWorld, NWDCategory sCategory, NWDFamily sFamily, NWDKeyword sKeyword)
         {
             ListForRandom.Clear();
-            foreach (NWDTipKey tObject in NWDTipKey.GetDatas())
+            foreach (NWDTipKey tObject in NWDTipKey.GetReachableDatas())
             {
                 bool tAdd = true;
                 if (sWorld != null && tObject.WorldList.ContainsReference(sWorld.Reference) == false)

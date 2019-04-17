@@ -185,7 +185,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -200,7 +200,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);

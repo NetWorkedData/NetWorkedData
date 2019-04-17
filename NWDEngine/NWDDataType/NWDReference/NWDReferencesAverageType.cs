@@ -329,7 +329,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -425,7 +425,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDAverage tQ = new NWDAverage(tLineValue[1]);
-                        K tObject = NWDBasis<K>.FilterDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -471,7 +471,7 @@ namespace NetWorkedData
             Dictionary<string, NWDAverage> tDescDico = GetReferenceAndAverage();
             foreach (KeyValuePair<string, NWDAverage> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.FilterDataByReference(tKeyValue.Key);
+                K tObject = NWDBasis<K>.GetCorporateDataByReference(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;

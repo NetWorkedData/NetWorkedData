@@ -86,7 +86,7 @@ namespace NetWorkedData
             List<NWDUserTransaction> rTransactionList = new List<NWDUserTransaction>();
 
             // Init all transactions done by the user for selected shop and type
-            NWDUserTransaction[] tList = GetDatas();
+            NWDUserTransaction[] tList = GetReachableDatas();
             foreach (NWDUserTransaction transaction in tList)
             {
                 // Verify we are in the right Shop

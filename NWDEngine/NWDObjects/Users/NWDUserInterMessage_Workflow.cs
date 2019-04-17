@@ -104,7 +104,7 @@ namespace NetWorkedData
         public static NWDUserInterMessage[] FindSenderDatas()
         {
             List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
-            NWDUserInterMessage[] tMessages = GetDatas();
+            NWDUserInterMessage[] tMessages = GetReachableDatas();
             foreach (NWDUserInterMessage tMessage in tMessages)
             {
                 if (tMessage.Sender.GetReference() == NWDAccount.CurrentReference())
@@ -119,7 +119,7 @@ namespace NetWorkedData
         public static NWDUserInterMessage[] FindReceiverDatas()
         {
             List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
-            NWDUserInterMessage[] tMessages = GetDatas();
+            NWDUserInterMessage[] tMessages = GetReachableDatas();
             foreach (NWDUserInterMessage tMessage in tMessages)
             {
                 if (tMessage.Receiver.GetReference() == NWDAccount.CurrentReference())
@@ -208,22 +208,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname PublisherNickname()
         {
-            return NWDUserNickname.FilterFirstData(Sender.GetReference(), null);
+            return NWDUserNickname.GetCorporateFirstData(Sender.GetReference(), null);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname ReceiverNickname()
         {
-            return NWDUserNickname.FilterFirstData(Receiver.GetReference(), null);
+            return NWDUserNickname.GetCorporateFirstData(Receiver.GetReference(), null);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
         {
-            return NWDUserAvatar.FilterFirstData(Sender.GetReference(),NWDGameSave.SelectCurrentDataForAccount(Sender.GetReference()));
+            return NWDUserAvatar.GetCorporateFirstData(Sender.GetReference(),NWDGameSave.SelectCurrentDataForAccount(Sender.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar ReceiverAvatar()
         {
-            return NWDUserAvatar.FilterFirstData(Receiver.GetReference(), NWDGameSave.SelectCurrentDataForAccount(Receiver.GetReference()));
+            return NWDUserAvatar.GetCorporateFirstData(Receiver.GetReference(), NWDGameSave.SelectCurrentDataForAccount(Receiver.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage = null, bool sBold = true)

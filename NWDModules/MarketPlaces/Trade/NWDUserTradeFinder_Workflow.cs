@@ -45,7 +45,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = GetDatas();
+            NWDUserTradeFinder[] tUserTradesFinder = GetReachableDatas();
             foreach (NWDUserTradeFinder k in tUserTradesFinder)
             {
                 if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
@@ -61,7 +61,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeFinder GetTradeFinderWith(NWDTradePlace sTradePlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = GetDatas();
+            NWDUserTradeFinder[] tUserTradesFinder = GetReachableDatas();
             foreach (NWDUserTradeFinder k in tUserTradesFinder)
             {
                 if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
