@@ -34,7 +34,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<K> GetEditorDatasList()
         {
-            return BasisHelper().Datas as List<K>;
+            //BTBBenchmark.Start();
+            List<K> rReturn = BasisHelper().Datas as List<K>;
+            //BTBBenchmark.Finish();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
@@ -43,20 +46,6 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             K[] rReturn = BasisHelper().Datas.ToArray() as K[];
             //BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<K> GetEditorDatasByInternalKey(string sInternalKey)
-        {
-            List<K> rReturn;
-            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
-            {
-                rReturn = BasisHelper().DatasByInternalKey[sInternalKey] as List<K>;
-            }
-            else
-            {
-                rReturn = new List<K>();
-            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -71,32 +60,14 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
+                    // TODO : Lag connection : look for quick solution
                     rReturn = LoadDataByReference(sReference);
                 }
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region RAW
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<K> GetRawDatasList()
-        {
-            return BasisHelper().Datas as List<K>;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        // ANCIEN GetAllObjects()
-        public static K[] GetRawDatas()
-        {
-            //BTBBenchmark.Start();
-            K[] rReturn = BasisHelper().Datas.ToArray() as K[];
-            //BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetRawDatasByInternalKey(string sInternalKey)
+        public static K[] GetEditorDatasByInternalKey(string sInternalKey)
         {
             List<K> rReturn;
             if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
@@ -110,10 +81,40 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetRawFirstDataByInternalKey(string sInternalKey)
+        public static K GetEditorFirstDataByInternalKey(string sInternalKey)
         {
             K rReturn = null;
-            K[] rDatas = GetRawDatasByInternalKey(sInternalKey);
+            K[] rDatas = GetEditorDatasByInternalKey(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region RAW
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<K> GetRawDatasList()
+        {
+            return QuickFilterDatas(BasisHelper().Datas, null, null);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // ANCIEN GetAllObjects()
+        public static K[] GetRawDatas()
+        {
+            //BTBBenchmark.Start();
+            K[] rReturn = GetRawDatasList().ToArray() as K[];
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetRawFirstData()
+        {
+            K rReturn = null;
+            K[] rDatas = GetRawDatas();
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
@@ -132,15 +133,121 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    // TODO : fait lagguer la connection : trouver une solution
+                    // TODO : Lag connection : look for quick solution
                     rReturn = LoadDataByReference(sReference);
                 }
+            }
+            rReturn = QuickFilter(rReturn, null, null);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetRawDatasByInternalKey(string sInternalKey)
+        {
+            List<K> rReturn;
+            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
+            {
+                rReturn = BasisHelper().DatasByInternalKey[sInternalKey] as List<K>;
+            }
+            else
+            {
+                rReturn = new List<K>();
+            }
+            rReturn = QuickFilterDatas(rReturn as List<NWDTypeClass>, null, null);
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetRawFirstDataByInternalKey(string sInternalKey)
+        {
+            K rReturn = null;
+            K[] rDatas = GetRawDatasByInternalKey(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region CORPORATE Get datas for by account and by gamesave
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<K> GetCorporateDatasList(string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            return QuickFilterDatas(BasisHelper().Datas, sAccountReference, sGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetCorporateDatas(string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            return QuickFilterDatas(BasisHelper().Datas, sAccountReference, sGameSave).ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetCorporateFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            K rReturn = null;
+            K[] rDatas = GetCorporateDatas(sAccountReference, sGameSave);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetCorporateDataByReference(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null, bool sTryOnDisk = false)
+        {
+            K rReturn = null;
+            if (BasisHelper().DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = BasisHelper().DatasByReference[sReference] as K;
+            }
+            else
+            {
+                if (sTryOnDisk == true)
+                {
+                    // TODO : Lag connection : look for quick solution
+                    rReturn = LoadDataByReference(sReference);
+                }
+            }
+            rReturn = QuickFilter(rReturn, sAccountReference, sGameSave);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetCorporateDatasByInternalKey(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            List<K> rReturn;
+            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
+            {
+                rReturn = BasisHelper().DatasByInternalKey[sInternalKey] as List<K>;
+            }
+            else
+            {
+                rReturn = new List<K>();
+            }
+            rReturn = QuickFilterDatas(rReturn as List<NWDTypeClass>, sAccountReference, sGameSave);
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetCorporateFirstDataByInternalKey(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            K rReturn = null;
+            K[] rDatas = GetCorporateDatasByInternalKey(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region REACHABLE Get datas for my account and my gamesave
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<K> GetReachableDatasList(bool sLimitByGameSave = true)
+        {
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            return GetCorporateDatasList(NWDAccount.CurrentReference(), tGameSave);
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetReachableDatas(bool sLimitByGameSave = true)
         {
@@ -162,314 +269,106 @@ namespace NetWorkedData
             return GetCorporateFirstData(NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetReachableDataByReference(string sReference)
-        {
-            return GetCorporateDataByReference(sReference, NWDAccount.CurrentReference());
-            //return FilterDataByReference(sReference, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, bool sLimitByGameSave = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public static K GetReachableDataByReference(string sReference, bool sLimitByGameSave = true, bool sTryOnDisk = false)
         {
             NWDGameSave tGameSave = null;
             if (sLimitByGameSave == true)
             {
                 tGameSave = NWDGameSave.CurrentData();
             }
-            return GetCorporateDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, NWDAccount.CurrentReference(), tGameSave);
+            return GetCorporateDataByReference(sReference, NWDAccount.CurrentReference(), tGameSave, sTryOnDisk);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetReacheableFirstDataByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, bool sLimitByGameSave = true)
+        public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sLimitByGameSave = true)
         {
-            K rReturn = null;
-            K[] rDatas = GetReacheableDatasByInternalKey(sInternalKey, sCreateIfNotExists, sLimitByGameSave);
-            if (rDatas.Length > 0)
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
             {
-                rReturn = rDatas[0];
+                tGameSave = NWDGameSave.CurrentData();
             }
+            return GetCorporateDatasByInternalKey(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetReacheableFirstDataByInternalKey(string sInternalKey, bool sLimitByGameSave = true)
+        {
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            K rReturn = GetCorporateFirstDataByInternalKey(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-        #region CORPORATE Get datas for by account and by gamesave
+
+        #region PRIVATE FILTER
         //-------------------------------------------------------------------------------------------------------------
-        // ANCIEN GetAllObjects()
-        /// <summary>
-        /// News the get data by reference.
-        /// </summary>
-        /// <returns>The get data by reference.</returns>
-        /// <param name="sReference">S reference.</param>
-        public static K GetCorporateDataByReference(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null)
+        private static K QuickFilter(K sData, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             K rReturn = null;
-            if (string.IsNullOrEmpty(sReference) == false)
+            if (sData.IsTrashed() == true || sData.IsEnable() == false || sData.TestIntegrityResult == true)
             {
-                if (string.IsNullOrEmpty(sAccountReference))
+                bool tInsert = true;
+                if (BasisHelper().kAccountDependent)
                 {
-                    sAccountReference = NWDAccount.CurrentReference();
-                }
-                if (BasisHelper().DatasByReference != null)
-                {
-                    if (BasisHelper().DatasByReference.ContainsKey(sReference))
+                    if (sGameSave != null)
                     {
-                        K tObject = BasisHelper().DatasByReference[sReference] as K;
-                        if (tObject.IsReacheableByAccount(sAccountReference))
+                        // test game save if necessary
+                        if (BasisHelper().GameSaveMethod != null && sGameSave != null)
                         {
-                            rReturn = tObject;
+                            string tGameIndex = sGameSave.Reference;
+                            var tValue = BasisHelper().ClassGameDependentProperties.GetValue(sData, null);
+                            if (tValue == null)
+                            {
+                                tValue = string.Empty;
+                            }
+                            string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
+                            if (tSaveIndex != tGameIndex)
+                            {
+                                tInsert = false;
+                            }
+                        }
+                    }
+                    if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                    {
+                        tInsert = false; // research by default false and true when found first solution
+                        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
+                        {
+                            var tValue = tInfos.Key.GetValue(sData, null);
+                            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                            if (tAccountValue.Contains(sAccountReference))
+                            {
+                                tInsert = true;
+                                break; // I fonud one solution! this user can see this informations
+                            }
                         }
                     }
                 }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetCorporateDatas(string sAccountReference = null, // use default account
-                                NWDGameSave sGameSave = null, // use default gamesave
-                                NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
-                                NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
-                                NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
-                                )
-        {
-            //BTBBenchmark.Start();
-            //Debug.Log("Datas() Datas count = " + Datas().Datas.Count);
-            K[] rReturn = FilterDatas(BasisHelper().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
-            //BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static K GetCorporateFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
-        {
-            K rReturn = null;
-            K[] rDatas = GetCorporateDatas(sAccountReference, sGameSave);
-            if (rDatas.Length > 0)
-            {
-                rReturn = rDatas[0];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetCorporateDatasByInternalKey(
-                                        string sInternalKey,
-                                        bool sCreateIfNotExists = false,
-            NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
-                                        string sAccountReference = null,
-                                        NWDGameSave sGameSave = null,
-                                        NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
-                                        NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
-                                        NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
-                                       )
-        {
-            List<NWDTypeClass> tTestList = new List<NWDTypeClass>();
-            sInternalKey = NWDToolbox.TextProtect(sInternalKey);
-            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey) == true)
-            {
-                tTestList.AddRange(BasisHelper().DatasByInternalKey[sInternalKey]);
-            }
-            if (BasisHelper().kAccountDependent)
-            {
-                // autofill sAccountReference if necessary
-                if (string.IsNullOrEmpty(sAccountReference))
+                if (tInsert == true)
                 {
-                    sAccountReference = NWDAccount.CurrentReference();
+                    rReturn = sData;
                 }
-                //Debug.Log("chercher les data pour " + sAccountReference + " ");
             }
-            if (BasisHelper().ClassGameSaveDependent)
+            else
             {
-                if (sGameSave == null)
-                {
-                    sGameSave = NWDGameSave.SelectCurrentDataForAccount(sAccountReference);
-                }
-                //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
-            }
 
-            K[] rArray = FilterDatas(tTestList, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
-            if (sCreateIfNotExists == true && rArray.Length == 0)
-            {
-                //Debug.Log(" must create object !");
-                if (sAccountReference == null || sAccountReference == NWDAccount.CurrentReference())
-                {
-                    if (sGameSave == NWDGameSave.CurrentData())
-                    {
-                        //Debug.Log("Creat Ok");
-                        K rReturn = NewData(sWritingMode);
-                        rReturn.InternalKey = sInternalKey;
-                        rReturn.UpdateData(true, sWritingMode);
-                        rArray = new K[1] { rReturn };
-                    }
-                    else
-                    {
-                        Debug.Log("create not possinble in another gamesave!");
-                    }
-                }
-                else
-                {
-                    Debug.Log("create not possible with another account!");
-                }
-            }
-            return rArray;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        #region PRIVATE FILTER
-        //-------------------------------------------------------------------------------------------------------------
-        private static K FilterFirstDataByInternalKey(
-                                        string sInternalKey,
-                                        bool sCreateIfNotExists = false,
-                                         NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
-                                        string sAccountReference = null,
-                                        NWDGameSave sGameSave = null,
-                                        NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
-                                        NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
-                                        NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
-                                       )
-        {
-            K rReturn = null;
-
-            K[] rDatas = GetCorporateDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
-            if (rDatas.Length > 0)
-            {
-                rReturn = rDatas[0];
             }
             return rReturn;
         }
-
         //-------------------------------------------------------------------------------------------------------------
-        private static K[] FilterDatas(List<NWDTypeClass> sDatasArray,
-                                string sAccountReference = null, // use default account
-                                NWDGameSave sGameSave = null,// use default gamesave
-                                NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
-                                NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
-                                NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
-                                )
+        private static List<K> QuickFilterDatas(List<NWDTypeClass> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             List<K> rList = new List<K>();
             //Debug.Log("chercher les data ");
             if (sDatasArray != null)
             {
-                if (BasisHelper().kAccountDependent)
+                foreach (K tData in sDatasArray)
                 {
-                    // autofill sAccountReference if necessary
-                    if (string.IsNullOrEmpty(sAccountReference))
+                    K tDataReturn = QuickFilter(tData, sAccountReference, sGameSave);
+                    if (tDataReturn != null)
                     {
-                        sAccountReference = NWDAccount.CurrentReference();
-                    }
-                    //Debug.Log("chercher les data pour " + sAccountReference + " ");
-                }
-                if (BasisHelper().ClassGameSaveDependent)
-                {
-                    if (sGameSave == null)
-                    {
-                        sGameSave = NWDGameSave.SelectCurrentDataForAccount(sAccountReference);
-                    }
-                    //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
-                }
-
-
-                foreach (K tDatas in sDatasArray)
-                {
-                    bool tInsert = true;
-
-                    switch (sTrashed)
-                    {
-                        case NWDSwitchTrashed.NoTrashed:
-                            {
-                                if (tDatas.IsTrashed() == true)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            break;
-                        case NWDSwitchTrashed.Trashed:
-                            {
-                                if (tDatas.IsTrashed() == false)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            break;
-                    }
-
-                    switch (sEnable)
-                    {
-                        case NWDSwitchEnable.Disable:
-                            {
-                                if (tDatas.IsEnable() == true)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            break;
-                        case NWDSwitchEnable.Enable:
-                            {
-                                if (tDatas.IsEnable() == false)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            break;
-                    }
-
-                    switch (sIntegrity)
-                    {
-                        case NWDSwitchIntegrity.Cracked:
-                            {
-                                if (tDatas.TestIntegrity() == true)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            break;
-                        case NWDSwitchIntegrity.Integrity:
-                            {
-                                if (tDatas.TestIntegrity() == false)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            break;
-                    }
-                    if (tInsert == true)
-                    {
-                        if (BasisHelper().kAccountDependent)
-                        {
-                            // test game save if necessary
-                            if (BasisHelper().GameSaveMethod != null && sGameSave != null)
-                            {
-                                string tGameIndex = sGameSave.Reference;
-                                var tValue = BasisHelper().ClassGameDependentProperties.GetValue(tDatas, null);
-                                if (tValue == null)
-                                {
-                                    tValue = string.Empty;
-                                }
-                                string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
-                                if (tSaveIndex != tGameIndex)
-                                {
-                                    tInsert = false;
-                                }
-                            }
-                            if (tInsert == true)
-                            {
-                                tInsert = false; // research by default false and true when found first solution
-                                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
-                                {
-                                    var tValue = tInfos.Key.GetValue(tDatas, null);
-                                    string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
-                                    if (tAccountValue.Contains(sAccountReference))
-                                    {
-                                        tInsert = true;
-                                        break; // I fonud one solution! this user can see this informations
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    if (tInsert == true)
-                    {
-                        rList.Add(tDatas);
+                        rList.Add(tDataReturn);
                     }
                 }
             }
@@ -477,8 +376,154 @@ namespace NetWorkedData
             {
                 //Debug.Log("chercher les data a un tableau vide");
             }
-            return rList.ToArray();
+            return rList;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        //private static K[] FilterDatas(List<NWDTypeClass> sDatasArray,
+        //                        string sAccountReference = null, // use default account
+        //                        NWDGameSave sGameSave = null,// use default gamesave
+        //                        NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
+        //                        NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
+        //                        NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
+        //                        )
+        //{
+        //    List<K> rList = new List<K>();
+        //    //Debug.Log("chercher les data ");
+        //    if (sDatasArray != null)
+        //    {
+        //        if (BasisHelper().kAccountDependent)
+        //        {
+        //            // autofill sAccountReference if necessary
+        //            if (string.IsNullOrEmpty(sAccountReference))
+        //            {
+        //                sAccountReference = NWDAccount.CurrentReference();
+        //            }
+        //            //Debug.Log("chercher les data pour " + sAccountReference + " ");
+        //        }
+        //        if (BasisHelper().ClassGameSaveDependent)
+        //        {
+        //            if (sGameSave == null)
+        //            {
+        //                sGameSave = NWDGameSave.SelectCurrentDataForAccount(sAccountReference);
+        //            }
+        //            //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
+        //        }
+
+
+        //        foreach (K tDatas in sDatasArray)
+        //        {
+        //            bool tInsert = true;
+
+        //            switch (sTrashed)
+        //            {
+        //                case NWDSwitchTrashed.NoTrashed:
+        //                    {
+        //                        if (tDatas.IsTrashed() == true)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    break;
+        //                case NWDSwitchTrashed.Trashed:
+        //                    {
+        //                        if (tDatas.IsTrashed() == false)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    break;
+        //            }
+
+        //            switch (sEnable)
+        //            {
+        //                case NWDSwitchEnable.Disable:
+        //                    {
+        //                        if (tDatas.IsEnable() == true)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    break;
+        //                case NWDSwitchEnable.Enable:
+        //                    {
+        //                        if (tDatas.IsEnable() == false)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    break;
+        //            }
+
+        //            switch (sIntegrity)
+        //            {
+        //                case NWDSwitchIntegrity.Cracked:
+        //                    {
+        //                        if (tDatas.TestIntegrity() == true)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    break;
+        //                case NWDSwitchIntegrity.Integrity:
+        //                    {
+        //                        if (tDatas.TestIntegrity() == false)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    break;
+        //            }
+        //            if (tInsert == true)
+        //            {
+        //                if (BasisHelper().kAccountDependent)
+        //                {
+        //                    // test game save if necessary
+        //                    if (BasisHelper().GameSaveMethod != null && sGameSave != null)
+        //                    {
+        //                        string tGameIndex = sGameSave.Reference;
+        //                        var tValue = BasisHelper().ClassGameDependentProperties.GetValue(tDatas, null);
+        //                        if (tValue == null)
+        //                        {
+        //                            tValue = string.Empty;
+        //                        }
+        //                        string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
+        //                        if (tSaveIndex != tGameIndex)
+        //                        {
+        //                            tInsert = false;
+        //                        }
+        //                    }
+        //                    if (tInsert == true)
+        //                    {
+        //                        tInsert = false; // research by default false and true when found first solution
+        //                        foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
+        //                        {
+        //                            var tValue = tInfos.Key.GetValue(tDatas, null);
+        //                            string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+        //                            if (tAccountValue.Contains(sAccountReference))
+        //                            {
+        //                                tInsert = true;
+        //                                break; // I fonud one solution! this user can see this informations
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+
+        //                }
+        //            }
+        //            if (tInsert == true)
+        //            {
+        //                rList.Add(tDatas);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //Debug.Log("chercher les data a un tableau vide");
+        //    }
+        //    return rList.ToArray();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region LOAD PARTIAL
