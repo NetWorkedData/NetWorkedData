@@ -247,7 +247,7 @@ namespace NetWorkedData
 
             // Replace Tag by Characters
             int tCpt = 0;
-            foreach(NWDCharacter k in ReplaceCharacters.FindDatas())
+            foreach(NWDCharacter k in ReplaceCharacters.GetReachableDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
@@ -255,7 +255,7 @@ namespace NetWorkedData
 
             // Replace Tag by Items
             tCpt = 0;
-            foreach (NWDItem k in ReplaceItems.FindDatas())
+            foreach (NWDItem k in ReplaceItems.GetReachableDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
@@ -263,7 +263,7 @@ namespace NetWorkedData
 
             // Replace Tag by Items Groups
             tCpt = 0;
-            foreach (NWDItemPack k in ReplaceItemPacks.FindDatas())
+            foreach (NWDItemPack k in ReplaceItemPacks.GetReachableDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
@@ -271,7 +271,7 @@ namespace NetWorkedData
 
             // Replace Tag by Pack
             tCpt = 0;
-            foreach (NWDPack k in ReplacePacks.FindDatas())
+            foreach (NWDPack k in ReplacePacks.GetReachableDatas())
             {
                 rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;

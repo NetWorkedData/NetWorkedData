@@ -130,7 +130,7 @@ namespace NetWorkedData
             List<NWDSector> tChildrenFound = new List<NWDSector>();
 
             // add know children
-            foreach (NWDSector tData in ParentSectorList.FindDatas())
+            foreach (NWDSector tData in ParentSectorList.GetReachableDatas())
             {
                 tChildrenFound.Add(tData);
             }
@@ -160,7 +160,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private List<NWDSector> GetParentsDirect()
         {
-            List<NWDSector> rReturn = ParentSectorList.FindDatasList();
+            List<NWDSector> rReturn = ParentSectorList.GetReachableDatasList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace NetWorkedData
             {
                 sList.Add(sSector);
                 // analyze children
-                foreach (NWDSector tData in sSector.ParentSectorList.FindDatas())
+                foreach (NWDSector tData in sSector.ParentSectorList.GetReachableDatas())
                 {
                     if (tData != null)
                     {

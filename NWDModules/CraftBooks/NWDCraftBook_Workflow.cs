@@ -48,7 +48,7 @@ namespace NetWorkedData
         public NWDReferencesQuantityType<NWDItem> GetAdditionalItem(NWDReferencesQuantityType<NWDItem> sItemInCraft)
         {
             NWDReferencesQuantityType<NWDItem> rReturn = new NWDReferencesQuantityType<NWDItem>();
-            foreach (NWDCraftReward tAdd in AdditionalReward.FindDatas())
+            foreach (NWDCraftReward tAdd in AdditionalReward.GetReachableDatas())
             {
                 if (tAdd.ItemConditional.IsValid(sItemInCraft))
                 {

@@ -84,23 +84,23 @@ namespace NetWorkedData
             return Value;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
+        public bool ContainsDatas(K sData)
         {
-            if (sObject == null)
+            if (sData == null)
             {
                 return false;
             }
-            return Value.Contains(sObject.Reference);
+            return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetObject(string sAccountReference = null)
+        public K GetReachableData()
         {
-            return NWDBasis<K>.GetCorporateDataByReference(Value, sAccountReference) as K;
+            return NWDBasis<K>.GetReachableDataByReference(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
-            K tObject = NWDBasis<K>.GetCorporateDataByReference(Value, sAccountReference) as K;
+            K tObject = NWDBasis<K>.GetReachableDataByReference(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -111,12 +111,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetObjectAbsolute(string sAccountReference = null)
+        public K GetRawData()
         {
             return NWDBasis<K>.GetRawDataByReference(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute(string sAccountReference = null)
+        public K[] GetRawDatas()
         {
             K tObject = NWDBasis<K>.GetRawDataByReference(Value) as K;
             if (tObject != null)
@@ -129,7 +129,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObject(K sObject)
+        public void SetData(K sObject)
         {
             if (sObject != null)
             {

@@ -112,7 +112,7 @@ namespace NetWorkedData
                         // And I have the object wanted too ... 
                         if (DesiredDialogsList != null)
                         {
-                            rDialog = NWDDialog.GetFirstValidDialogs(DesiredDialogsList.FindDatasList());
+                            rDialog = NWDDialog.GetFirstValidDialogs(DesiredDialogsList.GetReachableDatasList());
                             if (tQuestUserAdvancement != null)
                             {
                                 tQuestUserAdvancement.QuestState = NWDQuestState.StartAlternate;
@@ -124,7 +124,7 @@ namespace NetWorkedData
                         {
                             if (AvailableDialogsList != null)
                                 {
-                                    rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.FindDatasList());
+                                    rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.GetReachableDatasList());
                                     if (tQuestUserAdvancement != null)
                                         {
                                             tQuestUserAdvancement.QuestState = NWDQuestState.Start;
@@ -138,7 +138,7 @@ namespace NetWorkedData
                         if (AvailableDialogsList != null)
                         {
                             //rDialog = DialogReference.GetObject();
-                            rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.FindDatasList());
+                            rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.GetReachableDatasList());
                             if (tQuestUserAdvancement != null)
                             {
                                 tQuestUserAdvancement.QuestState = NWDQuestState.Start;
@@ -152,7 +152,7 @@ namespace NetWorkedData
                     // Idon't have the objects required
                     if (RequiredDialogsList != null)
                     {
-                        rDialog = NWDDialog.GetFirstValidDialogs(RequiredDialogsList.FindDatasList());
+                        rDialog = NWDDialog.GetFirstValidDialogs(RequiredDialogsList.GetReachableDatasList());
                         //rDialog = NoRequiredDialogReference.GetObject();
                         if (tQuestUserAdvancement != null)
                         {

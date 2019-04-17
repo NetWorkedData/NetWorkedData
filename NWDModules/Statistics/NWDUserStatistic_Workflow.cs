@@ -144,7 +144,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            foreach (NWDStatisticKey tStatKeyChild in tStatKey.Dependent.FindDatas())
+            foreach (NWDStatisticKey tStatKeyChild in tStatKey.Dependent.GetReachableDatas())
             {
                 tStatKeyChild.AddEnterForParent(sValue);
             }

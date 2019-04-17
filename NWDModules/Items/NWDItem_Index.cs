@@ -45,7 +45,7 @@ namespace NetWorkedData
                 List<NWDCategory> tCategoriesList = new List<NWDCategory>();
                 foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
                 {
-                    foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.FindDatas())
+                    foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.GetReachableDatas())
                     {
                         if (tCategoriesList.Contains(tSubCategories) == false)
                         {

@@ -91,7 +91,7 @@ namespace NetWorkedData
 				case NWDTradeStatus.Waiting:
 					{
 						// Remove NWDItem from NWDUserOwnership
-						Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
+						Dictionary<NWDItem, int> tProposed = ItemsProposed.GetReachableDatasAndQuantities();
 						foreach (KeyValuePair<NWDItem, int> pair in tProposed)
 						{
 							NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
@@ -101,7 +101,7 @@ namespace NetWorkedData
 				case NWDTradeStatus.Expired:
 					{
 						// Add NWDItem to NWDUserOwnership
-						Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
+						Dictionary<NWDItem, int> tProposed = ItemsProposed.GetReachableDatasAndQuantities();
 						foreach (KeyValuePair<NWDItem, int> pair in tProposed)
 						{
 							NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -114,7 +114,7 @@ namespace NetWorkedData
 				case NWDTradeStatus.Accepted:
 					{
 						// Add NWDItem Ask to NWDUserOwnership
-						Dictionary<NWDItem, int> tProposed = ItemsAsked.FindDataAndQuantity();
+						Dictionary<NWDItem, int> tProposed = ItemsAsked.GetReachableDatasAndQuantities();
 						foreach (KeyValuePair<NWDItem, int> pair in tProposed)
 						{
 							NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -137,7 +137,7 @@ namespace NetWorkedData
 			bool rCanBuy = false;
 
 			// Check Pack Cost
-			foreach (KeyValuePair<NWDItem, int> pair in ItemsAsked.FindDataAndQuantity())
+			foreach (KeyValuePair<NWDItem, int> pair in ItemsAsked.GetReachableDatasAndQuantities())
 			{
 				// Get Item Cost data
 				NWDItem tNWDItem = pair.Key;

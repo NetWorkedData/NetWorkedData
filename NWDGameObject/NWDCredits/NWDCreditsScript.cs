@@ -85,7 +85,7 @@ public class NWDCreditsScript : MonoBehaviour
             // Install Stuff Member
             if (StuffListPanel != null)
             {
-                foreach (NWDCreditsStuff tStuff in Credits.StuffList.FindDatas())
+                foreach (NWDCreditsStuff tStuff in Credits.StuffList.GetReachableDatas())
                 {
 
                     GameObject tPrefabData = null;
@@ -122,7 +122,7 @@ public class NWDCreditsScript : MonoBehaviour
             // Install Companies logo, etc.
             if (CompanyListPanel != null)
             {
-                foreach (NWDCreditsCompany tOtherCompany in Credits.CompanyList.FindDatas())
+                foreach (NWDCreditsCompany tOtherCompany in Credits.CompanyList.GetReachableDatas())
                 {
                     if (OtherCompanyPrefab != null)
                     {

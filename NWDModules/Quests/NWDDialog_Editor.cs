@@ -93,7 +93,7 @@ namespace NetWorkedData
             string tDialog = DialogRichTextForLanguage(tLangue);
             float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
 
-            NWDDialog[] tDialogs = NextDialogs.FindDatas();
+            NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
             float tAnswers = tDialogs.Length * 20;
 
             return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
@@ -155,7 +155,7 @@ namespace NetWorkedData
             if (sPropertysGroup == true)
             {
                 // check answer
-                NWDDialog[] tDialogs = NextDialogs.FindDatas();
+                NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
                 int tI = tDialogs.Length;
                 foreach (NWDDialog tAnswerDialog in tDialogs)
                 {

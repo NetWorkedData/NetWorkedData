@@ -180,7 +180,7 @@ namespace NetWorkedData
         public List<NWDItem> OwnershipIntersection(int sQuantity = 1)
         {
             List<NWDItem> rReturn = new List<NWDItem>();
-            foreach (NWDItem tItem in ItemList.FindDatas())
+            foreach (NWDItem tItem in ItemList.GetReachableDatas())
             {
                 if (tItem != null)
                 {
@@ -195,12 +195,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CheckMyItems()
         {
-            List<NWDItem> tActualItems = ItemList.FindDatasList();
+            List<NWDItem> tActualItems = ItemList.GetReachableDatasList();
             foreach (NWDItem tItem in NWDItem.BasisHelper().Datas)
             {
                 if (tActualItems.Contains(tItem))
                 {
-                    if (tItem.ItemGroupList.FindDatasList().Contains(this) == true)
+                    if (tItem.ItemGroupList.GetReachableDatasList().Contains(this) == true)
                     {
                         // ok It's contains me
                     }
@@ -211,7 +211,7 @@ namespace NetWorkedData
                         tItem.UpdateData();
                         foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
                             {
-                            if (tCraftbook.ItemGroupIngredient.ContainsObject(this))
+                            if (tCraftbook.ItemGroupIngredient.ContainsData(this))
                             {
                                 tCraftbook.RecalculMe();
                                 tCraftbook.UpdateDataIfModified();
@@ -221,14 +221,14 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (tItem.ItemGroupList.FindDatasList().Contains(this))
+                    if (tItem.ItemGroupList.GetReachableDatasList().Contains(this))
                     {
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItem.ItemGroupList.RemoveDatas(new NWDItemGroup[] { this });
                         tItem.UpdateData();
                         foreach (NWDCraftBook tCraftbook in NWDCraftBook.BasisHelper().Datas)
                         {
-                            if (tCraftbook.ItemGroupIngredient.ContainsObject(this))
+                            if (tCraftbook.ItemGroupIngredient.ContainsData(this))
                             {
                                 tCraftbook.RecalculMe();
                                 tCraftbook.UpdateDataIfModified();

@@ -165,26 +165,26 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjectAmount(NWDBasis<K> sObject, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveDataForAmount(NWDBasis<K> sData, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             Dictionary<string, float> tThis = GetReferenceAndAmount();
-            if (tThis.ContainsKey(sObject.Reference) == false)
+            if (tThis.ContainsKey(sData.Reference) == false)
             {
-                tThis.Add(sObject.Reference, -sAmount);
+                tThis.Add(sData.Reference, -sAmount);
             }
             else
             {
-                tThis[sObject.Reference] = tThis[sObject.Reference] - sAmount;
+                tThis[sData.Reference] = tThis[sData.Reference] - sAmount;
             }
 
-            if (sCanBeNegative == false && tThis[sObject.Reference] < 0)
+            if (sCanBeNegative == false && tThis[sData.Reference] < 0)
             {
-                tThis[sObject.Reference] = 0;
+                tThis[sData.Reference] = 0;
             }
 
-            if (sRemoveEmpty == true && tThis[sObject.Reference] == 0)
+            if (sRemoveEmpty == true && tThis[sData.Reference] == 0)
             {
-                tThis.Remove(sObject.Reference);
+                tThis.Remove(sData.Reference);
             }
 
             SetReferenceAndAmount(tThis);
@@ -209,39 +209,39 @@ namespace NetWorkedData
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectAmount(NWDBasis<K> sObject, float sAmount)
+        public void AddDataAndAmount(NWDBasis<K> sData, float sAmount)
         {
             // I compare all element
             Dictionary<string, float> tThis = GetReferenceAndAmount();
-            if (tThis.ContainsKey(sObject.Reference) == false)
+            if (tThis.ContainsKey(sData.Reference) == false)
             {
-                tThis.Add(sObject.Reference, sAmount);
+                tThis.Add(sData.Reference, sAmount);
             }
             else
             {
-                tThis[sObject.Reference] = tThis[sObject.Reference] + sAmount;
+                tThis[sData.Reference] = tThis[sData.Reference] + sAmount;
             }
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObject(NWDBasis<K> sObject)
+        public void RemoveData(NWDBasis<K> sData)
         {
             // I compare all element
             Dictionary<string, float> tThis = GetReferenceAndAmount();
-            if (tThis.ContainsKey(sObject.Reference) == true)
+            if (tThis.ContainsKey(sData.Reference) == true)
             {
-                tThis.Remove(sObject.Reference);
+                tThis.Remove(sData.Reference);
             }
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDatas() as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -250,7 +250,7 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -326,7 +326,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, float> GetObjectAndAmount(string sAccountReference = null)
+        public Dictionary<K, float> GetReachableDatasAndAmount()
         {
             Dictionary<K, float> tValueDico = new Dictionary<K, float>();
             if (Value != null && Value != string.Empty)
@@ -340,7 +340,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasis<K>.GetReachableDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -354,7 +354,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, float> GetObjectAndAmountAbsolute()
+        public Dictionary<K, float> GetRawDatasAndAmount()
         {
             Dictionary<K, float> tValueDico = new Dictionary<K, float>();
             if (Value != null && Value != string.Empty)

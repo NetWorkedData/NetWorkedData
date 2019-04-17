@@ -323,13 +323,13 @@ namespace NetWorkedData
             SetReferenceAndAverage(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -338,7 +338,7 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();

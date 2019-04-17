@@ -130,13 +130,13 @@ namespace NetWorkedData
             return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] FindDatas(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -145,13 +145,13 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> FindDatasList(string sAccountReference = null)
+        public List<K> GetReachableDatasList(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);

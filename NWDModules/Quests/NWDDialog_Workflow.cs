@@ -207,7 +207,7 @@ namespace NetWorkedData
             if (sReplaceCharacters != null)
             {
                 tCounter = 1;
-                foreach (NWDCharacter tCharacter in sReplaceCharacters.FindDatas())
+                foreach (NWDCharacter tCharacter in sReplaceCharacters.GetReachableDatas())
                 {
                     if (tCharacter.LastName != null)
                     {
@@ -239,7 +239,7 @@ namespace NetWorkedData
             if (sReplaceItems != null)
             {
                 tCounter = 1;
-                foreach (KeyValuePair<NWDItem, int> tKeyValue in sReplaceItems.FindDataAndQuantity())
+                foreach (KeyValuePair<NWDItem, int> tKeyValue in sReplaceItems.GetReachableDatasAndQuantities())
                 {
                     NWDItem tItem = tKeyValue.Key;
                     if (tItem != null)
@@ -273,7 +273,7 @@ namespace NetWorkedData
             if (sReplaceItemGroups != null)
             {
                 tCounter = 1;
-                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.FindDataAndQuantity())
+                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.GetReachableDatasAndQuantities())
                 {
                     NWDItem tItem = tKeyValue.Key.ItemDescription.GetData();
                     if (tItem != null)
@@ -307,7 +307,7 @@ namespace NetWorkedData
             if (sReplacePacks != null)
             {
                 tCounter = 1;
-                foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.FindDataAndQuantity())
+                foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.GetReachableDatasAndQuantities())
                 {
                     NWDItem tItem = tKeyValue.Key.ItemDescription.GetData();
                     if (tItem != null)
@@ -349,7 +349,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDDialog> GetNextDialogs()
         {
-            List<NWDDialog> rDialogList = GetValidDialogs(NextDialogs.FindDatasList());
+            List<NWDDialog> rDialogList = GetValidDialogs(NextDialogs.GetReachableDatasList());
             // check if Next quest is valid ... and if Quest is master or not 
             //NWDQuest tNextQuest = NextQuest.GetObject();
             //if (tNextQuest != null)

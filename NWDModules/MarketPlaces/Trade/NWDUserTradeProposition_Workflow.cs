@@ -138,14 +138,14 @@ namespace NetWorkedData
             if (TradeStatus == NWDTradeStatus.Accepted)
             {
                 // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
+                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetReachableDatasAndQuantities();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
                 }
 
                 // Remove NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tAsked = ItemsAsked.FindDataAndQuantity();
+                Dictionary<NWDItem, int> tAsked = ItemsAsked.GetReachableDatasAndQuantities();
                 foreach (KeyValuePair<NWDItem, int> pair in tAsked)
                 {
                     NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);

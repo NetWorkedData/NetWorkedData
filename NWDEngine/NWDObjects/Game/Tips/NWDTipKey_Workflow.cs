@@ -103,7 +103,7 @@ namespace NetWorkedData
                 if (sCategory != null)
                 {
                     bool tValid = false;
-                    foreach (NWDCategory tCat in tObject.CategoryList.FindDatas())
+                    foreach (NWDCategory tCat in tObject.CategoryList.GetReachableDatas())
                     {
                         if (tCat.Containts(sCategory))
                         {
@@ -140,7 +140,7 @@ namespace NetWorkedData
                 if (sCategory != null)
                 {
                     bool tValid = false;
-                    foreach (NWDCategory tCat in tObject.CategoryList.FindDatas())
+                    foreach (NWDCategory tCat in tObject.CategoryList.GetReachableDatas())
                     {
                         if (tCat.Containts(sCategory))
                         {

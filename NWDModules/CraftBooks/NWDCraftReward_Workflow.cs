@@ -54,7 +54,7 @@ namespace NetWorkedData
             }
             else
             {
-                tListOfItemInBag.AddDatasList(ItemBatch.GetDatasByRandom(Quantity));
+                tListOfItemInBag.AddDatasList(ItemBatch.GetRawDatasByRandom(Quantity));
             }
             return tListOfItemInBag;
         }

@@ -66,7 +66,7 @@ namespace NetWorkedData
         public NWDReferencesArrayType(K[] sObjects)
         {
             Value = string.Empty;
-            this.SetObjects(sObjects);
+            this.SetDatas(sObjects);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType(NWDReferencesArrayType<K> sArray)
@@ -170,22 +170,22 @@ namespace NetWorkedData
             return string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
+        public bool ContainsData(K sData)
         {
-            if (sObject == null)
+            if (sData == null)
             {
                 return false;
             }
-            return Value.Contains(sObject.Reference);
+            return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -194,13 +194,13 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsList(string sAccountReference = null)
+        public List<K> GetReachableDatasList()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -209,7 +209,7 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -224,7 +224,7 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsAbsoluteList()
+        public List<K> GetRawDatasList()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
@@ -239,7 +239,7 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObjects(K[] sObjects)
+        public void SetDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -256,7 +256,7 @@ namespace NetWorkedData
             SetReferences(tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObject(K sObject)
+        public void AddData(K sObject)
         {
             if (sObject != null)
             {
@@ -268,7 +268,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjects(K[] sObjects)
+        public void AddDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -285,7 +285,7 @@ namespace NetWorkedData
             AddReferences(tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjects(K[] sObjects)
+        public void RemoveDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)

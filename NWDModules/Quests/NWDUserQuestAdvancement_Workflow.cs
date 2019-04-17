@@ -186,7 +186,7 @@ namespace NetWorkedData
                     {
                         if (tQuest.DesiredDialogsList != null)
                         {
-                            NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.DesiredDialogsList.FindDatasList());
+                            NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.DesiredDialogsList.GetReachableDatasList());
                             if (tDialog == null)
                             {
                                 rReturn = false;
@@ -196,7 +196,7 @@ namespace NetWorkedData
                     else
                     {
                         NWDReferencesListType<NWDDialog> tAvailableDialogsList = tQuest.AvailableDialogsList; 
-                        List<NWDDialog> tDialogsList = tAvailableDialogsList.FindDatasList();
+                        List<NWDDialog> tDialogsList = tAvailableDialogsList.GetReachableDatasList();
                         NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tDialogsList);
                         if (tDialog == null)
                         {
@@ -206,7 +206,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.RequiredDialogsList.FindDatasList());
+                    NWDDialog tDialog = NWDDialog.GetFirstValidDialogs(tQuest.RequiredDialogsList.GetReachableDatasList());
                     if (tDialog == null)
                     {
                         rReturn = false;

@@ -55,14 +55,14 @@ namespace NetWorkedData
         /// <param name="sPack">NWDPack the pack we just buy.</param>
         public NWDUserTransaction BuyInAppPack(NWDRack sRack, NWDPack sPack)
         {
-            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.FindDataAndQuantity())
+            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetReachableDatasAndQuantities())
             {
                 // Get Item Pack data
                 NWDItemPack tItemPack = pair.Key;
                 int tItemPackQte = pair.Value;
 
                 // Find all Items from Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.FindDataAndQuantity();
+                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetReachableDatasAndQuantities();
                 foreach (KeyValuePair<NWDItem, int> p in tItems)
                 {
                     // Get Item data
@@ -119,7 +119,7 @@ namespace NetWorkedData
                         else
                         {
                             // Check if user have enough currency
-                            tCost = sPack.ItemsToPay.FindDataAndQuantity();
+                            tCost = sPack.ItemsToPay.GetReachableDatasAndQuantities();
                             bResult = UserCanBuy(tCost);
                         }
 
@@ -127,14 +127,14 @@ namespace NetWorkedData
                         if (bResult == BuyPackResult.CanBuy)
                         {
                             // Find all Items Pack in Pack
-                            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.FindDataAndQuantity())
+                            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetReachableDatasAndQuantities())
                             {
                                 // Get Item Pack data
                                 NWDItemPack tItemPack = pair.Key;
                                 int tItemPackQte = pair.Value;
 
                                 // Find all Items from Item Pack
-                                Dictionary<NWDItem, int> tItems = tItemPack.Items.FindDataAndQuantity();
+                                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetReachableDatasAndQuantities();
                                 foreach (KeyValuePair<NWDItem, int> p in tItems)
                                 {
                                     // Get Item data
@@ -196,7 +196,7 @@ namespace NetWorkedData
             tTransactionList = NWDUserTransaction.GetTransactionsByShopAndType(this, tRackList, sType);
 
             // Search for the right Pack in Rack (for quantities)
-            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.FindDataAndQuantity();
+            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetReachableDatasAndQuantities();
             foreach (KeyValuePair<NWDPack, int> pair in tPacks)
             {
                 NWDPack tPack = pair.Key;

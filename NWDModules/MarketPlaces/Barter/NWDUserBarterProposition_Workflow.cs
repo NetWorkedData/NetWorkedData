@@ -233,7 +233,7 @@ namespace NetWorkedData
             if (BarterStatus == NWDTradeStatus.Accepted)
             {
                 // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.FindDataAndQuantity();
+                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetReachableDatasAndQuantities();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
@@ -248,7 +248,7 @@ namespace NetWorkedData
             else if(BarterStatus == NWDTradeStatus.Expired)
             {
                 // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsSend.FindDataAndQuantity();
+                Dictionary<NWDItem, int> tProposed = ItemsSend.GetReachableDatasAndQuantities();
                 foreach (KeyValuePair<NWDItem, int> pair in tProposed)
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);

@@ -59,7 +59,7 @@ namespace NetWorkedData
                 NWDUserItemSlot tUserItemSlot = NWDUserItemSlot.FindFirstByIndex(tItemSlot.Reference);
                 if (tUserItemSlot!=null)
                 {
-                    List<NWDItem> tItemList = tUserItemSlot.ItemsUsed.GetObjectsList();
+                    List<NWDItem> tItemList = tUserItemSlot.ItemsUsed.GetReachableDatasList();
                     if (SlotIndex < tItemList.Count)
                     {
                         NWDItem tItem = tItemList[SlotIndex];

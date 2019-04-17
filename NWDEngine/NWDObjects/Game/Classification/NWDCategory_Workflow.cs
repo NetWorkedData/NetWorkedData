@@ -125,7 +125,7 @@ namespace NetWorkedData
             List<NWDCategory> tChildrenFound = new List<NWDCategory>();
 
             // add know children
-            foreach (NWDCategory tData in ParentCategoryList.FindDatas())
+            foreach (NWDCategory tData in ParentCategoryList.GetReachableDatas())
             {
                 tChildrenFound.Add(tData);
             }
@@ -158,7 +158,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private List<NWDCategory> GetParentsDirect()
         {
-            List<NWDCategory> rReturn = ParentCategoryList.FindDatasList();
+            List<NWDCategory> rReturn = ParentCategoryList.GetReachableDatasList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ namespace NetWorkedData
             {
                 sList.Add(sCat);
                 // analyze children
-                foreach (NWDCategory tData in sCat.ParentCategoryList.FindDatas())
+                foreach (NWDCategory tData in sCat.ParentCategoryList.GetReachableDatas())
                 {
                     if (tData != null)
                     {

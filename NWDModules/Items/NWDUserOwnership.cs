@@ -285,7 +285,7 @@ namespace NetWorkedData
             {
                 if (sItemsReferenceQuantity.IsNotEmpty())
                 {
-                    foreach (KeyValuePair<NWDItem, int> tItemQuantity in sItemsReferenceQuantity.FindDataAndQuantity())
+                    foreach (KeyValuePair<NWDItem, int> tItemQuantity in sItemsReferenceQuantity.GetReachableDatasAndQuantities())
                     {
                         if (ContainsItem(tItemQuantity.Key, tItemQuantity.Value) == false)
                         {
@@ -338,7 +338,7 @@ namespace NetWorkedData
             {
                 if (sItemGroupsReferenceQuantity.IsNotEmpty())
                 {
-                    foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.FindDataAndQuantity())
+                    foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.GetReachableDatasAndQuantities())
                     {
                         if (ContainsItemGroup(tItemQuantity.Key, tItemQuantity.Value) == false)
                         {
@@ -359,7 +359,7 @@ namespace NetWorkedData
             {
                 rReturn = false;
                 int tQ = 0;
-                foreach (NWDItem tItem in sItemGroup.ItemList.FindDatas())
+                foreach (NWDItem tItem in sItemGroup.ItemList.GetReachableDatas())
                 {
                     if (tItem.Uncountable == true)
                     {
@@ -454,7 +454,7 @@ namespace NetWorkedData
             {
                 rReturn = false;
                 int tQ = 0;
-                foreach (NWDItem tItem in tItemGroup.ItemList.FindDatas())
+                foreach (NWDItem tItem in tItemGroup.ItemList.GetReachableDatas())
                 {
                     NWDUserOwnership tOwnership = FindFisrtByItem(tItem);
                     tQ = tQ + tOwnership.Quantity;

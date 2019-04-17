@@ -125,7 +125,7 @@ namespace NetWorkedData
             List<NWDArea> tChildrenFound = new List<NWDArea>();
 
             // add know children
-            foreach (NWDArea tData in ParentAreaList.FindDatas())
+            foreach (NWDArea tData in ParentAreaList.GetReachableDatas())
             {
                 tChildrenFound.Add(tData);
             }
@@ -155,7 +155,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private List<NWDArea> GetParentsDirect()
         {
-            List<NWDArea> rReturn = ParentAreaList.FindDatasList();
+            List<NWDArea> rReturn = ParentAreaList.GetReachableDatasList();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ namespace NetWorkedData
             {
                 sList.Add(sArea);
                 // analyze children
-                foreach (NWDArea tData in sArea.ParentAreaList.FindDatas())
+                foreach (NWDArea tData in sArea.ParentAreaList.GetReachableDatas())
                 {
                     if (tData != null)
                     {

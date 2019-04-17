@@ -39,7 +39,7 @@ public class NWDCreditsStuffScript : MonoBehaviour {
             Title.text = sStuff.Title.GetLocalString();
             // install the member
             PanelImage.color = sStuff.Tint.GetColor();
-            foreach (NWDCreditsMember tMember in sStuff.MemberList.FindDatas())
+            foreach (NWDCreditsMember tMember in sStuff.MemberList.GetReachableDatas())
             {
                 GameObject tPrefab = Instantiate(sMemberPrefab, PanelGrid.transform, false);
                 NWDCreditsMemberScript tMemberScript = tPrefab.GetComponent<NWDCreditsMemberScript>() as NWDCreditsMemberScript;

@@ -301,13 +301,13 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] FindDatas(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -390,7 +390,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> FindDataAndQuantity(string sAccountReference = null)
+        public Dictionary<K, int> GetReachableDatasAndQuantities()
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
             if (Value != null && Value != string.Empty)
@@ -404,7 +404,7 @@ namespace NetWorkedData
                         int tQ = NWDToolbox.IntFromString(tLineValue[1]);
                         //int tQ = 0;
                         //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasis<K>.GetReachableDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             tValueDico.Add(tObject, tQ);
@@ -415,7 +415,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetRawDataAndQuantity()
+        public Dictionary<K, int> GetRawDatasAndQuantities()
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
             if (Value != null && Value != string.Empty)
@@ -440,16 +440,16 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetOneDataByRandom()
+        public K GetRawFirstDataByRandom()
         {
-            List<K> tList = ExploseInItemsList();
+            List<K> tList = GetRawDatasList();
             int tRandom = UnityEngine.Random.Range(0, tList.Count);
             return tList[tRandom];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetDatasByRandom(int sQuantity)
+        public List<K> GetRawDatasByRandom(int sQuantity)
         {
-            List<K> tList = ExploseInItemsList();
+            List<K> tList = GetRawDatasList();
             while (tList.Count > sQuantity)
             {
                 int tRandom = UnityEngine.Random.Range(0, tList.Count);
@@ -459,7 +459,7 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> ExploseInItemsList()
+        public List<K> GetRawDatasList()
         {
             List<K> rList = new List<K>();
             if (Value != null && Value != string.Empty)
@@ -473,7 +473,7 @@ namespace NetWorkedData
                         int tQ = NWDToolbox.IntFromString(tLineValue[1]);
                         //int tQ = 0;
                         //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.GetRawDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)
@@ -541,12 +541,12 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewData()
-        {
-            K tNewObject = NWDBasis<K>.NewData();
-            this.AddDataQuantity(tNewObject, 1);
-            NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
-        }
+        //public void EditorAddNewData()
+        //{
+        //    K tNewObject = NWDBasis<K>.NewData();
+        //    this.AddDataQuantity(tNewObject, 1);
+        //    NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {

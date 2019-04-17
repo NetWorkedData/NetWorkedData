@@ -99,8 +99,8 @@ namespace NetWorkedData
 		public NWDItem[] GetAllItemsInPack ()
 		{
 			List<NWDItem> tlist = new List<NWDItem> ();
-			foreach (NWDItemPack tItemPack in ItemPackReference.FindDatas ()) {
-				tlist.AddRange (tItemPack.Items.FindDatas ());
+			foreach (NWDItemPack tItemPack in ItemPackReference.GetReachableDatas ()) {
+				tlist.AddRange (tItemPack.Items.GetReachableDatas ());
 			}
 			return tlist.ToArray ();
 		}
@@ -110,14 +110,14 @@ namespace NetWorkedData
             NWDReferencesQuantityType<NWDItem> rResult = new NWDReferencesQuantityType<NWDItem>();
             Dictionary<string, int> tDico = new Dictionary<string, int>();
 
-            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.FindDataAndQuantity())
+            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.GetReachableDatasAndQuantities())
             {
                 // Get Item Pack data
                 NWDItemPack tItemPack = pair.Key;
                 int tItemPackQte = pair.Value;
 
                 // Init all Items in Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.FindDataAndQuantity();
+                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetReachableDatasAndQuantities();
                 foreach (KeyValuePair<NWDItem, int> p in tItems)
                 {
                     // Get Item data

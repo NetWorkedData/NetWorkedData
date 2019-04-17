@@ -291,7 +291,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void AddDataValue(NWDBasis<K> sData, float sValue)
+        public void AddDataAndValue(NWDBasis<K> sData, float sValue)
         {
             // I compare all element
             Dictionary<string, NWDRange> tThis = GetReferenceAndRange();
@@ -317,13 +317,13 @@ namespace NetWorkedData
             SetReferenceAndRange(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] FindDatas(string sAccountReference = null)
+        public K[] GetReachabableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -407,7 +407,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, NWDRange> FindDatasAndRange(string sAccountReference = null)
+        public Dictionary<K, NWDRange> GetReachableDatasAndRange()
         {
             Dictionary<K, NWDRange> tValueDico = new Dictionary<K, NWDRange>();
             if (Value != null && Value != string.Empty)
@@ -419,7 +419,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDRange tQ = new NWDRange(tLineValue[1]);
-                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasis<K>.GetReachableDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -516,7 +516,7 @@ namespace NetWorkedData
         public void EditorAddNewData()
         {
             K tNewObject = NWDBasis<K>.NewData();
-            this.AddDataValue(tNewObject, 0.0F);
+            this.AddDataAndValue(tNewObject, 0.0F);
             NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
