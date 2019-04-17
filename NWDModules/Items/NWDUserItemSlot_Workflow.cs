@@ -37,7 +37,7 @@ namespace NetWorkedData
             NWDUserItemSlot rOwnership = FindFirstByIndex(sItemReference);
             if (rOwnership == null)
             {
-                NWDItemSlot tSlot = NWDItemSlot.RawDataByReference(sItemReference);
+                NWDItemSlot tSlot = NWDItemSlot.GetRawDataByReference(sItemReference);
                 if (tSlot != null)
                 {
                     rOwnership = NewData(kWritingMode);

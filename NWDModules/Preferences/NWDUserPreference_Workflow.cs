@@ -44,7 +44,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserPreference GetByInternalKeyOrCreate(string sInternalKey, NWDMultiType sDefaultValue, string sInternalDescription = BTBConstants.K_EMPTY_STRING)
         {
-            NWDUserPreference rObject = FilterFirstDataByInternalKey(sInternalKey);
+            NWDUserPreference rObject = GetReacheableFirstDataByInternalKey(sInternalKey);
             if (rObject == null)
             {
                 rObject = NewData();
@@ -58,34 +58,6 @@ namespace NetWorkedData
             }
             return rObject;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        /*public static NWDUserPreference GetByPreferenceKeyOrCreate(NWDPreferenceKey sPreferenceKey, NWDMultiType sDefaultValue)
-        {
-            NWDUserPreference rObject = null;
-            NWDUserPreference[] tUserPreferences = FindDatas();
-            foreach (NWDUserPreference k in tUserPreferences)
-            {
-                if (k.PreferenceKey.GetObject().Equals(sPreferenceKey))
-                {
-                    rObject = k;
-                    break;
-                }
-            }
-            
-            if (rObject == null)
-            {
-                rObject = NewData();
-                #if UNITY_EDITOR
-                rObject.InternalKey = sPreferenceKey.Title.GetBaseString();
-                rObject.InternalDescription = sPreferenceKey.Description.GetBaseString();
-                #endif
-                rObject.Value = sDefaultValue;
-                rObject.Tag = NWDBasisTag.TagUserCreated;
-                rObject.SaveData();
-            }
-            
-            return rObject;
-        }*/
         //-------------------------------------------------------------------------------------------------------------
         public void AddEnter(NWDMultiType sValue)
         {

@@ -113,12 +113,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObjectAbsolute(string sAccountReference = null)
         {
-            return NWDBasis<K>.RawDataByReference(Value) as K;
+            return NWDBasis<K>.GetRawDataByReference(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjectsAbsolute(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.RawDataByReference(Value) as K;
+            K tObject = NWDBasis<K>.GetRawDataByReference(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -146,7 +146,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.RawDataByReference(tReference) == null)
+                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -161,7 +161,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (NWDBasis<K>.RawDataByReference(Value) == null)
+                if (NWDBasis<K>.GetRawDataByReference(Value) == null)
                 {
                     rReturn = true;
                 }
@@ -170,13 +170,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public override object[] EditorGetDatas()
+        public override object[] GetEditorDatas()
         {
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.RawDataByReference(Value) as K;
+                K tObj = NWDBasis<K>.GetRawDataByReference(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -185,16 +184,18 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override object GetEditorData()
         {
-            K tNewObject = NWDBasis<K>.NewData(sWritingMode);
-            this.SetObject(tNewObject);
-            NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float ControlFieldHeight()
-        {
-            return NWDGUI.kDataSelectorFieldStyle.fixedHeight;
+            K rReturn = null;
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                K tObj = NWDBasis<K>.GetRawDataByReference(Value) as K;
+                //if (tObj != null)
+                {
+                    rReturn = tObj;
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
@@ -212,20 +213,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        //{
-        //    string rReturn = "NO";
-        //    if (Value != null)
-        //    {
-        //        if (Value.Contains(sOldReference))
-        //        {
-        //            Value = Value.Replace(sOldReference, sNewReference);
-        //            rReturn = "YES";
-        //        }
-        //    }
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

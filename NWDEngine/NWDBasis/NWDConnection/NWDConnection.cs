@@ -46,7 +46,7 @@ namespace NetWorkedData
         /// <returns>The object.</returns>
 		public K GetData ()
 		{
-            return NWDBasis <K>.RawDataByReference (Reference);
+            return NWDBasis <K>.GetRawDataByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>

@@ -77,7 +77,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetNickname(string sReference)
         {
-            NWDCharacter tCharacter = RawDataByReference(sReference);
+            NWDCharacter tCharacter = GetRawDataByReference(sReference);
             string tNickname = "???";
             if (tCharacter != null)
             {

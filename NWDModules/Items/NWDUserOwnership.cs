@@ -260,7 +260,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDItem tItem = NWDItem.RawDataByReference(tQte.Key);
+                    NWDItem tItem = NWDItem.GetRawDataByReference(tQte.Key);
                     AddItemToOwnership(tItem, tQte.Value);
                 }
             }
@@ -272,7 +272,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDItem tItem = NWDItem.RawDataByReference(tQte.Key);
+                    NWDItem tItem = NWDItem.GetRawDataByReference(tQte.Key);
                     AddItemToOwnership(tItem, -tQte.Value);
                 }
             }

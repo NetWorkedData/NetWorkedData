@@ -76,21 +76,19 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-
-
         //-------------------------------------------------------------------------------------------------------------
 #endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region RAW
         //-------------------------------------------------------------------------------------------------------------
-        public static List<K> RawDatasList()
+        public static List<K> GetRawDatasList()
         {
             return BasisHelper().Datas as List<K>;
         }
         //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
-        public static K[] RawDatas()
+        public static K[] GetRawDatas()
         {
             //BTBBenchmark.Start();
             K[] rReturn = BasisHelper().Datas.ToArray() as K[];
@@ -98,7 +96,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<K> RawDatasByInternalKey(string sInternalKey)
+        public static K[] GetRawDatasByInternalKey(string sInternalKey)
         {
             List<K> rReturn;
             if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
@@ -109,10 +107,21 @@ namespace NetWorkedData
             {
                 rReturn = new List<K>();
             }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetRawFirstDataByInternalKey(string sInternalKey)
+        {
+            K rReturn = null;
+            K[] rDatas = GetRawDatasByInternalKey(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K RawDataByReference(string sReference, bool sTryOnDisk = false)
+        public static K GetRawDataByReference(string sReference, bool sTryOnDisk = false)
         {
             K rReturn = null;
             if (BasisHelper().DatasByReference.ContainsKey(sReference))
@@ -133,14 +142,24 @@ namespace NetWorkedData
         #endregion
         #region REACHABLE Get datas for my account and my gamesave
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetReachableDatas()
+        public static K[] GetReachableDatas(bool sLimitByGameSave = true)
         {
-            return GetCorporateDatas(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            return GetCorporateDatas(NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetReachableFirstData()
+        public static K GetReachableFirstData(bool sLimitByGameSave = true)
         {
-            return GetCorporateFirstData(NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            return GetCorporateFirstData(NWDAccount.CurrentReference(), tGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetReachableDataByReference(string sReference)
@@ -149,9 +168,25 @@ namespace NetWorkedData
             //return FilterDataByReference(sReference, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, bool sLimitByGameSave = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            return GetCorporateDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, NWDAccount.CurrentReference(), NWDGameSave.CurrentData());
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            return GetCorporateDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, NWDAccount.CurrentReference(), tGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetReacheableFirstDataByInternalKey(string sInternalKey, bool sCreateIfNotExists = false, bool sLimitByGameSave = true)
+        {
+            K rReturn = null;
+            K[] rDatas = GetReacheableDatasByInternalKey(sInternalKey, sCreateIfNotExists, sLimitByGameSave);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -274,7 +309,10 @@ namespace NetWorkedData
             return rArray;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K FilterFirstDataByInternalKey(
+        #endregion
+        #region PRIVATE FILTER
+        //-------------------------------------------------------------------------------------------------------------
+        private static K FilterFirstDataByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
                                          NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
@@ -514,7 +552,7 @@ namespace NetWorkedData
                             //Debug.Log("tReference = " + tReference.Reference);
                             if (tReference.Reference != null)
                             {
-                                RawDataByReference(tReference.Reference);
+                                GetRawDataByReference(tReference.Reference);
                             }
                         }
                     }
@@ -555,7 +593,7 @@ namespace NetWorkedData
                         {
                             if (tReference.Reference != null)
                             {
-                                K tData = RawDataByReference(tReference.Reference, true);
+                                K tData = GetRawDataByReference(tReference.Reference, true);
                                 if (tData != null)
                                 {
                                     rResult.Add(tData);
@@ -849,7 +887,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static void FindDatas()
         {
-            NWDExample.RawDatas();
+            NWDExample.GetRawDatas();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -344,7 +344,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.RawDataByReference(tRef) as K;
+                K tObject = NWDBasis<K>.GetRawDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -451,7 +451,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDAverage tQ = new NWDAverage(tLineValue[1]);
-                        K tObject = NWDBasis<K>.RawDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.GetRawDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -502,12 +502,12 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public override object[] EditorGetDatas()
+        public override object[] GetEditorDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.RawDataByReference(tReference);
+                K tObj = NWDBasis<K>.GetRawDataByReference(tReference);
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
@@ -531,7 +531,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.RawDataByReference(tReference) == null)
+                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }

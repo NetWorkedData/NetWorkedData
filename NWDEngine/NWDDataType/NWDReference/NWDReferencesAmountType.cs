@@ -256,7 +256,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.RawDataByReference(tRef) as K;
+                K tObject = NWDBasis<K>.GetRawDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -368,7 +368,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.RawDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.GetRawDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -446,13 +446,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public override object[] EditorGetDatas()
+        public override object[] GetEditorDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.RawDataByReference(tReference);
+                K tObj = NWDBasis<K>.GetRawDataByReference(tReference);
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
@@ -464,19 +463,12 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
-        {
-            K tNewObject = NWDBasis<K>.NewData();
-            this.AddObjectAmount(tNewObject, 1);
-            NWDBasis<K>.BasisHelper().New_SetObjectInEdition(tNewObject, false, true);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.RawDataByReference(tReference) == null)
+                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -484,18 +476,18 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float ControlFieldHeight()
-        {
-            int tRow = 1;
-            if (Value != null && Value != string.Empty)
-            {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                tRow += tValueArray.Count();
-            }
-            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
+        //public override float ControlFieldHeight()
+        //{
+        //    int tRow = 1;
+        //    if (Value != null && Value != string.Empty)
+        //    {
+        //        string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //        tRow += tValueArray.Count();
+        //    }
+        //    float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
 
-            return tHeight;
-        }
+        //    return tHeight;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
@@ -609,21 +601,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        //{
-        //    string rReturn = "NO";
-        //    if (Value != null)
-        //    {
-        //        if (Value.Contains(sOldReference))
-        //        {
-        //            //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
-        //            Value = Value.Replace(sOldReference, sNewReference);
-        //            rReturn = "YES";
-        //        }
-        //    }
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
