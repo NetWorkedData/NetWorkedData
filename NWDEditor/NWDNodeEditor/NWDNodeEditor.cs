@@ -252,6 +252,8 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        bool DragDetect = false;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
@@ -272,6 +274,17 @@ namespace NetWorkedData
 
             // Check if the mouse is above our scrollview.
             if (tScrollViewRect.Contains(Event.current.mousePosition))
+            {
+                if (Event.current.type == EventType.MouseDown)
+                {
+                    Vector2 currPos = Event.current.mousePosition;
+                    mLastMousePosition = currPos;
+                    DragDetect = true;
+                    Event.current.Use();
+                }
+            }
+
+            if (DragDetect == true)
             {
                 //Debug.Log("NWDNodeEditor event in rect");
                 // Only move if we are hold down mouse button, and the mouse is moving.
@@ -297,10 +310,9 @@ namespace NetWorkedData
                     // Set the last mouse position to the current mouse position.
                     mLastMousePosition = currPos;
                 }
-                if (Event.current.type == EventType.MouseDown)
+                if (Event.current.type == EventType.MouseUp)
                 {
-                    Vector2 currPos = Event.current.mousePosition;
-                    mLastMousePosition = currPos;
+                    DragDetect = false;
                 }
             }
             //BTBBenchmark.Finish();

@@ -648,6 +648,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
+            #if UNITY_EDITOR
+            //            RecalulateHeight = true;
+            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+            #endif
             //BTBBenchmark.Start();
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);

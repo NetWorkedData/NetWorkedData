@@ -474,13 +474,14 @@ namespace NetWorkedData
             if (tBuildTimeStamp > tBuildTimeStampActual)
             {
                 rReturn = true;
+
+                // !!! NOT POSSIBLLE BECAUSE EDITOR DATABASE IS NOT LOADED!!!
                 // delete all sync of data 
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
-                {
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), tBuildTimeStamp);
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationUpadteTimestamp);
-                }
+                //foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+                //{
+                //    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                //    tHelper.New_SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), tBuildTimeStamp);
+                //}
                 BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
             }
             // Save App version in pref for futur used

@@ -30,10 +30,10 @@ namespace NetWorkedData
     public partial class NWDWorld : NWDBasis<NWDWorld>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
-        {
-            return NWDGUI.kBoldLabelStyle.fixedHeight*6;
-        }
+        //public override float AddonEditorHeight()
+        //{
+        //    return NWDGUI.kBoldLabelStyle.fixedHeight*6;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {

@@ -25,10 +25,16 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        protected Texture2D PreviewTexture;
         protected UnityEngine.Object PreviewObject = null;
+        protected Texture2D PreviewTexture;
         protected bool PreviewTextureIsLoaded = false;
-        Editor gameObjectEditor;
+        //-------------------------------------------------------------------------------------------------------------
+        //public bool RecalulateHeight = true; 
+        public float TotalHeight = 0.0F;
+        public float TopHeight = 0.0F;
+        public float MiddleHeight = 0.0F;
+        public float InspectorHeight = 0.0F;
+        public float BottomHeight = 0.0F;
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
@@ -91,7 +97,7 @@ namespace NetWorkedData
         //    return tY;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public Rect DrawObjectInspector(Rect sInRect, NWDNodeCard sNodalCard, bool sEditionEnable)
+        public Rect DrawInspector(Rect sInRect, NWDNodeCard sNodalCard, bool sEditionEnable)
         {
             //BTBBenchmark.Start();
             Rect tRect = new Rect(sInRect.position.x, sInRect.position.y, sInRect.width, 0);
@@ -145,71 +151,7 @@ namespace NetWorkedData
         //    return tY;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public override Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
-        {
-            //BTBBenchmark.Start();
-            NWDGUI.LoadStyles();
-
-            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
-
-
-            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
-            bool rNeedBeUpdate = false;
-            EditorGUI.BeginChangeCheck();
-
-            // Start scrollview
-            if (sWithScrollview == true)
-            {
-                float tScrollBarMarge = 0;
-                float tHeightContent = New_DrawObjectInspectorHeight(null);
-                if (tHeightContent >= sInRect.height)
-                {
-                    tScrollBarMarge = NWDGUI.kScrollbar;
-                }
-                BasisHelper().ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, BasisHelper().ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, tHeightContent));
-
-                tWidth = sInRect.width - tScrollBarMarge;
-                tX = 0;
-                tY = NWDGUI.kFieldMarge;
-            }
-            EditorGUI.BeginDisabledGroup(sEditionEnable == false);
-           Rect tRectDrawed =  DrawObjectInspector(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), sNodalCard , sEditionEnable);
-            tY += tRectDrawed.height;
-            EditorGUI.EndDisabledGroup();
-            // finish scrollview 
-            if (sWithScrollview == true)
-            {
-                GUI.EndScrollView();
-            }
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                rNeedBeUpdate = true;
-            }
-
-            if (AddonEdited(rNeedBeUpdate) == true)
-            {
-                rNeedBeUpdate = true;
-            }
-            if (rNeedBeUpdate == true)
-            {
-                if (sEditionEnable == true)
-                {
-                    ErrorCheck();
-                    WebserviceVersionCheckMe();
-                    if (IntegrityValue() != this.Integrity)
-                    {
-                        UpdateData(true, NWDWritingMode.ByEditorDefault);
-                    }
-                }
-            }
-            Rect tFinalRect = new Rect(sInRect.position.x, tY, sInRect.width, tY - sInRect.position.y);
-            //BTBBenchmark.Finish();
-            return tFinalRect;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        public override void DrawEditorTop(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
             //BTBBenchmark.Start();
             BasisHelper().RowAnalyze();
@@ -221,7 +163,32 @@ namespace NetWorkedData
             bool tCanBeEdit = true;
             bool tTestIntegrity = TestIntegrity();
 
-            if (sNodalCard!=null)
+            if (sNodalCard == null)
+            {
+                DrawEditorTotalHeight(null, tWidth);
+            }
+            // FOR Graphix Debug 
+            //Rect tTopTestRect = new Rect(tX+2, tY, 3, TopHeight);
+            //EditorGUI.DrawRect(tTopTestRect, Color.blue);
+            //Rect tMiddleTestRect = new Rect(tX + 4, tY+ TopHeight, 3, MiddleHeight);
+            //EditorGUI.DrawRect(tMiddleTestRect, Color.red);
+            //Rect tInspectorTestRect = new Rect(tX + 8, tY + TopHeight, 3, InspectorHeight);
+            //EditorGUI.DrawRect(tInspectorTestRect, Color.yellow);
+            //Rect tBottomTestRect = new Rect(tX + 6, tY + sInRect.height - BottomHeight, 3, BottomHeight);
+            //EditorGUI.DrawRect(tBottomTestRect, Color.green);
+            //if (sNodalCard != null)
+            //{
+            //    Rect tTopTestRectB = new Rect(tX -4, tY, 3, sNodalCard.TopHeight);
+            //    EditorGUI.DrawRect(tTopTestRectB, Color.blue);
+            //    Rect tMiddleTestRectB = new Rect(tX -6, tY + sNodalCard.TopHeight, 3, sNodalCard.MiddleHeight);
+            //    EditorGUI.DrawRect(tMiddleTestRectB, Color.red);
+            //    Rect tBottomTestRectB = new Rect(tX -8, tY + sNodalCard.TopHeight + sNodalCard.MiddleHeight, 3, sNodalCard.BottomHeight);
+            //    EditorGUI.DrawRect(tBottomTestRectB, Color.green);
+            //}
+            // FINISH DEBUG 
+
+
+                if (sNodalCard!=null)
             {
                 tY += NWDGUI.kFieldMarge;
                 tY += sNodalCard.ParentDocument.DrawAnalyzer(new Rect(tXmarge, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight),GetType().Name);
@@ -299,7 +266,7 @@ namespace NetWorkedData
                         {
                             UpdateData(true);
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                            //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -328,7 +295,7 @@ namespace NetWorkedData
                         {
                             UnTrashData();
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                            //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -356,7 +323,7 @@ namespace NetWorkedData
                         {
                             EnableData();
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-                            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                            //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -384,7 +351,7 @@ namespace NetWorkedData
                     {
                         UpdateData();
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                        //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                     }
                 }
                 tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -501,7 +468,7 @@ namespace NetWorkedData
                 PreviewTexture2D();
                 RowAnalyze();
                 BasisHelper().New_RepaintTableEditor();
-                NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                //NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
             bool tInternalKeyEditable = true;
@@ -525,7 +492,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     RowAnalyze();
                     BasisHelper().New_RepaintTableEditor();
-                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
             else
@@ -548,7 +515,7 @@ namespace NetWorkedData
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 RowAnalyze();
                 BasisHelper().New_RepaintTableEditor();
-                NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                //NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
             if (tCanBeEdit == true)
@@ -612,7 +579,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByEditorDefault, false);
                     RowAnalyze();
                     BasisHelper().New_RepaintTableEditor();
-                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
             else
@@ -645,7 +612,7 @@ namespace NetWorkedData
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 RowAnalyze();
                 BasisHelper().New_RepaintTableEditor();
-                NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                //NWDNodeEditor.ReAnalyzeIfNecessary(this);
             }
 
             if (BasisHelper().kAccountDependent == false)
@@ -666,7 +633,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.MainThread);
                     RowAnalyze();
                     BasisHelper().New_RepaintTableEditor();
-                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
 
@@ -803,42 +770,193 @@ namespace NetWorkedData
 
             EditorGUI.EndDisabledGroup();
 
+            if (sNodalCard != null)
+            {
+                float tH = AddOnNodeDrawHeight(NWDGUI.kNodeCardWidth);
+                EditorGUI.HelpBox(new Rect(tXmarge, tY, tWidth, tH), "Nodal area", MessageType.Info);
+                tY += tH;
+                tY += NWDGUI.kFieldMarge;
+            }
 
-            //  Action Zone + Warning Zone Height
+            NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1));
+
             float tBottomHeight = 0;
             if (sNodalCard== null)
             {
-                tBottomHeight = NWDGUI.kBoldLabelStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 3
-                                     + NWDGUI.kMiniButtonStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 3
-                                                    //+ tLabelStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 2
-                                                    ;
+                tBottomHeight = BottomHeight;
             }
 
-            tY += NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1)).height;
 
-            Rect tRectProperty = new Rect(tX, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
+            Rect tRectProperty = new Rect(tX, tY, sInRect.width, sInRect.height - TopHeight - tBottomHeight);
             EditorGUI.DrawRect(tRectProperty, NWDGUI.kPropertyColor);
-            Rect tPropRect = New_DrawObjectInspector(tRectProperty, sWithScrollview, sNodalCard, tCanBeEdit);
+            DrawEditorMiddle(tRectProperty, sWithScrollview, sNodalCard, tCanBeEdit);
 
-            EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
             if (sNodalCard == null)
             {
                 tY = sInRect.height - tBottomHeight;
             }
             else
             {
-                tY += tPropRect.height;
+                tY += sNodalCard.MiddleHeight;
             }
 
             //            EditorGUI.indentLevel = 0;
 
-            tY += NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1)).height;
+            NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1));
 
             EditorGUI.DrawRect(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, tBottomHeight), NWDGUI.kIdentityColor);
 
-            // Prepare Action and Warning zone 
+            // Prepare Action and Warning zone
+            DrawEditorBottom(new Rect (sInRect.x, tY, sInRect.width, BottomHeight),sWithScrollview, sNodalCard, tCanBeEdit);
 
-            tY += NWDGUI.kFieldMarge; // Add marge 
+            // Shortcut navigation
+
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
+            {
+                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                if (tSelected != null)
+                {
+                    if (BasisHelper().EditorTableDatas.Contains(tSelected))
+                    {
+                        int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
+                        if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
+                        {
+                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
+                            BasisHelper().New_SetObjectInEdition(tNextSelected);
+                            BasisHelper().New_ChangeScroolPositionToSelection();
+                            Event.current.Use();
+                        }
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
+            {
+                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                if (tSelected != null)
+                {
+                    if (BasisHelper().EditorTableDatas.Contains(tSelected))
+                    {
+                        int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
+                        if (tIndexSelected > 0)
+                        {
+                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
+                            BasisHelper().New_SetObjectInEdition(tNextSelected);
+                            BasisHelper().New_ChangeScroolPositionToSelection();
+                            Event.current.Use();
+                        }
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
+            int tPagesExpected = (int)Math.Floor(tNumberOfPage);
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
+            {
+                if (BasisHelper().m_PageSelected < tPagesExpected)
+                {
+                    BasisHelper().m_PageSelected++;
+                    int tIndexSel = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected;
+                    if (tIndexSel < BasisHelper().EditorTableDatas.Count)
+                    {
+                        K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
+                        BasisHelper().New_SetObjectInEdition(tNextSelected);
+                        BasisHelper().New_ChangeScroolPositionToSelection();
+                        Event.current.Use();
+                    }
+                }
+                else
+                {
+                }
+            }
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
+            {
+                if (BasisHelper().m_PageSelected > 0)
+                {
+                    BasisHelper().m_PageSelected--;
+                    K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
+                    BasisHelper().New_SetObjectInEdition(tNextSelected);
+                    BasisHelper().New_ChangeScroolPositionToSelection();
+                    Event.current.Use();
+                }
+                else
+                {
+                }
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DrawEditorMiddle(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        {
+            //BTBBenchmark.Start();
+            NWDGUI.LoadStyles();
+
+            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
+            float tY = sInRect.position.y;
+
+            Rect tFinalRect = new Rect(sInRect.position.x, tY, sInRect.width, tY - sInRect.position.y);
+            bool rNeedBeUpdate = false;
+            EditorGUI.BeginChangeCheck();
+
+            // Start scrollview
+            if (sWithScrollview == true)
+            {
+                float tScrollBarMarge = 0;
+                if (InspectorHeight >= sInRect.height)
+                {
+                    tScrollBarMarge = NWDGUI.kScrollbar;
+                }
+                BasisHelper().ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, BasisHelper().ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, InspectorHeight + NWDGUI.kFieldMarge));
+
+                tWidth = sInRect.width - tScrollBarMarge;
+                tX = 0;
+                tY = 0;
+            }
+            EditorGUI.BeginDisabledGroup(sEditionEnable == false);
+            Rect tRectDrawed = DrawInspector(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), sNodalCard, sEditionEnable);
+            tY += tRectDrawed.height;
+            EditorGUI.EndDisabledGroup();
+            // finish scrollview 
+            if (sWithScrollview == true)
+            {
+                GUI.EndScrollView();
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                rNeedBeUpdate = true;
+            }
+
+            if (AddonEdited(rNeedBeUpdate) == true)
+            {
+                rNeedBeUpdate = true;
+            }
+            if (rNeedBeUpdate == true)
+            {
+                if (sEditionEnable == true)
+                {
+                    ErrorCheck();
+                    WebserviceVersionCheckMe();
+                    if (IntegrityValue() != this.Integrity)
+                    {
+                        UpdateData(true, NWDWritingMode.ByEditorDefault);
+                    }
+                }
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        {
+            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sInRect.x;
+            float tXmarge = sInRect.x + NWDGUI.kFieldMarge;
+            float tY = sInRect.y;
 
             float tButtonWidth = (tWidth - (NWDGUI.kFieldMarge * 3)) / 4.0f;
 
@@ -947,7 +1065,7 @@ namespace NetWorkedData
                     DeleteData(NWDWritingMode.ByEditorDefault);
                     BasisHelper().New_SetObjectInEdition(null);
                     BasisHelper().New_RepaintTableEditor();
-                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
             //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -974,85 +1092,6 @@ namespace NetWorkedData
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
             NWDGUI.EndRedArea();
 
-            // Shortcut navigation
-
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
-            {
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-                if (tSelected != null)
-                {
-                    if (BasisHelper().EditorTableDatas.Contains(tSelected))
-                    {
-                        int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
-                        if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
-                        {
-                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
-                            BasisHelper().New_SetObjectInEdition(tNextSelected);
-                            BasisHelper().New_ChangeScroolPositionToSelection();
-                            Event.current.Use();
-                        }
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
-            {
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-                if (tSelected != null)
-                {
-                    if (BasisHelper().EditorTableDatas.Contains(tSelected))
-                    {
-                        int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
-                        if (tIndexSelected > 0)
-                        {
-                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
-                            BasisHelper().New_SetObjectInEdition(tNextSelected);
-                            BasisHelper().New_ChangeScroolPositionToSelection();
-                            Event.current.Use();
-                        }
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-            float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
-            int tPagesExpected = (int)Math.Floor(tNumberOfPage);
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
-            {
-                if (BasisHelper().m_PageSelected < tPagesExpected)
-                {
-                    BasisHelper().m_PageSelected++;
-                    int tIndexSel = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected;
-                    if (tIndexSel < BasisHelper().EditorTableDatas.Count)
-                    {
-                        K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
-                        BasisHelper().New_SetObjectInEdition(tNextSelected);
-                        BasisHelper().New_ChangeScroolPositionToSelection();
-                        Event.current.Use();
-                    }
-                }
-                else
-                {
-                }
-            }
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
-            {
-                if (BasisHelper().m_PageSelected > 0)
-                {
-                    BasisHelper().m_PageSelected--;
-                    K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
-                    BasisHelper().New_SetObjectInEdition(tNextSelected);
-                    BasisHelper().New_ChangeScroolPositionToSelection();
-                    Event.current.Use();
-                }
-                else
-                {
-                }
-            }
-            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditor(Rect sInRect)

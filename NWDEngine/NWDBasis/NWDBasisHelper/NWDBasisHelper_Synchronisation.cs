@@ -48,6 +48,16 @@ namespace NetWorkedData
         public int New_SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
         {
             int rReturn = NWDBasisPreferences.GetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
+            // Modified by the version of bundle
+            if (kAccountDependent == false)
+            {
+                int tTimestampMin = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
+                if (tTimestampMin > rReturn)
+                {
+                    rReturn = tTimestampMin;
+                    // the reccord will be do by the webservice answer
+                }
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

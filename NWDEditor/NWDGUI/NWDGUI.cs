@@ -325,7 +325,7 @@ namespace NetWorkedData
                 kNodeCanvasMargeBlack = new Color(0.1F, 0.1F, 0.1F, 1.0F);
 
                 kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
-                kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
+                kNodeOverLineColor = new Color(0.50F, 0.50F, 0.50F, 0.70F);
 
                 // texture apply
 
@@ -698,6 +698,11 @@ namespace NetWorkedData
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static float SeparatorHeight()
+        {
+            return kSeparatorStyle.fixedHeight + kFieldMarge * 2;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void BeginRedArea()
         {
             if (kOldColorInit == false)
@@ -814,7 +819,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Rect WarningBox(Rect sRect, string sTitle)
         {
-            //sRect.y += kFieldMarge;
             BeginColorArea(kYellowElementColor);
             sRect.height = EditorStyles.helpBox.CalcHeight(new GUIContent(sTitle), sRect.width);
             if (sRect.height < WarningMinHeight)
@@ -823,8 +827,17 @@ namespace NetWorkedData
             }
             EditorGUI.HelpBox(sRect, sTitle, MessageType.Warning);
             EndColorArea();
-            //sRect.height += kFieldMarge * 2;
             return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static float WarningBoxHeight(Rect sRect, string sTitle)
+        {
+            float tHeight = EditorStyles.helpBox.CalcHeight(new GUIContent(sTitle), sRect.width);
+            if (tHeight < WarningMinHeight)
+            {
+                tHeight = WarningMinHeight;
+            }
+            return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect ErrorBox(Rect sRect, string sTitle)

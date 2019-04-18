@@ -340,10 +340,6 @@ namespace NetWorkedData
         {
             return null;
         }
-        public virtual Rect New_DrawObjectInspector(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
-        {
-            return Rect.zero;
-        }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
@@ -363,19 +359,47 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float New_DrawObjectEditorHeight(NWDNodeCard sNodalCard)
+        public virtual float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
         {
             return 0;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float New_DrawObjectInspectorHeight(NWDNodeCard sNodalCard)
+        public virtual void DrawEditorTop(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DrawEditorMiddle(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
+        {
+            return DrawEditorTopHeight(sNodalCard, sWidth) + DrawEditorMiddleHeight(sNodalCard, sWidth) + DrawEditorBottomHeight(sNodalCard, sWidth);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
         {
             return 0;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_DrawObjectEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        public virtual float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
         {
+            return DrawInspectorHeight(sNodalCard, sWidth);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
+        {
+            return 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         public virtual void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {

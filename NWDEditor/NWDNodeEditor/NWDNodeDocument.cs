@@ -48,7 +48,7 @@ namespace NetWorkedData
         public List<NWDNodeCard> AllCards = new List<NWDNodeCard>();
         public List<NWDNodeCard> AllCardsAnalyzed = new List<NWDNodeCard>();
         public Dictionary<int, List<NWDNodeCard>> MatrixCards = new Dictionary<int, List<NWDNodeCard>>();
-        public Dictionary<string, NWDNodeLiner> LinerCards = new Dictionary<string, NWDNodeLiner>();
+        //public Dictionary<string, NWDNodeLiner> LinerCards = new Dictionary<string, NWDNodeLiner>();
         /// <summary>
         /// The properties counter max found.
         /// </summary>
@@ -688,7 +688,7 @@ namespace NetWorkedData
                 AllCards = new List<NWDNodeCard>();
                 AllCardsAnalyzed = new List<NWDNodeCard>();
                 MatrixCards = new Dictionary<int, List<NWDNodeCard>>();
-                LinerCards = new Dictionary<string, NWDNodeLiner>();
+                //LinerCards = new Dictionary<string, NWDNodeLiner>();
                 PropertyMax = 0;
 
                 //Width = NWDGUI.kNodeCardWidth;

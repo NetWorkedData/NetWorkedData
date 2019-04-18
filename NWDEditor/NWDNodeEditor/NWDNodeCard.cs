@@ -37,6 +37,7 @@ namespace NetWorkedData
         public int Column = 0;
         public NWDNodeDocument ParentDocument;
         public List<NWDNodePloter> PloterList = new List<NWDNodePloter>();
+        public List<Vector2> PlotsList = new List<Vector2>();
         //public Color InformationsColor = Color.white;
 
         public Texture2D ClassTexture;
@@ -57,8 +58,10 @@ namespace NetWorkedData
         Vector2 CardBottomRight;
 
 
-        public float TotalHeightDynamique = 0.0F;
-
+        public float TotalHeight = 0.0F;
+        public float TopHeight = 0.0F;
+        public float MiddleHeight = 0.0F;
+        public float BottomHeight = 0.0F;
         //Rect CardTypeRect;
         //Rect CardReferenceRect;
         //Rect CardInternalKeyRect;
@@ -250,8 +253,9 @@ namespace NetWorkedData
             float tY = sY;
 
             PloterList.Clear();
-            TotalHeightDynamique = 0;
-            CardRect = new Rect(tX, tY, NWDGUI.kNodeCardWidth, DataObject.New_DrawObjectEditorHeight(this));
+            PlotsList.Clear();
+            TotalHeight = 0;
+            CardRect = new Rect(tX, tY, NWDGUI.kNodeCardWidth, DataObject.DrawEditorTotalHeight(this, NWDGUI.kNodeCardWidth));
 
 
             CardTopLeft = new Vector2(CardRect.xMin, CardRect.yMax);
@@ -352,7 +356,7 @@ namespace NetWorkedData
 
                 //DataObject.AddOnNodeDraw(InfoUsableRect, /*ParentDocument.ReGroupProperties*/ false);
 
-                DataObject.New_DrawObjectEditor(CardRect, false, this);
+                DataObject.DrawEditorTop(CardRect, false, this);
 
 
                 //foreach (NWDNodeConnection tConnection in ConnectionList)
@@ -464,11 +468,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawConnection( List<NWDNodeCard> sAllCards)
         {
+            PlotsList.Clear();
             //BTBBenchmark.Start();
             //Debug.Log("DrawConnection DrawLine()");
             float Tangent = ParentDocument.CardMarge;
-            Vector2 tOrign = new Vector2(Position.x - NWDGUI.kFieldMarge , Position.y);
+            Vector2 tOrign = new Vector2(Position.x , Position.y + NWDGUI.kEditWidthMini*3);
             Vector2 tOrignPa = new Vector2(Position.x - Tangent, Position.y);
+            bool tOriginIsUse = false;
             foreach (NWDNodeCard tCard in sAllCards)
             {
                 if (tCard != this)
@@ -477,16 +483,24 @@ namespace NetWorkedData
                     {
                         if (tPlot.Reference == this.DataObject.Reference)
                         {
-                            Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x + NWDGUI.kFieldMarge, tCard.Position.y + tPlot.Point.y);
+                            Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tCard.Position.y + tPlot.Point.y+ TopHeight);
 
                             Vector2 tFinalPa = new Vector2(tFinal.x + Tangent, tFinal.y);
                             // Draw line
                             Handles.DrawBezier(tOrign, tFinal, tOrignPa, tFinalPa, NWDGUI.kNodeLineColor, NWDGUI.kImageBezierTexture, 2.0F);
 
-                            Vector2 tFinalPzzz = new Vector2(tFinal.x - 80, tFinal.y);
-                            //Debug.Log("DrawConnection line for" + tPlot.Reference);
-                            Handles.color = Color.white;
-                            Handles.DrawLine(tFinalPzzz, tFinal);
+                            ////Debug.Log("DrawConnection line for" + tPlot.Reference);
+                            //Vector2 tFinalPzzz = new Vector2(tFinal.x - 80, tFinal.y);
+                            //Handles.color = Color.white;
+                            //Handles.DrawLine(tFinalPzzz, tFinal);
+
+                            PlotsList.Add(tFinal);
+
+                            if (tOriginIsUse == false)
+                            {
+                                tOriginIsUse = true;
+                                PlotsList.Add(tOrign);
+                            }
                         }
                     }
                 }
@@ -498,14 +512,23 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             //Debug.Log("NWDNodeCard DrawPlot()");
-            Handles.color = NWDGUI.kNodeLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf);
-            Handles.color = NWDGUI.kNodeOverLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf - 1.0f);
-            // Draw plot of my connections 
-            foreach (NWDNodeConnection tConnection in ConnectionList)
+            //Handles.color = NWDGUI.kNodeLineColor;
+            //Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf);
+            //Handles.color = NWDGUI.kNodeOverLineColor;
+            //Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDGUI.kEditWidthHalf - 1.0f);
+            //// Draw plot of my connections 
+            //foreach (NWDNodeConnection tConnection in ConnectionList)
+            //{
+            //    tConnection.DrawForwardPlot();
+            //}
+
+
+            foreach (Vector2 tPlot in PlotsList)
             {
-                tConnection.DrawForwardPlot();
+                Handles.color = NWDGUI.kNodeLineColor;
+                Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kEditWidthMiniHalf);
+                Handles.color = NWDGUI.kNodeOverLineColor;
+                Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kEditWidthMiniHalf - 1.0F);
             }
             //BTBBenchmark.Finish();
         }

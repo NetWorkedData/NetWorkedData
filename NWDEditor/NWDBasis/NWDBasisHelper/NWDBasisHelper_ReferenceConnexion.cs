@@ -54,7 +54,7 @@ namespace NetWorkedData
                     GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
                     tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                     rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                    rReturn += tObject.New_DrawObjectInspectorHeight(null) + NWDGUI.kFieldMarge * 2;
+                    rReturn += tObject.DrawInspectorHeight(null, tWidth) + NWDGUI.kFieldMarge * 2;
                 }
             }
             //BTBBenchmark.Finish();
@@ -138,7 +138,7 @@ namespace NetWorkedData
                                                    tY,
                                                    sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                    sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                    tObject.New_DrawObjectInspector(tRectToDawInspector, false, null, sEditionEnable);
+                    tObject.DrawEditorMiddle(tRectToDawInspector, false, null, sEditionEnable);
                 }
             }
             else
@@ -187,7 +187,7 @@ namespace NetWorkedData
                         tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                         rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                         rReturn += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                        rReturn += tObject.New_DrawObjectInspectorHeight(null) + NWDGUI.kFieldMarge * 2;
+                        rReturn += tObject.DrawInspectorHeight(null, tWidth) + NWDGUI.kFieldMarge * 2;
                     }
                 }
             }
@@ -286,7 +286,7 @@ namespace NetWorkedData
                                                            tY,
                                                            sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                            sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                            tObject.New_DrawObjectInspector(tRectToDawInspector,false, null, true);
+                            tObject.DrawEditorMiddle(tRectToDawInspector,false, null, true);
                         }
                     }
                 }
