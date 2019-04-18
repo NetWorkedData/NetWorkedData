@@ -70,7 +70,7 @@ namespace NetWorkedData
             }
 
             // TODO : RealCalcule!!!!
-            TopHeight += 282;
+            TopHeight += 272;
 
             // add nodal area
             if (sNodalCard != null)

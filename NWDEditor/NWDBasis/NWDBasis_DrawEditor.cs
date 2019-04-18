@@ -176,15 +176,15 @@ namespace NetWorkedData
             //EditorGUI.DrawRect(tInspectorTestRect, Color.yellow);
             //Rect tBottomTestRect = new Rect(tX + 6, tY + sInRect.height - BottomHeight, 3, BottomHeight);
             //EditorGUI.DrawRect(tBottomTestRect, Color.green);
-            //if (sNodalCard != null)
-            //{
-            //    Rect tTopTestRectB = new Rect(tX -4, tY, 3, sNodalCard.TopHeight);
-            //    EditorGUI.DrawRect(tTopTestRectB, Color.blue);
-            //    Rect tMiddleTestRectB = new Rect(tX -6, tY + sNodalCard.TopHeight, 3, sNodalCard.MiddleHeight);
-            //    EditorGUI.DrawRect(tMiddleTestRectB, Color.red);
-            //    Rect tBottomTestRectB = new Rect(tX -8, tY + sNodalCard.TopHeight + sNodalCard.MiddleHeight, 3, sNodalCard.BottomHeight);
-            //    EditorGUI.DrawRect(tBottomTestRectB, Color.green);
-            //}
+            if (sNodalCard != null)
+            {
+                Rect tTopTestRectB = new Rect(tX -4, tY, 3, sNodalCard.TopHeight);
+                EditorGUI.DrawRect(tTopTestRectB, Color.blue);
+                Rect tMiddleTestRectB = new Rect(tX -4, tY + sNodalCard.TopHeight, 3, sNodalCard.MiddleHeight);
+                EditorGUI.DrawRect(tMiddleTestRectB, Color.red);
+                Rect tBottomTestRectB = new Rect(tX -4, tY + sNodalCard.TopHeight + sNodalCard.MiddleHeight, 3, sNodalCard.BottomHeight);
+                EditorGUI.DrawRect(tBottomTestRectB, Color.green);
+            }
             // FINISH DEBUG 
 
 
@@ -364,9 +364,10 @@ namespace NetWorkedData
 
             EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
 
-
-            EditorGUI.DrawRect(new Rect(tX, tY - NWDGUI.kFieldMarge, sInRect.width, sInRect.height), NWDGUI.kIdentityColor);
-
+            if (sNodalCard == null)
+            {
+                EditorGUI.DrawRect(new Rect(tX, tY - NWDGUI.kFieldMarge, sInRect.width, sInRect.height), NWDGUI.kIdentityColor);
+            }
             tY += NWDGUI.kFieldMarge;
 
             // draw preview
@@ -778,7 +779,7 @@ namespace NetWorkedData
                 tY += NWDGUI.kFieldMarge;
             }
 
-            NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1));
+            NWDGUI.Line(new Rect(tX, tY - 1, tWidth + NWDGUI.kFieldMarge * 2, 1));
 
             float tBottomHeight = 0;
             if (sNodalCard== null)
@@ -787,8 +788,11 @@ namespace NetWorkedData
             }
 
 
-            Rect tRectProperty = new Rect(tX, tY, sInRect.width, sInRect.height - TopHeight - tBottomHeight);
-            EditorGUI.DrawRect(tRectProperty, NWDGUI.kPropertyColor);
+            Rect tRectProperty = new Rect(tX, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
+            if (sNodalCard == null)
+            {
+                EditorGUI.DrawRect(tRectProperty, NWDGUI.kPropertyColor);
+            }
             DrawEditorMiddle(tRectProperty, sWithScrollview, sNodalCard, tCanBeEdit);
 
             if (sNodalCard == null)
@@ -802,9 +806,7 @@ namespace NetWorkedData
 
             //            EditorGUI.indentLevel = 0;
 
-            NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1));
-
-            EditorGUI.DrawRect(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, tBottomHeight), NWDGUI.kIdentityColor);
+            NWDGUI.Line(new Rect(tX, tY , tWidth + NWDGUI.kFieldMarge * 2, 1));
 
             // Prepare Action and Warning zone
             DrawEditorBottom(new Rect (sInRect.x, tY, sInRect.width, BottomHeight),sWithScrollview, sNodalCard, tCanBeEdit);
@@ -960,6 +962,11 @@ namespace NetWorkedData
 
             float tButtonWidth = (tWidth - (NWDGUI.kFieldMarge * 3)) / 4.0f;
 
+
+            //EditorGUI.DrawRect(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, BottomHeight), NWDGUI.kIdentityColor);
+            //EditorGUI.DrawRect(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, BottomHeight), Color.red);
+
+            tY += NWDGUI.kFieldMarge;
             // Action Zone
             GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
             tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
