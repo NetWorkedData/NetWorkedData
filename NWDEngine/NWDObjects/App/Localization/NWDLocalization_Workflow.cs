@@ -11,19 +11,12 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -33,14 +26,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalization()
         {
-            //Debug.Log("NWDLocalization Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalization(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDLocalization Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
+        /*[Obsolete]
         public static NWDLocalization CreateLocalizationTextValue(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalization rReturn = NewData();
@@ -55,8 +47,9 @@ namespace NetWorkedData
             }
             rReturn.UpdateData();
             return rReturn;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
+        /*[Obsolete]
         public static string GetLocalText(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalization tObject = GetRawFirstDataByInternalKey(sKey) as NWDLocalization;
@@ -70,7 +63,7 @@ namespace NetWorkedData
                 CreateLocalizationTextValue(sKey, sDefault);
             }
             return rReturn;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {

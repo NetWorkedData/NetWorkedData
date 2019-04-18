@@ -39,7 +39,7 @@ namespace NetWorkedData
         /// The reference of refered object.
         /// </summary>
 		[SerializeField]
-		public string Reference;
+		public string Reference = string.Empty;
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
