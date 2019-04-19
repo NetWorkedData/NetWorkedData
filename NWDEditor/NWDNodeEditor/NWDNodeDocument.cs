@@ -473,9 +473,24 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float DrawAnalyzer(Rect sRect, string sClassName)
+        public float DrawAnalyzer(Rect sRect, NWDNodeCard sNodalCard, string sClassName)
         {
-            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(sRect, sClassName, AnalyzeStyleClasses[sClassName]);
+            EditorGUI.BeginDisabledGroup(NWDDataInspector.ShareInstance().mObjectInEdition == sNodalCard.DataObject);
+            if (GUI.Button(new Rect(sRect.x, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDGUI.kEditContentIcon, NWDGUI.kMiniButtonStyle))
+            {
+                NWDDataInspector.ShareInstance().Data(sNodalCard.DataObject);
+            }
+            EditorGUI.EndDisabledGroup();
+            EditorGUI.BeginDisabledGroup(NWDNodeEditor.SharedInstance().Document.OriginalData == sNodalCard);
+            if (GUI.Button(new Rect(sRect.x +  NWDGUI.kFieldMarge + NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_ROOT_NODAL, NWDGUI.kMiniButtonStyle))
+            {
+                NWDNodeEditor.SetObjectInNodeWindow(sNodalCard.DataObject);
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x +sRect.width  - NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
+
+
+            //NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(sRect, sClassName, AnalyzeStyleClasses[sClassName]);
             if (AnalyzeStyleClasses[sClassName] != tNew)
             {
                 AnalyzeStyleClasses[sClassName] = tNew;

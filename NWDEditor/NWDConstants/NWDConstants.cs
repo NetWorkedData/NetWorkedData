@@ -80,6 +80,7 @@ namespace NetWorkedData
         public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Tools/Editor preferences";
         public const string K_MENU_EDITOR_NODAL = K_MENU_BASE + "Tools/Editor Nodal";
         public const string K_BUTTON_EDITOR_NODAL = "Nodal view";
+        public const string K_BUTTON_ROOT_NODAL = "Root";
         public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Tools/New Data/Create New NWDBasis Class";
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Tools/New Data/Create New Window NWD management";
 

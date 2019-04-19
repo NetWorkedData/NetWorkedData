@@ -48,7 +48,7 @@ namespace NetWorkedData
         /// <summary>
         /// The document of deck.
         /// </summary>
-        private NWDNodeDocument Document = new NWDNodeDocument();
+        public NWDNodeDocument Document = new NWDNodeDocument();
         //-------------------------------------------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------------------------------------------

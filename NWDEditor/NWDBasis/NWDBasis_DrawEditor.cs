@@ -191,7 +191,7 @@ namespace NetWorkedData
                 if (sNodalCard!=null)
             {
                 tY += NWDGUI.kFieldMarge;
-                tY += sNodalCard.ParentDocument.DrawAnalyzer(new Rect(tXmarge, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight),GetType().Name);
+                tY += sNodalCard.ParentDocument.DrawAnalyzer(new Rect(tXmarge, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight), sNodalCard, GetType().Name);
             }
 
             //Draw Internal Key
