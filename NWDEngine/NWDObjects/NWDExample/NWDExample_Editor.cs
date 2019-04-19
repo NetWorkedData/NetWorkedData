@@ -77,7 +77,7 @@ namespace NetWorkedData
         /// Adds node draw.
         /// </summary>
         /// <param name="sRect">S rect.</param>
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect)
         {
 
         }

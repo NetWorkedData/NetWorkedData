@@ -486,7 +486,11 @@ namespace NetWorkedData
                     {
                         if (tPlot.Reference == this.DataObject.Reference)
                         {
-                            Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tCard.Position.y + tPlot.Point.y+ tCard.TopHeight);
+                            if (ParentDocument.MiddleCard == false)
+                            {
+                                tPlot.Point.y = - NWDGUI.kFieldMarge - NWDGUI.kEditWidthMini;
+                            }
+                                Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tCard.Position.y + tPlot.Point.y+ tCard.TopHeight);
 
                             Vector2 tFinalPa = new Vector2(tFinal.x + Tangent, tFinal.y);
                             // Draw line

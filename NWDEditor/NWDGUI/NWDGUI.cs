@@ -182,6 +182,8 @@ namespace NetWorkedData
         public static Color kIdentityColor; // inspector identity color area
         public static Color kPropertyColor; // inspector identity color area
 
+        public static float kIconClassWidth = 48.0f;
+
         public static int kLongString = 5;
         public static int kVeryLongString = 15;
         public static float kPrefabSize = 80.0f;

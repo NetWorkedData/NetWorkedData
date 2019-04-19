@@ -99,7 +99,7 @@ namespace NetWorkedData
             return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect)
         {
             LoadImages();
 
@@ -152,61 +152,61 @@ namespace NetWorkedData
             GUI.backgroundColor = tBackgroundColor;
 
 
-            if (sPropertysGroup == true)
-            {
-                // check answer
-                NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
-                int tI = tDialogs.Length;
-                foreach (NWDDialog tAnswerDialog in tDialogs)
-                {
-                    //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
-                    //if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
-                    //{
-                    //    GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
-                    //}
-                    //else 
-                    //    if (tAnswerDialog.AnswerState == NWDDialogState.Step)
-                    //{
-                    //    GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
-                    //}
-                    //else if (tAnswerDialog.AnswerState == NWDDialogState.Sequent)
-                    //{
-                    //    GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
-                    //}
-                    string tAnswerDialogAnswer = tAnswerDialog.AnswerRichTextForLanguage(tLangue, false);
-                    GUIContent tContent = new GUIContent(tAnswerDialogAnswer);
-                    switch (tAnswerDialog.AnswerState)
-                    {
-                        case NWDDialogState.Sequent:
-                            {
-                                tContent = new GUIContent(tAnswerDialogAnswer, kImageSequent);
-                            }
-                            break;
-                        case NWDDialogState.Step:
-                            {
-                                tContent = new GUIContent(tAnswerDialogAnswer, kImageStep);
-                            }
-                            break;
-                        case NWDDialogState.Normal:
-                            {
-                                tContent = new GUIContent(tAnswerDialogAnswer, kImageNormal);
-                            }
-                            break;
-                    }
+            //if (sPropertysGroup == true)
+            //{
+            //    // check answer
+            //    NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
+            //    int tI = tDialogs.Length;
+            //    foreach (NWDDialog tAnswerDialog in tDialogs)
+            //    {
+            //        //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
+            //        //if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+            //        //{
+            //        //    GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
+            //        //}
+            //        //else 
+            //        //    if (tAnswerDialog.AnswerState == NWDDialogState.Step)
+            //        //{
+            //        //    GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
+            //        //}
+            //        //else if (tAnswerDialog.AnswerState == NWDDialogState.Sequent)
+            //        //{
+            //        //    GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
+            //        //}
+            //        string tAnswerDialogAnswer = tAnswerDialog.AnswerRichTextForLanguage(tLangue, false);
+            //        GUIContent tContent = new GUIContent(tAnswerDialogAnswer);
+            //        switch (tAnswerDialog.AnswerState)
+            //        {
+            //            case NWDDialogState.Sequent:
+            //                {
+            //                    tContent = new GUIContent(tAnswerDialogAnswer, kImageSequent);
+            //                }
+            //                break;
+            //            case NWDDialogState.Step:
+            //                {
+            //                    tContent = new GUIContent(tAnswerDialogAnswer, kImageStep);
+            //                }
+            //                break;
+            //            case NWDDialogState.Normal:
+            //                {
+            //                    tContent = new GUIContent(tAnswerDialogAnswer, kImageNormal);
+            //                }
+            //                break;
+            //        }
 
 
-                    if (GUI.Button(new Rect(sRect.x + NWDGUI.kPrefabSize,
-                                            sRect.y + sRect.height - tI * (EditorStyles.miniButton.fixedHeight + NWDGUI.kFieldMarge),
-                                            sRect.width - NWDGUI.kFieldMarge - NWDGUI.kPrefabSize,
-                                            EditorStyles.miniButton.fixedHeight),
-                                   tContent))
-                    {
-                        NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
-                    }
-                    tI--;
-                    GUI.backgroundColor = tBackgroundColor;
-                }
-            }
+            //        if (GUI.Button(new Rect(sRect.x + NWDGUI.kPrefabSize,
+            //                                sRect.y + sRect.height - tI * (EditorStyles.miniButton.fixedHeight + NWDGUI.kFieldMarge),
+            //                                sRect.width - NWDGUI.kFieldMarge - NWDGUI.kPrefabSize,
+            //                                EditorStyles.miniButton.fixedHeight),
+            //                       tContent))
+            //        {
+            //            NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
+            //        }
+            //        tI--;
+            //        GUI.backgroundColor = tBackgroundColor;
+            //    }
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
     }

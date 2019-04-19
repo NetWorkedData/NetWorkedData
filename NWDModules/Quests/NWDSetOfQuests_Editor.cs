@@ -35,7 +35,7 @@ namespace NetWorkedData
             return 130.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect)
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
             string tText = InternalDescription ;

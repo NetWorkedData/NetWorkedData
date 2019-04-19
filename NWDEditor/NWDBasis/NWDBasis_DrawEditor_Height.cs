@@ -35,7 +35,7 @@ namespace NetWorkedData
                 {
                     sNodalCard.TotalHeight += TotalHeight;
                 }
-               // RecalulateHeight = false;
+                // RecalulateHeight = false;
             }
             //BTBBenchmark.Finish();
             return TotalHeight;
@@ -43,8 +43,56 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
         {
-           // BTBBenchmark.Start();
+            // BTBBenchmark.Start();
             TopHeight = 0;
+            // Top inpector
+            float tY = 0;
+            tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += NWDGUI.kFieldMarge;
+            if (BasisHelper().kSyncAndMoreInformations)
+            {
+                EditorGUI.EndDisabledGroup();
+
+                tY += (NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge) * 14;
+            }
+            tY += NWDGUI.kObjectFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            bool tInternalKeyEditable = true;
+            if (GetType().GetCustomAttributes(typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0)
+            {
+                tInternalKeyEditable = false;
+            }
+            if (tInternalKeyEditable == true)
+            {
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            }
+            else
+            {
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            }
+            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            // Tag management
+            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            if (BasisHelper().kAccountDependent == false)
+            {
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            }
+            // Toogle Dev Prepprod Prod and operation associated
+            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            TopHeight += tY;
+            if (sNodalCard != null)
+            {
+                if (sNodalCard.ParentDocument.TopCard == false)
+                {
+                    TopHeight = 0;
+                }
+            }
+
+            // Top inpector Infos (it's constance)
+            TopHeight += NWDGUI.kInspectorInternalTitle.fixedHeight;
+            TopHeight += NWDGUI.kInspectorReferenceCenter.fixedHeight;
+            TopHeight += NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge;
 
             if (sNodalCard != null)
             {
@@ -69,14 +117,12 @@ namespace NetWorkedData
                 TopHeight += NWDGUI.kFieldMarge;
             }
 
-            // TODO : RealCalcule!!!!
-            TopHeight += 272;
 
             // add nodal area
             if (sNodalCard != null)
             {
                 // add nodal area
-                TopHeight += AddOnNodeDrawHeight(NWDGUI.kNodeCardWidth) + NWDGUI.kFieldMarge *2;
+                TopHeight += AddOnNodeDrawHeight(sWidth - NWDGUI.kFieldMarge * 2) + NWDGUI.kFieldMarge * 2;
                 // reccord nodal top height
                 sNodalCard.TopHeight = TopHeight;
 
@@ -84,8 +130,9 @@ namespace NetWorkedData
             }
 
 
-           // BTBBenchmark.Finish();
-            return TopHeight;;
+            // BTBBenchmark.Finish();
+            return TopHeight;
+            ;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
@@ -94,6 +141,10 @@ namespace NetWorkedData
             MiddleHeight = DrawInspectorHeight(sNodalCard, sWidth);
             if (sNodalCard != null)
             {
+                if (sNodalCard.ParentDocument.MiddleCard == false)
+                {
+                    MiddleHeight = 0;
+                }
                 sNodalCard.MiddleHeight = MiddleHeight;
             }
             //BTBBenchmark.Finish();
@@ -103,7 +154,7 @@ namespace NetWorkedData
         public override float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
         {
             //BTBBenchmark.Start();
-            BottomHeight = NWDGUI.kFieldMarge+
+            BottomHeight = NWDGUI.kFieldMarge +
                 NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge +
                 NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge +
                 NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge +
@@ -111,6 +162,10 @@ namespace NetWorkedData
 
             if (sNodalCard != null)
             {
+                if (sNodalCard.ParentDocument.BottomCard == false)
+                {
+                    BottomHeight = 0;
+                }
                 sNodalCard.BottomHeight = BottomHeight;
             }
             //BTBBenchmark.Finish();
@@ -147,7 +202,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            float tHeight = NWDGUI.kHelpBoxStyle.CalcHeight(new GUIContent(InternalDescription), sCardWidth);
+            return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

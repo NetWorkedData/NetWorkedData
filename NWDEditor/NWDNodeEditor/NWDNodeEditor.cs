@@ -160,24 +160,24 @@ namespace NetWorkedData
         /// </summary>
         public static void ReAnalyzeIfNecessary(object sObjectModified)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
                 kNodeEditorSharedInstance.Repaint();
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ReAnalyzeAll()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

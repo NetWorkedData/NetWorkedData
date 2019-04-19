@@ -76,7 +76,7 @@ namespace NetWorkedData
             return 50.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect)
         {
             GUI.Label(sRect, InternalDescription);
         }

@@ -33,7 +33,7 @@ namespace NetWorkedData
             return 200f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect)
         {
             DrawPreviewTexture2D(new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y + NWDGUI.kFieldMarge, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize));
         }

@@ -33,7 +33,7 @@ namespace NetWorkedData
         Show,
         Analyze,
         Both,
-}
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDNodeDocument
     {
@@ -126,6 +126,12 @@ namespace NetWorkedData
         public bool UsedOnlyProperties = false;
 
         public string Language = NWDDataLocalizationManager.kBaseDev;
+
+        public bool FixeMargePreference = true;
+
+        public bool TopCard = true;
+        public bool MiddleCard = true;
+        public bool BottomCard = false;
         //-------------------------------------------------------------------------------------------------------------
         //public void AddPropertyOrigin (NWDNodeCard sCard, string sReference, Vector2 sOrigin)
         //{
@@ -185,13 +191,19 @@ namespace NetWorkedData
             {
                 //ShowTheseClasses[tKeyValue.Key] = EditorPrefs.GetBool("NWDEditorShow_" + tKeyValue.Key, true);
                 //AnalyzeTheseClasses[tKeyValue.Key] = EditorPrefs.GetBool("NWDEditorAnalyze_" + tKeyValue.Key, true);
-                AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)EditorPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key,(int)NWDClasseAnalyseEnum.Both);
+                AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)EditorPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key, (int)NWDClasseAnalyseEnum.Both);
             }
 
             //ReGroupProperties = EditorPrefs.GetBool("NWDEditorGroup");
             UsedOnlyProperties = EditorPrefs.GetBool("NWDEditorusedOnly");
             Language = EditorPrefs.GetString("NWDNodeEditorLanguage");
             //BTBBenchmark.Finish();
+
+
+            FixeMargePreference = EditorPrefs.GetBool("FixeMargePreference");
+            TopCard = EditorPrefs.GetBool("TopCard");
+            MiddleCard = EditorPrefs.GetBool("MiddleCard");
+            BottomCard = EditorPrefs.GetBool("BottomCard");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -201,7 +213,11 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             bool tChanged = false;
-            float tX = 0;
+            float tX = NWDNodeEditor.mScrollPosition.x;
+            if (FixeMargePreference == false)
+            {
+                tX = 0;
+            }
             float tY = 0;
             float tWHalf = (DocumentMarge - NWDGUI.kFieldMarge * 3) / 2.0f;
             float tW = (DocumentMarge - NWDGUI.kFieldMarge * 2);
@@ -211,15 +227,24 @@ namespace NetWorkedData
                       "Root object");
             tY += tTitleRect.height + NWDGUI.kFieldMarge;
 
-            if (GUI.Button(new Rect(NWDGUI.kFieldMarge, tY, tW, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(tX+NWDGUI.kFieldMarge, tY, tW, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, NWDGUI.kMiniButtonStyle))
             {
                 NWDNodeEditor.SetObjectInNodeWindow((NWDTypeClass)NWDDataInspector.ShareInstance().mObjectInEdition);
                 ReAnalyze();
             }
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            float tCardMarge = GUI.HorizontalSlider(new Rect(NWDGUI.kFieldMarge, tY, tW, NWDGUI.kIntFieldStyle.fixedHeight), CardMarge, 50, 200);
-            if (tCardMarge!= CardMarge)
+            bool tFixeMargePreference = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), FixeMargePreference, "Fixe Pref marge");
+            if (tFixeMargePreference != FixeMargePreference)
+            {
+                FixeMargePreference = tFixeMargePreference;
+                EditorPrefs.SetBool("FixeMargePreference", FixeMargePreference);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            float tCardMarge = GUI.HorizontalSlider(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kIntFieldStyle.fixedHeight), CardMarge, 50, 200);
+            if (tCardMarge != CardMarge)
             {
                 CardMarge = tCardMarge;
                 ReEvaluateLayout();
@@ -243,7 +268,38 @@ namespace NetWorkedData
             //}
             //tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
+
+            bool tTopCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), TopCard, "View Top Card");
+            if (tTopCard != TopCard)
+            {
+                TopCard = tTopCard;
+                EditorPrefs.SetBool("TopCard", TopCard);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+            bool tMiddleCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), MiddleCard, "View Middle Card");
+            if (tMiddleCard != MiddleCard)
+            {
+                MiddleCard = tMiddleCard;
+                EditorPrefs.SetBool("MiddleCard", MiddleCard);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+            bool tBottomCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), BottomCard, "View Bottom Card");
+            if (tBottomCard != BottomCard)
+            {
+                BottomCard = tBottomCard;
+                EditorPrefs.SetBool("BottomCard", BottomCard);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+
+
+
+
+
+            bool tUsedOnlyProperties = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
             if (tUsedOnlyProperties != UsedOnlyProperties)
             {
                 UsedOnlyProperties = tUsedOnlyProperties;
@@ -265,7 +321,7 @@ namespace NetWorkedData
             List<string> tLocalizationList = new List<string>(tLanguageArray);
             int tIndexActual = tLocalizationList.IndexOf(Language);
 
-            int tIndexNext = EditorGUI.Popup(new Rect(NWDGUI.kFieldMarge, tY, tW, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_CHOOSE_LANGUAGE, tIndexActual, tLocalizationList.ToArray());
+            int tIndexNext = EditorGUI.Popup(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kPopupStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_CHOOSE_LANGUAGE, tIndexActual, tLocalizationList.ToArray());
             if (tIndexNext < 0 || tIndexNext >= tLocalizationList.Count)
             {
                 tIndexNext = 0;
@@ -300,7 +356,7 @@ namespace NetWorkedData
 
 
 
-            if (GUI.Button(new Rect(NWDGUI.kFieldMarge, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_ALL, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + NWDGUI.kFieldMarge, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_ALL, NWDGUI.kMiniButtonStyle))
             {
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
@@ -318,7 +374,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDGUI.kFieldMarge * 2, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_MASK_ALL, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tWHalf + NWDGUI.kFieldMarge * 2, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_MASK_ALL, NWDGUI.kMiniButtonStyle))
             {
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
@@ -340,7 +396,7 @@ namespace NetWorkedData
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 
-            if (GUI.Button(new Rect(NWDGUI.kFieldMarge, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_ALL, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + NWDGUI.kFieldMarge, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_ALL, NWDGUI.kMiniButtonStyle))
             {
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
@@ -358,7 +414,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDGUI.kFieldMarge * 2, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_NONE, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tWHalf + NWDGUI.kFieldMarge * 2, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_NONE, NWDGUI.kMiniButtonStyle))
             {
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
@@ -395,7 +451,7 @@ namespace NetWorkedData
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClasses)
                 {
                     //Debug.Log("tWidthA loop = " + tWidthA.ToString());
-                    NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(tXA, tY, DocumentMarge- NWDGUI.kFieldMarge*2, 20), tKeyValue.Key, tKeyValue.Value);
+                    NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(tX + tXA, tY, DocumentMarge - NWDGUI.kFieldMarge * 2, 20), tKeyValue.Key, tKeyValue.Value);
                     if (AnalyzeStyleClasses[tKeyValue.Key] != tNew)
                     {
                         tChanged = true;
@@ -469,7 +525,10 @@ namespace NetWorkedData
             }
 
             DocumentPrefHeight = tY;
-            DocumentHeight =  Math.Max( DocumentPrefHeight, DocumentHeight);
+            DocumentHeight = Math.Max(DocumentPrefHeight, DocumentHeight);
+
+            Handles.color = NWDGUI.kNodeCanvasMargeBlack;
+            Handles.DrawLine(new Vector2(tX+DocumentMarge + 1, 0), new Vector2(tX + DocumentMarge + 1, DocumentHeight));
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -482,12 +541,12 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
             EditorGUI.BeginDisabledGroup(NWDNodeEditor.SharedInstance().Document.OriginalData == sNodalCard);
-            if (GUI.Button(new Rect(sRect.x +  NWDGUI.kFieldMarge + NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_ROOT_NODAL, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(sRect.x + NWDGUI.kFieldMarge + NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_ROOT_NODAL, NWDGUI.kMiniButtonStyle))
             {
                 NWDNodeEditor.SetObjectInNodeWindow(sNodalCard.DataObject);
             }
             EditorGUI.EndDisabledGroup();
-            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x +sRect.width  - NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
+            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x + sRect.width - NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
 
 
             //NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(sRect, sClassName, AnalyzeStyleClasses[sClassName]);
@@ -786,12 +845,12 @@ namespace NetWorkedData
         /// <param name="sViewRect">S view rect.</param>
         public void Draw(Rect sViewRect, Rect sVisibleRect)
         {
-            DrawPreferences();
             //BTBBenchmark.Start();
             DrawCanvas(sViewRect);
             DrawBackgroundLine();
             DrawCard(sVisibleRect);
             DrawForwardPlot();
+            DrawPreferences();
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -840,8 +899,8 @@ namespace NetWorkedData
 
             ////Handles.color = NWDGUI.kNodeCanvasMargeWhite;
             ////Handles.DrawLine(new Vector2(MargeWidth+2, 0), new Vector2(MargeWidth+2, tLineMax * tHeiMar));
-            Handles.color = NWDGUI.kNodeCanvasMargeBlack;
-            Handles.DrawLine(new Vector2(DocumentMarge + 1, 0), new Vector2(DocumentMarge + 1,DocumentHeight));
+            //Handles.color = NWDGUI.kNodeCanvasMargeBlack;
+            //Handles.DrawLine(new Vector2(DocumentMarge + 1, 0), new Vector2(DocumentMarge + 1, DocumentHeight));
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

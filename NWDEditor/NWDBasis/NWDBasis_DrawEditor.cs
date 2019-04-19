@@ -113,7 +113,7 @@ namespace NetWorkedData
                 tRect.height += tY;
             }
 
-            tRect.height += AddonEditor(new Rect(sInRect.position.x, sInRect.position.y+ tY, sInRect.width, 0));
+            tRect.height += AddonEditor(new Rect(sInRect.position.x, sInRect.position.y + tY, sInRect.width, 0));
             //BTBBenchmark.Finish();
             return tRect;
         }
@@ -176,27 +176,26 @@ namespace NetWorkedData
             //EditorGUI.DrawRect(tInspectorTestRect, Color.yellow);
             //Rect tBottomTestRect = new Rect(tX + 6, tY + sInRect.height - BottomHeight, 3, BottomHeight);
             //EditorGUI.DrawRect(tBottomTestRect, Color.green);
-            if (sNodalCard != null)
-            {
-                Rect tTopTestRectB = new Rect(tX -4, tY, 3, sNodalCard.TopHeight);
-                EditorGUI.DrawRect(tTopTestRectB, Color.blue);
-                Rect tMiddleTestRectB = new Rect(tX -4, tY + sNodalCard.TopHeight, 3, sNodalCard.MiddleHeight);
-                EditorGUI.DrawRect(tMiddleTestRectB, Color.red);
-                Rect tBottomTestRectB = new Rect(tX -4, tY + sNodalCard.TopHeight + sNodalCard.MiddleHeight, 3, sNodalCard.BottomHeight);
-                EditorGUI.DrawRect(tBottomTestRectB, Color.green);
-            }
+            //if (sNodalCard != null)
+            //{
+            //    Rect tTopTestRectB = new Rect(tX - 4, tY, 3, sNodalCard.TopHeight);
+            //    EditorGUI.DrawRect(tTopTestRectB, Color.blue);
+            //    Rect tMiddleTestRectB = new Rect(tX - 4, tY + sNodalCard.TopHeight, 3, sNodalCard.MiddleHeight);
+            //    EditorGUI.DrawRect(tMiddleTestRectB, Color.red);
+            //    Rect tBottomTestRectB = new Rect(tX - 4, tY + sNodalCard.TopHeight + sNodalCard.MiddleHeight, 3, sNodalCard.BottomHeight);
+            //    EditorGUI.DrawRect(tBottomTestRectB, Color.green);
+            //}
             // FINISH DEBUG 
 
 
-                if (sNodalCard!=null)
+            if (sNodalCard != null)
             {
                 tY += NWDGUI.kFieldMarge;
                 tY += sNodalCard.ParentDocument.DrawAnalyzer(new Rect(tXmarge, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight), sNodalCard, GetType().Name);
+                NWDGUI.Line(new Rect(tX, tY, sInRect.width, 1));
             }
 
-            //Draw Internal Key
-            string tTitle = InternalKey;
-
+            // DARW MODEL ALERT DEBUG 
             if (BasisHelper().WebModelChanged == true)
             {
                 tY += NWDGUI.WarningBox(new Rect(tXmarge, tY, tWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
@@ -206,6 +205,10 @@ namespace NetWorkedData
             {
                 tY += NWDGUI.WarningBox(new Rect(tXmarge, tY, tWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
             }
+
+            //Draw Internal Key
+            string tTitle = InternalKey;
+            // Draw Informations
             if (string.IsNullOrEmpty(tTitle))
             {
                 tTitle = "Unamed " + BasisHelper().ClassNamePHP + string.Empty;
@@ -214,19 +217,21 @@ namespace NetWorkedData
             {
                 tTitle = "<b><color=red>" + NWDConstants.K_WARNING + tTitle + "</color></b>";
             }
-
-            if (NWDDataInspector.InspectNetWorkedPreview())
+            if (sNodalCard == null)
             {
-                if (GUI.Button(new Rect(tXmarge, tY + 10, 20, 20), NWDGUI.kLeftContentIcon, NWDGUI.kEditButtonStyle))
+                if (NWDDataInspector.InspectNetWorkedPreview())
                 {
-                    NWDDataInspector.InspectNetWorkedDataPreview();
+                    if (GUI.Button(new Rect(tXmarge, tY + 10, 20, 20), NWDGUI.kLeftContentIcon, NWDGUI.kEditButtonStyle))
+                    {
+                        NWDDataInspector.InspectNetWorkedDataPreview();
+                    }
                 }
-            }
-            if (NWDDataInspector.InspectNetWorkedNext())
-            {
-                if (GUI.Button(new Rect(tXmarge + tWidth - 20, tY + 10, 20, 20), NWDGUI.kRightContentIcon, NWDGUI.kEditButtonStyle))
+                if (NWDDataInspector.InspectNetWorkedNext())
                 {
-                    NWDDataInspector.InspectNetWorkedDataNext();
+                    if (GUI.Button(new Rect(tXmarge + tWidth - 20, tY + 10, 20, 20), NWDGUI.kRightContentIcon, NWDGUI.kEditButtonStyle))
+                    {
+                        NWDDataInspector.InspectNetWorkedDataNext();
+                    }
                 }
             }
 
@@ -235,7 +240,39 @@ namespace NetWorkedData
 
             // Draw reference
             GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kInspectorReferenceCenter.fixedHeight), Reference, NWDGUI.kInspectorReferenceCenter);
-            tY += NWDGUI.kInspectorReferenceCenter.fixedHeight + NWDGUI.kFieldMarge;
+            tY += NWDGUI.kInspectorReferenceCenter.fixedHeight;
+
+
+            //float tImageWidth = (NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
+            float tXb = tX + NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge * 2;
+            float tYb = tY;
+            float tWidthB = sInRect.width - NWDGUI.kFieldMarge * 4 - NWDGUI.kIconClassWidth * 2;
+
+            GUI.Label(new Rect(tXb, tYb, tWidthB, NWDGUI.kBoldLabelStyle.fixedHeight), BasisHelper().ClassNamePHP, NWDGUI.kInspectorReferenceCenter);
+            tYb += NWDGUI.kInspectorReferenceCenter.fixedHeight;
+            GUI.Label(new Rect(tXb, tYb, tWidthB, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kInspectorReferenceCenter);
+            tYb += NWDGUI.kInspectorReferenceCenter.fixedHeight;
+
+            // draw preview
+            DrawPreviewTexture2D(new Rect(tXmarge + NWDGUI.kFieldMarge, tY, NWDGUI.kIconClassWidth, NWDGUI.kIconClassWidth));
+            //draw class icon
+            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
+            if (tTextureOfClass != null)
+            {
+                GUI.DrawTexture(new Rect(tX + sInRect.width - NWDGUI.kFieldMarge - NWDGUI.kIconClassWidth, tY, NWDGUI.kIconClassWidth, NWDGUI.kIconClassWidth), tTextureOfClass);
+            }
+            tY += NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge;
+
+            // draw button reload preview
+            //if (GUI.Button(new Rect(tXmarge + NWDGUI.kFieldMarge, tY + NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge, NWDGUI.kIconClassWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reload", NWDGUI.kMiniButtonStyle))
+            //{
+            //    Debug.Log("Reload");
+            //    ReloadPreview();
+            //}
+            //tY += NWDGUI.kMiniButtonStyle + NWDGUI.kFieldMarge;
+
+
+            // DRAW ALERTS ?!
 
             //Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
             //if (tTextureOfClass != null)
@@ -357,10 +394,6 @@ namespace NetWorkedData
                 tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 tY += NWDGUI.kFieldMarge;
             }
-            float tImageWidth = (NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge) * 3;
-
-            float tXb = tX + tImageWidth + NWDGUI.kFieldMarge * 2;
-            tWidth = sInRect.width - NWDGUI.kFieldMarge * 3 - tImageWidth;
 
             EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
 
@@ -368,126 +401,120 @@ namespace NetWorkedData
             {
                 EditorGUI.DrawRect(new Rect(tX, tY - NWDGUI.kFieldMarge, sInRect.width, sInRect.height), NWDGUI.kIdentityColor);
             }
-            tY += NWDGUI.kFieldMarge;
 
-            // draw preview
-            DrawPreviewTexture2D(new Rect(tX + NWDGUI.kFieldMarge, tY, tImageWidth, tImageWidth));
-            //draw class icon
-            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
-            if (tTextureOfClass != null)
+
+            // DRAW TOP : properties area
+            bool tDrawTop = true;
+            if (sNodalCard != null)
             {
-                GUI.DrawTexture(new Rect(tX + sInRect.width - NWDGUI.kFieldMarge - tImageWidth, tY, tImageWidth, tImageWidth), tTextureOfClass);
+                tDrawTop = sNodalCard.ParentDocument.TopCard;
             }
-            // draw button reload preview
-            if (GUI.Button(new Rect(tXmarge + NWDGUI.kFieldMarge, tY + tImageWidth + NWDGUI.kFieldMarge, tImageWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Reload", NWDGUI.kMiniButtonStyle))
-            {
-                Debug.Log("Reload");
-                ReloadPreview();
-            }
-            tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight), BasisHelper().ClassNamePHP + "'s Object", NWDGUI.kBoldLabelStyle);
-            tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kMiniLabelStyle);
-            tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            BasisHelper().kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), BasisHelper().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, NWDGUI.kFoldoutStyle);
-            tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            tY += NWDGUI.kFieldMarge;
-
-            if (BasisHelper().kSyncAndMoreInformations)
+            if (tDrawTop == true)
             {
 
-                EditorGUI.EndDisabledGroup();
-
-
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + "(" + DC.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DC).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_Sync + "(" + DS.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + "(" + DevSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DevSync).ToString("yyyy/MM/dd HH:mm:ss")
-                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + "(" + PreprodSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(PreprodSync).ToString("yyyy/MM/dd HH:mm:ss")
-                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + "(" + ProdSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(ProdSync).ToString("yyyy/MM/dd HH:mm:s")
-                            + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_xx + XX.ToString(), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                GUI.Label(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ac + AC.ToString(), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "server log ", ServerLog, NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "server hash ", ServerHash, NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "integrity val", Integrity, NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "dyn integrity seq", IntegrityAssembly(), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "head integrity Csv", CSVAssemblyHead(), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "dyn integrity Csv", CSVAssembly(), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.TextField(new Rect(tXb, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "dyn integrity req", IntegrityValue(), NWDGUI.kMiniLabelStyle);
-                tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
-            }
-
-            //tX = NWDGUI.kFieldMarge;
-
-            tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-
-            UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tXmarge, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight),
-                                          NWDConstants.K_APP_BASIS_PREVIEW_GAMEOBJECT,
-                                                            PreviewObject, typeof(UnityEngine.Object), false);
-            tY += NWDGUI.kObjectFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            string tPreFabGameObject = string.Empty;
-            if (pObj != null)
-            {
-                tPreFabGameObject = AssetDatabase.GetAssetPath(pObj);
-            }
-
-            if (Preview != tPreFabGameObject)
-            {
-                Preview = tPreFabGameObject;
-                UpdateData(true, NWDWritingMode.ByEditorDefault);
-                PreviewTexture2D();
-                RowAnalyze();
-                BasisHelper().New_RepaintTableEditor();
-                //NWDNodeEditor.ReAnalyzeIfNecessary(this);
-            }
-
-            bool tInternalKeyEditable = true;
-
-            if (GetType().GetCustomAttributes(typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0)
-            {
-                tInternalKeyEditable = false;
-            }
-
-            if (tInternalKeyEditable == true)
-            {
-                string tInternalNameActual = NWDToolbox.TextUnprotect(InternalKey);
-                string tInternalName = EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_KEY, tInternalNameActual, NWDGUI.kTextFieldStyle);
-                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                if (tInternalName != InternalKey)
+                // DRAW TOP CARD AREA
+                BasisHelper().kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), BasisHelper().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, NWDGUI.kFoldoutStyle);
+                tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tY += NWDGUI.kFieldMarge;
+                if (BasisHelper().kSyncAndMoreInformations)
                 {
-                    tInternalName = NWDToolbox.TextProtect(tInternalName);
-                    InternalKey = tInternalName;
+                    EditorGUI.EndDisabledGroup();
+
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + "(" + DC.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DC).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_Sync + "(" + DS.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + "(" + DevSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DevSync).ToString("yyyy/MM/dd HH:mm:ss")
+                               + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + "(" + PreprodSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(PreprodSync).ToString("yyyy/MM/dd HH:mm:ss")
+                               + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + "(" + ProdSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(ProdSync).ToString("yyyy/MM/dd HH:mm:s")
+                                + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_xx + XX.ToString(), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    GUI.Label(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ac + AC.ToString(), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "server log ", ServerLog, NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "server hash ", ServerHash, NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "integrity val", Integrity, NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "dyn integrity seq", IntegrityAssembly(), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "head integrity Csv", CSVAssemblyHead(), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "dyn integrity Csv", CSVAssembly(), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniLabelStyle.fixedHeight), "dyn integrity req", IntegrityValue(), NWDGUI.kMiniLabelStyle);
+                    tY += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                    EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
+                }
+                //tX = NWDGUI.kFieldMarge;
+                UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tXmarge, tY, tWidth, NWDGUI.kBoldLabelStyle.fixedHeight),
+                                              NWDConstants.K_APP_BASIS_PREVIEW_GAMEOBJECT,
+                                                                PreviewObject, typeof(UnityEngine.Object), false);
+                tY += NWDGUI.kObjectFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                string tPreFabGameObject = string.Empty;
+                if (pObj != null)
+                {
+                    tPreFabGameObject = AssetDatabase.GetAssetPath(pObj);
+                }
+
+                if (Preview != tPreFabGameObject)
+                {
+                    Preview = tPreFabGameObject;
+                    UpdateData(true, NWDWritingMode.ByEditorDefault);
+                    PreviewTexture2D();
+                    RowAnalyze();
+                    BasisHelper().New_RepaintTableEditor();
+                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                }
+
+                bool tInternalKeyEditable = true;
+
+                if (GetType().GetCustomAttributes(typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0)
+                {
+                    tInternalKeyEditable = false;
+                }
+
+                if (tInternalKeyEditable == true)
+                {
+                    string tInternalNameActual = NWDToolbox.TextUnprotect(InternalKey);
+                    string tInternalName = EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_KEY, tInternalNameActual, NWDGUI.kTextFieldStyle);
+                    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    if (tInternalName != InternalKey)
+                    {
+                        tInternalName = NWDToolbox.TextProtect(tInternalName);
+                        InternalKey = tInternalName;
+                        DM = NWDToolbox.Timestamp();
+                        UpdateIntegrity();
+                        UpdateData(true, NWDWritingMode.ByEditorDefault);
+                        RowAnalyze();
+                        BasisHelper().New_RepaintTableEditor();
+                        //NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                    }
+                }
+                else
+                {
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUI.LabelField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_KEY, InternalKey, NWDGUI.kTextFieldStyle);
+                    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
+                }
+
+                string tInternalDescriptionActual = NWDToolbox.TextUnprotect(InternalDescription);
+                string tInternalDescription = EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, tInternalDescriptionActual, NWDGUI.kTextFieldStyle);
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                if (tInternalDescription != InternalDescription)
+                {
+                    tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
+                    InternalDescription = tInternalDescription;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
@@ -495,324 +522,320 @@ namespace NetWorkedData
                     BasisHelper().New_RepaintTableEditor();
                     //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
-            }
-            else
-            {
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUI.LabelField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_KEY, InternalKey, NWDGUI.kTextFieldStyle);
-                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                EditorGUI.EndDisabledGroup();
-            }
 
-            string tInternalDescriptionActual = NWDToolbox.TextUnprotect(InternalDescription);
-            string tInternalDescription = EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, tInternalDescriptionActual, NWDGUI.kTextFieldStyle);
-            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            if (tInternalDescription != InternalDescription)
-            {
-                tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
-                InternalDescription = tInternalDescription;
-                DM = NWDToolbox.Timestamp();
-                UpdateIntegrity();
-                UpdateData(true, NWDWritingMode.ByEditorDefault);
-                RowAnalyze();
-                BasisHelper().New_RepaintTableEditor();
-                //NWDNodeEditor.ReAnalyzeIfNecessary(this);
-            }
-
-            if (tCanBeEdit == true)
-            {
-                // Web Service Version management
-                NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-                int tWebBuilt = tApp.WebBuild;
-                List<int> tWebServicesInt = new List<int>();
-                List<string> tWebServicesString = new List<string>();
-                tWebServicesInt.Add(0);
-
-                foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
-                //for (int tW = 0; tW <= tWebBuilt; tW++)
+                if (tCanBeEdit == true)
                 {
-                    int tWebModel = 0;
-                    if (tKeyValue.Value == true)
+                    // Web Service Version management
+                    NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+                    int tWebBuilt = tApp.WebBuild;
+                    List<int> tWebServicesInt = new List<int>();
+                    List<string> tWebServicesString = new List<string>();
+                    tWebServicesInt.Add(0);
+
+                    foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
+                    //for (int tW = 0; tW <= tWebBuilt; tW++)
                     {
-                        if (BasisHelper().WebServiceWebModel.ContainsKey(tKeyValue.Key))
+                        int tWebModel = 0;
+                        if (tKeyValue.Value == true)
                         {
-                            tWebModel = BasisHelper().WebServiceWebModel[tKeyValue.Key];
-                            if (tWebServicesInt.Contains(tWebModel) == false)
+                            if (BasisHelper().WebServiceWebModel.ContainsKey(tKeyValue.Key))
                             {
-                                tWebServicesInt.Add(tWebModel);
+                                tWebModel = BasisHelper().WebServiceWebModel[tKeyValue.Key];
+                                if (tWebServicesInt.Contains(tWebModel) == false)
+                                {
+                                    tWebServicesInt.Add(tWebModel);
+                                }
                             }
                         }
                     }
-                }
-                tWebServicesInt.Sort();
+                    tWebServicesInt.Sort();
 
-                foreach (int tWebMOdel in tWebServicesInt)
-                {
-                    tWebServicesString.Add("WebModel " + tWebMOdel.ToString("0000"));
-                }
+                    foreach (int tWebMOdel in tWebServicesInt)
+                    {
+                        tWebServicesString.Add("WebModel " + tWebMOdel.ToString("0000"));
+                    }
 
-                int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(WebModel);
-                if (tWebServiceVersionOldIndex < 0)
-                {
+                    int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(WebModel);
+                    if (tWebServiceVersionOldIndex < 0)
+                    {
+                        if (tWebServicesInt.Count > 0)
+                        {
+                            tWebServiceVersionOldIndex = 0;
+                        }
+                    }
+
+                    int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight),
+                                                                     "WebModel " + WebModel + "(/" + tWebBuilt.ToString() + ")",
+                                                                     tWebServiceVersionOldIndex, tWebServicesString.ToArray());
+                    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    int tWebServiceVersionNew = 0;
                     if (tWebServicesInt.Count > 0)
                     {
-                        tWebServiceVersionOldIndex = 0;
+                        tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
+                    }
+                    if (WebModel != tWebServiceVersionNew)
+                    {
+
+                        // Debug.Log(" set from " + WebModel + " To " + tWebServiceVersionNew);
+                        WebModel = tWebServiceVersionNew;
+                        DM = NWDToolbox.Timestamp();
+                        UpdateIntegrity();
+                        //UpdateObjectInListOfEdition(this);
+                        UpdateData(true, NWDWritingMode.ByEditorDefault, false);
+                        RowAnalyze();
+                        BasisHelper().New_RepaintTableEditor();
+                        //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                     }
                 }
-
-                int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight),
-                                                                 "WebModel " + WebModel + "(/" + tWebBuilt.ToString() + ")",
-                                                                 tWebServiceVersionOldIndex, tWebServicesString.ToArray());
-                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                int tWebServiceVersionNew = 0;
-                if (tWebServicesInt.Count > 0)
+                else
                 {
-                    tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
+                    NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+                    int tWebBuilt = tApp.WebBuild;
+                    EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "WebModel " + WebModel + "(/" + tWebBuilt.ToString() + ")", WebModel.ToString());
+                    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
-                if (WebModel != tWebServiceVersionNew)
-                {
 
-                    // Debug.Log(" set from " + WebModel + " To " + tWebServiceVersionNew);
-                    WebModel = tWebServiceVersionNew;
+                // Tag management
+                List<int> tTagIntList = new List<int>();
+                List<string> tTagStringList = new List<string>();
+                foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
+                {
+                    tTagIntList.Add(tTag.Key);
+                    tTagStringList.Add(tTag.Value);
+                }
+
+                NWDBasisTag tInternalTag = (NWDBasisTag)EditorGUI.IntPopup(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight),
+                                                                            NWDConstants.K_APP_BASIS_INTERNAL_TAG,
+                                                                           (int)Tag,
+                                                                           tTagStringList.ToArray(), tTagIntList.ToArray());
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                if (tInternalTag != Tag)
+                {
+                    Tag = tInternalTag;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
-                    //UpdateObjectInListOfEdition(this);
-                    UpdateData(true, NWDWritingMode.ByEditorDefault, false);
+                    UpdateData(true, NWDWritingMode.ByEditorDefault);
                     RowAnalyze();
                     BasisHelper().New_RepaintTableEditor();
                     //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
-            }
-            else
-            {
-                NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-                int tWebBuilt = tApp.WebBuild;
-                EditorGUI.TextField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "WebModel " + WebModel + "(/" + tWebBuilt.ToString() + ")", WebModel.ToString());
-                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            }
 
-            // Tag management
-            List<int> tTagIntList = new List<int>();
-            List<string> tTagStringList = new List<string>();
-            foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
-            {
-                tTagIntList.Add(tTag.Key);
-                tTagStringList.Add(tTag.Value);
-            }
-
-            NWDBasisTag tInternalTag = (NWDBasisTag)EditorGUI.IntPopup(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight),
-                                                                        NWDConstants.K_APP_BASIS_INTERNAL_TAG,
-                                                                       (int)Tag,
-                                                                       tTagStringList.ToArray(), tTagIntList.ToArray());
-            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            if (tInternalTag != Tag)
-            {
-                Tag = tInternalTag;
-                DM = NWDToolbox.Timestamp();
-                UpdateIntegrity();
-                UpdateData(true, NWDWritingMode.ByEditorDefault);
-                RowAnalyze();
-                BasisHelper().New_RepaintTableEditor();
-                //NWDNodeEditor.ReAnalyzeIfNecessary(this);
-            }
-
-            if (BasisHelper().kAccountDependent == false)
-            {
-                if (CheckList == null)
+                if (BasisHelper().kAccountDependent == false)
                 {
-                    CheckList = new NWDBasisCheckList();
+                    if (CheckList == null)
+                    {
+                        CheckList = new NWDBasisCheckList();
+                    }
+                    NWDBasisCheckList tCheckList = (NWDBasisCheckList)CheckList.ControlField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
+
+                    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                    if (tCheckList.Value != CheckList.Value)
+                    {
+                        CheckList = tCheckList;
+                        DM = NWDToolbox.Timestamp();
+                        UpdateIntegrity();
+                        UpdateData(true, NWDWritingMode.MainThread);
+                        RowAnalyze();
+                        BasisHelper().New_RepaintTableEditor();
+                        //NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                    }
                 }
-                NWDBasisCheckList tCheckList = (NWDBasisCheckList)CheckList.ControlField(new Rect(tXmarge, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), NWDConstants.K_APP_TABLE_SEARCH_CHECKLIST);
 
-                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-                if (tCheckList.Value != CheckList.Value)
+                bool tDisableProd = false;
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
                 {
-                    CheckList = tCheckList;
-                    DM = NWDToolbox.Timestamp();
-                    UpdateIntegrity();
-                    UpdateData(true, NWDWritingMode.MainThread);
-                    RowAnalyze();
+                    tDisableProd = true;
+                }
+                if (AccountDependent() == true)
+                {
+                    tDisableProd = true;
+                }
+
+                // Toogle Dev Prepprod Prod and operation associated
+                float tWidthTiers = tWidth / 3.0f;
+                bool tDevLockAnalyze = false;
+                if (DevSync >= 0)
+                {
+                    tDevLockAnalyze = true;
+                }
+                bool tDevLock = EditorGUI.ToggleLeft(new Rect(tXmarge, tY, tWidthTiers, NWDGUI.kTextFieldStyle.fixedHeight), "Dev", tDevLockAnalyze);
+                bool tPreprodLockAnalyze = false;
+                if (PreprodSync >= 0)
+                {
+                    tPreprodLockAnalyze = true;
+                }
+                bool tPreprodLock = EditorGUI.ToggleLeft(new Rect(tXmarge + tWidthTiers, tY, tWidthTiers, NWDGUI.kTextFieldStyle.fixedHeight), "Preprod", tPreprodLockAnalyze);
+                bool tProdLockAnalyze = false;
+                if (ProdSync >= 0)
+                {
+                    tProdLockAnalyze = true;
+                }
+                if (tDisableProd == true)
+                {
+                    tProdLockAnalyze = false;
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+                bool tProdLock = EditorGUI.ToggleLeft(new Rect(tXmarge + tWidthTiers + tWidthTiers, tY, tWidthTiers, NWDGUI.kTextFieldStyle.fixedHeight), "Prod", tProdLockAnalyze);
+                EditorGUI.EndDisabledGroup();
+                if (tDevLockAnalyze != tDevLock)
+                {
+                    if (tDevLock == false)
+                    {
+                        if (DevSync == 0)
+                        {
+                            DevSync = -1;
+                        }
+                        else if (DevSync == 1)
+                        {
+                            DevSync = -2;
+                        }
+                        else
+                        {
+                            DevSync = -DevSync;
+                        }
+                    }
+                    else
+                    {
+                        if (DevSync == -1)
+                        {
+                            DevSync = 0;
+                        }
+                        else
+                        {
+                            DevSync = 1;
+                        }
+                    }
+                    UpdateData();
                     BasisHelper().New_RepaintTableEditor();
-                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
+                if (tPreprodLockAnalyze != tPreprodLock)
+                {
+                    if (tPreprodLock == false)
+                    {
+                        if (PreprodSync == 0)
+                        {
+                            PreprodSync = -1;
+                        }
+                        else if (PreprodSync == 1)
+                        {
+                            PreprodSync = -2;
+                        }
+                        else
+                        {
+                            PreprodSync = -PreprodSync;
+                        }
+                    }
+                    else
+                    {
+                        if (PreprodSync == -1)
+                        {
+                            PreprodSync = 0;
+                        }
+                        else
+                        {
+                            PreprodSync = 1;
+                        }
+                    }
+                    UpdateData();
+                    BasisHelper().New_RepaintTableEditor();
+                }
+                if (tProdLockAnalyze != tProdLock)
+                {
+                    if (tProdLock == false)
+                    {
+                        if (ProdSync == 0)
+                        {
+                            ProdSync = -1;
+                        }
+                        else if (ProdSync == 1)
+                        {
+                            ProdSync = -2;
+                        }
+                        else
+                        {
+                            ProdSync = -ProdSync;
+                        }
+                    }
+                    else
+                    {
+                        if (ProdSync == -1)
+                        {
+                            ProdSync = 0;
+                        }
+                        else
+                        {
+                            ProdSync = 1;
+                        }
+                    }
+                    UpdateData();
+                    BasisHelper().New_RepaintTableEditor();
+                }
+                tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+                EditorGUI.EndDisabledGroup();
             }
 
-            bool tDisableProd = false;
-            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
-            {
-                tDisableProd = true;
-            }
-            if (AccountDependent() == true)
-            {
-                tDisableProd = true;
-            }
-
-            // Toogle Dev Prepprod Prod and operation associated
-            float tWidthTiers = tWidth / 3.0f;
-            bool tDevLockAnalyze = false;
-            if (DevSync >= 0)
-            {
-                tDevLockAnalyze = true;
-            }
-            bool tDevLock = EditorGUI.ToggleLeft(new Rect(tXmarge, tY, tWidthTiers, NWDGUI.kTextFieldStyle.fixedHeight), "Dev", tDevLockAnalyze);
-            bool tPreprodLockAnalyze = false;
-            if (PreprodSync >= 0)
-            {
-                tPreprodLockAnalyze = true;
-            }
-            bool tPreprodLock = EditorGUI.ToggleLeft(new Rect(tXmarge + tWidthTiers, tY, tWidthTiers, NWDGUI.kTextFieldStyle.fixedHeight), "Preprod", tPreprodLockAnalyze);
-            bool tProdLockAnalyze = false;
-            if (ProdSync >= 0)
-            {
-                tProdLockAnalyze = true;
-            }
-            if (tDisableProd == true)
-            {
-                tProdLockAnalyze = false;
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
-            bool tProdLock = EditorGUI.ToggleLeft(new Rect(tXmarge + tWidthTiers + tWidthTiers, tY, tWidthTiers, NWDGUI.kTextFieldStyle.fixedHeight), "Prod", tProdLockAnalyze);
-            EditorGUI.EndDisabledGroup();
-            if (tDevLockAnalyze != tDevLock)
-            {
-                if (tDevLock == false)
-                {
-                    if (DevSync == 0)
-                    {
-                        DevSync = -1;
-                    }
-                    else if (DevSync == 1)
-                    {
-                        DevSync = -2;
-                    }
-                    else
-                    {
-                        DevSync = -DevSync;
-                    }
-                }
-                else
-                {
-                    if (DevSync == -1)
-                    {
-                        DevSync = 0;
-                    }
-                    else
-                    {
-                        DevSync = 1;
-                    }
-                }
-                UpdateData();
-                BasisHelper().New_RepaintTableEditor();
-            }
-            if (tPreprodLockAnalyze != tPreprodLock)
-            {
-                if (tPreprodLock == false)
-                {
-                    if (PreprodSync == 0)
-                    {
-                        PreprodSync = -1;
-                    }
-                    else if (PreprodSync == 1)
-                    {
-                        PreprodSync = -2;
-                    }
-                    else
-                    {
-                        PreprodSync = -PreprodSync;
-                    }
-                }
-                else
-                {
-                    if (PreprodSync == -1)
-                    {
-                        PreprodSync = 0;
-                    }
-                    else
-                    {
-                        PreprodSync = 1;
-                    }
-                }
-                UpdateData();
-                BasisHelper().New_RepaintTableEditor();
-            }
-            if (tProdLockAnalyze != tProdLock)
-            {
-                if (tProdLock == false)
-                {
-                    if (ProdSync == 0)
-                    {
-                        ProdSync = -1;
-                    }
-                    else if (ProdSync == 1)
-                    {
-                        ProdSync = -2;
-                    }
-                    else
-                    {
-                        ProdSync = -ProdSync;
-                    }
-                }
-                else
-                {
-                    if (ProdSync == -1)
-                    {
-                        ProdSync = 0;
-                    }
-                    else
-                    {
-                        ProdSync = 1;
-                    }
-                }
-                UpdateData();
-                BasisHelper().New_RepaintTableEditor();
-            }
-            tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            EditorGUI.EndDisabledGroup();
-
+            // DRAW NODAL PARTICULARITY!
             if (sNodalCard != null)
             {
-                float tH = AddOnNodeDrawHeight(NWDGUI.kNodeCardWidth);
-                EditorGUI.HelpBox(new Rect(tXmarge, tY, tWidth, tH), "Nodal area", MessageType.Info);
+                float tH = AddOnNodeDrawHeight(tWidth - NWDGUI.kFieldMarge * 2);
+                EditorGUI.HelpBox(new Rect(tXmarge, tY, tWidth, tH), string.Empty, MessageType.None);
+                AddOnNodeDraw(new Rect(tXmarge + NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, tWidth - NWDGUI.kFieldMarge * 2, tH - NWDGUI.kFieldMarge * 2));
                 tY += tH;
                 tY += NWDGUI.kFieldMarge;
             }
 
-            NWDGUI.Line(new Rect(tX, tY - 1, tWidth + NWDGUI.kFieldMarge * 2, 1));
 
-            float tBottomHeight = 0;
-            if (sNodalCard== null)
+            // DRAW MIDDLE : properties area
+            bool tDrawMiddle = true;
+            if (sNodalCard != null)
             {
-                tBottomHeight = BottomHeight;
+                tDrawMiddle = sNodalCard.ParentDocument.MiddleCard;
+            }
+            if (tDrawMiddle == true)
+            {
+                NWDGUI.Line(new Rect(tX, tY - 1, tWidth + NWDGUI.kFieldMarge * 2, 1));
+
+                float tBottomHeight = 0;
+                if (sNodalCard == null)
+                {
+                    tBottomHeight = BottomHeight;
+                }
+                Rect tRectProperty = new Rect(tX, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
+                if (sNodalCard == null)
+                {
+                    EditorGUI.DrawRect(tRectProperty, NWDGUI.kPropertyColor);
+                }
+                DrawEditorMiddle(tRectProperty, sWithScrollview, sNodalCard, tCanBeEdit);
+
+                if (sNodalCard == null)
+                {
+                    tY = sInRect.height - tBottomHeight;
+                }
+                else
+                {
+                    tY += sNodalCard.MiddleHeight;
+                }
             }
 
 
-            Rect tRectProperty = new Rect(tX, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
-            if (sNodalCard == null)
-            {
-                EditorGUI.DrawRect(tRectProperty, NWDGUI.kPropertyColor);
-            }
-            DrawEditorMiddle(tRectProperty, sWithScrollview, sNodalCard, tCanBeEdit);
+            // DRAW BOTTOM : Action and Warning area
+            bool tDrawBottom = true;
 
-            if (sNodalCard == null)
+            if (sNodalCard != null)
             {
-                tY = sInRect.height - tBottomHeight;
+                tDrawBottom = sNodalCard.ParentDocument.BottomCard;
             }
-            else
+            if (tDrawBottom == true)
             {
-                tY += sNodalCard.MiddleHeight;
+                NWDGUI.Line(new Rect(tX, tY, tWidth + NWDGUI.kFieldMarge * 2, 1));
+                DrawEditorBottom(new Rect(sInRect.x, tY, sInRect.width, BottomHeight), sWithScrollview, sNodalCard, tCanBeEdit);
             }
 
-            //            EditorGUI.indentLevel = 0;
 
-            NWDGUI.Line(new Rect(tX, tY , tWidth + NWDGUI.kFieldMarge * 2, 1));
-
-            // Prepare Action and Warning zone
-            DrawEditorBottom(new Rect (sInRect.x, tY, sInRect.width, BottomHeight),sWithScrollview, sNodalCard, tCanBeEdit);
-
+            // MANAGEMENT EVENT
             // Shortcut navigation
-
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
             {
                 NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
@@ -1153,8 +1176,9 @@ namespace NetWorkedData
         //    return 130.0f;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public virtual void AddOnNodeDraw(Rect sRect)
         {
+            GUI.Label(sRect, InternalDescription);
         }
         //-------------------------------------------------------------------------------------------------------------
         //public virtual void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
