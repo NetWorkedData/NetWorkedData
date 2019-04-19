@@ -205,7 +205,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_IN_TRASH_HELPBOX = "This object is in trash! It'll be delete in the users' database as soon as possible. If you didn't synchronize you can untrash it without consequence!";
         public const string K_APP_BASIS_UNTRASH = "Click to untrash";
         public const string K_APP_BASIS_UNTRASH_WARNING = "Warning";
-        public const string K_APP_BASIS_UNTRASH_WARNING_MESSAGE = "Are-you sure to untrash this object?";
+        public const string K_APP_BASIS_UNTRASH_MESSAGE = "Are-you sure to untrash this object?";
         public const string K_APP_BASIS_UNTRASH_OK = "Yes";
         public const string K_APP_BASIS_UNTRASH_CANCEL = "No";
 

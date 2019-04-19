@@ -265,7 +265,7 @@ namespace NetWorkedData
                                 NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
                         {
                             UpdateData(true);
-                            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                            //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                             //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
@@ -288,13 +288,13 @@ namespace NetWorkedData
                     if (GUI.Button(new Rect(tXmarge, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
                     {
                         if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
-                                NWDConstants.K_APP_BASIS_UNTRASH_WARNING_MESSAGE,
+                                NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
                                 NWDConstants.K_APP_BASIS_UNTRASH_OK,
                                 NWDConstants.K_APP_BASIS_UNTRASH_CANCEL
                             ))
                         {
                             UnTrashData();
-                            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                            //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                             //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
@@ -322,7 +322,7 @@ namespace NetWorkedData
                             ))
                         {
                             EnableData();
-                            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                            //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                             //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                         }
                     }
@@ -350,7 +350,7 @@ namespace NetWorkedData
                         ))
                     {
                         UpdateData();
-                        NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                        //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                         //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                     }
                 }
@@ -1000,7 +1000,7 @@ namespace NetWorkedData
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 NWDDataManager.SharedInstance().DataQueueExecute();
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
 
             if (GUI.Button(new Rect(tXmarge + (tButtonWidth + NWDGUI.kFieldMarge) * 2, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
@@ -1020,14 +1020,25 @@ namespace NetWorkedData
                 BasisHelper().New_SetObjectInEdition(tNexObject);
                 BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                 NWDDataManager.SharedInstance().DataQueueExecute();
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
+
+            EditorGUI.BeginDisabledGroup(IsTrashed());
             if (AC == false)
             {
                 if (GUI.Button(new Rect(tXmarge + (tButtonWidth + NWDGUI.kFieldMarge) * 3, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, NWDGUI.kMiniButtonStyle))
                 {
-                    EnableData();
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+
+                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_REACTIVE_WARNING,
+                                NWDConstants.K_APP_BASIS_REACTIVE_WARNING_MESSAGE,
+                                NWDConstants.K_APP_BASIS_REACTIVE_OK,
+                                NWDConstants.K_APP_BASIS_REACTIVE_CANCEL
+                            ))
+                    {
+                        EnableData();
+                        //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+
+                    }
                 }
             }
             else
@@ -1035,9 +1046,10 @@ namespace NetWorkedData
                 if (GUI.Button(new Rect(tXmarge + (tButtonWidth + NWDGUI.kFieldMarge) * 3, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, NWDGUI.kMiniButtonStyle))
                 {
                     DisableData();
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                    //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
+            EditorGUI.EndDisabledGroup();
 
             tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
@@ -1047,19 +1059,34 @@ namespace NetWorkedData
             tY += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
             NWDGUI.BeginRedArea();
 
-            EditorGUI.BeginDisabledGroup(IsTrashed());
-            if (GUI.Button(new Rect(tXmarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDGUI.kMiniButtonStyle))
+            if (IsTrashed() == false)
             {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
-                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
-                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
-                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
+                if (GUI.Button(new Rect(tXmarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, NWDGUI.kMiniButtonStyle))
                 {
-                    TrashData();
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
+                            NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
+                            NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
+                            NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
+                    {
+                        TrashData();
+                        //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                    }
                 }
             }
-            EditorGUI.EndDisabledGroup();
+            else
+            {
+                if (GUI.Button(new Rect(tXmarge, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UNTRASH, NWDGUI.kMiniButtonStyle))
+                {
+                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
+                            NWDConstants.K_APP_BASIS_UNTRASH_MESSAGE,
+                            NWDConstants.K_APP_BASIS_UNTRASH_OK,
+                            NWDConstants.K_APP_BASIS_UNTRASH_CANCEL))
+                    {
+                        UnTrashData();
+                        //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                    }
+                }
+            }
 
             if (GUI.Button(new Rect(tXmarge + tButtonWidth * 1 + NWDGUI.kFieldMarge * 1, tY, tButtonWidth, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, NWDGUI.kMiniButtonStyle))
             {

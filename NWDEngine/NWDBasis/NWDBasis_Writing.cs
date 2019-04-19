@@ -649,7 +649,7 @@ namespace NetWorkedData
         public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
             #if UNITY_EDITOR
-            //            RecalulateHeight = true;
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDNodeEditor.ReAnalyzeIfNecessary(this);
             #endif
             //BTBBenchmark.Start();

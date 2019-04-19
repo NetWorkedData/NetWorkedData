@@ -43,7 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
         {
-            //BTBBenchmark.Start();
+           // BTBBenchmark.Start();
             TopHeight = 0;
 
             if (sNodalCard != null)
@@ -79,8 +79,12 @@ namespace NetWorkedData
                 TopHeight += AddOnNodeDrawHeight(NWDGUI.kNodeCardWidth) + NWDGUI.kFieldMarge *2;
                 // reccord nodal top height
                 sNodalCard.TopHeight = TopHeight;
+
+                //Debug.Log("sNodalCard "+ sNodalCard.DataObject.Reference+ " TopHeight = " + sNodalCard.TopHeight);
             }
-            //BTBBenchmark.Finish();
+
+
+           // BTBBenchmark.Finish();
             return TopHeight;;
         }
         //-------------------------------------------------------------------------------------------------------------

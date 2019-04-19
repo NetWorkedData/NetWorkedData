@@ -469,7 +469,10 @@ namespace NetWorkedData
         public void DrawConnection( List<NWDNodeCard> sAllCards)
         {
             PlotsList.Clear();
-            //BTBBenchmark.Start();
+           // BTBBenchmark.Start();
+
+            //DataObject.DrawEditorTopHeight(this,NWDGUI.kNodeCardWidth);
+
             //Debug.Log("DrawConnection DrawLine()");
             float Tangent = ParentDocument.CardMarge;
             Vector2 tOrign = new Vector2(Position.x , Position.y + NWDGUI.kEditWidthMini*3);
@@ -483,12 +486,19 @@ namespace NetWorkedData
                     {
                         if (tPlot.Reference == this.DataObject.Reference)
                         {
-                            Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tCard.Position.y + tPlot.Point.y+ TopHeight);
+                            Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tCard.Position.y + tPlot.Point.y+ tCard.TopHeight);
 
                             Vector2 tFinalPa = new Vector2(tFinal.x + Tangent, tFinal.y);
                             // Draw line
-                            Handles.DrawBezier(tOrign, tFinal, tOrignPa, tFinalPa, NWDGUI.kNodeLineColor, NWDGUI.kImageBezierTexture, 2.0F);
+                            if (DataObject.IsEnable() == true)
+                            {
+                                Handles.DrawBezier(tOrign, tFinal, tOrignPa, tFinalPa, NWDGUI.kNodeLineColor, NWDGUI.kImageBezierTexture, 2.0F);
+                            }
+                            else
+                            {
+                                Handles.DrawBezier(tOrign, tFinal, tOrignPa, tFinalPa, NWDGUI.kRowColorTrash, NWDGUI.kImageBezierTexture, 2.0F);
 
+                            }
                             ////Debug.Log("DrawConnection line for" + tPlot.Reference);
                             //Vector2 tFinalPzzz = new Vector2(tFinal.x - 80, tFinal.y);
                             //Handles.color = Color.white;
@@ -505,7 +515,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //BTBBenchmark.Finish();
+           // BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawForwardPlot()
