@@ -132,6 +132,10 @@ namespace NetWorkedData
         public bool TopCard = true;
         public bool MiddleCard = true;
         public bool BottomCard = false;
+        public bool AddonnEditorCard = false;
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         //public void AddPropertyOrigin (NWDNodeCard sCard, string sReference, Vector2 sOrigin)
         //{
@@ -204,6 +208,7 @@ namespace NetWorkedData
             TopCard = EditorPrefs.GetBool("TopCard");
             MiddleCard = EditorPrefs.GetBool("MiddleCard");
             BottomCard = EditorPrefs.GetBool("BottomCard");
+            AddonnEditorCard = EditorPrefs.GetBool("AddonnEditorCard");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -290,6 +295,15 @@ namespace NetWorkedData
             {
                 BottomCard = tBottomCard;
                 EditorPrefs.SetBool("BottomCard", BottomCard);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            bool tAddonnEditorCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), AddonnEditorCard, "View add editor");
+            if (tAddonnEditorCard != AddonnEditorCard)
+            {
+                AddonnEditorCard = tAddonnEditorCard;
+                EditorPrefs.SetBool("AddonnEditorCard", AddonnEditorCard);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -546,7 +560,7 @@ namespace NetWorkedData
                 NWDNodeEditor.SetObjectInNodeWindow(sNodalCard.DataObject);
             }
             EditorGUI.EndDisabledGroup();
-            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x + sRect.width - NWDGUI.kEditWidth, sRect.y, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
+            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x + sRect.width - NWDGUI.kEditWidth*2, sRect.y, NWDGUI.kEditWidth*2, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
 
 
             //NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(sRect, sClassName, AnalyzeStyleClasses[sClassName]);

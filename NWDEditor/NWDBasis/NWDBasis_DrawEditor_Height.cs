@@ -122,7 +122,12 @@ namespace NetWorkedData
             if (sNodalCard != null)
             {
                 // add nodal area
-                TopHeight += AddOnNodeDrawHeight(sWidth - NWDGUI.kFieldMarge * 2) + NWDGUI.kFieldMarge * 2;
+                AddonNodalHeightResult = AddOnNodeDrawHeight(sWidth - NWDGUI.kFieldMarge * 2);
+                if (AddonNodalHeightResult < 0)
+                {
+                    AddonNodalHeightResult = 20;
+                }
+                TopHeight += AddonNodalHeightResult + NWDGUI.kFieldMarge * 2;
                 // reccord nodal top height
                 sNodalCard.TopHeight = TopHeight;
 
@@ -184,10 +189,19 @@ namespace NetWorkedData
                 {
                     InspectorHeight += tElement.NewDrawObjectInspectorHeight(this, sNodalCard, sWidth);
                 }
-                if (sNodalCard == null)
-                {
-                    InspectorHeight += AddonEditorHeight();
-                }
+                    bool tAddonEditor = true;
+                    if (sNodalCard != null)
+                    {
+                        tAddonEditor = sNodalCard.ParentDocument.AddonnEditorCard;
+                    }
+                    if (tAddonEditor == true)
+                    {
+                        AddonEditorHeightResult = AddonEditorHeight();
+                        if (AddonEditorHeightResult > 0)
+                        {
+                            InspectorHeight += AddonEditorHeightResult + NWDGUI.kFieldMarge * 2;
+                        }
+                    }
                 InspectorHeight += NWDGUI.kFieldMarge;
                 //RecalulateHeight = false;
             }
@@ -197,7 +211,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditorHeight()
         {
-            return 0.0f;
+            return 20.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)

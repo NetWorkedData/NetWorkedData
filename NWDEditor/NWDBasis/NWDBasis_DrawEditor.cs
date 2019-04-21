@@ -35,6 +35,8 @@ namespace NetWorkedData
         public float MiddleHeight = 0.0F;
         public float InspectorHeight = 0.0F;
         public float BottomHeight = 0.0F;
+        public float AddonEditorHeightResult = 0.0F;
+        public float AddonNodalHeightResult = 0.0F;
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
@@ -110,10 +112,22 @@ namespace NetWorkedData
             foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
             {
                 tY = tElement.NewDrawObjectInspector(this, sNodalCard, tX, tY, tWidth);
-                tRect.height += tY;
             }
 
-            tRect.height += AddonEditor(new Rect(sInRect.position.x, sInRect.position.y + tY, sInRect.width, 0));
+            bool tAddonEditor = true;
+
+            if (sNodalCard != null)
+            {
+                tAddonEditor = sNodalCard.ParentDocument.AddonnEditorCard;
+            }
+            if (tAddonEditor == true)
+            {
+                if (AddonEditorHeightResult > 0)
+                {
+                    NWDGUI.Line(new Rect(tX, tY, tWidth, 1));
+                }
+                AddonEditor(new Rect(tX, sInRect.position.y + MiddleHeight - AddonEditorHeightResult - NWDGUI.kFieldMarge, tWidth, AddonEditorHeightResult));
+            }
             //BTBBenchmark.Finish();
             return tRect;
         }
@@ -779,10 +793,9 @@ namespace NetWorkedData
             // DRAW NODAL PARTICULARITY!
             if (sNodalCard != null)
             {
-                float tH = AddOnNodeDrawHeight(tWidth - NWDGUI.kFieldMarge * 2);
-                EditorGUI.HelpBox(new Rect(tXmarge, tY, tWidth, tH), string.Empty, MessageType.None);
-                AddOnNodeDraw(new Rect(tXmarge + NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, tWidth - NWDGUI.kFieldMarge * 2, tH - NWDGUI.kFieldMarge * 2));
-                tY += tH;
+                EditorGUI.HelpBox(new Rect(tXmarge, tY, tWidth, AddonNodalHeightResult), string.Empty, MessageType.None);
+                AddOnNodeDraw(new Rect(tXmarge + NWDGUI.kFieldMarge, tY + NWDGUI.kFieldMarge, tWidth - NWDGUI.kFieldMarge * 2, AddonNodalHeightResult - NWDGUI.kFieldMarge * 2));
+                tY += AddonNodalHeightResult;
                 tY += NWDGUI.kFieldMarge;
             }
 
@@ -943,8 +956,16 @@ namespace NetWorkedData
                 tY = 0;
             }
             EditorGUI.BeginDisabledGroup(sEditionEnable == false);
-            Rect tRectDrawed = DrawInspector(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), sNodalCard, sEditionEnable);
-            tY += tRectDrawed.height;
+            if (sNodalCard != null)
+            {
+                Rect tRectDrawed = DrawInspector(new Rect(sInRect.position.x, tY, sInRect.width, InspectorHeight), sNodalCard, sEditionEnable);
+                tY += tRectDrawed.height;
+            }
+            else
+            {
+                Rect tRectDrawed = DrawInspector(new Rect(tX, tY, tWidth, InspectorHeight), sNodalCard, sEditionEnable);
+                tY += tRectDrawed.height;
+            }
             EditorGUI.EndDisabledGroup();
             // finish scrollview 
             if (sWithScrollview == true)
@@ -1151,8 +1172,9 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddonEditor(Rect sInRect)
+        public virtual float AddonEditor(Rect sRect)
         {
+            EditorGUI.DrawRect(sRect, Color.blue);
             return 00.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1178,7 +1200,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddOnNodeDraw(Rect sRect)
         {
-            GUI.Label(sRect, InternalDescription);
+            //GUI.Label(sRect, InternalDescription);
+
+            //foreach (Rect tR in NWDGUI.DiviseArea(sRect, 3))
+            //{
+            //    EditorGUI.DrawRect(tR, Color.red);
+            //}
+
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 3, 3);
+            for (int tI = 0; tI < tMatrix.GetLength(0); tI++)
+            {
+                for (int tJ = 0; tJ < tMatrix.GetLength(1); tJ++)
+                {
+                    EditorGUI.DrawRect(tMatrix[tI,tJ], Color.red);
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         //public virtual void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)

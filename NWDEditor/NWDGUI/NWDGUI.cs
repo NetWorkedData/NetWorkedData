@@ -267,6 +267,86 @@ namespace NetWorkedData
             StyleLoaded = false;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static Rect[] DiviseArea(Rect sRect, int sX, bool sAlreadyMarged = true)
+        {
+            Rect[] rReturn = new Rect[sX];
+            if (sX < 1)
+            {
+                sX = 1;
+            }
+            if (sAlreadyMarged == true)
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX - 1) * kFieldMarge) / sX;
+                float tWL = (tW + kFieldMarge) / sX;
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    rReturn[tI] = new Rect(sRect.x + tI * tWL, sRect.y, tWW, sRect.height);
+                }
+            }
+            else
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX + 1) * kFieldMarge) / sX;
+                float tWL = (tW - kFieldMarge) / sX;
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    rReturn[tI] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y, tWW, sRect.height);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect[,] DiviseArea(Rect sRect, int sX, int sY, bool sAlreadyMarged = true)
+        {
+            Rect[,] rReturn = new Rect[sX,sY];
+            if (sX < 1)
+            {
+                sX = 1;
+            }
+            if (sY < 1)
+            {
+                sY = 1;
+            }
+            if (sAlreadyMarged == true)
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX - 1) * kFieldMarge) / sX;
+                float tWL = (tW + kFieldMarge) / sX;
+
+                float tH = sRect.height;
+                float tHH = (tH - (sY - 1) * kFieldMarge) / sY;
+                float tHL = (tH + kFieldMarge) / sY;
+
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    for (int tJ = 0; tJ < sY; tJ++)
+                    {
+                        rReturn[tI,tJ] = new Rect(sRect.x + tI * tWL, sRect.y + tJ * tHL, tWW, tHH);
+                    }
+                }
+            }
+            else
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX + 1) * kFieldMarge) / sX;
+                float tWL = (tW - kFieldMarge) / sX;
+
+                float tH = sRect.height;
+                float tHH = (tH - (sY + 1) * kFieldMarge) / sY;
+                float tHL = (tH - kFieldMarge) / sY;
+
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    for (int tJ = 0; tJ < sY; tJ++)
+                    {
+                        rReturn[tI,tJ] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y + kFieldMarge + tJ * tHL, tWW, tHH);
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void LoadStylesReforce()
         {
             StyleLoaded = false;
