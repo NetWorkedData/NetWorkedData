@@ -40,6 +40,7 @@ namespace NetWorkedData
         /// The m scroll position.
         /// </summary>
         public static Vector2 mScrollPosition = Vector2.zero;
+        public static Vector2 mScrollPositionB = Vector2.zero;
         /// <summary>
         /// The m last mouse position.
         /// </summary>
@@ -264,7 +265,19 @@ namespace NetWorkedData
             //NWDConstants.LoadImages();
             NWDGUI.LoadStyles();
 
-            Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
+            float tX = Document.DocumentMarge +15;
+            if (Document.FixeMargePreference == false)
+            {
+                tX = 0;
+            }
+            else
+            {
+                Rect tScrollViewRectB = new Rect(0, 0, tX, position.height);
+                mScrollPositionB = GUI.BeginScrollView(tScrollViewRectB, mScrollPositionB, Document.DimensionB());
+                Document.DrawPreferences();
+                GUI.EndScrollView();
+            }
+            Rect tScrollViewRect = new Rect(tX, 0, position.width- tX, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             mScrollPosition = GUI.BeginScrollView(tScrollViewRect, mScrollPosition, Document.Dimension());
             Rect tVisibleRect = new Rect(mScrollPosition.x, mScrollPosition.y, position.width + mScrollPosition.x, position.height + mScrollPosition.y);

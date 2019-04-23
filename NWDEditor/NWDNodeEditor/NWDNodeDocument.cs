@@ -218,14 +218,20 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             bool tChanged = false;
-            float tX = NWDNodeEditor.mScrollPosition.x;
-            if (FixeMargePreference == false)
-            {
-                tX = 0;
-            }
+            float tX = 0;
+            //tX = NWDNodeEditor.mScrollPosition.x;
+            //if (FixeMargePreference == false)
+            //{
+            //    tX = 0;
+            //}
             float tY = 0;
             float tWHalf = (DocumentMarge - NWDGUI.kFieldMarge * 3) / 2.0f;
             float tW = (DocumentMarge - NWDGUI.kFieldMarge * 2);
+
+            Rect tTotal = new Rect(tX, tY, DocumentMarge, DocumentHeight);
+            //GUI.Label(tTotal, string.Empty);
+            //EditorGUI.DrawRect(tTotal, NWDGUI.kPropertyColor);
+            //EditorGUI.DrawRect(tTotal, Color.red);
 
             // root object zone
             Rect tTitleRect = NWDGUI.Title(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight),
@@ -542,9 +548,11 @@ namespace NetWorkedData
 
             DocumentPrefHeight = tY;
             DocumentHeight = Math.Max(DocumentPrefHeight, DocumentHeight);
-
-            Handles.color = NWDGUI.kNodeCanvasMargeBlack;
-            Handles.DrawLine(new Vector2(tX+DocumentMarge + 1, 0), new Vector2(tX + DocumentMarge + 1, DocumentHeight));
+            if (FixeMargePreference == false)
+            {
+                Handles.color = NWDGUI.kNodeCanvasMargeBlack;
+                Handles.DrawLine(new Vector2(tX + DocumentMarge, 0), new Vector2(tX + DocumentMarge, DocumentHeight));
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -586,6 +594,14 @@ namespace NetWorkedData
 
 
             return new Rect(0, 0, DocumentWidth, DocumentHeight);
+        }
+        public Rect DimensionB()
+        {
+            //float tHeight = Mathf.Max((GetLineMax() + 1) * (Height + NWDGUI.kNodeCardMarging) + NWDGUI.kNodeCardMarging, MargeHeight + (AnalyzeStyleClasses.Count + 3) * HeightProperty);
+            //return new Rect(0, 0, MargeWidth + (GetColumnMax() + 1) * (Width + NWDGUI.kNodeCardMarging) + NWDGUI.kNodeCardMarging, tHeight);
+
+
+            return new Rect(0, 0, DocumentMarge, DocumentHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -866,7 +882,11 @@ namespace NetWorkedData
             DrawBackgroundLine();
             DrawCard(sVisibleRect);
             DrawForwardPlot();
-            DrawPreferences();
+
+            if (FixeMargePreference == false)
+            {
+                DrawPreferences();
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

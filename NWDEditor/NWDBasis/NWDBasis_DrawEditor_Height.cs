@@ -69,11 +69,11 @@ namespace NetWorkedData
             tH += NWDGUI.kIconClassWidth;
             if (BasisHelper().WebModelChanged == true)
             {
-                tH += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL) + NWDGUI.kFieldMarge;
+                tH += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL) + NWDGUI.kFieldMarge *2;
             }
             if (BasisHelper().WebModelDegraded == true)
             {
-                tH += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED) + NWDGUI.kFieldMarge;
+                tH += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED) + NWDGUI.kFieldMarge *2;
             }
             HeaderRect = new Rect(sInRect.x, sInRect.y, sInRect.width, tH);
             if (sNodalCard != null)
@@ -97,7 +97,6 @@ namespace NetWorkedData
                 tH = 0;
                 // Top inpector
                 tH += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
-                tH += NWDGUI.kFieldMarge;
                 if (BasisHelper().kSyncAndMoreInformations)
                 {
                     tH += (NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge) * 14;
@@ -125,7 +124,7 @@ namespace NetWorkedData
                     tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
                 // Toogle Dev Prepprod Prod and operation associated
-                tH += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                tH += NWDGUI.kTextFieldStyle.fixedHeight;
 
                 if (XX > 0 || IsEnable() == false || WebserviceVersionIsValid() == false)
                 {
@@ -195,7 +194,7 @@ namespace NetWorkedData
             }
             else
             {
-                PropertiesRect = new Rect(NodalRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width, tH);
+                PropertiesRect = new Rect(NodalRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge*2, sInRect.width, tH);
                 //EditorGUI.DrawRect(PropertiesRect, Color.green);
             }
             if (sNodalCard != null)
@@ -277,7 +276,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ScroolViewSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-            ScrollRect = new Rect(NodalRect.x- NWDGUI.kFieldMarge, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, NodalRect.width + 2* NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height - NWDGUI.kFieldMarge);
+            ScrollRect = new Rect(sInRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height - NWDGUI.kFieldMarge);
 
             // IF SPACE IS NOT ENOUGH : Add scrollbar           
             if (ScrollRect.height < ContentRect.height)

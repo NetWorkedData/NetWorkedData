@@ -262,7 +262,12 @@ namespace NetWorkedData
             //InfosCardCustom = "";
             //Width = 250;
             //Height = 250;
-            float tX = ParentDocument.DocumentMarge + ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth +ParentDocument.CardMarge);
+            float tX = ParentDocument.DocumentMarge + ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth + ParentDocument.CardMarge);
+
+            if (ParentDocument.FixeMargePreference == true)
+            {
+                tX =  ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth + ParentDocument.CardMarge);
+            }
             float tY = sY;
 
             Position = new Vector2(tX, tY);
