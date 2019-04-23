@@ -34,35 +34,21 @@ namespace NetWorkedData
     public class NWDNodeEditor : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_NODE_EDITOR_LAST_TYPE_KEY = "K_NODE_EDITOR_LAST_TYPE_KEY_5fdshjktr";
+        public const string K_NODE_EDITOR_LAST_REFERENCE_KEY = "K_NODE_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
+        //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The m scroll position.
-        /// </summary>
-        public static Vector2 mScrollPosition = Vector2.zero;
-        public static Vector2 mScrollPositionB = Vector2.zero;
-        /// <summary>
-        /// The m last mouse position.
-        /// </summary>
-        Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
+        bool DragDetect = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public Vector2 ScrollPosition = Vector2.zero;
+        public Vector2 ScrollPositionMarge = Vector2.zero;
+        Vector2 LastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The document of deck.
         /// </summary>
         public NWDNodeDocument Document = new NWDNodeDocument();
-        //-------------------------------------------------------------------------------------------------------------
-
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeEditor"/> class.
-        /// </summary>
-        public NWDNodeEditor()
-        {
-            this.autoRepaintOnSceneChange = false;
-            this.wantsMouseEnterLeaveWindow = false;
-            this.wantsMouseMove = false;
-            //Document.SetData(null, true);
-        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The k node editor shared instance.
@@ -85,9 +71,6 @@ namespace NetWorkedData
             return kNodeEditorSharedInstance;
         }
 
-        //-------------------------------------------------------------------------------------------------------------
-        public const string K_NODE_EDITOR_LAST_TYPE_KEY = "K_NODE_EDITOR_LAST_TYPE_KEY_5fdshjktr";
-        public const string K_NODE_EDITOR_LAST_REFERENCE_KEY = "K_NODE_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
         //-------------------------------------------------------------------------------------------------------------
         public static void RestaureObjectInEdition()
         {
@@ -222,6 +205,17 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeEditor"/> class.
+        /// </summary>
+        public NWDNodeEditor()
+        {
+            this.autoRepaintOnSceneChange = false;
+            this.wantsMouseEnterLeaveWindow = false;
+            this.wantsMouseMove = false;
+            //Document.SetData(null, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// Raises the enable event.
         /// </summary>
         public void OnEnable()
@@ -253,8 +247,6 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        bool DragDetect = false;
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
@@ -273,14 +265,14 @@ namespace NetWorkedData
             else
             {
                 Rect tScrollViewRectB = new Rect(0, 0, tX, position.height);
-                mScrollPositionB = GUI.BeginScrollView(tScrollViewRectB, mScrollPositionB, Document.DimensionB());
+                ScrollPositionMarge = GUI.BeginScrollView(tScrollViewRectB, ScrollPositionMarge, Document.DimensionB());
                 Document.DrawPreferences();
                 GUI.EndScrollView();
             }
             Rect tScrollViewRect = new Rect(tX, 0, position.width- tX, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
-            mScrollPosition = GUI.BeginScrollView(tScrollViewRect, mScrollPosition, Document.Dimension());
-            Rect tVisibleRect = new Rect(mScrollPosition.x, mScrollPosition.y, position.width + mScrollPosition.x, position.height + mScrollPosition.y);
+            ScrollPosition = GUI.BeginScrollView(tScrollViewRect, ScrollPosition, Document.Dimension());
+            Rect tVisibleRect = new Rect(ScrollPosition.x, ScrollPosition.y, position.width + ScrollPosition.x, position.height + ScrollPosition.y);
             Document.Draw(tScrollViewRect, tVisibleRect);
             GUI.EndScrollView();
 
@@ -291,7 +283,7 @@ namespace NetWorkedData
                 if (Event.current.type == EventType.MouseDown)
                 {
                     Vector2 currPos = Event.current.mousePosition;
-                    mLastMousePosition = currPos;
+                    LastMousePosition = currPos;
                     DragDetect = true;
                     Event.current.Use();
                 }
@@ -309,19 +301,19 @@ namespace NetWorkedData
 
                     // Only move if the distance between the last mouse position and the current is less than 50.
                     // Without this it jumps during the drag.
-                    if (Vector2.Distance(currPos, mLastMousePosition) < 5000)
+                    if (Vector2.Distance(currPos, LastMousePosition) < 5000)
                     {
                         // Calculate the delta x and y.
-                        float x = mLastMousePosition.x - currPos.x;
-                        float y = mLastMousePosition.y - currPos.y;
+                        float x = LastMousePosition.x - currPos.x;
+                        float y = LastMousePosition.y - currPos.y;
 
                         // Add the delta moves to the scroll position.
-                        mScrollPosition.x += x;
-                        mScrollPosition.y += y;
+                        ScrollPosition.x += x;
+                        ScrollPosition.y += y;
                         Event.current.Use();
                     }
                     // Set the last mouse position to the current mouse position.
-                    mLastMousePosition = currPos;
+                    LastMousePosition = currPos;
                 }
                 if (Event.current.type == EventType.MouseUp)
                 {
@@ -335,11 +327,6 @@ namespace NetWorkedData
         {
             return Document.Language;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public float GetHeightProperty()
-        //{
-        //    return Document.HeightProperty;
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

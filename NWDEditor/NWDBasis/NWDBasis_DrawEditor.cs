@@ -2317,11 +2317,6 @@ namespace NetWorkedData
             EditorGUI.DrawRect(sRect, Color.blue);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddonEditorHeight()
-        {
-            return 00.0f;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public virtual bool AddonEdited(bool sNeedBeUpdate)
         {
             return sNeedBeUpdate;
@@ -2339,21 +2334,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddOnNodeDraw(Rect sRect)
         {
-            //GUI.Label(sRect, InternalDescription);
-
-            //foreach (Rect tR in NWDGUI.DiviseArea(sRect, 3))
+            //Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 3, 3);
+            //for (int tI = 0; tI < tMatrix.GetLength(0); tI++)
             //{
-            //    EditorGUI.DrawRect(tR, Color.red);
+            //    for (int tJ = 0; tJ < tMatrix.GetLength(1); tJ++)
+            //    {
+            //        EditorGUI.DrawRect(tMatrix[tI, tJ], Color.red);
+            //    }
             //}
-
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 3, 3);
-            for (int tI = 0; tI < tMatrix.GetLength(0); tI++)
-            {
-                for (int tJ = 0; tJ < tMatrix.GetLength(1); tJ++)
-                {
-                    EditorGUI.DrawRect(tMatrix[tI, tJ], Color.red);
-                }
-            }
         }
         ////-------------------------------------------------------------------------------------------------------------
         ////public virtual void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
@@ -2437,12 +2425,10 @@ namespace NetWorkedData
                     }
                 }
             }
-
             if (AddonErrorFound() == true)
             {
                 tErrorResult = true;
             }
-
             if (InError != tErrorResult)
             {
                 InError = tErrorResult;

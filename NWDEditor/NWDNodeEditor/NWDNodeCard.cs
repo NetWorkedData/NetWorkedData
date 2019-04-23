@@ -29,10 +29,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeClass DataObject;
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDNodeConnection> ConnectionList = new List<NWDNodeConnection>();
+       // public List<NWDNodeConnection> ConnectionList = new List<NWDNodeConnection>();
         public Vector2 Position;
-        public Vector2 CirclePosition;
-        public Vector2 PositionTangent;
+       // public Vector2 CirclePosition;
+       // public Vector2 PositionTangent;
         public int Line = 0;
         public int Column = 0;
         public NWDNodeDocument ParentDocument;
@@ -126,12 +126,12 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty, NWDNodeConnectionReferenceType sConType, object[] sObjectsArray, bool sButtonAdd)
+        public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty, /*NWDNodeConnectionReferenceType sConType,*/ object[] sObjectsArray/*, bool sButtonAdd*/)
         {
             //BTBBenchmark.Start();
             // Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
-            NWDNodeConnection tNewConnection = null;
+            //NWDNodeConnection tNewConnection = null;
             //if (ParentDocument.UsedOnlyProperties == true && sObjectsArray.Length == 0)
             //{
             //}
@@ -149,63 +149,63 @@ namespace NetWorkedData
                     //}
                     //if (tNewConnection == null)
                     //{
-                    tNewConnection = new NWDNodeConnection();
-                    tNewConnection.PropertyName = sProperty.Name;
-                    tNewConnection.ConType = sConType;
-                    ConnectionList.Add(tNewConnection);
-                    tNewConnection.Parent = this;
+                    //tNewConnection = new NWDNodeConnection();
+                    //tNewConnection.PropertyName = sProperty.Name;
+                    //tNewConnection.ConType = sConType;
+                    //ConnectionList.Add(tNewConnection);
+                    //tNewConnection.Parent = this;
+                    ////}
+                    //tNewConnection.Property = sProperty;
+                    //if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
+                    //{
+                    //    tNewConnection.AddButton = false;
                     //}
-                    tNewConnection.Property = sProperty;
-                    if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
-                    {
-                        tNewConnection.AddButton = false;
-                    }
-                    else
-                    {
-                        tNewConnection.AddButton = sButtonAdd;
-                    }
+                    //else
+                    //{
+                    //    tNewConnection.AddButton = sButtonAdd;
+                    //}
                     //int tLine = 0;
                 }
                 foreach (NWDTypeClass tObject in sObjectsArray)
                 {
                     //if (ParentDocument.ReGroupProperties == false)
                     {
-                        tNewConnection = new NWDNodeConnection();
-                        tNewConnection.PropertyName = sProperty.Name;
-                        tNewConnection.ConType = sConType;
-                        tNewConnection.Parent = this;
-                        tNewConnection.Property = sProperty;
-                        if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
-                        {
-                            tNewConnection.AddButton = false;
-                        }
-                        else
-                        {
-                            tNewConnection.AddButton = sButtonAdd;
-                        }
-                        ConnectionList.Add(tNewConnection);
+                        //tNewConnection = new NWDNodeConnection();
+                        //tNewConnection.PropertyName = sProperty.Name;
+                        //tNewConnection.ConType = sConType;
+                        //tNewConnection.Parent = this;
+                        //tNewConnection.Property = sProperty;
+                        //if (sProperty.GetCustomAttributes(typeof(NWDNotEditable), true).Length > 0)
+                        //{
+                        //    tNewConnection.AddButton = false;
+                        //}
+                        //else
+                        //{
+                        //    tNewConnection.AddButton = sButtonAdd;
+                        //}
+                        //ConnectionList.Add(tNewConnection);
                     }
                     // Card exist?
                     if (tObject != null)
                     {
                         bool tDataAllReadyShow = false;
                         NWDNodeCard tCard = null;
-                        NWDNodeConnectionLine tCardLine = new NWDNodeConnectionLine();
-                        tCardLine.ConType = sConType;
+                        //NWDNodeConnectionLine tCardLine = new NWDNodeConnectionLine();
+                        //tCardLine.ConType = sConType;
                         foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                         {
                             if (tOldCard.DataObject == tObject)
                             {
                                 tDataAllReadyShow = true;
                                 tCard = tOldCard;
-                                if (tCard.Column < Column)
-                                {
-                                    tCardLine.Style = NWDNodeConnectionType.OldCard;
-                                }
-                                else
-                                {
-                                    tCardLine.Style = NWDNodeConnectionType.FuturCard;
-                                }
+                                //if (tCard.Column < Column)
+                                //{
+                                //    tCardLine.Style = NWDNodeConnectionType.OldCard;
+                                //}
+                                //else
+                                //{
+                                //    tCardLine.Style = NWDNodeConnectionType.FuturCard;
+                                //}
                                 break;
                             }
                         }
@@ -223,21 +223,21 @@ namespace NetWorkedData
                             }
                             ParentDocument.MatrixCards[tCard.Column].Add(tCard);
 
-                            tCardLine.Style = NWDNodeConnectionType.Valid;
+                            //tCardLine.Style = NWDNodeConnectionType.Valid;
                         }
-                        tCardLine.Child = tCard;
-                        tNewConnection.ChildrenList.Add(tCardLine);
+                        //tCardLine.Child = tCard;
+                        //tNewConnection.ChildrenList.Add(tCardLine);
                     }
                     else
                     {
                         // broken link?!
-                        NWDNodeConnectionLine tCardLine = new NWDNodeConnectionLine();
-                        tCardLine.ConType = sConType;
-                        tCardLine.Style = NWDNodeConnectionType.Broken;
-                        tNewConnection.ChildrenList.Add(tCardLine);
+                        //NWDNodeConnectionLine tCardLine = new NWDNodeConnectionLine();
+                        //tCardLine.ConType = sConType;
+                        //tCardLine.Style = NWDNodeConnectionType.Broken;
+                        //tNewConnection.ChildrenList.Add(tCardLine);
                     }
                 }
-                ParentDocument.PropertyCount(ConnectionList.Count);
+                //ParentDocument.PropertyCount(ConnectionList.Count);
             }
             //BTBBenchmark.Finish();
             return rResult;
@@ -283,8 +283,8 @@ namespace NetWorkedData
             CardBottomLeft = new Vector2(CardRect.xMin, CardRect.yMin);
             CardBottomRight = new Vector2(CardRect.xMax, CardRect.yMin);
 
-            CirclePosition = new Vector2(tX + 0, tY + NWDGUI.kIconWidth / 2.0F + NWDGUI.kFieldMarge);
-            PositionTangent = new Vector2(CirclePosition.x - NWDGUI.kNodeCardHeight, CirclePosition.y);
+            //CirclePosition = new Vector2(tX + 0, tY + NWDGUI.kIconWidth / 2.0F + NWDGUI.kFieldMarge);
+            //PositionTangent = new Vector2(CirclePosition.x - NWDGUI.kNodeCardHeight, CirclePosition.y);
             //sY += CardRect.height;
             int tPropertyCounter = 0;
             //foreach (NWDNodeConnection tConnection in ConnectionList)
@@ -472,16 +472,16 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawBackgroundLine()
-        {
-            //BTBBenchmark.Start();
-            // Debug.Log("NWDNodeCard DrawLine()");
-            foreach (NWDNodeConnection tConnection in ConnectionList)
-            {
-                tConnection.DrawBackgroundLine();
-            }
-            //BTBBenchmark.Finish();
-        }
+        //public void DrawBackgroundLine()
+        //{
+        //    //BTBBenchmark.Start();
+        //    // Debug.Log("NWDNodeCard DrawLine()");
+        //    foreach (NWDNodeConnection tConnection in ConnectionList)
+        //    {
+        //        tConnection.DrawBackgroundLine();
+        //    }
+        //    //BTBBenchmark.Finish();
+        //}
 
 
         //-------------------------------------------------------------------------------------------------------------
@@ -494,7 +494,7 @@ namespace NetWorkedData
 
             //Debug.Log("DrawConnection DrawLine()");
             float Tangent = ParentDocument.CardMarge;
-            Vector2 tOrign = new Vector2(Position.x , Position.y + NWDGUI.kEditWidthMini*3);
+            Vector2 tOrign = new Vector2(Position.x - NWDGUI.kFieldMarge, Position.y + NWDGUI.kEditWidthMini*3);
             Vector2 tOrignPa = new Vector2(Position.x - Tangent, Position.y);
             bool tOriginIsUse = false;
             foreach (NWDNodeCard tCard in sAllCards)
@@ -510,7 +510,7 @@ namespace NetWorkedData
                             {
                                 tPlot.Point.y = - NWDGUI.kFieldMarge - NWDGUI.kEditWidthMini;
                             }
-                                Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tPlot.Point.y+ tCard.PropertiesRect.y);
+                                Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kFieldMarge * 1.5F+  NWDGUI.kNodeCardWidth + tPlot.Point.x, tPlot.Point.y+ tCard.PropertiesRect.y);
 
                             Vector2 tFinalPa = new Vector2(tFinal.x + Tangent, tFinal.y);
                             // Draw line
@@ -560,9 +560,9 @@ namespace NetWorkedData
             foreach (Vector2 tPlot in PlotsList)
             {
                 Handles.color = NWDGUI.kNodeLineColor;
-                Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kEditWidthMiniHalf);
+                Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kFieldMarge);
                 Handles.color = NWDGUI.kNodeOverLineColor;
-                Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kEditWidthMiniHalf - 1.0F);
+                Handles.DrawSolidDisc(tPlot, Vector3.forward, NWDGUI.kFieldMarge - 1.0F);
             }
             //BTBBenchmark.Finish();
         }

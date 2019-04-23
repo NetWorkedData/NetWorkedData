@@ -487,13 +487,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditorHeight(float sWidth) // add width!!!
         {
-            return 20.0f;
+            return 0.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
-            float tHeight = NWDGUI.kHelpBoxStyle.CalcHeight(new GUIContent(InternalDescription), sCardWidth);
-            return tHeight;
+            return 0.0f;
+            //float tHeight = NWDGUI.kHelpBoxStyle.CalcHeight(new GUIContent(InternalDescription), sCardWidth);
+            //return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
