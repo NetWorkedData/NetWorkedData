@@ -138,7 +138,7 @@ namespace NetWorkedData
                                                    tY,
                                                    sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                    sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                    tObject.DrawEditorMiddle(tRectToDawInspector, false, null, sEditionEnable);
+                   //  tObject.DrawEditorMiddle(tRectToDawInspector, false, null, sEditionEnable);
                 }
             }
             else
@@ -286,7 +286,7 @@ namespace NetWorkedData
                                                            tY,
                                                            sPosition.width - NWDGUI.kConnectionIndent - tBorder,
                                                            sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-                            tObject.DrawEditorMiddle(tRectToDawInspector,false, null, true);
+                           // tObject.DrawEditorMiddle(tRectToDawInspector,false, null, true);
                         }
                     }
                 }

@@ -50,17 +50,19 @@ namespace NetWorkedData
         //string Infos = string.Empty;
         //string InfosCard = string.Empty;
         //string InfosCardCustom = string.Empty;
-        Rect CardRect;
+        public Rect CardRect;
 
         Vector2 CardTopLeft;
         Vector2 CardTopRight;
         Vector2 CardBottomLeft;
         Vector2 CardBottomRight;
 
-
         public float TotalHeight = 0.0F;
+        public float CardTopHeight = 0;
         public float TopHeight = 0.0F;
+        public float CardNodalHeight = 0;
         public float MiddleHeight = 0.0F;
+        public float EditorAddOnHeight = 0.0F;
         public float BottomHeight = 0.0F;
         //Rect CardTypeRect;
         //Rect CardReferenceRect;
@@ -72,6 +74,17 @@ namespace NetWorkedData
         //public string ReferenceString;
         //public string InternalKeyString;
         //public string Informations;
+
+
+        public Rect TotalRect;
+
+        public Rect HeaderRect;
+        public Rect InformationsRect;
+        public Rect NodalRect;
+        public Rect PropertiesRect;
+        public Rect AddOnRect;
+        public Rect ActionRect;
+
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(NWDTypeClass sData)
         {
@@ -119,12 +132,12 @@ namespace NetWorkedData
             // Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
             NWDNodeConnection tNewConnection = null;
-            if (ParentDocument.UsedOnlyProperties == true && sObjectsArray.Length == 0)
+            //if (ParentDocument.UsedOnlyProperties == true && sObjectsArray.Length == 0)
+            //{
+            //}
+            //else
             {
-            }
-            else
-            {
-                if (/*ParentDocument.ReGroupProperties == true || */(ParentDocument.UsedOnlyProperties == false && sObjectsArray.Length == 0))
+                if (/*ParentDocument.ReGroupProperties == true || (ParentDocument.UsedOnlyProperties == false &&*/ sObjectsArray.Length == 0/*)*/)
                 {
                     //foreach (NWDNodeConnection tConnection in ConnectionList)
                     //{
@@ -252,6 +265,8 @@ namespace NetWorkedData
             float tX = ParentDocument.DocumentMarge + ParentDocument.CardMarge + Column * (NWDGUI.kNodeCardWidth +ParentDocument.CardMarge);
             float tY = sY;
 
+            Position = new Vector2(tX, tY);
+
             PloterList.Clear();
             PlotsList.Clear();
             TotalHeight = 0;
@@ -263,7 +278,6 @@ namespace NetWorkedData
             CardBottomLeft = new Vector2(CardRect.xMin, CardRect.yMin);
             CardBottomRight = new Vector2(CardRect.xMax, CardRect.yMin);
 
-            Position = new Vector2(tX, tY);
             CirclePosition = new Vector2(tX + 0, tY + NWDGUI.kIconWidth / 2.0F + NWDGUI.kFieldMarge);
             PositionTangent = new Vector2(CirclePosition.x - NWDGUI.kNodeCardHeight, CirclePosition.y);
             //sY += CardRect.height;
@@ -356,7 +370,7 @@ namespace NetWorkedData
 
                 //DataObject.AddOnNodeDraw(InfoUsableRect, /*ParentDocument.ReGroupProperties*/ false);
 
-                DataObject.DrawEditorTop(CardRect, false, this);
+                DataObject.DrawEditor(CardRect, false, this);
 
 
                 //foreach (NWDNodeConnection tConnection in ConnectionList)
@@ -486,11 +500,12 @@ namespace NetWorkedData
                     {
                         if (tPlot.Reference == this.DataObject.Reference)
                         {
-                            if (ParentDocument.MiddleCard == false)
+                            //Debug.Log("DrawPloters " + DataObject.Reference + " : for " + tPlot.Reference + " tPlot.Point.y = " + tPlot.Point.y);
+                            if (ParentDocument.DrawPropertiesArea == false)
                             {
                                 tPlot.Point.y = - NWDGUI.kFieldMarge - NWDGUI.kEditWidthMini;
                             }
-                                Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tCard.Position.y + tPlot.Point.y+ tCard.TopHeight);
+                                Vector2 tFinal = new Vector2(tCard.Position.x + NWDGUI.kNodeCardWidth + tPlot.Point.x, tPlot.Point.y+ tCard.PropertiesRect.y);
 
                             Vector2 tFinalPa = new Vector2(tFinal.x + Tangent, tFinal.y);
                             // Draw line

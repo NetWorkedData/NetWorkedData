@@ -123,16 +123,16 @@ namespace NetWorkedData
         /// The regroup properties in document.
         /// </summary>
         //public bool ReGroupProperties = false;
-        public bool UsedOnlyProperties = false;
+        //public bool UsedOnlyProperties = false;
 
         public string Language = NWDDataLocalizationManager.kBaseDev;
 
         public bool FixeMargePreference = true;
 
-        public bool TopCard = true;
-        public bool MiddleCard = true;
-        public bool BottomCard = false;
-        public bool AddonnEditorCard = false;
+        public bool DrawInformationsArea = true;
+        public bool DrawPropertiesArea = true;
+        public bool DrawActionArea = false;
+        public bool DrawAddOnArea = false;
 
 
 
@@ -178,7 +178,7 @@ namespace NetWorkedData
                 EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
             }
             //EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
-            EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
+            //EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
             EditorPrefs.SetString("NWDNodeEditorLanguage", Language);
             //BTBBenchmark.Finish();
         }
@@ -199,16 +199,16 @@ namespace NetWorkedData
             }
 
             //ReGroupProperties = EditorPrefs.GetBool("NWDEditorGroup");
-            UsedOnlyProperties = EditorPrefs.GetBool("NWDEditorusedOnly");
+            //UsedOnlyProperties = EditorPrefs.GetBool("NWDEditorusedOnly");
             Language = EditorPrefs.GetString("NWDNodeEditorLanguage");
             //BTBBenchmark.Finish();
 
 
             FixeMargePreference = EditorPrefs.GetBool("FixeMargePreference");
-            TopCard = EditorPrefs.GetBool("TopCard");
-            MiddleCard = EditorPrefs.GetBool("MiddleCard");
-            BottomCard = EditorPrefs.GetBool("BottomCard");
-            AddonnEditorCard = EditorPrefs.GetBool("AddonnEditorCard");
+            DrawInformationsArea = EditorPrefs.GetBool("TopCard");
+            DrawPropertiesArea = EditorPrefs.GetBool("MiddleCard");
+            DrawActionArea = EditorPrefs.GetBool("BottomCard");
+            DrawAddOnArea = EditorPrefs.GetBool("AddonnEditorCard");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -274,36 +274,38 @@ namespace NetWorkedData
             //tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 
-            bool tTopCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), TopCard, "View Top Card");
-            if (tTopCard != TopCard)
+            bool tTopCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawInformationsArea, "View informations");
+            if (tTopCard != DrawInformationsArea)
             {
-                TopCard = tTopCard;
-                EditorPrefs.SetBool("TopCard", TopCard);
-                ReEvaluateLayout();
-            }
-            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
-            bool tMiddleCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), MiddleCard, "View Middle Card");
-            if (tMiddleCard != MiddleCard)
-            {
-                MiddleCard = tMiddleCard;
-                EditorPrefs.SetBool("MiddleCard", MiddleCard);
-                ReEvaluateLayout();
-            }
-            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
-            bool tBottomCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), BottomCard, "View Bottom Card");
-            if (tBottomCard != BottomCard)
-            {
-                BottomCard = tBottomCard;
-                EditorPrefs.SetBool("BottomCard", BottomCard);
+                DrawInformationsArea = tTopCard;
+                EditorPrefs.SetBool("TopCard", DrawInformationsArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-            bool tAddonnEditorCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), AddonnEditorCard, "View add editor");
-            if (tAddonnEditorCard != AddonnEditorCard)
+            bool tMiddleCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawPropertiesArea, "View properties");
+            if (tMiddleCard != DrawPropertiesArea)
             {
-                AddonnEditorCard = tAddonnEditorCard;
-                EditorPrefs.SetBool("AddonnEditorCard", AddonnEditorCard);
+                DrawPropertiesArea = tMiddleCard;
+                EditorPrefs.SetBool("MiddleCard", DrawPropertiesArea);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            bool tAddonnEditorCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawAddOnArea, "View add-on");
+            if (tAddonnEditorCard != DrawAddOnArea)
+            {
+                DrawAddOnArea = tAddonnEditorCard;
+                EditorPrefs.SetBool("AddonnEditorCard", DrawAddOnArea);
+                ReEvaluateLayout();
+            }
+            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            bool tBottomCard = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), DrawActionArea, "View action");
+            if (tBottomCard != DrawActionArea)
+            {
+                DrawActionArea = tBottomCard;
+                EditorPrefs.SetBool("BottomCard", DrawActionArea);
                 ReEvaluateLayout();
             }
             tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -313,14 +315,14 @@ namespace NetWorkedData
 
 
 
-            bool tUsedOnlyProperties = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
-            if (tUsedOnlyProperties != UsedOnlyProperties)
-            {
-                UsedOnlyProperties = tUsedOnlyProperties;
-                EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
-                ReAnalyze();
-            }
-            tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //bool tUsedOnlyProperties = GUI.Toggle(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kToggleStyle.fixedHeight), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
+            //if (tUsedOnlyProperties != UsedOnlyProperties)
+            //{
+            //    UsedOnlyProperties = tUsedOnlyProperties;
+            //    EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
+            //    ReAnalyze();
+            //}
+            //tY += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
 
 

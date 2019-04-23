@@ -394,6 +394,7 @@ namespace NetWorkedData
             int tCounter = 0;
             foreach (string tRef in GetSortedReferences())
             {
+                //Debug.Log("CreatePloters " + sNodalCard.DataObject.Reference + " : for "+ tRef + " tHeight = " + tHeight);
                 sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef, 
                     new Vector2(0, 
                     tHeight

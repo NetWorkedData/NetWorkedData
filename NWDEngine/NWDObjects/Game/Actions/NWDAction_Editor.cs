@@ -36,12 +36,12 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The editor height addon.</returns>
         /// <param name="sInRect">S in rect.</param>
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
 
-            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
-            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
+            float tWidth = sRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sRect.position.x + NWDGUI.kFieldMarge;
+            float tY = sRect.position.y + NWDGUI.kFieldMarge;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -53,10 +53,10 @@ namespace NetWorkedData
 
             tYadd += NWDGUI.kFieldMarge;
             // Draw line 
-            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            tYadd += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
 
             // Draw the interface addon for editor
-            if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDGUI.kMiniButtonStyle.fixedHeight), "Post this Action"))
+            if (GUI.Button(new Rect(sRect.x, sRect.y, sRect.width, NWDGUI.kMiniButtonStyle.fixedHeight), "Post this Action"))
             {
                 PostNotification();
             }
@@ -75,14 +75,13 @@ namespace NetWorkedData
             //EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2),
             //                             tTexture);
             //tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor intreface expected height.
         /// </summary>
         /// <returns>The editor expected height.</returns>
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);

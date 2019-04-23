@@ -46,18 +46,16 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The editor height addon.</returns>
         /// <param name="sInRect">S in rect.</param>
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor intreface expected height.
         /// </summary>
         /// <returns>The editor expected height.</returns>
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;

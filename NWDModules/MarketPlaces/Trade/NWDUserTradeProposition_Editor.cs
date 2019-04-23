@@ -30,12 +30,12 @@ namespace NetWorkedData
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
 
             float tYadd = 20.0f;
 
@@ -58,7 +58,6 @@ namespace NetWorkedData
                     TradeRequestHash = tRequest.TradeHash;
                 }
             }
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

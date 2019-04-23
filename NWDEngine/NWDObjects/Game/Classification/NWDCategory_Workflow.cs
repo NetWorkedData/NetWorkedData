@@ -298,18 +298,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             foreach (NWDItem tItem in NWDItem.FindByCategory(this))
             {
                 GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), tItem.InternalKey+" "+ tItem.Reference, NWDGUI.kLabelStyle);
                 tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
             }
-            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

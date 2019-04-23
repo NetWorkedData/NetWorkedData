@@ -36,14 +36,12 @@ namespace NetWorkedData
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
-
-            float tYadd = 20.0f;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -64,7 +62,6 @@ namespace NetWorkedData
                     BarterRequestHash = tRequest.BarterHash;
                 }
             }
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
