@@ -46,6 +46,7 @@ namespace NetWorkedData
     /// </code>
     /// </example>
     /// </summary>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public class NWDExampleConnection : NWDConnection<NWDExample>
     {

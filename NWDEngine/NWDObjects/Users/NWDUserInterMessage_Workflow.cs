@@ -27,6 +27,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
     public class NWDUserInterMessageConnection : NWDConnection<NWDUserInterMessage>
     {
     }
