@@ -318,7 +318,7 @@ namespace NetWorkedData
                 if (sVisibleRect.Overlaps(CardRect))
                 {
                 // Debug.Log("NWDNodeCard DrawCard() rect = " + CardRect.ToString());
-                GUI.Box(CardRect, " ", EditorStyles.helpBox);
+                GUI.Box(NWDGUI.UnMargeAll(CardRect), " ", EditorStyles.helpBox);
                 //GUI.DrawTexture(CardRect, NWDToolbox.TextureFromColor(Color.red));
 
 

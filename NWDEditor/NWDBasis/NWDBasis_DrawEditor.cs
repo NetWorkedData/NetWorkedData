@@ -219,11 +219,14 @@ namespace NetWorkedData
                 tR = new Rect(sNodalCard.HeaderRect.x, sNodalCard.HeaderRect.y, sNodalCard.HeaderRect.width, 0);
             }
 
+            EditorGUI.DrawRect(tR, Color.red);
+
+
             if (sNodalCard != null)
             {
                 tR.y += NWDGUI.kFieldMarge;
                 tR.y += sNodalCard.ParentDocument.DrawAnalyzer(tR, sNodalCard, GetType().Name);
-                NWDGUI.Line(tR);
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tR));
             }
 
             // DARW MODEL ALERT DEBUG 
@@ -457,6 +460,8 @@ namespace NetWorkedData
                 {
                     tR = new Rect(sNodalCard.InformationsRect.x, sNodalCard.InformationsRect.y, sNodalCard.InformationsRect.width, 0);
                 }
+
+                EditorGUI.DrawRect(tR, Color.yellow);
 
                 if (WebserviceVersionIsValid())
                 {
@@ -1065,17 +1070,15 @@ namespace NetWorkedData
             }
             if (tDrawBottom == true)
             {
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(ActionRect));
-                Rect tActionRect = new Rect(ActionRect.x, ActionRect.y + NWDGUI.kFieldMarge, ActionRect.width, ActionRect.height - NWDGUI.kFieldMarge);
-
+                Rect tActionRectO = ActionRect;
                 if (sNodalCard != null)
                 {
-                    tActionRect = new Rect(sNodalCard.ActionRect.x, sNodalCard.ActionRect.y + NWDGUI.kFieldMarge, sNodalCard.ActionRect.width, sNodalCard.ActionRect.height - NWDGUI.kFieldMarge);
+                    tActionRectO = sNodalCard.ActionRect;
                 }
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));
+                Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
 
-
-
-                    Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 4, true);
+                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 4, true);
                 GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 0], tMatrixRect[3, 0]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
              
                 if (GUI.Button(tMatrixRect[0, 1], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
