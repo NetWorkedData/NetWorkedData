@@ -358,6 +358,7 @@ namespace NetWorkedData
         public virtual void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
         }
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public virtual float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
         {
@@ -367,6 +368,17 @@ namespace NetWorkedData
         public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
+        {
+            return 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
+        {
+            return Rect.zero;
+        }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         //public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         //{
@@ -379,11 +391,6 @@ namespace NetWorkedData
         //public virtual void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
         //{
         //}
-        ////-------------------------------------------------------------------------------------------------------------
-        public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
-        {
-            return 0;
-       }
         ////-------------------------------------------------------------------------------------------------------------
         //public virtual float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
         //{
@@ -400,11 +407,6 @@ namespace NetWorkedData
         //    return 0;
         //}
         //-------------------------------------------------------------------------------------------------------------
-
-
-
-
-        //-------------------------------------------------------------------------------------------------------------
         public virtual void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
         }
@@ -416,11 +418,6 @@ namespace NetWorkedData
         public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
             return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
-        {
-            return Rect.zero;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool VisibleByGameSave(string sGameSaveReference)
