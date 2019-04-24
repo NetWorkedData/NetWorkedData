@@ -262,8 +262,10 @@ namespace NetWorkedData
             {
                 WebModelSQLOrder.Add(0, New_SLQSelect(0));
             }
+#if UNITY_EDITOR
             WebModelDegraded = New_ModelDegraded();
             WebModelChanged = New_ModelChanged();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public string[] New_SLQAssemblyOrderArray(int sWebBuilt = -1) //  for insert of $sCsvList

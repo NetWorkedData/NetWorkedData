@@ -58,7 +58,8 @@ namespace NetWorkedData
     /// </code>
     /// </example>
     /// </summary>
-	[Serializable]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
     public class NWDBattlePropertyConnection : NWDConnection<NWDBattleProperty>
     {
     }

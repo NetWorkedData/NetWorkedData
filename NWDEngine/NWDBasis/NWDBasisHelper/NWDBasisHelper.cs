@@ -42,6 +42,7 @@ namespace NetWorkedData
                 tObject.Index();
             }
         }
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void New_RepaintTableEditor()
         {
@@ -52,6 +53,7 @@ namespace NetWorkedData
         {
             NWDDataInspector.ActiveRepaint();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void New_ChangeAssetPath(string sOldPath, string sNewPath)
         {

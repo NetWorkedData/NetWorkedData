@@ -66,6 +66,7 @@ namespace NetWorkedData
     /// </code>
     /// </example>
     /// </summary>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public class NWDUserBarterPropositionConnection : NWDConnection<NWDUserBarterProposition>
     {

@@ -1239,6 +1239,7 @@ namespace NetWorkedData
                     }
                     tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 }
+
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.EndRedArea();
 
