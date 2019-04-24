@@ -21,8 +21,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
         {
-            //TotalSize(new Rect(sNodalCard.Position.x, sNodalCard.Position.y, NWDGUI.kNodeCardWidth,0), false, sNodalCard);
-            TotalSize(new Rect(0, 0, sWidth, 0), false, sNodalCard);
+            if (sNodalCard != null)
+            {
+                TotalSize(new Rect(sNodalCard.Position.x, sNodalCard.Position.y, NWDGUI.kNodeCardWidth,0), false, sNodalCard);
+            }
+            else
+            {
+                TotalSize(new Rect(0, 0, sWidth, 0), false, sNodalCard);
+            }
             return TotalRect.height;
         }
         //-------------------------------------------------------------------------------------------------------------
