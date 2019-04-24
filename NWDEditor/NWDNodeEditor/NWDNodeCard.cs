@@ -86,11 +86,16 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
-                foreach (NWDTypeClass tObject in sObjectsArray)
+            foreach (NWDTypeClass tObject in sObjectsArray)
+            {
+                // Card exist?
+                if (tObject != null)
                 {
-                    // Card exist?
-                    if (tObject != null)
-                    {
+                    Type tTypeOfThis = tObject.GetType();
+                if (ParentDocument.AnalyzeStyleClasses[tTypeOfThis.Name] == NWDClasseAnalyseEnum.Show ||
+                    ParentDocument.AnalyzeStyleClasses[tTypeOfThis.Name] == NWDClasseAnalyseEnum.Analyze
+                    )
+                {
                         bool tDataAllReadyShow = false;
                         NWDNodeCard tCard = null;
                         foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
@@ -118,6 +123,7 @@ namespace NetWorkedData
                         }
                     }
                 }
+            }
             //BTBBenchmark.Finish();
             return rResult;
         }

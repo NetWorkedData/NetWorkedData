@@ -32,7 +32,6 @@ namespace NetWorkedData
         None,
         Show,
         Analyze,
-        Both,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDNodeDocument
@@ -167,7 +166,7 @@ namespace NetWorkedData
             Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
             foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopy)
             {
-                AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)EditorPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key, (int)NWDClasseAnalyseEnum.Both);
+                AnalyzeStyleClasses[tKeyValue.Key] = (NWDClasseAnalyseEnum)EditorPrefs.GetInt("NWDEditorNodal_" + tKeyValue.Key, (int)NWDClasseAnalyseEnum.Analyze);
             }
             Language = EditorPrefs.GetString("NWDNodeEditorLanguage");
             //BTBBenchmark.Finish();
@@ -284,16 +283,8 @@ namespace NetWorkedData
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.None)
-                    {
                         AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Show;
                         EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.Analyze)
-                    {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Both;
-                        EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
                 }
                 ReAnalyze();
             }
@@ -302,16 +293,9 @@ namespace NetWorkedData
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.Show)
-                    {
+
                         AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.None;
                         EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.Both)
-                    {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Analyze;
-                        EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
                 }
                 ReAnalyze();
             }
@@ -321,34 +305,8 @@ namespace NetWorkedData
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.None)
-                    {
                         AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Analyze;
                         EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.Show)
-                    {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Both;
-                        EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
-                }
-                ReAnalyze();
-            }
-            if (GUI.Button(new Rect(tX + tWHalf + NWDGUI.kFieldMarge * 2, tY, tWHalf, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_ANALYZE_NONE, NWDGUI.kMiniButtonStyle))
-            {
-                Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
-                foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
-                {
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.Analyze)
-                    {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.None;
-                        EditorPrefs.SetInt("NWDEditorShow_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
-                    if (tAnalyzeStyleClassesCopyCopy[tKeyValue.Key] == NWDClasseAnalyseEnum.Both)
-                    {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Show;
-                        EditorPrefs.SetInt("NWDEditorShow_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
-                    }
                 }
                 ReAnalyze();
             }
@@ -553,13 +511,13 @@ namespace NetWorkedData
             TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in TypeList)
             {
-                AnalyzeStyleClasses.Add(tType.Name, NWDClasseAnalyseEnum.Both);
+                AnalyzeStyleClasses.Add(tType.Name, NWDClasseAnalyseEnum.Analyze);
             }
             AnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>();
             TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in TypeList)
             {
-                AnalyzeStyleClasses.Add(tType.Name, NWDClasseAnalyseEnum.Both);
+                AnalyzeStyleClasses.Add(tType.Name, NWDClasseAnalyseEnum.Analyze);
             }
             LoadPreferences();
             //BTBBenchmark.Finish();

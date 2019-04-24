@@ -48,8 +48,7 @@ namespace NetWorkedData
                 sCard.ParentDocument.AllCardsAnalyzed.Add(sCard);
                 // I analyze this card and its properties (only the reference properties)
                 Type tType = ClassType();
-                if (sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Analyze ||
-                    sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Both)
+                if (sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Analyze)
                 {
                     foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
@@ -74,26 +73,27 @@ namespace NetWorkedData
                                     {
                                         Type tSubType = tTypeOfThis.GetGenericArguments()[0];
 
-                                        if (sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Show ||
-                    sCard.ParentDocument.AnalyzeStyleClasses[tType.Name] == NWDClasseAnalyseEnum.Both)
-                                        {
-                                            var tVar = tProp.GetValue(this, null);
-                                            if (tVar != null)
-                                            {
-                                                //object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
 
-                                                object[] tObjects = new object[] { null };
-                                                if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
-                                                {
-                                                    NWDReferenceSimple tTTVar = tVar as NWDReferenceSimple;
-                                                    tObjects = tTTVar.GetEditorDatas();
-                                                }
-                                                if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
-                                                {
-                                                    NWDReferenceMultiple tTTVar = tVar as NWDReferenceMultiple;
-                                                    tObjects = tTTVar.GetEditorDatas();
-                                                }
+                                        var tVar = tProp.GetValue(this, null);
+                                        if (tVar != null)
+                                        {
+                                            //object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
+
+                                            object[] tObjects = new object[] { null };
+                                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+                                            {
+                                                NWDReferenceSimple tTTVar = tVar as NWDReferenceSimple;
+                                                tObjects = tTTVar.GetEditorDatas();
+                                            }
+                                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                                            {
+                                                NWDReferenceMultiple tTTVar = tVar as NWDReferenceMultiple;
+                                                tObjects = tTTVar.GetEditorDatas();
+                                            }
                                                 List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tObjects);
+                   //                         if (sCard.ParentDocument.AnalyzeStyleClasses[tSubType.Name] == NWDClasseAnalyseEnum.Show ||
+                   //sCard.ParentDocument.AnalyzeStyleClasses[tSubType.Name] == NWDClasseAnalyseEnum.Analyze)
+                                            {
                                                 foreach (NWDNodeCard tNewCard in tNewCards)
                                                 {
                                                     tNewCard.Analyze(sCard.ParentDocument);
