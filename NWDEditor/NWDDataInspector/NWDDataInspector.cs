@@ -75,11 +75,14 @@ namespace NetWorkedData
             {
                 ActualIndex = 0;
             }
-            NWDTypeClass tTarget = mObjectsList[ActualIndex];
-            mObjectInEdition = tTarget;
-            Repaint();
-            RemoveActualFocus = true;
-            Focus();
+            if (mObjectsList.Count > ActualIndex)
+            {
+                NWDTypeClass tTarget = mObjectsList[ActualIndex];
+                mObjectInEdition = tTarget;
+                Repaint();
+                RemoveActualFocus = true;
+                Focus();
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -96,11 +99,14 @@ namespace NetWorkedData
             {
                 ActualIndex = 0;
             }
-            NWDTypeClass tTarget = mObjectsList[ActualIndex];
-            mObjectInEdition = tTarget;
-            Repaint();
-            RemoveActualFocus = true;
-            Focus();
+            if (mObjectsList.Count > ActualIndex)
+            {
+                NWDTypeClass tTarget = mObjectsList[ActualIndex];
+                mObjectInEdition = tTarget;
+                Repaint();
+                RemoveActualFocus = true;
+                Focus();
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

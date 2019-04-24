@@ -359,10 +359,10 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
-        {
-            return 0;
-        }
+        //public virtual float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return 0;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
