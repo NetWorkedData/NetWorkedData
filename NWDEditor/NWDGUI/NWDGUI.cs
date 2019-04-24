@@ -27,7 +27,7 @@ namespace NetWorkedData
         public static float kFieldMarge = 5.0f;
         //public static float kTopAdjustMarge = 2.0f;
         public static float kFieldIndent = 15.0f;
-        public static float kScrollbar = 20f;
+        public static float kScrollbar = 18f;
         public static GUIStyle kScrollviewFullWidth;
         public static float KTAB_BAR_HEIGHT = 40.0F;
         //-------------------------------------------------------------------------------------------------------------
@@ -265,6 +265,27 @@ namespace NetWorkedData
         static NWDGUI()
         {
             StyleLoaded = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static float AreaHeight(float tFieldHeigt, int tFieldNumber, bool sAlreadyMarged = true)
+        {
+            if (sAlreadyMarged == true)
+            {
+                return tFieldNumber * tFieldHeigt + (tFieldNumber - 1) * kFieldMarge;
+            }
+            else
+            {
+                return tFieldNumber * tFieldHeigt + (tFieldNumber + 1) * kFieldMarge;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect AssemblyArea(Rect sA, Rect sB)
+        {
+            float tXo = Math.Min(sA.x, sB.x);
+            float tXf = Math.Max(sA.x+sA.width, sB.x+sB.width);
+            float tYo = Math.Min(sA.y, sB.y);
+            float tYf = Math.Max(sA.y + sA.height, sB.y + sB.height);
+            return new Rect(tXo, tYo, tXf - tXo, tYf - tYo);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect[] DiviseArea(Rect sRect, int sX, bool sAlreadyMarged = true)
@@ -760,6 +781,11 @@ namespace NetWorkedData
         public static Rect UnMargeAll(Rect sRect)
         {
             return new Rect(sRect.x - kFieldMarge, sRect.y - kFieldMarge, sRect.width + kFieldMarge * 2, sRect.height + kFieldMarge * 2);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect UnMargeLeftRight(Rect sRect)
+        {
+            return new Rect(sRect.x - kFieldMarge, sRect.y, sRect.width + kFieldMarge * 2, sRect.height);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect Line(Rect sRect)

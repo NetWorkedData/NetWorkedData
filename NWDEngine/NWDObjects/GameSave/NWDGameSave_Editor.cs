@@ -48,11 +48,11 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
@@ -64,7 +64,7 @@ namespace NetWorkedData
 
             // draw line 
 
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
 
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -93,11 +93,9 @@ namespace NetWorkedData
                 SetCurrent();
             }
             tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;

@@ -189,14 +189,12 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;

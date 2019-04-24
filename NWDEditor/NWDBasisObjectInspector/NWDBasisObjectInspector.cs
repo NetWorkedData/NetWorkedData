@@ -39,7 +39,7 @@ namespace NetWorkedData
             NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
-                tTarget.mObjectInEdition.DrawEditorTop(Rect.zero, false, null);
+                tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null);
             }
             //BTBBenchmark.Finish();
         }

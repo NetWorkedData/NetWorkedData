@@ -364,37 +364,41 @@ namespace NetWorkedData
             return 0;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DrawEditorTop(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DrawEditorMiddle(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
-        {
-        }
+        //public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        //{
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
+        //public virtual void DrawEditorMiddle(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        //{
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        //{
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
         public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
         {
-            return DrawEditorTopHeight(sNodalCard, sWidth) + DrawEditorMiddleHeight(sNodalCard, sWidth) + DrawEditorBottomHeight(sNodalCard, sWidth);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
-        {
             return 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
-        {
-            return DrawInspectorHeight(sNodalCard, sWidth);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
-        {
-            return 0;
-        }
+       }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return 0;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return DrawInspectorHeight(sNodalCard, sWidth);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return 0;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 
 

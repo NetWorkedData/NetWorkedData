@@ -394,10 +394,11 @@ namespace NetWorkedData
             int tCounter = 0;
             foreach (string tRef in GetSortedReferences())
             {
+                //Debug.Log("CreatePloters " + sNodalCard.DataObject.Reference + " : for "+ tRef + " tHeight = " + tHeight);
                 sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef, 
                     new Vector2(0, 
                     tHeight
-                   + NWDGUI.kFieldMarge + (NWDGUI.kFieldMarge * tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight *(tCounter+0.5f)
+                   + (NWDGUI.kFieldMarge * tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight *(tCounter+0.5f)
                     )));
                 tCounter++;
             }

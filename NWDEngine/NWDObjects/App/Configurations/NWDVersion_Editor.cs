@@ -109,7 +109,7 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             // force update 
             //NWDVersion.UpdateVersionBundle();
@@ -118,7 +118,7 @@ namespace NetWorkedData
             //float tX = sInRect.position.x + NWDGUI.kFieldMarge;
             //float tY = sInRect.position.y + NWDGUI.kFieldMarge;
             // darw information about actual bundle 
-            sInRect = NWDGUI.MargeLeftRight(sInRect);
+           Rect sInRect = NWDGUI.MargeLeftRight(sRect);
             // Draw line 
             sInRect.y += NWDGUI.Separator(sInRect).height;
 
@@ -199,10 +199,9 @@ namespace NetWorkedData
                 NWDEditorMenu.EnvironementChooserShow();
             }
             sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
-            return sInRect.y;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);

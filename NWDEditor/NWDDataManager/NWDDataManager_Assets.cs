@@ -31,7 +31,6 @@ namespace NetWorkedData
 		public void ChangeAssetPath (string sOldPath, string sNewPath)
         {
             //BTBBenchmark.Start();
-            //Debug.Log ("ChangeAssetPath " + sOldPath + " to " + sNewPath);
             string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = mTypeList.Count + 1;
 			float tOperation = 1;
@@ -42,11 +41,6 @@ namespace NetWorkedData
 				tOperation++;
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.New_ChangeAssetPath(sOldPath,sNewPath);
-    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeAssetPath);
-				//if (tMethodInfo != null) 
-				//{
-				//	tMethodInfo.Invoke(null, new object[] {sOldPath, sNewPath});
-				//}
 			}
             DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);

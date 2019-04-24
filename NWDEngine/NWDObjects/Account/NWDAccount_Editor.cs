@@ -87,12 +87,12 @@ namespace NetWorkedData
         private string kInternalLogin; //TODO : change prefiuxe by p
         private string kInternalPassword; //TODO : change prefiuxe by p
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             //Debug.Log ("AddonEditor");
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -104,7 +104,7 @@ namespace NetWorkedData
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
 
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -268,11 +268,10 @@ namespace NetWorkedData
                     }
                     tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
-            }*/
-            return tY;
+            }*/;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             //Debug.Log ("AddonEditorHeight");
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);

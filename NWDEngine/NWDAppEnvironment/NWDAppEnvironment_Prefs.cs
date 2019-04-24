@@ -45,18 +45,18 @@ namespace NetWorkedData
                 //BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
 
 
-                NWDBasisPreferences.SetString(Environment + kPlayerStatusKey, this, PlayerStatut.ToString(), true);
+                NWDBasisPreferences.SetString(Environment + kPlayerAccountReferenceKey + kPlayerStatusKey, this, PlayerStatut.ToString(), true);
                 NWDBasisPreferences.SetString(Environment + kPlayerAccountReferenceKey, this, PlayerAccountReference, false);
-                NWDBasisPreferences.SetString(Environment + kRequesTokenKey, this, RequesToken, true);
+                NWDBasisPreferences.SetString(Environment + kPlayerAccountReferenceKey + kRequesTokenKey, this, RequesToken, true);
                 if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
                 {
                     BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                    BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
+                    BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey + kAnonymousResetPasswordKey, AnonymousResetPassword);
                 }
                 else
                 {
                     NWDBasisPreferences.SetString(Environment + kAnonymousPlayerAccountReferenceKey, this, AnonymousPlayerAccountReference, true);
-                    NWDBasisPreferences.SetString(Environment + kAnonymousResetPasswordKey, this, AnonymousResetPassword, true);
+                    NWDBasisPreferences.SetString(Environment + kAnonymousPlayerAccountReferenceKey + kAnonymousResetPasswordKey, this, AnonymousResetPassword, true);
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace NetWorkedData
 
             try
             {
-                PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), NWDBasisPreferences.GetString(Environment + kPlayerStatusKey, this, NWDAppEnvironmentPlayerStatut.Unknow.ToString(), true), true);
+                PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), NWDBasisPreferences.GetString(Environment + kPlayerAccountReferenceKey + kPlayerStatusKey, this, NWDAppEnvironmentPlayerStatut.Unknow.ToString(), true), true);
             }
             catch (ArgumentException e)
             {
@@ -94,16 +94,16 @@ namespace NetWorkedData
             }
 
             PlayerAccountReference = NWDBasisPreferences.GetString(Environment + kPlayerAccountReferenceKey, this, string.Empty, false);
-            RequesToken = NWDBasisPreferences.GetString(Environment + kRequesTokenKey, this, string.Empty, true);
+            RequesToken = NWDBasisPreferences.GetString(Environment + kPlayerAccountReferenceKey + kRequesTokenKey, this, string.Empty, true);
             if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
             {
                 AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
-                AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
+                AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey + kAnonymousResetPasswordKey);
             }
             else
             {
                 AnonymousPlayerAccountReference = NWDBasisPreferences.GetString(Environment + kAnonymousPlayerAccountReferenceKey, this, string.Empty, true);
-                AnonymousResetPassword = NWDBasisPreferences.GetString(Environment + kAnonymousResetPasswordKey, this, string.Empty, true);
+                AnonymousResetPassword = NWDBasisPreferences.GetString(Environment + kAnonymousPlayerAccountReferenceKey + kAnonymousResetPasswordKey, this, string.Empty, true);
             }
 
 

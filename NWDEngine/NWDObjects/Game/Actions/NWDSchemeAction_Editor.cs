@@ -29,12 +29,12 @@ namespace NetWorkedData
     public partial class NWDSchemeAction : NWDBasis<NWDSchemeAction>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
 
-            float tWidth = sInRect.width - NWDGUI.kFieldMarge * 2;
-            float tX = sInRect.position.x + NWDGUI.kFieldMarge;
-            float tY = sInRect.position.y + NWDGUI.kFieldMarge;
+            float tWidth = sRect.width - NWDGUI.kFieldMarge * 2;
+            float tX = sRect.position.x + NWDGUI.kFieldMarge;
+            float tY = sRect.position.y + NWDGUI.kFieldMarge;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -67,10 +67,9 @@ namespace NetWorkedData
                                              tTexture);
                 tYadd += NWDGUI.kPrefabSize * 2 + NWDGUI.kFieldMarge;
             }
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);

@@ -436,13 +436,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_NODE_WINDOW_TITLE = "Nodal view";
         public const string K_EDITOR_NODE_CHOOSE_LANGUAGE = "Choose language";
-        public const string K_EDITOR_NODE_ONLY_USED_PROPERTIES = "Only used properties";
-        public const string K_EDITOR_NODE_GROUP_PROPERTIES = "Group properties";
-        public const string K_EDITOR_NODE_ANALYZE_NONE = "Analyze nothing";
-        public const string K_EDITOR_NODE_ANALYZE_ALL = "Analyze everything";
+        //public const string K_EDITOR_NODE_ONLY_USED_PROPERTIES = "Only used properties";
+        //public const string K_EDITOR_NODE_GROUP_PROPERTIES = "Group properties";
         public const string K_EDITOR_NODE_SHOW_SELECTED_OBJECT = "Show Selected Object";
-        public const string K_EDITOR_NODE_MASK_ALL = "Show nothing";
-        public const string K_EDITOR_NODE_SHOW_ALL = "Show everything";
+        public const string K_EDITOR_NODE_ANALYZE_ALL = "Analyze for all";
+        public const string K_EDITOR_NODE_MASK_ALL = "None for all";
+        public const string K_EDITOR_NODE_SHOW_ALL = "Show for all";
         public const string K_EDITOR_NODE_LIST = "Classes show/analyze/new";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";

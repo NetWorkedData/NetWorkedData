@@ -89,22 +89,21 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
 
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
             {
                 BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), null);
             }
-            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
             float tYadd = NWDGUI.kMiniButtonStyle.fixedHeight;

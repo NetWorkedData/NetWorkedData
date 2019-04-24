@@ -41,13 +41,13 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
 
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
 
             List<NWDUserItemSlot> tUserItemSlotList = NWDUserItemSlot.FindByIndex(this.Reference);
             foreach(NWDUserItemSlot tUserItemSlot in tUserItemSlotList)
@@ -58,10 +58,9 @@ namespace NetWorkedData
                     tY += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }
-            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
             float tY = 0.0f; 

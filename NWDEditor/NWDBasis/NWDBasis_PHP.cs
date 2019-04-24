@@ -27,20 +27,7 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        static K sFictive;
-        //-------------------------------------------------------------------------------------------------------------
-        public static K FictiveData()
-        {
-            //BTBBenchmark.Start();
-            if (sFictive == null)
-            {
-                sFictive = NewDataWithReference("FICTIVE");
-                sFictive.DeleteData();
-                //Debug.Log("Test Fictive Data : " + NWDToolbox.ExposeProperty(() => sFictive.Reference));
-            }
-            //BTBBenchmark.Finish();
-            return sFictive;
-        }
+
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

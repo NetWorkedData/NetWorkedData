@@ -75,7 +75,6 @@ namespace NetWorkedData
         public override void RowAnalyze()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("RowAnalyze");
             AnalyzeID = ID;
             AnalyzeModel = WebModel;
             TestIntegrityResult = TestIntegrity();
@@ -381,8 +380,6 @@ namespace NetWorkedData
             tRect.width = NWDGUI.kTableSelectWidth;
             float tToggleFix = (NWDGUI.kTableRowHeight * sZoom - NWDGUI.KTableRowSelect.fixedHeight) / 2.0F;
             Rect tRectToogle = new Rect(tRect.x, tRect.y + tToggleFix, tRect.width, NWDGUI.kTableRowHeight * sZoom);
-            //EditorGUI.DrawRect(tRectToogle, Color.red);
-
             BasisHelper().EditorTableDatasSelected[this] = EditorGUI.ToggleLeft(tRectToogle, "", BasisHelper().EditorTableDatasSelected[this]);
             tRect.x += NWDGUI.kTableSelectWidth;
             // Draw ID

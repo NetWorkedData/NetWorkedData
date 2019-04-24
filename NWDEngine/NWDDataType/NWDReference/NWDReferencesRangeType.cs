@@ -676,7 +676,7 @@ namespace NetWorkedData
                 sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef,
                     new Vector2(0,
                     tHeight
-                   + NWDGUI.kFieldMarge + (NWDGUI.kFieldMarge * tCounter) + (NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * (tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight * 0.5F
+                   +  (NWDGUI.kFieldMarge * tCounter) + (NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * (tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight * 0.5F
                     )));
                 tCounter++;
             }
