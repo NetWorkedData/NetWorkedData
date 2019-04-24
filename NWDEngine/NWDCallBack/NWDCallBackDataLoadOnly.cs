@@ -114,6 +114,35 @@ namespace NetWorkedData
             {
                 DataLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
+
+
+
+
+
+
+
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_INDEXATION_START, delegate (BTBNotification sNotification)
+            {
+                DataIndexationStart(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            // load datas
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_INDEXATION_FINISH, delegate (BTBNotification sNotification)
+            {
+                DataIndexationFinish(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_INDEXATION_STEP, delegate (BTBNotification sNotification)
+            {
+                float tPurcent = NWDDataManager.SharedInstance().PurcentIndexed();
+                DataIndexationStep(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_READY, delegate (BTBNotification sNotification)
+            {
+                EngineReady(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+            });
+
+
+
+
         }
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
@@ -147,6 +176,12 @@ namespace NetWorkedData
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_START_LOADING);
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_INDEXATION_START);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_INDEXATION_STEP);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_INDEXATION_FINISH);
+
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_READY);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnEnable()
@@ -258,6 +293,29 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DataLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataIndexationStart(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataIndexationStep(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DataIndexationFinish(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void EngineReady(BTBNotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }

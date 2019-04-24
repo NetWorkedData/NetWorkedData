@@ -69,6 +69,11 @@ namespace NetWorkedData
             return (float)ClassDataLoaded / (float)ClassExpected;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public float PurcentIndexed()
+        {
+            return (float)ClassIndexation / (float)ClassExpected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public float PurcentEditorLoaded()
         {
             return (float)ClassEditorDataLoaded / (float)ClassEditorExpected;
