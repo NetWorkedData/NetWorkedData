@@ -11,13 +11,7 @@
 //
 // =====================================================================================================================
 #if UNITY_EDITOR
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
-using BasicToolBox;
-using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -33,7 +27,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TotalSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-            //BTBBenchmark.Start();
             HeaderSize(sInRect, sWithScrollview, sNodalCard);
             InformationsSize(sInRect, sWithScrollview, sNodalCard);
             NodalSize(sInRect, sWithScrollview, sNodalCard);
@@ -49,11 +42,6 @@ namespace NetWorkedData
             {
                 sNodalCard.TotalRect = TotalRect;
             }
-            //if (sNodalCard != null)
-            //{
-            //    sNodalCard.CardRect.height = TotalRect.height;
-            //}
-            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void HeaderSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -80,8 +68,6 @@ namespace NetWorkedData
             {
                 sNodalCard.HeaderRect = HeaderRect;
             }
-
-            // EditorGUI.DrawRect(HeaderRect, Color.red);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InformationsSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -135,12 +121,10 @@ namespace NetWorkedData
                 }
             }
             InformationsRect = new Rect(sInRect.x, HeaderRect.y + HeaderRect.height + NWDGUI.kFieldMarge, sInRect.width, tH);
-
             if (sNodalCard != null)
             {
                 sNodalCard.InformationsRect = InformationsRect;
             }
-            // EditorGUI.DrawRect(InformationsRect, Color.magenta);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void NodalSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -166,7 +150,6 @@ namespace NetWorkedData
             {
                 sNodalCard.NodalRect = NodalRect;
             }
-            // EditorGUI.DrawRect(NodalRect, Color.yellow);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void PropertiesSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -195,7 +178,6 @@ namespace NetWorkedData
             else
             {
                 PropertiesRect = new Rect(NodalRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge*2, sInRect.width, tH);
-                //EditorGUI.DrawRect(PropertiesRect, Color.green);
             }
             if (sNodalCard != null)
             {
@@ -261,24 +243,18 @@ namespace NetWorkedData
             {
                 sNodalCard.ActionRect = ActionRect;
             }
-            // EditorGUI.DrawRect(ActionRect, Color.blue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ContentSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-
             PropertiesSize(sInRect, sWithScrollview, sNodalCard);
             AddOnSize(sInRect, sWithScrollview, sNodalCard);
-
             ContentRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, PropertiesRect.width, PropertiesRect.height + AddOnRect.height + NWDGUI.kFieldMarge*2);
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ScroolViewSize(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         {
-            ScrollRect = new Rect(sInRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height - NWDGUI.kFieldMarge);
-
-            // IF SPACE IS NOT ENOUGH : Add scrollbar           
+            ScrollRect = new Rect(sInRect.x, NodalRect.y + NodalRect.height + NWDGUI.kFieldMarge, sInRect.width + NWDGUI.kFieldMarge, sInRect.height +(sInRect.y- NodalRect.y) - ActionRect.height - NWDGUI.kFieldMarge);         
             if (ScrollRect.height < ContentRect.height)
             {
                 if (ScrollRect.width < ContentRect.width)
@@ -292,209 +268,14 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public float DrawCardTopHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    //BTBBenchmark.Start();
-        //    float rCardTopHeight = 0;
-        //    if (sNodalCard != null)
-        //    {
-        //        rCardTopHeight = NWDGUI.kEditButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //        sNodalCard.CardTopHeight = rCardTopHeight;
-        //    }
-        //    //BTBBenchmark.Finish();
-        //    return rCardTopHeight;
-        //}
-
-        ////-------------------------------------------------------------------------------------------------------------
-        //public override float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    // BTBBenchmark.Start();
-        //    TopHeight = 0;
-        //    // Top inpector
-        //    float tY = 0;
-        //    tY += NWDGUI.kFoldoutStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    tY += NWDGUI.kFieldMarge;
-        //    if (BasisHelper().kSyncAndMoreInformations)
-        //    {
-        //        EditorGUI.EndDisabledGroup();
-
-        //        tY += (NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge) * 14;
-        //    }
-        //    tY += NWDGUI.kObjectFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    bool tInternalKeyEditable = true;
-        //    if (GetType().GetCustomAttributes(typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0)
-        //    {
-        //        tInternalKeyEditable = false;
-        //    }
-        //    if (tInternalKeyEditable == true)
-        //    {
-        //        tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    }
-        //    else
-        //    {
-        //        tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    }
-        //    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    // Tag management
-        //    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    if (BasisHelper().kAccountDependent == false)
-        //    {
-        //        tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //    }
-        //    // Toogle Dev Prepprod Prod and operation associated
-        //    tY += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-        //    TopHeight += tY;
-        //    if (sNodalCard != null)
-        //    {
-        //        if (sNodalCard.ParentDocument.DrawInformationsArea == false)
-        //        {
-        //            TopHeight = 0;
-        //        }
-        //    }
-
-        //    // Top inpector Infos (it's constance)
-        //    TopHeight += NWDGUI.kInspectorInternalTitle.fixedHeight;
-        //    TopHeight += NWDGUI.kInspectorReferenceCenter.fixedHeight;
-        //    TopHeight += NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge;
-
-        //    if (sNodalCard != null)
-        //    {
-        //        TopHeight += NWDGUI.kFieldMarge;
-        //        TopHeight += NWDGUI.kPopupStyle.fixedHeight;
-        //    }
-
-        //    if (BasisHelper().WebModelChanged == true)
-        //    {
-        //        TopHeight += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL) + NWDGUI.kFieldMarge;
-        //    }
-        //    if (BasisHelper().WebModelDegraded == true)
-        //    {
-        //        TopHeight += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED) + NWDGUI.kFieldMarge;
-        //    }
-
-        //    if (XX > 0 || IsEnable() == false || WebserviceVersionIsValid() == false)
-        //    {
-        //        TopHeight += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //        TopHeight += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //        TopHeight += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-        //        TopHeight += NWDGUI.kFieldMarge;
-        //    }
-
-
-        //    // add nodal area
-        //    if (sNodalCard != null)
-        //    {
-        //        // add nodal area
-        //        AddonNodalHeightResult = AddOnNodeDrawHeight(sWidth - NWDGUI.kFieldMarge * 2);
-        //        if (AddonNodalHeightResult < 0)
-        //        {
-        //            AddonNodalHeightResult = 20;
-        //        }
-        //        TopHeight += AddonNodalHeightResult + NWDGUI.kFieldMarge * 2;
-        //        // reccord nodal top height
-        //        sNodalCard.TopHeight = TopHeight;
-
-        //        //Debug.Log("sNodalCard "+ sNodalCard.DataObject.Reference+ " TopHeight = " + sNodalCard.TopHeight);
-        //    }
-
-
-        //    // BTBBenchmark.Finish();
-        //    return TopHeight;
-        //    ;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public override float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    //BTBBenchmark.Start();
-        //    MiddleHeight = DrawInspectorHeight(sNodalCard, sWidth);
-
-        //    MiddleHeight += DrawEditorAddonHeight(sNodalCard, sWidth);
-        //    if (sNodalCard != null)
-        //    {
-        //        if (sNodalCard.ParentDocument.DrawPropertiesArea == false)
-        //        {
-        //            MiddleHeight = 0;
-        //        }
-        //        sNodalCard.MiddleHeight = MiddleHeight;
-        //    }
-        //    //BTBBenchmark.Finish();
-        //    return MiddleHeight;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public float DrawEditorAddonHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    //BTBBenchmark.Start();
-        //    EditorHeight = 0;
-        //    bool tAddonEditor = true;
-        //    if (sNodalCard != null)
-        //    {
-        //        tAddonEditor = sNodalCard.ParentDocument.DrawAddOnArea;
-        //    }
-        //    if (tAddonEditor == true)
-        //    {
-        //        AddonEditorHeightResult = AddonEditorHeight();
-        //        if (AddonEditorHeightResult > 0)
-        //        {
-        //            EditorHeight += AddonEditorHeightResult + NWDGUI.kFieldMarge * 2;
-        //        }
-        //    }
-        //    //BTBBenchmark.Finish();
-        //    return EditorHeight;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public override float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    //BTBBenchmark.Start();
-        //    BottomHeight = NWDGUI.kFieldMarge +
-        //        NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge +
-        //        NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge +
-        //        NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge +
-        //        NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-
-        //    if (sNodalCard != null)
-        //    {
-        //        if (sNodalCard.ParentDocument.DrawActionArea == false)
-        //        {
-        //            BottomHeight = 0;
-        //        }
-        //        sNodalCard.BottomHeight = BottomHeight;
-        //    }
-        //    //BTBBenchmark.Finish();
-        //    return BottomHeight;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public override float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //if (RecalulateHeight == true)
-        //    {
-        //        InspectorHeight = 0;
-        //        BasisHelper().AnalyzeForInspector();
-        //        NWDBasisHelperGroup tInspectorHelper = BasisHelper().InspectorHelper;
-        //        foreach (NWDBasisHelperElement tElement in tInspectorHelper.Elements)
-        //        {
-        //            InspectorHeight += tElement.NewDrawObjectInspectorHeight(this, sNodalCard, sWidth);
-        //        }
-
-        //        InspectorHeight += NWDGUI.kFieldMarge;
-        //        //RecalulateHeight = false;
-        //    }
-        //    //BTBBenchmark.Finish();
-        //    return InspectorHeight;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float AddonEditorHeight(float sWidth) // add width!!!
+        public virtual float AddonEditorHeight(float sWidth)
         {
             return 0.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 0.0f;
-            //float tHeight = NWDGUI.kHelpBoxStyle.CalcHeight(new GUIContent(InternalDescription), sCardWidth);
-            //return tHeight;
+            return NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kLabelStyle.fixedHeight + (NWDGUI.kFieldMarge)*2;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
