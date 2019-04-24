@@ -47,7 +47,7 @@ namespace NetWorkedData
         //public const string M_PrepareToPreprodPublish = "M_PrepareToPreprodPublish";
         //public const string M_DrawTypeInInspector = "M_DrawTypeInInspector";
         //public const string M_DrawObjectEditor = "M_DrawObjectEditor";
-        public const string M_EditorGetObjects = "M_EditorGetObjects";
+        //public const string M_EditorGetObjects = "M_EditorGetObjects";
         //public const string M_ChangeReferenceForAnotherInAllObjects = "M_ChangeReferenceForAnotherInAllObjects";
         //public const string M_ChangeReferenceForAnother = "M_ChangeReferenceForAnother";
         //public const string M_ReferenceConnectionHeightSerializedString = "M_ReferenceConnectionHeightSerializedString";
