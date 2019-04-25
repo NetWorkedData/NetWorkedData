@@ -98,7 +98,8 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Editor preferences");
-            NWDGUILayout.Informations("Some informations!");
+            //NWDGUILayout.Informations("Some informations!");
+            NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
             NWDGUILayout.Line();
             float tMinWidht = 270.0F;
             int tColum = 1;

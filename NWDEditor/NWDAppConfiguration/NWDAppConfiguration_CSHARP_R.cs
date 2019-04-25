@@ -62,6 +62,7 @@ namespace NetWorkedData
             rReturn.AppendLine("AccountHashSaltB = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
             rReturn.AppendLine("RowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine("PreloadDatas = " + PreloadDatas.ToString().ToLower() + ";");
+            rReturn.AppendLine("EditorTableCommun = " + EditorTableCommun.ToString().ToLower() + ";");
             rReturn.AppendLine("PinCodeLenghtMin = " + PinCodeLenghtMin.ToString().ToLower() + ";");
             rReturn.AppendLine("PinCodeLenghtMax = " + PinCodeLenghtMax.ToString().ToLower() + ";");
             rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");

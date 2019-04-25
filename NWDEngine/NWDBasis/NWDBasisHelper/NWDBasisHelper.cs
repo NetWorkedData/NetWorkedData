@@ -78,7 +78,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<Type> New_ClasseInThisSync()
         {
-            List<Type> rReturn = New_OverrideClasseInThisSync();
+            List<Type> rReturn = null;
+            if (Application.isPlaying == true)
+            {
+                rReturn = New_OverrideClasseInThisSync();
+                if (rReturn.Contains(ClassType) == false)
+                {
+                    rReturn.Add(ClassType);
+                }
+            }
+            else
+            {
+                rReturn = new List<Type>();
+                rReturn.Add(ClassType);
+            }
             //rReturn = new List<Type>(rReturn.Distinct<Type>());
             Debug.Log("New_ClasseInThisSync calculate : " + string.Join(" ", rReturn));
             return rReturn;
@@ -332,7 +345,7 @@ namespace NetWorkedData
                 tTypeInfos.ClassSynchronize = tServerSynchronize;
 
                 //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Instance))
-                foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
+                foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
                 {
                     //if (sType.Name == "NWDItem")
                     //{
@@ -351,7 +364,8 @@ namespace NetWorkedData
                 //BTBBenchmark.Start("Declare() step D");
                 // create GUI object
 #if UNITY_EDITOR
-                // tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
+
+                // tTypeInfos.ClassMenuNameContent = new GUIContenm();t(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
 #endif
                 //BTBBenchmark.Finish("Declare() step D");
                 //BTBBenchmark.Start("Declare() step E");
@@ -498,66 +512,72 @@ namespace NetWorkedData
 
 
                 if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
-            {
-                NWDDataManager.SharedInstance().mTypeList.Add(sType);
-            }
+                {
+                    NWDDataManager.SharedInstance().mTypeList.Add(sType);
+                }
 
-            if (tTypeInfos.kAccountDependent)
-            {
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == false)
+                if (tTypeInfos.kAccountDependent)
                 {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(sType);
+                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == false)
+                    {
+                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(sType);
+                    }
+                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
+                    {
+                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
+                    }
                 }
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
+                else
                 {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
+                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == false)
+                    {
+                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(sType);
+                    }
+                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
+                    {
+                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
+                    }
                 }
-            }
-            else
-            {
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(sType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
-                }
-            }
 
-            if (tServerSynchronize == true)
-            {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == false)
+                if (tServerSynchronize == true)
                 {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(sType);
+                    if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == false)
+                    {
+                        NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(sType);
+                    }
+                    if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == true)
+                    {
+                        NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(sType);
+                    }
                 }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == true)
+                else
                 {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(sType);
+                    if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == true)
+                    {
+                        NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(sType);
+                    }
+                    if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == false)
+                    {
+                        NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(sType);
+                    }
                 }
-            }
-            else
-            {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == true)
+                if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
                 {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(sType);
+                    Debug.LogWarning("ERROR in " + sType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
                 }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == false)
+                else
                 {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(sType);
+                    NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, sType);
                 }
-            }
-            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
-            {
-                Debug.LogWarning("ERROR in " + sType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
-            }
-            else
-            {
-                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, sType);
-            }
-            NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
+                NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
                 tTypeInfos.New_ClassInitialization();
+
+
+#if UNITY_EDITOR
+
+                tTypeInfos.LoadEditorPrefererences();
+                #endif
 
                 tTypeInfos.ClassLoaded = true;
             }
@@ -616,10 +636,10 @@ namespace NetWorkedData
             NWDBasisHelper tTypeInfos = null;
             //if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             //{
-                if (TypesDictionary.ContainsKey(sType))
-                {
-                    tTypeInfos = TypesDictionary[sType];
-                }
+            if (TypesDictionary.ContainsKey(sType))
+            {
+                tTypeInfos = TypesDictionary[sType];
+            }
             //}
             return tTypeInfos;
         }

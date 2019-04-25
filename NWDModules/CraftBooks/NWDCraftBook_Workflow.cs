@@ -355,7 +355,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             // TODO recalculate all sign possibilities
             // I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
-          // RecalculMe();
+           RecalculMe();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

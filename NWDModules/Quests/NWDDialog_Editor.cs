@@ -83,18 +83,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
-            tBubuleStyle.fontSize = 14;
-            tBubuleStyle.richText = true;
-            string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
-            //string tDialog = Dialog.GetLanguageString(tLangue);
-            string tDialog = DialogRichTextForLanguage(tLangue);
-            float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
+            if (EditorApplication.isPlaying == false)
+            {
+                GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
+                tBubuleStyle.fontSize = 14;
+                tBubuleStyle.richText = true;
+                string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+                //string tDialog = Dialog.GetLanguageString(tLangue);
+                string tDialog = DialogRichTextForLanguage(tLangue);
+                float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
 
-            NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
-            float tAnswers = tDialogs.Length * 20;
+                NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
+                float tAnswers = tDialogs.Length * 20;
 
-            return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
+                return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
+            }
+            else
+            {
+                return 0;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect)

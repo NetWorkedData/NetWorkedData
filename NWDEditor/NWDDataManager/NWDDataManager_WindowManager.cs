@@ -80,10 +80,10 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<EditorWindow> EditorWindowsInManager(Type sType)
+        public List<NWDTypeWindow> EditorWindowsInManager(Type sType)
         {
             //BTBBenchmark.Start();
-            List<EditorWindow> tReturn = new List<EditorWindow>();
+            List<NWDTypeWindow> tReturn = new List<NWDTypeWindow>();
             if (mTypeWindowDico.ContainsKey(sType))
             {
                 foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])

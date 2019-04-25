@@ -587,6 +587,7 @@ namespace NetWorkedData
             if (System.Math.Abs(tRowZoom - RowZoom) > 0.01F)
             {
                 RowZoom = tRowZoom;
+                SaveEditorPrefererences();
                 New_ChangeScroolPositionToSelection(sScrollRect);
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
@@ -694,7 +695,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             EditorGUIUtility.labelWidth = NWDGUI.KTableSearchLabelWidth;
             Rect rRect = new Rect(sRect.x, sRect.y, sRect.width, 0);
-            if (SearchActions() == true)
+            if (SearchActions == true)
             {
                 Rect tRect = new Rect(sRect.x + NWDGUI.kFieldMarge, sRect.y, sRect.width, 0);
                 tRect.width = NWDGUI.KTableSearchFieldWidth;
@@ -963,18 +964,18 @@ namespace NetWorkedData
             float tHeightAction = 0;
             float tHeightTable = 0;
 
-            if (RowActions() == true)
+            if (RowActions == true)
             {
                 tHeightAction = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
             }
-            if (TableActions() == true)
+            if (TableActions == true)
             {
                 tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 5;
             }
             rRect.height = tHeightAction + tHeightTable;
             rRect.y = sRect.height - rRect.height;
 
-            if (RowActions() == true)
+            if (RowActions == true)
             {
                 Rect tFoldoutRectAction = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y, 0, 0);
                 tFoldoutRectAction.height = NWDGUI.kBoldLabelStyle.fixedHeight;
@@ -989,7 +990,7 @@ namespace NetWorkedData
                 tRectActionRight.width = NWDGUI.KTableSearchWidth;
             }
 
-            if (TableActions() == true)
+            if (TableActions == true)
             {
                 Rect tFoldoutRectTable = new Rect(sRect.x + NWDGUI.kFieldMarge, rRect.y + tHeightAction, 0, 0);
                 tFoldoutRectTable.height = NWDGUI.kBoldLabelStyle.fixedHeight;
@@ -1042,7 +1043,7 @@ namespace NetWorkedData
             }
             // ===========================================
             Rect tRect = new Rect(0, 0, NWDGUI.KTableSearchWidth, NWDGUI.KTableSearchTextfield.fixedHeight);
-            if (RowActions() == true)
+            if (RowActions == true)
             {
 
                 tRect.x = tRectActionLeft.x;
@@ -1351,7 +1352,7 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
 
             }
-            if (TableActions() == true)
+            if (TableActions == true)
             {
                 // Start Colmun
                 tRect.x = tRectTableLeft.x;
@@ -1890,12 +1891,27 @@ namespace NetWorkedData
 
             float tWidthTiers = Mathf.Floor(sEditorWindow.position.width / 3.0F);
             Rect tRectToogle = new Rect(NWDGUI.kFieldMarge, tRect.y, tWidthTiers, NWDGUI.kToggleStyle.fixedHeight);
-            SetSearchActions(GUI.Toggle(tRectToogle, SearchActions(), "Search"));
-            tRectToogle.x += tWidthTiers;
-            SetRowActions(GUI.Toggle(tRectToogle, RowActions(), "Actions"));
-            tRectToogle.x += tWidthTiers;
-            SetTableActions(GUI.Toggle(tRectToogle, TableActions(), "Table"));
 
+            bool tSearchActions = GUI.Toggle(tRectToogle, SearchActions, "Search");
+            if (tSearchActions != SearchActions)
+            {
+                SearchActions = tSearchActions;
+                SaveEditorPrefererences();
+            }
+            tRectToogle.x += tWidthTiers;
+            bool tRowActions = GUI.Toggle(tRectToogle, RowActions, "Actions");
+            if (tRowActions != RowActions)
+            {
+                RowActions = tRowActions;
+                SaveEditorPrefererences();
+            }
+            tRectToogle.x += tWidthTiers;
+            bool tTableActions = GUI.Toggle(tRectToogle, TableActions, "Table");
+            if (tTableActions != TableActions)
+            {
+                TableActions = tTableActions;
+                SaveEditorPrefererences();
+            }
             tRect.y += NWDGUI.kToggleStyle.fixedHeight + NWDGUI.kFieldMarge;
 
             tRect.y += NWDGUI.Line(tRect).height;
@@ -1949,7 +1965,7 @@ namespace NetWorkedData
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
 
             }
-            if (SearchActions() == true)
+            if (SearchActions == true)
             {
                 if (tMargeNeed == false)
                 {

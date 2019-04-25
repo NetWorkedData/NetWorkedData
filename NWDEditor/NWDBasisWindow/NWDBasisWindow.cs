@@ -302,6 +302,8 @@ namespace NetWorkedData
                     // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
 
                     //SetClassInEdition (tType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tHelper.LoadEditorPrefererences();
                 }
                 mTabSelected = tTabSelected;
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
@@ -311,6 +313,16 @@ namespace NetWorkedData
 
             }
             //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void SelectTab(Type tType)
+        {
+            if (mTabTypeList.Contains(tType))
+            {
+                mTabSelected = Array.IndexOf(mTabTypeList, tType);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.LoadEditorPrefererences();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

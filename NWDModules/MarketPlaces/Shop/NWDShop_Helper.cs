@@ -23,11 +23,10 @@ namespace NetWorkedData
             // Sync with the server
             return new List<Type>
             {
-                typeof(NWDUserOwnership),
-                typeof(NWDItem),
+                typeof(NWDRack),
                 typeof(NWDItemPack),
                 typeof(NWDPack),
-                typeof(NWDUserTransaction)
+                typeof(NWDItem),
             };
         }
         //-------------------------------------------------------------------------------------------------------------

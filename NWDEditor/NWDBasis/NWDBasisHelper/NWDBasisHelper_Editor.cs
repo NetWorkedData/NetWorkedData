@@ -21,6 +21,7 @@ using UnityEngine;
 using SQLite4Unity3d;
 using BasicToolBox;
 using UnityEditor;
+using System.Linq.Expressions;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -70,58 +71,96 @@ namespace NetWorkedData
         public Vector2 ObjectEditorScrollPosition = Vector2.zero;
         public bool kSyncAndMoreInformations = false;
         //-------------------------------------------------------------------------------------------------------------
+        public void LoadEditorPrefererences()
+        {
+            Debug.Log("LoadEditorPrefererences()");
+            RowZoom = EditorPrefs.GetFloat(ActionsPrefkey(() => RowZoom), 1.0F);
 
-        public string ActionsPrefkey()
+            m_ShowEnable = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowEnable),true);
+            m_ShowDisable = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowDisable), true);
+            m_ShowTrashed = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowTrashed), true);
+            m_ShowIntegrityError = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowIntegrityError), true);
+            m_ItemPerPageSelection = EditorPrefs.GetInt(ActionsPrefkey(() => m_ItemPerPageSelection), 1);
+
+
+            RowActions = EditorPrefs.GetBool(ActionsPrefkey(() => RowActions), true);
+            TableActions = EditorPrefs.GetBool(ActionsPrefkey(() => TableActions), true);
+            SearchActions = EditorPrefs.GetBool(ActionsPrefkey(() => SearchActions), true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SaveEditorPrefererences()
+        {
+            EditorPrefs.SetFloat(ActionsPrefkey(() => RowZoom), RowZoom);
+
+            EditorPrefs.SetBool(ActionsPrefkey(() => m_ShowEnable), m_ShowEnable);
+            EditorPrefs.SetBool(ActionsPrefkey(() => m_ShowDisable), m_ShowDisable);
+            EditorPrefs.SetBool(ActionsPrefkey(() => m_ShowTrashed), m_ShowTrashed);
+            EditorPrefs.SetBool(ActionsPrefkey(() => m_ShowIntegrityError), m_ShowIntegrityError);
+            EditorPrefs.SetInt(ActionsPrefkey(() => m_ItemPerPageSelection), m_ItemPerPageSelection);
+
+            EditorPrefs.SetBool(ActionsPrefkey(() => RowActions), RowActions);
+            EditorPrefs.SetBool(ActionsPrefkey(() => TableActions), TableActions);
+            EditorPrefs.SetBool(ActionsPrefkey(() => SearchActions), SearchActions);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string ActionsPrefkey<T>(Expression<Func<T>> sProperty)
         {
             //BTBBenchmark.Start();
-            string tKey = string.Empty;
+            string tKey = "NWDBasisHelper_"; // prevent herited class
             if (NWDAppConfiguration.SharedInstance().EditorTableCommun == false)
             {
-                tKey = ClassNamePHP;
+                tKey = tKey + ClassNamePHP;
             }
+            tKey = tKey + NWDToolbox.PropertyName(sProperty);
+            //Debug.Log("ActionsPrefkey() : " + tKey);
             //BTBBenchmark.Finish();
             return tKey;
-        }        //-------------------------------------------------------------------------------------------------------------
-
-        const string kSearchEditorState= "SearchEditorState";
-        const string kTableEditorState = "TableEditorState";
-        const string kRowEditorState = "RowEditorState";
-        //-------------------------------------------------------------------------------------------------------------
-        public bool SearchActions()
-        {
-            return EditorPrefs.GetBool(ActionsPrefkey()+ kSearchEditorState);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool RowActions()
-        {
-            return EditorPrefs.GetBool(ActionsPrefkey()+ kRowEditorState);
-        }
+        //const string kSearchEditorKey = "kSearchEditorKey";
+        //const string kTableEditorKey = "kTableEditorKey";
+        //const string kRowActionKey = "kRowActionKey";
+        //const string kFilterNumberKey = "kFilterNumberKey";
+        //const string kZoomKey = "kZoomKey";
+        //const string kFilterEnabledKey = "kFilterEnabledKey";
+        //const string kFilterDisabledKey = "kFilterDisabledKey";
+        //const string kFilterTrasedKey = "kFilterTrasedKey";
+        //const string kFilterCorruptedZoomKey = "kFilterCorruptedZoomKey";
         //-------------------------------------------------------------------------------------------------------------
-        public bool TableActions()
-        {
-            return EditorPrefs.GetBool(ActionsPrefkey()+ kTableEditorState);
-        }
+        //public bool SearchActions()
+        //{
+        //    return EditorPrefs.GetBool(ActionsPrefkey() + kSearchEditorKey);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool RowActions()
+        //{
+        //    return EditorPrefs.GetBool(ActionsPrefkey() + kRowActionKey);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool TableActions()
+        //{
+        //    return EditorPrefs.GetBool(ActionsPrefkey() + kTableEditorKey);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void SetSearchActions(bool sValue)
+        //{
+        //    EditorPrefs.SetBool(ActionsPrefkey() + kSearchEditorKey, sValue);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void SetRowActions(bool sValue)
+        //{
+        //    EditorPrefs.SetBool(ActionsPrefkey() + kRowActionKey, sValue);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void SetTableActions(bool sValue)
+        //{
+        //    EditorPrefs.SetBool(ActionsPrefkey() + kTableEditorKey, sValue);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void SetSearchActions(bool sValue)
-        {
-            EditorPrefs.SetBool(ActionsPrefkey()+ kSearchEditorState, sValue);
-        }
+        public bool SearchActions =true;
+        public bool RowActions = true;
+        public bool TableActions = true;
         //-------------------------------------------------------------------------------------------------------------
-        public void SetRowActions(bool sValue)
-        {
-            EditorPrefs.SetBool(ActionsPrefkey()+ kRowEditorState, sValue);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetTableActions(bool sValue)
-        {
-            EditorPrefs.SetBool(ActionsPrefkey()+ kTableEditorState, sValue);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 
         public NWDBasisEditorDatasSortType SortType = NWDBasisEditorDatasSortType.ByInternalKeyDescendant;
         public float RowZoom = 1.0F;

@@ -54,7 +54,7 @@ namespace NetWorkedData
             List<NWDCraftBook> rReturn = new List<NWDCraftBook>();
             foreach (string tHash in IndexKeyForItem(sRecipient, sItems))
             {
-                Debug.Log("tHash : " + tHash);
+                Debug.Log(" CraftBookForItem() tHash : " + tHash);
                 if (kIndex.ContainsKey(tHash))
                 {
                     foreach (NWDCraftBook Craft in kIndex[tHash])
@@ -159,7 +159,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
-        private void InsertInIndex()
+        public void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
             //BTBBenchmark.Start();
@@ -169,6 +169,7 @@ namespace NetWorkedData
             {
                 foreach (string tHash in RecipeHashesArray.GetReferences())
                 {
+                    //Debug.Log("InsertInIndex reference =" + Reference + " tHash = "+ tHash);
                     if (kIndex.ContainsKey(tHash))
                     {
                         List<NWDCraftBook> tList = kIndex[tHash];
@@ -198,7 +199,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexRemove]
-        private void RemoveFromIndex()
+        public void RemoveFromIndex()
         {
             if (RecipeHashesArray != null)
             {

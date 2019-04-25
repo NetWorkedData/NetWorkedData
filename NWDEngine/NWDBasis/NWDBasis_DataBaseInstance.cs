@@ -109,6 +109,7 @@ namespace NetWorkedData
         {
             foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
             {
+                //Debug.Log("Index override" + Reference + " tMethod = "+ tMethod.Name);
                 tMethod.Invoke(this, null);
             }
         }

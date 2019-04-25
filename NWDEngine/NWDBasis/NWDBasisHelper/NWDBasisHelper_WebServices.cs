@@ -95,7 +95,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> New_SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial)
         {
-            Debug.Log("NWDBasis SynchronizationPushData() " + ClassName);
+            //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName);
             // loads data unloaded but not sync
             if (sSpecial == NWDOperationSpecial.None)
             {
@@ -319,10 +319,10 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        if (sEnvironment.LogMode == true)
-                        {
-                            Debug.Log(tTableName + " just sync with timestamp ?");
-                        }
+                        //if (sEnvironment.LogMode == true)
+                        //{
+                        //    //Debug.Log(tTableName + " just sync with timestamp ?");
+                        //}
                     }
                 }
             }

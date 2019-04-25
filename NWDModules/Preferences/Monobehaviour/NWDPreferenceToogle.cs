@@ -43,6 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnEnable()
         {
+            PreferenceApply();
             BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDPreferenceKey.K_PREFERENCE_CHANGED_KEY, delegate (BTBNotification sNotification)
             {
                 if (sNotification.Sender == PreferenceKeyConnection.GetData())
