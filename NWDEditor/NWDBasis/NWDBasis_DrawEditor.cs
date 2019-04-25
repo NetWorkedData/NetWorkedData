@@ -903,7 +903,7 @@ namespace NetWorkedData
                 }
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));
                 Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
-                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 5, true);
+                Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 4, true);
                 GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 0], tMatrixRect[3, 0]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
                 if (GUI.Button(tMatrixRect[0, 1], NWDConstants.K_BUTTON_EDITOR_NODAL, NWDGUI.kMiniButtonStyle))
                 {
@@ -1016,16 +1016,16 @@ namespace NetWorkedData
                     }
                 }
                 NWDGUI.EndRedArea();
-                if (GUI.Button(tMatrixRect[0, 4], "Select in table", NWDGUI.kMiniButtonStyle))
-                {
-                    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
-                    {
-                        tWindow.Focus();
-                        tWindow.SelectTab(ClassType());
-                    }
-                    BasisHelper().New_SetObjectInEdition(this,false,true);
-                    BasisHelper().New_ChangeScroolPositionToSelection();
-                }
+                //if (GUI.Button(tMatrixRect[0, 4], "Select in table", NWDGUI.kMiniButtonStyle))
+                //{
+                //    foreach (NWDTypeWindow tWindow in NWDDataManager.SharedInstance().EditorWindowsInManager(ClassType()))
+                //    {
+                //        tWindow.Focus();
+                //        tWindow.SelectTab(ClassType());
+                //    }
+                //    BasisHelper().New_SetObjectInEdition(this,false,true);
+                //    BasisHelper().New_ChangeScroolPositionToSelection();
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------

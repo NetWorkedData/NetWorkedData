@@ -73,7 +73,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void LoadEditorPrefererences()
         {
-            Debug.Log("LoadEditorPrefererences()");
+            //Debug.Log("LoadEditorPrefererences()");
             RowZoom = EditorPrefs.GetFloat(ActionsPrefkey(() => RowZoom), 1.0F);
 
             m_ShowEnable = EditorPrefs.GetBool(ActionsPrefkey(() => m_ShowEnable),true);
