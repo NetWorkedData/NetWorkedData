@@ -66,7 +66,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public GUIContent Content()
         {
-            return new GUIContent(Name + "(" + Indent + ")", Tooltips);
+            return new GUIContent(Name /*+ "(" + Indent + ")"*/, Tooltips);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

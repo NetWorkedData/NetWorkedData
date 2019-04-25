@@ -43,6 +43,38 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMe()
+        {
+            base.AddonUpdatedMe();
+            NWDWorld tParent = this.WorldParent.GetData();
+            foreach (NWDWorld tWorld in BasisHelper().Datas)
+            {
+                if (tWorld != tParent)
+                {
+                    if (tWorld.WorldChildren != null)
+                    {
+                        if (tWorld.WorldChildren.ConstaintsData(this) == true)
+                        {
+                            tWorld.WorldChildren.RemoveDatas(new NWDWorld[] { this });
+                            tWorld.UpdateData();
+                        }
+                    }
+                }
+            }
+            if (tParent != null)
+            {
+                if (tParent.WorldChildren == null)
+                {
+                    tParent.WorldChildren = new NWDReferencesListType<NWDWorld>();
+                }
+                    if (tParent.WorldChildren.ConstaintsData(this) == false)
+                {
+                    tParent.WorldChildren.AddData(this);
+                    tParent.UpdateDataIfModified();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

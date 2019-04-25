@@ -116,9 +116,9 @@ namespace NetWorkedData
             var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
             var tDeclarationsJoined = string.Join(",", tDeclarations.ToArray());
             tDeclarationsJoined = tDeclarationsJoined.Replace('"', '`');
-            tDeclarationsJoined = tDeclarationsJoined.Replace("`ID` integer", "`ID` int(11) NOT NULL");
+            tDeclarationsJoined = tDeclarationsJoined.Replace("`ID` integer", "`ID`   int(11) NOT NULL");
             //tDeclarationsJoined = tDeclarationsJoined.Replace("`DC` integer", "`DC` int(11) NOT NULL DEFAULT 0");
-            tDeclarationsJoined = tDeclarationsJoined.Replace ("`AC` integer", "`AC` int(11) NOT NULL DEFAULT 1");
+            tDeclarationsJoined = tDeclarationsJoined.Replace ("`AC` integer", "`AC`   int(11) NOT NULL DEFAULT 1");
             //tDeclarationsJoined = tDeclarationsJoined.Replace("`DM` integer", "`DM` int(11) NOT NULL DEFAULT 0");
             //tDeclarationsJoined = tDeclarationsJoined.Replace("`DD` integer", "`DD` int(11) NOT NULL DEFAULT 0");
             //tDeclarationsJoined = tDeclarationsJoined.Replace("`DS` integer", "`DS` int(11) NOT NULL DEFAULT 0");
@@ -129,8 +129,8 @@ namespace NetWorkedData
                 if (tColumn.Name != "ID"&&
                     tColumn.Name != "AC")
                 {
+                    tDeclarationsJoined = tDeclarationsJoined.Replace("`" + tColumn.Name + "` integer", "`" + tColumn.Name + "` int");
                     tDeclarationsJoined = tDeclarationsJoined.Replace("`" + tColumn.Name + "` int", "`" + tColumn.Name + "` int(11) NOT NULL DEFAULT 0");
-                    tDeclarationsJoined = tDeclarationsJoined.Replace("`"+ tColumn.Name + "` integer", "`"+ tColumn.Name + "` int(11) NOT NULL DEFAULT 0");
                 }
             }
                     tDeclarationsJoined = tDeclarationsJoined.Replace("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL");

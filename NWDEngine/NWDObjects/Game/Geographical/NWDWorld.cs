@@ -109,8 +109,16 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDReferenceType<NWDWorld> WorldParent
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        public NWDReferencesListType<NWDWorld> WorldChildren
+        {
+            get; set;
+        }
         [NWDInspectorGroupEnd]
-
         [NWDInspectorGroupStart("Political Universe", true, true, true)]
         public NWDWordGovernmentType Government
         {
