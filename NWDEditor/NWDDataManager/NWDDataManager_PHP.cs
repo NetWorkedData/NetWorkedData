@@ -157,31 +157,26 @@ namespace NetWorkedData
             NWDError.CreateGenericError("account", "SGN81", "Account sign error", "impossible unknow user", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("account", "SGN82", "Account sign error", "impossible multi-users", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-            NWDError.CreateGenericError("token", "RQT01", "Token error", "error in request token creation", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT11", "Token error", "new token is not in base", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT12", "Token error", "error in token select", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT13", "Token error", "error in all token delete", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT14", "Token error", "error in old token delete", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-
-            NWDError.CreateGenericError("token", "RQT90", "Token error", "session not exists", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT91", "Token error", "session expired", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT92", "Token error", "token not in base", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-
-
-            NWDError.CreateGenericError("token", "RQT95", "Token error", "token allready used...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT96", "Token error", "token integrity error...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT97", "Token error", "token != token error...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT98", "Security error", "Security error one...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("token", "RQT99", "Security error", "Security error two...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT01", "Token error", "error in request token creation", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT11", "Token error", "new token is not in base", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT12", "Token error", "error in token select", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT13", "Token error", "error in all token delete", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT14", "Token error", "error in old token delete", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT90", "Token error", "session not exists", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT91", "Token error", "session expired", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT92", "Token error", "token not in base", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT95", "Token error", "token allready used...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT96", "Token error", "token integrity error...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT97", "Token error", "token != token error...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT98", "Security error", "Security error one...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT99", "Security error", "Security error two...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError("webrequest", "MAINTENANCE", "MAINTENANCE", "MAINTENANCE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "OBSOLETE", "OBSOLETE", "OBSOLETE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-
             NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-
 
             NWDError.CreateGenericError("RESCUE", "01", "{APP} : Forgotten password", "Hello,\r\n" +
                                         "You forgot your password for the App {APP}'s account and ask to reset it." +
