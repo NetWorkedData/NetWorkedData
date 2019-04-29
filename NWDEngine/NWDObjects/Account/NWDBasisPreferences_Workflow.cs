@@ -11,24 +11,14 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
 using SQLite.Attribute;
 
@@ -81,7 +71,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void SetString(string sKey, NWDAppEnvironment sEnvironment, string sValue, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, 0, sLimitByAccount);
+            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, sValue, 0, sLimitByAccount);
             if (tPrefs != null)
             {
                 tPrefs.StringValue = sValue;
@@ -91,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void SetInt(string sKey, NWDAppEnvironment sEnvironment, int sValue, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, 0, sLimitByAccount);
+            NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, sValue, sLimitByAccount);
             if (tPrefs != null)
             {
                 tPrefs.IntValue = sValue;

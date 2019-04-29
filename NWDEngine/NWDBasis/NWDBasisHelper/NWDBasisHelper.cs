@@ -93,7 +93,7 @@ namespace NetWorkedData
                 rReturn.Add(ClassType);
             }
             //rReturn = new List<Type>(rReturn.Distinct<Type>());
-            Debug.Log("New_ClasseInThisSync calculate : " + string.Join(" ", rReturn));
+            //Debug.Log("New_ClasseInThisSync calculate : " + string.Join(" ", rReturn));
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -101,18 +101,18 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
     {
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         public K FictiveData()
         {
             return NWDBasis<K>.FictiveData();
         }
-#endif
+        #endif
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> New_OverrideClasseInThisSync()
         {
             List<Type> rReturn = new List<Type> { typeof(K) };
-            Debug.Log("New_OverrideClasseInThisSync first override : " + string.Join(" ", rReturn));
+            //Debug.Log("New_OverrideClasseInThisSync first override : " + string.Join(" ", rReturn));
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -203,23 +203,15 @@ namespace NetWorkedData
         public string SaltStart = string.Empty;
         public string SaltEnd = string.Empty;
         public bool SaltValid = false;
-
         //-------------------------------------------------------------------------------------------------------------
         public List<MethodInfo> IndexInsertMethodList = new List<MethodInfo>();
         public List<MethodInfo> IndexRemoveMethodList = new List<MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
-
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
+        //#if UNITY_EDITOR
         //public List<string> ObjectsInEditorTableKeyList = new List<string>();
         //public List<string> ObjectsInEditorTableList = new List<string>();
         //public List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
-        //-------------------------------------------------------------------------------------------------------------
-#endif
-
-
-
-
+        //#endif
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper()
         {
@@ -227,7 +219,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
         public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>();
-
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType)
         {
@@ -363,10 +354,11 @@ namespace NetWorkedData
                 //BTBBenchmark.Finish("Declare() step C");
                 //BTBBenchmark.Start("Declare() step D");
                 // create GUI object
-#if UNITY_EDITOR
 
+                //#if UNITY_EDITOR
                 // tTypeInfos.ClassMenuNameContent = new GUIContenm();t(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
-#endif
+                //#endif
+
                 //BTBBenchmark.Finish("Declare() step D");
                 //BTBBenchmark.Start("Declare() step E");
                 // Prepare engine informlations
@@ -384,16 +376,8 @@ namespace NetWorkedData
                 tTypeInfos.PrefLoad();
                 //BTBBenchmark.Finish("Declare() step F");
                 //BTBBenchmark.Finish();
-
-
-
-
-
-
-
-
-
                 //BTBBenchmark.Start();
+
                 bool rAccountConnected = false;
                 bool rAssetConnected = false;
                 bool rLockedObject = true;
@@ -497,20 +481,6 @@ namespace NetWorkedData
                 tTypeInfos.kAssetDependentProperties = tAssetPropertyList.ToArray();
                 //BTBBenchmark.Finish();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
                 {
                     NWDDataManager.SharedInstance().mTypeList.Add(sType);
@@ -573,9 +543,7 @@ namespace NetWorkedData
 
                 tTypeInfos.New_ClassInitialization();
 
-
-#if UNITY_EDITOR
-
+                #if UNITY_EDITOR
                 tTypeInfos.LoadEditorPrefererences();
                 #endif
 
@@ -932,8 +900,6 @@ namespace NetWorkedData
 #endif
             //BTBBenchmark.Finish();
         }
-
-
         //-------------------------------------------------------------------------------------------------------------
         public bool DatabaseIsLoaded()
         {
@@ -1061,7 +1027,6 @@ namespace NetWorkedData
             //DatasInEditorRowDescriptionList.Add(tInternalKey + " <" + tReference + ">");
             //DatasInEditorSelectionList.Add(false);
 
-
             /*NEW*/
             if (EditorTableDatas.Contains(sData) == false)
             {
@@ -1076,8 +1041,6 @@ namespace NetWorkedData
                 EditorDatasMenu.Add(sData.Reference, sData.DatasMenu());
             }
             /*NEW*/
-
-
 #endif
             //BTBBenchmark.Finish();
         }
@@ -1277,39 +1240,13 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-
-
         //public NWDTypeClass[] FindDatas(string sAccountReference = null,
         //                                NWDGameSave sGameSave = null,
         //                                bool sEnable = true,
         //                                bool sTrashed = false,
         //                                bool sIntegrity = true)
-
         //{
-
         //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass[] GetAllDatas(NWDDatasFilter sFilter)
         //{
@@ -1606,21 +1543,16 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-
-        //-------------------------------------------------------------------------------------------------------------
-
         //public static string SynchronizeKeyData = "data";
         //public static string SynchronizeKeyDataCount = "rowCount";
         //public static string SynchronizeKeyTimestamp = "sync";
         //public static string SynchronizeKeyLastTimestamp = "last";
         //public static string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
-
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
-
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

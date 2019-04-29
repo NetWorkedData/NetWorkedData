@@ -443,6 +443,12 @@ namespace NetWorkedData
         public K GetRawFirstDataByRandom()
         {
             List<K> tList = GetRawDatasList();
+
+            if (tList.Count == 0)
+            {
+                return null;
+            }
+
             int tRandom = UnityEngine.Random.Range(0, tList.Count);
             return tList[tRandom];
         }

@@ -11,24 +11,14 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
 using SQLite.Attribute;
 
@@ -43,30 +33,32 @@ namespace NetWorkedData
     public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDBasisPreferences SelectDataForEngine(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault, bool sLimitByAccount)
+        static public NWDBasisPreferences SelectDataForEngine(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault = 0, bool sLimitByAccount = true)
         {
-            NWDBasisPreferences rPref = null;
             string tAccountReference = string.Empty;
+            string tEnvironment = sEnvironment.Environment;
+
             if (sLimitByAccount)
             {
                 tAccountReference = sEnvironment.PlayerAccountReference;
             }
-            else
-            {
-                tAccountReference = "";
-            }
-#if UNITY_EDITOR
-            if (Application.isPlaying==false)
+
+            #if UNITY_EDITOR
+            if (Application.isPlaying == false)
             {
                 tAccountReference = "EDITOR";
             }
-#endif
-            string tKey = sEnvironment.Environment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
+            #endif
 
-            rPref = NWDBasisPreferences.GetRawDataByReference(tKey);
+            string tKey = tEnvironment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
+
+            NWDBasisPreferences rPref = GetRawDataByReference(tKey);
             if (rPref == null)
             {
-                rPref = NWDBasisPreferences.NewDataWithReference(tKey);
+                rPref = NewDataWithReference(tKey);
+                rPref.DevSync = -1;
+                rPref.PreprodSync = -1;
+                rPref.ProdSync = -1;
                 if (string.IsNullOrEmpty(sStringDefault))
                 {
                     rPref.StringValue = string.Empty;
@@ -76,6 +68,21 @@ namespace NetWorkedData
                     rPref.StringValue = sStringDefault;
                 }
                 rPref.IntValue = sIntDefault;
+                #if UNITY_EDITOR
+                if (tAccountReference.Equals("EDITOR"))
+                {
+                    rPref.InternalKey = "EDITOR: " + sKey;
+                }
+                else
+                {
+                    rPref.InternalKey = "PLAYING: " + sKey;
+                }
+                rPref.InternalDescription = tEnvironment;
+                rPref.Tag = NWDBasisTag.TagAdminCreated;
+                rPref.Environment = tEnvironment;
+                #else
+                rPref.Tag = NWDBasisTag.TagUserCreated;
+                #endif
                 rPref.SaveData();
             }
             return rPref;

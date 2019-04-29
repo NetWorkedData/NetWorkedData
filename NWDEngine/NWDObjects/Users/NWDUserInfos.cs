@@ -11,13 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections.Generic;
 
@@ -52,13 +45,9 @@ namespace NetWorkedData
         public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
         [NWDInspectorGroupEnd]
 
-       
-
         [NWDInspectorGroupStart("Localization Options")]
         public NWDLanguageType Language { get; set; }
         [NWDInspectorGroupEnd]
-
-       
 
         [NWDInspectorGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn { get; set; }
@@ -71,8 +60,6 @@ namespace NetWorkedData
         public string GoogleNotificationToken { get; set; }
         [NWDInspectorGroupEnd]
 
-       
-
         [NWDInspectorGroupStart("Game Options")]
         public bool SFX { get; set; }
         public float SFXVolume { get; set; }
@@ -80,8 +67,6 @@ namespace NetWorkedData
         public float MusicVolume { get; set; }
         public NWDLocalizableStringType MusicVolumeLangu { get; set; }
         [NWDInspectorGroupEnd]
-
-       
 
         [NWDInspectorGroupStart("Last Game Informations")]
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
