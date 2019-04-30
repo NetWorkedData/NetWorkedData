@@ -156,6 +156,10 @@ namespace NetWorkedData
             // Show version selected
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
+            //SystemInfo.deviceUniqueIdentifier
+            EditorGUILayout.LabelField("Device ID", SystemInfo.deviceUniqueIdentifier, EditorStyles.label);
+            EditorGUILayout.LabelField("Secret Key Device", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice(), EditorStyles.label);
+
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
             NWDAccount tAccount = null;
             string tAccountReference = NWDAccount.CurrentReference();

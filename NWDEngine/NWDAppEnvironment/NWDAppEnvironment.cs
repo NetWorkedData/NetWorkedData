@@ -143,6 +143,20 @@ namespace NetWorkedData
 			}
 		}
         //-------------------------------------------------------------------------------------------------------------
+        public string SecretKeyDevice()
+        {
+            string rReturn;
+            if (Application.isPlaying == true)
+            {
+                rReturn = BTBSecurityTools.GenerateSha (SystemInfo.deviceUniqueIdentifier + SaltEnd);
+            }
+            else
+            {
+                rReturn = BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string AdminKeyHashGenerate()
         {
             return BTBSecurityTools.GenerateSha("455"+AdminKey+"gytf");
