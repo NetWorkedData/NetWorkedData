@@ -164,17 +164,11 @@ namespace NetWorkedData
                     }
                 }
 
-                if (BuyPackBlockDelegate != null)
-                {
-                    BuyPackBlockDelegate(bResult, bTransaction);
-                }
+                BuyPackBlockDelegate?.Invoke(bResult, bTransaction);
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (BuyPackBlockDelegate != null)
-                {
-                    BuyPackBlockDelegate(BuyPackResult.Failed, null);
-                }
+                BuyPackBlockDelegate?.Invoke(BuyPackResult.Failed, null);
             };
 
             SynchronizationFromWebService(tSuccess, tFailed);
@@ -202,7 +196,7 @@ namespace NetWorkedData
                 NWDPack tPack = pair.Key;
                 oQuantity = pair.Value;
 
-                if (tPack.Equals(sPack))
+                if (tPack.Reference.Equals(sPack.Reference))
                 {
                     // Verify if there is enough number of pack to buy
                     foreach (NWDUserTransaction transaction in tTransactionList)
