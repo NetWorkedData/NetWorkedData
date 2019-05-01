@@ -65,8 +65,8 @@ namespace NetWorkedData
         public string ConfirmPassword;
         public string SocialToken;
         //-------------------------------------------------------------------------------------------------------------
-        public string AnonymousPlayerAccountReference = string.Empty;
-        public string AnonymousResetPassword = string.Empty;
+        //public string AnonymousPlayerAccountReference = string.Empty;
+        //public string AnonymousResetPassword = string.Empty;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebAccount AddOperation(string sName,
                                                            BTBOperationBlock sSuccessBlock = null,
@@ -266,41 +266,44 @@ namespace NetWorkedData
 
             if (Action == "signout")
             {
-                Environment.AnonymousVerification();
+                // insert device key in data and go in secure
+                DataAddSecetDevicekey();
+
+                //Environment.AnonymousVerification();
                 // prepare data for relog anonymous 
-                if (Environment.AnonymousPlayerAccountReference != null)
-                {
-                    AnonymousPlayerAccountReference = Environment.AnonymousPlayerAccountReference;
-                }
+                //if (Environment.AnonymousPlayerAccountReference != null)
+                //{
+                //    AnonymousPlayerAccountReference = Environment.AnonymousPlayerAccountReference;
+                //}
 
-                if (Environment.AnonymousResetPassword != null)
-                {
-                    AnonymousResetPassword = Environment.AnonymousResetPassword;
-                }
+                //if (Environment.AnonymousResetPassword != null)
+                //{
+                //    AnonymousResetPassword = Environment.AnonymousResetPassword;
+                //}
 
-                if (AnonymousPlayerAccountReference != null)
-                {
-                    if (Data.ContainsKey(AnonymousPlayerAccountReferenceKey))
-                    {
-                        Data[AnonymousPlayerAccountReferenceKey] = AnonymousPlayerAccountReference;
-                    }
-                    else
-                    {
-                        Data.Add(AnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                    }
-                }
+                //if (AnonymousPlayerAccountReference != null)
+                //{
+                //    if (Data.ContainsKey(AnonymousPlayerAccountReferenceKey))
+                //    {
+                //        Data[AnonymousPlayerAccountReferenceKey] = AnonymousPlayerAccountReference;
+                //    }
+                //    else
+                //    {
+                //        Data.Add(AnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
+                //    }
+                //}
 
-                if (AnonymousResetPassword != null)
-                {
-                    if (Data.ContainsKey(AnonymousResetPasswordKey))
-                    {
-                        Data[AnonymousResetPasswordKey] = AnonymousResetPassword;
-                    }
-                    else
-                    {
-                        Data.Add(AnonymousResetPasswordKey, AnonymousResetPassword);
-                    }
-                }
+                //if (AnonymousResetPassword != null)
+                //{
+                //    if (Data.ContainsKey(AnonymousResetPasswordKey))
+                //    {
+                //        Data[AnonymousResetPasswordKey] = AnonymousResetPassword;
+                //    }
+                //    else
+                //    {
+                //        Data.Add(AnonymousResetPasswordKey, AnonymousResetPassword);
+                //    }
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------

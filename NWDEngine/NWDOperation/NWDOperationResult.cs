@@ -36,7 +36,7 @@ namespace NetWorkedData
         public string errorCode { get; private set; }
         public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
-        public NWDAppEnvironmentPlayerStatut sign { get; private set; }
+        //public NWDAppEnvironmentPlayerStatut sign { get; private set; }
         public bool isSignUpdate { get; private set; }
         public string uuid { get; private set; }
         public bool isSignIn { get; private set; }
@@ -59,7 +59,7 @@ namespace NetWorkedData
         //    get; private set;
         //}
         public bool isCreateAnonymous { get; private set; }
-        public string signkey { get; private set; }
+        //public string signkey { get; private set; }
         public bool isNewUser { get; private set; }
         public bool isUserTransfert { get; private set; }
         public bool isReloadingData { get; private set; }
@@ -141,17 +141,17 @@ namespace NetWorkedData
                 isSignUpdate = true;
                 try
                 {
-                    sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), sData["sign"].ToString(), true);
+                    //sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), sData["sign"].ToString(), true);
                 }
                 catch (ArgumentException e)
                 {
                     Debug.Log(e.StackTrace);
                 }
             }
-            if (sData.ContainsKey("signkey"))
-            {
-                signkey = sData["signkey"] as string;
-            }
+            //if (sData.ContainsKey("signkey"))
+            //{
+            //    signkey = sData["signkey"] as string;
+            //}
             if (sData.ContainsKey("error"))
             {
                 isError = (bool)sData["error"];
@@ -223,8 +223,8 @@ namespace NetWorkedData
             //isFacebookSignIn = false;
             //isFacebookSignUp = false;
             isCreateAnonymous = false;
-            signkey = string.Empty;
-            sign = NWDAppEnvironmentPlayerStatut.Unknow;
+            //signkey = string.Empty;
+            //sign = NWDAppEnvironmentPlayerStatut.Unknow;
             isSignUpdate = false;
             isNewUser = false;
             isUserTransfert = false;

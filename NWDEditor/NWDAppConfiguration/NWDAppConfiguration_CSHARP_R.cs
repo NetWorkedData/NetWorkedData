@@ -113,7 +113,8 @@ namespace NetWorkedData
             rReturn.Append(PreprodEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.Append(ProdEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.AppendLine("DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";");
-            rReturn.AppendLine("AnonymousPlayerIsLocal = " + AnonymousPlayerIsLocal.ToString().ToLower() + ";");
+            //rReturn.AppendLine("AnonymousPlayerIsLocal = " + AnonymousPlayerIsLocal.ToString().ToLower() + ";");
+            rReturn.AppendLine("AnonymousDeviceConnected = " + AnonymousDeviceConnected.ToString().ToLower() + ";");
             rReturn.AppendLine("SurProtected = " + SurProtected.ToString().ToLower() + ";");
             rReturn.AppendLine("ProtectionTentativeMax = " + ProtectionTentativeMax.ToString() + ";");
             rReturn.AppendLine("return true;");

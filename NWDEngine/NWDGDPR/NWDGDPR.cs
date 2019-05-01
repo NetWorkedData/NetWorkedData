@@ -203,7 +203,7 @@ namespace NetWorkedData
             string rExtract = "[\n\r";
             // TODO : Add account informations ?
             tList.Add("{ \"PlayerAccountReference\" : \"" + NWDAccount.CurrentReference() + "\"}\n\r}");
-            tList.Add("{ \"AnonymousPlayerAccountReference\" : \"" + NWDAccount.CurrentAnonymousReference() + "\"}\n\r}");
+            //tList.Add("{ \"AnonymousPlayerAccountReference\" : \"" + NWDAccount.CurrentAnonymousReference() + "\"}\n\r}");
             // TODO : Add email/password ?
             // TODO : Add account type ?
             foreach (Type tClassType in tListClasses)

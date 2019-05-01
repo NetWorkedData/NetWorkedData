@@ -77,7 +77,8 @@ namespace NetWorkedData
         public int PinCodeLenghtMin = 4;
         public int PinCodeLenghtMax = 8;
         //public bool PreloadDatasInEditor = true;
-        public bool AnonymousPlayerIsLocal = true;
+        //public bool AnonymousPlayerIsLocal = true;
+        public bool AnonymousDeviceConnected = true;
         public bool SurProtected = false;
         public int ProtectionTentativeMax = 6;
 

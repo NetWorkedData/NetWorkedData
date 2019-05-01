@@ -47,11 +47,11 @@ namespace NetWorkedData
         /// <summary>
         /// The anonymous account's reference.
         /// </summary>
-        public Text TextAnonymousAccount;
+        //public Text TextAnonymousAccount;
         /// <summary>
         /// The text anonymous token ? .
         /// </summary>
-        public Text TextAnonymousToken;
+        //public Text TextAnonymousToken;
         /// <summary>
         /// The text of web result.
         /// </summary>
@@ -347,10 +347,12 @@ namespace NetWorkedData
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
             TextEnvironment.text = tApp.Environment;
-            TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            //TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+
             TextToken.text = tApp.RequesToken;
-            TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
-            TextAnonymousToken.text = "????";
+            //TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
+            //TextAnonymousToken.text = "????";
         }
         //-------------------------------------------------------------------------------------------------------------
         void InitLocalizationList()

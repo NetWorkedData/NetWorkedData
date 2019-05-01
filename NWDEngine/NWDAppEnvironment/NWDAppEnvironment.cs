@@ -33,7 +33,7 @@ namespace NetWorkedData
 		public bool Selected = false;
         public string Environment = NWDConstants.K_PRODUCTION_NAME;
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
+		//public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
 		public string PlayerAccountReference = string.Empty;
 		public string RequesToken = string.Empty;
         // for debug anti-crack
@@ -42,9 +42,9 @@ namespace NetWorkedData
         public string LastPreviewRequesToken = string.Empty;
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public string AnonymousPlayerAccountReference = string.Empty;
+        //public string AnonymousPlayerAccountReference = string.Empty;
 		// reccord the first anonymous value to restaure old original account
-		public string AnonymousResetPassword = string.Empty;
+		//public string AnonymousResetPassword = string.Empty;
 		// reccord the secretKey to reset token
 		//-------------------------------------------------------------------------------------------------------------
 		public string DataSHAPassword = string.Empty;
@@ -133,28 +133,61 @@ namespace NetWorkedData
         #endregion
         #region instance methods
 		//-------------------------------------------------------------------------------------------------------------
-		public void AnonymousVerification ()
-		{
-			if (AnonymousPlayerAccountReference == string.Empty) {
-				AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID ();
-			}
-			if (AnonymousResetPassword == string.Empty) {
-				AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
-			}
-		}
+		//public void AnonymousVerification ()
+		//{
+		//	if (AnonymousPlayerAccountReference == string.Empty) {
+		//		AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID ();
+		//	}
+		//	if (AnonymousResetPassword == string.Empty) {
+		//		AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
+		//	}
+		//}
         //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevice()
         {
             string rReturn;
             if (Application.isPlaying == true)
             {
-                rReturn = BTBSecurityTools.GenerateSha (SystemInfo.deviceUniqueIdentifier + SaltEnd);
+                rReturn = SecretKeyDevicePlayer();
+            }
+            else if (Application.isEditor == true)
+            {
+                rReturn = SecretKeyDeviceEditor();
             }
             else
             {
-                rReturn = BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
+                rReturn = "Hacker?";
             }
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string SecretKeyDeviceEditor()
+        {
+            string rReturn;
+                rReturn = BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        const string kSecretKeyDevicePlayerKey = "kSecretKeyDevicePlayerKey_dad42928";
+        const int kSecretKeyDevicePlayerLength = 36;
+        //-------------------------------------------------------------------------------------------------------------
+        public string SecretKeyDevicePlayer()
+        {
+            string rReturn;
+            if (NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected == true)
+            {
+                rReturn = BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltEnd);
+            }
+            else
+            {
+                rReturn = BTBPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SecretKeyDevicePlayerReset()
+        {
+            BTBPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AdminKeyHashGenerate()

@@ -96,6 +96,14 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void DataAddSecetDevicekey()
+        {
+            // insert device key in data
+            Data.Add(SecretDeviceKey, Environment.SecretKeyDevice());
+            // force temporary account to be secure to transit the secretkey of device!
+            SecureData = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void DataDownloadedCompute(NWDOperationResult sData)
         {
 
@@ -156,6 +164,14 @@ namespace NetWorkedData
 
             // I prepare the data
             DataUploadPrepare();
+
+            // I insert the device key if necessary 
+
+            //if (Environment.PlayerStatut == NWDAppEnvironmentPlayerStatut.Temporary)
+            if (NWDAccountInfos.CurrentData().AccountType == NWDAppEnvironmentPlayerStatut.Temporary)
+            {
+                DataAddSecetDevicekey();
+            }
 
             // I insert the data
             WWWForm tWWWForm = InsertDataInRequest(ResultInfos);
@@ -369,7 +385,8 @@ namespace NetWorkedData
                                                 BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
 
                                                 // Restore for anonymous account
-                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().RestaureAnonymousSession();
+                                                //NWDAppConfiguration.SharedInstance().SelectedEnvironment().RestaureAnonymousSession();
+                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
                                             }
                                             else
                                             {
@@ -414,7 +431,7 @@ namespace NetWorkedData
                                             {
                                                 tUserChange = true;
 
-                                                NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID, ResultInfos.signkey);
+                                                NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID /*, ResultInfos.signkey*/);
                                                 Statut = BTBOperationState.ReStart;
                                             }
                                         }
@@ -437,40 +454,40 @@ namespace NetWorkedData
                                             {
                                                 tUserChange = true;
 
-                                                if (ResultInfos.isSignUp == true)
-                                                {
-                                                    Environment.ResetAnonymousSession();
-                                                }
+                                                //if (ResultInfos.isSignUp == true)
+                                                //{
+                                                //    Environment.ResetAnonymousSession();
+                                                //}
 
-                                                switch (ResultInfos.sign)
-                                                {
-                                                    case NWDAppEnvironmentPlayerStatut.Anonymous:
-                                                        {
-                                                            if (!tUUID.Equals(string.Empty))
-                                                            {
-                                                                Environment.AnonymousPlayerAccountReference = tUUID;
-                                                            }
-                                                            if (!ResultInfos.signkey.Equals(string.Empty))
-                                                            {
-                                                                Environment.AnonymousResetPassword = ResultInfos.signkey;
-                                                            }
-                                                        }
-                                                        break;
-                                                    case NWDAppEnvironmentPlayerStatut.Temporary:
-                                                        {
-                                                            if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
-                                                            {
-                                                                //Using signed account as anonymous account = reset!
-                                                                Environment.ResetAnonymousSession();
-                                                            }
-                                                        }
-                                                        break;
-                                                    case NWDAppEnvironmentPlayerStatut.Facebook:
-                                                    case NWDAppEnvironmentPlayerStatut.Google:
-                                                    case NWDAppEnvironmentPlayerStatut.LoginPassword:
-                                                    case NWDAppEnvironmentPlayerStatut.Unknow:
-                                                        break;
-                                                }
+                                                //switch (ResultInfos.sign)
+                                                //{
+                                                //    case NWDAppEnvironmentPlayerStatut.Anonymous:
+                                                //        {
+                                                //            //if (!tUUID.Equals(string.Empty))
+                                                //            //{
+                                                //            //    Environment.AnonymousPlayerAccountReference = tUUID;
+                                                //            //}
+                                                //            //if (!ResultInfos.signkey.Equals(string.Empty))
+                                                //            //{
+                                                //            //    Environment.AnonymousResetPassword = ResultInfos.signkey;
+                                                //            //}
+                                                //        }
+                                                //        break;
+                                                //    case NWDAppEnvironmentPlayerStatut.Temporary:
+                                                //        {
+                                                //            //if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
+                                                //            //{
+                                                //            //    //Using signed account as anonymous account = reset!
+                                                //            //    Environment.ResetAnonymousSession();
+                                                //            //}
+                                                //        }
+                                                //        break;
+                                                //    case NWDAppEnvironmentPlayerStatut.Facebook:
+                                                //    case NWDAppEnvironmentPlayerStatut.Google:
+                                                //    case NWDAppEnvironmentPlayerStatut.Signed:
+                                                //    case NWDAppEnvironmentPlayerStatut.Unknow:
+                                                //        break;
+                                                //}
                                             }
 
                                             if (ResultInfos.isReloadingData)
@@ -484,8 +501,8 @@ namespace NetWorkedData
                                             // Create or load User Account infos
                                             if (ResultInfos.isSignUpdate)
                                             {
-                                                NWDAccountInfos.SetAccountType(ResultInfos.sign);
-                                                Environment.PlayerStatut = ResultInfos.sign;
+                                                NWDAccountInfos.SetAccountType( NWDAppEnvironmentPlayerStatut.Certified);
+                                                //Environment.PlayerStatut = ResultInfos.sign;
                                             }
 
                                             // Notification of a Download success
@@ -635,6 +652,7 @@ namespace NetWorkedData
         {
             //TODO: Insert Header In Request
             HeaderParams.Clear();
+            UUID = Environment.PlayerAccountReference;
             if (SecureData)
             {
                 HeaderParams.Add(SecureKey, SecureDigestKey);
@@ -643,7 +661,6 @@ namespace NetWorkedData
             {
                 HeaderParams.Add(UnSecureKey, UnSecureDigestKey);
             }
-            UUID = Environment.PlayerAccountReference;
             RequestToken = Environment.RequesToken;
 #if UNITY_EDITOR
             Version = PlayerSettings.bundleVersion;
@@ -700,6 +717,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         static string UnSecureKey = "prm";
+        static string SecretDeviceKey = "shs";
         static string SecureKey = "scr";
         static string UnSecureDigestKey = "prmdgt";
         static string SecureDigestKey = "scrdgt";

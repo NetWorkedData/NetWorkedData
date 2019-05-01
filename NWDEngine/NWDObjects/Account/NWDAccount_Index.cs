@@ -33,10 +33,10 @@ namespace NetWorkedData
             return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CurrentAnonymousReference()
-        {
-            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().AnonymousPlayerAccountReference;
-        }
+        //public static string CurrentAnonymousReference()
+        //{
+        //    return NWDAppConfiguration.SharedInstance().SelectedEnvironment().AnonymousPlayerAccountReference;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDAccounTest> SelectDatasForTests()
         {

@@ -35,6 +35,7 @@ namespace NetWorkedData
         new Type[] {
         typeof(NWDAccount),
         typeof(NWDAccountInfos),
+        typeof(NWDAccountSign),
         typeof(NWDAccountNickname),
         typeof(NWDAccountAvatar),
         typeof(NWDAccountPreference),

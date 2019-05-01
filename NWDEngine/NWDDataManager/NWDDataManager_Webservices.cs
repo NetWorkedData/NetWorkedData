@@ -148,11 +148,11 @@ namespace NetWorkedData
             return AddWebRequestSignOutWithBlock(null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestAnonymousRestaure(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestAnonymousRestaure");
-            return AddWebRequestAnonymousRestaureWithBlock(null, null, null, null, sPriority, sEnvironment);
-        }
+        //public NWDOperationWebAccount AddWebRequestAnonymousRestaure(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestAnonymousRestaure");
+        //    return AddWebRequestAnonymousRestaureWithBlock(null, null, null, null, sPriority, sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignModify(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
@@ -369,23 +369,23 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock(BTBOperationBlock sSuccessBlock = null,
-                                                                               BTBOperationBlock sErrorBlock = null,
-                                                                               BTBOperationBlock sCancelBlock = null,
-                                                                               BTBOperationBlock sProgressBlock = null,
-                                                                               bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestAnonymousRestaureWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "signanonymous";
-            if (sEnvironment != null)
-            {
-                sOperation.AnonymousPlayerAccountReference = sEnvironment.AnonymousPlayerAccountReference;
-                sOperation.AnonymousResetPassword = sEnvironment.AnonymousResetPassword;
-            }
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock(BTBOperationBlock sSuccessBlock = null,
+        //                                                                       BTBOperationBlock sErrorBlock = null,
+        //                                                                       BTBOperationBlock sCancelBlock = null,
+        //                                                                       BTBOperationBlock sProgressBlock = null,
+        //                                                                       bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestAnonymousRestaureWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "signanonymous";
+        //    if (sEnvironment != null)
+        //    {
+        //        sOperation.AnonymousPlayerAccountReference = sEnvironment.AnonymousPlayerAccountReference;
+        //        sOperation.AnonymousResetPassword = sEnvironment.AnonymousResetPassword;
+        //    }
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignModifyWithBlock(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword,
                                                                         BTBOperationBlock sSuccessBlock = null,
@@ -576,16 +576,16 @@ namespace NetWorkedData
         //		/// </summary>
         //		public static bool SynchronizeRepeatInForce = false;
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeAllDatasForUserToAnotherUser(NWDAppEnvironment sEnvironment, string sNewAccountReference, string sAnonymousResetPassword)
+        public void ChangeAllDatasForUserToAnotherUser(NWDAppEnvironment sEnvironment, string sNewAccountReference /*, string sAnonymousResetPassword*/)
         {
             // change account refrence 
             // generate new Reference for this objetc (based on account reference)
             //Debug.Log("NWDDataManager ChangeAllDatasForUserToAnotherUser()");
-            if (sEnvironment.AnonymousPlayerAccountReference == sEnvironment.PlayerAccountReference)
-            {
-                sEnvironment.AnonymousPlayerAccountReference = sNewAccountReference;
-                sEnvironment.AnonymousResetPassword = sAnonymousResetPassword;
-            }
+            //if (sEnvironment.AnonymousPlayerAccountReference == sEnvironment.PlayerAccountReference)
+            //{
+            //    sEnvironment.AnonymousPlayerAccountReference = sNewAccountReference;
+            //    sEnvironment.AnonymousResetPassword = sAnonymousResetPassword;
+            //}
 
             NWDDataManager.SharedInstance().DataQueueExecute();
             foreach (Type tType in mTypeList)

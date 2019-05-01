@@ -23,11 +23,11 @@ namespace NetWorkedData
     public enum NWDAppEnvironmentPlayerStatut
 	{
 		Temporary = 0,
-		Anonymous = 1,
-		LoginPassword = 20,
-		Facebook = 30,
-		Google = 31,
-		Unknow = 99,
+		Certified = 1,
+		//Signed = 20,
+		//Facebook = 30,
+		//Google = 31,
+		//Unknow = 99,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

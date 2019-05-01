@@ -72,6 +72,7 @@ namespace NetWorkedData
             NWDError.CreateGenericError("header", "HEA15", "header error", "hash is invalid", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("header", "HEA90", "header error", "hash error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
+
             NWDError.CreateGenericError("param", "PAR97", "param error", "not json valid", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("param", "PAR98", "param error", "json digest is false", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("param", "PAR99", "param error", "json null", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -143,10 +144,10 @@ namespace NetWorkedData
             NWDError.CreateGenericError("account", "SGN18", "Account sign error", "singin error multi-account ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("account", "SGN19", "Account sign error", "delete error in update account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-            NWDError.CreateGenericError("account", "SGN25", "Account sign error", "signanonymous error in request account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("account", "SGN26", "Account sign error", "signanonymous error no account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("account", "SGN27", "Account sign error", "signanonymous error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("account", "SGN28", "Account sign error", "signanonymous error multi-account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            //NWDError.CreateGenericError("account", "SGN25", "Account sign error", "signanonymous error in request account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            //NWDError.CreateGenericError("account", "SGN26", "Account sign error", "signanonymous error no account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            //NWDError.CreateGenericError("account", "SGN27", "Account sign error", "signanonymous error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            //NWDError.CreateGenericError("account", "SGN28", "Account sign error", "signanonymous error multi-account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError("account", "SGN33", "Account sign error", "signout impossible with anonymous account equal to restaured account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
@@ -156,6 +157,8 @@ namespace NetWorkedData
             NWDError.CreateGenericError("account", "SGN80", "Account sign error", "session select error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("account", "SGN81", "Account sign error", "impossible unknow user", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("account", "SGN82", "Account sign error", "impossible multi-users", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+            NWDError.CreateGenericError("account", "SHS01", "secret key error", "secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
             NWDError.CreateGenericError("token", "RQT01", "Token error", "error in request token creation", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("token", "RQT11", "Token error", "new token is not in base", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);

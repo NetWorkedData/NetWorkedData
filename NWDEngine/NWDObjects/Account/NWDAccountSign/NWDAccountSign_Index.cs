@@ -2,7 +2,7 @@
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:29:21
+//  Date		2019-4-12 18:42:14
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -13,61 +13,68 @@
 
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
+
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    /*
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
+    // Example with fictive class NWDSomething
+    // Connect by property Something
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDSomething : NWDBasis<NWDSomething>
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAccountSign : NWDBasis<NWDAccountSign>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDAccount, NWDAccountInfos> kAccountIndex = new NWDIndex<NWDAccount, NWDAccountInfos>();
+        static protected NWDIndex<NWDLevel, NWDAccountSign> kLevelIndex = new NWDIndex<NWDLevel, NWDAccountSign>();
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
-        public void InsertInAccountIndex()
+        public void InsertInLevelIndex()
         {
             // Re-add to the actual indexation ?
             if (IsUsable())
             {
                 // Re-add !
-                string tKey = Account.GetReference();
-                kAccountIndex.InsertData(this, tKey);
+                string tKey = Level.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kLevelIndex.InsertInIndex(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexRemove]
-        public void RemoveFromAccountIndex()
+        public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation
-            kAccountIndex.RemoveData(this);
+            kLevelIndex.RemoveFromIndex(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
+        public static NWDAccountSign FindDataByLevel(NWDLevel sKey, bool sOrCreate = false)
         {
-            NWDAccountInfos rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserLevelScore rReturn = kLevelIndex.FindFirstByReference(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NewData();
-                rReturn.Account.SetReference(sAccountReference);
-                //rReturn.AccountType = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerStatut;
-                rReturn.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;
-                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                rReturn.Level.SetObject(sKey);
                 rReturn.UpdateData();
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos CurrentData()
-        {
-            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
-        }
-            //-------------------------------------------------------------------------------------------------------------
-        }
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    */
 }
 //=====================================================================================================================
