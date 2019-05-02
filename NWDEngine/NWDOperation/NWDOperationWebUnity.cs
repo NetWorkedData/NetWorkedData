@@ -471,7 +471,7 @@ namespace NetWorkedData
                                             if (!tUUID.Equals(string.Empty))
                                             {
                                                 tUserChange = true;
-
+                                                // creer Device sign and send to serever with new package
                                                 NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID /*, ResultInfos.signkey*/);
                                                 Statut = BTBOperationState.ReStart;
                                             }

@@ -174,11 +174,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
-            tData.Add("action", "sync");
-
-            //tData.Add(SignKey,sign);
-            Data = tData;
+            // Not synchronize with temporray account
+            if (NWDAccountInfos.CurrentData().AccountType() != NWDAppEnvironmentPlayerStatut.Temporary)
+            {
+                Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
+                tData.Add("action", "sync");
+                Data = tData;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute(NWDOperationResult sData)

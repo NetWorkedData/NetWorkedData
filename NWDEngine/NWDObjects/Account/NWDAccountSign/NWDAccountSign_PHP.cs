@@ -55,8 +55,8 @@ namespace NetWorkedData
             sScript.AppendLine("{");
             sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
             sScript.AppendLine("}");
-            sScript.Append("$tQueryRequest .= 'AND `Reference` != \\''.$SQL_CON->real_escape_string($tReference).'\\' ");
-            sScript.Append(" ) AND `AC` = 1");
+            sScript.Append("$tQueryRequest .= ' ) AND `Reference` != \\''.$SQL_CON->real_escape_string($tReference).'\\' ");
+            sScript.Append("AND `AC` = 1");
             sScript.AppendLine(";';"); 
             sScript.AppendLine("myLog('query = '.$tQueryRequest.'', __FILE__, __FUNCTION__, __LINE__);");
             sScript.AppendLine("$tResultRequest = $SQL_CON->query($tQueryRequest);");
