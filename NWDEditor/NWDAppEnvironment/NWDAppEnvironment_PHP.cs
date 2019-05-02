@@ -714,12 +714,12 @@ namespace NetWorkedData
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
             }
-            tFile.AppendLine("// MAINTENANCE");
+            tFile.AppendLine("// "+NWD.K_MAINTENANCE_ERROR + "");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("header('maintenance: true');");
+            tFile.AppendLine("header('"+NWD.K_MAINTENANCE_HEADER_KEY + ": true');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
-            tFile.AppendLine("{\"maintenance\":\"true\"}");
+            tFile.AppendLine("{\""+NWD.K_MAINTENANCE_HEADER_KEY + "\":\"true\"}");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_MAINTENANCE_PHP, tFileFormatted);
             //BTBBenchmark.Finish();
@@ -736,12 +736,12 @@ namespace NetWorkedData
                 tFile.AppendLine("error_reporting (E_ALL);");
                 tFile.AppendLine("ini_set ('display_errors', 1);");
             }
-            tFile.AppendLine("// OBSOLETE");
+            tFile.AppendLine("// "+NWD.K_OBSOLETE_ERROR + "");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("header('obsolete: true');");
+            tFile.AppendLine("header('"+NWD.K_OBSOLETE_HEADER_KEY + ": true');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
-            tFile.AppendLine("{\"obsolete\":\"true\"}");
+            tFile.AppendLine("{\""+NWD.K_OBSOLETE_HEADER_KEY + "\":\"true\"}");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_OBSOLETE_PHP, tFileFormatted);
             //BTBBenchmark.Finish();

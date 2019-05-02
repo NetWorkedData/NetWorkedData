@@ -176,6 +176,8 @@ namespace NetWorkedData
         {
             Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
             tData.Add("action", "sync");
+
+            //tData.Add(SignKey,sign);
             Data = tData;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -34,6 +34,19 @@ namespace NetWorkedData
         public static NWDAccountSignType Google = Add(4, "Google");
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDAccountSignAction : int
+    {
+        None = 0,
+
+        TryToAssociate = 10,
+        Associated = 11,
+        ErrorAssociated = 12,
+
+        TryToDissociate = 20,
+        Dissociated = 21,
+        //ErrorDissociated = 22,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignHelper : NWDHelper<NWDAccountSign>
     {
     }
@@ -45,14 +58,32 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("SKD")]
     [NWDClassDescriptionAttribute("Account Sign to connect by hash of sign")]
     [NWDClassMenuNameAttribute("Account Sign")]
-    //[NWDInternalKeyNotEditableAttribute]
+    [NWDForceSecureData]
     public partial class NWDAccountSign : NWDBasis<NWDAccountSign>
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDInspectorGroupStart("Informations")]
 		public NWDReferenceType<NWDAccount> Account {get; set;}
-		public NWDAccountSignType SignType {get; set;}
-		public string SignHash {get; set;}
-		public string RescueHash {get; set;}
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Sign Send")]
+      //  [NWDNotEditable]
+		public NWDAccountSignType SignType {get; set; }
+       // [NWDNotEditable]
+        public string SignHash {get; set; }
+       // [NWDNotEditable]
+        public string RescueHash {get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Server Action")]
+      //  [NWDNotEditable]
+        public NWDAccountSignAction SignAction { get; set; }
+      //  [NWDNotEditable]
+        public string SignHashServer { get; set; }
+       // [NWDNotEditable]
+        public string RescueHashServer { get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Rescue")]
+       // [NWDNotEditable]
+        public string RescuePinCode { get; set; } // to recreate the password and send by email the url send to user containt the email and the rescue pincode 
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

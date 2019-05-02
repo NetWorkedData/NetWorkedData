@@ -57,6 +57,13 @@ namespace NetWorkedData
         public const string K_MAINTENANCE_PHP = "maintenance.php";
         public const string K_OBSOLETE_PHP = "obsolete.php";
         public const string K_NO_PAGE_PHP = "NoPage.php";
+
+        public const string K_OBSOLETE_HEADER_KEY = "obsolete";
+        public const string K_MAINTENANCE_HEADER_KEY = "maintenance";
+        public const string K_OBSOLETE_ERROR = "OBSOLETE";
+        public const string K_MAINTENANCE_ERROR= "MAINTENANCE";
+
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_STATIC_ACCOUNT_PHP = "account.php";
         public const string K_STATIC_ERROR_PHP = "error.php";

@@ -348,7 +348,9 @@ namespace NetWorkedData
 
             TextEnvironment.text = tApp.Environment;
             //TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
-            TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            //TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            //TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n";
+            TextAccount.text = tApp.PlayerAccountReference ;
 
             TextToken.text = tApp.RequesToken;
             //TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;

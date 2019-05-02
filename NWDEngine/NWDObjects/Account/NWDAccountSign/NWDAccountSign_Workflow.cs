@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -63,6 +64,194 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Register()
+        {
+            SignAction = NWDAccountSignAction.TryToAssociate;
+            UpdateData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Unregister()
+        {
+            SignAction = NWDAccountSignAction.TryToDissociate;
+            UpdateData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterDeviceEditor()
+        {
+            SignType = NWDAccountSignType.DeviceID;
+            SignHash = SignDeviceEditor();
+            RescueHash = string.Empty;
+            Register();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SignDeviceEditor()
+        {
+            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDeviceEditor();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterDevicePlayer()
+        {
+            SignType = NWDAccountSignType.DeviceID;
+            SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
+            RescueHash = string.Empty;
+            Register();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SignDevicePlayer()
+        {
+            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterDevice()
+        {
+            SignType = NWDAccountSignType.DeviceID;
+            SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
+            RescueHash = string.Empty;
+            Register();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SignDevice()
+        {
+            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterSocialFacebook(string sSocialToken)
+        {
+            SignType = NWDAccountSignType.Facebook;
+            SignHash = SignSocialDevice(sSocialToken);
+            RescueHash = string.Empty;
+            Register();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterSocialGoogle(string sSocialToken)
+        {
+            SignType = NWDAccountSignType.Google;
+            SignHash = SignSocialDevice(sSocialToken);
+            RescueHash = string.Empty;
+            Register();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SignSocialDevice(string sSocialToken)
+        {
+            string rReturn = null;
+            if (string.IsNullOrEmpty(sSocialToken))
+            {
+                rReturn = string.Empty;
+            }
+            else
+            {
+                rReturn = BTBSecurityTools.GenerateSha(sSocialToken + NWDAppEnvironment.SelectedEnvironment().SaltEnd);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterEmailPassword(string sEmail, string sPassword)
+        {
+            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
+            {
+                // not possible
+            }
+            else
+            {
+                SignType = NWDAccountSignType.LoginPassword;
+                SignHash = SignLoginPassword(sEmail, sPassword);
+                RescueHash = RescueEmailHash(sEmail);
+                Register();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SignLoginPassword(string sLogin, string sPassword)
+        {
+            string rReturn = null;
+            if (string.IsNullOrEmpty(sLogin) || string.IsNullOrEmpty(sPassword))
+            {
+                rReturn = string.Empty;
+            }
+            else
+            {
+                rReturn = BTBSecurityTools.GenerateSha(sLogin + sPassword + NWDAppEnvironment.SelectedEnvironment().SaltEnd);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string RescueEmailHash(string sEmail)
+        {
+            string rReturn = null;
+            if (string.IsNullOrEmpty(sEmail))
+            {
+                rReturn = string.Empty;
+            }
+            else
+            {
+                rReturn = BTBSecurityTools.GenerateSha(sEmail + NWDAppEnvironment.SelectedEnvironment().SaltStart);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterDelete()
+        {
+            SignType = NWDAccountSignType.None;
+            SignHash = string.Empty;
+            RescueHash = string.Empty;
+            Unregister();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountSign[] GetCorporateDatasAssociated(string sAccountReference = null)
+        {
+            List<NWDAccountSign> tSignList = GetCorporateDatasList(sAccountReference);
+            List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
+            foreach (NWDAccountSign tSign in tSignList)
+            {
+                if (tSign.SignAction == NWDAccountSignAction.Associated)
+                {
+                    rReturn.Add(tSign);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountSign[] GetReachableDatasAssociated()
+        {
+            List<NWDAccountSign> tSignList = GetReachableDatasList();
+            List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
+            foreach (NWDAccountSign tSign in tSignList)
+            {
+                if (tSign.SignAction == NWDAccountSignAction.Associated)
+                {
+                    rReturn.Add(tSign);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //public static NWDAccountSign[] GetCorporateDatasBySignType(NWDAccountSignType tSignType, string sAccountReference = null)
+        //{
+        //    List<NWDAccountSign> tSignList = GetCorporateDatasList(sAccountReference);
+        //    List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
+        //    foreach (NWDAccountSign tSign in tSignList)
+        //    {
+        //        if (tSign.SignType == tSignType)
+        //        {
+        //            rReturn.Add(tSign);
+        //        }
+        //    }
+        //    return rReturn.ToArray();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountSign[] GetReachableDatasBySignType(NWDAccountSignType tSignType)
+        {
+            List<NWDAccountSign> tSignList = GetReachableDatasList();
+            List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
+            foreach (NWDAccountSign tSign in tSignList)
+            {
+                if (tSign.SignType == tSignType)
+                {
+                    rReturn.Add(tSign);
+                }
+            }
+            return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

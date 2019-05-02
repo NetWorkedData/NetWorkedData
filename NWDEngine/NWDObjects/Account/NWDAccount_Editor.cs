@@ -89,8 +89,41 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
-            //Debug.Log ("AddonEditor");
-            float tWidth = sRect.width;
+            NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAssociated(Reference);
+            int tRow = tSigns.Length;
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 20);
+            int tI = 0;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Reference;
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+            tI++;
+            foreach (NWDAccountSign tSign in tSigns)
+            {
+                if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString(), NWDGUI.kMiniButtonStyle))
+                {
+                    NWDDataManager.SharedInstance().AddWebRequestSignIn(string.Empty, tSign.SignHash);
+                }
+                if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
+                {
+                    NWDAccountSign.BasisHelper().New_SetObjectInEdition(tSign);
+                }
+                tI++;
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Log Out"))
+            {
+            }
+            tI++;
+            /*
+                //Debug.Log ("AddonEditor");
+                float tWidth = sRect.width;
             float tX = sRect.x;
             float tY = sRect.y;
 
@@ -268,38 +301,45 @@ namespace NetWorkedData
                     }
                     tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
-            }*/;
+            }*/
+            ;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
-            //Debug.Log ("AddonEditorHeight");
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+            NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAssociated(Reference);
+            int tRow = tSigns.Length;
+            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, tRow + 20);
+            return tYadd;
 
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+            ////Debug.Log ("AddonEditorHeight");
+            //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            float tY = NWDGUI.kFieldMarge;
+            //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            tY += NWDGUI.kFieldMarge * 2;
-            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += NWDGUI.kFieldMarge * 2;
-            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            /*foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-            {
-                tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            }*/
-            return tY;
+            //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+            //float tY = NWDGUI.kFieldMarge;
+
+            //tY += NWDGUI.kFieldMarge * 2;
+            //tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += NWDGUI.kFieldMarge * 2;
+            //tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            ///*foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            //{
+            //    tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //}*/
+            //return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

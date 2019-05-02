@@ -43,9 +43,34 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDAppEnvironmentPlayerStatut AccountType
+        //public NWDAppEnvironmentPlayerStatut AccountType
+        //{
+        //    get; set;
+        //}
+        public NWDAppEnvironmentPlayerStatut AccountType()
         {
-            get; set;
+            NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+            if (Account.GetReference().Contains("T"))
+            {
+                rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+            }
+            else
+            {
+                rReturn = NWDAppEnvironmentPlayerStatut.Certified;
+                NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatas(Account.GetReference());
+                foreach(NWDAccountSign tSign in tSigns)
+                {
+                    if (tSign.SignType != NWDAccountSignType.None && tSign.SignType != NWDAccountSignType.DeviceID)
+                    {
+                        if (tSign.SignAction == NWDAccountSignAction.Associated)
+                        {
+                            rReturn = NWDAppEnvironmentPlayerStatut.Signed;
+                            break;
+                        }
+                    }
+                }
+            }
+            return rReturn;
         }
         public NWDReferenceType<NWDAccountAvatar> Avatar
         {
@@ -59,11 +84,22 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public string FirstName
+        //public string FirstName
+        //{
+        //    get; set;
+        //}
+        //public string LastName
+        //{
+        //    get; set;
+        //}
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Stat")]
+        public NWDDateTimeType LastSignIn
         {
             get; set;
         }
-        public string LastName
+        public NWDDateTimeType LastAppOpen
         {
             get; set;
         }

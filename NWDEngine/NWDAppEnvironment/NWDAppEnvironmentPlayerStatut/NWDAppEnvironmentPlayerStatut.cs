@@ -24,10 +24,11 @@ namespace NetWorkedData
 	{
 		Temporary = 0,
 		Certified = 1,
-		//Signed = 20,
-		//Facebook = 30,
-		//Google = 31,
-		//Unknow = 99,
+        Signed = 2,
+        //Signed = 20,
+        //Facebook = 30,
+        //Google = 31,
+        //Unknow = 99,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

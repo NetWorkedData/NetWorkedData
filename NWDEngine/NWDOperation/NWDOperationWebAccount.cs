@@ -39,6 +39,8 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+   
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDOperationWebAccount : NWDOperationWebUnity
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -64,6 +66,7 @@ namespace NetWorkedData
         public string NewPassword;
         public string ConfirmPassword;
         public string SocialToken;
+
         //-------------------------------------------------------------------------------------------------------------
         //public string AnonymousPlayerAccountReference = string.Empty;
         //public string AnonymousResetPassword = string.Empty;
@@ -139,13 +142,13 @@ namespace NetWorkedData
                 if (Action == "signin" || Action == "facebook" || Action == "google" || Action == "session")
                 {
                     // TODO : check if work correctly 
-                    Data = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeAccountDependantList);
+                    //Data = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeAccountDependantList);
                     //Data = new Dictionary<string, object> ();
                 }
                 else
                 {
                     // TODO : check if work correctly 
-                    Data = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
+                    //Data = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
                 }
                 if (Data.ContainsKey(ActionKey))
                 {
@@ -170,7 +173,8 @@ namespace NetWorkedData
             }
             if (Password != null)
             {
-                string tPassword = BTBSecurityTools.GenerateSha(Password + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                //string tPassword = BTBSecurityTools.GenerateSha(Password + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                string tPassword = Password;
                 if (Data.ContainsKey(PasswordKey))
                 {
                     Data[PasswordKey] = tPassword;

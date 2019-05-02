@@ -55,7 +55,7 @@ namespace NetWorkedData
                 rReturn = NewData();
                 rReturn.Account.SetReference(sAccountReference);
                 //rReturn.AccountType = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerStatut;
-                rReturn.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;
+                //rReturn.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();
             }

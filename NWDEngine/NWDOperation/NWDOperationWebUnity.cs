@@ -32,6 +32,44 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDWeb
+    {
+        const string K_ACTION_KEY = "action";
+
+        const string K_INDEX_PHP = "index.php";
+        const string K_AUTHENTIFICATION_PHP = "authentification.php";
+        const string K_SECURE_DATA_KEY = "scr";
+        const string K_SECURE_DIGEST_KEY = "scrdgt";
+        const string K_DATA_KEY = "prm";
+        const string K_DIGEST_KEY = "prmdgt";
+
+        const string K_SECRET_DEVIDE_KEY = "shs";
+        const string K_SIGN_KEY = "sss";
+
+
+        const string OSKey = "os";
+        const string LangKey = "lang";
+        const string VersionKey = "version";
+        const string UUIDKey = "uuid";
+        const string RequestTokenKey = "token";
+        const string HashKey = "hash";
+        const string AdminHashKey = "adminHash";
+
+    }
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        public enum NWDOperationWebAction : int
+    {
+        Sync = 1,
+
+        SignIn = 1,
+        SignOut = 2,
+        Rescue = 3,
+
+#if UNITY_EDITOR
+        management = 9,
+#endif
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
     public partial class NWDOperationWebUnity : BTBOperation
     {
@@ -42,6 +80,9 @@ namespace NetWorkedData
         public UnityWebRequest Request;
         public NWDAppEnvironment Environment;
         public NWDOperationResult ResultInfos = new NWDOperationResult();
+
+        public NWDOperationWebAction ActionEnum = NWDOperationWebAction.SignIn;
+        public string Sign;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebUnity AddOperation(string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
         {
@@ -168,7 +209,7 @@ namespace NetWorkedData
             // I insert the device key if necessary 
 
             //if (Environment.PlayerStatut == NWDAppEnvironmentPlayerStatut.Temporary)
-            if (NWDAccountInfos.CurrentData().AccountType == NWDAppEnvironmentPlayerStatut.Temporary)
+            if (NWDAccountInfos.CurrentData().AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
             {
                 DataAddSecetDevicekey();
             }
@@ -269,9 +310,9 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(Request.GetResponseHeader("obsolete")) == true)
+                            if (string.IsNullOrEmpty(Request.GetResponseHeader(NWD.K_OBSOLETE_HEADER_KEY)) == true)
                             {
-                                if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")) == true)
+                                if (string.IsNullOrEmpty(Request.GetResponseHeader(NWD.K_MAINTENANCE_HEADER_KEY)) == true)
                                 {
                                     // Parse Json Data to Dictionary
                                     Dictionary<string, object> tData = null;
@@ -499,11 +540,11 @@ namespace NetWorkedData
                                             DataDownloadedCompute(ResultInfos);
 
                                             // Create or load User Account infos
-                                            if (ResultInfos.isSignUpdate)
-                                            {
-                                                NWDAccountInfos.SetAccountType( NWDAppEnvironmentPlayerStatut.Certified);
-                                                //Environment.PlayerStatut = ResultInfos.sign;
-                                            }
+                                            //if (ResultInfos.isSignUpdate)
+                                            //{
+                                            //    //NWDAccountInfos.SetAccountType( NWDAppEnvironmentPlayerStatut.Certified);
+                                            //    //Environment.PlayerStatut = ResultInfos.sign;
+                                            //}
 
                                             // Notification of a Download success
                                             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
@@ -515,7 +556,7 @@ namespace NetWorkedData
                                 }
                                 else
                                 {
-                                    ResultInfos.SetErrorCode("MAINTENANCE");
+                                    ResultInfos.SetErrorCode(NWD.K_MAINTENANCE_ERROR);
                                     if (ResultInfos.errorDesc != null)
                                     {
                                         ResultInfos.errorDesc.ShowAlert();
@@ -530,7 +571,7 @@ namespace NetWorkedData
                             }
                             else
                             {
-                                ResultInfos.SetErrorCode("OBSOLETE");
+                                ResultInfos.SetErrorCode(NWD.K_OBSOLETE_ERROR);
                                 if (ResultInfos.errorDesc != null)
                                 {
                                     ResultInfos.errorDesc.ShowAlert();
@@ -718,6 +759,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static string UnSecureKey = "prm";
         static string SecretDeviceKey = "shs";
+        public static  string SignKey = "sss";
         static string SecureKey = "scr";
         static string UnSecureDigestKey = "prmdgt";
         static string SecureDigestKey = "scrdgt";

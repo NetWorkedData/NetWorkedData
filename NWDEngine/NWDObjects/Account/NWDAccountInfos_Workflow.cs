@@ -75,22 +75,22 @@ namespace NetWorkedData
         //    return kCurrent;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
-        {
-            //NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
-            NWDAccountInfos tActiveAccount = CurrentData();
-            if (tActiveAccount != null)
-            {
-                tActiveAccount.AccountType = tStatus;
-                tActiveAccount.SaveData();
-            }
-        }
+        //public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
+        //{
+        //    //NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
+        //    NWDAccountInfos tActiveAccount = CurrentData();
+        //    if (tActiveAccount != null)
+        //    {
+        //        tActiveAccount.AccountType = tStatus;
+        //        tActiveAccount.SaveData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeDatas()
-        {
-            SynchronizationFromWebService();
-            //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
-        }
+        //public static void SynchronizeDatas()
+        //{
+        //    SynchronizationFromWebService();
+        //    //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {

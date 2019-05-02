@@ -41,6 +41,10 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
+        string Email;
+        string Password;
+        string Social;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor interface.
         /// </summary>
@@ -49,6 +53,55 @@ namespace NetWorkedData
         public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 1, 20);
+            int tI = 0;
+            NWDGUI.Separator(tMatrix[0, tI++]);
+            if (GUI.Button(tMatrix[0, tI++], "Associate Editor Secret Key", NWDGUI.kMiniButtonStyle))
+            {
+                RegisterDeviceEditor();
+            }
+            if (GUI.Button(tMatrix[0, tI++], "Associate Player Secret Key", NWDGUI.kMiniButtonStyle))
+            {
+                RegisterDevicePlayer();
+            }
+            NWDGUI.Separator(tMatrix[0, tI++]);
+            Email = EditorGUI.TextField(tMatrix[0, tI++], "Email",Email);
+            Password = EditorGUI.TextField(tMatrix[0, tI++], "Password", Password);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password));
+            if (GUI.Button(tMatrix[0, tI++], "Associate login Password", NWDGUI.kMiniButtonStyle))
+            {
+                RegisterEmailPassword(Email, Password);
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDGUI.Separator(tMatrix[0, tI++]);
+            Social = EditorGUI.TextField(tMatrix[0, tI++], "Social", Social);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Social));
+            if (GUI.Button(tMatrix[0, tI++], "Associate FacebookID", NWDGUI.kMiniButtonStyle))
+            {
+                RegisterSocialFacebook(Social);
+            }
+            if (GUI.Button(tMatrix[0, tI++], "Associate GoogleID", NWDGUI.kMiniButtonStyle))
+            {
+                RegisterSocialGoogle(Social);
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDGUI.Separator(tMatrix[0, tI++]);
+            if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
+            {
+                RegisterDelete();
+            }
+            NWDGUI.Separator(tMatrix[0, tI++]);
+            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(SignHash));
+            if (GUI.Button(tMatrix[0, tI++], "Test Sign in", NWDGUI.kMiniButtonStyle))
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSignIn(string.Empty, SignHash);
+            }
+            EditorGUI.EndDisabledGroup();
+            NWDGUI.Separator(tMatrix[0, tI++]);
+            if (GUI.Button(tMatrix[0, tI++], "Crack estimation", NWDGUI.kMiniButtonStyle))
+            {
+                BTBPassAnalyseWindow.SharedInstance().AnalyzePassword(SignHash);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -58,7 +111,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 20);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
