@@ -80,6 +80,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDeviceEditor()
         {
+#if UNITY_EDITOR
+                InternalDescription = "Editor Device ID : " + SignType;
+#endif
             SignType = NWDAccountSignType.DeviceID;
             SignHash = SignDeviceEditor();
             RescueHash = string.Empty;
@@ -93,6 +96,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDevicePlayer()
         {
+#if UNITY_EDITOR
+                InternalDescription = "Player Device ID : " + SignType;
+#endif
             SignType = NWDAccountSignType.DeviceID;
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
             RescueHash = string.Empty;
@@ -106,6 +112,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDevice()
         {
+#if UNITY_EDITOR
+                InternalDescription = "Device ID : " + SignType;
+#endif
             SignType = NWDAccountSignType.DeviceID;
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
             RescueHash = string.Empty;
@@ -119,6 +128,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterSocialFacebook(string sSocialToken)
         {
+#if UNITY_EDITOR
+                InternalDescription = "facebook ID : " + SignType;
+#endif
             SignType = NWDAccountSignType.Facebook;
             SignHash = SignSocialDevice(sSocialToken);
             RescueHash = string.Empty;
@@ -127,6 +139,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterSocialGoogle(string sSocialToken)
         {
+#if UNITY_EDITOR
+                InternalDescription = "google ID : " + SignType;
+#endif
             SignType = NWDAccountSignType.Google;
             SignHash = SignSocialDevice(sSocialToken);
             RescueHash = string.Empty;
@@ -155,6 +170,9 @@ namespace NetWorkedData
             }
             else
             {
+#if UNITY_EDITOR
+                InternalDescription = "Login Password : " + sEmail + " / " + sPassword;
+#endif
                 SignType = NWDAccountSignType.LoginPassword;
                 SignHash = SignLoginPassword(sEmail, sPassword);
                 RescueHash = RescueEmailHash(sEmail);

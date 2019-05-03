@@ -43,7 +43,7 @@ namespace NetWorkedData
         const string K_DATA_KEY = "prm";
         const string K_DIGEST_KEY = "prmdgt";
 
-        const string K_SECRET_DEVIDE_KEY = "shs";
+        //const string K_SECRET_DEVIDE_KEY = "shs";
         const string K_SIGN_KEY = "sss";
 
 
@@ -140,13 +140,13 @@ namespace NetWorkedData
         public void DataAddSecetDevicekey()
         {
             // insert device key in data
-            if (Data.ContainsKey(SecretDeviceKey))
+            if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
             {
-                Data[SecretDeviceKey] = Environment.SecretKeyDevice();
+                Data[NWD.K_WEB_SIGN_Key] = Environment.SecretKeyDevice();
             }
             else
             {
-                Data.Add(SecretDeviceKey, Environment.SecretKeyDevice());
+                Data.Add(NWD.K_WEB_SIGN_Key, Environment.SecretKeyDevice());
             }
             // force temporary account to be secure to transit the secretkey of device!
             SecureData = true;
@@ -765,7 +765,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         static string UnSecureKey = "prm";
-        static string SecretDeviceKey = "shs";
+        //static string SecretDeviceKey = "shs";
         public static  string SignKey = "sss";
         static string SecureKey = "scr";
         static string UnSecureDigestKey = "prmdgt";
