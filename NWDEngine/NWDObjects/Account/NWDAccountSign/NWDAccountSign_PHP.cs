@@ -33,11 +33,11 @@ namespace NetWorkedData
             string tSignStatusKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
-            string tInternalKeyKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().InternalKey);
+            string tInternalDescription = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().InternalDescription);
             int t_Index_SignActionKey = New_CSV_IndexOf(tSignStatusKey);
             int t_Index_SignHashKey = New_CSV_IndexOf(tSignHashKey);
             int t_Index_RescueHashKey = New_CSV_IndexOf(tRescueHashKey);
-            int t_Index_InternalKeyKey = New_CSV_IndexOf(tInternalKeyKey);
+            int t_Index_InternalDescription= New_CSV_IndexOf(tInternalDescription);
             StringBuilder sScript = new StringBuilder(string.Empty);
             sScript.AppendLine("// analyze the sign ");
             sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString()+")");
@@ -68,7 +68,7 @@ namespace NetWorkedData
                     sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.ErrorAssociated).ToString()+";");
                     sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
                     sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_InternalKeyKey + "] = 'Error';");
+                    sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Error';");
                     sScript.AppendLine("$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);");
                     sScript.AppendLine("}");
                     sScript.AppendLine("else");
@@ -85,7 +85,7 @@ namespace NetWorkedData
             sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.Dissociated).ToString() + ";");
             sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
             sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_InternalKeyKey + "] = 'Dissociated';");
+                    sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
             sScript.AppendLine("$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);");
             sScript.AppendLine("}");
             sScript.AppendLine("else");
