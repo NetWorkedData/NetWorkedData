@@ -75,12 +75,22 @@ namespace NetWorkedData
             SignHash = SignDeviceEditor();
             RescueHash = string.Empty;
 #if UNITY_EDITOR
+            NWDAppEnvironment tEnv = null;
+            if (DevSync < 0)
+            {
+                tEnv = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+            }
+            else
+            {
+                tEnv = NWDAppConfiguration.SharedInstance().DevEnvironment;
+            }
+            SignHash = tEnv.SecretKeyDeviceEditor();
             NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
             if (tAccount != null)
             {
                 InternalKey = tAccount.InternalKey;
             }
-            InternalDescription = "Editor Device ID : " + SignHash;
+            InternalDescription = "Editor Device ID <" + tEnv.Environment + "> " + SignHash;
 #endif
             Register();
         }
@@ -190,11 +200,11 @@ namespace NetWorkedData
                 SignHash = SignLoginPassword(sEmail, sPassword);
                 RescueHash = RescueEmailHash(sEmail);
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
-            if (tAccount != null)
-            {
-                InternalKey = tAccount.InternalKey;
-            }
+                NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+                if (tAccount != null)
+                {
+                    InternalKey = tAccount.InternalKey;
+                }
                 InternalDescription = "Login Password : " + sEmail + " / " + sPassword;
 #endif
                 Register();
