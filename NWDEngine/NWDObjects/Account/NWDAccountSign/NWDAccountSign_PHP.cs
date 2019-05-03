@@ -10,15 +10,6 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -39,10 +30,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
-            string tSignActionKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignAction);
+            string tSignStatusKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
-            int t_Index_SignActionKey = New_CSV_IndexOf(tSignActionKey);
+            int t_Index_SignActionKey = New_CSV_IndexOf(tSignStatusKey);
             int t_Index_SignHashKey = New_CSV_IndexOf(tSignHashKey);
             int t_Index_RescueHashKey = New_CSV_IndexOf(tRescueHashKey);
             StringBuilder sScript = new StringBuilder(string.Empty);

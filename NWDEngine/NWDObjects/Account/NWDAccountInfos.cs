@@ -62,7 +62,7 @@ namespace NetWorkedData
                 {
                     if (tSign.SignType != NWDAccountSignType.None && tSign.SignType != NWDAccountSignType.DeviceID)
                     {
-                        if (tSign.SignAction == NWDAccountSignAction.Associated)
+                        if (tSign.SignStatus == NWDAccountSignAction.Associated)
                         {
                             rReturn = NWDAppEnvironmentPlayerStatut.Signed;
                             break;

@@ -11,15 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,13 +59,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Register()
         {
-            SignAction = NWDAccountSignAction.TryToAssociate;
+            SignStatus = NWDAccountSignAction.TryToAssociate;
             UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Unregister()
         {
-            SignAction = NWDAccountSignAction.TryToDissociate;
+            SignStatus = NWDAccountSignAction.TryToDissociate;
             UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -252,7 +243,7 @@ namespace NetWorkedData
             List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
             foreach (NWDAccountSign tSign in tSignList)
             {
-                if (tSign.SignAction == NWDAccountSignAction.Associated)
+                if (tSign.SignStatus == NWDAccountSignAction.Associated)
                 {
                     rReturn.Add(tSign);
                 }
@@ -266,27 +257,13 @@ namespace NetWorkedData
             List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
             foreach (NWDAccountSign tSign in tSignList)
             {
-                if (tSign.SignAction == NWDAccountSignAction.Associated)
+                if (tSign.SignStatus == NWDAccountSignAction.Associated)
                 {
                     rReturn.Add(tSign);
                 }
             }
             return rReturn.ToArray();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public static NWDAccountSign[] GetCorporateDatasBySignType(NWDAccountSignType tSignType, string sAccountReference = null)
-        //{
-        //    List<NWDAccountSign> tSignList = GetCorporateDatasList(sAccountReference);
-        //    List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
-        //    foreach (NWDAccountSign tSign in tSignList)
-        //    {
-        //        if (tSign.SignType == tSignType)
-        //        {
-        //            rReturn.Add(tSign);
-        //        }
-        //    }
-        //    return rReturn.ToArray();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetReachableDatasBySignType(NWDAccountSignType tSignType)
         {

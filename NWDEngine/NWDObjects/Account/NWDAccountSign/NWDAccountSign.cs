@@ -10,15 +10,6 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using System;
 using System.Collections.Generic;
 using BasicToolBox;
@@ -70,23 +61,23 @@ namespace NetWorkedData
 		public NWDReferenceType<NWDAccount> Account {get; set;}
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Sign Send")]
-      //  [NWDNotEditable]
+        [NWDNotEditable]
 		public NWDAccountSignType SignType {get; set; }
-       // [NWDNotEditable]
+        [NWDNotEditable]
         public string SignHash {get; set; }
-       // [NWDNotEditable]
+        [NWDNotEditable]
         public string RescueHash {get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Action")]
-      //  [NWDNotEditable]
-        public NWDAccountSignAction SignAction { get; set; }
-      //  [NWDNotEditable]
+        [NWDNotEditable]
+        public NWDAccountSignAction SignStatus { get; set; }
+        [NWDNotEditable]
         public string SignHashServer { get; set; }
-       // [NWDNotEditable]
+        [NWDNotEditable]
         public string RescueHashServer { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Rescue")]
-       // [NWDNotEditable]
+        [NWDNotEditable]
         public string RescuePinCode { get; set; } // to recreate the password and send by email the url send to user containt the email and the rescue pincode 
         //-------------------------------------------------------------------------------------------------------------
     }

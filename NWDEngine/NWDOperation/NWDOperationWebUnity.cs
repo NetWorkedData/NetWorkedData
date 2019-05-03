@@ -216,7 +216,9 @@ namespace NetWorkedData
             // I insert the device key if necessary 
 
             //if (Environment.PlayerStatut == NWDAppEnvironmentPlayerStatut.Temporary)
-            if (NWDAccountInfos.CurrentData().AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
+
+
+            if (NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null).AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
             {
                 DataAddSecetDevicekey();
             }
@@ -479,6 +481,9 @@ namespace NetWorkedData
                                             {
                                                 tUserChange = true;
                                                 // creer Device sign and send to serever with new package
+                                                NWDAccountSign tSign = NWDAccountSign.NewData();
+                                                tSign.Account.SetReference(tUUID);
+                                                tSign.RegisterDevice();
                                                 NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID /*, ResultInfos.signkey*/);
                                                 Statut = BTBOperationState.ReStart;
                                             }
