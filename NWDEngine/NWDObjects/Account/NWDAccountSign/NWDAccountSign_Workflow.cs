@@ -80,12 +80,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDeviceEditor()
         {
-#if UNITY_EDITOR
-                InternalDescription = "Editor Device ID : " + SignType;
-#endif
             SignType = NWDAccountSignType.DeviceID;
             SignHash = SignDeviceEditor();
             RescueHash = string.Empty;
+#if UNITY_EDITOR
+            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            if (tAccount != null)
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+            InternalDescription = "Editor Device ID : " + SignHash;
+#endif
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -96,12 +101,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDevicePlayer()
         {
-#if UNITY_EDITOR
-                InternalDescription = "Player Device ID : " + SignType;
-#endif
             SignType = NWDAccountSignType.DeviceID;
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
             RescueHash = string.Empty;
+#if UNITY_EDITOR
+            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            if (tAccount != null)
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+            InternalDescription = "Player Device ID : " + SignHash;
+#endif
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -112,12 +122,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDevice()
         {
-#if UNITY_EDITOR
-                InternalDescription = "Device ID : " + SignType;
-#endif
             SignType = NWDAccountSignType.DeviceID;
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
             RescueHash = string.Empty;
+#if UNITY_EDITOR
+            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            if (tAccount != null)
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+            InternalDescription = "Device ID : " + SignHash;
+#endif
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -128,23 +143,33 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterSocialFacebook(string sSocialToken)
         {
-#if UNITY_EDITOR
-                InternalDescription = "facebook ID : " + SignType;
-#endif
             SignType = NWDAccountSignType.Facebook;
             SignHash = SignSocialDevice(sSocialToken);
             RescueHash = string.Empty;
+#if UNITY_EDITOR
+            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            if (tAccount != null)
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+            InternalDescription = "facebook ID : " + SignHash;
+#endif
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterSocialGoogle(string sSocialToken)
         {
-#if UNITY_EDITOR
-                InternalDescription = "google ID : " + SignType;
-#endif
             SignType = NWDAccountSignType.Google;
             SignHash = SignSocialDevice(sSocialToken);
             RescueHash = string.Empty;
+#if UNITY_EDITOR
+            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            if (tAccount != null)
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+            InternalDescription = "google ID : " + SignHash;
+#endif
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -170,12 +195,17 @@ namespace NetWorkedData
             }
             else
             {
-#if UNITY_EDITOR
-                InternalDescription = "Login Password : " + sEmail + " / " + sPassword;
-#endif
                 SignType = NWDAccountSignType.LoginPassword;
                 SignHash = SignLoginPassword(sEmail, sPassword);
                 RescueHash = RescueEmailHash(sEmail);
+#if UNITY_EDITOR
+            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            if (tAccount != null)
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+                InternalDescription = "Login Password : " + sEmail + " / " + sPassword;
+#endif
                 Register();
             }
         }
