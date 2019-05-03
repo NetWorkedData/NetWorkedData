@@ -94,7 +94,7 @@ namespace NetWorkedData
         public float SpeedOfGameTime = 1.0F;
         //public string Version = "0.00.00";
 
-        public string AccountsForTests = string.Empty;
+        //public string AccountsForTests = string.Empty;
 
         public string BuildDate = string.Empty;
 

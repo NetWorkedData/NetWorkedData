@@ -51,7 +51,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("if ($action == '"+NWDOperationWebAccountAction.signin.ToString()+"')");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('shs', 'password', $ereg_password, 'SHS01', 'SHS01'))");
+            tFile.AppendLine("if (paramValue('shs', '"+NWD.K_WEB_SIGN_Key+"', $ereg_password, 'SHS01', 'SHS01'))");
             tFile.AppendLine("{");
             tFile.AppendLine("myLog('shs : '.$shs.'', __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'.$ENV.'_"+NWDAccountSign.BasisHelper().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''.$SQL_CON->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
@@ -107,7 +107,7 @@ namespace NetWorkedData
             tFile.AppendLine("respondNeedReloadData();");
             tFile.AppendLine("respondUUID($tRow['"+tReference+"']);");
             tFile.AppendLine("respondAdd('signin', true);");
-            tFile.AppendLine("respondAdd('sign', 'loginpassword');");
+            //tFile.AppendLine("respondAdd('sign', 'loginpassword');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -746,7 +746,7 @@ namespace NetWorkedData
             tFile.AppendLine("$rReturn = false;");
             tFile.AppendLine("if ($ACC_TMP == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue ('shs', 'shs', '/^(.{24,64})$/', 'SHS01', 'SHS02'))");
+            tFile.AppendLine("if (paramValue ('shs', '"+NWD.K_WEB_SIGN_Key+"', '/^(.{24,64})$/', 'SHS01', 'SHS02'))");
             tFile.AppendLine("{");
             //tFile.AppendLine("myLog('shs = '.$tNewSecretKey, __FILE__, __FUNCTION__, __LINE__);");
             //tFile.AppendLine("$tQuery = 'SELECT `Reference`, `Ban` FROM `'.$ENV.'_NWDAccount` WHERE `SecretKey` = \\\'\'.$SQL_CON->real_escape_string($tNewSecretKey).\'\\\' AND `AC` = 1 AND `Email` = \\\'\\\' AND `FacebookID` = \\\'\\\' AND `GoogleID` = \\\'\\\';';");

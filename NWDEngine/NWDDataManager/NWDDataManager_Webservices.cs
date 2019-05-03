@@ -118,29 +118,29 @@ namespace NetWorkedData
             return AddWebRequestSynchronizationForceWithBlock(mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSession(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSession");
-            return AddWebRequestSessionWithBlock(null, null, null, null, sPriority, sEnvironment);
-        }
+        //public NWDOperationWebAccount AddWebRequestSession(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSession");
+        //    return AddWebRequestSessionWithBlock(null, null, null, null, sPriority, sEnvironment);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDOperationWebAccount AddWebRequestSignUp(string sEmail, string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSignUp");
+        //    return AddWebRequestSignUpWithBlock(sEmail, sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignUp(string sEmail, string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSignUp");
-            return AddWebRequestSignUpWithBlock(sEmail, sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignIn(string sEmail, string sPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebAccount AddWebRequestSignIn(string sPasswordToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("NWDOperationWebAccount");
-            return AddWebRequestSignInWithBlock(sEmail, sPassword, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSignInWithBlock(sPasswordToken, null, null, null, null, sPriority, sEnvironment);
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignTest(string sEmailHash, string sPasswordHash, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log("NWDOperationWebAccount");
-            return AddWebRequestSignTestWithBlock(sEmailHash, sPasswordHash, null, null, null, null, sPriority, sEnvironment);
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDOperationWebAccount AddWebRequestSignTest(string sEmailHash, string sPasswordHash, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log("NWDOperationWebAccount");
+        //    return AddWebRequestSignTestWithBlock(sEmailHash, sPasswordHash, null, null, null, null, sPriority, sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignOut(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
@@ -154,11 +154,11 @@ namespace NetWorkedData
         //    return AddWebRequestAnonymousRestaureWithBlock(null, null, null, null, sPriority, sEnvironment);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignModify(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSignModify");
-            return AddWebRequestSignModifyWithBlock(sEmail, sOldPassword, sNewPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
-        }
+        //public NWDOperationWebAccount AddWebRequestSignModify(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSignModify");
+        //    return AddWebRequestSignModifyWithBlock(sEmail, sOldPassword, sNewPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestRescue(string sEmail, string sAppName, string sAppMail, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
@@ -166,23 +166,23 @@ namespace NetWorkedData
             return AddWebRequestRescueWithBlock(sEmail, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignDelete(string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSignDelete");
-            return AddWebRequestSignDeleteWithBlock(sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestLogFacebook(string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestLogFacebook");
-            return AddWebRequestLogFacebookWithBlock(sSocialToken, null, null, null, null, sPriority, sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestLogGoogle(string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestLogGoogle");
-            return AddWebRequestLogGoogleWithBlock(sSocialToken, null, null, null, null, sPriority, sEnvironment);
-        }
+        //public NWDOperationWebAccount AddWebRequestSignDelete(string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSignDelete");
+        //    return AddWebRequestSignDeleteWithBlock(sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDOperationWebAccount AddWebRequestLogFacebook(string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestLogFacebook");
+        //    return AddWebRequestLogFacebookWithBlock(sSocialToken, null, null, null, null, sPriority, sEnvironment);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDOperationWebAccount AddWebRequestLogGoogle(string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestLogGoogle");
+        //    return AddWebRequestLogGoogleWithBlock(sSocialToken, null, null, null, null, sPriority, sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationCleanWithBlock(
             BTBOperationBlock sSuccessBlock = null,
@@ -294,37 +294,37 @@ namespace NetWorkedData
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSessionWithBlock(BTBOperationBlock sSuccessBlock = null,
-                                                                     BTBOperationBlock sErrorBlock = null,
-                                                                     BTBOperationBlock sCancelBlock = null,
-                                                                     BTBOperationBlock sProgressBlock = null,
-                                                                     bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSessionWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Session with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "session";
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestSessionWithBlock(BTBOperationBlock sSuccessBlock = null,
+        //                                                             BTBOperationBlock sErrorBlock = null,
+        //                                                             BTBOperationBlock sCancelBlock = null,
+        //                                                             BTBOperationBlock sProgressBlock = null,
+        //                                                             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSessionWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Session with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "session";
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignUpWithBlock(string sEmail, string sPassword, string sConfirmPassword,
-                                                                    BTBOperationBlock sSuccessBlock = null,
-                                                                    BTBOperationBlock sErrorBlock = null,
-                                                                    BTBOperationBlock sCancelBlock = null,
-                                                                    BTBOperationBlock sProgressBlock = null,
-                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSignUpWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-Up with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "signup";
-            sOperation.Email = sEmail;
-            sOperation.Password = sPassword;
-            sOperation.ConfirmPassword = sConfirmPassword;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestSignUpWithBlock(string sEmail, string sPassword, string sConfirmPassword,
+        //                                                            BTBOperationBlock sSuccessBlock = null,
+        //                                                            BTBOperationBlock sErrorBlock = null,
+        //                                                            BTBOperationBlock sCancelBlock = null,
+        //                                                            BTBOperationBlock sProgressBlock = null,
+        //                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSignUpWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-Up with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "signup";
+        //    sOperation.Email = sEmail;
+        //    sOperation.Password = sPassword;
+        //    sOperation.ConfirmPassword = sConfirmPassword;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignInWithBlock(string sEmail, string sPassword,
+        public NWDOperationWebAccount AddWebRequestSignInWithBlock(string sPasswordToken,
                                                                     BTBOperationBlock sSuccessBlock = null,
                                                                     BTBOperationBlock sErrorBlock = null,
                                                                     BTBOperationBlock sCancelBlock = null,
@@ -333,28 +333,27 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestSignInWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-in with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "signin";
-            sOperation.Email = sEmail;
-            sOperation.Password = sPassword;
+            sOperation.Action = NWDOperationWebAccountAction.signin;
+            sOperation.PasswordToken = sPasswordToken;
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignTestWithBlock(string sEmailHash, string sPasswordHash,
-                                                                    BTBOperationBlock sSuccessBlock = null,
-                                                                    BTBOperationBlock sErrorBlock = null,
-                                                                    BTBOperationBlock sCancelBlock = null,
-                                                                    BTBOperationBlock sProgressBlock = null,
-                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log("AddWebRequestSignInWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-test with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "signin";
-            sOperation.EmailHash = sEmailHash;
-            sOperation.PasswordHash = sPasswordHash;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestSignTestWithBlock(string sEmailHash, string sPasswordHash,
+        //                                                            BTBOperationBlock sSuccessBlock = null,
+        //                                                            BTBOperationBlock sErrorBlock = null,
+        //                                                            BTBOperationBlock sCancelBlock = null,
+        //                                                            BTBOperationBlock sProgressBlock = null,
+        //                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log("AddWebRequestSignInWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-test with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "signin";
+        //    sOperation.EmailHash = sEmailHash;
+        //    sOperation.PasswordHash = sPasswordHash;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignOutWithBlock(BTBOperationBlock sSuccessBlock = null,
                                                                      BTBOperationBlock sErrorBlock = null,
@@ -364,7 +363,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestSignOutWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "signout";
+            sOperation.Action = NWDOperationWebAccountAction.signout;
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
@@ -387,25 +386,25 @@ namespace NetWorkedData
         //    return sOperation;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignModifyWithBlock(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword,
-                                                                        BTBOperationBlock sSuccessBlock = null,
-                                                                        BTBOperationBlock sErrorBlock = null,
-                                                                        BTBOperationBlock sCancelBlock = null,
-                                                                        BTBOperationBlock sProgressBlock = null,
-                                                                        bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSignModifyWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "modify";
-            sOperation.Email = sEmail;
-            sOperation.OldPassword = sOldPassword;
-            sOperation.NewPassword = sNewPassword;
-            sOperation.ConfirmPassword = sConfirmPassword;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestSignModifyWithBlock(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword,
+        //                                                                BTBOperationBlock sSuccessBlock = null,
+        //                                                                BTBOperationBlock sErrorBlock = null,
+        //                                                                BTBOperationBlock sCancelBlock = null,
+        //                                                                BTBOperationBlock sProgressBlock = null,
+        //                                                                bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSignModifyWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "modify";
+        //    sOperation.Email = sEmail;
+        //    sOperation.OldPassword = sOldPassword;
+        //    sOperation.NewPassword = sNewPassword;
+        //    sOperation.ConfirmPassword = sConfirmPassword;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestRescueWithBlock(string sEmail,
+        public NWDOperationWebAccount AddWebRequestRescueWithBlock(string sEmailToken,
                                                                     BTBOperationBlock sSuccessBlock = null,
                                                                     BTBOperationBlock sErrorBlock = null,
                                                                     BTBOperationBlock sCancelBlock = null,
@@ -414,87 +413,87 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestRescueWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "modify";
-            sOperation.EmailRescue = sEmail;
+            sOperation.Action = NWDOperationWebAccountAction.rescue;
+            sOperation.PasswordToken = sEmailToken;
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignDeleteWithBlock(string sPassword, string sConfirmPassword,
-                                                                        BTBOperationBlock sSuccessBlock = null,
-                                                                        BTBOperationBlock sErrorBlock = null,
-                                                                        BTBOperationBlock sCancelBlock = null,
-                                                                        BTBOperationBlock sProgressBlock = null,
-                                                                        bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestSignDeleteWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Delete with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "delete";
-            sOperation.Password = sPassword;
-            sOperation.ConfirmPassword = sConfirmPassword;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestSignDeleteWithBlock(string sPassword, string sConfirmPassword,
+        //                                                                BTBOperationBlock sSuccessBlock = null,
+        //                                                                BTBOperationBlock sErrorBlock = null,
+        //                                                                BTBOperationBlock sCancelBlock = null,
+        //                                                                BTBOperationBlock sProgressBlock = null,
+        //                                                                bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestSignDeleteWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Delete with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "delete";
+        //    sOperation.Password = sPassword;
+        //    sOperation.ConfirmPassword = sConfirmPassword;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestLogFacebookWithBlock(string sSocialToken,
-                                                                         BTBOperationBlock sSuccessBlock = null,
-                                                                         BTBOperationBlock sErrorBlock = null,
-                                                                         BTBOperationBlock sCancelBlock = null,
-                                                                         BTBOperationBlock sProgressBlock = null,
-                                                                         bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestLogFacebookWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "facebook";
-            sOperation.SocialToken = sSocialToken;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestLogFacebookWithBlock(string sSocialToken,
+        //                                                                 BTBOperationBlock sSuccessBlock = null,
+        //                                                                 BTBOperationBlock sErrorBlock = null,
+        //                                                                 BTBOperationBlock sCancelBlock = null,
+        //                                                                 BTBOperationBlock sProgressBlock = null,
+        //                                                                 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestLogFacebookWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "facebook";
+        //    sOperation.SocialToken = sSocialToken;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestLogGoogleWithBlock(string sSocialToken,
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log ("AddWebRequestLogGoogleWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "google";
-            sOperation.SocialToken = sSocialToken;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestLogGoogleWithBlock(string sSocialToken,
+        //                                                               BTBOperationBlock sSuccessBlock = null,
+        //                                                               BTBOperationBlock sErrorBlock = null,
+        //                                                               BTBOperationBlock sCancelBlock = null,
+        //                                                               BTBOperationBlock sProgressBlock = null,
+        //                                                               bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log ("AddWebRequestLogGoogleWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "google";
+        //    sOperation.SocialToken = sSocialToken;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestRemoveFacebookWithBlock(string sSocialToken,
-                                                                         BTBOperationBlock sSuccessBlock = null,
-                                                                         BTBOperationBlock sErrorBlock = null,
-                                                                         BTBOperationBlock sCancelBlock = null,
-                                                                         BTBOperationBlock sProgressBlock = null,
-                                                                         bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log("AddWebRequestLogFacebookWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Disocciate Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "facebook_remove";
-            sOperation.SocialToken = sSocialToken;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestRemoveFacebookWithBlock(string sSocialToken,
+        //                                                                 BTBOperationBlock sSuccessBlock = null,
+        //                                                                 BTBOperationBlock sErrorBlock = null,
+        //                                                                 BTBOperationBlock sCancelBlock = null,
+        //                                                                 BTBOperationBlock sProgressBlock = null,
+        //                                                                 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log("AddWebRequestLogFacebookWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Disocciate Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "facebook_remove";
+        //    sOperation.SocialToken = sSocialToken;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestRemoveGoogleWithBlock(string sSocialToken,
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-        {
-            //Debug.Log("AddWebRequestLogGoogleWithBlock");
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Disocciate Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "google_remove";
-            sOperation.SocialToken = sSocialToken;
-            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-            return sOperation;
-        }
+        //public NWDOperationWebAccount AddWebRequestRemoveGoogleWithBlock(string sSocialToken,
+        //                                                               BTBOperationBlock sSuccessBlock = null,
+        //                                                               BTBOperationBlock sErrorBlock = null,
+        //                                                               BTBOperationBlock sCancelBlock = null,
+        //                                                               BTBOperationBlock sProgressBlock = null,
+        //                                                               bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        //{
+        //    //Debug.Log("AddWebRequestLogGoogleWithBlock");
+        //    NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Disocciate Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    sOperation.Action = "google_remove";
+        //    sOperation.SocialToken = sSocialToken;
+        //    SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    return sOperation;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void WebRequestFlush(NWDAppEnvironment sEnvironment = null)
         {

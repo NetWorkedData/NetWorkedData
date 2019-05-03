@@ -32,12 +32,12 @@ namespace NetWorkedData
                 if (sSelectedEnvironment == this)
                 {
                     rReturn.AppendLine(tPropertyName + ".Selected = true;");
-                    rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Dev) + "\";");
+                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Dev) + "\";");
                 }
                 else
                 {
                     rReturn.AppendLine(tPropertyName + ".Selected = false;");
-                    rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
+                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
                 }
             }
             if (NWDAppConfiguration.SharedInstance().PreprodEnvironment == this)
@@ -47,12 +47,12 @@ namespace NetWorkedData
                 if (sSelectedEnvironment == this)
                 {
                     rReturn.AppendLine(tPropertyName + ".Selected = true;");
-                    rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Preprod) + "\";");
+                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Preprod) + "\";");
                 }
                 else
                 {
                     rReturn.AppendLine(tPropertyName + ".Selected = false;");
-                    rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
+                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
                 }
             }
             if (NWDAppConfiguration.SharedInstance().ProdEnvironment == this)
@@ -62,12 +62,12 @@ namespace NetWorkedData
                 if (sSelectedEnvironment == this)
                 {
                     rReturn.AppendLine(tPropertyName + ".Selected = true;");
-                    rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Prod) + "\";");
+                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Prod) + "\";");
                 }
                 else
                 {
                     rReturn.AppendLine(tPropertyName + ".Selected = false;");
-                    rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
+                    //rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
                 }
             }
             rReturn.AppendLine(tPropertyName + ".Environment = \"" + Environment.Replace("\"", "\\\"") + "\";");

@@ -62,7 +62,9 @@ namespace NetWorkedData
         public const string K_MAINTENANCE_HEADER_KEY = "maintenance";
         public const string K_OBSOLETE_ERROR = "OBSOLETE";
         public const string K_MAINTENANCE_ERROR= "MAINTENANCE";
-
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_WEB_ActionKey = "action";
+        public const string K_WEB_SIGN_Key = "sdki";
 
         //-------------------------------------------------------------------------------------------------------------
         public const string K_STATIC_ACCOUNT_PHP = "account.php";

@@ -94,7 +94,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(SignHash));
             if (GUI.Button(tMatrix[0, tI++], "Test Sign in", NWDGUI.kMiniButtonStyle))
             {
-                NWDDataManager.SharedInstance().AddWebRequestSignIn(string.Empty, SignHash);
+                NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash);
             }
             EditorGUI.EndDisabledGroup();
             NWDGUI.Separator(tMatrix[0, tI++]);

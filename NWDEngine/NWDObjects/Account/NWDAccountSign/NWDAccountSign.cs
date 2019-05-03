@@ -32,6 +32,10 @@ namespace NetWorkedData
         public static NWDAccountSignType LoginPassword = Add(2, "LoginPassword");
         public static NWDAccountSignType Facebook = Add(3, "Facebook");
         public static NWDAccountSignType Google = Add(4, "Google");
+
+#if UNITY_EDITOR
+        public static NWDAccountSignType EditorID = Add(99, "EditorID");
+#endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDAccountSignAction : int

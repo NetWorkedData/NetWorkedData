@@ -140,7 +140,14 @@ namespace NetWorkedData
         public void DataAddSecetDevicekey()
         {
             // insert device key in data
-            Data.Add(SecretDeviceKey, Environment.SecretKeyDevice());
+            if (Data.ContainsKey(SecretDeviceKey))
+            {
+                Data[SecretDeviceKey] = Environment.SecretKeyDevice();
+            }
+            else
+            {
+                Data.Add(SecretDeviceKey, Environment.SecretKeyDevice());
+            }
             // force temporary account to be secure to transit the secretkey of device!
             SecureData = true;
         }

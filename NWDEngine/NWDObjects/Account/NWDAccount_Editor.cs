@@ -30,38 +30,38 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis<NWDAccount>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
-        {
-            string rReturn = string.Empty;
-            List<string> tList = new List<string>();
-            switch (sEnvironment)
-            {
-                case NWDAccountEnvironment.Dev:
-                    {
-                        foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
-                        {
-                            if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
-                            {
-                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
-                            }
-                        }
-                    }
-                    break;
-                case NWDAccountEnvironment.Preprod:
-                    {
-                        foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
-                        {
-                            if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
-                            {
-                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
-                            }
-                        }
-                    }
-                    break;
-            }
-            rReturn = string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
-            return rReturn;
-        }
+        //public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
+        //{
+        //    string rReturn = string.Empty;
+        //    List<string> tList = new List<string>();
+        //    switch (sEnvironment)
+        //    {
+        //        case NWDAccountEnvironment.Dev:
+        //            {
+        //                foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
+        //                {
+        //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
+        //                    {
+        //                        tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDAccountEnvironment.Preprod:
+        //            {
+        //                foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
+        //                {
+        //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
+        //                    {
+        //                        tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //    }
+        //    rReturn = string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         // TOO DANGEROUS FONCTION ...
         //public static NWDAccount Current()
@@ -104,11 +104,21 @@ namespace NetWorkedData
                 }
             }
             tI++;
+            //bool tAddEditor = true;
+            //bool tAddPlayer = true;
             foreach (NWDAccountSign tSign in tSigns)
             {
+                //if (tSign.SignType == NWDAccountSignType.DeviceID && tSign.SignAction== NWDAccountSignAction.Associated)
+                //{
+                //    tAddPlayer = false;
+                //}
+                //if (tSign.SignType == NWDAccountSignType.EditorID && tSign.SignAction== NWDAccountSignAction.Associated)
+                //{
+                //tAddEditor = true;
+                //}
                 if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString(), NWDGUI.kMiniButtonStyle))
                 {
-                    NWDDataManager.SharedInstance().AddWebRequestSignIn(string.Empty, tSign.SignHash);
+                    NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
                 }
                 if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
                 {
@@ -116,6 +126,17 @@ namespace NetWorkedData
                 }
                 tI++;
             }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Add sign"))
+            {
+                NWDAccountSign tSign = NWDAccountSign.NewData();
+                tSign.Account.SetReference(Reference);
+                tSign.SaveData();
+                NWDAccountSign.BasisHelper().New_SetObjectInEdition(tSign);
+                NWDAccountSign.BasisHelper().New_ChangeScroolPositionToSelection();
+            }
+            tI++;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Log Out"))
             {

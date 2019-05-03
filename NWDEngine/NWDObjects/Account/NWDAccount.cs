@@ -48,87 +48,87 @@ namespace NetWorkedData
         }
         [NWDInspectorGroupEnd]
        
-        [NWDInspectorGroupStart("Account sign-in/up")]
-        /// <summary>
-        /// Gets or sets the SecretKey to restaure anonymous account.
-        /// </summary>
-        /// <value>The login.</value>
-        [NWDTooltips("The secret key to re-authentify the anonyme account")]
-        [NWDInDevelopment("Need to be test in production")]
-        [Indexed(K_SECRET_INDEX, 1)]
-        public string SecretKey
-        {
-            get; set;
-        }
+        //[NWDInspectorGroupStart("Account sign-in/up")]
+        ///// <summary>
+        ///// Gets or sets the SecretKey to restaure anonymous account.
+        ///// </summary>
+        ///// <value>The login.</value>
+        //[NWDTooltips("The secret key to re-authentify the anonyme account")]
+        //[NWDInDevelopment("Need to be test in production")]
+        //[Indexed(K_SECRET_INDEX, 1)]
+        //public string SecretKey
+        //{
+        //    get; set;
+        //}
 
-        /// <summary>
-        /// Gets or sets the email.
-        /// </summary>
-        /// <value>The login is an email.</value>
-        [NWDTooltips("Hash of email for the appropriate environment")]
-        [NWDCertified]
-        [Indexed(K_LOGIN_INDEX, 1)]
-        public string Email
-        {
-            get; set;
-        }
+        ///// <summary>
+        ///// Gets or sets the email.
+        ///// </summary>
+        ///// <value>The login is an email.</value>
+        //[NWDTooltips("Hash of email for the appropriate environment")]
+        //[NWDCertified]
+        //[Indexed(K_LOGIN_INDEX, 1)]
+        //public string Email
+        //{
+        //    get; set;
+        //}
 
-        /// <summary>
-        /// Gets or sets the password.
-        /// </summary>
-        /// <value>The password.</value>
-        [NWDTooltips("Hash of password for the appropriate environment")]
-        [NWDCertified]
-        [Indexed(K_LOGIN_INDEX, 1)]
-        public string Password
-        {
-            get; set;
-        }
+        ///// <summary>
+        ///// Gets or sets the password.
+        ///// </summary>
+        ///// <value>The password.</value>
+        //[NWDTooltips("Hash of password for the appropriate environment")]
+        //[NWDCertified]
+        //[Indexed(K_LOGIN_INDEX, 1)]
+        //public string Password
+        //{
+        //    get; set;
+        //}
 
-        /// <summary>
-        /// Gets or sets the Facebook Identifiant.
-        /// </summary>
-        /// <value>The facebook I.</value>
-        [NWDTooltips("FacebookID")]
-        [Indexed(K_SOCIAL_INDEX, 1)]
-        public string FacebookID
-        {
-            get; set;
-        }
+        ///// <summary>
+        ///// Gets or sets the Facebook Identifiant.
+        ///// </summary>
+        ///// <value>The facebook I.</value>
+        //[NWDTooltips("FacebookID")]
+        //[Indexed(K_SOCIAL_INDEX, 1)]
+        //public string FacebookID
+        //{
+        //    get; set;
+        //}
 
-        /// <summary>
-        /// Gets or sets the Google Identifiant.
-        /// </summary>
-        /// <value>The google I.</value>
-        [NWDTooltips("GoogleID")]
-        [Indexed(K_SOCIAL_INDEX, 1)]
-        public string GoogleID
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd]
+        ///// <summary>
+        ///// Gets or sets the Google Identifiant.
+        ///// </summary>
+        ///// <value>The google I.</value>
+        //[NWDTooltips("GoogleID")]
+        //[Indexed(K_SOCIAL_INDEX, 1)]
+        //public string GoogleID
+        //{
+        //    get; set;
+        //}
+        //[NWDInspectorGroupEnd]
        
-        [NWDInspectorGroupStart("Account push notification")]
-        /// <summary>
-        /// Gets or sets the apple notification token for message.
-        /// </summary>
-        /// <value>The apple notification token.</value>
-        [Obsolete("See NWDAccountInfos")]
-        public string AppleNotificationToken
-        {
-            get; set;
-        }
+        //[NWDInspectorGroupStart("Account push notification")]
+        ///// <summary>
+        ///// Gets or sets the apple notification token for message.
+        ///// </summary>
+        ///// <value>The apple notification token.</value>
+        //[Obsolete("See NWDAccountInfos")]
+        //public string AppleNotificationToken
+        //{
+        //    get; set;
+        //}
 
-        /// <summary>
-        /// Gets or sets the google notification token for message.
-        /// </summary>
-        /// <value>The google notification token.</value>
-        [Obsolete("See NWDAccountInfos")]
-        public string GoogleNotificationToken
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd]
+        ///// <summary>
+        ///// Gets or sets the google notification token for message.
+        ///// </summary>
+        ///// <value>The google notification token.</value>
+        //[Obsolete("See NWDAccountInfos")]
+        //public string GoogleNotificationToken
+        //{
+        //    get; set;
+        //}
+        //[NWDInspectorGroupEnd]
        
         [NWDInspectorGroupStart("Account ban")]
         /// <summary>

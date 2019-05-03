@@ -315,35 +315,35 @@ namespace NetWorkedData
             return DevEnvironment.Selected;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool AdminInPLayer()
-        {
-            bool rReturn = false;
-            NWDAppEnvironment tEnvironment = SelectedEnvironment();
-            if (tEnvironment.AdminInPlayer == true)
-            {
-                if (string.IsNullOrEmpty(tEnvironment.AdminKey) == false)
-                {
-                    if (string.IsNullOrEmpty(tEnvironment.AdminKeyHash) == false)
-                    {
-                        if (tEnvironment.AdminKeyHash == tEnvironment.AdminKeyHashGenerate())
-                        {
-                            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-                            //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
-                            //{
-                                foreach (NWDAccounTest tAccount in NWDAccount.SelectDatasForTests())
-                                {
-                                    if (tAccount.Reference == tEnvironment.PlayerAccountReference)
-                                    {
-                                        rReturn = true;
-                                    }
-                                }
-                            //}
-                        }
-                    }
-                }
-            }
-            return rReturn;
-        }
+        //public bool AdminInPLayer()
+        //{
+        //    bool rReturn = false;
+        //    NWDAppEnvironment tEnvironment = SelectedEnvironment();
+        //    if (tEnvironment.AdminInPlayer == true)
+        //    {
+        //        if (string.IsNullOrEmpty(tEnvironment.AdminKey) == false)
+        //        {
+        //            if (string.IsNullOrEmpty(tEnvironment.AdminKeyHash) == false)
+        //            {
+        //                if (tEnvironment.AdminKeyHash == tEnvironment.AdminKeyHashGenerate())
+        //                {
+        //                    //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+        //                    //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
+        //                    //{
+        //                        foreach (NWDAccounTest tAccount in NWDAccount.SelectDatasForTests())
+        //                        {
+        //                            if (tAccount.Reference == tEnvironment.PlayerAccountReference)
+        //                            {
+        //                                rReturn = true;
+        //                            }
+        //                        }
+        //                    //}
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment[] AllEnvironements()
         {
