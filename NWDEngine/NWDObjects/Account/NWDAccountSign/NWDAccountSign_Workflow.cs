@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -22,38 +23,15 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis<NWDAccountSign>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Declare your static properties and private here
-        //-------------------------------------------------------------------------------------------------------------
-        static public void ClassMethodExample()
-        {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void InstanceMethodExample()
-        {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
-        //-------------------------------------------------------------------------------------------------------------
         public NWDAccountSign()
         {
-            //Debug.Log("NWDAccountSign Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDAccountSign Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
-        #endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Instance Initialization
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        public override void Initialization()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -211,6 +189,32 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void CreateAndRegisterEmail(string sEmail, string sPassword, BTBOperationBlock sSuccessBlock = null, BTBOperationBlock sErrorBlock = null)
+        {
+            NWDAccountSign tSign = NewData();
+            tSign.RegisterEmailPassword(sEmail, sPassword);
+
+            /*BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (synchronizeBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    synchronizeBlockDelegate(false, tResult);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
+            {
+                if (synchronizeBlockDelegate != null)
+                {
+                    NWDOperationResult tResult = bResult as NWDOperationResult;
+                    synchronizeBlockDelegate(true, tResult);
+                }
+            };*/
+
+            // Sync NWDAccountSign
+            SynchronizationFromWebService(sSuccessBlock, sErrorBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string SignLoginPassword(string sLogin, string sPassword)
         {
             string rReturn = null;
@@ -289,129 +293,6 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just after loaded from database.
-        /// </summary>
-        public override void AddonLoadedMe()
-        {
-            // do something when object was loaded
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before unload from memory.
-        /// </summary>
-        public override void AddonUnloadMe()
-        {
-            // do something when object will be unload
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before insert.
-        /// </summary>
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before update.
-        /// </summary>
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated.
-        /// </summary>
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated me from Web.
-        /// </summary>
-        //public override void AddonUpdatedMeFromWeb()
-        //{
-        //    // do something when object finish to be updated from CSV from WebService response
-        //    // TODO verif if method is call in good place in good timing
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before dupplicate.
-        /// </summary>
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before enable.
-        /// </summary>
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before disable.
-        /// </summary>
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before put in trash.
-        /// </summary>
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before remove from trash.
-        /// </summary>
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addons the delete me.
-        /// </summary>
-        public override void AddonDeleteMe()
-        {
-            // do something when object will be delete from local base
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public override bool AddonSyncForce()
-        //{
-        //    return false;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
-        {
-            // do something when object will be web service upgrade
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

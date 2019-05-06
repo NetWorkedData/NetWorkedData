@@ -82,8 +82,8 @@ namespace NetWorkedData
             {
 #if UNITY_EDITOR
                 //Datas().CSVAssemblyOrderArrayPrepare();
-                //Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + Datas().ClassTableName + " \n" + string.Join("|", CSVAssemblyOrderArray()) + "\n" + sData + "\n");
-                EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
+                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + ClassTableName + " \n" + string.Join("|", sData + "\n"));
+                //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
 #endif
             }
             if (tIntegrityTest == true || sForceToUse == true)
