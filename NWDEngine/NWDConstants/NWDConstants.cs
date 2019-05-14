@@ -25,6 +25,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWD
     {
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_Resources = "Resources";
         //-------------------------------------------------------------------------------------------------------------
@@ -39,17 +40,10 @@ namespace NetWorkedData
         public static string K_CommentCreator = "//Created by Jean-François CONTART ";
         //-------------------------------------------------------------------------------------------------------------
         //public const string K_ENV = "Environment";
-        public const string K_ENG = "ENG";
-        public const string K_DB = "DB";
-        public const string K_CONSTANTS_FILE = "constants.php";
-        public const string K_MANAGEMENT_FILE = "management.php";
         public const string K_WS_FILE = "webservices.php";
         public const string K_WS_INSIDE_FILE = "webservices_inside.php";
         public const string K_WS_FILE_ADDON = "webservices_addon.php";
         public const string K_WS_ACCOUNT_ADDON = "accountservices.php";
-        public const string K_WS_SYNCHRONISATION = "synchronization.php";
-        public const string K_DOT_HTACCESS = "dot_htaccess.txt";
-        public const string K_HTACCESS = ".htaccess";
         public const string K_AUTHENTIFICATION_PHP = "authentification.php";
         public const string K_BLANK_PHP = "blank.php";
         public const string K_INDEX_PHP = "index.php";
@@ -61,10 +55,27 @@ namespace NetWorkedData
         public const string K_OBSOLETE_HEADER_KEY = "obsolete";
         public const string K_MAINTENANCE_HEADER_KEY = "maintenance";
         public const string K_OBSOLETE_ERROR = "OBSOLETE";
-        public const string K_MAINTENANCE_ERROR= "MAINTENANCE";
+        public const string K_MAINTENANCE_ERROR = "MAINTENANCE";
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_WEB_ActionKey = "action";
+        
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_JSON_ERROR_KEY = "error";
+        public const string K_JSON_ERROR_CODE_KEY = "error_code";
+        public const string K_JSON_ERROR_INFOS_KEY= "error_infos";
+
+        public const string K_WEB_ACTION_KEY = "action";
+        public const string K_WEB_ACTION_SYNC_KEY = "sync";
         public const string K_WEB_SIGN_Key = "sdki";
+        public const string K_WEB_DATA_KEY = "data";
+        public const string K_WEB_DATA_ROW_COUNTER = "rowCount";
+        public const string K_WEB_HEADER_OS_KEY = "os";
+        public const string K_WEB_HEADER_LANG_KEY = "lang";
+        public const string K_WEB_HEADER_VERSION_KEY = "version";
+        public const string UUIDKey = "uuid";
+        public const string RequestTokenKey = "token";
+        public const string HashKey = "hash";
+        public const string AdminHashKey = "adminHash";
+        public const string SignKey = "sss";
 
         //-------------------------------------------------------------------------------------------------------------
         public const string K_STATIC_ACCOUNT_PHP = "account.php";

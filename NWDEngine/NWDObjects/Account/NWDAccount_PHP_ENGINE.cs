@@ -2,7 +2,7 @@
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:25:1
+//  Date		2019-4-12 18:29:25
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -10,35 +10,45 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
+
+//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+#if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BasicToolBox;
+using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisHelper
+    public partial class NWDAccountHelper : NWDHelper< NWDAccount>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ClassInitialization()
+        public override string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
         {
-             //Debug.Log("ClassInitialization() base method (" + GetType().FullName + ")");
+            return  NWDAccount.New_PhpEngine(sEnvironment);
         }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class  NWDAccount : NWDBasis< NWDAccount>
+    {
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ClassDatasAreLoaded()
+        public static string New_PhpEngine(NWDAppEnvironment sEnvironment)
         {
-            //Debug.Log("ClassDatasAreLoaded() base method (" + GetType().FullName + ")");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual List<Type> New_OverrideClasseInThisSync()
-        {
-            //Debug.Log("New_OverrideClasseInThisSync() base method (" + GetType().FullName + ")");
-            return new List<Type>() { ClassType };
+            StringBuilder tFile = new StringBuilder();
+            return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

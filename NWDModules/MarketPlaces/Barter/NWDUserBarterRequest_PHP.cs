@@ -104,19 +104,19 @@ namespace NetWorkedData
 
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerHash = '';\n" +
                 "$tServerPropositions = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterHash + "`, `" + t_THIS_Propositions + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterHash + "`, `" + t_THIS_Propositions + "` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
                 "WHERE " +
-                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';" +
-                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+                "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\';';" +
+                "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('SERVER');\n" +
+                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                     "}\n" +
                 "else" +
                     "{\n" +
@@ -152,15 +152,15 @@ namespace NetWorkedData
                         //" `" + tMaxPropositionsPerUser + "`," +
                         " `" + tMaxPropositionsPerRequest + "`," +
                         " `" + tRequestLifeTime + "`" +
-                        " FROM `'.$ENV.'_" + NWDBarterPlace.BasisHelper().ClassNamePHP + "`" +
+                        " FROM `'."+NWD.K_ENV+".'_" + NWDBarterPlace.BasisHelper().ClassNamePHP + "`" +
                         " WHERE" +
-                        " `Reference` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_THIS_Index_BarterPlace + "]).'\\';';" +
+                        " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_BarterPlace + "]).'\\';';" +
                         "myLog('tQueryBarterPlace : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "$tResultBarterPlace = $SQL_CON->query($tQueryBarterPlace);\n" +
+                        "$tResultBarterPlace = "+NWD.K_SQL_CON+"->query($tQueryBarterPlace);\n" +
                         "if (!$tResultBarterPlace)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -168,13 +168,13 @@ namespace NetWorkedData
                                     "{\n" +
                                         "myLog('FIND THE BARTERPLACE', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "$tRowBarterPlace = $tResultBarterPlace->fetch_assoc();\n" +
-                                        "$sReplaces[" + t_THIS_Index_LimitDayTime + "] = $TIME_SYNC + $tRowBarterPlace['" + tRequestLifeTime + "'];\n" +
+                                        "$sReplaces[" + t_THIS_Index_LimitDayTime + "] = "+NWD.K_PHP_TIME_SYNC+" + $tRowBarterPlace['" + tRequestLifeTime + "'];\n" +
                                         "$sReplaces[" + t_THIS_Index_MaxPropositions + "]= $tRowBarterPlace['" + tMaxPropositionsPerRequest + "'];\n" +
                                     //"$sReplaces[" + t_THIS_Index_Propositions + "]= $tRowBarterPlace['" + t_THIS_BarterHash + "'];\n" +
                                     //"$sReplaces[" + t_THIS_Index_Propositions + "]= $tRowBarterPlace['" + t_THIS_Propositions + "'];\n" +
                                     "}\n" +
                             "}\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterHash + "] = $TIME_SYNC.RandomString();\n" +
+                        "$sReplaces[" + t_THIS_Index_BarterHash + "] = "+NWD.K_PHP_TIME_SYNC+".RandomString();\n" +
                         "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
                         "$sReplaces[" + t_THIS_Index_Propositions + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
@@ -190,7 +190,7 @@ namespace NetWorkedData
                 //" || $tServerStatut == " + ((int)NWDTradeStatus.Deal).ToString() + // FOR DEBUG!!!!
                 "))\n" +
                     "{\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterHash + "] = $TIME_SYNC;\n" +
+                        "$sReplaces[" + t_THIS_Index_BarterHash + "] = "+NWD.K_PHP_TIME_SYNC+";\n" +
                         "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_ItemsSuggested + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_ItemsReceived + "]='';\n" +
@@ -205,59 +205,59 @@ namespace NetWorkedData
                 " $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.NoDeal).ToString() + ") && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryCancelable = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                         "WHERE " +
-                        "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                         "AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                         "';" +
-                        "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+                        "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                         "if (!$tResultCancelable)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         // START CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I need to put all propositions in Expired\n" +
-                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
-                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                        "$tQueryExpired = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
+                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                         "WHERE " +
-                                        "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                        "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                         "AND (`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' OR " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\\') " +
                                         "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                         "';\n" +
-                                        "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                                        "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                         "if (!$tResultExpired)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER');\n" +
+                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
-                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
+                                                "$tQueryExpired = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
                                                 "WHERE " +
-                                                "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                                "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                                 "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                                 "';\n" +
-                                                "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                                                "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                                 "if (!$tResultExpired)\n" +
                                                     "{\n" +
-                                                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "error('SERVER');\n" +
+                                                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                         "}\n" +
                                                 "else" +
                                                     "{\n" +
@@ -283,60 +283,60 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryCancelable = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                         "WHERE " +
-                        "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                         "AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                        "AND `" + t_THIS_LimitDayTime + "` < \\''.$TIME_SYNC.'\\' " +
+                        "AND `" + t_THIS_LimitDayTime + "` < \\''."+NWD.K_PHP_TIME_SYNC+".'\\' " +
                         "';" +
-                        "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+                        "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                         "if (!$tResultCancelable)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         // START CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I need to put all propositions in Expired\n" +
-                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
-                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                        "$tQueryExpired = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
+                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                         "WHERE " +
-                                        "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                        "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                         "AND (`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' OR " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\\') " +
                                         "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                         "';\n" +
-                                        "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                                        "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                         "if (!$tResultExpired)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER');\n" +
+                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
-                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
+                                                "$tQueryExpired = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
                                                 "WHERE " +
-                                                "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                                "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                                 "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                                 "';\n" +
-                                                "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                                                "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                                 "if (!$tResultExpired)\n" +
                                                     "{\n" +
-                                                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "error('SERVER');\n" +
+                                                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                         "}\n" +
                                                 "else" +
                                                     "{\n" +
@@ -362,69 +362,69 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryDeal = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryDeal = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + t_THIS_WinnerProposition + "` = \\''.$sCsvList[" + t_THIS_Index_WinnerProposition + "].'\\', " +
                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Deal).ToString() + "\\' " +
                         "WHERE " +
-                        "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                         "AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                         "';" +
                         "// I need to put winner propositions to Accepted Or it's reject?\n" +
-                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "$tResultDeal = $SQL_CON->query($tQueryDeal);\n" +
+                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        "$tResultDeal = "+NWD.K_SQL_CON+"->query($tQueryDeal);\n" +
                         "if (!$tResultDeal)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('UBRRx31');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('UBRRx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "// I need to put Accepted or expired in this request?\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                     "// I need to put all propositions in Expired\n" +
-                                        "$tQueryAccepted = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
-                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                        "$tQueryAccepted = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
+                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\' " +
                                         "WHERE " +
-                                        "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                        "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                         "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\'" +
                                         "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                         "AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_WinnerProposition + "].'\\' " +
                                         "';\n" +
-                                        "$tResultAccepted = $SQL_CON->query($tQueryAccepted);" +
+                                        "$tResultAccepted = "+NWD.K_SQL_CON+"->query($tQueryAccepted);" +
                                         "if (!$tResultAccepted)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryAccepted.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER');\n" +
+                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAccepted.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
                                                 "// I need to put Accepted or expired in this request?\n" +
                                                 "$tNumberOfRow = 0;\n" +
-                                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                                 "if ($tNumberOfRow == 1)\n" +
                                                     "{\n" +
                                                         "$tItemsSend = '';\n" +
                                                         "$tQueryBarterProposition = 'SELECT" +
                                                         " `" + tItemsSend + "`" +
-                                                        " FROM `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
+                                                        " FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
                                                         " WHERE" +
-                                                        " `Reference` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_THIS_Index_WinnerProposition + "]).'\\';" +
+                                                        " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_WinnerProposition + "]).'\\';" +
                                                         "';\n" +
                                                         "myLog('tQueryBarterProposition : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "$tResultBarterProposition = $SQL_CON->query($tQueryBarterProposition);\n" +
+                                                        "$tResultBarterProposition = "+NWD.K_SQL_CON+"->query($tQueryBarterProposition);\n" +
                                                         "if (!$tResultBarterProposition)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER');\n" +
+                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                             "}\n" +
                                                         "else" +
                                                             "{\n" +
@@ -435,77 +435,77 @@ namespace NetWorkedData
                                                                         "$tItemsSend = $tRowBarterProposition['" + tItemsSend + "'];\n" +
                                                                     "}\n" +
                                                             "}\n" +
-                                                        "$tQueryAcceptedDeal = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
+                                                        "$tQueryAcceptedDeal = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                                         "`" + t_THIS_ItemsReceived + "` = \\''.$tItemsSend.'\\', " +
-                                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\' " +
                                                         "WHERE " +
                                                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Deal).ToString() + "\\'" +
                                                         "AND `" + t_THIS_BarterHash + "` = \\''.$tServerHash.'\\' " +
                                                         "AND `Reference` = \\''.$tReference.'\\' " +
                                                         "';\n" +
-                                                        "$tResultAcceptedDeal = $SQL_CON->query($tQueryAcceptedDeal);" +
+                                                        "$tResultAcceptedDeal = "+NWD.K_SQL_CON+"->query($tQueryAcceptedDeal);" +
                                                         "if (!$tResultAcceptedDeal)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryAcceptedDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER');\n" +
+                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAcceptedDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                             "}\n" +
                                                         "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_WinnerProposition + "]);\n" +
                                                     "}\n" +
                                                 "else\n" +
                                                     "{\n" +
-                                                        "$tQueryExpiredDeal = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                                        "$tQueryExpiredDeal = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                                         "WHERE " +
                                                         "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Deal).ToString() + "\\'" +
                                                         "AND `" + t_THIS_BarterHash + "` = \\''.$tServerHash.'\\' " +
                                                         "AND `Reference` = \\''.$tReference.'\\' " +
                                                         "';\n" +
-                                                        "$tResultExpiredDeal = $SQL_CON->query($tQueryExpiredDeal);" +
+                                                        "$tResultExpiredDeal = "+NWD.K_SQL_CON+"->query($tQueryExpiredDeal);" +
                                                         "if (!$tResultExpiredDeal)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpiredDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER');\n" +
+                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpiredDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                             "}\n" +
                                                     "}\n" +
                                             "}\n" +
                                         // START CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I need to put all propositions in Expired\n" +
-                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
-                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                        "$tQueryExpired = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
+                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                         "WHERE " +
-                                        "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                        "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                         "AND (`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' OR " +
                                         "`" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\\') " +
                                         "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                         "';\n" +
-                                        "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                                        "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                         "if (!$tResultExpired)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER');\n" +
+                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
-                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
+                                                "$tQueryExpired = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
                                                 "WHERE " +
-                                                "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                                "`" + tBarterRequest + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
                                                 "AND `" + tBarterRequestHash + "` = \\''.$tServerHash.'\\' " +
                                                 "';\n" +
-                                                "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                                                "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                                 "if (!$tResultExpired)\n" +
                                                     "{\n" +
-                                                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "error('SERVER');\n" +
+                                                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                         "}\n" +
                                                 "else" +
                                                     "{\n" +
@@ -537,7 +537,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.ForceNone).ToString() + " && $sAdmin == true)\n" +
                     "{\n" +
                         "$sReplaces[" + t_THIS_Index_BarterStatus + "] = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterHash + "] = $TIME_SYNC;\n" +
+                        "$sReplaces[" + t_THIS_Index_BarterHash + "] = "+NWD.K_PHP_TIME_SYNC+";\n" +
                         "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_ItemsSuggested + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_ItemsReceived + "]='';\n" +

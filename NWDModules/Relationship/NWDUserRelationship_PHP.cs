@@ -98,11 +98,11 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
 
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserNickname.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserAvatar.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserInfos.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDGameSave.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserNickname.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserAvatar.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserInfos.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDGameSave.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerHash = '';\n" +
@@ -127,16 +127,16 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 " `" + tFriendGameSave + "`," +
                 " `" + tFriendLastSynchronization + "`," +
                 " `" + tFriendUserRelationShip + "" +
-                "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+                "` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
-                "AND `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                "AND `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                 "AND `WebModel` <= '.$WSBUILD.' " +
                 "';" +
-                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+                "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('SERVER');\n" +
+                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                     "}\n" +
                 "else" +
                     "{\n" +
@@ -205,16 +205,16 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.GenerateCode).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.None).ToString() + ")\n" +
                     "{\n" +
-                            "$tQueryPlace = 'SELECT `" + tCodeLenght + "`, `" + tExpireTime + "` FROM `'.$ENV.'_" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "` " +
+                            "$tQueryPlace = 'SELECT `" + tCodeLenght + "`, `" + tExpireTime + "` FROM `'."+NWD.K_ENV+".'_" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "` " +
                             "WHERE `AC`= \\'1\\' " +
-                            "AND `Reference` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                            "AND `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
                             "AND `WebModel` <= '.$WSBUILD.' " +
                             ";';\n" +
-                            "$tResultPlace = $SQL_CON->query($tQueryPlace);\n" +
+                            "$tResultPlace = "+NWD.K_SQL_CON+"->query($tQueryPlace);\n" +
                             "if (!$tResultPlace)\n" +
                                 "{\n" +
-                                    "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                    "error('URSx33');\n" +
+                                    "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                    "error('URSx33',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                 "}\n" +
                             "else\n" +
                                 "{\n" +
@@ -224,8 +224,8 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                                 "{\n" +
                                                     "$tCode = $tServerID;\n" +
                                                     "$tCode = $tServerID+CodeRandomSizable($tRowPlace['" + tCodeLenght + "']);\n" +
-                                                    //"$tCode = UniquePropertyValueFromValue($ENV.'_" + BasisHelper().ClassNamePHP+", $sColumnOrign, $sColumUniqueResult, $tReference, $sNeverEmpty = true);\n" +
-                                                    "$tLimitDayTime = $TIME_SYNC+$tRowPlace['" + tExpireTime + "'];\n" +
+                                                    //"$tCode = UniquePropertyValueFromValue("+NWD.K_ENV+".'_" + BasisHelper().ClassNamePHP+", $sColumnOrign, $sColumUniqueResult, $tReference, $sNeverEmpty = true);\n" +
+                                                    "$tLimitDayTime = "+NWD.K_PHP_TIME_SYNC+"+$tRowPlace['" + tExpireTime + "'];\n" +
                                                     "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + ";\n" +
                                                     "$sReplaces[" + t_Index_RelationshipHash + "]= $tCode ;\n" +
                                                     "$sReplaces[" + t_Index_RelationshipCode + "] = '';\n" +
@@ -257,23 +257,23 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "$sCsvList[" + t_Index_RelationshipCode + "] != '' &&" +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.None).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryRequestor = 'SELECT `" + tAccount + "`, `" + tGameSave + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+                        "$tQueryRequestor = 'SELECT `" + tAccount + "`, `" + tGameSave + "` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
                         "WHERE " +
-                        "`" + tRelationshipHash + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
+                        "`" + tRelationshipHash + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
-                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
-                        "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                        "AND `" + tRelationPlace + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                        "AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                         "AND `AC` = 1 " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         ";';\n" +
 
                         //"myLog(' search account and gamesave of this code  : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 
-                        "$tResultRequestor = $SQL_CON->query($tQueryRequestor);\n" +
+                        "$tResultRequestor = "+NWD.K_SQL_CON+"->query($tQueryRequestor);\n" +
                         "if (!$tResultRequestor)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -284,36 +284,36 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                                 "$tAccountRequestor = $tRowRequestor['" + tAccount + "'];\n" +
                                                 "$tGameSaveRequestor = $tRowRequestor['" + tGameSave + "'];\n" +
                                             "}\n" +
-                                        "$tQueryFriend = 'SELECT `Reference` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+                                        "$tQueryFriend = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
                                         "WHERE " +
                                         "(" +
                                         "`AC`= \\'1\\' " +
-                                        "AND `" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($tAccountRequestor).'\\' " +
-                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($tGameSaveRequestor).'\\' " +
-                                        "AND `" + tAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
-                                        "AND `" + tGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
-                                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                                        "AND `" + tFriendAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tAccountRequestor).'\\' " +
+                                        "AND `" + tFriendGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tGameSaveRequestor).'\\' " +
+                                        "AND `" + tAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
+                                        "AND `" + tGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                        "AND `" + tRelationPlace + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
                                         "AND `WebModel` <= '.$WSBUILD.' " +
                                         ")" +
                                         "OR " +
                                         "(" +
                                         "`AC`= \\'1\\' " +
-                                        "AND `" + tAccount + "` = \\''.$SQL_CON->real_escape_string($tAccountRequestor).'\\' " +
-                                        "AND `" + tGameSave + "` = \\''.$SQL_CON->real_escape_string($tGameSaveRequestor).'\\' " +
-                                        "AND `" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
-                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
-                                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                                        "AND `" + tAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tAccountRequestor).'\\' " +
+                                        "AND `" + tGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tGameSaveRequestor).'\\' " +
+                                        "AND `" + tFriendAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
+                                        "AND `" + tFriendGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                        "AND `" + tRelationPlace + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
                                         "AND `WebModel` <= '.$WSBUILD.' " +
                                         ")" +
                                         "';\n" +
 
                                         //"myLog(' search all ready friends  : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 
-                                        "$tResultFriend = $SQL_CON->query($tQueryFriend);\n" +
+                                        "$tResultFriend = "+NWD.K_SQL_CON+"->query($tQueryFriend);\n" +
                                         "if (!$tResultFriend)\n" +
                                             "{\n" +
-                                                    "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                    "error('SERVER');\n" +
+                                                    "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                    "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
@@ -331,48 +331,48 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                                     "}\n" +
                                                 "else" +
                                                     "{\n" +
-                                                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                                                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                                                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                                                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                                                        "$tQueryCancelable = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                                                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                                                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                                                         "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + "\\', " +
-                                                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\', " +
+                                                        "`" + tFriendUserRelationShip + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\', " +
                                                         "`" + tRelationshipHash + "` = \\'\\', " +
                                                         "`" + tRelationshipCode + "` = \\'\\', " +
                                                         "`" + tFriendLastSynchronization + "` = \\'0\\', " +
-                                                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\', " +
-                                                        "`" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                                        "`" + tFriendAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\', " +
+                                                        "`" + tFriendGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
                                                         "WHERE " +
-                                                        "`" + tRelationshipHash + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
+                                                        "`" + tRelationshipHash + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationshipCode + "]).'\\' " +
                                                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
-                                                        "AND `" + tRelationPlace + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
-                                                        "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                                                        "AND `" + tRelationPlace + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RelationPlace + "]).'\\' " +
+                                                        "AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                                                         "AND `AC` = 1 " +
                                                         "AND `WebModel` <= '.$WSBUILD.' " +
                                                         ";';\n" +
-                                                        "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+                                                        "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                                                         "if (!$tResultCancelable)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER');\n" +
+                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                             "}\n" +
                                                         "else" +
                                                             "{\n" +
                                                                 "$tNumberOfRow = 0;\n" +
-                                                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                                                 "if ($tNumberOfRow == 1)\n" +
                                                                     "{\n" +
-                                                                        "$tQueryIntegrity = 'SELECT `Reference` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+                                                                        "$tQueryIntegrity = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
                                                                         "WHERE " +
-                                                                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
-                                                                        "AND `" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
-                                                                        "AND `" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                                                                        "`" + tFriendAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\' " +
+                                                                        "AND `" + tFriendGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                                                                        "AND `" + tFriendUserRelationShip + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                                                                         ";';\n" +
-                                                                        "$tResultIntegrity = $SQL_CON->query($tQueryIntegrity);\n" +
+                                                                        "$tResultIntegrity = "+NWD.K_SQL_CON+"->query($tQueryIntegrity);\n" +
                                                                         "if (!$tResultIntegrity)\n" +
                                                                             "{\n" +
-                                                                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryIntegrity.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                                "error('SERVER');\n" +
+                                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryIntegrity.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                                             "}\n" +
                                                                         "else\n" +
                                                                             "{\n" +
@@ -409,34 +409,34 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.AcceptFriend).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryAccept = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryAccept = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.Valid).ToString() + "\\', " +
-                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\', " +
+                        "`" + tFriendUserRelationShip + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\', " +
                         "`" + tRelationshipHash + "` = \\'\\', " +
                         "`" + tRelationshipCode + "` = \\'\\', " +
                         "`" + tFriendLastSynchronization + "` = \\'0\\', " +
-                        "`" + tFriendAccount + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\', " +
-                        "`" + tFriendGameSave + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
+                        "`" + tFriendAccount + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_Account + "]).'\\', " +
+                        "`" + tFriendGameSave + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_GameSave + "]).'\\' " +
                         "WHERE " +
-                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "`" + tFriendUserRelationShip + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingValidation).ToString() + "\\' " +
-                        //"AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                        //"AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                         "AND `AC` = 1 " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         ";';\n" +
-                        "$tResultAccept = $SQL_CON->query($tQueryAccept);\n" +
+                        "$tResultAccept = "+NWD.K_SQL_CON+"->query($tQueryAccept);\n" +
                         "if (!$tResultAccept)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryAccept.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAccept.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.Valid).ToString() + ";\n" +
@@ -464,10 +464,10 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.RefuseFriend).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.ProposeFriend).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryRefuse = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.Expired).ToString() + "\\', " +
                         "`" + tFriendUserRelationShip + "` = \\'\\', " +
                         "`" + tRelationshipHash + "` = \\'\\', " +
@@ -476,22 +476,22 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "`" + tFriendAccount + "` = \\'\\', " +
                         "`" + tFriendGameSave + "` = \\'\\' " +
                         "WHERE " +
-                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "`" + tFriendUserRelationShip + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingValidation).ToString() + "\\' " +
-                        //"AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                        //"AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                         "AND `AC` = 1 " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         ";';\n" +
-                        "$tResultRefuse = $SQL_CON->query($tQueryRefuse);\n" +
+                        "$tResultRefuse = "+NWD.K_SQL_CON+"->query($tQueryRefuse);\n" +
                         "if (!$tResultRefuse)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         "Integrity" + ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
@@ -513,10 +513,10 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "else if ($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Delete).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.Valid).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryRefuse = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.Expired).ToString() + "\\', " +
                         "`" + tFriendUserRelationShip + "` = \\'\\', " +
                         "`" + tRelationshipHash + "` = \\'\\', " +
@@ -525,22 +525,22 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "`" + tFriendAccount + "` = \\'\\', " +
                         "`" + tFriendGameSave + "` = \\'\\' " +
                         "WHERE " +
-                        "`" + tFriendUserRelationShip + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                        "`" + tFriendUserRelationShip + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.Valid).ToString() + "\\' " +
-                        //"AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                        //"AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                         "AND `AC` = 1 " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         ";';\n" +
-                        "$tResultRefuse = $SQL_CON->query($tQueryRefuse);\n" +
+                        "$tResultRefuse = "+NWD.K_SQL_CON+"->query($tQueryRefuse);\n" +
                         "if (!$tResultRefuse)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         "Integrity" + ClassNamePHP + "Reevalue($tFriendUserRelationShip);\n" +
@@ -578,10 +578,10 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                     "{\n" +
                         "myLog('###OK IS EXPIRED?###', __FILE__, __FUNCTION__, __LINE__);\n" +
 
-                        "$tQueryRefuse = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''.$TIME_SYNC.'\\', " +
-                        "`DS` = \\''.$TIME_SYNC.'\\', " +
-                        "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                        "$tQueryRefuse = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
                         "`" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.Expired).ToString() + "\\', " +
                         "`" + tFriendUserRelationShip + "` = \\'\\', " +
                         "`" + tRelationshipHash + "` = \\'\\', " +
@@ -590,22 +590,22 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "`" + tFriendAccount + "` = \\'\\', " +
                         "`" + tFriendGameSave + "` = \\'\\' " +
                         "WHERE " +
-                        "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
-                        "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
+                        "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
+                        "AND `" + tLimitDayTime + "` < '."+NWD.K_PHP_TIME_SYNC+".' " +
                         "AND `" + tRelationStatus + "` = \\'" + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + "\\' " +
                         "AND `AC` = 1 " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         ";';\n" +
-                        "$tResultRefuse = $SQL_CON->query($tQueryRefuse);\n" +
+                        "$tResultRefuse = "+NWD.K_SQL_CON+"->query($tQueryRefuse);\n" +
                         "if (!$tResultRefuse)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                                 "if ($tNumberOfRow > 0)\n" +
                                     "{\n" +
                                         "$sReplaces[" + t_Index_RelationStatus + "] = " + ((int)NWDRelationshipStatus.Expired).ToString() + ";\n" +
@@ -633,17 +633,17 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.Valid).ToString() + ")\n" +
                     "{\n" +
                         // the last sync is  $tFriendLastSynchronization
-                        "$tQueryPlace = 'SELECT `" + tClassesSharedToStartRelation + "`, `" + tClassesShared + "` FROM `'.$ENV.'_" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "` " +
+                        "$tQueryPlace = 'SELECT `" + tClassesSharedToStartRelation + "`, `" + tClassesShared + "` FROM `'."+NWD.K_ENV+".'_" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "` " +
                         "WHERE `AC`= \\'1\\' " +
-                        "AND `Reference` = \\''.$SQL_CON->real_escape_string($tServerRelationPlace).'\\' " +
+                        "AND `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tServerRelationPlace).'\\' " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         "';\n" +
                         "myLog('tQueryPlace : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "$tResultPlace = $SQL_CON->query($tQueryPlace);\n" +
+                        "$tResultPlace = "+NWD.K_SQL_CON+"->query($tQueryPlace);\n" +
                         "if (!$tResultPlace)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER');\n" +
+                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -668,7 +668,7 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                         "foreach ($tClasses as $tClass)\n" +
                                             "{\n" +
                                                 "myLog('will include : '.$tClass.'!', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/'.$tClass.'/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                                                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/'.$tClass.'/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                                                 "$tFunction = 'GetDatasByGameSave'.$tClass;\n" +
                                                 "$tFunction($tFriendLastSynchronization, $tServerFriendAccount, $tServerFriendGameSave);\n" +
                                             "}\n" +
@@ -678,7 +678,7 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                     "}\n" +
                             "}\n" +
                             "$sReplaces[" + t_Index_RelationStatus + "]=" + ((int)NWDRelationshipStatus.Valid).ToString() + ";\n" +
-                            "$sReplaces[" + t_Index_FriendLastSynchronization + "]= $TIME_SYNC ;\n" +
+                            "$sReplaces[" + t_Index_FriendLastSynchronization + "]= "+NWD.K_PHP_TIME_SYNC+" ;\n" +
                             "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 

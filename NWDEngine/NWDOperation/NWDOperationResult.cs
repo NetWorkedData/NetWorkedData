@@ -100,9 +100,9 @@ namespace NetWorkedData
             {
                 performRequest = float.Parse(sData["performRequest"].ToString());
             }
-            if (sData.ContainsKey("token"))
+            if (sData.ContainsKey(NWD.RequestTokenKey))
             {
-                token = sData["token"] as string;
+                token = sData[NWD.RequestTokenKey] as string;
             }
             if (sData.ContainsKey("signin"))
             {
@@ -172,9 +172,9 @@ namespace NetWorkedData
             {
                 errorCode = sData["error_code"] as string;
             }
-            if (sData.ContainsKey("uuid"))
+            if (sData.ContainsKey(NWD.UUIDKey))
             {
-                uuid = sData["uuid"] as string;
+                uuid = sData[NWD.UUIDKey] as string;
             }
             if (sData.ContainsKey("wsbuild"))
             {

@@ -140,6 +140,7 @@ namespace NetWorkedData
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Log Out"))
             {
+            NWDDataManager.SharedInstance().AddWebRequestSignOut();
             }
             tI++;
             /*

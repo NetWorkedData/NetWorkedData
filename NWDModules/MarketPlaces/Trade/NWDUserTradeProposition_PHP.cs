@@ -70,18 +70,18 @@ public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradePropo
             int t_THIS_Index_ItemsAsked = New_CSV_IndexOf(t_THIS_ItemsAsked);
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerRequestHash = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeRequestHash + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeRequestHash + "` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
                 "WHERE " +
-                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
-                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+                "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\';';\n" +
+                "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('SERVER');\n" +
+                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
                 "else" +
                 "{\n" +
@@ -124,10 +124,10 @@ public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradePropo
                 "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                 "{\n" +
-                "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` SET " +
-                " `DM` = \\''.$TIME_SYNC.'\\'," +
-                " `DS` = \\''.$TIME_SYNC.'\\'," +
-                " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
+                "$tQueryTrade = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` SET " +
+                " `DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
+                " `DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
+                " `'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
                 " `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'," +
                 " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
                 " WHERE `AC`= \\'1\\' " +
@@ -135,21 +135,21 @@ public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradePropo
                 " AND `" + tTradePlace + "` = \\''.$sCsvList[" + t_THIS_Index_TradePlace + "].'\\' " +
                 " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_TradeRequest + "].'\\' " +
                 " AND `" + tTradeHash + "` = \\''.$sCsvList[" + t_THIS_Index_tTradeRequestHash + "].'\\' " +
-                " AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                " AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                 "';\n" +
                 "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultTrade = $SQL_CON->query($tQueryTrade);\n" +
+                "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
                 "if (!$tResultTrade)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('SERVER');\n" +
+                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
                 "$tNumberOfRow = 0;\n" +
-                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
                 "if ($tNumberOfRow == 1)\n" +
                 "{\n" +
                 "// I need update the proposition too !\n" +
