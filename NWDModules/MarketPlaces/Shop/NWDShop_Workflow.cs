@@ -16,10 +16,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -79,11 +75,11 @@ namespace NetWorkedData
         /// - Add items to Ownership
         /// - Add a new transaction to Account
         /// </summary>
-        /// <param name="sShop">NWDShop from where we buy the NWDPack.</param>
         /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
         /// <param name="sPack">NWDPack the pack we just buy.</param>
         /// <param name="sType">Enum to represente the type of the transaction (Daily, Weekly, Monthly).</param>
-        public void BuyPack(NWDRack sRack, NWDPack sPack, NWDTransactionType sType)
+        /// <param name="sIsOnline">Internet is available or not.</param>
+        public void BuyPack(NWDRack sRack, NWDPack sPack, NWDTransactionType sType, bool sIsOnline = true)
         {
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
@@ -164,7 +160,14 @@ namespace NetWorkedData
                 BuyPackBlockDelegate?.Invoke(BuyPackResult.Failed, null);
             };
 
-            SynchronizationFromWebService(tSuccess, tFailed);
+            if (sIsOnline)
+            {
+                SynchronizationFromWebService(tSuccess, tFailed);
+            }
+            else
+            {
+                tSuccess.Invoke(null, 0f, null);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public BuyPackResult EnoughPackToBuy(NWDRack sRack, NWDPack sPack, NWDTransactionType sType, out int oQuantity)

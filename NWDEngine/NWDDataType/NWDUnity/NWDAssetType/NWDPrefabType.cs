@@ -138,14 +138,16 @@ namespace NetWorkedData
         //    return tResourceRequest;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public GameObject ToGameObject (GameObject sParent = null)
+        public GameObject ToGameObject(GameObject sParent = null, bool sWorldPosition = true)
 		{
 			GameObject rReturn = null;
-			GameObject tPrefab = ToPrefab ();
-			if (tPrefab != null) {
-				rReturn = UnityEngine.Object.Instantiate (tPrefab);
-				if (sParent != null) {
-					rReturn.transform.SetParent (sParent.transform);
+			GameObject tPrefab = ToPrefab();
+			if (tPrefab != null)
+            {
+				rReturn = UnityEngine.Object.Instantiate(tPrefab);
+				if (sParent != null)
+                {
+					rReturn.transform.SetParent(sParent.transform, sWorldPosition);
 				}
 			}
 			return rReturn;
