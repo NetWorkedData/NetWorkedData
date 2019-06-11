@@ -40,7 +40,7 @@ namespace NetWorkedData
         typeof(NWDAccountAvatar),
         typeof(NWDAccountPreference),
         typeof(NWDAccountConsent),
-        //typeof(NWDRequestToken),
+        typeof(NWDRequestToken),
         typeof(NWDBasisPreferences),
         }
     )]

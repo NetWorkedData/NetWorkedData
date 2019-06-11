@@ -24,6 +24,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void New_ClassInitialization()
         {
+             //Debug.Log("ClassInitialization() base method (" + GetType().FullName + ")");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void New_ClassDatasAreLoaded()
+        {
+            //Debug.Log("ClassDatasAreLoaded() base method (" + GetType().FullName + ")");
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual List<Type> New_OverrideClasseInThisSync()

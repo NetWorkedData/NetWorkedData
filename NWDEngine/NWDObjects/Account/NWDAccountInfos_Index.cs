@@ -26,6 +26,7 @@ namespace NetWorkedData
         [NWDIndexInsert]
         public void InsertInAccountIndex()
         {
+            //Debug.Log("NWDAccountInfos InsertInAccountIndex()");
             // Re-add to the actual indexation ?
             if (IsUsable())
             {
@@ -44,6 +45,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
+            //Debug.Log("NWDAccountInfos FindFirstDataByAccount()");
             NWDAccountInfos rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
@@ -59,6 +61,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountInfos CurrentData()
         {
+            //Debug.Log("NWDAccountInfos CurrentData()");
             return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
         }
         //-------------------------------------------------------------------------------------------------------------

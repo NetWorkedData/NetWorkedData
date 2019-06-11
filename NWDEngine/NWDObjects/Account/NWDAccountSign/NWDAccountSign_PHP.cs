@@ -42,22 +42,22 @@ namespace NetWorkedData
             sScript.AppendLine("// analyze the sign ");
             sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString()+")");
             sScript.AppendLine("{");
-            sScript.Append("$tQueryRequest = 'SELECT * FROM `'.$ENV.'_" + NWDAccountSign.BasisHelper().ClassNamePHP + "` WHERE ");
-            sScript.AppendLine(" ( `" + tSignHashKey + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
+            sScript.Append("$tQueryRequest = 'SELECT * FROM `'."+NWD.K_ENV+".'_" + NWDAccountSign.BasisHelper().ClassNamePHP + "` WHERE ");
+            sScript.AppendLine(" ( `" + tSignHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
             sScript.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
             sScript.AppendLine("{");
-            sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''.$SQL_CON->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
+            sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
             sScript.AppendLine("}");
-            sScript.Append("$tQueryRequest .= ' ) AND `Reference` != \\''.$SQL_CON->real_escape_string($tReference).'\\' ");
+            sScript.Append("$tQueryRequest .= ' ) AND `Reference` != \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' ");
             sScript.Append("AND `AC` = 1");
             sScript.AppendLine(";';"); 
             sScript.AppendLine("myLog('query = '.$tQueryRequest.'', __FILE__, __FUNCTION__, __LINE__);");
-            sScript.AppendLine("$tResultRequest = $SQL_CON->query($tQueryRequest);");
+            sScript.AppendLine("$tResultRequest = "+NWD.K_SQL_CON+"->query($tQueryRequest);");
 
                 sScript.AppendLine("if (!$tResultRequest)");
                 sScript.AppendLine("{");
-                sScript.AppendLine("myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryRequest.'', __FILE__, __FUNCTION__, __LINE__);");
-                sScript.AppendLine("error('SERVER');");
+                sScript.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRequest.'', __FILE__, __FUNCTION__, __LINE__);");
+                sScript.AppendLine("error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);");
                 sScript.AppendLine("}");
                 sScript.AppendLine("else");
                 sScript.AppendLine("{");
@@ -97,7 +97,7 @@ namespace NetWorkedData
             return sScript.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t{\n" 
@@ -111,7 +111,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             //"while($tRow = $tResult->fetch_row()")
             //"{"
@@ -119,7 +119,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
             //"\t{\n" 
@@ -127,7 +127,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             return "// write your php script string here to add function in php file;\n";
         }

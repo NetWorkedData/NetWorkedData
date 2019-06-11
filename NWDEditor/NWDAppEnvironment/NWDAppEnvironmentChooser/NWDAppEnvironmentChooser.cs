@@ -53,12 +53,12 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        // NWDAppEnvironmentChooser.Refresh();
         public static void Refresh()
         {
-            if (kSharedInstance!=null)
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentChooser));
+            foreach (NWDAppEnvironmentChooser tWindow in tWindows)
             {
-                kSharedInstance.Repaint();
+                tWindow.Repaint();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

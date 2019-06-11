@@ -11,14 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -29,6 +21,7 @@ using System.Reflection;
 using UnityEngine;
 using BasicToolBox;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -36,7 +29,7 @@ namespace NetWorkedData
     public partial class NWDExampleHelper : NWDHelper<NWDExample>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t ..."
@@ -49,7 +42,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t{\n" 
@@ -63,7 +56,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             //"while($tRow = $tResult->fetch_row()")
             //"{"
@@ -71,7 +64,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
             //"\t{\n" 
@@ -79,7 +72,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             return "// write your php script string here to add function in php file;\n";
         }

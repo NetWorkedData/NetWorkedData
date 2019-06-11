@@ -13,6 +13,7 @@
 using System;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -50,6 +51,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void SelectTab(Type tType)
         {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDTypeWindow));
+            foreach (NWDTypeWindow tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

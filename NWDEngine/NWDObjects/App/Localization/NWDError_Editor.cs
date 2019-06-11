@@ -32,45 +32,49 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
-            //BTBBenchmark.Start();
-            string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
-            // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDError tError = NWDError.GetRawDataByReference(tReference);
-            if (tError != null && tError.IsTrashed())
+            NWDError tError = null;
+            if (BasisHelper() != null)
             {
-                tError = null;
-            }
-            if (tError == null)
-            {
-                tError = NWDBasis<NWDError>.NewDataWithReference(tReference, true);
-                //RemoveObjectInListOfEdition(tError);
-                tError.Reference = tReference;
-                // tError.InternalKey = Domain + " : " + sCode;
-                tError.InternalDescription = sDescription;
-                tError.Tag = sTag;
-                // domain code
-                tError.Domain = sDomain;
-                tError.Code = sCode;
-                // title
-                NWDLocalizableStringType tTitle = new NWDLocalizableStringType();
-                tTitle.AddBaseString(sTitle);
-                tError.Title = tTitle;
-                // description
-                NWDLocalizableTextType tDescription = new NWDLocalizableTextType();
-                tDescription.AddBaseString(sDescription);
-                tError.Description = tDescription;
-                // validation
-                NWDLocalizableStringType tValidation = new NWDLocalizableStringType();
-                tValidation.AddBaseString(sValidation);
-                tError.Validation = tValidation;
-                // type of alert
-                tError.Type = sType;
-                // add-on edited
-                tError.AddonEdited(true);
-                // reccord
-                //tError.NotNullChecker();
-                tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
-                //AddObjectInListOfEdition(tError);
+                //BTBBenchmark.Start();
+                string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
+                // TODO: alert if reference is too long for ereg / or substring if too long
+                tError = NWDError.GetRawDataByReference(tReference);
+                if (tError != null && tError.IsTrashed())
+                {
+                    tError = null;
+                }
+                if (tError == null)
+                {
+                    tError = NWDBasis<NWDError>.NewDataWithReference(tReference, true);
+                    //RemoveObjectInListOfEdition(tError);
+                    tError.Reference = tReference;
+                    // tError.InternalKey = Domain + " : " + sCode;
+                    tError.InternalDescription = sDescription;
+                    tError.Tag = sTag;
+                    // domain code
+                    tError.Domain = sDomain;
+                    tError.Code = sCode;
+                    // title
+                    NWDLocalizableStringType tTitle = new NWDLocalizableStringType();
+                    tTitle.AddBaseString(sTitle);
+                    tError.Title = tTitle;
+                    // description
+                    NWDLocalizableTextType tDescription = new NWDLocalizableTextType();
+                    tDescription.AddBaseString(sDescription);
+                    tError.Description = tDescription;
+                    // validation
+                    NWDLocalizableStringType tValidation = new NWDLocalizableStringType();
+                    tValidation.AddBaseString(sValidation);
+                    tError.Validation = tValidation;
+                    // type of alert
+                    tError.Type = sType;
+                    // add-on edited
+                    tError.AddonEdited(true);
+                    // reccord
+                    //tError.NotNullChecker();
+                    tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
+                    //AddObjectInListOfEdition(tError);
+                }
             }
             //BTBBenchmark.Finish();
             return tError;

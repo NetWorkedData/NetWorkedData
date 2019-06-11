@@ -35,7 +35,7 @@ namespace NetWorkedData
         public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
-            rReturn.AppendLine("if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
+            rReturn.AppendLine("if (UniquePropertyValueFromValue("+NWD.K_ENV+".'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
             rReturn.AppendLine("{");
             rReturn.AppendLine("IntegrityNWDUserNicknameReevalue($tReference);");
             rReturn.AppendLine("}");

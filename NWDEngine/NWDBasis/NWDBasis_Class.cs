@@ -172,7 +172,6 @@ namespace NetWorkedData
         //    //BTBBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //[NWDAliasMethod(NWDConstants.GetBasisHelper)]
         public static NWDBasisHelper BasisHelper()
         {
             NWDBasisHelper rHelper= NWDBasisHelper.FindTypeInfos(typeof(K));

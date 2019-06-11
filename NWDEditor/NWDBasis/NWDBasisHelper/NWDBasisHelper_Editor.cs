@@ -464,29 +464,10 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_CreateErrorAndMessage()
+        public NWDError Error(string sXCode, string sDescription)
         {
-            //BTBBenchmark.Start();
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x01", "Error in " + ClassTableName, "error in request creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x02", "Error in " + ClassTableName, "error in request creation add primary key in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x03", "Error in " + ClassTableName, "error in request creation add autoincrement modify in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x05", "Error in " + ClassTableName, "error in sql index creation in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x07", "Error in " + ClassTableName, "error in sql defragment in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x08", "Error in " + ClassTableName, "error in sql drop in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x09", "Error in " + ClassTableName, "error in sql Flush in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x11", "Error in " + ClassTableName, "error in sql add columns in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x12", "Error in " + ClassTableName, "error in sql alter columns in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x31", "Error in " + ClassTableName, "error in request insert new datas before update in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x32", "Error in " + ClassTableName, "error in request select datas to update in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x33", "Error in " + ClassTableName, "error in request select updatable datas in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x38", "Error in " + ClassTableName, "error in request update datas in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x39", "Error in " + ClassTableName, "error more than one row for this reference in  " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x40", "Error in " + ClassTableName, "error in flush trashed in  " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x91", "Error in " + ClassTableName, "error update integrity in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x99", "Error in " + ClassTableName, "error columns number in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x88", "Error in " + ClassTableName, "integrity of one datas is false, break in " + ClassTableName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            NWDError.CreateGenericError(ClassTableName, ClassTrigramme + "x77", "Error in " + ClassTableName, "error update log in " + ClassTableName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-            //BTBBenchmark.Finish();
+            //Debug.Log("NWDBasisHelper Error()");
+            return NWDError.CreateGenericError(ClassTableName, ClassTrigramme + sXCode, "Error in " + ClassTableName, sDescription, "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

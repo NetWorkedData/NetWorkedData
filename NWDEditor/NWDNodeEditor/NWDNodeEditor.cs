@@ -127,12 +127,17 @@ namespace NetWorkedData
         /// <summary>
         /// Redraw.
         /// </summary>
-        public static void ReDraw()
+        public static void Refresh()
         {
             //BTBBenchmark.Start();
-            if (kNodeEditorSharedInstance != null)
+            //if (kNodeEditorSharedInstance != null)
+            //{
+            //    kNodeEditorSharedInstance.Repaint();
+            //}
+             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDNodeEditor));
+            foreach (NWDNodeEditor tWindow in tWindows)
             {
-                kNodeEditorSharedInstance.Repaint();
+                tWindow.Repaint();
             }
             //BTBBenchmark.Finish();
         }

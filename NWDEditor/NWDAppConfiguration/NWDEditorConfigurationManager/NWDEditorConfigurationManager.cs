@@ -56,6 +56,15 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDEditorConfigurationManager));
+            foreach (NWDEditorConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public static bool IsSharedInstance()
         //{
         //    if (kSharedInstance != null)

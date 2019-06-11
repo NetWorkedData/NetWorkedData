@@ -29,6 +29,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void New_CleanTable()
         {
+            NWDDebug.Log("New_CleanTable()");
             List<NWDTypeClass> tObjectsListToDelete = new List<NWDTypeClass>();
             foreach (NWDTypeClass tObject in Datas)
             {
@@ -269,6 +270,7 @@ namespace NetWorkedData
                 }
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+            New_ClassDatasAreLoaded();
 #if UNITY_EDITOR
             New_FilterTableEditor();
             New_RepaintTableEditor();

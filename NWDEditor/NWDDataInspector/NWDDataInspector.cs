@@ -67,6 +67,15 @@ namespace NetWorkedData
             ShareInstance().DataPreview();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDDataInspector));
+            foreach (NWDDataInspector tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void DataPreview()
         {
             //BTBBenchmark.Start();
@@ -144,6 +153,10 @@ namespace NetWorkedData
                     }
                 }
             }
+            else
+            {
+                ShareInstance().Data(null, true, sFocus);
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -182,8 +195,20 @@ namespace NetWorkedData
                     {
                         Focus();
                     }
-                    NWDNodeEditor.ReDraw();
+                    NWDNodeEditor.Refresh();
                 }
+            }
+            else
+            {
+                mObjectsList = new List<NWDTypeClass>();
+                mObjectInEdition = null;
+                Repaint();
+                RemoveActualFocus = sFocus;
+                if (sFocus == true)
+                {
+                    Focus();
+                }
+                NWDNodeEditor.Refresh();
             }
             //BTBBenchmark.Finish();
         }
@@ -219,8 +244,8 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
 
-            this.minSize = new Vector2 (NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
-            this.maxSize = new Vector2(NWDGUI.kNodeCardWidth*2, NWDGUI.kNodeCardHeight*2);
+            this.minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
+            this.maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
 
 
             if (RemoveActualFocus == true)
@@ -263,7 +288,7 @@ namespace NetWorkedData
                 //    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
                 //}
                 //mObjectInEdition.New_DrawObjectEditor(position, true);
-                mObjectInEdition.DrawEditor(new Rect (0,0,position.width, position.height), true, null);
+                mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
             }
             //BTBBenchmark.Finish();
         }
