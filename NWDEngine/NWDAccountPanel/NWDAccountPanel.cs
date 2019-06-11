@@ -343,7 +343,7 @@ namespace NetWorkedData
         void Update()
         {
             //NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
-            NWDAccountInfos tActiveUser = NWDAccountInfos.CurrentData();
+            //NWDAccountInfos tActiveUser = NWDAccountInfos.CurrentData();
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
             TextEnvironment.text = tApp.Environment;

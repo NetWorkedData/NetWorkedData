@@ -11,13 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections.Generic;
 
@@ -127,8 +120,9 @@ namespace NetWorkedData
 
             if (UpdateDataIfModified())
             {
-                // TODO send to server immediatly
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
+                // TODO Check this
+                //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
+                SynchronizationFromWebService();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
