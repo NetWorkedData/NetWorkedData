@@ -23,20 +23,14 @@ using UnityEngine.Networking;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDCallBackDataLoadOnly : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Installs the observer in the BTBNotification manager
-        /// </summary>
         void InstallObserver()
         {
-            Debug.Log("INSTALL OBSERVER OF NWDCallBackDataLoadOnly");
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
+            //Debug.Log("NWDCallBackDataLoadOnly InstallObserver()");
             BTBNotificationManager tNotifManager = BTBNotificationManager.SharedInstance();
-
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
             {
                 EngineLaunch(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -45,8 +39,6 @@ namespace NetWorkedData
             {
                 DBEditorConnected(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-
-
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST, delegate (BTBNotification sNotification)
             {
                 DBAccountPinCodeRequest(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -71,8 +63,6 @@ namespace NetWorkedData
             {
                 DBAccountConnected(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-
-            // load datas
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING, delegate (BTBNotification sNotification)
             {
                 DataEditorStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -86,7 +76,6 @@ namespace NetWorkedData
             {
                 DataEditorLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            // load datas
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING, delegate (BTBNotification sNotification)
             {
                 DataAccountStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -100,7 +89,6 @@ namespace NetWorkedData
             {
                 DataAccountLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            // load datas
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_START_LOADING, delegate (BTBNotification sNotification)
             {
                 DataStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -114,18 +102,10 @@ namespace NetWorkedData
             {
                 DataLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-
-
-
-
-
-
-
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_INDEXATION_START, delegate (BTBNotification sNotification)
             {
                 DataIndexationStart(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-            // load datas
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_INDEXATION_FINISH, delegate (BTBNotification sNotification)
             {
                 DataIndexationFinish(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -139,10 +119,6 @@ namespace NetWorkedData
             {
                 EngineReady(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
-
-
-
-
         }
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
@@ -153,7 +129,6 @@ namespace NetWorkedData
 
             // remove this from BTBNotificationManager
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH);
-
 
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DB_EDITOR_READY);
 
@@ -200,12 +175,6 @@ namespace NetWorkedData
         {
             // create your method by override
         }
-
-
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DBEditorConnected(BTBNotification sNotification, bool sPreloadDatas)
         {
@@ -226,11 +195,6 @@ namespace NetWorkedData
         {
             // create your method by override
         }
-
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DBAccountPinCodeRequest(BTBNotification sNotification, bool sPreloadDatas)
         {
@@ -276,11 +240,6 @@ namespace NetWorkedData
         {
             // create your method by override
         }
-
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DataStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
@@ -296,8 +255,6 @@ namespace NetWorkedData
         {
             // create your method by override
         }
-
-
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DataIndexationStart(BTBNotification sNotification, bool sPreloadDatas)
         {
@@ -313,7 +270,6 @@ namespace NetWorkedData
         {
             // create your method by override
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public virtual void EngineReady(BTBNotification sNotification, bool sPreloadDatas)
         {

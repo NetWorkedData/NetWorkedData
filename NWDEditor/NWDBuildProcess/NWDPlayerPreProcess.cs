@@ -48,7 +48,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
+        public static void PlayModeStateChangedCallback(PlayModeStateChange sState)
         {
             //BTBBenchmark.Start();
             //Debug.Log("Play Mode State Changed!");
@@ -60,12 +60,13 @@ namespace NetWorkedData
                 //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            // NWDVersion.UpdateVersionBundle ();
+            // update bundle before playing to test with the good version 
+            NWDVersion.UpdateVersionBundle();
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

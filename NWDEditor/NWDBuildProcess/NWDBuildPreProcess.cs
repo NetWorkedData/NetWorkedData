@@ -35,7 +35,7 @@ namespace NetWorkedData
         public void OnPreprocessBuild(BuildReport report)
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
+            Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
 
