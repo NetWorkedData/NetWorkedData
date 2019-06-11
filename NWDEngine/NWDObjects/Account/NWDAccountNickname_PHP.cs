@@ -32,10 +32,10 @@ namespace NetWorkedData
     public partial class NWDAccountNicknameHelper : NWDHelper<NWDAccountNickname>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
-            rReturn.AppendLine("if (UniquePropertyValueFromValue($ENV.'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
+            rReturn.AppendLine("if (UniquePropertyValueFromValue("+NWD.K_ENV+".'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)");
             rReturn.AppendLine("{");
             rReturn.AppendLine("IntegrityNWDAccountNicknameReevalue($tReference);");
             rReturn.AppendLine("}");

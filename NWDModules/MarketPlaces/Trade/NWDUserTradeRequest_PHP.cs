@@ -53,13 +53,13 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				// get the actual state
 				"$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
 				"$tServerHash = '';\n" +
-				"$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeHash + "` FROM `'.$ENV.'_" + ClassNamePHP + "` " +
+				"$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeHash + "` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
 				"WHERE " +
-				"`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
-				"$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+				"`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\';';\n" +
+				"$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
 				"if (!$tResultStatus)\n" +
 				"{\n" +
-				"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+				"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 				"}\n" +
 				"else" +
 				"{\n" +
@@ -87,7 +87,7 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
 				"$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
 				"{\n" +
-				"$sReplaces[" + t_THIS_Index_TradeHash + "] = $TIME_SYNC;\n" +
+				"$sReplaces[" + t_THIS_Index_TradeHash + "] = "+NWD.K_PHP_TIME_SYNC+";\n" +
 				"$sReplaces[" + t_THIS_Index_TradeStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
 				"$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
 				"$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
@@ -101,7 +101,7 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				" || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)" +
 				"))\n" +
 				"{\n" +
-				"$sReplaces[" + t_THIS_Index_TradeHash + "] = $TIME_SYNC;\n" +
+				"$sReplaces[" + t_THIS_Index_TradeHash + "] = "+NWD.K_PHP_TIME_SYNC+";\n" +
 				"$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
 				"$sReplaces[" + t_THIS_Index_ItemsAsked + "]='';\n" +
 				"$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
@@ -111,25 +111,25 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
 				"$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
 				"{\n" +
-				"$tQueryCancelable = 'UPDATE `'.$ENV.'_" + ClassNamePHP + "` SET " +
-				"`DM` = \\''.$TIME_SYNC.'\\', " +
-				"`DS` = \\''.$TIME_SYNC.'\\', " +
-				"`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+				"$tQueryCancelable = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
+				"`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+				"`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
+				"`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
 				"`" + t_THIS_TradeStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
 				"WHERE " +
-				"`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+				"`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
 				"AND `" + t_THIS_TradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
 				"';" +
-				"$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+				"$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
 				"if (!$tResultCancelable)\n" +
 				"{\n" +
-				"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+				"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 				"}\n" +
 				"else" +
 				"\n" +
 				"{\n" +
 				"$tNumberOfRow = 0;\n" +
-				"$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+				"$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
 				"if ($tNumberOfRow == 1)\n" +
 				"{\n" +
 				"// I can change data to expired!\n" +

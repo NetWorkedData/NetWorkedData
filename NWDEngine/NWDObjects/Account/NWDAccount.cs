@@ -36,8 +36,8 @@ namespace NetWorkedData
         [NWDAddIndexed(K_SECRET_INDEX, "AC")]
         [NWDAddIndexed(K_SOCIAL_INDEX, "AC")]
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(K_BASIS_INDEX, "AC")]
-        [NWDAddIndexed(K_BASIS_INDEX, "Reference")]
+        [NWDAddIndexed(NWD.K_BASIS_INDEX, "AC")]
+        [NWDAddIndexed(NWD.K_BASIS_INDEX, "Reference")]
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Account statut")]
         [NWDTooltips("The statut of this account in process of test (normal and default are 'InGame')")]

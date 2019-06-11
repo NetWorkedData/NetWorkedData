@@ -114,26 +114,34 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
-            if (Data.ContainsKey(NWD.K_WEB_ActionKey))
+            //go in secure
+            SecureData = true;
+            // insert action
+            if (Data.ContainsKey(NWD.K_WEB_ACTION_KEY))
             {
-                Data[NWD.K_WEB_ActionKey] = Action.ToString();
+                Data[NWD.K_WEB_ACTION_KEY] = Action.ToString();
             }
             else
             {
-                Data.Add(NWD.K_WEB_ActionKey, Action.ToString());
+                Data.Add(NWD.K_WEB_ACTION_KEY, Action.ToString());
             }
-            if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
-            {
-                Data[NWD.K_WEB_SIGN_Key] = PasswordToken;
-            }
-            else
-            {
-                Data.Add(NWD.K_WEB_SIGN_Key, PasswordToken);
-            }
+            // wich sign will be inserted?
             if (Action == NWDOperationWebAccountAction.signout)
             {
                 // insert device key in data and go in secure
                 DataAddSecetDevicekey();
+            }
+            else
+            {
+                // insert sign
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_Key] = PasswordToken;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_Key, PasswordToken);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -142,6 +150,9 @@ namespace NetWorkedData
             //Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList, NWDOperationSpecial.None);
             //Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
+#if UNITY_EDITOR
+            NWDAppEnvironmentChooser.Refresh();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

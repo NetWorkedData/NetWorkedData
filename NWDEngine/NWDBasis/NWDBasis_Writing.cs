@@ -1092,11 +1092,7 @@ if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
 #else
             WebserviceVersionCheckMe();
 #endif
-            //foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
-            //{
-            //    tMethod.Invoke(this, null);
-            //}
-            //AddonIndexMe();
+            ReIndex();
             BasisHelper().AddData(this);
             //BTBBenchmark.Finish();
         }

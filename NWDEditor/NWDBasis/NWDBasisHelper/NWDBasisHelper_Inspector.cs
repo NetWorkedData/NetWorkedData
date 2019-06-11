@@ -572,7 +572,7 @@ namespace NetWorkedData
                             tElement.Order = tGroup.Elements.Count();
                             tGroup.Elements.Add(tElement);
                             NWDBasisHelperGroup tSubGroup = new NWDBasisHelperGroup();
-                            if (tInsideReference.mGroupName == NWDTypeClass.K_INSPECTOR_BASIS)
+                            if (tInsideReference.mGroupName == NWD.K_INSPECTOR_BASIS)
                             {
                                 tSubGroup.Visible = false;
                             }

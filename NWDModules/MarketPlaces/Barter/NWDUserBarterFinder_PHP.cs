@@ -69,19 +69,19 @@ namespace NetWorkedData
 
             int tDelayOfRefresh = 300; // minutes before stop to get the datas!
             string sScript = "" +
-                "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
+                "include_once("+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
+                "AND `" + tLimitDayTime + "` < '."+NWD.K_PHP_TIME_SYNC+".' " +
                 "AND `WebModel` <= '.$WSBUILD.' " +
                 "LIMIT 0, 100;';\n" +
                 "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultExpired = $SQL_CON->query($tQueryExpired);\n" +
+                "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
                 "if (!$tResultExpired)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('UTRFx31');\n" +
+                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                     "}\n" +
                 "else\n" +
                     "{\n" +
@@ -90,15 +90,15 @@ namespace NetWorkedData
                                 "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                                 "$tRowExpired = Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
                                 "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
-                                "UpdateData" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, $TIME_SYNC, $uuid, false);\n" +
+                                "UpdateData" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, "+NWD.K_PHP_TIME_SYNC+", $uuid, false);\n" +
                             "}\n" +
                         //"mysqli_free_result($tResultExpired);\n" +
                     "}\n" +
                 "// start Addon \n" +
-                "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
+                "$tQueryBarter = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
-                "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
+                "AND `Account` != \\''."+NWD.K_SQL_CON+"->real_escape_string($uuid).'\\' " +
                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' " +
                 "AND `" + t_THIS_MaxPropositions + "` > `" + t_THIS_PropositionsCounter + "` ';\n" +
@@ -108,19 +108,19 @@ namespace NetWorkedData
                     "}\n" +
                 "$tQueryBarter.= '" +
                 "AND `" + tBarterPlaceRequest + "` = \\''.$sCsvList[" + tIndex_BarterPlace + "].'\\' " +
-                "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+" + (tDelayOfRefresh).ToString() + ").' " +
+                "AND `" + tLimitDayTime + "` > '.("+NWD.K_PHP_TIME_SYNC+"+" + (tDelayOfRefresh).ToString() + ").' " +
                 // ORDER BY 
                 //"ORDER BY `" + tLimitDayTime + "` " +
                 // LIMIT 
                 "LIMIT 0, 100;';\n" +
                 "myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultBarter = $SQL_CON->query($tQueryBarter);\n" +
+                "$tResultBarter = "+NWD.K_SQL_CON+"->query($tQueryBarter);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
                 "if (!$tResultBarter)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('UTRFx31');\n" +
+                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                     "}\n" +
                 "else\n" +
                     "{\n" +
@@ -132,7 +132,7 @@ namespace NetWorkedData
                         "if (is_array($tReferences))\n" +
                             "{\n" +
                                 "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
-                                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                                 "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReferences ($tReferences);\n" +
                             "}\n" +
                     "}\n" +

@@ -33,27 +33,32 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public virtual string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public virtual string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        public virtual string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        public virtual string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        public virtual string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }

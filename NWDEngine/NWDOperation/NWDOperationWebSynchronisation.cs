@@ -140,7 +140,7 @@ namespace NetWorkedData
                         //}
                     }
                 }
-                Debug.Log("New_ClasseInThisSync return : " + string.Join(" ", tReturn));
+                //Debug.Log("New_ClasseInThisSync return : " + string.Join(" ", tReturn));
                 rReturn.TypeList = tReturn;
                 rReturn.ForceSync = sForceSync;
                 rReturn.Special = sSpecial;
@@ -162,7 +162,7 @@ namespace NetWorkedData
                 //NWDOperationResult tResult = new NWDOperationResult();
                 //tOperation.QueueName = NWDAppEnvironment.SelectedEnvironment().Environment;
                 sFailBlock(null, 1.0F, null);
-                Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
+                //Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
             }
             return rReturn;
         }
@@ -175,17 +175,37 @@ namespace NetWorkedData
         public override void DataUploadPrepare()
         {
             // Not synchronize with temporray account
-            if (NWDAccountInfos.CurrentData().AccountType() != NWDAppEnvironmentPlayerStatut.Temporary)
+            bool tSync = true;
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
+            if (tAccountInfos == null)
+            {
+                tSync = false;
+            }
+            else
+            {
+                if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
+                {
+                    tSync = false;
+                }
+            }
+            if (tSync == true)
             {
                 Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
-                tData.Add("action", "sync");
+                tData.Add(NWD.K_WEB_ACTION_KEY, NWD.K_WEB_ACTION_SYNC_KEY);
                 Data = tData;
+            }
+            else
+            {
+                DataAddSecetDevicekey();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
+#if UNITY_EDITOR
+            NWDAppEnvironmentChooser.Refresh();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

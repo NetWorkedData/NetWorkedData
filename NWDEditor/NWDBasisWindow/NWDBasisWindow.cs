@@ -256,61 +256,64 @@ namespace NetWorkedData
             //{
             //    EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
             //}
-            if (mTabSelected > mTabContentList.Count())
+            if (mTabContentList != null)
             {
-                mTabSelected = 0;
-            }
-            // the next selected tab
-            int tTabSelected = 0;
-            // check if tab ids necessary
-            if (mTabContentList.Length > 1)
-            {
-                if (tWidthUsed > TabsTotalWidthExpected)
+                if (mTabSelected > mTabContentList.Count())
                 {
-                    Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge*2);
-                    tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassToolbar);
+                    mTabSelected = 0;
                 }
-                else
+                // the next selected tab
+                int tTabSelected = 0;
+                // check if tab ids necessary
+                if (mTabContentList.Length > 1)
                 {
-                    Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
-                    tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassPopup);
+                    if (tWidthUsed > TabsTotalWidthExpected)
+                    {
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
+                        tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassToolbar);
+                    }
+                    else
+                    {
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
+                        tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassPopup);
+                    }
                 }
-            }
 
-            bool tAutoselect = false;
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab && Event.current.shift)
-            {
-                //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
-                tTabSelected++;
-                if (tTabSelected >= mTabContentList.Length)
+                bool tAutoselect = false;
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab && Event.current.shift)
+                {
+                    //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
+                    tTabSelected++;
+                    if (tTabSelected >= mTabContentList.Length)
+                    {
+                        tTabSelected = 0;
+                    }
+                    tAutoselect = true;
+                    Event.current.Use();
+                }
+                // select the good class to show
+                if (tTabSelected >= mTabTypeList.Count())
                 {
                     tTabSelected = 0;
                 }
-                tAutoselect = true;
-                Event.current.Use();
-            }
-            // select the good class to show
-            if (tTabSelected >= mTabTypeList.Count())
-            {
-                tTabSelected = 0;
-            }
-            if (mTabTypeList.Count() > 0)
-            {
-                Type tType = mTabTypeList[tTabSelected];
-                if (mTabSelected != tTabSelected)
+                if (mTabTypeList.Count() > 0)
                 {
-                    // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
+                    Type tType = mTabTypeList[tTabSelected];
+                    if (mTabSelected != tTabSelected)
+                    {
+                        // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
 
-                    //SetClassInEdition (tType);
-                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.LoadEditorPrefererences();
+                        //SetClassInEdition (tType);
+                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                        tHelper.LoadEditorPrefererences();
+                    }
+                    mTabSelected = tTabSelected;
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
+
+                    NWDBasisHelper.FindTypeInfos(tType).New_DrawInEditor(this, tAutoselect);
+
+
                 }
-                mTabSelected = tTabSelected;
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
-
-                NWDBasisHelper.FindTypeInfos(tType).New_DrawInEditor(this, tAutoselect);
-
-
             }
             //BTBBenchmark.Finish();
         }

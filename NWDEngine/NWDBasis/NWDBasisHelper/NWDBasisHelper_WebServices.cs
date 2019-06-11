@@ -31,9 +31,7 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const string SynchronizeKeyData = "data";
-        public const string SynchronizeKeyDataCount = "rowCount";
-        public const string SynchronizeKeyTimestamp = "sync";
+        //public const string SynchronizeKeyTimestamp = "sync";
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeClass New_SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
@@ -234,15 +232,15 @@ namespace NetWorkedData
                     //#if UNITY_EDITOR
                     sInfos.ClassPushCounter++;
                     //#endif
-                    rSendDatas.Add(SynchronizeKeyDataCount, tDatas.Count);
-                    rSendDatas.Add(SynchronizeKeyData, tDatas);
+                    rSendDatas.Add(NWD.K_WEB_DATA_ROW_COUNTER, tDatas.Count);
+                    rSendDatas.Add(NWD.K_WEB_DATA_KEY, tDatas);
                 }
             }
             if (sSpecial != NWDOperationSpecial.None)
             {
                 rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
-            rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
+            rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
             // return the data
             //Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
             return rSend;
@@ -281,9 +279,9 @@ namespace NetWorkedData
                     //#endif
                     Dictionary<string, object> tClassResult = sData.param[tTableName] as Dictionary<string, object>;
                     List<object> tListOfRows = null;
-                    if (tClassResult.ContainsKey(SynchronizeKeyData))
+                    if (tClassResult.ContainsKey(NWD.K_WEB_DATA_KEY))
                     {
-                        tListOfRows = tClassResult[SynchronizeKeyData] as List<object>;
+                        tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
                         //BTBBenchmark.Increment(tListOfRows.Count);
                         if (tListOfRows.Count > 0)
                         {
@@ -294,14 +292,11 @@ namespace NetWorkedData
 
                                 // I try to use this data to ... insert/update/delete/... ?
                                 bool tForceToUse = false;
-
 #if UNITY_EDITOR
                                 tForceToUse = true;
 #endif
                                 sInfos.RowPullCounter++;
-
                                 NWDTypeClass tObject = New_SynchronizationTryToUse(sInfos, sEnvironment, tCsvValueString, tForceToUse);
-
                                 // trash this object ?
                                 if (tObject != null)
                                 {

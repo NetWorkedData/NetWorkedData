@@ -98,6 +98,22 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash);
             }
+            if (GUI.Button(tMatrix[0, tI++], "Test Sign in with error", NWDGUI.kMiniButtonStyle))
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash+"a");
+            }
+            if (GUI.Button(tMatrix[0, tI++], "Sign OUT", NWDGUI.kMiniButtonStyle))
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSignOut();
+            }
+            if (GUI.Button(tMatrix[0, tI++], "ResetSession", NWDGUI.kMiniButtonStyle))
+            {
+                NWDAppEnvironment.SelectedEnvironment().ResetSession();
+            }
+            //if (GUI.Button(tMatrix[0, tI++], "Rescue", NWDGUI.kMiniButtonStyle))
+            //{
+            //    NWDDataManager.SharedInstance().AddWebRequestSignOut();
+            //}
             EditorGUI.EndDisabledGroup();
             NWDGUI.Separator(tMatrix[0, tI++]);
             if (GUI.Button(tMatrix[0, tI++], "Crack estimation", NWDGUI.kMiniButtonStyle))

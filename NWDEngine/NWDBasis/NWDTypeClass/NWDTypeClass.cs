@@ -37,23 +37,20 @@ namespace NetWorkedData
     public partial class NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_BASIS_INDEX = "BasisIndex";
-        public const string K_INTERNAL_INDEX = "InternalIndex";
-        public const string K_EDITOR_INDEX = "EditorIndex";
-        public const string K_INSPECTOR_BASIS = "Basis";
+
         //-------------------------------------------------------------------------------------------------------------
         protected bool InDatabase = false;
         protected bool FromDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupReset()]
-        [NWDInspectorGroupStart(K_INSPECTOR_BASIS)]
+        [NWDInspectorGroupStart(NWD.K_INSPECTOR_BASIS)]
         [PrimaryKey, AutoIncrement, NWDNotEditable]
         [NWDCertified]
         public int ID
         {
             get; set;
         }
-        [Indexed(K_BASIS_INDEX, 0)]
+        [Indexed(NWD.K_BASIS_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]
         public string Reference
@@ -69,12 +66,12 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(K_BASIS_INDEX, 4)]
+        [Indexed(NWD.K_BASIS_INDEX, 4)]
         public int WebModel
         {
             get; set;
         }
-        [Indexed(K_INTERNAL_INDEX, 0)]
+        [Indexed(NWD.K_INTERNAL_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]
         public string InternalKey
@@ -83,7 +80,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(K_INTERNAL_INDEX, 0)]
+        [Indexed(NWD.K_INTERNAL_INDEX, 0)]
         public string InternalDescription
         {
             get; set;
@@ -94,21 +91,21 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed(K_EDITOR_INDEX, 0)]
+        [Indexed(NWD.K_EDITOR_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]
         public bool AC
         {
             get; set;
         }
-        [Indexed(K_EDITOR_INDEX, 1)]
+        [Indexed(NWD.K_EDITOR_INDEX, 1)]
         [NWDNotEditable]
         [NWDCertified]
         public int DC
         {
             get; set;
         }
-        [Indexed(K_EDITOR_INDEX, 2)]
+        [Indexed(NWD.K_EDITOR_INDEX, 2)]
         [NWDNotEditable]
         [NWDCertified]
         public int DM
@@ -121,7 +118,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed(K_EDITOR_INDEX, 3)]
+        [Indexed(NWD.K_EDITOR_INDEX, 3)]
         [NWDNotEditable]
         [NWDCertified]
         public int XX
@@ -142,21 +139,21 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(K_BASIS_INDEX, 3)]
+        [Indexed(NWD.K_BASIS_INDEX, 3)]
         public int DevSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(K_BASIS_INDEX, 2)]
+        [Indexed(NWD.K_BASIS_INDEX, 2)]
         public int PreprodSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(K_BASIS_INDEX, 1)]
+        [Indexed(NWD.K_BASIS_INDEX, 1)]
         public int ProdSync
         {
             get; set;
@@ -276,6 +273,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void LoadedFromDatabase()
         {
+            ReIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void Index()

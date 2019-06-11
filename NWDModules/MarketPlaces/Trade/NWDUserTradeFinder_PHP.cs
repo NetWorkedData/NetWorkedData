@@ -61,19 +61,19 @@ namespace NetWorkedData
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQSelect() + " FROM `'.$ENV.'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` " +
+                "include_once("+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQSelect() + " FROM `'."+NWD.K_ENV+".'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
+                "AND `" + tLimitDayTime + "` < '."+NWD.K_PHP_TIME_SYNC+".' " +
                 "AND `WebModel` <= '.$WSBUILD.' " +
                 "LIMIT 0, 100;';\n" +
                 "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultExpired = $SQL_CON->query($tQueryExpired);\n" +
+                "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
                 "if (!$tResultExpired)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRFx31');\n" +
+                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
@@ -82,15 +82,15 @@ namespace NetWorkedData
                 "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tRowExpired = Integrity" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tTradeStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
                 "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
-                "UpdateData" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, $TIME_SYNC, $uuid, false);\n" +
+                "UpdateData" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, "+NWD.K_PHP_TIME_SYNC+", $uuid, false);\n" +
                 "}\n" +
                 //"mysqli_free_result($tResultExpired);\n" +
                 "}\n" +
 
-                "$tQueryTrade = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` " +
+                "$tQueryTrade = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
-                "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
+                "AND `Account` != \\''."+NWD.K_SQL_CON+"->real_escape_string($uuid).'\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' ';\n" +
                 "if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')\n" +
@@ -99,19 +99,19 @@ namespace NetWorkedData
                 "}\n" +
                 "$tQueryTrade.= '" +
                 "AND `" + tTradePlaceRequest + "` = \\''.$sCsvList[" + tIndex_TradePlace + "].'\\' " +
-                "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+" + (tDelayOfRefresh * 60).ToString() + ").' " +
+                "AND `" + tLimitDayTime + "` > '.("+NWD.K_PHP_TIME_SYNC+"+" + (tDelayOfRefresh * 60).ToString() + ").' " +
                 // ORDER BY 
                 //"ORDER BY `" + tLimitDayTime + "` " +
                 // END WHERE REQUEST LIMIT START
                 "LIMIT 0, 100;';\n" +
                 "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultTrade = $SQL_CON->query($tQueryTrade);\n" +
+                "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
                 "if (!$tResultTrade)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRFx31');\n" +
+                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +

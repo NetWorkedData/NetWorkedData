@@ -67,6 +67,15 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentSync));
+            foreach (NWDAppEnvironmentSync tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static bool IsSharedInstance()
         {
             //BTBBenchmark.Start();

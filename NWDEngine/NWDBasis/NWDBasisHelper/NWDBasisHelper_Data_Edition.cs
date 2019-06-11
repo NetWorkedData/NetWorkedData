@@ -80,7 +80,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void New_SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
         {
-
+            NWDDebug.Log("New_SetObjectInEdition()");
             GUI.FocusControl(null);
             NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
             if (sObject != null)
