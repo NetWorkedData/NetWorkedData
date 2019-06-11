@@ -121,6 +121,7 @@ namespace NetWorkedData
         static public NWDError NWDError_ACC91;
         static public NWDError NWDError_ACC92;
         static public NWDError NWDError_ACC95;
+        static public NWDError NWDError_ACC97;
         static public NWDError NWDError_ACC98;
         static public NWDError NWDError_ACC99;
         static public NWDError NWDError_SGN01;         static public NWDError NWDError_SGN20;
@@ -151,6 +152,7 @@ namespace NetWorkedData
         static public NWDError NWDError_SGN82;
 
         static public NWDError NWDError_SHS01;
+        static public NWDError NWDError_SHS02;
 
         static public NWDError NWDError_RQT01;
         static public NWDError NWDError_RQT11;

@@ -56,8 +56,8 @@ namespace NetWorkedData
     //    const string AdminHashKey = "adminHash";
 
     //}
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public enum NWDOperationWebAction : int
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDOperationWebAction : int
     {
         Sync = 1,
 
@@ -139,6 +139,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataAddSecetDevicekey()
         {
+            Debug.Log("DataAddSecetDevicekey()");
             // insert device key in data
             if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
             {
@@ -209,14 +210,14 @@ namespace NetWorkedData
             // Deselect all object
             Selection.activeObject = null;
 #endif
-            
+
             // I insert the device key if necessary 
             // can be override by the DataUploadPrepare if necessary
             NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
 
             if (tAccountInfos == null)
             {
-                 DataAddSecetDevicekey();
+                DataAddSecetDevicekey();
             }
             else
             {
@@ -485,6 +486,19 @@ namespace NetWorkedData
                                                 Statut = BTBOperationState.ReStart;
                                             }
                                         }
+                                        else if (ResultInfos.isNewUser)
+                                        {
+                                            string tUUID = ResultInfos.uuid;
+                                            if (!tUUID.Equals(string.Empty))
+                                            {
+                                                Environment.PlayerAccountReference = tUUID;
+                                                tUserChange = true;
+                                                if (ResultInfos.isSignIn == false)
+                                                {
+                                                    Statut = BTBOperationState.ReStart;
+                                                }
+                                            }
+                                        }
                                         else
                                         {
                                             Statut = BTBOperationState.Success;
@@ -500,10 +514,10 @@ namespace NetWorkedData
                                                 Environment.PlayerAccountReference = tUUID;
                                             }
 
-                                            if (ResultInfos.isSignUpdate)
-                                            {
-                                                tUserChange = true;
-                                            }
+                                            //if (ResultInfos.isSignUpdate)
+                                            //{
+                                            //    tUserChange = true;
+                                            //}
 
                                             DataDownloadedCompute(ResultInfos);
                                             // Notification of a Download success

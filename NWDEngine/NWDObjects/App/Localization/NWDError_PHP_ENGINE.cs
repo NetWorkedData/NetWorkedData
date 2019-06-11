@@ -46,9 +46,14 @@ namespace NetWorkedData
         {
             StringBuilder tFile = new StringBuilder();
             //tFile.Append(ENGINEPHP_ErrorDeclaration(sEnvironment));
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(sEnvironment.Headlines());
+            tFile.AppendLine("// ENGINE");
+            tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.Append(ENGINEPHP_Error(sEnvironment));
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.Append(ENGINEPHP_log(sEnvironment));
+            tFile.AppendLine("?>");
             return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -86,41 +91,42 @@ namespace NetWorkedData
         private const string FUNCTIONPHP_Error = NWD.K_WIP + "error";
         //private const string FUNCTIONPHP_errorInfos = NWD.K_WIP + "errorInfos";
         //private const string FUNCTIONPHP_errorReference = NWD.K_WIP + "errorReference";
-        private const string FUNCTIONPHP_errorDetected = NWD.K_WIP + "errorDetected";
+        public const string FUNCTIONPHP_errorDetected = NWD.K_WIP + "errorDetected";
         private const string FUNCTIONPHP_errorCancel = NWD.K_WIP + "errorCancel";
-        private const string FUNCTIONPHP_errorResult = NWD.K_WIP + "errorResult";
+        public const string FUNCTIONPHP_errorResult = NWD.K_WIP + "errorResult";
         //private const string FUNCTIONPHP_errorPossibilities = NWD.K_WIP + "errorPossibilities";
         //-------------------------------------------------------------------------------------------------------------
         private const string FUNCTIONPHP_log = NWD.K_WIP + "myLog";
         private const string FUNCTIONPHP_logReturn = NWD.K_WIP + "myLogLineReturn";
+        public const string FUNCTIONPHP_respond = NWD.K_WIP + "mylogRespond";
         private const string K_PHP_ERR_LOG = "$ERR_LOG";
         private const string K_PHP_ERR_LOG_CNT = "$ERR_LOG_CNT";
         private const string K_PHP_ERR_BOL = "$ERR_BOL";
         private const string K_PHP_ERR_COD = "$ERR_COD";
-        private const string K_PHP_ERR_INF= "$ERR_INF";
+        private const string K_PHP_ERR_INF = "$ERR_INF";
         //-------------------------------------------------------------------------------------------------------------
         private static string ENGINEPHP_Error(NWDAppEnvironment sEnvironment)
         {
             StringBuilder tFile = new StringBuilder();
             tFile.AppendLine("// init error state");
-            tFile.AppendLine(K_PHP_ERR_BOL+" = false;");
-            tFile.AppendLine(K_PHP_ERR_COD+" = '';");
-            tFile.AppendLine(K_PHP_ERR_INF+" = '';");
+            tFile.AppendLine(K_PHP_ERR_BOL + " = false;");
+            tFile.AppendLine(K_PHP_ERR_COD + " = '';");
+            tFile.AppendLine(K_PHP_ERR_INF + " = '';");
 
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("// Use to insert error pre-declare in JSON's respond");
             tFile.AppendLine("function " + FUNCTIONPHP_Error + "($sCode, $sExit=true, $sFile='', $sFunction='', $sLine='')");
             tFile.AppendLine("{");
-            tFile.AppendLine("global "+K_PHP_ERR_BOL+", "+K_PHP_ERR_COD+";");
-            tFile.AppendLine(K_PHP_ERR_BOL+" = true;");
-            tFile.AppendLine(K_PHP_ERR_COD+" = $sCode;");
+            tFile.AppendLine("global " + K_PHP_ERR_BOL + ", " + K_PHP_ERR_COD + ", " + NWD.K_PATH_BASE + ";");
+            tFile.AppendLine(K_PHP_ERR_BOL + " = true;");
+            tFile.AppendLine(K_PHP_ERR_COD + " = $sCode;");
             tFile.AppendLine(FUNCTIONPHP_logReturn + "();");
             tFile.AppendLine(FUNCTIONPHP_log + "('error with code '.$sCode, $sFile, $sFunction, $sLine);");
             tFile.AppendLine(FUNCTIONPHP_logReturn + "();");
             tFile.AppendLine("if ($sExit==true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("include_once ('" + NWD.K_STATIC_FINISH_PHP + "');");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FINISH_PHP + "');");
             tFile.AppendLine("exit;");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -169,8 +175,8 @@ namespace NetWorkedData
             tFile.AppendLine("// return true if error in respond");
             tFile.AppendLine("function " + FUNCTIONPHP_errorDetected + "()");
             tFile.AppendLine("{");
-            tFile.AppendLine("global "+K_PHP_ERR_BOL+";");
-            tFile.AppendLine("return "+K_PHP_ERR_BOL+";");
+            tFile.AppendLine("global " + K_PHP_ERR_BOL + ";");
+            tFile.AppendLine("return " + K_PHP_ERR_BOL + ";");
             tFile.AppendLine("}");
 
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -178,9 +184,9 @@ namespace NetWorkedData
             tFile.AppendLine("// use to cancel error in respond");
             tFile.AppendLine("function " + FUNCTIONPHP_errorCancel + "()");
             tFile.AppendLine("{");
-            tFile.AppendLine("global "+K_PHP_ERR_BOL+", "+K_PHP_ERR_COD+";");
-            tFile.AppendLine(""+K_PHP_ERR_BOL+" = false;");
-            tFile.AppendLine(""+K_PHP_ERR_COD+" = '';");
+            tFile.AppendLine("global " + K_PHP_ERR_BOL + ", " + K_PHP_ERR_COD + ";");
+            tFile.AppendLine("" + K_PHP_ERR_BOL + " = false;");
+            tFile.AppendLine("" + K_PHP_ERR_COD + " = '';");
             tFile.AppendLine("}");
 
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -188,14 +194,14 @@ namespace NetWorkedData
             tFile.AppendLine("// insert keys and value in JSON's respond");
             tFile.AppendLine("function " + FUNCTIONPHP_errorResult + "()");
             tFile.AppendLine("{");
-            tFile.AppendLine("global "+K_PHP_ERR_BOL+", "+K_PHP_ERR_COD+", "+K_PHP_ERR_INF+";");
-            tFile.AppendLine("if ("+K_PHP_ERR_BOL+" == true)");
+            tFile.AppendLine("global " + K_PHP_ERR_BOL + ", " + K_PHP_ERR_COD + ", " + K_PHP_ERR_INF + ";");
+            tFile.AppendLine("if (" + K_PHP_ERR_BOL + " == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("respondAdd('"+NWD.K_JSON_ERROR_KEY+"', "+K_PHP_ERR_BOL+");");
-            tFile.AppendLine("respondAdd('"+NWD.K_JSON_ERROR_CODE_KEY+"',"+K_PHP_ERR_COD+");");
-            tFile.AppendLine("if ("+K_PHP_ERR_INF+"!='')");
+            tFile.AppendLine("respondAdd('" + NWD.K_JSON_ERROR_KEY + "', " + K_PHP_ERR_BOL + ");");
+            tFile.AppendLine("respondAdd('" + NWD.K_JSON_ERROR_CODE_KEY + "'," + K_PHP_ERR_COD + ");");
+            tFile.AppendLine("if (" + K_PHP_ERR_INF + "!='')");
             tFile.AppendLine("{");
-            tFile.AppendLine("respondAdd('"+NWD.K_JSON_ERROR_INFOS_KEY+"',"+K_PHP_ERR_INF+");");
+            tFile.AppendLine("respondAdd('" + NWD.K_JSON_ERROR_INFOS_KEY + "'," + K_PHP_ERR_INF + ");");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -261,6 +267,14 @@ namespace NetWorkedData
             tFile.AppendLine("" + K_PHP_ERR_LOG_CNT + "++;");
             tFile.AppendLine(K_PHP_ERR_LOG + ".='\\r'." + K_PHP_ERR_LOG_CNT + ";");
             tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            tFile.AppendLine("function " + FUNCTIONPHP_respond + "()");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + K_PHP_ERR_LOG + ";");
+            tFile.AppendLine("respondAdd('log'," + K_PHP_ERR_LOG + ");"); // TODO : replace log key by constant
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine(NWD.K_CommentSeparator);
 
@@ -292,6 +306,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(K_PHP_ERR_LOG + ".=$sString;");
             tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
 
             return tFile.ToString();
         }

@@ -109,6 +109,7 @@ namespace NetWorkedData
                 NWDError.NWDError_ACC91 = NWDError.CreateGenericError("account", "ACC91", "Account error", "error in request insert anonymous Account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC92 = NWDError.CreateGenericError("account", "ACC92", "Account error", "unknow account but not temporary … it's not possible … maybe destroyed account", "OK", NWDErrorType.Alert);
                 NWDError.NWDError_ACC95 = NWDError.CreateGenericError("account", "ACC95", "Account error", "user is multiple", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_ACC97 = NWDError.CreateGenericError("account", "ACC97", "Account error", "create only for temporary UUID", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC98 = NWDError.CreateGenericError("account", "ACC98", "Account error", "user is banned, no sign-in", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC99 = NWDError.CreateGenericError("account", "ACC99", "Account error", "user is banned", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN01 = NWDError.CreateGenericError("account", "SGN01", "Account sign error", "sign-up error in select valid account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -131,6 +132,8 @@ namespace NetWorkedData
                 NWDError.NWDError_SGN18 = NWDError.CreateGenericError("account", "SGN18", "Account sign error", "singin error multi-account ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN19 = NWDError.CreateGenericError("account", "SGN19", "Account sign error", "delete error in update account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
+               NWDError.NWDError_SGN20 = NWDError.CreateGenericError("account", "SGN20", "Account sign error", "allready sign with default account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
                 //NWDError.CreateGenericError("account", "SGN25", "Account sign error", "signanonymous error in request account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 //NWDError.CreateGenericError("account", "SGN26", "Account sign error", "signanonymous error no account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 //NWDError.CreateGenericError("account", "SGN27", "Account sign error", "signanonymous error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -146,6 +149,8 @@ namespace NetWorkedData
                 NWDError.NWDError_SGN82 = NWDError.CreateGenericError("account", "SGN82", "Account sign error", "impossible multi-users", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_SHS01 = NWDError.CreateGenericError("account", "SHS01", "secret key error", "secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                
+                NWDError.NWDError_SHS02 = NWDError.CreateGenericError("account", "SHS02", "secret key error", "invalid secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_RQT01 = NWDError.CreateGenericError("token", "RQT01", "Token error", "error in request token creation", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT11 = NWDError.CreateGenericError("token", "RQT11", "Token error", "new token is not in base", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);

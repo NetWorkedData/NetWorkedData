@@ -60,7 +60,7 @@ namespace NetWorkedData
         public string PHP_CONSTANT_WEBSERVICE() { return "$" + NWD.K_WIP + ClassNamePHP + "WebService"; }
 
         //-------------------------------------------------------------------------------------------------------------
-        public string PHP_CONSTANT_TABLENAME() { return "'." + NWD.K_ENV + ".'_" + ClassTableName; }
+        //public string PHP_CONSTANT_TABLENAME() { return "'." + NWD.K_ENV + ".'_" + ClassTableName; }
         public string PHP_TABLENAME(NWDAppEnvironment sEnvironment) { return sEnvironment.Environment + "_" + ClassTableName; }
         public string PHP_ENV_SYNC(NWDAppEnvironment sEnvironment)
         {
@@ -80,11 +80,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string PHP_FILE_FUNCTION_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "'"; }
-        public string PHP_FILE_ENGINE_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_ENGINE + "'"; }
-        public string PHP_FILE_WS_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_FILE + "'"; }
-        public string PHP_FILE_SYNCHRONISATION_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_SYNCHRONISATION + "'"; }
-
+        public static string PHP_FILE_FUNCTION_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "'"; }
+        public static string PHP_FILE_ENGINE_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_ENGINE + "'"; }
+        public static string PHP_FILE_WS_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_FILE + "'"; }
+        public static string PHP_FILE_SYNCHRONISATION_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_SYNCHRONISATION + "'"; }
+        public  string PHP_ENGINE_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_WS_ENGINE + "'"; }
+        public  string PHP_CONSTANTS_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "'"; }
+        public  string PHP_SYNCHRONISATION_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "'"; }
         //-------------------------------------------------------------------------------------------------------------
         #region FILE CONSTANT
         public Dictionary<string, string> New_CreatePHPConstant(NWDAppEnvironment sEnvironment)
@@ -97,7 +99,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// CONSTANTS");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.PHP_FILE_FUNCTION_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
             // to bypass the global limitation of PHP in internal include : use function :-) 
             tFile.AppendLine("function " + PHP_FUNCTION_CONSTANTS() + "()");
@@ -125,21 +127,21 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             StringBuilder tFile = new StringBuilder(string.Empty);
-            tFile.AppendLine("<?php");
-            tFile.AppendLine(sEnvironment.Headlines());
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("// ENGINE");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "');");
-            if (ClassNamePHP != NWDError.BasisHelper().ClassNamePHP)
-            {
-                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + NWDError.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
-            }
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("<?php");
+            //tFile.AppendLine(sEnvironment.Headlines());
+            //tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("// ENGINE");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("include_once (" + NWDBasisHelper.PHP_FILE_FUNCTION_PATH(sEnvironment) + ");");
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "');");
+            //if (ClassNamePHP != NWDError.BasisHelper().ClassNamePHP)
+            //{
+            //    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + NWDError.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            //}
+            //tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine(New_AddonPhpEngineCalculate(sEnvironment));
-            tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("?>");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_WS_ENGINE, tFileFormatted);
             //BTBBenchmark.Finish();
@@ -1230,7 +1232,7 @@ namespace NetWorkedData
 
             if (ClassType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
             {
-                tFile.AppendLine("respondAdd('securePost',true);");
+                tFile.AppendLine("respondAdd('"+NWD.K_JSON_SECURE_KEY+"',true);");
             }
 
             NWDOperationSpecial tOperation = NWDOperationSpecial.None;

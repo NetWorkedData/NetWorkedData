@@ -192,15 +192,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string URLMyApp(bool sRedirection)
         {
-            string tText = NWDAppEnvironment.SelectedEnvironment().ServerHTTPS;
-            tText += NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            //string tText = NWDAppEnvironment.SelectedEnvironment().ServerHTTPS;
+            //tText += NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            string tText = null;
             if (sRedirection == true)
             {
-                tText += "/" + NWD.K_STATIC_FLASH_PHP + "?r=0";
+                tText = NWD.K_STATIC_FLASH_PHP + "?r=0";
             }
             else
             {
-                tText += "/" + NWD.K_STATIC_FLASH_PHP + "?r=1";
+                tText =  NWD.K_STATIC_FLASH_PHP + "?r=1";
             }
             if (string.IsNullOrEmpty(OSXStoreID) == false)
             {

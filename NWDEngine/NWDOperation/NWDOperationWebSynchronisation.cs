@@ -185,10 +185,10 @@ namespace NetWorkedData
             {
                 if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
                 {
-                tSync = false;
+                    tSync = false;
                 }
             }
-            if (tSync = true)
+            if (tSync == true)
             {
                 Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
                 tData.Add(NWD.K_WEB_ACTION_KEY, NWD.K_WEB_ACTION_SYNC_KEY);

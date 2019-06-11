@@ -219,6 +219,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InsertData(TData sData, string sKeyReference)
         {
+            //Debug.Log("NWDIndex InsertData()");
             if (string.IsNullOrEmpty(sKeyReference) == false)
             {
                 if (kDataList.Contains(sData) == false)
