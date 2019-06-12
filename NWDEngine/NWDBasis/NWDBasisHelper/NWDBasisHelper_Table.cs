@@ -270,6 +270,7 @@ namespace NetWorkedData
                 }
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+            DatasLoaded = true;
             New_ClassDatasAreLoaded();
 #if UNITY_EDITOR
             New_FilterTableEditor();

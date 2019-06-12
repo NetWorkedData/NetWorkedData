@@ -37,9 +37,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void New_GenerateBasisError()
         {
+            Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError()</color>");
             if (DatabaseIsLoaded())
             {
+            }
+            if (DatasAreLoaded()==true)
+            {
+            Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() OK DATA ARE LOADING</color>");
                 NWDError.NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
+
+                if (NWDError.NWDError_WEB01 == null)
+                {
+            Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError() ERROR NOT LOADED</color>");
+                }
+                else
+                {
+            Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() LOADED</color>");
+                }
+
                 NWDError.NWDError_WEB02 = NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_WEB03 = NWDError.CreateGenericError("webrequest", "WEB03", "Network", "http respond is empty", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_WEB04 = NWDError.CreateGenericError("webrequest", "WEB04", "Network", "http respond is not valid format", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);

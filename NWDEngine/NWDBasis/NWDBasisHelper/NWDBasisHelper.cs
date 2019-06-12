@@ -35,6 +35,8 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        bool DatasLoaded = false;
+        //-------------------------------------------------------------------------------------------------------------
         public void New_IndexAll()
         {
             foreach (NWDTypeClass tObject in Datas)
@@ -913,6 +915,11 @@ namespace NetWorkedData
                 rLoaded = false;
             }
             return rLoaded;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DatasAreLoaded()
+        {
+            return DatasLoaded;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()
