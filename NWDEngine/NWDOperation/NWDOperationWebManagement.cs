@@ -103,6 +103,11 @@ namespace NetWorkedData
             return NWD.K_MANAGEMENT_FILE;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
             Data.Add("management", "create");

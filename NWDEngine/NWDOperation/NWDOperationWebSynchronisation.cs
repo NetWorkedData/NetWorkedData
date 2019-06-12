@@ -172,6 +172,12 @@ namespace NetWorkedData
             return NWD.K_WS_FILE;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            Statut = BTBOperationState.ReStart;
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
             // Not synchronize with temporray account

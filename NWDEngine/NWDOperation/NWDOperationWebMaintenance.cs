@@ -117,6 +117,11 @@ namespace NetWorkedData
             return NWD.K_MAINTENANCE_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override string ServerBase()
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();

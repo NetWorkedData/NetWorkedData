@@ -195,11 +195,18 @@ namespace NetWorkedData
             param = new Dictionary<string, object>(sData);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetErrorCode(string sCode)
+        //public void SetErrorCode(string sCode)
+        //{
+        //    errorDesc = NWDError.FindDataByCode(sCode) as NWDError;
+        //    isError = true;
+        //    errorCode = sCode;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetError(NWDError sError)
         {
-            errorDesc = NWDError.FindDataByCode(sCode) as NWDError;
+            errorDesc = sError;
             isError = true;
-            errorCode = sCode;
+            errorCode = sError.Code;
         }
         //-------------------------------------------------------------------------------------------------------------
         private void Init()

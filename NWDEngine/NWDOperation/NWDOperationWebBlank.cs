@@ -117,6 +117,11 @@ namespace NetWorkedData
             return NWD.K_BLANK_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
             //Debug.Log("NWDOperationWebBlank DataUploadPrepare()");

@@ -123,7 +123,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
         {
-            Debug.Log("Remove OBSERVER OF NWDCallBackDataLoadOnly");
+            //Debug.Log("Remove OBSERVER OF NWDCallBackDataLoadOnly");
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
             BTBNotificationManager tNotifManager = BTBNotificationManager.SharedInstance();
 

@@ -112,6 +112,11 @@ namespace NetWorkedData
             return NWD.K_AUTHENTIFICATION_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
             //go in secure
