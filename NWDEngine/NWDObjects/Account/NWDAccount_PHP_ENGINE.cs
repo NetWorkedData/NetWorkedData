@@ -10,20 +10,12 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
 using System.Text;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -162,10 +154,10 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("IPBanAdd();");
-            tFile.AppendLine("error('SGN no sign ? force attack?',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN16));
             tFile.AppendLine("}");
             //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN16));
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "shs : '.$shs.' NO Row"));
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKI : '.$sSDKI.' NO Row"));
             tFile.AppendLine("}");
             tFile.AppendLine("else if ($tResultSign->num_rows == 1)");
             tFile.AppendLine("{");
