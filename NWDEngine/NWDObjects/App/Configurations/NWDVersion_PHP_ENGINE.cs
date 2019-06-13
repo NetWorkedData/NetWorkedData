@@ -73,7 +73,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_GVA00));
             tFile.AppendLine("}");
             tFile.AppendLine("else");

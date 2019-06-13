@@ -84,7 +84,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ACC90));
             //tFile.AppendLine("error('ACC90',true, __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("}");
@@ -140,7 +140,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultSign = $SQL_CON->query($tQuerySign);");
             tFile.AppendLine("if (!$tResultSign)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuerySign.'"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuerySign"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN15));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -247,7 +247,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = $SQL_CON->query($tInsertSQL);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.' in : '.$tInsertSQL.'"));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tInsertSQL"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_ACC91));
             tFile.AppendLine("}");
             tFile.AppendLine("else");

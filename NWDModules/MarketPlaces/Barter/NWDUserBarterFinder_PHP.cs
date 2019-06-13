@@ -76,18 +76,19 @@ namespace NetWorkedData
                 "AND `" + tLimitDayTime + "` < '."+NWD.K_PHP_TIME_SYNC+".' " +
                 "AND `WebModel` <= '.$WSBUILD.' " +
                 "LIMIT 0, 100;';\n" +
-                "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
                 "if (!$tResultExpired)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                     "}\n" +
                 "else\n" +
                     "{\n" +
                         "while($tRowExpired = $tResultExpired->fetch_row())\n" +
                             "{\n" +
-                                "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                                 "$tRowExpired = Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
                                 "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
                                 "UpdateData" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, "+NWD.K_PHP_TIME_SYNC+", $uuid, false);\n" +
@@ -113,20 +114,21 @@ namespace NetWorkedData
                 //"ORDER BY `" + tLimitDayTime + "` " +
                 // LIMIT 
                 "LIMIT 0, 100;';\n" +
-                "myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultBarter = "+NWD.K_SQL_CON+"->query($tQueryBarter);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
                 "if (!$tResultBarter)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                     "}\n" +
                 "else\n" +
                     "{\n" +
                         "while($tRowBarter = $tResultBarter->fetch_assoc())\n" +
                             "{\n" +
-                                "myLog('tReferences found : '. $tRowBarter['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('tReferences found : '. $tRowBarter['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
                                 "$tReferences[]=$tRowBarter['Reference'];\n" +
                             "}\n" +
                         "if (is_array($tReferences))\n" +
@@ -136,7 +138,7 @@ namespace NetWorkedData
                                 "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReferences ($tReferences);\n" +
                             "}\n" +
                     "}\n" +
-                "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$sCsvList = Integrity" + NWDUserBarterFinder.BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);\n" +
                 "";
             return sScript;

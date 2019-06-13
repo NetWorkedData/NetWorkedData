@@ -249,6 +249,8 @@ namespace NetWorkedData
     public partial class NWDError : NWDBasis<NWDError>
     {
         //-------------------------------------------------------------------------------------------------------------
+        private const string XXX = "XXX";
+        //-------------------------------------------------------------------------------------------------------------
         public NWDError()
         {
             //Debug.Log("NWDError Constructor");
@@ -273,7 +275,7 @@ namespace NetWorkedData
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowAlert(BTBAlertOnCompleteBlock sCompleteBlock = null)
+        public void ShowAlert(string sInfo, BTBAlertOnCompleteBlock sCompleteBlock = null)
         {
             NWDErrorType tType = Type;
             // NWDErrorType set by compile environment
@@ -298,12 +300,12 @@ namespace NetWorkedData
             {
                 case NWDErrorType.Alert:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX,sInfo)), Enrichment(Description.GetLocalString().Replace(XXX,sInfo)), Validation.GetLocalString().Replace(XXX,sInfo), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Critical:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), delegate (BTBMessageState state)
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX,sInfo)), Enrichment(Description.GetLocalString().Replace(XXX,sInfo)), Validation.GetLocalString().Replace(XXX,sInfo), delegate (BTBMessageState state)
                         {
                             Application.Quit();
                         }
@@ -312,7 +314,7 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.Upgrade:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), delegate (BTBMessageState state)
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX,sInfo)), Enrichment(Description.GetLocalString().Replace(XXX,sInfo)), Validation.GetLocalString().Replace(XXX,sInfo), delegate (BTBMessageState state)
                         {
                             string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
                             NWDVersion tVersion = NWDVersion.CurrentData();
@@ -360,17 +362,17 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.LogVerbose:
                     {
-                        Debug.Log("ALERT! " + Title.GetLocalString() + " : " + Description.GetLocalString());
+                        Debug.Log("ALERT! " + Title.GetLocalString().Replace(XXX,sInfo) + " : " + Description.GetLocalString().Replace(XXX,sInfo));
                     }
                     break;
                 case NWDErrorType.LogWarning:
                     {
-                        Debug.LogWarning("WARNING! " + Title.GetLocalString() + " : " + Description.GetLocalString());
+                        Debug.LogWarning("WARNING! " + Title.GetLocalString().Replace(XXX,sInfo) + " : " + Description.GetLocalString().Replace(XXX,sInfo));
                     }
                     break;
                 case NWDErrorType.UnityEditor:
                     {
-                        BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Title.GetLocalString().Replace(XXX,sInfo), Description.GetLocalString().Replace(XXX,sInfo), Validation.GetLocalString().Replace(XXX,sInfo), sCompleteBlock);
                     }
                     break;
             }

@@ -100,8 +100,9 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                 "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                     "}\n" +
                 "else" +
                     "{\n" +
@@ -139,7 +140,7 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                         "$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_BarterRequest + "]='';\n" +
                         "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                        "myLog('PUT TO NONE FROM EXPIRED OR ACCEPTED', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('PUT TO NONE FROM EXPIRED OR ACCEPTED', __FILE__, __FUNCTION__, __LINE__);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO ACTIVE 
@@ -160,14 +161,15 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                         " AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                         " AND `" + tPropositionsCounter + "` < `" + tMaxPropositions + "` " +
                         "';\n" +
-                        "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
                         "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
                         "$tReferences = \'\';\n" +
                         "$tReferencesList = \'\';\n" +
                         "if (!$tResultTrade)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else\n" +
                             "{\n" +
@@ -184,18 +186,19 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                                         " WHERE" +
                                         " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';" +
                                         "';\n" +
-                                        "myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "$tResultBarterRequest = "+NWD.K_SQL_CON+"->query($tQueryBarterRequest);\n" +
                                         "if (!$tResultBarterRequest)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
                                                 "if ($tResultBarterRequest->num_rows == 1)\n" +
                                                     "{\n" +
-                                                        "myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
                                                         "$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();\n" +
                                                         "$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];\n" +
                                                     "}\n" +
@@ -203,13 +206,13 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                                         "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
                                         "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
 
-                                        "myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
                                     "}\n" +
                                 "else\n" +
                                     "{\n" +
                                         "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
-                                        "myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                                     "}\n" +
                             "}\n" +
                         "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
@@ -233,14 +236,15 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                         " AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                         " AND `" + tPropositionsCounter + "` < `" + tMaxPropositions + "` " +
                         "';\n" +
-                        "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
                         "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
                         "$tReferences = \'\';\n" +
                         "$tReferencesList = \'\';\n" +
                         "if (!$tResultTrade)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else\n" +
                             "{\n" +
@@ -257,18 +261,19 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                                         " WHERE" +
                                         " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';" +
                                         "';\n" +
-                                        "myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "$tResultBarterRequest = "+NWD.K_SQL_CON+"->query($tQueryBarterRequest);\n" +
                                         "if (!$tResultBarterRequest)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
                                                 "if ($tResultBarterRequest->num_rows == 1)\n" +
                                                     "{\n" +
-                                                        "myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
                                                         "$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();\n" +
                                                         "$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];\n" +
                                                         "" +
@@ -286,7 +291,7 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                                                             " WHERE `AC`= \\'1\\' " +
                                                             " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' " +
                                                             "';\n" +
-                                                            "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                            //"myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
                                                             "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
                                                         "}\n" +
                                                     "}\n" +
@@ -294,13 +299,13 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                                         "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Expired).ToString() + ";\n" +
                                         "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
 
-                                        "myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
                                     "}\n" +
                                 "else\n" +
                                     "{\n" +
                                         "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
-                                        "myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                                     "}\n" +
                             "}\n" +
                         "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
@@ -323,8 +328,9 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                         "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                         "if (!$tResultCancelable)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                 NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -336,7 +342,7 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                                     "}\n" +
                             "}\n" +
                         "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
-                        "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -365,7 +371,7 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
                         "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
-                "myLog('FINSIH ADD ON ... UPDATE FROM CSV', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('FINSIH ADD ON ... UPDATE FROM CSV', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "// finish Addon \n";
 
             return sScript;

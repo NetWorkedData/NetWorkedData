@@ -59,7 +59,7 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				"$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
 				"if (!$tResultStatus)\n" +
 				"{\n" +
-				"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+				//"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 				"}\n" +
 				"else" +
 				"{\n" +
@@ -123,7 +123,7 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				"$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
 				"if (!$tResultCancelable)\n" +
 				"{\n" +
-				"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+				//"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 				"}\n" +
 				"else" +
 				"\n" +
@@ -142,7 +142,7 @@ public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
 				//"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
 				"GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
 				"//stop the function!\n" +
-				"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+				//"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
 				"return;\n" +
 				"}\n" +
 				"}\n" +

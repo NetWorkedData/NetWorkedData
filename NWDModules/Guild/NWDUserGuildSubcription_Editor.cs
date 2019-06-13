@@ -43,7 +43,7 @@ namespace NetWorkedData
             float tX = sRect.x;
             float tY = sRect.y;
 
-            float tYadd = 20.0f;
+            //float tYadd = 20.0f;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);

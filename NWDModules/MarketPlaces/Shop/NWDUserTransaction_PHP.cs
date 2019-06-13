@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDUserTransactionHelper : NWDHelper<NWDUserTransaction>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             // TODO 
             string sScript = "" +

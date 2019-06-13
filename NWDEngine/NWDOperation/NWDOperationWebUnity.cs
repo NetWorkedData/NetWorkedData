@@ -32,41 +32,14 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //public partial class NWDWeb
-    //{
-    //    const string K_ACTION_KEY = "action";
-
-    //    const string K_INDEX_PHP = "index.php";
-    //    const string K_AUTHENTIFICATION_PHP = "authentification.php";
-    //    const string K_SECURE_DATA_KEY = "scr";
-    //    const string K_SECURE_DIGEST_KEY = "scrdgt";
-    //    const string K_DATA_KEY = "prm";
-    //    const string K_DIGEST_KEY = "prmdgt";
-
-    //    //const string K_SECRET_DEVIDE_KEY = "shs";
-    //    const string K_SIGN_KEY = "sss";
-
-
-    //    const string OSKey = "os";
-    //    const string LangKey = "lang";
-    //    const string VersionKey = "version";
-    //    const string UUIDKey = "uuid";
-    //    const string RequestTokenKey = "token";
-    //    const string HashKey = "hash";
-    //    const string AdminHashKey = "adminHash";
-
-    //}
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDOperationWebAction : int
     {
         Sync = 1,
-
         SignIn = 1,
         SignOut = 2,
         Rescue = 3,
-
 #if UNITY_EDITOR
-        management = 9,
+        Management = 9,
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -514,11 +487,12 @@ namespace NetWorkedData
                         BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                     }
                 }
-                if (ResultInfos.errorDesc != null)
+                //if (ResultInfos.errorDesc != null)
+                if (ResultInfos.isError)
                 {
                     // Notification of a Download success
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
-                    ResultInfos.errorDesc.ShowAlert();
+                    ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
                     if (Application.isPlaying == true)
                     {
                         NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);

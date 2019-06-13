@@ -45,6 +45,19 @@ namespace NetWorkedData
             //Debug.Log("NWDParameter Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDParameter GetRawByReferenceOrCreate (string sReference, string sInternalKey, NWDMultiType sDefaultValue)
+        {
+            NWDParameter rReturn = NWDParameter.GetRawDataByReference(sReference);
+            if (rReturn ==null)
+            {
+                rReturn = NWDParameter.NewDataWithReference(sReference);
+                rReturn.InternalKey = sInternalKey;
+                rReturn.Value = sDefaultValue;
+                rReturn.SaveData();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

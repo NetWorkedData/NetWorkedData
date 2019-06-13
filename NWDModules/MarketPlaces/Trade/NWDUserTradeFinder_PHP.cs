@@ -68,18 +68,19 @@ namespace NetWorkedData
                 "AND `" + tLimitDayTime + "` < '."+NWD.K_PHP_TIME_SYNC+".' " +
                 "AND `WebModel` <= '.$WSBUILD.' " +
                 "LIMIT 0, 100;';\n" +
-                "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
                 "if (!$tResultExpired)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                 "}\n" +
                 "else\n" +
                 "{\n" +
                 "while($tRowExpired = $tResultExpired->fetch_row())\n" +
                 "{\n" +
-                "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tRowExpired = Integrity" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tTradeStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
                 "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
                 "UpdateData" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, "+NWD.K_PHP_TIME_SYNC+", $uuid, false);\n" +
@@ -104,20 +105,21 @@ namespace NetWorkedData
                 //"ORDER BY `" + tLimitDayTime + "` " +
                 // END WHERE REQUEST LIMIT START
                 "LIMIT 0, 100;';\n" +
-                "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
                 "if (!$tResultTrade)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                 "}\n" +
                 "else\n" +
                 "{\n" +
                 "while($tRowTrade = $tResultTrade->fetch_assoc())\n" +
                 "{\n" +
-                "myLog('tReferences found : '. $tRowTrade['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tReferences found : '. $tRowTrade['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tReferences[]=$tRowTrade['Reference'];\n" +
                 "}\n" +
                 //"mysqli_free_result($tRowTrade);\n" +
@@ -127,7 +129,7 @@ namespace NetWorkedData
                 "GetDatas" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "ByReferences ($tReferences);\n" +
                 "}\n" +
                 "}\n" +
-                "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
                 "// finish Addon \n";
 

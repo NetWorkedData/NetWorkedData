@@ -135,8 +135,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                     "}\n" +
                 "else" +
                     "{\n" +
@@ -213,8 +214,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                             "$tResultPlace = "+NWD.K_SQL_CON+"->query($tQueryPlace);\n" +
                             "if (!$tResultPlace)\n" +
                                 "{\n" +
-                                    "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                    "error('URSx33',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                    //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                    //"error('URSx33',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                 "}\n" +
                             "else\n" +
                                 "{\n" +
@@ -272,8 +274,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "$tResultRequestor = "+NWD.K_SQL_CON+"->query($tQueryRequestor);\n" +
                         "if (!$tResultRequestor)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRequestor.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -312,8 +315,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                         "$tResultFriend = "+NWD.K_SQL_CON+"->query($tQueryFriend);\n" +
                                         "if (!$tResultFriend)\n" +
                                             "{\n" +
-                                                    "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                    "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                    //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryFriend.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                    //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
@@ -353,8 +357,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                                         "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                                                         "if (!$tResultCancelable)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                             "}\n" +
                                                         "else" +
                                                             "{\n" +
@@ -371,8 +376,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                                                         "$tResultIntegrity = "+NWD.K_SQL_CON+"->query($tQueryIntegrity);\n" +
                                                                         "if (!$tResultIntegrity)\n" +
                                                                             "{\n" +
-                                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryIntegrity.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryIntegrity.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                                             "}\n" +
                                                                         "else\n" +
                                                                             "{\n" +
@@ -430,8 +436,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "$tResultAccept = "+NWD.K_SQL_CON+"->query($tQueryAccept);\n" +
                         "if (!$tResultAccept)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAccept.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAccept.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -485,8 +492,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "$tResultRefuse = "+NWD.K_SQL_CON+"->query($tQueryRefuse);\n" +
                         "if (!$tResultRefuse)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -534,8 +542,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "$tResultRefuse = "+NWD.K_SQL_CON+"->query($tQueryRefuse);\n" +
                         "if (!$tResultRefuse)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -576,7 +585,7 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 "else if (($sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.Sync).ToString() + " OR $sCsvList[" + t_Index_RelationStatus + "] == " + ((int)NWDRelationshipStatus.SyncForce).ToString() + ")  && " +
                 "$tServerStatut == " + ((int)NWDRelationshipStatus.WaitingFriend).ToString() + ")\n" +
                     "{\n" +
-                        "myLog('###OK IS EXPIRED?###', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('###OK IS EXPIRED?###', __FILE__, __FUNCTION__, __LINE__);\n" +
 
                         "$tQueryRefuse = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
                         "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
@@ -599,8 +608,9 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "$tResultRefuse = "+NWD.K_SQL_CON+"->query($tQueryRefuse);\n" +
                         "if (!$tResultRefuse)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRefuse.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -638,12 +648,13 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                         "AND `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tServerRelationPlace).'\\' " +
                         "AND `WebModel` <= '.$WSBUILD.' " +
                         "';\n" +
-                        "myLog('tQueryPlace : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('tQueryPlace : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "$tResultPlace = "+NWD.K_SQL_CON+"->query($tQueryPlace);\n" +
                         "if (!$tResultPlace)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -667,7 +678,7 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                                         "}\n" +
                                         "foreach ($tClasses as $tClass)\n" +
                                             "{\n" +
-                                                "myLog('will include : '.$tClass.'!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('will include : '.$tClass.'!', __FILE__, __FUNCTION__, __LINE__);\n" +
                                                 "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/'.$tClass.'/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                                                 "$tFunction = 'GetDatasByGameSave'.$tClass;\n" +
                                                 "$tFunction($tFriendLastSynchronization, $tServerFriendAccount, $tServerFriendGameSave);\n" +
@@ -704,7 +715,7 @@ public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
                 // OTHER
                 "else\n" +
                       "{\n" +
-                        "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +

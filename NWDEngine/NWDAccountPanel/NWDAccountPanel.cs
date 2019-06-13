@@ -415,7 +415,7 @@ namespace NetWorkedData
 
             // Active option
             int tActiveAccountIndex = 0;
-            int tCpt = 0;
+            //int tCpt = 0;
 
             // Init all options
             //AccountList = NWDAccount.SelectDatasForTests();

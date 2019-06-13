@@ -80,8 +80,9 @@ public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradePropo
                 "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                 "}\n" +
                 "else" +
                 "{\n" +
@@ -137,14 +138,15 @@ public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradePropo
                 " AND `" + tTradeHash + "` = \\''.$sCsvList[" + t_THIS_Index_tTradeRequestHash + "].'\\' " +
                 " AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
                 "';\n" +
-                "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
                 "if (!$tResultTrade)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                 "}\n" +
                 "else\n" +
                 "{\n" +
@@ -154,13 +156,13 @@ public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradePropo
                 "{\n" +
                 "// I need update the proposition too !\n" +
                 "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
-                "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "Integrity" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
                 "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
-                "\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
                 "GetDatas" + NWDUserTradeRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
                 "}\n" +

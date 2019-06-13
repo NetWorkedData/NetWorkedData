@@ -29,7 +29,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void New_CleanTable()
         {
-            NWDDebug.Log("New_CleanTable()");
+            //NWDDebug.Log("New_CleanTable()");
             List<NWDTypeClass> tObjectsListToDelete = new List<NWDTypeClass>();
             foreach (NWDTypeClass tObject in Datas)
             {

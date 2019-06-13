@@ -115,8 +115,9 @@ namespace NetWorkedData
                 "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
                 "if (!$tResultStatus)\n" +
                     "{\n" +
-                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                     "}\n" +
                 "else" +
                     "{\n" +
@@ -155,18 +156,19 @@ namespace NetWorkedData
                         " FROM `'."+NWD.K_ENV+".'_" + NWDBarterPlace.BasisHelper().ClassNamePHP + "`" +
                         " WHERE" +
                         " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_BarterPlace + "]).'\\';';" +
-                        "myLog('tQueryBarterPlace : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('tQueryBarterPlace : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "$tResultBarterPlace = "+NWD.K_SQL_CON+"->query($tQueryBarterPlace);\n" +
                         "if (!$tResultBarterPlace)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterPlace.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
                                 "if ($tResultBarterPlace->num_rows == 1)\n" +
                                     "{\n" +
-                                        "myLog('FIND THE BARTERPLACE', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                        //"myLog('FIND THE BARTERPLACE', __FILE__, __FUNCTION__, __LINE__);\n" +
                                         "$tRowBarterPlace = $tResultBarterPlace->fetch_assoc();\n" +
                                         "$sReplaces[" + t_THIS_Index_LimitDayTime + "] = "+NWD.K_PHP_TIME_SYNC+" + $tRowBarterPlace['" + tRequestLifeTime + "'];\n" +
                                         "$sReplaces[" + t_THIS_Index_MaxPropositions + "]= $tRowBarterPlace['" + tMaxPropositionsPerRequest + "'];\n" +
@@ -217,8 +219,9 @@ namespace NetWorkedData
                         "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                         "if (!$tResultCancelable)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -242,8 +245,9 @@ namespace NetWorkedData
                                         "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                         "if (!$tResultExpired)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
@@ -256,14 +260,15 @@ namespace NetWorkedData
                                                 "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                                 "if (!$tResultExpired)\n" +
                                                     "{\n" +
-                                                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                         "}\n" +
                                                 "else" +
                                                     "{\n" +
                                                         "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
                                                             "{\n" +
-                                                                "myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                                                                 "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
                                                             "}\n" +
                                                     "}\n" +
@@ -275,7 +280,7 @@ namespace NetWorkedData
                             "}\n" +
                         "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
-                        "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -296,8 +301,9 @@ namespace NetWorkedData
                         "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
                         "if (!$tResultCancelable)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -321,8 +327,9 @@ namespace NetWorkedData
                                         "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                         "if (!$tResultExpired)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
@@ -335,14 +342,15 @@ namespace NetWorkedData
                                                 "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                                 "if (!$tResultExpired)\n" +
                                                     "{\n" +
-                                                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                         "}\n" +
                                                 "else" +
                                                     "{\n" +
                                                         "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
                                                             "{\n" +
-                                                                "myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                                                                 "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
                                                             "}\n" +
                                                     "}\n" +
@@ -354,7 +362,7 @@ namespace NetWorkedData
                             "}\n" +
                         "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
-                        "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -373,12 +381,13 @@ namespace NetWorkedData
                         "AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                         "';" +
                         "// I need to put winner propositions to Accepted Or it's reject?\n" +
-                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "$tResultDeal = "+NWD.K_SQL_CON+"->query($tQueryDeal);\n" +
                         "if (!$tResultDeal)\n" +
                             "{\n" +
-                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "error('UBRRx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                //"error('UBRRx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                             "}\n" +
                         "else" +
                             "{\n" +
@@ -402,8 +411,9 @@ namespace NetWorkedData
                                         "$tResultAccepted = "+NWD.K_SQL_CON+"->query($tQueryAccepted);" +
                                         "if (!$tResultAccepted)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAccepted.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAccepted.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
@@ -419,18 +429,19 @@ namespace NetWorkedData
                                                         " WHERE" +
                                                         " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_WinnerProposition + "]).'\\';" +
                                                         "';\n" +
-                                                        "myLog('tQueryBarterProposition : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"myLog('tQueryBarterProposition : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                                                         "$tResultBarterProposition = "+NWD.K_SQL_CON+"->query($tQueryBarterProposition);\n" +
                                                         "if (!$tResultBarterProposition)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterProposition.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                             "}\n" +
                                                         "else" +
                                                             "{\n" +
                                                                 "if ($tResultBarterProposition->num_rows == 1)\n" +
                                                                     "{\n" +
-                                                                        "myLog('FIND THE USER BARTER PROPOSITION', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                        //"myLog('FIND THE USER BARTER PROPOSITION', __FILE__, __FUNCTION__, __LINE__);\n" +
                                                                         "$tRowBarterProposition = $tResultBarterProposition->fetch_assoc();\n" +
                                                                         "$tItemsSend = $tRowBarterProposition['" + tItemsSend + "'];\n" +
                                                                     "}\n" +
@@ -449,8 +460,9 @@ namespace NetWorkedData
                                                         "$tResultAcceptedDeal = "+NWD.K_SQL_CON+"->query($tQueryAcceptedDeal);" +
                                                         "if (!$tResultAcceptedDeal)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAcceptedDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryAcceptedDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                             "}\n" +
                                                         "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_WinnerProposition + "]);\n" +
                                                     "}\n" +
@@ -469,8 +481,9 @@ namespace NetWorkedData
                                                         "$tResultExpiredDeal = "+NWD.K_SQL_CON+"->query($tQueryExpiredDeal);" +
                                                         "if (!$tResultExpiredDeal)\n" +
                                                             "{\n" +
-                                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpiredDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpiredDeal.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                             "}\n" +
                                                     "}\n" +
                                             "}\n" +
@@ -490,8 +503,9 @@ namespace NetWorkedData
                                         "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                         "if (!$tResultExpired)\n" +
                                             "{\n" +
-                                                "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                             "}\n" +
                                         "else" +
                                             "{\n" +
@@ -504,14 +518,15 @@ namespace NetWorkedData
                                                 "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);" +
                                                 "if (!$tResultExpired)\n" +
                                                     "{\n" +
-                                                        "myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
                                                         "}\n" +
                                                 "else" +
                                                     "{\n" +
                                                         "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
                                                             "{\n" +
-                                                                "myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                                                                //"myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
                                                                 "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
                                                             "}\n" +
                                                     "}\n" +
@@ -523,7 +538,7 @@ namespace NetWorkedData
                             "}\n" +
                         "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
-                        "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                        //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
                     "}\n" +
 

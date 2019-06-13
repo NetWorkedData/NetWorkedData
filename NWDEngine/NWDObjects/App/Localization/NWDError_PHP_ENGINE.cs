@@ -57,37 +57,6 @@ namespace NetWorkedData
             return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //private const string FUNCTIONPHP_ErrorDeclaration = "NEW_errorDeclaration";
-        ////-------------------------------------------------------------------------------------------------------------
-        //private static string ENGINEPHP_ErrorDeclaration(NWDAppEnvironment sEnvironment)
-        //{
-        //    StringBuilder tFile = new StringBuilder();
-        //    tFile.AppendLine("function " + FUNCTIONPHP_ErrorDeclaration + "($sCode, $sDescription)");
-        //    tFile.AppendLine("{");
-        //    tFile.AppendLine("global $ERR_LST;");
-        //    tFile.AppendLine("$ERR_LST[$sCode] = $sDescription;");
-        //    tFile.AppendLine("}");
-        //    tFile.AppendLine(NWD.K_CommentSeparator);
-        //    return tFile.ToString();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static string PHP_ErrorDeclaration(string sCode, string sDescription)
-        //{
-        //    return FUNCTIONPHP_ErrorDeclaration + "(" + sCode.Replace("'", "\\'") + ", " + sDescription.Replace("'", "\\'") + ")";
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static string PHP_ErrorDeclaration(NWDError sError)
-        //{
-        //    if (sError != null)
-        //    {
-        //        return PHP_ErrorDeclaration(sError.Code.Replace("'", "\\'"), sError.Description.GetBaseString().Replace("'", "\\'"));
-        //    }
-        //    else
-        //    {
-        //        return PHP_ErrorDeclaration("???", "???");
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         private const string FUNCTIONPHP_Error = NWD.K_WIP + "error";
         //private const string FUNCTIONPHP_errorInfos = NWD.K_WIP + "errorInfos";
         //private const string FUNCTIONPHP_errorReference = NWD.K_WIP + "errorReference";
@@ -116,11 +85,12 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("// Use to insert error pre-declare in JSON's respond");
-            tFile.AppendLine("function " + FUNCTIONPHP_Error + "($sCode, $sExit=true, $sFile='', $sFunction='', $sLine='')");
+            tFile.AppendLine("function " + FUNCTIONPHP_Error + "($sCode, $sInfos, $sExit=true, $sFile='', $sFunction='', $sLine='')");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + K_PHP_ERR_BOL + ", " + K_PHP_ERR_COD + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine(K_PHP_ERR_BOL + " = true;");
             tFile.AppendLine(K_PHP_ERR_COD + " = $sCode;");
+            tFile.AppendLine(K_PHP_ERR_INF + " = $sInfos;");
             tFile.AppendLine(FUNCTIONPHP_logReturn + "();");
             tFile.AppendLine(FUNCTIONPHP_log + "('error with code '.$sCode, $sFile, $sFunction, $sLine);");
             tFile.AppendLine(FUNCTIONPHP_logReturn + "();");
@@ -218,20 +188,20 @@ namespace NetWorkedData
             return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static string PHP_Error(string sCode, bool sExit = true)
+        private static string PHP_Error(string sCode, string sInfos = BTBConstants.K_EMPTY_STRING, bool sExit = true)
         {
-            return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);";
+            return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "', '" + sCode.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);" + "\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string PHP_Error(NWDError sError, bool sExit = true)
+        public static string PHP_Error(NWDError sError, string sInfos = BTBConstants.K_EMPTY_STRING, bool sExit = true)
         {
             if (sError != null)
             {
-                return PHP_Error(sError.Code.Replace("'", "\\'"), sExit) + " //" + sError.Description.GetBaseString();
+                return "/* " + sError.Description.GetBaseString() + " */" + "\n" + PHP_Error(sError.Code, sInfos, sExit);
             }
             else
             {
-                return PHP_Error("???", true);
+                return PHP_Error("???", "", true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -244,11 +214,11 @@ namespace NetWorkedData
         {
             if (sEnvironment.LogMode == true)
             {
-                return FUNCTIONPHP_log + "('error in mysqli request : ('. " + NWD.K_SQL_CON + "->errno.')'. " + NWD.K_SQL_CON + "->error.'  in : '." + sQueryRef + ".'.', __FILE__, __FUNCTION__, __LINE__);";
+                return FUNCTIONPHP_log + "('error in mysqli request : ('. " + NWD.K_SQL_CON + "->errno.')'. " + NWD.K_SQL_CON + "->error.'  in : '." + sQueryRef + ".'.', __FILE__, __FUNCTION__, __LINE__);" + "\n";
             }
             else
             {
-                return "/* no log */";
+                return "/* no log */" + "\n";
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -315,7 +285,7 @@ namespace NetWorkedData
         {
             if (sEnvironment.LogMode == true)
             {
-                return FUNCTIONPHP_log + "('" + sString + "', __FILE__, __FUNCTION__, __LINE__);";
+                return FUNCTIONPHP_log + "('" + sString + "', __FILE__, __FUNCTION__, __LINE__);\n";
             }
             else
             {
@@ -325,7 +295,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string PHP_logTrace(NWDAppEnvironment sEnvironment)
         {
-            return FUNCTIONPHP_log + "('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);";
+            return FUNCTIONPHP_log + "('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string PHP_errorDetected()

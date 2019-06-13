@@ -1221,25 +1221,25 @@ namespace NetWorkedData
 
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                if (false)
-                {
-                    if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
-                    {
-                        List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
-                        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
-                        {
-                            if (tKeyValue.Value == true)
-                            {
-                                tListToUnload.Add(tKeyValue.Key);
-                            }
-                        }
-                        foreach (NWDTypeClass tObject in tListToUnload)
-                        {
-                            New_UnloadDataByReference(tObject.Reference);
-                        }
-                    }
-                    tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                }
+                //if (false)
+                //{
+                //    if (GUI.Button(tRect, "UnLoad", NWDGUI.KTableSearchButton))
+                //    {
+                //        List<NWDTypeClass> tListToUnload = new List<NWDTypeClass>();
+                //        foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                //        {
+                //            if (tKeyValue.Value == true)
+                //            {
+                //                tListToUnload.Add(tKeyValue.Key);
+                //            }
+                //        }
+                //        foreach (NWDTypeClass tObject in tListToUnload)
+                //        {
+                //            New_UnloadDataByReference(tObject.Reference);
+                //        }
+                //    }
+                //    tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                //}
 
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.EndRedArea();
