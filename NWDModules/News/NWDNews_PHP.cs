@@ -11,14 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -29,6 +21,8 @@ using System.Reflection;
 using UnityEngine;
 using BasicToolBox;
 using UnityEditor;
+using System.Text;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -36,7 +30,12 @@ namespace NetWorkedData
     public partial class NWDNewsHelper : NWDHelper<NWDNews>
     {
         //-------------------------------------------------------------------------------------------------------------
-
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        {
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("// JE DOIS VERIFIER AVEC LES ERVEUR APPLE OU GOOGLE DE LA VALIDITEE DE LA TRANSACTION ET METTRE InAppApprouved EN Approuved OU Refused!");
+            return rReturn.ToString();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

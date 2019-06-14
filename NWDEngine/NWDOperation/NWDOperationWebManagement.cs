@@ -11,13 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Linq;
 using System.Reflection;
@@ -26,7 +19,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-//using BTBMiniJSON;
 
 #if UNITY_EDITOR
 using UnityEditor;

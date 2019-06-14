@@ -38,8 +38,14 @@ namespace NetWorkedData
 public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
+            string tWebModel = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().WebModel);
+            string tAC = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().AC);
+            string tDM = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().DM);
+            string tDS = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().DS);
+            string tReference = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().Reference);
+            string tEnvSync = PHP_ENV_SYNC(sEnvironment);
 
             string tRelationStatus = NWDToolbox.PropertyName(() => FictiveData().RelationshipStatus);
             string tRelationPlace = NWDToolbox.PropertyName(() => FictiveData().RelationPlace);

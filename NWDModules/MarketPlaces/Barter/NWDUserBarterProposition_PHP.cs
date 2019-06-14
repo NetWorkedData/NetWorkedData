@@ -29,22 +29,27 @@ using SQLite4Unity3d;
 using BasicToolBox;
 using SQLite.Attribute;
 using UnityEditor;
+using System.Text;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterProposition>
+    public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
-
-            //string tTradeHash = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeHash);
+            string tWebModel = NWDToolbox.PropertyName(() => FictiveData().WebModel);
+            string tAC = NWDToolbox.PropertyName(() => FictiveData().AC);
+            string tDM = NWDToolbox.PropertyName(() => FictiveData().DM);
+            string tDS = NWDToolbox.PropertyName(() => FictiveData().DS);
+            string tReference = NWDToolbox.PropertyName(() => FictiveData().Reference);
+            string tAccount = NWDToolbox.PropertyName(() => FictiveData().Account);
+            string tEnvSync = PHP_ENV_SYNC(sEnvironment);
 
             string tBarterStatus = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().BarterStatus);
             string tLimitDayTime = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().LimitDayTime);
             string tBarterPlace = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().BarterPlace);
-            //string tBarterRequest = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().BarterRequest);
             string tWinnerProposition = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().WinnerProposition);
             string tPropositions = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().Propositions);
             string tMaxPropositions = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().MaxPropositions);
@@ -60,27 +65,6 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
             string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
             string t_THIS_ItemsSend = NWDToolbox.PropertyName(() => FictiveData().ItemsSend);
 
-
-            //string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
-            //string tLimitDayTime = NWDUserBarterRequest.FindAliasName("LimitDayTime");
-            //string tBarterPlace = NWDUserBarterRequest.FindAliasName("BarterPlace");
-            //string tBarterRequest = NWDUserBarterRequest.FindAliasName("BarterRequest");
-            //string tWinnerProposition = NWDUserBarterRequest.FindAliasName("WinnerProposition");
-            //string tPropositions = NWDUserBarterRequest.FindAliasName("Propositions");
-            //string tMaxPropositions = NWDUserBarterRequest.FindAliasName("MaxPropositions");
-            //string tPropositionsCounter = NWDUserBarterRequest.FindAliasName("PropositionsCounter");
-            //string tBarterHash = NWDUserBarterRequest.FindAliasName("BarterHash");
-            //string tItemsProposed = NWDUserBarterRequest.FindAliasName("ItemsProposed");
-
-            //string t_THIS_BarterRequestHash = FindAliasName("BarterRequestHash");
-            //string t_THIS_BarterPlace = FindAliasName("BarterPlace");
-            //string t_THIS_BarterRequest = FindAliasName("BarterRequest");
-            //string t_THIS_BarterStatus = FindAliasName("BarterStatus");
-
-            //string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
-            //string t_THIS_ItemsSend = FindAliasName("ItemsSend");
-
-
             int t_THIS_Index_BarterRequestHash = New_CSV_IndexOf(t_THIS_BarterRequestHash);
             int t_THIS_Index_BarterPlace = New_CSV_IndexOf(t_THIS_BarterPlace);
             int t_THIS_Index_BarterRequest = New_CSV_IndexOf(t_THIS_BarterRequest);
@@ -88,303 +72,277 @@ public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterPro
             int t_THIS_Index_ItemsProposed = New_CSV_IndexOf(t_THIS_ItemsProposed);
             int t_THIS_Index_ItemsSend = New_CSV_IndexOf(t_THIS_ItemsSend);
 
-            string sScript = "" +
-                "// debut find \n" +
-                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                // get the actual state
-                "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
-                "$tServerHash = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterRequestHash + "` FROM `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` " +
-                "WHERE " +
-                "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\';';" +
-                "$tResultStatus = "+NWD.K_SQL_CON+"->query($tQueryStatus);\n" +
-                "if (!$tResultStatus)\n" +
-                    "{\n" +
-                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                    "}\n" +
-                "else" +
-                    "{\n" +
-                        "if ($tResultStatus->num_rows == 1)\n" +
-                            "{\n" +
-                                "$tRowStatus = $tResultStatus->fetch_assoc();\n" +
-                                "$tServerStatut = $tRowStatus['" + t_THIS_BarterStatus + "'];\n" +
-                                "$tServerHash = $tRowStatus['" + t_THIS_BarterRequestHash + "'];\n" +
-                            "}\n" +
-                    "}\n" +
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("// debut find ");
+            rReturn.AppendLine("include_once ( " + NWDUserBarterRequest.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.AppendLine("$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";");
+            rReturn.AppendLine("$tServerHash = '';");
+            rReturn.Append("$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterRequestHash + "` FROM `" + PHP_TABLENAME(sEnvironment) + "` ");
+            rReturn.Append("WHERE ");
+            rReturn.AppendLine("`Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
+            rReturn.AppendLine("$tResultStatus = " + NWD.K_SQL_CON + "->query($tQueryStatus);");
+            rReturn.AppendLine("if (!$tResultStatus)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("if ($tResultStatus->num_rows == 1)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tRowStatus = $tResultStatus->fetch_assoc();");
+            rReturn.AppendLine("$tServerStatut = $tRowStatus['" + t_THIS_BarterStatus + "'];");
+            rReturn.AppendLine("$tServerHash = $tRowStatus['" + t_THIS_BarterRequestHash + "'];");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
 
-                // change the statut from CSV TO WAITING, ACCEPTED, EXPIRED, DEAL, REFRESH, CANCELLED
-                "if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
-                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
-                //" || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
-                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() +
-                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() + ")\n" +
-                    "{\n" +
-                        //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
-                        "return;\n" +
-                    "}\n" +
+            // change the statut from CSV TO WAITING, ACCEPTED, EXPIRED, DEAL, REFRESH, CANCELLED
+            rReturn.AppendLine("if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString());
+            rReturn.AppendLine(" || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString());
+            rReturn.AppendLine(" || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString());
+            rReturn.AppendLine(" || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString());
+            rReturn.AppendLine(" || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() + ")");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(PHP_FUNCTION_GET_DATA_BY_REFERENCE() + "($tReference);");
+            rReturn.AppendLine("return;");
+            rReturn.AppendLine("}");
 
-                // change the statut from CSV TO NONE 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
-                "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() +
-                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() +
-                " || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)" +
-                "))\n" +
-                    "{\n" +
-                        "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
-                        "$sReplaces[" + t_THIS_Index_ItemsSend + "]='';\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterRequest + "]='';\n" +
-                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                        //"myLog('PUT TO NONE FROM EXPIRED OR ACCEPTED', __FILE__, __FUNCTION__, __LINE__);\n" +
-                    "}\n" +
+            // change the statut from CSV TO NONE 
+            rReturn.AppendLine("else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && ");
+            rReturn.AppendLine("($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString());
+            rReturn.AppendLine(" || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString());
+            rReturn.AppendLine(" || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)");
+            rReturn.AppendLine("))");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_ItemsSend + "]='';");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterRequest + "]='';");
+            rReturn.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+            //"myLog('PUT TO NONE FROM EXPIRED OR ACCEPTED', __FILE__, __FUNCTION__, __LINE__);\n" +
+            rReturn.AppendLine("}");
 
-                // change the statut from CSV TO ACTIVE 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && " +
-                "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
-                    "{\n" +
-                        "$tQueryTrade = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` SET " +
-                        " `DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                        " `DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                        " `'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                        " `" + tPropositions + "` = TRIM(\\'" + NWDConstants.kFieldSeparatorA + "\\' FROM CONCAT(CONCAT(`" + tPropositions + "`,\\'" + NWDConstants.kFieldSeparatorA + "\\'),\\''.$sCsvList[0].'\\')), " +
-                        " `" + tPropositionsCounter + "` = `" + tPropositionsCounter + "`+1 " +
-                        " WHERE `AC`= \\'1\\' " +
-                        " AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                        " AND `" + tBarterPlace + "` = \\''.$sCsvList[" + t_THIS_Index_BarterPlace + "].'\\' " +
-                        " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' " +
-                        " AND `" + tBarterHash + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequestHash + "].'\\' " +
-                        " AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
-                        " AND `" + tPropositionsCounter + "` < `" + tMaxPropositions + "` " +
-                        "';\n" +
-                        //"myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
-                        "$tReferences = \'\';\n" +
-                        "$tReferencesList = \'\';\n" +
-                        "if (!$tResultTrade)\n" +
-                            "{\n" +
-                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                            "}\n" +
-                        "else\n" +
-                            "{\n" +
-                                "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
-                                "if ($tNumberOfRow == 1)\n" +
-                                    "{\n" +
-                                        "// I need update the proposition too !\n" +
-                                        //   "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\');\n" +
+            // change the statut from CSV TO ACTIVE 
+            rReturn.AppendLine("else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Submit).ToString() + " && ");
+            rReturn.AppendLine("$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")");
+            rReturn.AppendLine("{");
+            rReturn.Append("$tQueryTrade = 'UPDATE `"  + NWDUserBarterRequest.BasisHelper().PHP_TABLENAME(sEnvironment) + "` SET ");
+            rReturn.Append(" `" + tDM + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tDS + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tEnvSync + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tPropositions + "` = TRIM(\\'" + NWDConstants.kFieldSeparatorA + "\\' FROM CONCAT(CONCAT(`" + tPropositions + "`,\\'" + NWDConstants.kFieldSeparatorA + "\\'),\\''.$sCsvList[0].'\\')), ");
+            rReturn.Append(" `" + tPropositionsCounter + "` = `" + tPropositionsCounter + "`+1 ");
+            rReturn.Append(" WHERE `" + tAC + "`= \\'1\\' ");
+            rReturn.Append(" AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' ");
+            rReturn.Append(" AND `" + tBarterPlace + "` = \\''.$sCsvList[" + t_THIS_Index_BarterPlace + "].'\\' ");
+            rReturn.Append(" AND `" + tReference + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' ");
+            rReturn.Append(" AND `" + tBarterHash + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequestHash + "].'\\' ");
+            rReturn.Append(" AND `" + tLimitDayTime + "` > '." + NWD.K_PHP_TIME_SYNC + ".' ");
+            rReturn.Append(" AND `" + tPropositionsCounter + "` < `" + tMaxPropositions + "` ");
+            rReturn.Append("';");
 
-                                        "$tQueryBarterRequest = 'SELECT" +
-                                        " `" + tItemsProposed + "`" +
-                                        " FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "`" +
-                                        " WHERE" +
-                                        " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';" +
-                                        "';\n" +
-                                        //"myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                        "$tResultBarterRequest = "+NWD.K_SQL_CON+"->query($tQueryBarterRequest);\n" +
-                                        "if (!$tResultBarterRequest)\n" +
-                                            "{\n" +
-                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                                            "}\n" +
-                                        "else" +
-                                            "{\n" +
-                                                "if ($tResultBarterRequest->num_rows == 1)\n" +
-                                                    "{\n" +
-                                                        //"myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();\n" +
-                                                        "$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];\n" +
-                                                    "}\n" +
-                                            "}\n" +
-                                        "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
-                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+            rReturn.AppendLine("$tResultTrade = " + NWD.K_SQL_CON + "->query($tQueryTrade);");
+            rReturn.AppendLine("$tReferences = \'\';");
+            rReturn.AppendLine("$tReferencesList = \'\';");
+            rReturn.AppendLine("if (!$tResultTrade)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryTrade"));
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tNumberOfRow = 0;");
+            rReturn.AppendLine("$tNumberOfRow = " + NWD.K_SQL_CON + "->affected_rows;");
+            rReturn.AppendLine("if ($tNumberOfRow == 1)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("// I need update the proposition too !");
+            rReturn.Append("$tQueryBarterRequest = 'SELECT");
+            rReturn.Append(" `" + tItemsProposed + "`");
+            rReturn.Append(" FROM `" + NWDUserBarterRequest.BasisHelper().PHP_TABLENAME(sEnvironment) + "`");
+            rReturn.Append(" WHERE");
+            rReturn.Append(" `" + tReference + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';");
+            rReturn.Append("';");
+            rReturn.AppendLine("$tResultBarterRequest = " + NWD.K_SQL_CON + "->query($tQueryBarterRequest);");
+            rReturn.AppendLine("if (!$tResultBarterRequest)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryBarterRequest"));
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("if ($tResultBarterRequest->num_rows == 1)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";");
+            rReturn.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+            rReturn.AppendLine(NWDUserBarterRequest.BasisHelper().PHP_FUNCTION_INTEGRITY_REEVALUATE() + " ($sCsvList[" + t_THIS_Index_BarterRequest + "]);");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACE() + " ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine(NWDUserBarterRequest.BasisHelper().PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($sCsvList[" + t_THIS_Index_BarterRequest + "]);");
+            rReturn.AppendLine("}");
 
-                                        //"myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                        "Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
-                                    "}\n" +
-                                "else\n" +
-                                    "{\n" +
-                                        "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
-                                        //"myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                    "}\n" +
-                            "}\n" +
-                        "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
-                    "}\n" +
+            // change the statut from CSV TO NODEAL 
+            rReturn.AppendLine("else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.NoDeal).ToString() + " && ");
+            rReturn.AppendLine("$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")");
+            rReturn.AppendLine("{");
+            rReturn.Append("$tQueryTrade = 'UPDATE `" + NWDUserBarterRequest.BasisHelper().PHP_TABLENAME(sEnvironment) + "` SET ");
+            rReturn.Append(" `" + tDM + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tDS + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tEnvSync + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tPropositions + "` = TRIM(\\'" + NWDConstants.kFieldSeparatorA + "\\' FROM CONCAT(CONCAT(`" + tPropositions + "`,\\'" + NWDConstants.kFieldSeparatorA + "\\'),\\''.$sCsvList[0].'\\')), ");
+            rReturn.Append(" `" + tPropositionsCounter + "` = `" + tPropositionsCounter + "`+1 ");
+            rReturn.Append(" WHERE `" + tAC + "`= \\'1\\' ");
+            rReturn.Append(" AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' ");
+            rReturn.Append(" AND `" + tBarterPlace + "` = \\''.$sCsvList[" + t_THIS_Index_BarterPlace + "].'\\' ");
+            rReturn.Append(" AND `" + tReference + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' ");
+            rReturn.Append(" AND `" + tBarterHash + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequestHash + "].'\\' ");
+            rReturn.Append(" AND `" + tLimitDayTime + "` > '." + NWD.K_PHP_TIME_SYNC + ".' ");
+            rReturn.Append(" AND `" + tPropositionsCounter + "` < `" + tMaxPropositions + "` ");
+            rReturn.Append("';");
+            rReturn.AppendLine("$tResultTrade = " + NWD.K_SQL_CON + "->query($tQueryTrade);");
+            rReturn.AppendLine("$tReferences = \'\';");
+            rReturn.AppendLine("$tReferencesList = \'\';");
+            rReturn.AppendLine("if (!$tResultTrade)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryTrade"));
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tNumberOfRow = 0;");
+            rReturn.AppendLine("$tNumberOfRow = " + NWD.K_SQL_CON + "->affected_rows;");
+            rReturn.AppendLine("if ($tNumberOfRow == 1)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("// I need update the proposition too !");
+            rReturn.Append("$tQueryBarterRequest = 'SELECT");
+            rReturn.Append(" `" + tPropositionsCounter + "`, `" + tMaxPropositions + "`,`" + tItemsProposed + "`");
+            rReturn.Append(" FROM `" + NWDUserBarterRequest.BasisHelper().PHP_TABLENAME(sEnvironment) + "`");
+            rReturn.Append(" WHERE");
+            rReturn.Append(" `" + tReference + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';");
+            rReturn.Append("';");
+            rReturn.AppendLine("$tResultBarterRequest = " + NWD.K_SQL_CON + "->query($tQueryBarterRequest);");
+            rReturn.AppendLine("if (!$tResultBarterRequest)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryBarterRequest"));
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("if ($tResultBarterRequest->num_rows == 1)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];");
+            rReturn.AppendLine("");
+            rReturn.AppendLine("");
+            rReturn.AppendLine("");
+            rReturn.AppendLine("// TODO update if barter proposition == 1 to expired");
+            rReturn.AppendLine("if ($tRowBarterRequest['" + tMaxPropositions + "'] == 1)\n");
+            rReturn.AppendLine("{\n");
+            rReturn.Append("$tQueryExpired = 'UPDATE `" + NWDUserBarterRequest.BasisHelper().PHP_TABLENAME(sEnvironment) + "` SET ");
+            rReturn.Append(" `" + tDM + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tDS + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tEnvSync + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\',");
+            rReturn.Append(" `" + tLimitDayTime + "` = '." + NWD.K_PHP_TIME_SYNC + ".', ");
+            rReturn.Append(" `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' ");
+            rReturn.Append(" WHERE `" + tAC + "`= \\'1\\' ");
+            rReturn.Append(" AND `" + tReference + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' ");
+            rReturn.AppendLine("';");
+            rReturn.AppendLine("$tResultExpired = " + NWD.K_SQL_CON + "->query($tQueryExpired);");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Expired).ToString() + ";");
+            rReturn.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);\n");
+            rReturn.AppendLine(NWDUserBarterRequest.BasisHelper().PHP_FUNCTION_INTEGRITY_REEVALUATE() + " ($sCsvList[" + t_THIS_Index_BarterRequest + "]);");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACE() + " ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine(NWDUserBarterRequest.BasisHelper().PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($sCsvList[" + t_THIS_Index_BarterRequest + "]);");
+            rReturn.AppendLine("}");
 
-                // change the statut from CSV TO NODEAL 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.NoDeal).ToString() + " && " +
-                "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
-                    "{\n" +
-                        "$tQueryTrade = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` SET " +
-                        " `DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                        " `DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                        " `'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                        " `" + tPropositions + "` = TRIM(\\'" + NWDConstants.kFieldSeparatorA + "\\' FROM CONCAT(CONCAT(`" + tPropositions + "`,\\'" + NWDConstants.kFieldSeparatorA + "\\'),\\''.$sCsvList[0].'\\')), " +
-                        " `" + tPropositionsCounter + "` = `" + tPropositionsCounter + "`+1 " +
-                        " WHERE `AC`= \\'1\\' " +
-                        " AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                        " AND `" + tBarterPlace + "` = \\''.$sCsvList[" + t_THIS_Index_BarterPlace + "].'\\' " +
-                        " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' " +
-                        " AND `" + tBarterHash + "` = \\''.$sCsvList[" + t_THIS_Index_BarterRequestHash + "].'\\' " +
-                        " AND `" + tLimitDayTime + "` > '."+NWD.K_PHP_TIME_SYNC+".' " +
-                        " AND `" + tPropositionsCounter + "` < `" + tMaxPropositions + "` " +
-                        "';\n" +
-                        //"myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "$tResultTrade = "+NWD.K_SQL_CON+"->query($tQueryTrade);\n" +
-                        "$tReferences = \'\';\n" +
-                        "$tReferencesList = \'\';\n" +
-                        "if (!$tResultTrade)\n" +
-                            "{\n" +
-                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                            "}\n" +
-                        "else\n" +
-                            "{\n" +
-                                "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
-                                "if ($tNumberOfRow == 1)\n" +
-                                    "{\n" +
-                                        "// I need update the proposition too !\n" +
-                                        //   "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\');\n" +
-
-                                        "$tQueryBarterRequest = 'SELECT" +
-                                        " `" + tPropositionsCounter + "`, `" + tMaxPropositions + "`,`" + tItemsProposed + "`" +
-                                        " FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "`" +
-                                        " WHERE" +
-                                        " `Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_THIS_Index_BarterRequest + "]).'\\';" +
-                                        "';\n" +
-                                        //"myLog('tQueryBarterPlace : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                        "$tResultBarterRequest = "+NWD.K_SQL_CON+"->query($tQueryBarterRequest);\n" +
-                                        "if (!$tResultBarterRequest)\n" +
-                                            "{\n" +
-                                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarterRequest.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                                            "}\n" +
-                                        "else" +
-                                            "{\n" +
-                                                "if ($tResultBarterRequest->num_rows == 1)\n" +
-                                                    "{\n" +
-                                                        //"myLog('FIND THE USER BARTER REQUEST', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                        "$tRowBarterRequest = $tResultBarterRequest->fetch_assoc();\n" +
-                                                        "$sReplaces[" + t_THIS_Index_ItemsProposed + "] = $tRowBarterRequest['" + tItemsProposed + "'];\n" +
-                                                        "" +
-                                                        "" +
-                                                        "" +
-                                                        "// TODO update if barter proposition == 1 to expired" +
-                                                        "if ($tRowBarterRequest['" + tMaxPropositions + "'] == 1)\n" +
-                                                        "{\n" +
-                                                            "$tQueryExpired = 'UPDATE `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` SET " +
-                                                            " `DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                                                            " `DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                                                            " `'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\'," +
-                                                            " `" + tLimitDayTime + "` = '."+NWD.K_PHP_TIME_SYNC+".', " +
-                                                            " `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
-                                                            " WHERE `AC`= \\'1\\' " +
-                                                            " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' " +
-                                                            "';\n" +
-                                                            //"myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                            "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
-                                                        "}\n" +
-                                                    "}\n" +
-                                            "}\n" +
-                                        "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Expired).ToString() + ";\n" +
-                                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-
-                                        //"myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                        "Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
-                                    "}\n" +
-                                "else\n" +
-                                    "{\n" +
-                                        "$sCsvList = Integrity" + ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
-                                        //"myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                    "}\n" +
-                            "}\n" +
-                        "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
-                    "}\n" +
-
-
-                // change the statut from CSV TO CANCEL 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
-                "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
-                    "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'."+NWD.K_ENV+".'_" + ClassNamePHP + "` SET " +
-                        "`DM` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
-                        "`DS` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
-                        "`'."+NWD.K_ENV+".'Sync` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\', " +
-                        "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\\' " +
-                        "WHERE " +
-                        "`Reference` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' " +
-                        "AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                        "';" +
-                        "$tResultCancelable = "+NWD.K_SQL_CON+"->query($tQueryCancelable);\n" +
-                        "if (!$tResultCancelable)\n" +
-                            "{\n" +
-                                //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                                 NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                            "}\n" +
-                        "else" +
-                            "{\n" +
-                                "$tNumberOfRow = 0;\n" +
-                                "$tNumberOfRow = "+NWD.K_SQL_CON+"->affected_rows;\n" +
-                                "if ($tNumberOfRow == 1)\n" +
-                                    "{\n" +
-                                        "Integrity" + ClassNamePHP + "Reevalue ($tReference);\n" +
-                                    "}\n" +
-                            "}\n" +
-                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
-                        //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        "return;\n" +
-                    "}\n" +
+            // change the statut from CSV TO CANCEL 
+            rReturn.AppendLine("else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && ");
+            rReturn.AppendLine("$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n");
+            rReturn.AppendLine("{");
+            rReturn.Append("$tQueryCancelable = 'UPDATE `" + PHP_TABLENAME(sEnvironment) + "` SET ");
+            rReturn.Append("`" + tDM + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', ");
+            rReturn.Append("`" + tDS + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', ");
+            rReturn.Append("`" + tEnvSync + "` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', ");
+            rReturn.Append("`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\\' ");
+            rReturn.Append("WHERE ");
+            rReturn.Append("`" + tReference + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\' ");
+            rReturn.Append("AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' ");
+            rReturn.Append("';");
+            rReturn.AppendLine("$tResultCancelable = " + NWD.K_SQL_CON + "->query($tQueryCancelable);");
+            rReturn.AppendLine("if (!$tResultCancelable)");
+            rReturn.AppendLine("{");
+            //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            //"error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);\n" +
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tNumberOfRow = 0;");
+            rReturn.AppendLine("$tNumberOfRow = " + NWD.K_SQL_CON + "->affected_rows;");
+            rReturn.AppendLine("if ($tNumberOfRow == 1)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(PHP_FUNCTION_INTEGRITY_REEVALUATE() + " ($tReference);");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine(PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($tReference);");
+            //"myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+            rReturn.AppendLine("return;");
+            rReturn.AppendLine("}");
 
 
-                // change the statut from CSV TO FORCE // ADMIN ONLY 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)\n" +
-                    "{\n" +
-                        "//EXECEPTION FOR ADMIN\n" +
-                    "}\n" +
+            // change the statut from CSV TO FORCE // ADMIN ONLY 
+            rReturn.AppendLine("else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("//EXECEPTION FOR ADMIN");
+            rReturn.AppendLine("}");
 
-                // change the statut from CSV TO FORCE NONE  // ADMIN ONLY 
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.ForceNone).ToString() + " && $sAdmin == true)\n" +
-                    "{\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.None).ToString() + ";\n" +
-                        "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
-                        "$sReplaces[" + t_THIS_Index_ItemsSend + "]='';\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';\n" +
-                        "$sReplaces[" + t_THIS_Index_BarterRequest + "]='';\n" +
-                        "$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
-                    "}\n" +
+            // change the statut from CSV TO FORCE NONE  // ADMIN ONLY 
+            rReturn.AppendLine("else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.ForceNone).ToString() + " && $sAdmin == true)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.None).ToString() + ";");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_ItemsSend + "]='';");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';");
+            rReturn.AppendLine("$sReplaces[" + t_THIS_Index_BarterRequest + "]='';");
+            rReturn.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+            rReturn.AppendLine("}");
 
-                // OTHER
-                "else\n" +
-                    "{\n" +
-                        //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + ClassNamePHP + "ByReference ($tReference);\n" +
-                        "return;\n" +
-                    "}\n" +
-                //"myLog('FINSIH ADD ON ... UPDATE FROM CSV', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "// finish Addon \n";
+            // OTHER
+            rReturn.AppendLine("else\n");
+            rReturn.AppendLine("{");
+            //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+            rReturn.AppendLine(PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($tReference);");
+            rReturn.AppendLine("return;");
+            rReturn.AppendLine("}");
+            //"myLog('FINSIH ADD ON ... UPDATE FROM CSV', __FILE__, __FUNCTION__, __LINE__);\n" +
+            rReturn.AppendLine("// finish Addon ");
 
-            return sScript;
+            return rReturn.ToString();
         }
         //------------------------------------------------------------------------------------------------------------- 
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             string t_THIS_BarterRequest = NWDToolbox.PropertyName(() => FictiveData().BarterRequest);
-            //string t_THIS_BarterRequest = FindAliasName("BarterRequest");
             int t_THIS_Index_BarterRequest = New_CSV_IndexOf(t_THIS_BarterRequest);
 
-            return "// write your php script here to update after sync on server\n " +
-                "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n";
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("// write your php script here to update after sync on server ");
+            rReturn.AppendLine(NWDUserBarterRequest.BasisHelper().PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($sCsvList[" + t_THIS_Index_BarterRequest + "]);");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

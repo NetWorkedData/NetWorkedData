@@ -30,6 +30,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
+            string tSignReference = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Reference);
             string tSignStatusKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
@@ -48,7 +49,7 @@ namespace NetWorkedData
             sScript.AppendLine("{");
             sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
             sScript.AppendLine("}");
-            sScript.Append("$tQueryRequest .= ' ) AND `Reference` != \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' ");
+            sScript.Append("$tQueryRequest .= ' ) AND `"+tSignReference+"` != \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' ");
             sScript.Append("AND `AC` = 1");
             sScript.AppendLine(";';");
             sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest"));

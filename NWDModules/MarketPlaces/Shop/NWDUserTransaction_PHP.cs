@@ -11,14 +11,11 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
+
 using System;
+using System.Text;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -28,16 +25,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
-            // TODO 
-            string sScript = "" +
-                "// debut find \n" +
-                "// JE DOIS VERIFIER AVEC LES ERVEUR APPLE OU GOOGLE DE LA VALIDITEE DE LA TRANSACTION ET METTRE InAppApprouved EN Approuved OU Refused!\n" +
-                "// fin find \n";
-            return sScript;
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("// JE DOIS VERIFIER AVEC LES ERVEUR APPLE OU GOOGLE DE LA VALIDITEE DE LA TRANSACTION ET METTRE InAppApprouved EN Approuved OU Refused!");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+
 #endif

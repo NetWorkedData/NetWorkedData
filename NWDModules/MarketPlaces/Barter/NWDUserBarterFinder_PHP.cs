@@ -11,12 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 
 using UnityEngine;
@@ -24,6 +18,7 @@ using SQLite.Attribute;
 using System;
 using System.Collections.Generic;
 using BasicToolBox;
+using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -32,9 +27,12 @@ namespace NetWorkedData
     public partial class NWDUserBarterFinderHelper : NWDHelper<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
-            //string tTradeHash = NWDToolbox.PropertyName(() => NWDUserTradeRequest.FictiveData().TradeHash);
+            string tWebModel = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().WebModel);
+            string tAC = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().AC);
+            string tReference = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().Reference);
+            string tAccount = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().Account);
 
             string tBarterStatus = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().BarterStatus);
             string tLimitDayTime = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().LimitDayTime);
@@ -48,19 +46,6 @@ namespace NetWorkedData
             string t_THIS_MaxPropositions = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().MaxPropositions);
             string t_THIS_PropositionsCounter = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().PropositionsCounter);
 
-
-            //string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
-            //string tLimitDayTime = NWDUserBarterRequest.FindAliasName("LimitDayTime");
-            //string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
-            //string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
-            //string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
-
-            //string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
-            //string t_THIS_BarterPlace = FindAliasName("BarterPlace");
-            //string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
-            //string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
-            //string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
-
             int tIndex_tBarterStatus = NWDUserBarterRequest.CSV_IndexOf(tBarterStatus);
 
             int tIndex_BarterRequestsList = New_CSV_IndexOf(t_THIS_BarterRequestsList);
@@ -68,80 +53,64 @@ namespace NetWorkedData
             int tIndex_THIS_ForRelationshipOnly = New_CSV_IndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 300; // minutes before stop to get the datas!
-            string sScript = "" +
-                "include_once("+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
-                "WHERE `AC`= \\'1\\' " +
-                "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                "AND `" + tLimitDayTime + "` < '."+NWD.K_PHP_TIME_SYNC+".' " +
-                "AND `WebModel` <= '.$WSBUILD.' " +
-                "LIMIT 0, 100;';\n" +
-                //"myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultExpired = "+NWD.K_SQL_CON+"->query($tQueryExpired);\n" +
-                "if (!$tResultExpired)\n" +
-                    "{\n" +
-                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        //"error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                    "}\n" +
-                "else\n" +
-                    "{\n" +
-                        "while($tRowExpired = $tResultExpired->fetch_row())\n" +
-                            "{\n" +
-                                //"myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "$tRowExpired = Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
-                                "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
-                                "UpdateData" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, "+NWD.K_PHP_TIME_SYNC+", $uuid, false);\n" +
-                            "}\n" +
-                        //"mysqli_free_result($tResultExpired);\n" +
-                    "}\n" +
-                "// start Addon \n" +
-                "$tQueryBarter = 'SELECT `Reference` FROM `'."+NWD.K_ENV+".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
-                // WHERE REQUEST
-                "WHERE `AC`= \\'1\\' " +
-                "AND `Account` != \\''."+NWD.K_SQL_CON+"->real_escape_string($uuid).'\\' " +
-                "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
-                "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' " +
-                "AND `" + t_THIS_MaxPropositions + "` > `" + t_THIS_PropositionsCounter + "` ';\n" +
-                "if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')\n" +
-                    "{\n" +
-                        "$tQueryBarter.= 'AND `" + tRelationshipAccountReferences + "` = \\''.$uuid.'\\' ';\n" +
-                    "}\n" +
-                "$tQueryBarter.= '" +
-                "AND `" + tBarterPlaceRequest + "` = \\''.$sCsvList[" + tIndex_BarterPlace + "].'\\' " +
-                "AND `" + tLimitDayTime + "` > '.("+NWD.K_PHP_TIME_SYNC+"+" + (tDelayOfRefresh).ToString() + ").' " +
-                // ORDER BY 
-                //"ORDER BY `" + tLimitDayTime + "` " +
-                // LIMIT 
-                "LIMIT 0, 100;';\n" +
-                //"myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultBarter = "+NWD.K_SQL_CON+"->query($tQueryBarter);\n" +
-                "$tReferences = \'\';\n" +
-                "$tReferencesList = \'\';\n" +
-                "if (!$tResultBarter)\n" +
-                    "{\n" +
-                        //"myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                        //"error('UTRFx31',true, __FILE__, __FUNCTION__, __LINE__);\n" +
-                        NWDError.PHP_Error(NWDError.NWDError_SERVER) +
-                    "}\n" +
-                "else\n" +
-                    "{\n" +
-                        "while($tRowBarter = $tResultBarter->fetch_assoc())\n" +
-                            "{\n" +
-                                //"myLog('tReferences found : '. $tRowBarter['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
-                                "$tReferences[]=$tRowBarter['Reference'];\n" +
-                            "}\n" +
-                        "if (is_array($tReferences))\n" +
-                            "{\n" +
-                                "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
-                                "include_once ( "+NWD.K_PATH_BASE+".'/'."+NWD.K_ENV+".'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                                "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReferences ($tReferences);\n" +
-                            "}\n" +
-                    "}\n" +
-                //"myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$sCsvList = Integrity" + NWDUserBarterFinder.BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);\n" +
-                "";
-            return sScript;
+
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("include_once(" + NWDUserBarterRequest.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.Append("$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `" + NWDUserBarterRequest.TableNamePHP(sEnvironment) + "` ");
+            rReturn.Append("WHERE `" + tAC + "`= \\'1\\' ");
+            rReturn.Append("AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' ");
+            rReturn.Append("AND `" + tLimitDayTime + "` < '." + NWD.K_PHP_TIME_SYNC + ".' ");
+            rReturn.Append("AND `" + tWebModel + "` <= '.$WSBUILD.' ");
+            rReturn.AppendLine("LIMIT 0, 100;';");
+            rReturn.AppendLine("$tResultExpired = " + NWD.K_SQL_CON + "->query($tQueryExpired);");
+            rReturn.AppendLine("if (!$tResultExpired)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryExpired"));
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("while($tRowExpired = $tResultExpired->fetch_row())");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tRowExpired = Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");");
+            rReturn.AppendLine("$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);");
+            rReturn.AppendLine("UpdateData" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, " + NWD.K_PHP_TIME_SYNC + ", $uuid, false);");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.Append("$tQueryBarter = 'SELECT `" + tReference + "` FROM `'." + NWD.K_ENV + ".'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` ");
+            rReturn.Append("WHERE `" + tAC + "`= \\'1\\' ");
+            rReturn.Append("AND `" + tAccount + "` != \\''." + NWD.K_SQL_CON + "->real_escape_string($uuid).'\\' ");
+            rReturn.Append("AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' ");
+            rReturn.Append("AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' ");
+            rReturn.AppendLine("AND `" + t_THIS_MaxPropositions + "` > `" + t_THIS_PropositionsCounter + "` ';");
+            rReturn.AppendLine("if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tQueryBarter.= 'AND `" + tRelationshipAccountReferences + "` = \\''.$uuid.'\\' ';");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("$tQueryBarter.= ' AND `" + tBarterPlaceRequest + "` = \\''.$sCsvList[" + tIndex_BarterPlace + "].'\\' AND `" + tLimitDayTime + "` > '.(" + NWD.K_PHP_TIME_SYNC + "+" + (tDelayOfRefresh).ToString() + ").' LIMIT 0, 100;';");
+            rReturn.AppendLine("$tResultBarter = " + NWD.K_SQL_CON + "->query($tQueryBarter);");
+            rReturn.AppendLine("$tReferences = \'\';");
+            rReturn.AppendLine("$tReferencesList = \'\';");
+            rReturn.AppendLine("if (!$tResultBarter)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tResultBarter"));
+            rReturn.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("else");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("while($tRowBarter = $tResultBarter->fetch_assoc())");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tReferences[]=$tRowBarter['" + tReference + "'];");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("if (is_array($tReferences))");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "', $tReferences);");
+            rReturn.AppendLine("include_once ( " + NWDUserBarterRequest.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.AppendLine(NWDUserBarterRequest.BasisHelper().PHP_FUNCTION_GET_DATAS_BY_REFERENCES() + " ($tReferences);");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("$sCsvList = " + NWDUserBarterFinder.BasisHelper().PHP_FUNCTION_INTERGRITY_REPLACE() + " ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
