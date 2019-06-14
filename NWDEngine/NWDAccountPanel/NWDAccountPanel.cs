@@ -405,8 +405,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void InitAccountList()
         {
-            NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-
             // Create List array
             List<string> tOptions = new List<string>();
 
@@ -415,7 +413,8 @@ namespace NetWorkedData
 
             // Active option
             int tActiveAccountIndex = 0;
-            int tCpt = 0;
+            //int tCpt = 0;
+            //NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
             // Init all options
             //AccountList = NWDAccount.SelectDatasForTests();

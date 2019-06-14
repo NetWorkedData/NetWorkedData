@@ -61,16 +61,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserTradeFinder GetTradeFinderWith(NWDTradePlace sTradePlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = GetReachableDatas();
-            foreach (NWDUserTradeFinder k in tUserTradesFinder)
+            if (sTradePlace != null)
             {
-                if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                NWDUserTradeFinder[] tUserTradesFinder = GetReachableDatas();
+                foreach (NWDUserTradeFinder k in tUserTradesFinder)
                 {
-                    return k;
+                    if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                    {
+                        return k;
+                    }
                 }
+
+                return CreateTradeFinderWith(sTradePlace);
             }
 
-            return CreateTradeFinderWith(sTradePlace);
+            return null;
         }
         //-------------------------------------------------------------------------------------------------------------
         private static NWDUserTradeFinder CreateTradeFinderWith(NWDTradePlace sTradePlace)

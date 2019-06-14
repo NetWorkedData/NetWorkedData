@@ -11,13 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Linq;
 using System.Reflection;
@@ -26,16 +19,12 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-
-//using BTBMiniJSON;
+using SQLite4Unity3d;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -105,11 +94,11 @@ namespace NetWorkedData
                 }
 
                 GameObject tGameObjectToSpawn = new GameObject(sName);
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
-#else
-            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-#endif
+                #else
+                tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+                #endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebSynchronisation>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
                 rReturn.Environment = sEnvironment;
@@ -209,9 +198,9 @@ namespace NetWorkedData
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
-#endif
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

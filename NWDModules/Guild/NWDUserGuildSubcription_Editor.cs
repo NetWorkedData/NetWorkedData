@@ -11,12 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -29,6 +23,7 @@ using SQLite4Unity3d;
 using BasicToolBox;
 using SQLite.Attribute;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -42,8 +37,7 @@ namespace NetWorkedData
             float tWidth = sRect.width;
             float tX = sRect.x;
             float tY = sRect.y;
-
-            float tYadd = 20.0f;
+            //float tYadd = 20.0f;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
