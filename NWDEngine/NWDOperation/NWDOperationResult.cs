@@ -27,6 +27,7 @@ namespace NetWorkedData
         public float performRequest { get; private set; }
         public bool isError { get; private set; }
         public string errorCode { get; private set; }
+        public string errorInfos { get; private set; }
         public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
         //public NWDAppEnvironmentPlayerStatut sign { get; private set; }
@@ -108,6 +109,10 @@ namespace NetWorkedData
             if (sData.ContainsKey(NWD.K_WEB_ACTION_RESCUE_KEY))
             {
                 isRescue = (bool)sData[NWD.K_WEB_ACTION_RESCUE_KEY];
+            }
+            if (sData.ContainsKey(NWD.K_JSON_ERROR_INFOS_KEY))
+            {
+                errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
             }
             //if (data.ContainsKey("google_signin"))
             //{

@@ -549,19 +549,19 @@ namespace NetWorkedData
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+        //public override void ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    //string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            //rReturn = "YES";
+        //        }
+        //    }
+        //    //return rReturn;
+        //}
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override bool ErrorAnalyze()

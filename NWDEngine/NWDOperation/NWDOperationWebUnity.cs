@@ -11,12 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,48 +19,23 @@ using UnityEngine;
 using UnityEngine.Networking;
 using BasicToolBox;
 using BTBMiniJSON;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //public partial class NWDWeb
-    //{
-    //    const string K_ACTION_KEY = "action";
-
-    //    const string K_INDEX_PHP = "index.php";
-    //    const string K_AUTHENTIFICATION_PHP = "authentification.php";
-    //    const string K_SECURE_DATA_KEY = "scr";
-    //    const string K_SECURE_DIGEST_KEY = "scrdgt";
-    //    const string K_DATA_KEY = "prm";
-    //    const string K_DIGEST_KEY = "prmdgt";
-
-    //    //const string K_SECRET_DEVIDE_KEY = "shs";
-    //    const string K_SIGN_KEY = "sss";
-
-
-    //    const string OSKey = "os";
-    //    const string LangKey = "lang";
-    //    const string VersionKey = "version";
-    //    const string UUIDKey = "uuid";
-    //    const string RequestTokenKey = "token";
-    //    const string HashKey = "hash";
-    //    const string AdminHashKey = "adminHash";
-
-    //}
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDOperationWebAction : int
     {
         Sync = 1,
-
         SignIn = 1,
         SignOut = 2,
         Rescue = 3,
-
 #if UNITY_EDITOR
-        management = 9,
+        Management = 9,
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -128,20 +97,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Execute()
         {
-            Debug.Log("NWDOperationWebUnity Execute()");
-            // start coroutine ();
+            //Debug.Log("NWDOperationWebUnity Execute()");
             ResultInfos = new NWDOperationResult();
             StartCoroutine(ExecuteAsync());
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DataUploadPrepare()
         {
-            Debug.Log("NWDOperationWebUnity DataUploadPrepare()");
+            //Debug.Log("NWDOperationWebUnity DataUploadPrepare()");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DataAddSecetDevicekey()
         {
-            Debug.Log("NWDOperationWebUnity DataAddSecetDevicekey()");
+            //Debug.Log("NWDOperationWebUnity DataAddSecetDevicekey()");
             // insert device key in data
             if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
             {
@@ -157,33 +125,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void DataDownloadedCompute(NWDOperationResult sData)
         {
-            Debug.Log("NWDOperationWebUnity DataDownloadedCompute()");
+            //Debug.Log("NWDOperationWebUnity DataDownloadedCompute()");
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual string ServerFile()
         {
-            Debug.Log("NWDOperationWebUnity ServerFile()");
-            return "index.php";
+            //Debug.Log("NWDOperationWebUnity ServerFile()");
+            return NWD.K_INDEX_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual string ServerBase()
         {
-            Debug.Log("NWDOperationWebUnity ServerBase()");
+            //Debug.Log("NWDOperationWebUnity ServerBase()");
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool CanRestart()
         {
-            Debug.Log("NWDOperationWebUnity CanRestart()");
+            //Debug.Log("NWDOperationWebUnity CanRestart()");
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
-            Debug.Log("NWDOperationWebUnity ExecuteAsync()");
+            //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
             ResultInfos = new NWDOperationResult();
-
             // reinit benchmark stat values
             ResultInfos.PrepareDateTime = DateTime.Now;
             ResultInfos.WebDateTime = DateTime.Now;
@@ -202,8 +169,6 @@ namespace NetWorkedData
             //Operation progress
             Statut = BTBOperationState.InProgress;
             float tStart = Time.time;
-            // Put Sync in progress
-            // ParentQueue.SynchronizeInProgress = true;
             // Send this operation in actual operation for this environment
             Parent.Controller[QueueName].ActualOperation = this;
             // Force all datas to be write in database
@@ -383,7 +348,6 @@ namespace NetWorkedData
                                                 ResultInfos.SetError(NWDError.NWDError_RQT98);
                                             }
                                         }
-
                                         // Request in Progress, send Invoke
                                         ProgressInvoke(1.0f, ResultInfos);
                                         ResultInfos.SetData(tData);
@@ -394,7 +358,6 @@ namespace NetWorkedData
                                             if (Environment.RequesToken == ResultInfos.token)
                                             {
                                                 // What the token is the same? It's not possible!
-                                                //ResultInfos.SetErrorCode("RQT95");
                                                 ResultInfos.SetError(NWDError.NWDError_RQT95);
                                             }
                                             else
@@ -403,16 +366,13 @@ namespace NetWorkedData
                                                 {
                                                     // What the token is not beetween respond and header? It's not possible!
                                                     ResultInfos.SetError(NWDError.NWDError_RQT97);
-                                                    //ResultInfos.SetErrorCode("RQT97");
                                                 }
                                                 else
                                                 {
-                                                    //TODO : FIX THIS ERROR IN PREPROD!!!
                                                     if (TestTemporalRequestHash(Request.GetResponseHeader(NWD.HashKey), Request.GetResponseHeader(NWD.RequestTokenKey)) == false)
                                                     {
                                                         // What the token is not valid!? It's not possible!
                                                         ResultInfos.SetError(NWDError.NWDError_RQT96);
-                                                        //ResultInfos.SetErrorCode("RQT96");
                                                     }
                                                     else
                                                     {
@@ -471,16 +431,16 @@ namespace NetWorkedData
                                                 tUserChange = true;
                                                 CanRestart();
                                                 if (ResultInfos.isUserTransfert)
+                                                {
+                                                    if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
-                                                        if (!ResultInfos.uuid.Equals(string.Empty))
-                                                            {
-                                                                // creer Device sign and send to serever with new package
-                                                                NWDAccountSign tSign = NWDAccountSign.NewData();
-                                                                tSign.Account.SetReference(ResultInfos.uuid);
-                                                                tSign.RegisterDevice();
-                                                                NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.uuid /*, ResultInfos.signkey*/);
-                                                            }
+                                                        // creer Device sign and send to serever with new package
+                                                        NWDAccountSign tSign = NWDAccountSign.NewData();
+                                                        tSign.Account.SetReference(ResultInfos.uuid);
+                                                        tSign.RegisterDevice();
+                                                        NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.uuid /*, ResultInfos.signkey*/);
                                                     }
+                                                }
                                             }
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
@@ -491,7 +451,6 @@ namespace NetWorkedData
                                             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
                                             // Request Success, send Invoke
                                             SuccessInvoke(Request.downloadProgress, ResultInfos);
-
                                         }
                                     }
                                 }
@@ -514,11 +473,12 @@ namespace NetWorkedData
                         BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                     }
                 }
-                if (ResultInfos.errorDesc != null)
+                //if (ResultInfos.errorDesc != null)
+                if (ResultInfos.isError)
                 {
                     // Notification of a Download success
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
-                    ResultInfos.errorDesc.ShowAlert();
+                    ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
                     if (Application.isPlaying == true)
                     {
                         NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
@@ -536,15 +496,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()
         {
-            Debug.Log("NWDOperationWebUnity Cancel()");
+            //Debug.Log("NWDOperationWebUnity Cancel()");
             ResultInfos.FinishDateTime = DateTime.Now;
             Statut = BTBOperationState.Cancel;
             if (Request != null)
             {
                 Request.Abort();
-                //TODO risk of token lost integrity : operation reconnect ?
             }
-
             NWDOperationResult tInfosCancel = new NWDOperationResult();
             CancelInvoke(Request.downloadProgress, tInfosCancel);
             IsFinish = true;
@@ -553,7 +511,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Finish()
         {
-            Debug.Log("NWDOperationWebUnity Finish()");
+            //Debug.Log("NWDOperationWebUnity Finish()");
             ResultInfos.FinishDateTime = DateTime.Now;
             if (Statut == BTBOperationState.ReStart)
             {
@@ -570,7 +528,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DestroyThisOperation()
         {
-            Debug.Log("NWDOperationWebUnity DestroyThisOperation()");
+            //Debug.Log("NWDOperationWebUnity DestroyThisOperation()");
             Statut = BTBOperationState.Destroy;
 #if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
@@ -588,8 +546,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InsertHeaderInRequest()
         {
-            Debug.Log("NWDOperationWebUnity InsertHeaderInRequest()");
-            //TODO: Insert Header In Request
+            //Debug.Log("NWDOperationWebUnity InsertHeaderInRequest()");
             HeaderParams.Clear();
             UUID = Environment.PlayerAccountReference;
             if (SecureData)
@@ -621,14 +578,12 @@ namespace NetWorkedData
 #endif
 #endif
             Lang = NWDDataManager.SharedInstance().PlayerLanguage;
-
             // insert value in header dico
             HeaderParams.Add(NWD.UUIDKey, UUID);
             HeaderParams.Add(NWD.RequestTokenKey, RequestToken);
             HeaderParams.Add(NWD.K_WEB_HEADER_OS_KEY, OS);
             HeaderParams.Add(NWD.K_WEB_HEADER_VERSION_KEY, Version);
             HeaderParams.Add(NWD.K_WEB_HEADER_LANG_KEY, Lang);
-
             // create hash security
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
             HeaderParams.Add(NWD.HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
@@ -647,7 +602,6 @@ namespace NetWorkedData
                 }
             }
 #endif
-
             // insert dico of header in request header
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
@@ -661,15 +615,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public WWWForm InsertDataInRequest(NWDOperationResult sInfos)
         {
-            Debug.Log("NWDOperationWebUnity InsertDataInRequest()");
+            //Debug.Log("NWDOperationWebUnity InsertDataInRequest()");
             WWWForm tBodyData = new WWWForm();
             string tParamKey = BTBUnityWebService.UnSecureKey;
             string tDigestKey = BTBUnityWebService.UnSecureDigestKey;
             string tParamValue = string.Empty;
             string tDigestValue = string.Empty;
-
-            //Debug.Log("NWDOperationWebUnity UPLOADED Datas : " + Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty));
-
             if (SecureData)
             {
                 tParamKey = BTBUnityWebService.SecureKey;
@@ -682,7 +633,6 @@ namespace NetWorkedData
                 tParamValue = BTBSecurityTools.Base64Encode(Json.Serialize(Data));
                 tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
             }
-
             tBodyData.AddField(tParamKey, tParamValue);
             tBodyData.AddField(tDigestKey, tDigestValue);
 
@@ -698,15 +648,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private bool TestTemporalRequestHash(string sHash, string sToken)
         {
-            Debug.Log("NWDOperationWebUnity TestTemporalRequestHash()");
+            //Debug.Log("NWDOperationWebUnity TestTemporalRequestHash()");
             bool rReturn = false;
             string tSaltA = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 1);
             string tSaltB = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 0);
             string tSaltC = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, -1);
-            //Debug.Log("Hash "+ sHash + " for token " + sToken + ": ? " + 
-            //BTBSecurityTools.GenerateSha(tSaltA + sVector+ sToken) + " or " +
-            //BTBSecurityTools.GenerateSha(tSaltB + sVector+ sToken) + " or " +
-            //BTBSecurityTools.GenerateSha(tSaltC + sVector+ sToken));
             string sVector = Environment.DataSHAVector;
             if (BTBSecurityTools.GenerateSha(tSaltA + sVector + sToken) == sHash ||
                 BTBSecurityTools.GenerateSha(tSaltB + sVector + sToken) == sHash ||
@@ -752,7 +698,6 @@ namespace NetWorkedData
             {
                 tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-
             NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
                          "-------------------\n" +
                          "<b>Request URl :</b> " + Request.url + "\n" +
@@ -764,8 +709,7 @@ namespace NetWorkedData
                          "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +
                          sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n" +
-                         ""
+                         "-------------------\n"
             );
 #endif
         }
@@ -778,13 +722,11 @@ namespace NetWorkedData
             {
                 tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-
             string tDebugResponseHeader = string.Empty;
             foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
             {
                 tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-
             NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
                          "-------------------\n" +
                          "<b>Request URl :</b> " + Request.url + "\n" +
@@ -800,8 +742,7 @@ namespace NetWorkedData
                          "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +
                          sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n" +
-                         ""
+                         "-------------------\n"
             );
 #endif
         }
@@ -814,13 +755,11 @@ namespace NetWorkedData
             {
                 tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-
             string tDebugResponseHeader = string.Empty;
             foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
             {
                 tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-
             NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED DECODED \n" +
                          "-------------------\n" +
                          "<b>Request URl : </b> " + Request.url + "\n" +
@@ -841,8 +780,7 @@ namespace NetWorkedData
                          "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +
                          sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n" +
-                         ""
+                         "-------------------\n"
             );
 #endif
         }

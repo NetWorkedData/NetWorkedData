@@ -10,6 +10,7 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
+
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ using System.Reflection;
 using System.Text;
 using BasicToolBox;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -644,7 +646,7 @@ namespace NetWorkedData
             tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("// respondUUID($tNewUuid);");
-            tFile.AppendLine("NWDRequestTokenReset($tOldUuid); // reset connexion to zero");
+            tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
             tFile.AppendLine("respond_SignIn();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -667,7 +669,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
             tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("{");
-            tFile.AppendLine("NWDRequestTokenReset($tOldUuid); // reset connexion to zero");
+            tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
             tFile.AppendLine("respond_SignOut();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");

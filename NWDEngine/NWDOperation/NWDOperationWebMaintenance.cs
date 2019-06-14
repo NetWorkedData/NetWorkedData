@@ -11,13 +11,6 @@
 //
 // =====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
 using System.Linq;
 using System.Reflection;
@@ -26,16 +19,12 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-
-//using BTBMiniJSON;
+using SQLite4Unity3d;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData

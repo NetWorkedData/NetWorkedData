@@ -21,6 +21,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using SQLite4Unity3d;
 using BasicToolBox;
+<<<<<<< HEAD
+=======
+
+>>>>>>> development_version5_WIP
 
 #if UNITY_EDITOR
 using UnityEditor;

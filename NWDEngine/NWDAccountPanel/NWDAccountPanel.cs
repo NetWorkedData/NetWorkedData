@@ -414,7 +414,10 @@ namespace NetWorkedData
             // Active option
             int tActiveAccountIndex = 0;
             //int tCpt = 0;
+<<<<<<< HEAD
             //NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+=======
+>>>>>>> development_version5_WIP
 
             // Init all options
             //AccountList = NWDAccount.SelectDatasForTests();

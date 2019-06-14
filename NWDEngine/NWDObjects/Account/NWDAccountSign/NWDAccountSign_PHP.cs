@@ -28,8 +28,9 @@ namespace NetWorkedData
     public partial class NWDAccountSignHelper : NWDHelper<NWDAccountSign>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
+            string tSignReference = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Reference);
             string tSignStatusKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
@@ -42,55 +43,50 @@ namespace NetWorkedData
             sScript.AppendLine("// analyze the sign ");
             sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString()+")");
             sScript.AppendLine("{");
-            sScript.Append("$tQueryRequest = 'SELECT * FROM `'."+NWD.K_ENV+".'_" + NWDAccountSign.BasisHelper().ClassNamePHP + "` WHERE ");
+            sScript.Append("$tQueryRequest = 'SELECT * FROM `" + NWDAccountSign.TableNamePHP(sEnvironment) + "` WHERE ");
             sScript.AppendLine(" ( `" + tSignHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
             sScript.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
             sScript.AppendLine("{");
             sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
             sScript.AppendLine("}");
-            sScript.Append("$tQueryRequest .= ' ) AND `Reference` != \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' ");
+            sScript.Append("$tQueryRequest .= ' ) AND `"+tSignReference+"` != \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' ");
             sScript.Append("AND `AC` = 1");
-            sScript.AppendLine(";';"); 
-            sScript.AppendLine("myLog('query = '.$tQueryRequest.'', __FILE__, __FUNCTION__, __LINE__);");
+            sScript.AppendLine(";';");
+            sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest"));
             sScript.AppendLine("$tResultRequest = "+NWD.K_SQL_CON+"->query($tQueryRequest);");
-
-                sScript.AppendLine("if (!$tResultRequest)");
-                sScript.AppendLine("{");
-                sScript.AppendLine("myLog('error in mysqli request : ('. "+NWD.K_SQL_CON+"->errno.')'. "+NWD.K_SQL_CON+"->error.'  in : '.$tQueryRequest.'', __FILE__, __FUNCTION__, __LINE__);");
-                sScript.AppendLine("error('SERVER',true, __FILE__, __FUNCTION__, __LINE__);");
-                sScript.AppendLine("}");
-                sScript.AppendLine("else");
-                sScript.AppendLine("{");
-
-                    sScript.AppendLine("if ($tResultRequest->num_rows > 0)");
-                    sScript.AppendLine("{");
-                    sScript.AppendLine("myLog('find sign in another data', __FILE__, __FUNCTION__, __LINE__);");
-                    sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.ErrorAssociated).ToString()+";");
-                    sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Error';");
-                    sScript.AppendLine("$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);");
-                    sScript.AppendLine("}");
-                    sScript.AppendLine("else");
-                    sScript.AppendLine("{");
-                    sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "]=" + ((int)NWDAccountSignAction.Associated).ToString()+";");
-                    sScript.AppendLine("$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);");
-                    sScript.AppendLine("}");
-
+            sScript.AppendLine("if (!$tResultRequest)");
+            sScript.AppendLine("{");
+            sScript.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryRequest"));
+            sScript.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER, ClassNamePHP));
             sScript.AppendLine("}");
-
+            sScript.AppendLine("else");
+            sScript.AppendLine("{");
+            sScript.AppendLine("if ($tResultRequest->num_rows > 0)");
+            sScript.AppendLine("{");
+            sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.ErrorAssociated).ToString()+";");
+            sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
+            sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
+            sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Error';");
+            sScript.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+            sScript.AppendLine("}");
+            sScript.AppendLine("else");
+            sScript.AppendLine("{");
+            sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "]=" + ((int)NWDAccountSignAction.Associated).ToString()+";");
+            sScript.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
+            sScript.AppendLine("}");
+            sScript.AppendLine("}");
             sScript.AppendLine("}");
             sScript.AppendLine("else if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToDissociate).ToString() + ")");
             sScript.AppendLine("{");
             sScript.AppendLine("$sReplaces[" + t_Index_SignActionKey + "] = " + ((int)NWDAccountSignAction.Dissociated).ToString() + ";");
             sScript.AppendLine("$sReplaces[" + t_Index_SignHashKey + "] = '';");
             sScript.AppendLine("$sReplaces[" + t_Index_RescueHashKey + "] = '';");
-                    sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
-            sScript.AppendLine("$sCsvList = Integrity" + ClassNamePHP + "Replaces ($sCsvList, $sReplaces);");
+            sScript.AppendLine("$sReplaces[" + t_Index_InternalDescription + "] = 'Dissociated';");
+            sScript.AppendLine("$sCsvList = " + PHP_FUNCTION_INTERGRITY_REPLACES() + " ($sCsvList, $sReplaces);");
             sScript.AppendLine("}");
             sScript.AppendLine("else");
             sScript.AppendLine("{");
-            sScript.AppendLine("GetDatas" + ClassNamePHP + "ByReference ($tReference);");
+            sScript.AppendLine("" + PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($tReference);");
             sScript.AppendLine("return;");
             sScript.AppendLine("}");
 

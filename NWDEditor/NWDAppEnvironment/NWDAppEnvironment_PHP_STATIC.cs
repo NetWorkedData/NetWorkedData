@@ -10,10 +10,12 @@
 //  All rights reserved by ideMobi
 //
 // =====================================================================================================================
+
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Text;
 using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -674,8 +676,8 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("myLog('error in mysqli request : ('. " + NWD.K_SQL_CON + "->errno.')'. " + NWD.K_SQL_CON + "->error.' in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);");
-            tFile.AppendLine("error('UIG00',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -989,7 +991,6 @@ namespace NetWorkedData
             tFile.AppendLine("for ($i = 0; $i < $sLength; $i++) {");
             tFile.AppendLine("$tRandomString .= $tCharacters[rand(0, $tCharactersLength - 1)];");
             tFile.AppendLine("}");
-            tFile.AppendLine("myLog('tRandomString = '.$tRandomString, __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("return $tRandomString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -1002,9 +1003,9 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine("//myLog(" + NWD.K_SQL_CON + "->error, __FILE__, __FUNCTION__, __LINE__);");
-            tFile.AppendLine("errorDeclaration('UPVFV00', 'error in select other UniqueNickname allready install');");
-            tFile.AppendLine("error('UPVFV00',true, __FILE__, __FUNCTION__, __LINE__);");
+            //tFile.AppendLine("errorDeclaration('UPVFV00', 'error in select other UniqueNickname allready install');");
+            //tFile.AppendLine("error('UPVFV00',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1012,7 +1013,6 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("while($tRow = $tResult->fetch_array())");
             tFile.AppendLine("{");
-            tFile.AppendLine("//myLog(json_encode($tRow), __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("if ($tRow[$sColumnOrign] == '' && $sNeverEmpty == true)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tRow[$sColumnOrign] = RandomString(10);");
@@ -1037,14 +1037,14 @@ namespace NetWorkedData
             tFile.AppendLine("$tSize = 3;");
             tFile.AppendLine("if ($tOrigin == $tNick)");
             tFile.AppendLine("{");
-            tFile.AppendLine("//myLog('la donne est de meme nickname ', __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("// Nothing to do ? perhaps ... I test");
             tFile.AppendLine("$tQueryTest = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tRow[$sColumUniqueResult]).'\\'';");
             tFile.AppendLine("$tResultTest = " + NWD.K_SQL_CON + "->query($tQueryTest);");
             tFile.AppendLine("if (!$tResultTest)");
             tFile.AppendLine("{");
-            tFile.AppendLine("errorDeclaration('UPVFV01', 'error in select other UniqueNickname allready install');");
-            tFile.AppendLine("error('UPVFV01',true, __FILE__, __FUNCTION__, __LINE__);");
+            //tFile.AppendLine("errorDeclaration('UPVFV01', 'error in select other UniqueNickname allready install');");
+            //tFile.AppendLine("error('UPVFV01',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1064,9 +1064,9 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultTestUnique = " + NWD.K_SQL_CON + "->query($tQueryTestUnique);");
             tFile.AppendLine("if (!$tResultTestUnique)");
             tFile.AppendLine("{");
-            tFile.AppendLine("//myLog(" + NWD.K_SQL_CON + "->error, __FILE__, __FUNCTION__, __LINE__);");
-            tFile.AppendLine("errorDeclaration('UPVFV02', 'error in select other UniqueNickname allready install');");
-            tFile.AppendLine("error('UPVFV02',true, __FILE__, __FUNCTION__, __LINE__);");
+            //tFile.AppendLine("errorDeclaration('UPVFV02', 'error in select other UniqueNickname allready install');");
+            //tFile.AppendLine("error('UPVFV02',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1076,18 +1076,16 @@ namespace NetWorkedData
             tFile.AppendLine("$rModified = true;");
             tFile.AppendLine("// Ok I have a good PinCode I update");
             tFile.AppendLine("$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \\''." + NWD.K_PHP_TIME_SYNC + ".'\\', `'.$sColumnOrign.'` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'\\', `'.$sColumUniqueResult.'` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tOrigin).'#'.$tPinCode.'\\' WHERE `Reference` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
-            tFile.AppendLine("//myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);");
-            tFile.AppendLine("//myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine("$tResultUpdate = " + NWD.K_SQL_CON + "->query($tQueryUpdate);");
             tFile.AppendLine("if (!$tResultUpdate)");
             tFile.AppendLine("{");
-            tFile.AppendLine("//myLog(" + NWD.K_SQL_CON + "->error, __FILE__, __FUNCTION__, __LINE__);");
-            tFile.AppendLine("errorDeclaration('UPVFV03', 'error in updtae reference object pincode');");
-            tFile.AppendLine("error('UPVFV03',true, __FILE__, __FUNCTION__, __LINE__);");
+            //tFile.AppendLine("errorDeclaration('UPVFV03', 'error in updtae reference object pincode');");
+            //tFile.AppendLine("error('UPVFV03',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("//myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine("//pincode is update");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -1097,8 +1095,9 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("errorDeclaration('UPVFV04', 'error in select multiple reference or no reference (!=1)');");
-            tFile.AppendLine("error('UPVFV04',true, __FILE__, __FUNCTION__, __LINE__);");
+            //tFile.AppendLine("errorDeclaration('UPVFV04', 'error in select multiple reference or no reference (!=1)');");
+            //tFile.AppendLine("error('UPVFV04',true, __FILE__, __FUNCTION__, __LINE__);");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("return $rModified;");
@@ -1637,7 +1636,7 @@ namespace NetWorkedData
             tFile.AppendLine("function respondUUID($sValue)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP, $uuid;");
-            tFile.AppendLine("//      $uuid = $sValue;");
+            tFile.AppendLine("$uuid = $sValue;");
             tFile.AppendLine("$REP['" + NWD.UUIDKey + "'] = $sValue;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -1645,7 +1644,7 @@ namespace NetWorkedData
             tFile.AppendLine("function respondToken($sValue)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP, $token;");
-            tFile.AppendLine("//$token = $sValue;");
+            tFile.AppendLine("$token = $sValue;");
             tFile.AppendLine("$REP['" + NWD.RequestTokenKey + "'] = $sValue;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -1823,7 +1822,8 @@ namespace NetWorkedData
             tFile.AppendLine("$tParam = aes128Decrypt( $tParam, $NWD_SHA_SEC, $NWD_SHA_VEC);");
             tFile.AppendLine("if ( $tParam == NULL)");
             tFile.AppendLine("{");
-            tFile.AppendLine("errorInfos('PAR97','Data '.$sKey.' is not an json valid!');");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            //tFile.AppendLine("errorInfos('PAR97','Data '.$sKey.' is not an json valid!');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1839,7 +1839,8 @@ namespace NetWorkedData
             tFile.AppendLine("if ($tDico == NULL)");
             tFile.AppendLine("{");
             tFile.AppendLine("$rReturn = false;");
-            tFile.AppendLine("errorInfos('PAR99','Data '.$sKey.' is not an json valid!');");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            //tFile.AppendLine("errorInfos('PAR99','Data '.$sKey.' is not an json valid!');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1850,7 +1851,8 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("$rReturn = false;");
-            tFile.AppendLine("errorInfos('PAR98','Digest for '.$sKey.' is false');");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            //tFile.AppendLine("errorInfos('PAR98','Digest for '.$sKey.' is false');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1930,7 +1932,8 @@ namespace NetWorkedData
             tFile.AppendLine("$return = false;");
             tFile.AppendLine("if ($errStringIfempty != '')");
             tFile.AppendLine("{");
-            tFile.AppendLine("errorInfos($errStringIfempty,'Value validity of `'.$key.'` (=`'.$value.'`) is empty and it is not possible');");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            //tFile.AppendLine("errorInfos($errStringIfempty,'Value validity of `'.$key.'` (=`'.$value.'`) is empty and it is not possible');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1942,7 +1945,8 @@ namespace NetWorkedData
             tFile.AppendLine("$return = false;");
             tFile.AppendLine("if ($errStringifInvalid != '')");
             tFile.AppendLine("{");
-            tFile.AppendLine("errorInfos($errStringifInvalid,'Value validity of `'.$key.'` (=`'.$value.'`) is not complicent with regular expression rules');");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            //tFile.AppendLine("errorInfos($errStringifInvalid,'Value validity of `'.$key.'` (=`'.$value.'`) is not complicent with regular expression rules');");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");

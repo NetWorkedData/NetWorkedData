@@ -37,6 +37,10 @@ namespace NetWorkedData
             float tWidth = sRect.width;
             float tX = sRect.x;
             float tY = sRect.y;
+<<<<<<< HEAD
+=======
+
+>>>>>>> development_version5_WIP
             //float tYadd = 20.0f;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);

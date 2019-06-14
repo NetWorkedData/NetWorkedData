@@ -202,21 +202,21 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx01));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx01, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD PRIMARY KEY (`" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ID) + "`), ADD UNIQUE KEY `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ID) + "` (`" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ID) + "`);';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx02));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx02, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ID) + "` int(11) NOT NULL AUTO_INCREMENT;';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx03));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx03, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("");
             tFile.AppendLine("// Alter all existing table with new columns or change type columns");
@@ -238,7 +238,7 @@ namespace NetWorkedData
                     tFile.AppendLine("if (!$tResult)");
                     tFile.AppendLine("{");
                     tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
                     tFile.AppendLine("}");
                     tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY " +
                         Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
@@ -247,7 +247,7 @@ namespace NetWorkedData
                     tFile.AppendLine("if (!$tResult)");
                     tFile.AppendLine("{");
                     tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
                     tFile.AppendLine("}");
                 }
             }
@@ -410,7 +410,7 @@ namespace NetWorkedData
                 tFile.AppendLine("if (!$tResult)");
                 tFile.AppendLine("{");
                 tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05));
+                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
                 tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
@@ -425,7 +425,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx07));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx07, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -439,7 +439,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx08));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx08, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -453,7 +453,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx09));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx09, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -575,7 +575,7 @@ namespace NetWorkedData
             tFile.AppendLine("if ($tCalculate!=$tIntegrity)");
             tFile.AppendLine("{");
             tFile.AppendLine("$rReturn = false;");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx88));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx88, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("return $rReturn;");
             tFile.AppendLine("}");
@@ -659,7 +659,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tUpdateResult = " + NWD.K_SQL_CON + "->query($tUpdate);");
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tUpdate"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx77));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tUpdate"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx77,ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -704,7 +704,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31,ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -725,7 +725,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tUpdate"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx91));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx91, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -742,7 +742,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -784,7 +784,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -842,7 +842,7 @@ namespace NetWorkedData
             tFile.AppendLine("$sCsvList = " + PHP_FUNCTION_PREPARE_DATA() + "($sCsv);");
             tFile.AppendLine("if (count ($sCsvList) != " + tColumnNameList.Count.ToString() + ")");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx99));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx99, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -854,7 +854,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -867,7 +867,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tInsertResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx32));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx32, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -909,7 +909,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tUpdateResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tUpdate"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx38));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx38, ClassNamePHP));
             tFile.AppendLine("}");
             //"}" );
             tFile.AppendLine("}");
@@ -943,7 +943,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx39));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx39, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("mysqli_free_result($tResult);");
             tFile.AppendLine("}");
@@ -960,7 +960,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx40));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx40, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -981,7 +981,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33));
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1044,7 +1044,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1094,7 +1094,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
 
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1148,7 +1148,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -1190,7 +1190,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx33, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
