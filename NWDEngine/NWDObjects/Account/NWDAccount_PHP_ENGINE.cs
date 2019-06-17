@@ -136,7 +136,13 @@ namespace NetWorkedData
             tFile.AppendLine("$tReference = $sReference;");
             tFile.AppendLine("if (IPBanOk() == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Account) + "` FROM `" + NWDAccountSign.TableNamePHP(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKI).'\\' AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash) + "` != \\'\\' AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().AC) + "` = 1;';");
+            tFile.Append("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Account) + "` ");
+            tFile.Append("FROM `" + NWDAccountSign.TableNamePHP(sEnvironment) + "` ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKI).'\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash) + "` != \\'\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus) + "` = \\'"+((int)NWDAccountSignAction.Associated).ToString()+"\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().AC) + "` = 1;");
+            tFile.AppendLine("';");
             tFile.AppendLine("$tResultSign = $SQL_CON->query($tQuerySign);");
             tFile.AppendLine("if (!$tResultSign)");
             tFile.AppendLine("{");
@@ -149,7 +155,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if ($sCanCreate == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount($sOldUUID, $sSDKI);");
+            tFile.AppendLine("CreateAccount($tReference, $sSDKI);");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -252,10 +258,11 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("IntegrityNWDAccountReevalue ($tNewUUID);");
+            tFile.AppendLine(NWDAccount.BasisHelper().PHP_FUNCTION_INTEGRITY_REEVALUATE() +"($tNewUUID);");
             tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
             tFile.AppendLine("respondUUID($tNewUUID);");
-            tFile.AppendLine("NWDRequestTokenIsValid($tNewUUID,'');");
+            //tFile.AppendLine("NWDRequestTokenIsValid($tNewUUID,'');");
+            tFile.AppendLine("NWDRequestTokenReset($tNewUUID);");
             tFile.AppendLine("$rReturn = true;");
             tFile.AppendLine("}");
             tFile.AppendLine("}");

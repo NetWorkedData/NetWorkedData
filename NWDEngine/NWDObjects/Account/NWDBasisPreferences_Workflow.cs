@@ -74,6 +74,10 @@ namespace NetWorkedData
             NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, sValue, 0, sLimitByAccount);
             if (tPrefs != null)
             {
+                //if (sLimitByAccount == false)
+                //{
+                //    tPrefs.Account = new NWDReferenceType<NWDAccount>();
+                //}
                 tPrefs.StringValue = sValue;
                 tPrefs.SaveData();
             }
@@ -84,6 +88,10 @@ namespace NetWorkedData
             NWDBasisPreferences tPrefs = SelectDataForEngine(sKey, sEnvironment, string.Empty, sValue, sLimitByAccount);
             if (tPrefs != null)
             {
+                //if (sLimitByAccount == false)
+                //{
+                //    tPrefs.Account = new NWDReferenceType<NWDAccount>();
+                //}
                 tPrefs.IntValue = sValue;
                 tPrefs.SaveData();
             }

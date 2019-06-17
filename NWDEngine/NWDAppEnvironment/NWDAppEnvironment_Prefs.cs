@@ -47,7 +47,7 @@ namespace NetWorkedData
                 BTBPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
                 //NWDBasisPreferences.SetString(kPlayerAccountReferenceKey, this, PlayerAccountReference, false);
                 //NWDBasisPreferences.SetString(kPlayerStatusKey, this, PlayerStatut.ToString(), true);
-                NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, true);
+                NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
 
                 //if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
                 //{
@@ -98,7 +98,7 @@ namespace NetWorkedData
 
             PlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
             //PlayerAccountReference = NWDBasisPreferences.GetString(kPlayerAccountReferenceKey, this, string.Empty, false);
-            RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, true);
+            RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
 
             //if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
             //{

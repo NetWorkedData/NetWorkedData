@@ -185,7 +185,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static string PHP_Error(string sCode, string sInfos = BTBConstants.K_EMPTY_STRING, bool sExit = true)
         {
-            return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "', '" + sCode.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);" + "\n";
+            return FUNCTIONPHP_Error + "('" + sCode.Replace("'", "\\'") + "', '" + sInfos.Replace("'", "\\'") + "', " + sExit.ToString().ToLower() + ", __FILE__, __FUNCTION__, __LINE__);" + "\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string PHP_Error(NWDError sError, string sInfos = BTBConstants.K_EMPTY_STRING, bool sExit = true)

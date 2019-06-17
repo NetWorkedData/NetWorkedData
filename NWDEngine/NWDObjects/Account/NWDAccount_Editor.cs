@@ -111,10 +111,39 @@ namespace NetWorkedData
                 //{
                 //tAddEditor = true;
                 //}
-                if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString(), NWDGUI.kMiniButtonStyle))
+                bool tActive = true;
+                List<string> tEnvironment = new  List<string>();
+
+                if (tSign.DevSync>=0)
+                {
+                    tEnvironment.Add(NWDConstants.K_DEVELOPMENT_NAME);
+                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                    {
+                    tActive = false;
+                    }
+                }
+                if (tSign.PreprodSync>=0)
+                {
+                    tEnvironment.Add(NWDConstants.K_PREPRODUCTION_NAME);
+                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                    {
+                    tActive = false;
+                    }
+                }
+                if (tSign.ProdSync>=0)
+                {
+                    tEnvironment.Add(NWDConstants.K_PRODUCTION_NAME);
+                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                    {
+                    tActive = false;
+                    }
+                }
+                EditorGUI.BeginDisabledGroup(tActive);
+                if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString() +" "+string.Join(" ",tEnvironment), NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
                 }
+                EditorGUI.EndDisabledGroup();
                 if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
                 {
                     NWDAccountSign.BasisHelper().New_SetObjectInEdition(tSign);

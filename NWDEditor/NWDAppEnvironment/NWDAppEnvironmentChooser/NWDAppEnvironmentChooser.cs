@@ -163,6 +163,7 @@ namespace NetWorkedData
                 {
                     NWDAppEnvironmentSync.SharedInstance().Repaint();
                 }
+                NWDDataInspector.Refresh();
             }
             // Show version selected
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());

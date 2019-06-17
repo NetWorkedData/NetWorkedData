@@ -35,7 +35,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         const string EDITOR = "EDITOR";
         const string PLAYING = "PLAYING";
-        const string TOKEN = "TOKEN";
+        const string GENERAL = "GENERAL";
+        //const string TOKEN = "TOKEN";
         //-------------------------------------------------------------------------------------------------------------
         static public NWDBasisPreferences SelectDataForEngine(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault = 0, bool sLimitByAccount = true)
         {
@@ -44,17 +45,21 @@ namespace NetWorkedData
             if (sLimitByAccount)
             {
                 tAccountReference = sEnvironment.PlayerAccountReference;
-            }
 #if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
                 tAccountReference = EDITOR;
             }
 #endif
-            if (sKey == NWDAppEnvironment.kRequesTokenKey)
-            {
-                tAccountReference = TOKEN;
             }
+            else
+            {
+                tAccountReference = GENERAL;
+            }
+            //if (sKey == NWDAppEnvironment.kRequesTokenKey)
+            //{
+            //    tAccountReference = TOKEN;
+            //}
             string tKey = tEnvironment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
             // Debug.Log("NWDBasisPreferences SelectDataForEngine() tKey = " + tKey);
             NWDBasisPreferences rPref = GetRawDataByReference(tKey);
@@ -77,10 +82,12 @@ namespace NetWorkedData
                 if (tAccountReference.Equals(EDITOR))
                 {
                     rPref.InternalKey = EDITOR + NWDConstants.kFieldSeparatorA + sKey;
+                    rPref.Account = new NWDReferenceType<NWDAccount>();
                 }
-                else if (tAccountReference.Equals(TOKEN))
+                else if (tAccountReference.Equals(GENERAL))
                 {
-                    rPref.InternalKey = TOKEN + NWDConstants.kFieldSeparatorA + sKey;
+                    rPref.InternalKey = GENERAL + NWDConstants.kFieldSeparatorA + sKey;
+                    rPref.Account = new NWDReferenceType<NWDAccount>();
                 }
                 else
                 {

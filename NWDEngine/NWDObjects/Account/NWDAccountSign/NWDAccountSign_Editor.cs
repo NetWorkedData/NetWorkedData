@@ -56,69 +56,107 @@ namespace NetWorkedData
         {
             // Draw the interface addon for editor
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 1, 20);
+
+            bool tActive = false;
+            List<string> tEnvironment = new List<string>();
+
+            if (DevSync >= 0)
+            {
+                tEnvironment.Add(NWDConstants.K_DEVELOPMENT_NAME);
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                {
+                    tActive = true;
+                }
+            }
+            if (PreprodSync >= 0)
+            {
+                tEnvironment.Add(NWDConstants.K_PREPRODUCTION_NAME);
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                {
+                    tActive = true;
+                }
+            }
+            if (ProdSync >= 0)
+            {
+                tEnvironment.Add(NWDConstants.K_PRODUCTION_NAME);
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                {
+                    tActive = true;
+                }
+            }
             int tI = 0;
             NWDGUI.Separator(tMatrix[0, tI++]);
-            if (GUI.Button(tMatrix[0, tI++], "Associate Editor Secret Key", NWDGUI.kMiniButtonStyle))
+
+            if (tActive == false)
             {
-                RegisterDeviceEditor();
+                GUI.Label(tMatrix[0, tI++], "Not active in this environment");
             }
-            if (GUI.Button(tMatrix[0, tI++], "Associate Player Secret Key", NWDGUI.kMiniButtonStyle))
+            else
             {
-                RegisterDevicePlayer();
-            }
-            NWDGUI.Separator(tMatrix[0, tI++]);
-            Email = EditorGUI.TextField(tMatrix[0, tI++], "Email",Email);
-            Password = EditorGUI.TextField(tMatrix[0, tI++], "Password", Password);
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password));
-            if (GUI.Button(tMatrix[0, tI++], "Associate login Password", NWDGUI.kMiniButtonStyle))
-            {
-                RegisterEmailPassword(Email, Password);
-            }
-            EditorGUI.EndDisabledGroup();
-            NWDGUI.Separator(tMatrix[0, tI++]);
-            Social = EditorGUI.TextField(tMatrix[0, tI++], "Social", Social);
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Social));
-            if (GUI.Button(tMatrix[0, tI++], "Associate FacebookID", NWDGUI.kMiniButtonStyle))
-            {
-                RegisterSocialFacebook(Social);
-            }
-            if (GUI.Button(tMatrix[0, tI++], "Associate GoogleID", NWDGUI.kMiniButtonStyle))
-            {
-                RegisterSocialGoogle(Social);
-            }
-            EditorGUI.EndDisabledGroup();
-            NWDGUI.Separator(tMatrix[0, tI++]);
-            if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
-            {
-                RegisterDelete();
-            }
-            NWDGUI.Separator(tMatrix[0, tI++]);
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(SignHash));
-            if (GUI.Button(tMatrix[0, tI++], "Test Sign in", NWDGUI.kMiniButtonStyle))
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash);
-            }
-            if (GUI.Button(tMatrix[0, tI++], "Test Sign in with error", NWDGUI.kMiniButtonStyle))
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash+"a");
-            }
-            if (GUI.Button(tMatrix[0, tI++], "Sign OUT", NWDGUI.kMiniButtonStyle))
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSignOut();
-            }
-            if (GUI.Button(tMatrix[0, tI++], "ResetSession", NWDGUI.kMiniButtonStyle))
-            {
-                NWDAppEnvironment.SelectedEnvironment().ResetSession();
-            }
-            //if (GUI.Button(tMatrix[0, tI++], "Rescue", NWDGUI.kMiniButtonStyle))
-            //{
-            //    NWDDataManager.SharedInstance().AddWebRequestSignOut();
-            //}
-            EditorGUI.EndDisabledGroup();
-            NWDGUI.Separator(tMatrix[0, tI++]);
-            if (GUI.Button(tMatrix[0, tI++], "Crack estimation", NWDGUI.kMiniButtonStyle))
-            {
-                BTBPassAnalyseWindow.SharedInstance().AnalyzePassword(SignHash);
+
+
+                if (GUI.Button(tMatrix[0, tI++], "Associate Editor Secret Key", NWDGUI.kMiniButtonStyle))
+                {
+                    RegisterDeviceEditor();
+                }
+                if (GUI.Button(tMatrix[0, tI++], "Associate Player Secret Key", NWDGUI.kMiniButtonStyle))
+                {
+                    RegisterDevicePlayer();
+                }
+                NWDGUI.Separator(tMatrix[0, tI++]);
+                Email = EditorGUI.TextField(tMatrix[0, tI++], "Email", Email);
+                Password = EditorGUI.TextField(tMatrix[0, tI++], "Password", Password);
+                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password));
+                if (GUI.Button(tMatrix[0, tI++], "Associate login Password", NWDGUI.kMiniButtonStyle))
+                {
+                    RegisterEmailPassword(Email, Password);
+                }
+                EditorGUI.EndDisabledGroup();
+                NWDGUI.Separator(tMatrix[0, tI++]);
+                Social = EditorGUI.TextField(tMatrix[0, tI++], "Social", Social);
+                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Social));
+                if (GUI.Button(tMatrix[0, tI++], "Associate FacebookID", NWDGUI.kMiniButtonStyle))
+                {
+                    RegisterSocialFacebook(Social);
+                }
+                if (GUI.Button(tMatrix[0, tI++], "Associate GoogleID", NWDGUI.kMiniButtonStyle))
+                {
+                    RegisterSocialGoogle(Social);
+                }
+                EditorGUI.EndDisabledGroup();
+                NWDGUI.Separator(tMatrix[0, tI++]);
+                if (GUI.Button(tMatrix[0, tI++], "Associate Delete", NWDGUI.kMiniButtonStyle))
+                {
+                    RegisterDelete();
+                }
+                NWDGUI.Separator(tMatrix[0, tI++]);
+                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(SignHash));
+                if (GUI.Button(tMatrix[0, tI++], "Test Sign in", NWDGUI.kMiniButtonStyle))
+                {
+                    NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash);
+                }
+                if (GUI.Button(tMatrix[0, tI++], "Test Sign in with error", NWDGUI.kMiniButtonStyle))
+                {
+                    NWDDataManager.SharedInstance().AddWebRequestSignIn(SignHash + "a");
+                }
+                if (GUI.Button(tMatrix[0, tI++], "Sign OUT", NWDGUI.kMiniButtonStyle))
+                {
+                    NWDDataManager.SharedInstance().AddWebRequestSignOut();
+                }
+                if (GUI.Button(tMatrix[0, tI++], "ResetSession", NWDGUI.kMiniButtonStyle))
+                {
+                    NWDAppEnvironment.SelectedEnvironment().ResetSession();
+                }
+                //if (GUI.Button(tMatrix[0, tI++], "Rescue", NWDGUI.kMiniButtonStyle))
+                //{
+                //    NWDDataManager.SharedInstance().AddWebRequestSignOut();
+                //}
+                EditorGUI.EndDisabledGroup();
+                NWDGUI.Separator(tMatrix[0, tI++]);
+                if (GUI.Button(tMatrix[0, tI++], "Crack estimation", NWDGUI.kMiniButtonStyle))
+                {
+                    BTBPassAnalyseWindow.SharedInstance().AnalyzePassword(SignHash);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
