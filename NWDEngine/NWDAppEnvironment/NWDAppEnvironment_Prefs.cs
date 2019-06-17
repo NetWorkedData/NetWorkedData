@@ -25,7 +25,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         const string kPlayerAccountReferenceKey = "kPlayerAccountReference_Key";
-        const string kRequesTokenKey = "kRequesToken_Key";
+        public const string kRequesTokenKey = "kRequesToken_Key";
         const string kAnonymousPlayerAccountReferenceKey = "kAnonymousPlayerAccountReference_Key";
         const string kAnonymousResetPasswordKey = "kAnonymousResetPassword_Key";
         const string kPlayerStatusKey = "kPlayerStatus_Key";
@@ -59,11 +59,20 @@ namespace NetWorkedData
                 //    NWDBasisPreferences.SetString(kAnonymousPlayerAccountReferenceKey, this, AnonymousPlayerAccountReference, true);
                 //    NWDBasisPreferences.SetString(kAnonymousResetPasswordKey, this, AnonymousResetPassword, true);
                 //}
+                NWDDataManager.SharedInstance().DataQueueExecute();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void LoadPreferences()
         {
+//            string tEnvCompiler = "player";
+//#if UNITY_EDITOR
+//            if (Application.isPlaying == false)
+//            {
+//                tEnvCompiler = "editor";
+//            }
+//#endif
+            //Debug.Log("<color=blue>NWDAppEnvironment() LoadPreferences : " + Environment + " " + tEnvCompiler + "</color>");
             //try
             //{
             //    PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), BTBPrefsManager.ShareInstance().getString(Environment + kPlayerStatusKey), true);
@@ -157,40 +166,40 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-//        public void ResetAnonymousSession()
-//        {
-//            SavePreferences(); // old datas for old Guy
-//            NWDDataManager.SharedInstance().DataQueueExecute();
-//            //Debug.Log ("ResetAnonymousSession in " + Environment);
-//            //AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
-//            //AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
-//            SavePreferences();
-//            // add notification
-//            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
-//            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-//            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-//#if UNITY_EDITOR
-//            NWDAppEnvironmentChooser.Refresh();
-//#endif
+        //        public void ResetAnonymousSession()
+        //        {
+        //            SavePreferences(); // old datas for old Guy
+        //            NWDDataManager.SharedInstance().DataQueueExecute();
+        //            //Debug.Log ("ResetAnonymousSession in " + Environment);
+        //            //AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
+        //            //AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
+        //            SavePreferences();
+        //            // add notification
+        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
+        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
+        //#if UNITY_EDITOR
+        //            NWDAppEnvironmentChooser.Refresh();
+        //#endif
         //}
         //-------------------------------------------------------------------------------------------------------------
-//        public void RestaureAnonymousSession()
-//        {
-//            SavePreferences(); // old datas for old Guy
-//            NWDDataManager.SharedInstance().DataQueueExecute();
-//            //Debug.Log ("RestaureAnonymousSession in " + Environment);
-//            PlayerAccountReference = AnonymousPlayerAccountReference;
-//            RequesToken = string.Empty;
-//            PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;
-//            // TODO :  must connect to server
-//            SavePreferences();
-//            // add notification
-//            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
-//            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-//            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-//#if UNITY_EDITOR
-//            NWDAppEnvironmentChooser.Refresh();
-//#endif
+        //        public void RestaureAnonymousSession()
+        //        {
+        //            SavePreferences(); // old datas for old Guy
+        //            NWDDataManager.SharedInstance().DataQueueExecute();
+        //            //Debug.Log ("RestaureAnonymousSession in " + Environment);
+        //            PlayerAccountReference = AnonymousPlayerAccountReference;
+        //            RequesToken = string.Empty;
+        //            PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;
+        //            // TODO :  must connect to server
+        //            SavePreferences();
+        //            // add notification
+        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
+        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
+        //#if UNITY_EDITOR
+        //            NWDAppEnvironmentChooser.Refresh();
+        //#endif
         //}
         //-------------------------------------------------------------------------------------------------------------
     }

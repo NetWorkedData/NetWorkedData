@@ -33,25 +33,30 @@ namespace NetWorkedData
     public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
     {
         //-------------------------------------------------------------------------------------------------------------
+        const string EDITOR = "EDITOR";
+        const string PLAYING = "PLAYING";
+        const string TOKEN = "TOKEN";
+        //-------------------------------------------------------------------------------------------------------------
         static public NWDBasisPreferences SelectDataForEngine(string sKey, NWDAppEnvironment sEnvironment, string sStringDefault, int sIntDefault = 0, bool sLimitByAccount = true)
         {
             string tAccountReference = string.Empty;
             string tEnvironment = sEnvironment.Environment;
-
             if (sLimitByAccount)
             {
                 tAccountReference = sEnvironment.PlayerAccountReference;
             }
-
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
-                tAccountReference = "EDITOR";
+                tAccountReference = EDITOR;
             }
-            #endif
-
+#endif
+            if (sKey == NWDAppEnvironment.kRequesTokenKey)
+            {
+                tAccountReference = TOKEN;
+            }
             string tKey = tEnvironment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
-
+            // Debug.Log("NWDBasisPreferences SelectDataForEngine() tKey = " + tKey);
             NWDBasisPreferences rPref = GetRawDataByReference(tKey);
             if (rPref == null)
             {
@@ -68,21 +73,25 @@ namespace NetWorkedData
                     rPref.StringValue = sStringDefault;
                 }
                 rPref.IntValue = sIntDefault;
-                #if UNITY_EDITOR
-                if (tAccountReference.Equals("EDITOR"))
+#if UNITY_EDITOR
+                if (tAccountReference.Equals(EDITOR))
                 {
-                    rPref.InternalKey = "EDITOR: " + sKey;
+                    rPref.InternalKey = EDITOR + NWDConstants.kFieldSeparatorA + sKey;
+                }
+                else if (tAccountReference.Equals(TOKEN))
+                {
+                    rPref.InternalKey = TOKEN + NWDConstants.kFieldSeparatorA + sKey;
                 }
                 else
                 {
-                    rPref.InternalKey = "PLAYING: " + sKey;
+                    rPref.InternalKey = PLAYING + NWDConstants.kFieldSeparatorA + sKey;
                 }
                 rPref.InternalDescription = tEnvironment;
                 rPref.Tag = NWDBasisTag.TagAdminCreated;
                 rPref.Environment = tEnvironment;
-                #else
+#else
                 rPref.Tag = NWDBasisTag.TagUserCreated;
-                #endif
+#endif
                 rPref.SaveData();
             }
             return rPref;
