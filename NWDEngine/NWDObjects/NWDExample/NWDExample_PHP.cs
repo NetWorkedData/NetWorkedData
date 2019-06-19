@@ -21,6 +21,7 @@ using System.Reflection;
 using UnityEngine;
 using BasicToolBox;
 using UnityEditor;
+using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -31,19 +32,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
+            StringBuilder rReturn = new StringBuilder();
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t ..."
             //"\t\t\t\t$sCsvList = Prepare" + tClassName + "Data($sCsv);\n"
             //"\t ..."
-            return "// write your php script string here to update $tReference before sync on server\n";
+            rReturn.AppendLine("// write your php script string here to update $tReference before sync on server");
             //"\t ..."
             //"\t Datas Updated"
             //"\t ..."
             //"\t}\n"
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
+            StringBuilder rReturn = new StringBuilder();
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t{\n" 
             //"\t ..."
@@ -51,30 +55,37 @@ namespace NetWorkedData
             //"\t ..."
             //"\t Datas Updated"
             //"\t ..."
-            return "// write your php script string here to update afetr sync on server\n";
+            rReturn.AppendLine("// write your php script string here to update afetr sync on server");
             //"\t ..."
             //"\t}\n"
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
-            //"while($tRow = $tResult->fetch_row()")
-            //"{"
-            return "// write your php script string here to special operation, example : \n$REP['" + ClassName + " After Get'] ='success!!!';\n";
-            //"\t}\n"
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.AppendLine("while($tRow = $tResult->fetch_row()");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " After Get'] ='success!!!';");
+            rReturn.AppendLine("}");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
-            //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
-            //"\t{\n" 
-            return "// write your php script string here to special operation, example : \n$REP['" + ClassName + " Special'] ='success!!!';\n";
-            //"\t}\n"
+            StringBuilder rReturn = new StringBuilder();
+            //rReturn.AppendLine("function Special" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
+            //rReturn.AppendLine("{"); 
+            //rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
+            //rReturn.AppendLine("}");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
-            return "// write your php script string here to add function in php file;\n";
+            StringBuilder rReturn = new StringBuilder();
+            //rReturn.AppendLine("// write your php script string here to add function in php file;");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
