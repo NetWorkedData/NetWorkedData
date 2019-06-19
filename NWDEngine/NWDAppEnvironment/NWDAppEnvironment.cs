@@ -130,6 +130,21 @@ namespace NetWorkedData
            return NWDAppConfiguration.SharedInstance().SelectedEnvironment();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void SetEnvironment(NWDAppEnvironment sAppEnvironment)
+        {
+           if (NWDAppEnvironment.SelectedEnvironment()!= sAppEnvironment)
+            {
+                foreach (NWDAppEnvironment tEnv in NWDAppConfiguration.SharedInstance().AllEnvironements())
+                {
+                    tEnv.Selected = false;
+                }
+                sAppEnvironment.Selected = true;
+#if UNITY_EDITOR
+                NWDAppEnvironmentChooser.Refresh();
+#endif
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region instance methods
 		//-------------------------------------------------------------------------------------------------------------

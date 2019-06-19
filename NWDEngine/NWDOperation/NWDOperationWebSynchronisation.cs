@@ -171,7 +171,9 @@ namespace NetWorkedData
         {
             // Not synchronize with temporray account
             bool tSync = true;
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
+            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
+            NWDAppEnvironment.SetEnvironment(Environment);
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos == null)
             {
                 tSync = false;

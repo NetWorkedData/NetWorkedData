@@ -54,7 +54,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebUnity AddOperation(string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
         {
-            Debug.Log("NWDOperationWebUnity AddOperation()");
+            //Debug.Log("NWDOperationWebUnity AddOperation()");
+            // change selected environement! automaticcally?!
+            NWDAppEnvironment.SetEnvironment(sEnvironment);
             NWDOperationWebUnity rReturn = NWDOperationWebUnity.Create(sName, sEnvironment);
             if (rReturn != null)
             {
@@ -179,7 +181,11 @@ namespace NetWorkedData
 #endif
             // I insert the device key if necessary 
             // can be override by the DataUploadPrepare if necessary
-            NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
+            
+            // change selected environement! automaticcally?!
+            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
+            NWDAppEnvironment.SetEnvironment(Environment);
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos == null)
             {
                 DataAddSecetDevicekey();
