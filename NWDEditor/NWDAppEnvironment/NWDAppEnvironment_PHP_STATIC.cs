@@ -1118,6 +1118,7 @@ namespace NetWorkedData
             tFile.AppendLine("// REQUEST");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDAccount.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDIPBan.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDRequestToken.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDVersion.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("if (IPBanOk() == true)");

@@ -37,6 +37,7 @@ namespace NetWorkedData
         typeof(NWDAccountConsent),
         typeof(NWDRequestToken),
         typeof(NWDBasisPreferences),
+        typeof(NWDIPBan),
         }
     )]
     public class NWDAccountWindow : NWDBasisWindow<NWDAccountWindow>

@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 //  ideMobi 2019©
 //
@@ -27,7 +27,7 @@ using System.Text;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExampleHelper : NWDHelper<NWDExample>
+    public partial class NWDIPBanHelper : NWDHelper<NWDIPBan>
     {
         //-------------------------------------------------------------------------------------------------------------
         public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
@@ -64,10 +64,10 @@ namespace NetWorkedData
         public override string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
-            rReturn.AppendLine("while($tRow = $tResult->fetch_row())");
-            rReturn.AppendLine("{");
-            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " After Get'] ='success!!!';");
-            rReturn.AppendLine("}");
+            //rReturn.AppendLine("while($tRow = $tResult->fetch_row())");
+            //rReturn.AppendLine("{");
+            //rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " After Get'] ='success!!!';");
+            //rReturn.AppendLine("}");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,45 @@
+//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:10
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
+using System.Collections.Generic;
+
+//=====================================================================================================================
+namespace NetWorkedData
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDIPBanHelper : NWDHelper<NWDIPBan>
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDIPBan class. This class is use for (complete description here).
+    /// </summary>
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("IPB")]
+    [NWDClassDescriptionAttribute("IP banned")]
+    [NWDClassMenuNameAttribute("IP Ban")]
+    //[NWDInternalKeyNotEditableAttribute]
+    public partial class NWDIPBan : NWDBasis<NWDIPBan>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        //PROPERTIES
+		public NWDIPType IP {get; set;}
+		public NWDDateTimeType Deadline {get; set;}
+		public int Counter {get; set;}
+		public int CounterMaximum {get; set;}
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+//=====================================================================================================================

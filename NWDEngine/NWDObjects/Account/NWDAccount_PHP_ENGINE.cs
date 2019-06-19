@@ -41,24 +41,23 @@ namespace NetWorkedData
             tFile.AppendLine("// ENGINE");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once (" + NWDBasisHelper.PHP_FILE_FUNCTION_PATH(sEnvironment) + ");");
-            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + BasisHelper().ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "');");
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + BasisHelper().ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "');");
+            tFile.AppendLine("include_once (" + BasisHelper().PHP_CONSTANTS_PATH(sEnvironment) + ");");
+            tFile.AppendLine("include_once (" + NWDIPBan.BasisHelper().PHP_CONSTANTS_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            //tFile.AppendLine("function IPBanOk()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine("return true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
-            tFile.AppendLine("function IPBanOk()");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.AppendLine("return true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-
-
-            tFile.AppendLine("function IPBanAdd()");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
-
+            //tFile.AppendLine("function IPBanAdd()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("function TestTemporaryAccount($sReference)");
             tFile.AppendLine("{");
@@ -73,7 +72,6 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
 
             tFile.AppendLine("function TestBanAccount($sReference)");
             tFile.AppendLine("{");
@@ -140,7 +138,7 @@ namespace NetWorkedData
             tFile.Append("FROM `" + NWDAccountSign.TableNamePHP(sEnvironment) + "` ");
             tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKI).'\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash) + "` != \\'\\' ");
-            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus) + "` = \\'"+((int)NWDAccountSignAction.Associated).ToString()+"\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().AC) + "` = 1;");
             tFile.AppendLine("';");
             tFile.AppendLine("$tResultSign = $SQL_CON->query($tQuerySign);");
@@ -258,7 +256,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDAccount.BasisHelper().PHP_FUNCTION_INTEGRITY_REEVALUATE() +"($tNewUUID);");
+            tFile.AppendLine(NWDAccount.BasisHelper().PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tNewUUID);");
             tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
             tFile.AppendLine("respondUUID($tNewUUID);");
             //tFile.AppendLine("NWDRequestTokenIsValid($tNewUUID,'');");
