@@ -208,15 +208,15 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx02, ClassNamePHP));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx02, ClassNamePHP));
             tFile.AppendLine("}");
-            tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ID) + "` int(11) NOT NULL AUTO_INCREMENT;';");
+            tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().ID) + "` int(11) NOT NULL AUTO_INCREMENT;';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx03, ClassNamePHP));
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx03, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("");
             tFile.AppendLine("// Alter all existing table with new columns or change type columns");
@@ -231,7 +231,7 @@ namespace NetWorkedData
                     tColumn.Name != NWDToolbox.PropertyName(() => NWDExample.FictiveData().DS) &&
                     tColumn.Name != NWDToolbox.PropertyName(() => NWDExample.FictiveData().XX))
                 {
-                    tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD " +
+                    tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD COLUMN IF NOT EXISTS " +
                         Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
                         ";';");
                     tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
@@ -240,7 +240,7 @@ namespace NetWorkedData
                     tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
                     tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
                     tFile.AppendLine("}");
-                    tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY " +
+                    tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS " +
                         Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
                         ";';");
                     tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
