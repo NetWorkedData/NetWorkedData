@@ -54,6 +54,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public int IPBanMaxTentative = 3;
         public int IPBanTimer = 3600;
+        public bool IPBanActive = true;
         public string SaltServer = string.Empty;
         public string MailHost = string.Empty;
         public int MailPort = 465;

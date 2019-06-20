@@ -80,14 +80,15 @@ namespace NetWorkedData
         {
             if (EditorApplication.isPlaying == false)
             {
-                GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
-                tBubuleStyle.fontSize = 14;
-                tBubuleStyle.richText = true;
-                string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
-                //string tDialog = Dialog.GetLanguageString(tLangue);
-                string tDialog = DialogRichTextForLanguage(tLangue);
-                float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
+                //GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
+                //tBubuleStyle.fontSize = 14;
+                //tBubuleStyle.richText = true;
+                //string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+                ////string tDialog = Dialog.GetLanguageString(tLangue);
+                //string tDialog = DialogRichTextForLanguage(tLangue);
+                //float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
 
+                float tText = 10;
                 NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
                 float tAnswers = tDialogs.Length * 20;
 

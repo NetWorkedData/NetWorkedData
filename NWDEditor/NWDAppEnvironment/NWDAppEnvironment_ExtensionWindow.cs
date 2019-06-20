@@ -40,9 +40,11 @@ namespace NetWorkedData
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
             
             NWDGUILayout.SubSection("IP Ban " + Environment);
+            IPBanActive = EditorGUILayout.Toggle("IP Ban Active", IPBanActive);
+            EditorGUI.BeginDisabledGroup(!IPBanActive);
             IPBanMaxTentative = EditorGUILayout.IntField("Max Tentative", IPBanMaxTentative);
             IPBanTimer = EditorGUILayout.IntField("Timer", IPBanTimer);
-
+            EditorGUI.EndDisabledGroup();
 
             NWDGUILayout.SubSection("Security of Datas" + Environment);
             DataSHAPassword = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Password", DataSHAPassword));

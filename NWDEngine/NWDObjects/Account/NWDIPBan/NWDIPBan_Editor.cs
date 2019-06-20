@@ -47,10 +47,17 @@ namespace NetWorkedData
         /// Addons editor interface.
         /// </summary>
         /// <returns>The editor height addon.</returns>
-        /// <param name="sInRect">S in rect.</param>
+        /// <param name="sRect">S in rect.</param>
         public override void AddonEditor(Rect sRect)
         {
             // Draw the interface addon for editor
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 1, 20);
+            int tI = 0;
+            NWDGUI.Separator(tMatrix[0, tI++]);
+                if (GUI.Button(tMatrix[0, tI++], "Test Sign in with error", NWDGUI.kMiniButtonStyle))
+                {
+                    NWDDataManager.SharedInstance().AddWebRequestSignIn("hjhjhjkhkhjhjkhjkhjkhjkhjkhjkhjhjhjhjkhjkhj" + "a");
+                }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -60,7 +67,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 20);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------

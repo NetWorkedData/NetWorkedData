@@ -501,7 +501,7 @@ namespace NetWorkedData
             rReturn.AppendLine("$tNumberOfRow = " + NWD.K_SQL_CON + "->affected_rows;");
             rReturn.AppendLine("if ($tNumberOfRow == 1)");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("Integrity" + ClassNamePHP + "Reevalue($tFriendUserRelationShip);");
+            rReturn.AppendLine("" + PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tFriendUserRelationShip);");
             rReturn.AppendLine("}");
             rReturn.AppendLine("$sReplaces[" + t_Index_RelationStatus + "] = " + ((int)NWDRelationshipStatus.Expired).ToString() + ";");
             rReturn.AppendLine("$sReplaces[" + t_Index_RelationshipHash + "] = '';");

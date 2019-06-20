@@ -106,6 +106,7 @@ namespace NetWorkedData
             rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".IPBanMaxTentative = " + IPBanMaxTentative.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".IPBanTimer = " + IPBanTimer.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + ".IPBanActive = " + IPBanActive.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + ".SFTPHost = \"" + SFTPHost.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".SFTPPort = " + SFTPPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".SFTPFolder = \"" + SFTPFolder.Replace("\"", "\\\"") + "\";");
