@@ -245,7 +245,7 @@ namespace NetWorkedData
         static public NWDError NWDError_SERVER;
         static public NWDError NWDError_RESC01;
         static public NWDError NWDError_RESC02;
-        static public NWDError NWDError_RESC03; 
+        static public NWDError NWDError_RESC03;           static public NWDError NWDError_IPB01; 
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

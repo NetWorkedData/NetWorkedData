@@ -38,6 +38,11 @@ namespace NetWorkedData
             AppName = EditorGUILayout.TextField("AppName", AppName);
             PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
+            
+            NWDGUILayout.SubSection("IP Ban " + Environment);
+            IPBanMaxTentative = EditorGUILayout.IntField("Max Tentative", IPBanMaxTentative);
+            IPBanTimer = EditorGUILayout.IntField("Timer", IPBanTimer);
+
 
             NWDGUILayout.SubSection("Security of Datas" + Environment);
             DataSHAPassword = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Password", DataSHAPassword));

@@ -232,6 +232,7 @@ namespace NetWorkedData
                 NWDError.NWDError_XXx88 = NWDError.CreateGenericError("XXX", "XXXx88", "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
                 NWDError.NWDError_XXx77 = NWDError.CreateGenericError("XXX", "XXXx77", "Error in  model XXX", "error update log in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
 
+                NWDError.NWDError_IPB01 = NWDError.CreateGenericError("IPBan", "IPB01", "IP Ban error", "IP is banned", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
             }
         }

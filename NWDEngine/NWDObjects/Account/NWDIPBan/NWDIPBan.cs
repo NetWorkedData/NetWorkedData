@@ -35,8 +35,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //PROPERTIES
 		public NWDIPType IP {get; set;}
-		public NWDDateTimeType Deadline {get; set;}
+		public NWDDateTimeUtcType Deadline {get; set;}
 		public int Counter {get; set;}
+        //[NWDNotEditable]
 		public int CounterMaximum {get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }

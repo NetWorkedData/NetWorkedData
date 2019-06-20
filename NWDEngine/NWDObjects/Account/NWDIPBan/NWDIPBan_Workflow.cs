@@ -55,6 +55,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+            CounterMaximum = NWDAppEnvironment.SelectedEnvironment().IPBanMaxTentative;
+            Deadline.SetDateTime(DateTime.Now.AddSeconds(NWDAppEnvironment.SelectedEnvironment().IPBanTimer));
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -93,6 +95,10 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            if (CounterMaximum < 1)
+            {
+                CounterMaximum = 1;
+            }
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }

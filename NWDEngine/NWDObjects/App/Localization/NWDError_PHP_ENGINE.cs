@@ -290,7 +290,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string PHP_logTrace(NWDAppEnvironment sEnvironment)
         {
-            return FUNCTIONPHP_log + "('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n";
+            return FUNCTIONPHP_log + "('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string PHP_errorDetected()
