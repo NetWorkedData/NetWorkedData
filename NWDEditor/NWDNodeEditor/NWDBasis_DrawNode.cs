@@ -73,6 +73,7 @@ namespace NetWorkedData
                                     {
                                         Type tSubType = tTypeOfThis.GetGenericArguments()[0];
 
+                                        sCard.ParentDocument.ClassesUsed.Add(tSubType.Name);
 
                                         var tVar = tProp.GetValue(this, null);
                                         if (tVar != null)

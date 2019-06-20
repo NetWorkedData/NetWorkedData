@@ -117,6 +117,7 @@ namespace NetWorkedData
         private float DocumentWidth = 0;
         private float DocumentHeight = 0;
 
+        public List<string> ClassesUsed = new List<string>();
         public Dictionary<string, NWDClasseAnalyseEnum> AnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>();
         /// <summary>
         /// The regroup properties in document.
@@ -192,7 +193,7 @@ namespace NetWorkedData
             // root object zone
             Rect tTitleRect = NWDGUI.Title(new Rect(tX, tY, DocumentMarge, NWDGUI.kTitleStyle.fixedHeight), "Root object");
             tY += tTitleRect.height + NWDGUI.kFieldMarge;
-            if (GUI.Button(new Rect(tX+NWDGUI.kFieldMarge, tY, tW, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, NWDGUI.kMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + NWDGUI.kFieldMarge, tY, tW, NWDGUI.kMiniButtonStyle.fixedHeight), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, NWDGUI.kMiniButtonStyle))
             {
                 NWDNodeEditor.SetObjectInNodeWindow((NWDTypeClass)NWDDataInspector.ShareInstance().mObjectInEdition);
                 ReAnalyze();
@@ -283,8 +284,8 @@ namespace NetWorkedData
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Show;
-                        EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                    AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Show;
+                    EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
                 }
                 ReAnalyze();
             }
@@ -294,8 +295,8 @@ namespace NetWorkedData
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
 
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.None;
-                        EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                    AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.None;
+                    EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
                 }
                 ReAnalyze();
             }
@@ -305,8 +306,8 @@ namespace NetWorkedData
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClassesCopyCopy = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClassesCopyCopy)
                 {
-                        AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Analyze;
-                        EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
+                    AnalyzeStyleClasses[tKeyValue.Key] = NWDClasseAnalyseEnum.Analyze;
+                    EditorPrefs.SetInt("NWDEditorNodal_" + tKeyValue.Key, (int)AnalyzeStyleClasses[tKeyValue.Key]);
                 }
                 ReAnalyze();
             }
@@ -319,15 +320,19 @@ namespace NetWorkedData
                 Dictionary<string, NWDClasseAnalyseEnum> tAnalyzeStyleClasses = new Dictionary<string, NWDClasseAnalyseEnum>(AnalyzeStyleClasses);
                 foreach (KeyValuePair<string, NWDClasseAnalyseEnum> tKeyValue in tAnalyzeStyleClasses)
                 {
-                    //Debug.Log("tWidthA loop = " + tWidthA.ToString());
-                    NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(tX + tXA, tY, DocumentMarge - NWDGUI.kFieldMarge * 2, 20), tKeyValue.Key, tKeyValue.Value);
-                    if (AnalyzeStyleClasses[tKeyValue.Key] != tNew)
+
+                    if (ClassesUsed.Contains(tKeyValue.Key))
                     {
-                        tChanged = true;
+                        //Debug.Log("tWidthA loop = " + tWidthA.ToString());
+                        NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(tX + tXA, tY, DocumentMarge - NWDGUI.kFieldMarge * 2, 20), tKeyValue.Key, tKeyValue.Value);
+                        if (AnalyzeStyleClasses[tKeyValue.Key] != tNew)
+                        {
+                            tChanged = true;
+                        }
+                        AnalyzeStyleClasses[tKeyValue.Key] = tNew;
+                        tCounter++;
+                        tY += 20;
                     }
-                    AnalyzeStyleClasses[tKeyValue.Key] = tNew;
-                    tCounter++;
-                    tY += 20;
                 }
                 if (tChanged == true)
                 {
@@ -360,7 +365,7 @@ namespace NetWorkedData
                 NWDNodeEditor.SetObjectInNodeWindow(sNodalCard.DataObject);
             }
             EditorGUI.EndDisabledGroup();
-            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x + sRect.width - NWDGUI.kEditWidth*2, sRect.y, NWDGUI.kEditWidth*2, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
+            NWDClasseAnalyseEnum tNew = (NWDClasseAnalyseEnum)EditorGUI.EnumPopup(new Rect(sRect.x + sRect.width - NWDGUI.kEditWidth * 2, sRect.y, NWDGUI.kEditWidth * 2, NWDGUI.kMiniButtonStyle.fixedHeight), AnalyzeStyleClasses[sClassName]);
             if (AnalyzeStyleClasses[sClassName] != tNew)
             {
                 AnalyzeStyleClasses[sClassName] = tNew;
@@ -537,7 +542,7 @@ namespace NetWorkedData
                 {
                     LoadClasses();
                 }
-
+                ClassesUsed.Clear();
                 AllCards = new List<NWDNodeCard>();
                 AllCardsAnalyzed = new List<NWDNodeCard>();
                 MatrixCards = new Dictionary<int, List<NWDNodeCard>>();
