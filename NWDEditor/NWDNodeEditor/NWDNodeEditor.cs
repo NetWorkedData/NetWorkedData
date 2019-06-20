@@ -150,6 +150,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
+                kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
                 kNodeEditorSharedInstance.Repaint();
             }
@@ -161,6 +162,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
+                kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
@@ -185,6 +187,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
+                kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
@@ -200,6 +203,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
             {
+                Document.EditorWindow = this;
                 Document.SetData(sSelection);
                 Repaint();
             }
@@ -242,6 +246,7 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            Document.EditorWindow = this;
             Document.LoadClasses();
             Repaint();
             //BTBBenchmark.Finish();
@@ -263,6 +268,7 @@ namespace NetWorkedData
             {
                 Rect tScrollViewRectB = new Rect(0, 0, tX, position.height);
                 ScrollPositionMarge = GUI.BeginScrollView(tScrollViewRectB, ScrollPositionMarge, Document.DimensionB());
+                Document.EditorWindow = this;
                 Document.DrawPreferences();
                 GUI.EndScrollView();
             }
@@ -270,6 +276,7 @@ namespace NetWorkedData
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             ScrollPosition = GUI.BeginScrollView(tScrollViewRect, ScrollPosition, Document.Dimension());
             Rect tVisibleRect = new Rect(ScrollPosition.x, ScrollPosition.y, position.width + ScrollPosition.x, position.height + ScrollPosition.y);
+            Document.EditorWindow = this;
             Document.Draw(tScrollViewRect, tVisibleRect);
             GUI.EndScrollView();
             // Check if the mouse is above our scrollview.

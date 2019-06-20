@@ -112,7 +112,7 @@ namespace NetWorkedData
         /// </summary>
         //public Dictionary<string, bool> ShowTheseClasses = new Dictionary<string, bool>();
 
-        public float DocumentMarge = 200.0F;
+        public float DocumentMarge = 220.0F;
         public float DocumentPrefHeight = 0;
         private float DocumentWidth = 0;
         private float DocumentHeight = 0;
@@ -133,7 +133,7 @@ namespace NetWorkedData
         public bool DrawPropertiesArea = true;
         public bool DrawActionArea = false;
         public bool DrawAddOnArea = false;
-
+        public NWDNodeEditor EditorWindow;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeDocument"/> class.
@@ -345,8 +345,11 @@ namespace NetWorkedData
             DocumentHeight = Math.Max(DocumentPrefHeight, DocumentHeight);
             if (FixeMargePreference == false)
             {
+                if(EditorWindow!=null)
+                {
                 Handles.color = NWDGUI.kNodeCanvasMargeBlack;
-                Handles.DrawLine(new Vector2(tX + DocumentMarge, 0), new Vector2(tX + DocumentMarge, DocumentHeight));
+                Handles.DrawLine(new Vector2(tX + DocumentMarge, 0), new Vector2(tX + DocumentMarge, Math.Max(EditorWindow.position.height, DocumentHeight)));
+                }
             }
             //BTBBenchmark.Finish();
         }

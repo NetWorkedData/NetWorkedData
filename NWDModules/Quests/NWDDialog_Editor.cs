@@ -41,6 +41,9 @@ namespace NetWorkedData
         static public Texture2D kImageStep = null;
         static public Texture2D kImageNormal = null;
         static public Texture2D kImageRandom = null;
+        static private bool StyleLoaded = false;
+        static private GUIStyle tBubuleStyle;
+        static private GUIStyle tStyle;
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadImages()
         {
@@ -52,6 +55,22 @@ namespace NetWorkedData
                 kImageStep = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceStep.psd"));
                 kImageNormal = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceNormal.psd"));
                 kImageRandom = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceRandom.psd"));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LoadStyle()
+        {
+            //Debug.Log("STATIC STEConstants LoadImages()");
+            if (StyleLoaded == false)
+            {
+                StyleLoaded = true;
+
+                tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
+                tStyle.richText = true;
+
+                tBubuleStyle = new GUIStyle(GUI.skin.box);
+                tBubuleStyle.fontSize = 14;
+                tBubuleStyle.richText = true;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -80,18 +99,16 @@ namespace NetWorkedData
         {
             if (EditorApplication.isPlaying == false)
             {
-                //GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
-                //tBubuleStyle.fontSize = 14;
-                //tBubuleStyle.richText = true;
-                //string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+                string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
                 ////string tDialog = Dialog.GetLanguageString(tLangue);
-                //string tDialog = DialogRichTextForLanguage(tLangue);
-                //float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kFieldMarge * 2 - NWDGUI.kPrefabSize);
-
+                string tDialog = DialogRichTextForLanguage(tLangue);
                 float tText = 10;
+                if (tBubuleStyle != null)
+                {
+                    tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 2);
+                }
                 NWDDialog[] tDialogs = NextDialogs.GetReachableDatas();
                 float tAnswers = tDialogs.Length * 20;
-
                 return NWDGUI.kFieldMarge * 3 + NWDGUI.kPrefabSize + tText + tAnswers;
             }
             else
@@ -103,13 +120,10 @@ namespace NetWorkedData
         public override void AddOnNodeDraw(Rect sRect)
         {
             LoadImages();
+            LoadStyle();
 
             //GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
 
-            Color tBackgroundColor = GUI.backgroundColor;
-
-            GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
-            tStyle.richText = true;
             string tText = string.Empty;
             // if answer
             string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
@@ -142,15 +156,12 @@ namespace NetWorkedData
             // draw dialog
             //string tDialog = Dialog.GetLanguageString(tLangue);
             string tDialog = DialogRichTextForLanguage(tLangue);
-            GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
-            tBubuleStyle.fontSize = 14;
-            tBubuleStyle.richText = true;
-            GUI.backgroundColor = Color.white;
-            GUI.Box(new Rect(sRect.x + NWDGUI.kPrefabSize - NWDGUI.kFieldMarge * 3,
-                             sRect.y + NWDGUI.kPrefabSize - NWDGUI.kFieldMarge * 3,
-                             sRect.width - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 3,
-                             sRect.height - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 3), tDialog, tBubuleStyle);
-            GUI.backgroundColor = tBackgroundColor;
+            float tDialogHeight = tBubuleStyle.CalcHeight(new GUIContent(tDialog+"\n"), sRect.width - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 3);
+
+            GUI.Box(new Rect(sRect.x + NWDGUI.kPrefabSize - NWDGUI.kFieldMarge * 2,
+                             sRect.y + NWDGUI.kPrefabSize - NWDGUI.kFieldMarge * 2,
+                             sRect.width - NWDGUI.kPrefabSize + NWDGUI.kFieldMarge * 2,
+                             tDialogHeight + NWDGUI.kFieldMarge * 2), tDialog, tBubuleStyle);
 
 
             //if (sPropertysGroup == true)
