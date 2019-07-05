@@ -99,12 +99,16 @@ namespace NetWorkedData
             string tClassesShared = NWDToolbox.PropertyName(() => NWDRelationshipPlace.FictiveData().ClassesShared);
 
             StringBuilder rReturn = new StringBuilder();
-            rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-
-            rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDUserNickname.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n");
-            rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDUserAvatar.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDUserInfos.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-            rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDGameSave.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            rReturn.AppendLine("include_once ( " + NWDRelationshipPlace.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.AppendLine("include_once ( " + NWDUserNickname.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.AppendLine("include_once ( " + NWDUserAvatar.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.AppendLine("include_once ( " + NWDUserInfos.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            rReturn.AppendLine("include_once ( " + NWDGameSave.BasisHelper().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            //rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDRelationshipPlace.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDUserNickname.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDUserAvatar.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDUserInfos.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //rReturn.AppendLine("include_once ( " + NWD.K_PATH_BASE + ".'/'." + NWD.K_ENV + ".'/" + NWD.K_DB + "/" + NWDGameSave.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
             // get the actual state
             rReturn.AppendLine("$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";");
             rReturn.AppendLine("$tServerHash = '';");

@@ -66,7 +66,7 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("while($tRow = $tResult->fetch_row())");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " After Get'] ='success!!!';");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " After Get'] ='success!!!';");
             rReturn.AppendLine("}");
             return rReturn.ToString();
         }

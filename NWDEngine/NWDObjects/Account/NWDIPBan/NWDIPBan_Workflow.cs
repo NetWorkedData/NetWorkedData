@@ -56,7 +56,11 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
             CounterMaximum = NWDAppEnvironment.SelectedEnvironment().IPBanMaxTentative;
-            Deadline.SetDateTime(DateTime.Now.AddSeconds(NWDAppEnvironment.SelectedEnvironment().IPBanTimer));
+            Deadline = new NWDDateTimeUtcType();
+            if (NWDAppEnvironment.SelectedEnvironment() != null)
+            {
+                Deadline.SetDateTime(DateTime.Now.AddSeconds(NWDAppEnvironment.SelectedEnvironment().IPBanTimer));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
