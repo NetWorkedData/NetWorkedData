@@ -181,7 +181,8 @@ namespace NetWorkedData
                     {
                         if (tErrorCode.Contains("RQT"))
                         {
-                            EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
+                            Debug.LogWarning("Alert Session expired(error code " + LastInfos.errorCode);
+                            //EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
                         }
                         else
                         {
@@ -196,7 +197,8 @@ namespace NetWorkedData
                                     tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
                                 }
                             }
-                            EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
+                            Debug.LogWarning("" + tTitle + " " + tDescription);
+                            //EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
                         }
                     }
                 }
