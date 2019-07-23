@@ -37,22 +37,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateBasisError()
         {
-            Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError()</color>");
+            Debug.Log("<color=red>NWDErrorHelper GenerateBasisError()</color>");
             if (DatabaseIsLoaded())
             {
             }
             if (DatasAreLoaded() == true)
             {
-                Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() OK DATA ARE LOADING</color>");
+                Debug.Log("<color=green>NWDErrorHelper GenerateBasisError() OK DATA ARE LOADING</color>");
                 NWDError.NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
 
                 if (NWDError.NWDError_WEB01 == null)
                 {
-                    Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError() ERROR NOT LOADED</color>");
+                    Debug.Log("<color=red>NWDErrorHelper GenerateBasisError() ERROR NOT LOADED</color>");
                 }
                 else
                 {
-                    Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() LOADED</color>");
+                    Debug.Log("<color=green>NWDErrorHelper GenerateBasisError() LOADED</color>");
                 }
 
                 NWDError.NWDError_WEB02 = NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);

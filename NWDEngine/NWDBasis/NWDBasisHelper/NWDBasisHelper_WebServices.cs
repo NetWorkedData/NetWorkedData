@@ -358,7 +358,7 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, NWDOperationSpecial.Pull);
             }
 #else
-            NWDDataManager.SharedInstance().AddWebRequestPull(New_ClasseInThisSync(), true, sEnvironment);
+            NWDDataManager.SharedInstance().AddWebRequestPull(ClasseInThisSync(), true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
@@ -382,7 +382,7 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), true, false, NWDOperationSpecial.Pull);
             }
 #else
-            NWDDataManager.SharedInstance().AddWebRequestPullForce(New_ClasseInThisSync(), true, sEnvironment);
+            NWDDataManager.SharedInstance().AddWebRequestPullForce(ClasseInThisSync(), true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
@@ -409,7 +409,7 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), true, true, NWDOperationSpecial.None);
             }
 #else
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(New_ClasseInThisSync(), true, sEnvironment);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync(), true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
@@ -433,7 +433,7 @@ namespace NetWorkedData
                 NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, NWDOperationSpecial.None);
             }
 #else
-            NWDDataManager.SharedInstance().AddWebRequestSynchronization(New_ClasseInThisSync(), true, sEnvironment);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync(), true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
