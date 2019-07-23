@@ -27,6 +27,10 @@ namespace NetWorkedData
     public partial class NWDAppConfiguration
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Generate automatically the C# file of configurations 
+        /// </summary>
+        /// <param name="sEnvironment"></param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
             //BTBBenchmark.Start();
@@ -50,34 +54,36 @@ namespace NetWorkedData
             rReturn.AppendLine("public partial class NWDAppConfiguration : NWDApp");
             rReturn.AppendLine("{");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+            rReturn.AppendLine("/// <summary>");
+            rReturn.AppendLine("/// Restaure the configurations ");
+            rReturn.AppendLine("/// </summary>");
             rReturn.AppendLine("public override bool RestaureConfigurations ()");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("WebFolder = \"" + WebFolder + "\";");
-            rReturn.AppendLine("WebBuild = " + WebBuild + ";");
-            rReturn.AppendLine("WebBuildMax = " + WebBuildMax + ";");
-            rReturn.AppendLine("DatabasePrefix = \"" + DatabasePrefix + "\";");
-            rReturn.AppendLine("EditorPass = \"" + NWDToolbox.SaltCleaner(EditorPass) + "\";");
-            rReturn.AppendLine("EditorPassA = \"" + NWDToolbox.SaltCleaner(EditorPassA) + "\";");
-            rReturn.AppendLine("EditorPassB = \"" + NWDToolbox.SaltCleaner(EditorPassB) + "\";");
-            rReturn.AppendLine("AccountHashSalt = \"" + NWDToolbox.SaltCleaner(AccountHashSalt) + "\";");
-            rReturn.AppendLine("AccountHashSaltA = \"" + NWDToolbox.SaltCleaner(AccountHashSaltA) + "\";");
-            rReturn.AppendLine("AccountHashSaltB = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
-            rReturn.AppendLine("RowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";");
-            rReturn.AppendLine("PreloadDatas = " + PreloadDatas.ToString().ToLower() + ";");
-            rReturn.AppendLine("EditorTableCommun = " + EditorTableCommun.ToString().ToLower() + ";");
-            rReturn.AppendLine("PinCodeLenghtMin = " + PinCodeLenghtMin.ToString().ToLower() + ";");
-            rReturn.AppendLine("PinCodeLenghtMax = " + PinCodeLenghtMax.ToString().ToLower() + ";");
-            rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");
+
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebBuild) + " = " + WebBuild + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebBuildMax) + " = " + WebBuildMax + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DatabasePrefix) + " = \"" + DatabasePrefix + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorPass) + " = \"" + NWDToolbox.SaltCleaner(EditorPass) + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorPassA) + " = \"" + NWDToolbox.SaltCleaner(EditorPassA) + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorPassB) + " = \"" + NWDToolbox.SaltCleaner(EditorPassB) + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSalt) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSalt) + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSaltA) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSaltA) + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSaltB) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RowDataIntegrity) + " = " + RowDataIntegrity.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
-                rReturn.AppendLine("BundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");
+                rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BundleName) + "[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");
             }
-            rReturn.AppendLine("WSList = new Dictionary<int, bool>();");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WSList) + " = new Dictionary<int, bool>();");
             foreach (KeyValuePair<int, bool> tWS in WSList.OrderBy(x => x.Key))
             {
                 if (tWS.Value == true)
                 {
-                    rReturn.AppendLine("WSList.Add(" + tWS.Key + "," + tWS.Value.ToString().ToLower() + ");");
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WSList) + ".Add(" + tWS.Key + "," + tWS.Value.ToString().ToLower() + ");");
                 }
                 else
                 {
@@ -89,39 +95,44 @@ namespace NetWorkedData
                     }
                 }
             }
-            rReturn.AppendLine("TagList = new Dictionary<int, string>();");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + " = new Dictionary<int, string>();");
             for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
             {
                 if (TagList.ContainsKey(tI) == true)
                 {
-                    rReturn.AppendLine("TagList.Add(" + tI + ",\"" + TagList[tI] + "\");");
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + tI + ",\"" + TagList[tI] + "\");");
                 }
             }
             int tTag = TagNumberUser + 1;
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Internal Created\");"); // 11
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"(Reserved)\");"); // 12
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"(Reserved)\");"); // 13
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"(Reserved)\");"); // 14
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Test for Preprod\");"); // 15 
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Test for Dev\");"); // 16
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Admin Created\");"); // 17
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Device Created\");"); // 18
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"Server Created\");"); // 19
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"User Created\");"); // 20
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"Internal Created\");"); // 11
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"(Reserved)\");"); // 12
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"(Reserved)\");"); // 13
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"(Reserved)\");"); // 14
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"Test for Preprod\");"); // 15 
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"Test for Dev\");"); // 16
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"Admin Created\");"); // 17
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"Device Created\");"); // 18
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"Server Created\");"); // 19
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"User Created\");"); // 20
 
-            rReturn.AppendLine("TagList.Add(" + (tTag++) + ",\"TO DELETE\");"); // 21
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(" + (tTag++) + ",\"TO DELETE\");"); // 21
             rReturn.AppendLine("//Environments restaure\n");
             rReturn.Append(DevEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.Append(PreprodEnvironment.CreateAppConfigurationCsharp(sEnvironment));
             rReturn.Append(ProdEnvironment.CreateAppConfigurationCsharp(sEnvironment));
-            rReturn.AppendLine("DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DataLocalizationManager) + "." + NWDToolbox.PropertyName(() => this.DataLocalizationManager.LanguagesString) + " = \"" + this.DataLocalizationManager.LanguagesString + "\";");
             //rReturn.AppendLine("AnonymousPlayerIsLocal = " + AnonymousPlayerIsLocal.ToString().ToLower() + ";");
-            rReturn.AppendLine("AnonymousDeviceConnected = " + AnonymousDeviceConnected.ToString().ToLower() + ";");
-            rReturn.AppendLine("SurProtected = " + SurProtected.ToString().ToLower() + ";");
-            rReturn.AppendLine("ProtectionTentativeMax = " + ProtectionTentativeMax.ToString() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AnonymousDeviceConnected) + " = " + AnonymousDeviceConnected.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SurProtected) + " = " + SurProtected.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMin) + " = " + PinCodeLenghtMin.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMax) + " = " + PinCodeLenghtMax.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProtectionTentativeMax) + " = " + ProtectionTentativeMax.ToString() + ";");
             rReturn.AppendLine("return true;");
             rReturn.AppendLine("}");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+            rReturn.AppendLine("/// <summary>");
+            rReturn.AppendLine("/// Restaure the configurations Types by Types");
+            rReturn.AppendLine("/// </summary>");
             rReturn.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturn.AppendLine("{");
             List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
@@ -142,6 +153,9 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
+                    rReturn.AppendLine("/// <summary>");
+                    rReturn.AppendLine("/// Restaure the configurations for " + tDatas.ClassNamePHP + "");
+                    rReturn.AppendLine("/// </summary>");
                     rReturn.AppendLine(tDatas.CreationCSHARP());
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                 }

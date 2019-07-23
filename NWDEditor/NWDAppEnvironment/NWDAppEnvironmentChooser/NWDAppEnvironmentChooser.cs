@@ -85,12 +85,12 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentChooser t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentChooser).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDAppEnvironmentChooser"))
+                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentChooser).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -124,7 +124,7 @@ namespace NetWorkedData
             {
                 tTabSelected = 2;
             }
-            string[] tTabList = new string[3] {
+            string[] tTabList = {
                 NWDConstants.K_APP_CONFIGURATION_DEV,
                 NWDConstants.K_APP_CONFIGURATION_PREPROD,
                 NWDConstants.K_APP_CONFIGURATION_PROD

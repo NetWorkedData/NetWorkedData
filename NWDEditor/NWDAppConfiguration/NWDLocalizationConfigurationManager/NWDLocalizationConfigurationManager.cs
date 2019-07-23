@@ -88,12 +88,12 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDLocalizationConfigurationManager t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDLocalizationConfigurationManager).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDLocalizationConfigurationManager"))
+                        if (tPathFilename.Equals(typeof(NWDLocalizationConfigurationManager).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }

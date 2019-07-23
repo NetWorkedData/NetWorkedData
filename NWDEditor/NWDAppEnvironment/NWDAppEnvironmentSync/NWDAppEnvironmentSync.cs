@@ -102,12 +102,12 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentSync t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentSync).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDAppEnvironmentSync"))
+                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentSync).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }

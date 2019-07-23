@@ -31,7 +31,7 @@ namespace NetWorkedData
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
         public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
-        public static string K_APP_CONFIGURATION_TITLE = "NWD App";
+        public static string K_APP_CONFIGURATION_TITLE = "NWD App configuration";
         public static string K_DATA_SELECTOR_TITLE = "NWD Selector";
         public static string K_DATA_SELECTOR_TITLE_FOR = "Selector for ";
         public static string K_LOCALIZATION_CONFIGURATION_TITLE = "NWD Localization";
@@ -48,17 +48,20 @@ namespace NetWorkedData
         public const string K_SYNC_ALERT_MESSAGE = "YOU WILL SYNCHRONIZE ON THE PRODUCTION ENVIRONEMENT";
         public const string K_SYNC_ALERT_OK = "Ok";
         public const string K_SYNC_ALERT_CANCEL = "Cancel";
+
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
         public const string K_CLEAN_ALERT_TITLE = "CLEAN ALERT";
         public const string K_CLEAN_ALERT_MESSAGE = "You will flush all objects trashed. Only objects sync in dev, preprod and prod will be delete. So, clean dev, preprod and prod must be execute before.";
         public const string K_CLEAN_ALERT_OK = "Clean";
         public const string K_CLEAN_ALERT_CANCEL = "Cancel";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_PURGE_ALERT_TITLE = "PURGE ALERT";
         public const string K_PURGE_ALERT_MESSAGE = "You will flush all objects not for my account.";
         public const string K_PURGE_ALERT_OK = "Purge";
         public const string K_PURGE_ALERT_CANCEL = "Cancel";
+
         //-------------------------------------------------------------------------------------------------------------
         // Idemobi alert Strings
         public const string K_ALERT_IDEMOBI_TITLE = "NetWorkedData";
@@ -66,6 +69,7 @@ namespace NetWorkedData
         public const string K_ALERT_IDEMOBI_OK = "Thanks!";
         public const string K_ALERT_IDEMOBI_SEE_DOC = "See online docs";
         public const string K_ALERT_IDEMOBI_DOC_HTTP = "http://www.idemobi.com/networkeddata";
+
         //-------------------------------------------------------------------------------------------------------------
         // Menu Strings
         public const string K_MENU_BASE = "NetWorkedDatas/";
@@ -81,7 +85,7 @@ namespace NetWorkedData
         public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments configurations";
         public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments player chooser";
         public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments synchronize";
-        //public const string K_MENU_GAME = K_MENU_BASE + "Game/App Configurations";
+
         public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis<K>)";
 
         public const string K_MENU_CREATE_PHP = "Tools/Server auto generate";
@@ -143,7 +147,6 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
         public const string K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/INTEGRATE ALL DATAS";
 
-
         public const string K_MENU_LOCAL_BLOCK_RECOMPILE = K_MENU_BASE + "/SPECIAL/BLOCK RECOMPILE";
 
         public const string K_MENU_LOCAL_UNBLOCK_RECOMPILE = K_MENU_BASE + "/SPECIAL/UNBLOCK RECOMPILE";
@@ -174,9 +177,11 @@ namespace NetWorkedData
         public const string K_APP_CONFIGURATION_BUNDLENAMEE_AREA = "Bundle name's localization";
         public const string K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA = "Project localization";
         public const string K_APP_CONFIGURATION_DEV_LOCALALIZATION_CHOOSE = "Choose project localization";
+
         //-------------------------------------------------------------------------------------------------------------
         // App Enviromnent Strings
         public const string K_APP_ENVIRONMENT_MENU_NAME = "Environment configuration";
+
         //-------------------------------------------------------------------------------------------------------------
         // Basis Interface Strings
         public const string K_APP_BASIS_xxx = "";
@@ -299,6 +304,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_CLASS_INTEGRITY_REEVALUE = "Integrity re-evaluate";
         public const string K_APP_BASIS_CLASS_PHP_GENERATE = "Generate PHP files for";
         public const string K_APP_BASIS_CLASS_CSHARP_GENERATE = "Generate C# files for";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_SEARCH_ZONE = "Search";
         public const string K_APP_TABLE_FILTER_ZONE = "Filters";
@@ -317,6 +323,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SEARCH_FILTER = "Filter";
         public const string K_APP_TABLE_SEARCH_SORT = "Sort by name";
         public const string K_APP_TABLE_SEARCH_RELOAD = "Reload all datas";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_NO_SELECTED_OBJECT = "No selected object";
         public const string K_APP_TABLE_ONE_SELECTED_OBJECT = "1 selected object";
@@ -404,6 +411,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SHOW_DISABLE_DATAS = "Disable datas";
         public const string K_APP_TABLE_SHOW_TRASHED_DATAS = "Trashed datas";
         public const string K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS = "Corrupted datas";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_HEADER_SELECT = "•";
         public const string K_APP_TABLE_HEADER_ID = "ID";
@@ -416,6 +424,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_HEADER_PRODSYNCHRO = "Prod";
         public const string K_APP_TABLE_HEADER_STATUT = "Statut";
         public const string K_APP_TABLE_HEADER_REFERENCE = "Reference";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_ROW_OBJECT_OK = " ";
         public const string K_APP_TABLE_ROW_OBJECT_ERROR = "Error";
@@ -423,9 +432,11 @@ namespace NetWorkedData
         public const string K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR = "Outgraded";
         public const string K_APP_TABLE_ROW_OBJECT_TRASH = "Trashed";
         public const string K_APP_TABLE_ROW_OBJECT_DISACTIVE = "Desactived";
+
         //-------------------------------------------------------------------------------------------------------------
         //public const string K_APP_CONNEXION_EDIT = "edit";
         //public const string K_APP_CONNEXION_NEW = "new";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_NODE_WINDOW_TITLE = "Nodal view";
         public const string K_EDITOR_NODE_CHOOSE_LANGUAGE = "Choose language";
@@ -436,14 +447,17 @@ namespace NetWorkedData
         public const string K_EDITOR_NODE_MASK_ALL = "None for all";
         public const string K_EDITOR_NODE_SHOW_ALL = "Show for all";
         public const string K_EDITOR_NODE_LIST = "Classes show/analyze/new";
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, all sync not effective!";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
+
        //-------------------------------------------------------------------------------------------------------------
         public static string[] K_VERSION_MAJOR_ARRAY = new string[] {
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
         };
+
         //-------------------------------------------------------------------------------------------------------------
         public static string[] K_VERSION_MINOR_ARRAY = new string[] {
             "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
@@ -457,6 +471,7 @@ namespace NetWorkedData
             "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
             "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
         };
+
         //-------------------------------------------------------------------------------------------------------------
         public static string[] K_VERSION_BUILD_ARRAY = new string[] {
             "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
@@ -470,6 +485,7 @@ namespace NetWorkedData
             "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
             "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
         };
+
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_BASIS_WARNING_MODEL = "WARNING! MODEL WAS CHANGED BUT NOT REGENERATED! ";
         public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED! ";

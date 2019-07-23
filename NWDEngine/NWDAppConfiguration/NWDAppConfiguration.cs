@@ -74,13 +74,14 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
-        public int PinCodeLenghtMin = 4;
-        public int PinCodeLenghtMax = 8;
         //public bool PreloadDatasInEditor = true;
         //public bool AnonymousPlayerIsLocal = true;
         public bool AnonymousDeviceConnected = true;
-        public bool SurProtected = false;
-        public int ProtectionTentativeMax = 6;
+
+        public bool SurProtected = false; //TODO:  rename OverProtected
+        public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
+        public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
+        public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
 
         public bool EditorTableCommun = true; //TODO param in config editor extension...
         //-------------------------------------------------------------------------------------------------------------
@@ -347,7 +348,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment[] AllEnvironements()
         {
-            NWDAppEnvironment[] tEnvironnements = new NWDAppEnvironment[] {
+            NWDAppEnvironment[] tEnvironnements = {
                 DevEnvironment,
                 PreprodEnvironment,
                 ProdEnvironment

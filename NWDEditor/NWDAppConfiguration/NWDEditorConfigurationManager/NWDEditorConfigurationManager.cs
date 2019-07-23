@@ -38,6 +38,10 @@ namespace NetWorkedData
         /// </summary>
         static Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
         public static NWDEditorConfigurationManager SharedInstance()
         {
             //BTBBenchmark.Start();
@@ -49,6 +53,10 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
         public static NWDEditorConfigurationManager SharedInstanceFocus()
         {
             //BTBBenchmark.Start();
@@ -58,6 +66,9 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Repaint all Editor Configuration Manager Windows.
+        /// </summary>
         public static void Refresh()
         {
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDEditorConfigurationManager));
@@ -79,6 +90,9 @@ namespace NetWorkedData
         //    }
         //}
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
         public void OnEnable()
         {
             //BTBBenchmark.Start();
@@ -88,12 +102,12 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_EDITOR_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorConfigurationManager t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorConfigurationManager).Name+" t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDEditorConfigurationManager"))
+                        if (tPathFilename.Equals(typeof(NWDEditorConfigurationManager).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -104,6 +118,9 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
         public void OnGUI()
         {
             //BTBBenchmark.Start();

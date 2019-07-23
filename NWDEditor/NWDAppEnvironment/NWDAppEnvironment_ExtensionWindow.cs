@@ -33,10 +33,10 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
-            NWDGUILayout.Informations(Environment);
-            NWDGUILayout.SubSection("AppName for server action " + Environment);
+            //NWDGUILayout.Informations(Environment);
+            NWDGUILayout.SubSection("App identity " + Environment);
             AppName = EditorGUILayout.TextField("AppName", AppName);
-            PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
+            PreProdTimeFormat = EditorGUILayout.TextField("Preprod Time Format", PreProdTimeFormat);
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
             
             NWDGUILayout.SubSection("IP Ban " + Environment);
@@ -91,12 +91,12 @@ namespace NetWorkedData
             MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
             MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
 
-            NWDGUILayout.SubSection("Social Params for " + Environment);
-            FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
-            FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);
-            GoogleAppKey = EditorGUILayout.TextField("GoogleAppKey", GoogleAppKey);
-            UnityAppKey = EditorGUILayout.TextField("UnityAppKey", UnityAppKey);
-            TwitterAppKey = EditorGUILayout.TextField("TwitterAppKey", TwitterAppKey);
+            //NWDGUILayout.SubSection("Social Params for " + Environment);
+            //FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
+            //FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);
+            //GoogleAppKey = EditorGUILayout.TextField("GoogleAppKey", GoogleAppKey);
+            //UnityAppKey = EditorGUILayout.TextField("UnityAppKey", UnityAppKey);
+            //TwitterAppKey = EditorGUILayout.TextField("TwitterAppKey", TwitterAppKey);
 
             NWDGUILayout.SubSection("Admin Key for " + Environment);
             AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);

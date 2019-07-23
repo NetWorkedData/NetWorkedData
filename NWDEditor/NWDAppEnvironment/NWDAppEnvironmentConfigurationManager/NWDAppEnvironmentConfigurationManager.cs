@@ -82,12 +82,12 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_ENVIRONMENTS_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentConfigurationManager t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentConfigurationManager).Name +" t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDAppEnvironmentConfigurationManager"))
+                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentConfigurationManager).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
