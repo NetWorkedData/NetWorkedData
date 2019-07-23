@@ -35,7 +35,7 @@ namespace NetWorkedData
 public partial class NWDTipKeyHelper : NWDHelper<NWDTipKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDUserTip), typeof(NWDTipKey) };
         }

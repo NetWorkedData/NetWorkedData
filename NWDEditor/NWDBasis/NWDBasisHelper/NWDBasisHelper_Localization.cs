@@ -29,7 +29,7 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ReOrderAllLocalizations()
+        public void ReOrderAllLocalizations()
         {
             //BTBBenchmark.Start();
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
@@ -41,7 +41,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ExportLocalization()
+        public void ExportLocalization()
         {
             //BTBBenchmark.Start();
             //Debug.Log ("ExportThisLocalization");
@@ -59,14 +59,14 @@ namespace NetWorkedData
                                  NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace(";", "\";\"") + "\"\n";
                 // start to create file
                 string tFile = tHeaders;
-                tFile += New_ExportLocalizationInCSV();
+                tFile += ExportLocalizationInCSV();
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string New_ExportLocalizationInCSV()
+        public string ExportLocalizationInCSV()
         {
             //BTBBenchmark.Start();
             string tRows = string.Empty;
@@ -80,7 +80,7 @@ namespace NetWorkedData
             return tRows;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
+        public void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
             //BTBBenchmark.Start();
             //Debug.Log ("ImportAllLocalizations");
@@ -93,12 +93,12 @@ namespace NetWorkedData
             //Debug.Log ("ImportAllLocalizations tCount = " + tCount);
             for (tI = 1; tI < tCount; tI++)
             {
-                New_ImportLocalization(sLanguageArray, tKeysArray, sCSVFileArray[tI]);
+                ImportLocalization(sLanguageArray, tKeysArray, sCSVFileArray[tI]);
             }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ImportLocalization(string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
+        public void ImportLocalization(string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
         {
             //BTBBenchmark.Start();
             //Debug.Log ("sCSVrow = " + sCSVrow);
@@ -118,7 +118,7 @@ namespace NetWorkedData
                 if (tDico["Type"] == ClassTrigramme)
                 {
                     //Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
-                    NWDTypeClass tObject = New_GetDataByReference(tDico["Reference"]);
+                    NWDTypeClass tObject = GetDataByReference(tDico["Reference"]);
                     if (tObject != null)
                     {
                         //Debug.Log ("tObject reference " + tObject.Reference + " found ");

@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDUserTransactionHelper : NWDHelper<NWDUserTransaction>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string  AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("// JE DOIS VERIFIER AVEC LES ERVEUR APPLE OU GOOGLE DE LA VALIDITEE DE LA TRANSACTION ET METTRE InAppApprouved EN Approuved OU Refused!");

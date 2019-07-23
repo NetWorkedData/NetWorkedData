@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDUserTradeRequestHelper : NWDHelper<NWDUserTradeRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => FictiveData().AC);
@@ -39,11 +39,11 @@ namespace NetWorkedData
             string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
             string t_THIS_ItemsAsked = NWDToolbox.PropertyName(() => FictiveData().ItemsAsked);
 
-            int t_THIS_Index_TradeStatus = New_CSV_IndexOf(t_THIS_TradeStatus);
-            int t_THIS_Index_TradeHash = New_CSV_IndexOf(t_THIS_TradeHash);
-            int t_THIS_Index_WinnerProposition = New_CSV_IndexOf(t_THIS_WinnerProposition);
-            int t_THIS_Index_ItemsProposed = New_CSV_IndexOf(t_THIS_ItemsProposed);
-            int t_THIS_Index_ItemsAsked = New_CSV_IndexOf(t_THIS_ItemsAsked);
+            int t_THIS_Index_TradeStatus =  CSV_IndexOf(t_THIS_TradeStatus);
+            int t_THIS_Index_TradeHash =  CSV_IndexOf(t_THIS_TradeHash);
+            int t_THIS_Index_WinnerProposition =  CSV_IndexOf(t_THIS_WinnerProposition);
+            int t_THIS_Index_ItemsProposed =  CSV_IndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsAsked =  CSV_IndexOf(t_THIS_ItemsAsked);
 
             StringBuilder rReturn = new StringBuilder();
 

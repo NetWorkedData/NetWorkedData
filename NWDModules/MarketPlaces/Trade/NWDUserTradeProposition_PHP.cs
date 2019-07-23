@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => FictiveData().AC);
@@ -49,12 +49,12 @@ namespace NetWorkedData
             string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
             string t_THIS_ItemsAsked = NWDToolbox.PropertyName(() => FictiveData().ItemsAsked);
 
-            int t_THIS_Index_tTradeRequestHash = New_CSV_IndexOf(t_THIS_TradeRequestHash);
-            int t_THIS_Index_TradePlace = New_CSV_IndexOf(t_THIS_TradePlace);
-            int t_THIS_Index_TradeRequest = New_CSV_IndexOf(t_THIS_TradeRequest);
-            int t_THIS_Index_TradeStatus = New_CSV_IndexOf(t_THIS_TradeStatus);
-            int t_THIS_Index_ItemsProposed = New_CSV_IndexOf(t_THIS_ItemsProposed);
-            int t_THIS_Index_ItemsAsked = New_CSV_IndexOf(t_THIS_ItemsAsked);
+            int t_THIS_Index_tTradeRequestHash =  CSV_IndexOf(t_THIS_TradeRequestHash);
+            int t_THIS_Index_TradePlace =  CSV_IndexOf(t_THIS_TradePlace);
+            int t_THIS_Index_TradeRequest =  CSV_IndexOf(t_THIS_TradeRequest);
+            int t_THIS_Index_TradeStatus =  CSV_IndexOf(t_THIS_TradeStatus);
+            int t_THIS_Index_ItemsProposed =  CSV_IndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsAsked =  CSV_IndexOf(t_THIS_ItemsAsked);
 
             StringBuilder rReturn = new StringBuilder();
 
@@ -161,17 +161,17 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             string t_THIS_TradeRequest = NWDToolbox.PropertyName(() => FictiveData().TradeRequest);
-            int t_THIS_Index_TradeRequest = New_CSV_IndexOf(t_THIS_TradeRequest);
+            int t_THIS_Index_TradeRequest =  CSV_IndexOf(t_THIS_TradeRequest);
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("// write your php script here to update after sync on server");
             rReturn.AppendLine(NWDUserTradeRequest.BasisHelper().PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($sCsvList[" + t_THIS_Index_TradeRequest + "]);");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
+        public override string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("$REP['" + ClassName + " Special'] ='success!!!';");

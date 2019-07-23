@@ -37,7 +37,7 @@ namespace NetWorkedData
     public partial class NWDAccountRelationshipHelper : NWDHelper<NWDAccountRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-public override List<Type> New_OverrideClasseInThisSync()
+public override List<Type>  OverrideClasseInThisSync()
         {
             List<Type> tClasses = new List<Type> { typeof(NWDUserRelationship), typeof(NWDAccountRelationship), typeof(NWDRelationshipPlace) };
             foreach (NWDRelationshipPlace tPlace in NWDRelationshipPlace.GetReachableDatas())

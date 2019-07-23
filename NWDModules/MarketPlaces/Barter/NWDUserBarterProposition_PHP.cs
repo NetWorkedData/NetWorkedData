@@ -32,7 +32,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => FictiveData().AC);
@@ -60,12 +60,12 @@ namespace NetWorkedData
             string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
             string t_THIS_ItemsSend = NWDToolbox.PropertyName(() => FictiveData().ItemsSend);
 
-            int t_THIS_Index_BarterRequestHash = New_CSV_IndexOf(t_THIS_BarterRequestHash);
-            int t_THIS_Index_BarterPlace = New_CSV_IndexOf(t_THIS_BarterPlace);
-            int t_THIS_Index_BarterRequest = New_CSV_IndexOf(t_THIS_BarterRequest);
-            int t_THIS_Index_BarterStatus = New_CSV_IndexOf(t_THIS_BarterStatus);
-            int t_THIS_Index_ItemsProposed = New_CSV_IndexOf(t_THIS_ItemsProposed);
-            int t_THIS_Index_ItemsSend = New_CSV_IndexOf(t_THIS_ItemsSend);
+            int t_THIS_Index_BarterRequestHash =  CSV_IndexOf(t_THIS_BarterRequestHash);
+            int t_THIS_Index_BarterPlace =  CSV_IndexOf(t_THIS_BarterPlace);
+            int t_THIS_Index_BarterRequest =  CSV_IndexOf(t_THIS_BarterRequest);
+            int t_THIS_Index_BarterStatus =  CSV_IndexOf(t_THIS_BarterStatus);
+            int t_THIS_Index_ItemsProposed =  CSV_IndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsSend =  CSV_IndexOf(t_THIS_ItemsSend);
 
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("// debut find ");
@@ -329,10 +329,10 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //------------------------------------------------------------------------------------------------------------- 
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             string t_THIS_BarterRequest = NWDToolbox.PropertyName(() => FictiveData().BarterRequest);
-            int t_THIS_Index_BarterRequest = New_CSV_IndexOf(t_THIS_BarterRequest);
+            int t_THIS_Index_BarterRequest =  CSV_IndexOf(t_THIS_BarterRequest);
 
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("// write your php script here to update after sync on server ");

@@ -24,16 +24,16 @@ namespace NetWorkedData
     public partial class NWDAccountHelper : NWDHelper<NWDAccount>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
         {
-            return NWDAccount.New_PhpEngine(sEnvironment);
+            return NWDAccount.PhpEngine(sEnvironment);
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccount : NWDBasis<NWDAccount>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string New_PhpEngine(NWDAppEnvironment sEnvironment)
+        public static string PhpEngine(NWDAppEnvironment sEnvironment)
         {
             StringBuilder tFile = new StringBuilder();
             tFile.AppendLine("<?php");

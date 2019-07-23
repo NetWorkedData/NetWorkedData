@@ -26,7 +26,7 @@ namespace NetWorkedData
     {
 
         //-------------------------------------------------------------------------------------------------------------
-public override List<Type> New_OverrideClasseInThisSync()
+public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDCraftReward), typeof(NWDCraftBook), typeof(NWDCraftRecipient) };
         }

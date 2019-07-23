@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDUserGuildSubcriptionHelper : NWDHelper<NWDUserGuildSubcription>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> {typeof(NWDGuildPlace), typeof(NWDUserGuild), typeof(NWDUserGuildSubcription) };
         }

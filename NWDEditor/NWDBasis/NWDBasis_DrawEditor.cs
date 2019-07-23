@@ -149,8 +149,8 @@ namespace NetWorkedData
                         if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
-                            BasisHelper().New_SetObjectInEdition(tNextSelected);
-                            BasisHelper().New_ChangeScroolPositionToSelection();
+                            BasisHelper().SetObjectInEdition(tNextSelected);
+                            BasisHelper().ChangeScroolPositionToSelection();
                             Event.current.Use();
                         }
                     }
@@ -170,8 +170,8 @@ namespace NetWorkedData
                         if (tIndexSelected > 0)
                         {
                             K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
-                            BasisHelper().New_SetObjectInEdition(tNextSelected);
-                            BasisHelper().New_ChangeScroolPositionToSelection();
+                            BasisHelper().SetObjectInEdition(tNextSelected);
+                            BasisHelper().ChangeScroolPositionToSelection();
                             Event.current.Use();
                         }
                     }
@@ -191,8 +191,8 @@ namespace NetWorkedData
                     if (tIndexSel < BasisHelper().EditorTableDatas.Count)
                     {
                         K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
-                        BasisHelper().New_SetObjectInEdition(tNextSelected);
-                        BasisHelper().New_ChangeScroolPositionToSelection();
+                        BasisHelper().SetObjectInEdition(tNextSelected);
+                        BasisHelper().ChangeScroolPositionToSelection();
                         Event.current.Use();
                     }
                 }
@@ -206,8 +206,8 @@ namespace NetWorkedData
                 {
                     BasisHelper().m_PageSelected--;
                     K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
-                    BasisHelper().New_SetObjectInEdition(tNextSelected);
-                    BasisHelper().New_ChangeScroolPositionToSelection();
+                    BasisHelper().SetObjectInEdition(tNextSelected);
+                    BasisHelper().ChangeScroolPositionToSelection();
                     Event.current.Use();
                 }
                 else
@@ -294,8 +294,8 @@ namespace NetWorkedData
                     tWindow.Focus();
                     tWindow.SelectTab(ClassType());
                 }
-                BasisHelper().New_SetObjectInEdition(this, false, true);
-                BasisHelper().New_ChangeScroolPositionToSelection();
+                BasisHelper().SetObjectInEdition(this, false, true);
+                BasisHelper().ChangeScroolPositionToSelection();
             }
             // draw preview
             DrawPreviewTexture2D(tRright);
@@ -444,13 +444,13 @@ namespace NetWorkedData
                     GUI.Label(tR, NWDConstants.K_APP_BASIS_Sync + "(" + DS.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     GUI.Label(tR, NWDConstants.K_APP_BASIS_DevSync + "(" + DevSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(DevSync).ToString("yyyy/MM/dd HH:mm:ss")
-                               + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                               + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     GUI.Label(tR, NWDConstants.K_APP_BASIS_PreprodSync + "(" + PreprodSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(PreprodSync).ToString("yyyy/MM/dd HH:mm:ss")
-                               + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                               + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     GUI.Label(tR, NWDConstants.K_APP_BASIS_ProdSync + "(" + ProdSync.ToString() + ")" + NWDToolbox.TimeStampToDateTime(ProdSync).ToString("yyyy/MM/dd HH:mm:s")
-                                + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().New_SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
+                                + " (last sync request " + NWDToolbox.TimeStampToDateTime(BasisHelper().SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     GUI.Label(tR, NWDConstants.K_APP_BASIS_xx + XX.ToString(), NWDGUI.kMiniLabelStyle);
                     tR.y += NWDGUI.kMiniLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -489,7 +489,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     PreviewTexture2D();
                     RowAnalyze();
-                    BasisHelper().New_RepaintTableEditor();
+                    BasisHelper().RepaintTableEditor();
                 }
 
                 bool tInternalKeyEditable = true;
@@ -513,7 +513,7 @@ namespace NetWorkedData
                         UpdateIntegrity();
                         UpdateData(true, NWDWritingMode.ByEditorDefault);
                         RowAnalyze();
-                        BasisHelper().New_RepaintTableEditor();
+                        BasisHelper().RepaintTableEditor();
                         //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                     }
                 }
@@ -536,7 +536,7 @@ namespace NetWorkedData
                     UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     RowAnalyze();
-                    BasisHelper().New_RepaintTableEditor();
+                    BasisHelper().RepaintTableEditor();
                     //NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
 
@@ -598,7 +598,7 @@ namespace NetWorkedData
                         UpdateIntegrity();
                         UpdateData(true, NWDWritingMode.ByEditorDefault, false);
                         RowAnalyze();
-                        BasisHelper().New_RepaintTableEditor();
+                        BasisHelper().RepaintTableEditor();
                     }
                 }
                 else
@@ -628,7 +628,7 @@ namespace NetWorkedData
                     UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     RowAnalyze();
-                    BasisHelper().New_RepaintTableEditor();
+                    BasisHelper().RepaintTableEditor();
                 }
 
                 if (BasisHelper().kAccountDependent == false)
@@ -648,7 +648,7 @@ namespace NetWorkedData
                         UpdateIntegrity();
                         UpdateData(true, NWDWritingMode.MainThread);
                         RowAnalyze();
-                        BasisHelper().New_RepaintTableEditor();
+                        BasisHelper().RepaintTableEditor();
                     }
                 }
 
@@ -718,7 +718,7 @@ namespace NetWorkedData
                         }
                     }
                     UpdateData();
-                    BasisHelper().New_RepaintTableEditor();
+                    BasisHelper().RepaintTableEditor();
                 }
                 if (tPreprodLockAnalyze != tPreprodLock)
                 {
@@ -749,7 +749,7 @@ namespace NetWorkedData
                         }
                     }
                     UpdateData();
-                    BasisHelper().New_RepaintTableEditor();
+                    BasisHelper().RepaintTableEditor();
                 }
                 if (tProdLockAnalyze != tProdLock)
                 {
@@ -780,7 +780,7 @@ namespace NetWorkedData
                         }
                     }
                     UpdateData();
-                    BasisHelper().New_RepaintTableEditor();
+                    BasisHelper().RepaintTableEditor();
                 }
                 tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
 
@@ -925,7 +925,7 @@ namespace NetWorkedData
                         tNexObject.Tag = BasisHelper().m_SearchTag;
                         tNexObject.UpdateData();
                     }
-                    BasisHelper().New_SetObjectInEdition(tNexObject);
+                    BasisHelper().SetObjectInEdition(tNexObject);
                     BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                     NWDDataManager.SharedInstance().DataQueueExecute();
                 }
@@ -991,8 +991,8 @@ namespace NetWorkedData
                     {
 
                         DeleteData(NWDWritingMode.ByEditorDefault);
-                        BasisHelper().New_SetObjectInEdition(null);
-                        BasisHelper().New_RepaintTableEditor();
+                        BasisHelper().SetObjectInEdition(null);
+                        BasisHelper().RepaintTableEditor();
                     }
                 }
                 if (GUI.Button(tMatrixRect[2, 3], NWDConstants.K_APP_BASIS_NEW_SHORT_REFERENCE, NWDGUI.kMiniButtonStyle))

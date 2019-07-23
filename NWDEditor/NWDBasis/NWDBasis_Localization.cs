@@ -40,7 +40,7 @@ namespace NetWorkedData
                 bool tUpdate = false;
                 //				string tRows = "";
                 Type tType = ClassType();
-                List<string> tPropertiesList = BasisHelper().New_PropertiesOrderArray();
+                List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
                 foreach (string tPropertieName in tPropertiesList)
                 {
                     PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -74,7 +74,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             string tRows = string.Empty;
             Type tType = ClassType();
-            List<string> tPropertiesList = BasisHelper().New_PropertiesOrderArray();
+            List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);

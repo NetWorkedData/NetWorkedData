@@ -70,6 +70,18 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Show the SharedInstance of app configuration manager window and focus on.
         /// </summary>

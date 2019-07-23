@@ -40,7 +40,7 @@ namespace NetWorkedData
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
 				tOperation++;
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_ChangeAssetPath(sOldPath,sNewPath);
+                tHelper.ChangeAssetPath(sOldPath,sNewPath);
 			}
             DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);

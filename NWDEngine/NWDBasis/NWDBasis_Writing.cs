@@ -262,7 +262,7 @@ namespace NetWorkedData
         public void CopyData(NWDTypeClass sOriginal)
         {
             //BTBBenchmark.Start();
-            string[] tKey = BasisHelper().New_SLQAssemblyOrderArray();
+            string[] tKey = BasisHelper().SLQAssemblyOrderArray();
             Type tType = ClassType();
             foreach (string tPropertyString in tKey)
             {
@@ -648,10 +648,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDNodeEditor.ReAnalyzeIfNecessary(this);
-            #endif
+#endif
             //BTBBenchmark.Start();
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
@@ -846,7 +846,7 @@ namespace NetWorkedData
             if (this.Integrity != this.IntegrityValue())
             {
                 tReturn = true;
-                UpdateData(true, NWDWritingMode.ByDefaultLocal , false, false);
+                UpdateData(true, NWDWritingMode.ByDefaultLocal, false, false);
             }
             //BTBBenchmark.Finish();
             return tReturn;
@@ -1034,12 +1034,12 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
-if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-}
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                }
             }
             else
             {

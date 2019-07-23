@@ -116,7 +116,7 @@ namespace NetWorkedData
             SaveData();
 
             // Remove stranger data request
-            NWDUserTradeRequest.BasisHelper().New_PurgeTable();
+            NWDUserTradeRequest.BasisHelper().PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

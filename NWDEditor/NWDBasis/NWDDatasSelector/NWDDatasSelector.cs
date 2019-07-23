@@ -200,9 +200,9 @@ namespace NetWorkedData
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
             GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
 
-            GUIContent sDataLabel = sHelper.New_GetGuiContent(sReference);
-            NWDTypeClass tData = sHelper.New_GetDataByReference(sReference);
-            if (string.IsNullOrEmpty(sReference) == false && sHelper.New_GetDataByReference(sReference) == null)
+            GUIContent sDataLabel = sHelper.GetGUIContent(sReference);
+            NWDTypeClass tData = sHelper.GetDataByReference(sReference);
+            if (string.IsNullOrEmpty(sReference) == false && sHelper.GetDataByReference(sReference) == null)
             {
                 NWDGUI.BeginRedArea();
                 GUI.Label(tField, sDataLabel, NWDGUI.kDataSelectorFieldStyle);
@@ -272,14 +272,14 @@ namespace NetWorkedData
 
                     if (GUI.Button(tEditRect, NWDGUI.kEditContentIcon, NWDGUI.kEditButtonStyle))
                     {
-                        sHelper.New_SetObjectInEdition(sHelper.New_GetDataByReference(sReference), false);
+                        sHelper.SetObjectInEdition(sHelper.GetDataByReference(sReference), false);
                     }
                 }
                 else
                 {
                     if (GUI.Button(tEditRect, NWDGUI.kNewContentIcon, NWDGUI.kEditButtonStyle))
                     {
-                        NWDTypeClass tNewObject = sHelper.New_NewData();
+                        NWDTypeClass tNewObject = sHelper.NewData();
                         if (ControllerResult.ContainsKey(tID))
                         {
                             ControllerResult.Remove(tID);

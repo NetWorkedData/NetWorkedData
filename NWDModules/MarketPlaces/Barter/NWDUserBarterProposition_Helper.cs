@@ -24,7 +24,7 @@ namespace NetWorkedData
 public partial class NWDUserBarterPropositionHelper : NWDHelper<NWDUserBarterProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-public override List<Type> New_OverrideClasseInThisSync()
+public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDUserOwnership), typeof(NWDBarterPlace), typeof(NWDUserBarterRequest), typeof(NWDUserBarterProposition) };
         }

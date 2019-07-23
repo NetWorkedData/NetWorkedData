@@ -36,7 +36,7 @@ namespace NetWorkedData
     public partial class NWDStatisticKeyHelper : NWDHelper<NWDStatisticKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-public override List<Type> New_OverrideClasseInThisSync()
+public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDUserStatistic), typeof(NWDAccountStatistic), typeof(NWDStatisticKey) };
         }

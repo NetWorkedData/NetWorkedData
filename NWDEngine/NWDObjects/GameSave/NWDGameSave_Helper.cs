@@ -23,7 +23,7 @@ namespace NetWorkedData
     public partial class NWDGameSaveHelper : NWDHelper<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDAccountInfos), typeof(NWDGameSave) };
         }

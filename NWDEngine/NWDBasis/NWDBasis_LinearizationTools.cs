@@ -38,12 +38,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
         {
-            return BasisHelper().New_CSV_IndexOf(sPropertyName, sWebBuilt);
+            return BasisHelper().CSV_IndexOf(sPropertyName, sWebBuilt);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string SLQSelect(int sWebBuilt = -1)
         {
-            return BasisHelper().New_SLQSelect(sWebBuilt);
+            return BasisHelper().SLQSelect(sWebBuilt);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
@@ -126,7 +126,7 @@ namespace NetWorkedData
         {
             // TODO Determine WebService Model
             // TODO USe the good model to Update
-            int tModel = BasisHelper().New_GetWebModelValueFromCSV(sDataArray);
+            int tModel = BasisHelper().GetWebModelValueFromCSV(sDataArray);
 
 
             // FORCE TO ENGLISH FORMAT!
@@ -134,7 +134,7 @@ namespace NetWorkedData
 
             //Debug.Log("UpdateWithCSV ref " + Reference);
             // get key order assembly of cvs
-            string[] tKey = BasisHelper().New_PropertiesOrderArray(tModel).ToArray();
+            string[] tKey = BasisHelper().PropertiesOrderArray(tModel).ToArray();
             // get values 
             string[] tValue = sDataArray;
             // Short circuit the sync date
@@ -268,7 +268,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string CSVAssemblyHead()
         {
-            return string.Join(NWDConstants.kStandardSeparator, BasisHelper().New_PropertiesOrderArray(-1).ToArray());
+            return string.Join(NWDConstants.kStandardSeparator, BasisHelper().PropertiesOrderArray(-1).ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string CSVAssembly()
@@ -292,7 +292,7 @@ namespace NetWorkedData
         {
             List<string> rReturnList = new List<string>();
             Type tType = ClassType();
-            List<string> tPropertiesList = BasisHelper().New_PropertiesOrderArray(-1);
+            List<string> tPropertiesList = BasisHelper().PropertiesOrderArray(-1);
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);

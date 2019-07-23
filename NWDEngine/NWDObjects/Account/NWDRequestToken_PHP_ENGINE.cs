@@ -27,16 +27,16 @@ namespace NetWorkedData
     public partial class NWDRequestTokenHelper : NWDHelper<NWDRequestToken>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
         {
-            return NWDRequestToken.New_PhpEngine(sEnvironment);
+            return NWDRequestToken.PhpEngine(sEnvironment);
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string New_PhpEngine(NWDAppEnvironment sEnvironment)
+        public static string PhpEngine(NWDAppEnvironment sEnvironment)
         {
             StringBuilder tFile = new StringBuilder();
             tFile.AppendLine("<?php");

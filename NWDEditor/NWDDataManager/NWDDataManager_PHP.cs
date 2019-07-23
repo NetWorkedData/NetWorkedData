@@ -37,7 +37,7 @@ namespace NetWorkedData
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " errors and messages", tOperation / tCountClass);
                 tOperation++;
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_ErrorRegenerate();
+                tHelper.ErrorRegenerate();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateErrorsAndMessages);
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ErrorRegenerate);
             }
@@ -270,7 +270,7 @@ namespace NetWorkedData
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reset " + tType.Name + " model", tOperation / tCountClass);
                 tOperation++;
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ModelReset); 
-                NWDBasisHelper.FindTypeInfos(tType).New_DeleteOldsModels();
+                NWDBasisHelper.FindTypeInfos(tType).DeleteOldsModels();
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();

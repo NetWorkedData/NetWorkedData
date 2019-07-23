@@ -146,7 +146,7 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
                 {
-                    NWDAccountSign.BasisHelper().New_SetObjectInEdition(tSign);
+                    NWDAccountSign.BasisHelper().SetObjectInEdition(tSign);
                 }
                 tI++;
             }
@@ -156,8 +156,8 @@ namespace NetWorkedData
                 NWDAccountSign tSign = NWDAccountSign.NewData();
                 tSign.Account.SetReference(Reference);
                 tSign.SaveData();
-                NWDAccountSign.BasisHelper().New_SetObjectInEdition(tSign);
-                NWDAccountSign.BasisHelper().New_ChangeScroolPositionToSelection();
+                NWDAccountSign.BasisHelper().SetObjectInEdition(tSign);
+                NWDAccountSign.BasisHelper().ChangeScroolPositionToSelection();
             }
             tI++;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));

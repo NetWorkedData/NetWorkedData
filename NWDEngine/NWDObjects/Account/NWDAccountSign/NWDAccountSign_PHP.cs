@@ -28,17 +28,17 @@ namespace NetWorkedData
     public partial class NWDAccountSignHelper : NWDHelper<NWDAccountSign>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tSignReference = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Reference);
             string tSignStatusKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
             string tInternalDescription = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().InternalDescription);
-            int t_Index_SignActionKey = New_CSV_IndexOf(tSignStatusKey);
-            int t_Index_SignHashKey = New_CSV_IndexOf(tSignHashKey);
-            int t_Index_RescueHashKey = New_CSV_IndexOf(tRescueHashKey);
-            int t_Index_InternalDescription= New_CSV_IndexOf(tInternalDescription);
+            int t_Index_SignActionKey =  CSV_IndexOf(tSignStatusKey);
+            int t_Index_SignHashKey =  CSV_IndexOf(tSignHashKey);
+            int t_Index_RescueHashKey =  CSV_IndexOf(tRescueHashKey);
+            int t_Index_InternalDescription=  CSV_IndexOf(tInternalDescription);
             StringBuilder sScript = new StringBuilder(string.Empty);
             sScript.AppendLine("// analyze the sign ");
             sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString()+")");
@@ -93,7 +93,7 @@ namespace NetWorkedData
             return sScript.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t{\n" 
@@ -107,7 +107,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             //"while($tRow = $tResult->fetch_row()")
             //"{"
@@ -115,7 +115,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
             //"\t{\n" 
@@ -123,7 +123,7 @@ namespace NetWorkedData
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             return "// write your php script string here to add function in php file;\n";
         }

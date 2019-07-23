@@ -37,33 +37,33 @@ namespace NetWorkedData
         public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
         //-------------------------------------------------------------------------------------------------------------
-       public NWDTypeClass New_RestaureObjectInEdition()
+       public NWDTypeClass RestaureObjectInEdition()
         {
             string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
             string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
-            NWDTypeClass rObject = New_ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
+            NWDTypeClass rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
             if (rObject != null)
             {
-                New_SetObjectInEdition(rObject);
+                SetObjectInEdition(rObject);
             }
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass New_ObjectInEditionReccord(string sClassPHP, string sReference)
+        public NWDTypeClass ObjectInEditionReccord(string sClassPHP, string sReference)
         {
             NWDTypeClass rObject = null;
             if (!string.IsNullOrEmpty(sClassPHP) && !string.IsNullOrEmpty(sReference))
             {
                 if (sClassPHP == ClassNamePHP)
                 {
-                    NWDTypeClass tObj = New_GetDataByReference(sReference);
+                    NWDTypeClass tObj = GetDataByReference(sReference);
                     rObject = tObj;
                 }
             }
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_SaveObjectInEdition()
+        public void SaveObjectInEdition()
         {
             NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
             if (tObject == null)
@@ -78,9 +78,8 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
+        public void SetObjectInEdition(NWDTypeClass sObject, bool sResetStack = true, bool sFocus = true)
         {
-            //NWDDebug.Log("New_SetObjectInEdition()");
             GUI.FocusControl(null);
             NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
             if (sObject != null)
@@ -93,10 +92,10 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
                 NWDBasisEditor.ObjectEditorLastType = null;
             }
-            New_SaveObjectInEdition();
+            SaveObjectInEdition();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool New_IsObjectInEdition(NWDTypeClass sObject)
+        public bool IsObjectInEdition(NWDTypeClass sObject)
         {
             bool rReturn = false;
             if (NWDDataInspector.ObjectInEdition() == sObject)
@@ -107,13 +106,13 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public void New_DeleteUser(NWDAppEnvironment sEnvironment)
+        public void DeleteUser(NWDAppEnvironment sEnvironment)
         {
-            if (kAccountDependent== true)
+            if (kAccountDependent == true)
             {
                 // reset last sync to zero
-                New_SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
-                                                                                   // delete all datas for this user
+                SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
+                                                                     // delete all datas for this user
                 foreach (NWDTypeClass tObject in Datas)
                 {
                     if (tObject.IsReacheableByAccount(NWDAccount.CurrentReference()))
@@ -123,30 +122,15 @@ namespace NetWorkedData
                 }
                 // need to reload this data now : to remove all tObjects from memory!
                 //LoadTableEditor();
-                New_LoadFromDatabase();
+                LoadFromDatabase();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass New_NewData()
+        public NWDTypeClass NewData()
         {
             NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { true }) as NWDTypeClass;
             return rReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-//        public NWDTypeClass[] New_TrashAllObjects(string sAccountReference = null)
-//        {
-//            List<NWDTypeClass> rReturn = new List<NWDTypeClass>();
-//            foreach (NWDTypeClass tObject in FindDatas(sAccountReference))
-//            {
-//                tObject.TrashData();
-//                rReturn.Add(tObject);
-//            }
-//#if UNITY_EDITOR
-//            New_RepaintTableEditor();
-//            New_RepaintInspectorEditor();
-//#endif
-        //    return rReturn.ToArray();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public void FlushTrash(NWDTypeClass sObject)
         {
@@ -163,7 +147,7 @@ namespace NetWorkedData
                 //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
             }
 #else
-            if (sObject.XX > 0) 
+            if (sObject.XX > 0)
             {
                 //Debug.Log (sObject.Reference + "Must be trashed!");
                 //RemoveObjectInListOfEdition (sObject);

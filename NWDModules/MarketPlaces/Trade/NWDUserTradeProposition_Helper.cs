@@ -22,7 +22,7 @@ namespace NetWorkedData
     public partial class NWDUserTradePropositionHelper : NWDHelper<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDUserOwnership), typeof(NWDTradePlace), typeof(NWDUserTradeRequest), typeof(NWDUserTradeProposition), typeof(NWDUserTradeFinder) };
         }

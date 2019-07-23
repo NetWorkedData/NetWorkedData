@@ -596,7 +596,7 @@ namespace NetWorkedData
                 //            {
                 //	tMethodInfo.Invoke (null, new object[]{ sEnvironment.PlayerAccountReference, sNewAccountReference });
                 //}
-                NWDBasisHelper.FindTypeInfos(tType).New_TryToChangeUserForAllObjects(sEnvironment.PlayerAccountReference, sNewAccountReference);
+                NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sEnvironment.PlayerAccountReference, sNewAccountReference);
 
             }
             sEnvironment.PlayerAccountReference = sNewAccountReference;
@@ -659,16 +659,16 @@ namespace NetWorkedData
                     //}
 
 
-                        string tResult = NWDBasisHelper.FindTypeInfos(tType).New_SynchronizationPullData( sInfos, sEnvironment, sData, sSpecial);
-                        if (tResult == "YES")
-                        {
-                            tUpdateData = true;
-                            tClassNameSync.Add(tType.Name);
-                        }
-                        else
-                        {
-                            tClassNameNotSync.Add(tType.Name);
-                        }
+                    string tResult = NWDBasisHelper.FindTypeInfos(tType).SynchronizationPullData(sInfos, sEnvironment, sData, sSpecial);
+                    if (tResult == "YES")
+                    {
+                        tUpdateData = true;
+                        tClassNameSync.Add(tType.Name);
+                    }
+                    else
+                    {
+                        tClassNameNotSync.Add(tType.Name);
+                    }
 
 
                 }
@@ -728,7 +728,7 @@ namespace NetWorkedData
                     //	}
                     //}
 
-                    Dictionary<string, object> rSendPartial = NWDBasisHelper.FindTypeInfos(tType).New_SynchronizationPushData(sInfos, sEnvironment, sForceAll, sSpecial);
+                    Dictionary<string, object> rSendPartial = NWDBasisHelper.FindTypeInfos(tType).SynchronizationPushData(sInfos, sEnvironment, sForceAll, sSpecial);
                     foreach (string tKey in rSendPartial.Keys)
                     {
                         rSend.Add(tKey, rSendPartial[tKey]);
@@ -789,7 +789,7 @@ namespace NetWorkedData
                 //}
 
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_DeleteUser(sEnvironment);
+                tHelper.DeleteUser(sEnvironment);
 
             }
         }

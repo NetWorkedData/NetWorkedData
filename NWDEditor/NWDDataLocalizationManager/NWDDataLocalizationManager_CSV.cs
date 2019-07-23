@@ -38,7 +38,7 @@ namespace NetWorkedData
                 tOperation++;
 
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_ReOrderAllLocalizations();
+                tHelper.ReOrderAllLocalizations();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ReOrderAllLocalizations);
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
@@ -68,7 +68,7 @@ namespace NetWorkedData
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tFile +=  tHelper.New_ExportLocalizationInCSV();
+                    tFile +=  tHelper.ExportLocalizationInCSV();
                     //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
                     //if (tMethodInfo != null)
                     //{
@@ -99,7 +99,7 @@ namespace NetWorkedData
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        tHelper.New_ImportAllLocalizations(tLanguageArray, tFileRows);
+                        tHelper.ImportAllLocalizations(tLanguageArray, tFileRows);
                         //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
                         //if (tMethodInfo != null)
                         //{

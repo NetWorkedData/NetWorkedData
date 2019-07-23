@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDPreferenceKeyHelper : NWDHelper<NWDPreferenceKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDPreferenceKey), typeof(NWDAccountPreference), typeof(NWDUserPreference) };
         }

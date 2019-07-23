@@ -60,14 +60,14 @@ namespace NetWorkedData
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
-                string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+                string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
                     File.Delete(tPathEditor);
                 }
                 // Write editor database
-                if (!File.Exists (tPathEditor))
+                if (!File.Exists(tPathEditor))
                 {
                     // if it doesn't ->
                     // open StreamingAssets directory and load the db ->
@@ -161,7 +161,7 @@ namespace NetWorkedData
             //rReturn = Application.dataPath + "/" + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
             rReturn = "Assets/" + NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
 #else
-            rReturn = string.Format ("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount);
+            rReturn = string.Format("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount);
 #endif
             //Debug.Log("<color=orange>PathDatabaseAccount return :" + rReturn + "</color>");
             return rReturn;
@@ -419,8 +419,8 @@ namespace NetWorkedData
 
             File.Delete(tDatabasePathEditor);
 #else
-                string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
-                File.Delete(tPathEditor);
+            string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+            File.Delete(tPathEditor);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -503,7 +503,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_CreateTable();
+                    tHelper.CreateTable();
                     //Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
@@ -517,7 +517,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_CleanTable();
+                    tHelper.CleanTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
                 }
             }
@@ -530,7 +530,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_PurgeTable();
+                    tHelper.PurgeTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
                 }
             }
@@ -543,7 +543,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_UpdateDataTable();
+                    tHelper.UpdateDataTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
                 }
             }
@@ -556,7 +556,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_ResetTable();
+                    tHelper.ResetTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
                 }
             }
@@ -569,7 +569,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_CreateTable();
+                    tHelper.CreateTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
             }
@@ -582,7 +582,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_CleanTable();
+                    tHelper.CleanTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
                 }
             }
@@ -595,7 +595,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_PurgeTable();
+                    tHelper.PurgeTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
                 }
             }
@@ -608,7 +608,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_UpdateDataTable();
+                    tHelper.UpdateDataTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
                 }
             }
@@ -621,7 +621,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_ResetTable();
+                    tHelper.ResetTable();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
                 }
             }
@@ -655,20 +655,20 @@ namespace NetWorkedData
             {
                 //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 //{
-                    if (SQLiteConnectionAccountIsValid())
-                    {
-                        SQLiteConnectionAccount.MigrateTableByType(sType);
-                    }
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    SQLiteConnectionAccount.MigrateTableByType(sType);
+                }
                 //}
             }
             else
             {
                 //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 //{
-                    if (SQLiteConnectionEditorIsValid())
-                    {
-                        SQLiteConnectionEditor.MigrateTableByType(sType);
-                    }
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    SQLiteConnectionEditor.MigrateTableByType(sType);
+                }
                 //}
             }
         }
@@ -680,20 +680,20 @@ namespace NetWorkedData
             {
                 //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 //{
-                    if (SQLiteConnectionAccountIsValid())
-                    {
-                        SQLiteConnectionAccount.TruncateTableByType(sType);
-                    }
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    SQLiteConnectionAccount.TruncateTableByType(sType);
+                }
                 //}
             }
             else
             {
                 //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 //{
-                    if (SQLiteConnectionEditorIsValid())
-                    {
-                        SQLiteConnectionEditor.TruncateTableByType(sType);
-                    }
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    SQLiteConnectionEditor.TruncateTableByType(sType);
+                }
                 //}
             }
         }
@@ -705,20 +705,20 @@ namespace NetWorkedData
             {
                 //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
                 //{
-                    if (SQLiteConnectionAccountIsValid())
-                    {
-                        SQLiteConnectionAccount.DropTableByType(sType);
-                    }
+                if (SQLiteConnectionAccountIsValid())
+                {
+                    SQLiteConnectionAccount.DropTableByType(sType);
+                }
                 //}
             }
             else
             {
                 //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
                 //{
-                    if (SQLiteConnectionEditorIsValid())
-                    {
-                        SQLiteConnectionEditor.DropTableByType(sType);
-                    }
+                if (SQLiteConnectionEditorIsValid())
+                {
+                    SQLiteConnectionEditor.DropTableByType(sType);
+                }
                 //}
             }
         }

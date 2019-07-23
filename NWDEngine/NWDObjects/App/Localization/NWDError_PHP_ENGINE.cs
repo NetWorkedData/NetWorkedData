@@ -27,9 +27,9 @@ namespace NetWorkedData
     public partial class NWDErrorHelper : NWDHelper<NWDError>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
         {
-            return NWDError.New_PhpEngine(sEnvironment);
+            return NWDError.PhpEngine(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -37,7 +37,7 @@ namespace NetWorkedData
     public partial class NWDError : NWDBasis<NWDError>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string New_PhpEngine(NWDAppEnvironment sEnvironment)
+        public static string PhpEngine(NWDAppEnvironment sEnvironment)
         {
             StringBuilder tFile = new StringBuilder();
             //tFile.Append(ENGINEPHP_ErrorDeclaration(sEnvironment));

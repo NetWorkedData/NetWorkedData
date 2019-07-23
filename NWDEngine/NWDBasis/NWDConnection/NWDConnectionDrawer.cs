@@ -47,7 +47,7 @@ namespace NetWorkedData
 			if (tTypeParent.IsGenericType) {
                 Type tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeDefintion);
-                tHeight = tHelper.New_ReferenceConnectionHeightSerialized(property, tReferenceConnection.ShowInspector);
+                tHeight = tHelper.ReferenceConnectionHeightSerialized(property, tReferenceConnection.ShowInspector);
             }
 			return tHeight;
 		}
@@ -71,7 +71,7 @@ namespace NetWorkedData
             {
                 Type tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeDefintion);
-                tHelper.New_ReferenceConnectionFieldSerialized(position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector);
+                tHelper.ReferenceConnectionFieldSerialized(position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector);
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------

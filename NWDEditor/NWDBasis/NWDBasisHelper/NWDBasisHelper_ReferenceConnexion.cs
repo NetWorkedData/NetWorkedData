@@ -160,7 +160,7 @@ namespace NetWorkedData
         //    return tValue;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual float New_ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
+        public virtual float ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
         {
             //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
@@ -168,7 +168,7 @@ namespace NetWorkedData
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = NWDGUI.kDataSelectorFieldStyle.fixedHeight;
-            NWDTypeClass tObject = New_GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
+            NWDTypeClass tObject = GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
             if (tObject != null)
             {
                 if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
@@ -195,7 +195,7 @@ namespace NetWorkedData
             string tValue = sProperty.FindPropertyRelative("Reference").stringValue;
             if (tValue != null && tValue != string.Empty)
             {
-                if (New_GetDataByReference(tValue) == null)
+                if (GetDataByReference(tValue) == null)
                 {
                     GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                     tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -206,7 +206,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
+        public virtual void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector)
         {
             //BTBBenchmark.Start();
             GUIContent tLabelContent = new GUIContent(sEntitled);
@@ -240,14 +240,14 @@ namespace NetWorkedData
 
                 tFuturValue = NWDDatasSelector.Field(this, new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tLabelContent, tValue);
                 tY += NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-                NWDTypeClass tObject = New_GetDataByReference(tFuturValue);
+                NWDTypeClass tObject = GetDataByReference(tFuturValue);
                 if (tValue != tFuturValue)
                 {
                     tAutoChange = true;
                 }
                 if (tAutoChange == true)
                 {
-                    New_SetObjectInEdition(tObject, true, false);
+                    SetObjectInEdition(tObject, true, false);
                 }
                 if (tObject != null)
                 {

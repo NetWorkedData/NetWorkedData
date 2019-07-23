@@ -83,7 +83,7 @@ namespace NetWorkedData
             if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeEdited);
-                NWDTypeClass tData = tHelper.New_GetDataByReference(tLastReferenceEdited);
+                NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
                 SetObjectInNodeWindow(tData);
             }
             //BTBBenchmark.Finish();

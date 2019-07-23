@@ -28,7 +28,7 @@ namespace NetWorkedData
     public partial class NWDItemRarityHelper : NWDHelper<NWDItemRarity>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("global $NWD_FLOAT_FORMAT;");

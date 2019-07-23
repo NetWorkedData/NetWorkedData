@@ -35,7 +35,7 @@ namespace NetWorkedData
         public const string SynchronizeKeyLastTimestamp = "last";
         public const string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
-        public string New_SynchronizationPrefsKey(NWDAppEnvironment sEnvironment)
+        public string SynchronizationPrefsKey(NWDAppEnvironment sEnvironment)
         {
             return ClassPrefBaseKey + SynchronizeKeyLastTimestamp;
         }
@@ -45,9 +45,9 @@ namespace NetWorkedData
         //    NWDBasisPreferences.SetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, sEnvironment.BuildTimestamp, kAccountDependent);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public int New_SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
+        public int SynchronizationGetLastTimestamp(NWDAppEnvironment sEnvironment)
         {
-            int rReturn = NWDBasisPreferences.GetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
+            int rReturn = NWDBasisPreferences.GetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, 0, kAccountDependent);
             // Modified by the version of bundle
             if (kAccountDependent == false)
             {
@@ -67,9 +67,9 @@ namespace NetWorkedData
         //    New_SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void New_SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
+        public void  SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {
-            NWDBasisPreferences.SetInt(New_SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, kAccountDependent);
+            NWDBasisPreferences.SetInt(SynchronizationPrefsKey(sEnvironment), sEnvironment, sNewTimestamp, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

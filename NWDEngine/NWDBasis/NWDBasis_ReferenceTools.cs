@@ -197,15 +197,15 @@ namespace NetWorkedData
                 //    tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
                 //}
 
-                BasisHelper().New_ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
+                BasisHelper().ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
 
 
             }
             Reference = tNewReference;
             UpdateData();
-            BasisHelper().New_LoadFromDatabase();
+            BasisHelper().LoadFromDatabase();
             //BasisHelper().SortEditorTableDatas();
-            BasisHelper().New_RestaureDataInEditionByReference(tNewReference);
+            BasisHelper().RestaureDataInEditionByReference(tNewReference);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
             if (BasisHelper().ConnexionType != null)

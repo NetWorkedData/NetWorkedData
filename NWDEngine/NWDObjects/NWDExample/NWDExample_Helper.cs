@@ -23,7 +23,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        public override void New_ErrorRegenerate()
+        public override void  ErrorRegenerate()
         {
             //NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "01", "your error 01", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
             //NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "02", "your error 02", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
@@ -31,11 +31,11 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public override void New_ClassInitialization()
+        public override void  ClassInitialization()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDExample)/*, typeof(NWDUserNickname), etc*/ };
         }

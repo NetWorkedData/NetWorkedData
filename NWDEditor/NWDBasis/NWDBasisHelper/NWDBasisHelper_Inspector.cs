@@ -706,7 +706,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public GUIContent New_GetGuiContent(string sReference)
+        public GUIContent GetGUIContent(string sReference)
         {
             //BTBBenchmark.Start();
             GUIContent rReturn = null;

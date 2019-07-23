@@ -18,7 +18,7 @@ namespace NetWorkedData
     public partial class NWDShopHelper : NWDHelper<NWDShop>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             // Sync with the server
             return new List<Type>

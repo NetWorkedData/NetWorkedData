@@ -33,7 +33,7 @@ namespace NetWorkedData
     public partial class NWDUserRelationshipHelper : NWDHelper<NWDUserRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().AC);
@@ -71,19 +71,19 @@ namespace NetWorkedData
             //string tGameSave = FindAliasName("GameSave");
             //string tFriendUserRelationShip = FindAliasName("FriendUserRelationShip");
 
-            int t_Index_RelationStatus = New_CSV_IndexOf(tRelationStatus);
-            int t_Index_RelationPlace = New_CSV_IndexOf(tRelationPlace);
-            int t_Index_RelationshipHash = New_CSV_IndexOf(tRelationshipHash);
-            int t_Index_RelationshipCode = New_CSV_IndexOf(tRelationshipCode);
-            int t_Index_LimitDayTime = New_CSV_IndexOf(tLimitDayTime);
-            int t_Index_FriendLastSynchronization = New_CSV_IndexOf(tFriendLastSynchronization);
+            int t_Index_RelationStatus =  CSV_IndexOf(tRelationStatus);
+            int t_Index_RelationPlace =  CSV_IndexOf(tRelationPlace);
+            int t_Index_RelationshipHash =  CSV_IndexOf(tRelationshipHash);
+            int t_Index_RelationshipCode =  CSV_IndexOf(tRelationshipCode);
+            int t_Index_LimitDayTime =  CSV_IndexOf(tLimitDayTime);
+            int t_Index_FriendLastSynchronization =  CSV_IndexOf(tFriendLastSynchronization);
 
-            int t_Index_FriendAccount = New_CSV_IndexOf(tFriendAccount);
-            int t_Index_FriendGameSave = New_CSV_IndexOf(tFriendGameSave);
+            int t_Index_FriendAccount =  CSV_IndexOf(tFriendAccount);
+            int t_Index_FriendGameSave =  CSV_IndexOf(tFriendGameSave);
 
-            int t_Index_Account = New_CSV_IndexOf(tAccount);
-            int t_Index_GameSave = New_CSV_IndexOf(tGameSave);
-            int t_Index_FriendUserRelationShip = New_CSV_IndexOf(tFriendUserRelationShip);
+            int t_Index_Account =  CSV_IndexOf(tAccount);
+            int t_Index_GameSave =  CSV_IndexOf(tGameSave);
+            int t_Index_FriendUserRelationShip =  CSV_IndexOf(tFriendUserRelationShip);
 
             //string tCodeLenght = NWDRelationshipPlace.FindAliasName("CodeLenght");
 

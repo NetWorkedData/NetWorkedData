@@ -33,7 +33,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterRequestHelper : NWDHelper<NWDUserBarterRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => FictiveData().AC);
@@ -65,18 +65,18 @@ namespace NetWorkedData
             string t_THIS_ItemsSuggested = NWDToolbox.PropertyName(() => FictiveData().ItemsSuggested);
             string t_THIS_ItemsProposed = NWDToolbox.PropertyName(() => FictiveData().ItemsProposed);
 
-            int t_THIS_Index_WinnerProposition = New_CSV_IndexOf(t_THIS_WinnerProposition);
-            int t_THIS_Index_Propositions = New_CSV_IndexOf(t_THIS_Propositions);
-            int t_THIS_Index_PropositionsCounter = New_CSV_IndexOf(t_THIS_PropositionsCounter);
-            int t_THIS_Index_MaxPropositions = New_CSV_IndexOf(t_THIS_MaxPropositions);
-            int t_THIS_Index_BarterStatus = New_CSV_IndexOf(t_THIS_BarterStatus);
-            int t_THIS_Index_BarterHash = New_CSV_IndexOf(t_THIS_BarterHash);
-            int t_THIS_Index_BarterPlace = New_CSV_IndexOf(t_THIS_BarterPlace);
-            int t_THIS_Index_LimitDayTime = New_CSV_IndexOf(t_THIS_LimitDayTime);
+            int t_THIS_Index_WinnerProposition =  CSV_IndexOf(t_THIS_WinnerProposition);
+            int t_THIS_Index_Propositions =  CSV_IndexOf(t_THIS_Propositions);
+            int t_THIS_Index_PropositionsCounter =  CSV_IndexOf(t_THIS_PropositionsCounter);
+            int t_THIS_Index_MaxPropositions =  CSV_IndexOf(t_THIS_MaxPropositions);
+            int t_THIS_Index_BarterStatus =  CSV_IndexOf(t_THIS_BarterStatus);
+            int t_THIS_Index_BarterHash =  CSV_IndexOf(t_THIS_BarterHash);
+            int t_THIS_Index_BarterPlace =  CSV_IndexOf(t_THIS_BarterPlace);
+            int t_THIS_Index_LimitDayTime =  CSV_IndexOf(t_THIS_LimitDayTime);
 
-            int t_THIS_Index_ItemsProposed = New_CSV_IndexOf(t_THIS_ItemsProposed);
-            int t_THIS_Index_ItemsSuggested = New_CSV_IndexOf(t_THIS_ItemsSuggested);
-            int t_THIS_Index_ItemsReceived = New_CSV_IndexOf(t_THIS_ItemsReceived);
+            int t_THIS_Index_ItemsProposed =  CSV_IndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsSuggested =  CSV_IndexOf(t_THIS_ItemsSuggested);
+            int t_THIS_Index_ItemsReceived =  CSV_IndexOf(t_THIS_ItemsReceived);
 
             StringBuilder rReturn = new StringBuilder();
 

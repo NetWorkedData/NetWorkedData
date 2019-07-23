@@ -30,7 +30,7 @@ namespace NetWorkedData
     public partial class NWDUserItemSlotHelper : NWDHelper<NWDUserItemSlot>
     {
 //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDItemSlot), typeof(NWDUserItemSlot), typeof(NWDItem), typeof(NWDUserOwnership) };
         }

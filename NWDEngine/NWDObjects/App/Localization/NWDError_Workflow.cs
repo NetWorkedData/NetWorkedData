@@ -35,24 +35,24 @@ namespace NetWorkedData
     public partial class NWDErrorHelper : NWDHelper<NWDError>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void New_GenerateBasisError()
+        public void GenerateBasisError()
         {
             Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError()</color>");
             if (DatabaseIsLoaded())
             {
             }
-            if (DatasAreLoaded()==true)
+            if (DatasAreLoaded() == true)
             {
-            Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() OK DATA ARE LOADING</color>");
+                Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() OK DATA ARE LOADING</color>");
                 NWDError.NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
 
                 if (NWDError.NWDError_WEB01 == null)
                 {
-            Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError() ERROR NOT LOADED</color>");
+                    Debug.Log("<color=red>NWDErrorHelper New_GenerateBasisError() ERROR NOT LOADED</color>");
                 }
                 else
                 {
-            Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() LOADED</color>");
+                    Debug.Log("<color=green>NWDErrorHelper New_GenerateBasisError() LOADED</color>");
                 }
 
                 NWDError.NWDError_WEB02 = NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -147,7 +147,7 @@ namespace NetWorkedData
                 NWDError.NWDError_SGN18 = NWDError.CreateGenericError("account", "SGN18", "Account sign error", "singin error multi-account ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN19 = NWDError.CreateGenericError("account", "SGN19", "Account sign error", "delete error in update account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-               NWDError.NWDError_SGN20 = NWDError.CreateGenericError("account", "SGN20", "Account sign error", "allready sign with default account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN20 = NWDError.CreateGenericError("account", "SGN20", "Account sign error", "allready sign with default account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 //NWDError.CreateGenericError("account", "SGN25", "Account sign error", "signanonymous error in request account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 //NWDError.CreateGenericError("account", "SGN26", "Account sign error", "signanonymous error no account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -164,7 +164,7 @@ namespace NetWorkedData
                 NWDError.NWDError_SGN82 = NWDError.CreateGenericError("account", "SGN82", "Account sign error", "impossible multi-users", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_SHS01 = NWDError.CreateGenericError("account", "SHS01", "secret key error", "secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                
+
                 NWDError.NWDError_SHS02 = NWDError.CreateGenericError("account", "SHS02", "secret key error", "invalid secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_RQT01 = NWDError.CreateGenericError("token", "RQT01", "Token error", "error in request token creation", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -237,11 +237,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void New_ClassDatasAreLoaded()
+        public override void ClassDatasAreLoaded()
         {
-            base.New_ClassDatasAreLoaded();
+            base.ClassDatasAreLoaded();
             Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
-            New_GenerateBasisError();
+            GenerateBasisError();
 
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -301,24 +301,24 @@ namespace NetWorkedData
             {
                 case NWDErrorType.Alert:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX,sInfo)), Enrichment(Description.GetLocalString().Replace(XXX,sInfo)), Validation.GetLocalString().Replace(XXX,sInfo), sCompleteBlock);
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX, sInfo)), Enrichment(Description.GetLocalString().Replace(XXX, sInfo)), Validation.GetLocalString().Replace(XXX, sInfo), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Critical:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX,sInfo)), Enrichment(Description.GetLocalString().Replace(XXX,sInfo)), Validation.GetLocalString().Replace(XXX,sInfo), delegate (BTBMessageState state)
-                        {
-                            Application.Quit();
-                        }
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX, sInfo)), Enrichment(Description.GetLocalString().Replace(XXX, sInfo)), Validation.GetLocalString().Replace(XXX, sInfo), delegate (BTBMessageState state)
+                           {
+                               Application.Quit();
+                           }
                         );
                     }
                     break;
                 case NWDErrorType.Upgrade:
                     {
-                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX,sInfo)), Enrichment(Description.GetLocalString().Replace(XXX,sInfo)), Validation.GetLocalString().Replace(XXX,sInfo), delegate (BTBMessageState state)
-                        {
-                            string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
-                            NWDVersion tVersion = NWDVersion.CurrentData();
+                        BTBAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX, sInfo)), Enrichment(Description.GetLocalString().Replace(XXX, sInfo)), Validation.GetLocalString().Replace(XXX, sInfo), delegate (BTBMessageState state)
+                           {
+                               string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
+                               NWDVersion tVersion = NWDVersion.CurrentData();
 #if UNITY_EDITOR
                             // NO CHANGE
 #elif UNITY_IOS
@@ -343,9 +343,9 @@ namespace NetWorkedData
 #else
 
 #endif
-                            Application.OpenURL(tURL);
-                            Application.Quit();
-                        });
+                               Application.OpenURL(tURL);
+                               Application.Quit();
+                           });
                         // TODO : redirection to Store
 
                     }
@@ -363,17 +363,17 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.LogVerbose:
                     {
-                        Debug.Log("ALERT! " + Title.GetLocalString().Replace(XXX,sInfo) + " : " + Description.GetLocalString().Replace(XXX,sInfo));
+                        Debug.Log("ALERT! " + Title.GetLocalString().Replace(XXX, sInfo) + " : " + Description.GetLocalString().Replace(XXX, sInfo));
                     }
                     break;
                 case NWDErrorType.LogWarning:
                     {
-                        Debug.LogWarning("WARNING! " + Title.GetLocalString().Replace(XXX,sInfo) + " : " + Description.GetLocalString().Replace(XXX,sInfo));
+                        Debug.LogWarning("WARNING! " + Title.GetLocalString().Replace(XXX, sInfo) + " : " + Description.GetLocalString().Replace(XXX, sInfo));
                     }
                     break;
                 case NWDErrorType.UnityEditor:
                     {
-                        BTBAlert.Alert(Title.GetLocalString().Replace(XXX,sInfo), Description.GetLocalString().Replace(XXX,sInfo), Validation.GetLocalString().Replace(XXX,sInfo), sCompleteBlock);
+                        BTBAlert.Alert(Title.GetLocalString().Replace(XXX, sInfo), Description.GetLocalString().Replace(XXX, sInfo), Validation.GetLocalString().Replace(XXX, sInfo), sCompleteBlock);
                     }
                     break;
             }

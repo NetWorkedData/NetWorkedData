@@ -33,7 +33,7 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        private NWDTypeClass New_NewDataFromWeb(NWDAppEnvironment sEnvironment,
+        private NWDTypeClass NewDataFromWeb(NWDAppEnvironment sEnvironment,
                                                   string[] sDataArray,
                                                   string sReference,
                                                   NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
@@ -123,34 +123,34 @@ namespace NetWorkedData
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string New_GetReferenceValueFromCSV(string[] sDataArray)
+        public string GetReferenceValueFromCSV(string[] sDataArray)
         {
             return sDataArray[0];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int New_GetDMValueFromCSV(string[] sDataArray)
+        public int GetDMValueFromCSV(string[] sDataArray)
         {
             int rReturn = 0;
             int.TryParse(sDataArray[1], out rReturn);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string New_GetIntegrityValueFromCSV(string[] sDataArray)
+        public string GetIntegrityValueFromCSV(string[] sDataArray)
         {
             return sDataArray[sDataArray.Count() - 1];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int New_GetWebModelValueFromCSV(string[] sDataArray)
+        public int GetWebModelValueFromCSV(string[] sDataArray)
         {
             int rReturn = -1;
             int.TryParse(sDataArray[sDataArray.Count() - 2], out rReturn);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool New_TestIntegrityValueFromCSV(string[] sDataArray)
+        public bool TestIntegrityValueFromCSV(string[] sDataArray)
         {
             bool rReturn = true;
-            string tActualIntegrity = New_GetIntegrityValueFromCSV(sDataArray);
+            string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
             StringBuilder tAssembly = new StringBuilder();
             tAssembly.Append(sDataArray[0] + sDataArray[1]);
             int tMax = sDataArray.Count() - 1;
@@ -158,7 +158,7 @@ namespace NetWorkedData
             {
                 tAssembly.Append(sDataArray[i]);
             }
-            string tCalculateIntegrity = New_HashSum(SaltStart + tAssembly.ToString() + SaltEnd);
+            string tCalculateIntegrity = HashSum(SaltStart + tAssembly.ToString() + SaltEnd);
             if (tActualIntegrity != tCalculateIntegrity)
             {
                 rReturn = false;
@@ -166,12 +166,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int New_CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
+        public int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
         {
-            return New_PropertiesOrderArray(sWebBuilt).IndexOf(sPropertyName);
+            return PropertiesOrderArray(sWebBuilt).IndexOf(sPropertyName);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<string> New_PropertiesOrderArray(int sWebBuilt = -1)
+        public List<string> PropertiesOrderArray(int sWebBuilt = -1)
         {
             bool tRecalculate = true;
             List<string> rReturnList = null;
@@ -252,7 +252,7 @@ namespace NetWorkedData
         {
             if (WebModelPropertiesOrder.ContainsKey(0) == false)
             {
-                WebModelPropertiesOrder.Add(0, New_PropertiesOrderArray(0));
+                WebModelPropertiesOrder.Add(0, PropertiesOrderArray(0));
             }
             if (WebServiceWebModel.ContainsKey(0) == false)
             {
@@ -260,29 +260,29 @@ namespace NetWorkedData
             }
             if (WebModelSQLOrder.ContainsKey(0) == false)
             {
-                WebModelSQLOrder.Add(0, New_SLQSelect(0));
+                WebModelSQLOrder.Add(0, SLQSelect(0));
             }
 #if UNITY_EDITOR
-            WebModelDegraded = New_ModelDegraded();
-            WebModelChanged = New_ModelChanged();
+            WebModelDegraded = ModelDegraded();
+            WebModelChanged = ModelChanged();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string[] New_SLQAssemblyOrderArray(int sWebBuilt = -1) //  for insert of $sCsvList
+        public string[] SLQAssemblyOrderArray(int sWebBuilt = -1) //  for insert of $sCsvList
         {
             string[] rReturn = null;
             List<string> rReturnList = new List<string>();
-            rReturnList.AddRange(New_PropertiesOrderArray(sWebBuilt));
+            rReturnList.AddRange(PropertiesOrderArray(sWebBuilt));
             rReturnList.Remove("Reference");
             rReturn = rReturnList.ToArray();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public  string New_SLQSelect(int sWebBuilt = -1)
+        public string SLQSelect(int sWebBuilt = -1)
         {
             string rReturnString = string.Empty;
             List<string> tList = new List<string>();
-            tList.AddRange(New_PropertiesOrderArray(sWebBuilt));
+            tList.AddRange(PropertiesOrderArray(sWebBuilt));
             rReturnString = "***";
             foreach (string tPropertyName in tList)
             {
@@ -312,10 +312,10 @@ namespace NetWorkedData
             return rReturnString;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<string> New_SLQIntegrityOrder(int sWebBuilt = -1)
+        public List<string> SLQIntegrityOrder(int sWebBuilt = -1)
         {
             List<string> rReturn = new List<string>();
-            rReturn.AddRange(New_PropertiesOrderArray(sWebBuilt));
+            rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
             rReturn.Remove("Integrity");
             rReturn.Remove("DS");
             rReturn.Remove("DevSync");
@@ -325,10 +325,10 @@ namespace NetWorkedData
         }
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public List<string> New_SLQIntegrityServerOrder(int sWebBuilt = -1)
+        public List<string> SLQIntegrityServerOrder(int sWebBuilt = -1)
         {
             List<string> rReturn = new List<string>();
-            rReturn.AddRange(New_PropertiesOrderArray(sWebBuilt));
+            rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
             rReturn.Remove("Integrity");
             rReturn.Remove("DS");
             rReturn.Remove("DevSync");
@@ -338,7 +338,7 @@ namespace NetWorkedData
             rReturn.Remove("DD");
             return rReturn;
         }//-------------------------------------------------------------------------------------------------------------
-        public bool New_ModelDegraded()
+        public bool ModelDegraded()
         {
             bool rReturn = false;
             int tLasBuild = LastWebBuild;
@@ -346,7 +346,7 @@ namespace NetWorkedData
             int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
             WebModelDegradationList.Clear();
             Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(WebModelPropertiesOrder);
-            tModel_Properties.Add(tActualWebBuildMax, New_PropertiesOrderArray(-1));
+            tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
 
             if (tModel_Properties.Count > 0)
             {
@@ -389,17 +389,17 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public  bool New_ModelChanged()
+        public  bool ModelChanged()
         {
             bool rReturn = false;
             int tLasBuild = LastWebBuild;
             int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
             if (WebModelSQLOrder.ContainsKey(tLasBuild))
             {
-                if (New_SLQSelect() != WebModelSQLOrder[tLasBuild])
+                if (SLQSelect() != WebModelSQLOrder[tLasBuild])
                 {
                     Debug.LogWarning("THE MODEL " + ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
-                    Debug.LogWarning("new : " + New_SLQSelect());
+                    Debug.LogWarning("new : " + SLQSelect());
                     Debug.LogWarning("old : " + WebModelSQLOrder[tLasBuild]);
                     rReturn = true;
                 }
@@ -412,7 +412,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ForceOrders(int sWebBuild)
+        public void ForceOrders(int sWebBuild)
         {
             if (LastWebBuild < sWebBuild)
             {
@@ -427,40 +427,40 @@ namespace NetWorkedData
             {
                 WebModelPropertiesOrder.Remove(sWebBuild);
             }
-            WebModelPropertiesOrder.Add(sWebBuild, New_PropertiesOrderArray(sWebBuild));
+            WebModelPropertiesOrder.Add(sWebBuild, PropertiesOrderArray(sWebBuild));
             if (WebModelSQLOrder.ContainsKey(sWebBuild))
             {
                 WebModelSQLOrder.Remove(sWebBuild);
             }
-            WebModelSQLOrder.Add(sWebBuild, New_SLQSelect(sWebBuild));
+            WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
         }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_ModelReset)]
-        public void New_DeleteOldsModels()
+        public void DeleteOldsModels()
         {
             WebServiceWebModel.Clear();
             WebModelPropertiesOrder.Clear();
             WebModelSQLOrder.Clear();
-            New_ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_PrepareOrders()
+        public void PrepareOrders()
         {
-            New_ReplaceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            ReplaceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ReplaceOrders(int sWebBuild)
+        public void ReplaceOrders(int sWebBuild)
         {
             if (WebModelChanged)
             {
                 LastWebBuild = sWebBuild;
                 if (WebModelPropertiesOrder.ContainsKey(sWebBuild) == false)
                 {
-                    WebModelPropertiesOrder.Add(sWebBuild, New_PropertiesOrderArray(sWebBuild));
+                    WebModelPropertiesOrder.Add(sWebBuild, PropertiesOrderArray(sWebBuild));
                 }
                 if (WebModelSQLOrder.ContainsKey(sWebBuild) == false)
                 {
-                    WebModelSQLOrder.Add(sWebBuild, New_SLQSelect(sWebBuild));
+                    WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
                 }
             }
             else

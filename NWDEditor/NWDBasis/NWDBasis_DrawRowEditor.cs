@@ -354,7 +354,7 @@ namespace NetWorkedData
             Rect tRectRowLineBLack = new Rect(0, NWDGUI.kTableRowHeight * (sRow + 1) * sZoom, sRectRow.width, 1);
             Rect tRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kTableRowHeight * sRow * sZoom, 0, NWDGUI.kTableRowHeight * sZoom);
             EditorGUI.DrawRect(tRectRow, tBoxColor);
-            if (BasisHelper().New_IsObjectInEdition(this) == true)
+            if (BasisHelper().IsObjectInEdition(this) == true)
             {
                 Rect tRectRowSelected = new Rect(tRectRow.x, tRectRow.y +2, tRectRow.width, tRectRow.height-2);
                 EditorGUI.DrawRect(tRectRowSelected, NWDGUI.kRowColorSelected);
@@ -363,7 +363,7 @@ namespace NetWorkedData
             if (tRectRow.Contains(sMouseClickPosition))
             {
                 GUI.FocusControl(null);
-                BasisHelper().New_SetObjectInEdition(this);
+                BasisHelper().SetObjectInEdition(this);
                 if (sSelectAndClick == true)
                 {
                     if (XX == 0 && TestIntegrity())

@@ -27,7 +27,7 @@ namespace NetWorkedData
     public partial class NWDItemRarityHelper : NWDHelper<NWDItemRarity>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDItemRarity), typeof(NWDItem) };
         }

@@ -88,8 +88,8 @@ namespace NetWorkedData
         public  string PHP_CONSTANTS_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "'"; }
         public  string PHP_SYNCHRONISATION_PATH(NWDAppEnvironment sEnvironment) { return "" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "'"; }
         //-------------------------------------------------------------------------------------------------------------
-        #region FILE CONSTANT
-        public Dictionary<string, string> New_CreatePHPConstant(NWDAppEnvironment sEnvironment)
+#region FILE CONSTANT
+        public Dictionary<string, string> CreatePHPConstant(NWDAppEnvironment sEnvironment)
         {
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
@@ -120,9 +120,9 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
             return rReturn;
         }
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, string> New_CreatePHPEngine(NWDAppEnvironment sEnvironment)
+        public Dictionary<string, string> CreatePHPEngine(NWDAppEnvironment sEnvironment)
         {
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
@@ -139,7 +139,7 @@ namespace NetWorkedData
             //    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + NWDError.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             //}
             //tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine(New_AddonPhpEngineCalculate(sEnvironment));
+            tFile.AppendLine(AddonPhpEngineCalculate(sEnvironment));
             //tFile.AppendLine(NWD.K_CommentSeparator);
             //tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
@@ -148,7 +148,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, string> New_CreatePHPManagement(NWDAppEnvironment sEnvironment)
+        public Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
         {
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
@@ -465,7 +465,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, string> New_CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
+        public Dictionary<string, string> CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
         {
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
@@ -522,7 +522,7 @@ namespace NetWorkedData
             }
 
             string SLQIntegrityOrderToSelect = "***";
-            foreach (string tPropertyName in New_SLQIntegrityOrder())
+            foreach (string tPropertyName in  SLQIntegrityOrder())
             {
                 PropertyInfo tPropertyInfo = ClassType.GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
@@ -669,7 +669,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_NWD_SLT_SRV + ";");
             tFile.Append("$sDataServerString =''");
-            foreach (string tPropertyName in New_SLQIntegrityServerOrder())
+            foreach (string tPropertyName in  SLQIntegrityServerOrder())
             {
                 tFile.Append(".$sRow['" + tPropertyName + "']");
             }
@@ -685,7 +685,7 @@ namespace NetWorkedData
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ";");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
             tFile.Append("$sDataString =''");
-            foreach (string tPropertyName in New_SLQIntegrityOrder())
+            foreach (string tPropertyName in  SLQIntegrityOrder())
             {
                 tFile.Append(".$sRow['" + tPropertyName + "']");
             }
@@ -737,7 +737,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ";");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
-            tFile.AppendLine("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -779,7 +779,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ";");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ";");
-            tFile.AppendLine("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -825,7 +825,7 @@ namespace NetWorkedData
             tColumnNameList.Add("`Reference`");
             tColumnValueList.Add("\\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[0]).'\\'");
             int tIndex = 1;
-            foreach (string tProperty in New_SLQAssemblyOrderArray())
+            foreach (string tProperty in SLQAssemblyOrderArray())
             {
                 tModify.Add("`" + tProperty + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + tIndex.ToString() + "]).'\\'");
                 tColumnNameList.Add("`" + tProperty + "`");
@@ -849,7 +849,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tReference = $sCsvList[0];");
             tFile.AppendLine("// find solution for pre calculate on server");
 
-            tFile.Append(New_AddonPhpPreCalculate(sEnvironment));
+            tFile.Append(AddonPhpPreCalculate(sEnvironment));
             tFile.AppendLine("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "`, `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().DM) + "` FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -915,7 +915,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("// Solution for post calculate on server");
 
-            tFile.Append(New_AddonPhpPostCalculate(sEnvironment));
+            tFile.Append(AddonPhpPostCalculate(sEnvironment));
 
             tFile.AppendLine("// Update is finished!");
             /*
@@ -973,7 +973,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.AppendLine("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sReference).'\\'';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.';';");
@@ -989,7 +989,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
+            tFile.Append(AddonPhpGetCalculate(sEnvironment));
 
             tFile.AppendLine("}");
             string tSpecialAdd = string.Empty;
@@ -1035,7 +1035,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.AppendLine("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
+            tFile.AppendLine("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().Reference) + "` IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tQuery = $tQuery.' AND `" + NWDToolbox.PropertyName(() => NWDExample.FictiveData().WebModel) + "` <= '.$WSBUILD.';';");
@@ -1052,7 +1052,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
+            tFile.Append(AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1072,7 +1072,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $admin;");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             //"$tPage = $sPage*$sLimit;" );
-            tFile.Append("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
+            tFile.Append("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
             //"(`'."+NWD.K_ENV+".'Sync` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\')";
             tFile.Append("(`"+PHP_ENV_SYNC(sEnvironment)+"` >= \\''." + NWD.K_SQL_CON + "->real_escape_string($sTimeStamp).'\\')");
             // if need Account reference
@@ -1102,7 +1102,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
+            tFile.Append(AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1120,7 +1120,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.Append("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
+            tFile.Append("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
             //"(`'."+NWD.K_ENV+".'Sync` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\')";
             tFile.Append("(`"+PHP_ENV_SYNC(sEnvironment)+"` >= \\''." + NWD.K_SQL_CON + "->real_escape_string($sTimeStamp).'\\')");
             // if need Account reference
@@ -1156,7 +1156,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
+            tFile.Append(AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1173,7 +1173,7 @@ namespace NetWorkedData
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $REP;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.Append("$tQuery = 'SELECT " + New_SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
+            tFile.Append("$tQuery = 'SELECT " +  SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
             //"(`'."+NWD.K_ENV+".'Sync` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\')";
             tFile.Append("(`"+PHP_ENV_SYNC(sEnvironment)+"` >= \\''." + NWD.K_SQL_CON + "->real_escape_string($sTimeStamp).'\\')");
             // if need Account reference
@@ -1198,7 +1198,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);");
 
-            tFile.Append(New_AddonPhpGetCalculate(sEnvironment));
+            tFile.Append(AddonPhpGetCalculate(sEnvironment));
             tFile.AppendLine("}");
             if (tSpecialAdd != string.Empty)
             {
@@ -1215,11 +1215,11 @@ namespace NetWorkedData
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $admin, $uuid;");
 
-            tFile.Append(New_AddonPhpSpecialCalculate(sEnvironment));
+            tFile.Append(AddonPhpSpecialCalculate(sEnvironment));
 
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            string tFunctionsAdd = New_AddonPhpFunctions(sEnvironment);
+            string tFunctionsAdd =  AddonPhpFunctions(sEnvironment);
             if (string.IsNullOrEmpty(tFunctionsAdd) == false)
             {
                 tFile.AppendLine(tFunctionsAdd);
@@ -1340,28 +1340,28 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, string> New_CreatePHP(NWDAppEnvironment sEnvironment, bool sPrepareOrder = true)
+        public Dictionary<string, string>  CreatePHP(NWDAppEnvironment sEnvironment, bool sPrepareOrder = true)
         {
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             PrefLoad();
             if (sPrepareOrder == true)
             {
-                New_PrepareOrders();
+                PrepareOrders();
             }
-            foreach (KeyValuePair<string, string> tKeyValue in New_CreatePHPConstant(sEnvironment))
+            foreach (KeyValuePair<string, string> tKeyValue in CreatePHPConstant(sEnvironment))
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }
-            foreach (KeyValuePair<string, string> tKeyValue in New_CreatePHPEngine(sEnvironment))
+            foreach (KeyValuePair<string, string> tKeyValue in CreatePHPEngine(sEnvironment))
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }
-            foreach (KeyValuePair<string, string> tKeyValue in New_CreatePHPManagement(sEnvironment))
+            foreach (KeyValuePair<string, string> tKeyValue in CreatePHPManagement(sEnvironment))
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }
-            foreach (KeyValuePair<string, string> tKeyValue in New_CreatePHPSynchronisation(sEnvironment))
+            foreach (KeyValuePair<string, string> tKeyValue in CreatePHPSynchronisation(sEnvironment))
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }

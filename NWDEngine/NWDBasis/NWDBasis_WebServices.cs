@@ -81,38 +81,38 @@ namespace NetWorkedData
          bool sForce = false,
          bool sPriority = false)
         {
-            BasisHelper().New_SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
+            BasisHelper().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool PullFromWebService(NWDAppEnvironment sEnvironment)
         {
-            return BasisHelper().New_PullFromWebService(sEnvironment);
+            return BasisHelper().PullFromWebService(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool PullFromWebServiceForce(NWDAppEnvironment sEnvironment)
         {
-            return BasisHelper().New_PullFromWebServiceForce( sEnvironment);
+            return BasisHelper().PullFromWebServiceForce(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool SynchronizationFromWebServiceForce(NWDAppEnvironment sEnvironment)
         {
-            return BasisHelper().New_SynchronizationFromWebServiceForce( sEnvironment);
+            return BasisHelper().SynchronizationFromWebServiceForce(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool SynchronizationFromWebService(NWDAppEnvironment sEnvironment)
         {
-            return BasisHelper().New_SynchronizationFromWebService( sEnvironment);
+            return BasisHelper().SynchronizationFromWebService(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
         {
-            return BasisHelper().New_SynchronizationFromWebServiceClean( sEnvironment);
+            return BasisHelper().SynchronizationFromWebServiceClean(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         public static bool SynchronizationFromWebServiceSpecial(NWDAppEnvironment sEnvironment, NWDOperationSpecial sSpecial)
         {
-            return BasisHelper().New_SynchronizationFromWebServiceSpecial( sEnvironment,  sSpecial);
+            return BasisHelper().SynchronizationFromWebServiceSpecial( sEnvironment,  sSpecial);
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------

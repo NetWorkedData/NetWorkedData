@@ -38,7 +38,7 @@ namespace NetWorkedData
             NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
             if (tTarget.mTypeInEdition != null)
             {
-                NWDBasisHelper.FindTypeInfos(tTarget.mTypeInEdition).New_DrawTypeInInspector();
+                NWDBasisHelper.FindTypeInfos(tTarget.mTypeInEdition).DrawTypeInInspector();
             }
             //BTBBenchmark.Finish();
         }

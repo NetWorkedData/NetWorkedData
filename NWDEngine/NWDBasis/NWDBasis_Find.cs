@@ -345,7 +345,7 @@ namespace NetWorkedData
             {
                 //if (sData.IsTrashed() == false || sData.IsEnable() == true || sData.TestIntegrityResult == true)
                 if (sData.IsEnable() == true)
-                    {
+                {
                     bool tInsert = true;
                     if (BasisHelper().kAccountDependent)
                     {
@@ -605,8 +605,8 @@ namespace NetWorkedData
             }
             BTBBenchmark.Finish();
 #if UNITY_EDITOR
-            BasisHelper().New_FilterTableEditor();
-            BasisHelper().New_RepaintTableEditor();
+            BasisHelper().FilterTableEditor();
+            BasisHelper().RepaintTableEditor();
 #endif
             return rReturn;
         }
@@ -646,8 +646,8 @@ namespace NetWorkedData
             }
             BTBBenchmark.Finish();
 #if UNITY_EDITOR
-            BasisHelper().New_FilterTableEditor();
-            BasisHelper().New_RepaintTableEditor();
+            BasisHelper().FilterTableEditor();
+            BasisHelper().RepaintTableEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -691,8 +691,8 @@ namespace NetWorkedData
             }
             BTBBenchmark.Finish();
 #if UNITY_EDITOR
-            BasisHelper().New_FilterTableEditor();
-            BasisHelper().New_RepaintTableEditor();
+            BasisHelper().FilterTableEditor();
+            BasisHelper().RepaintTableEditor();
 #endif
             return rResult.ToArray();
         }

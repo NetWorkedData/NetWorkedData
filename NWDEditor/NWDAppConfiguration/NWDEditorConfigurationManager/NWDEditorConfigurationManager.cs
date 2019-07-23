@@ -78,17 +78,17 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static bool IsSharedInstance()
-        //{
-        //    if (kSharedInstance != null)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        public static bool IsSharedInstanced()
+        {
+            if (kSharedInstance != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// On enable action.

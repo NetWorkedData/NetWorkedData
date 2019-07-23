@@ -34,7 +34,7 @@ namespace NetWorkedData
             Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = string.Empty;
             Type tType = ClassType();
-            List<string> tPropertiesList = BasisHelper().New_PropertiesOrderArray();
+            List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
 
             tPropertiesList.Remove("Integrity");
             tPropertiesList.Remove("Reference");
@@ -118,8 +118,8 @@ namespace NetWorkedData
                 //ProdSync + NWDConstants.kStandardSeparator +
                 // Todo Add WebServiceVersion ?
                 //WebServiceVersion + NWDConstants.kStandardSeparator +
-                rReturn 
-                // + Integrity
+                rReturn
+                                                  // + Integrity
                                                   ;
                 //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
             }
@@ -143,9 +143,9 @@ namespace NetWorkedData
             List<string> tList = new List<string>();
             foreach (K tObject in GetReachableDatas())
             {
-                tList.Add("{ \"csv\" : \""+tObject.DGPRLinearization()+"\"}");
+                tList.Add("{ \"csv\" : \"" + tObject.DGPRLinearization() + "\"}");
             }
-            rExtract+= string.Join(",\n\r",tList.ToArray());
+            rExtract += string.Join(",\n\r", tList.ToArray());
             rExtract += "\n\r]\n\r}";
             return rExtract;
         }
@@ -239,7 +239,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDGDPR ExtractAndSave()");
             string rReturn = Extract(tListAddon);
-            string tEmail = "mailto:?subject=DGPR%20Export&body=" + UnityWebRequest.EscapeURL(rReturn.Replace(" ","%20")).Replace("%20", " ");
+            string tEmail = "mailto:?subject=DGPR%20Export&body=" + UnityWebRequest.EscapeURL(rReturn.Replace(" ", "%20")).Replace("%20", " ");
             Application.OpenURL(tEmail);
             return rReturn;
         }

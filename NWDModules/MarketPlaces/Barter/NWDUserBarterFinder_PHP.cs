@@ -27,7 +27,7 @@ namespace NetWorkedData
     public partial class NWDUserBarterFinderHelper : NWDHelper<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => NWDUserBarterRequest.FictiveData().AC);
@@ -48,9 +48,9 @@ namespace NetWorkedData
 
             int tIndex_tBarterStatus = NWDUserBarterRequest.CSV_IndexOf(tBarterStatus);
 
-            int tIndex_BarterRequestsList = New_CSV_IndexOf(t_THIS_BarterRequestsList);
-            int tIndex_BarterPlace = New_CSV_IndexOf(t_THIS_BarterPlace);
-            int tIndex_THIS_ForRelationshipOnly = New_CSV_IndexOf(t_THIS_ForRelationshipOnly);
+            int tIndex_BarterRequestsList =  CSV_IndexOf(t_THIS_BarterRequestsList);
+            int tIndex_BarterPlace =  CSV_IndexOf(t_THIS_BarterPlace);
+            int tIndex_THIS_ForRelationshipOnly =  CSV_IndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 300; // minutes before stop to get the datas!
 

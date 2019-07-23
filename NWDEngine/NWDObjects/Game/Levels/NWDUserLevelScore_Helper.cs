@@ -28,7 +28,7 @@ namespace NetWorkedData
     public partial class NWDUserLevelScoreHelper : NWDHelper<NWDUserLevelScore>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDUserLevelScore), typeof(NWDLevel) };
         }

@@ -30,7 +30,7 @@ namespace NetWorkedData
     public partial class NWDExampleHelper : NWDHelper<NWDExample>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
@@ -45,7 +45,7 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
@@ -61,7 +61,7 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
+        public override string  AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             rReturn.AppendLine("while($tRow = $tResult->fetch_row())");
@@ -71,7 +71,7 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
+        public override string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             //rReturn.AppendLine("function Special" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
@@ -81,7 +81,7 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
+        public override string  AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
             //rReturn.AppendLine("// write your php script string here to add function in php file;");

@@ -32,28 +32,28 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ClassInformations(string sString)
+        public void ClassInformations(string sString)
         {
 
             Debug.Log("From " + sString + " real [" + ClassType.Name + "] = > " + Informations(ClassType) + "' ");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string New_Informations()
+        public string Informations()
         {
 
 #if UNITY_EDITOR
             int tCount = Datas.Count;
             if (tCount == 0)
             {
-                return string.Empty + ClassNamePHP + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " + New_SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
+                return string.Empty + ClassNamePHP + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " +  SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
             }
             else if (tCount == 1)
             {
-                return string.Empty + ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + " (sync at " + New_SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
+                return string.Empty + ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + " (sync at " +  SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
             }
             else
             {
-                return string.Empty + ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + " (sync at " + New_SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
+                return string.Empty + ClassNamePHP + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + " (sync at " +  SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
             }
 #else
             return string.Empty;

@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDUserTradeFinderHelper : NWDHelper<NWDUserTradeFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             string tWebModel = NWDToolbox.PropertyName(() => FictiveData().WebModel);
             string tAC = NWDToolbox.PropertyName(() => FictiveData().AC);
@@ -47,9 +47,9 @@ namespace NetWorkedData
             string t_THIS_ForRelationshipOnly = NWDToolbox.PropertyName(() => FictiveData().ForRelationshipOnly);
 
             int tIndex_tTradeStatus = NWDUserTradeRequest.CSV_IndexOf(tTradeStatus);
-            int tIndex_TradeRequestsList = New_CSV_IndexOf(t_THIS_TradeRequestsList);
-            int tIndex_TradePlace = New_CSV_IndexOf(t_THIS_TradePlace);
-            int tIndex_THIS_ForRelationshipOnly = New_CSV_IndexOf(t_THIS_ForRelationshipOnly);
+            int tIndex_TradeRequestsList =  CSV_IndexOf(t_THIS_TradeRequestsList);
+            int tIndex_TradePlace =  CSV_IndexOf(t_THIS_TradePlace);
+            int tIndex_THIS_ForRelationshipOnly =  CSV_IndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
 

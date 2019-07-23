@@ -29,36 +29,36 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void New_ErrorRegenerate()
+        public virtual void  ErrorRegenerate()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
+        public virtual string  AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
+        public virtual string  AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
+        public virtual string  AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        public virtual string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string New_AddonPhpFunctions(NWDAppEnvironment sEnvironment)
+        public virtual string  AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string  AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             return string.Empty;
         }

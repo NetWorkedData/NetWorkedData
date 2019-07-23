@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDAchievementKeyHelper : NWDHelper<NWDAchievementKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
             return new List<Type> { typeof(NWDAccountAchievement), typeof(NWDUserAchievement),  typeof(NWDAchievementKey) };
         }

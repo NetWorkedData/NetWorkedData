@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDUserNewsReadHelper : NWDHelper<NWDUserNewsRead>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type>  OverrideClasseInThisSync()
         {
 return new List<Type> { typeof(NWDUserNewsRead), typeof(NWDNews)};
         }

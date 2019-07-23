@@ -37,7 +37,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>Integrity value</returns>
         /// <param name="strToEncrypt">String to encrypt.</param>
-        public string New_HashSum(string strToEncrypt)
+        public string HashSum(string strToEncrypt)
         {
             // force to utf-8
             System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
@@ -57,7 +57,7 @@ namespace NetWorkedData
             return hashString.PadLeft(24, '0');
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_RecalculateAllIntegrities()
+        public void RecalculateAllIntegrities()
         {
             //loop
             foreach (NWDTypeClass tObject in Datas)

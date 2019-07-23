@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         bool DatasLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
-        public void New_IndexAll()
+        public void IndexAll()
         {
             foreach (NWDTypeClass tObject in Datas)
             {
@@ -46,18 +46,18 @@ namespace NetWorkedData
         }
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public void New_RepaintTableEditor()
+        public void RepaintTableEditor()
         {
             NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_RepaintInspectorEditor()
+        public void  RepaintInspectorEditor()
         {
             NWDDataInspector.ActiveRepaint();
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ChangeAssetPath(string sOldPath, string sNewPath)
+        public void ChangeAssetPath(string sOldPath, string sNewPath)
         {
             if (kAssetDependent == true)
             {
@@ -68,7 +68,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass New_GetDataByReference(string sReference)
+        public NWDTypeClass GetDataByReference(string sReference)
         {
             NWDTypeClass rReturn = null;
             if (DatasByReference.ContainsKey(sReference))
@@ -78,12 +78,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<Type> New_ClasseInThisSync()
+        public List<Type> ClasseInThisSync()
         {
             List<Type> rReturn = null;
             if (Application.isPlaying == true)
             {
-                rReturn = New_OverrideClasseInThisSync();
+                rReturn = OverrideClasseInThisSync();
                 if (rReturn.Contains(ClassType) == false)
                 {
                     rReturn.Add(ClassType);
@@ -94,8 +94,6 @@ namespace NetWorkedData
                 rReturn = new List<Type>();
                 rReturn.Add(ClassType);
             }
-            //rReturn = new List<Type>(rReturn.Distinct<Type>());
-            //Debug.Log("New_ClasseInThisSync calculate : " + string.Join(" ", rReturn));
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -103,56 +101,20 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public K FictiveData()
         {
             return NWDBasis<K>.FictiveData();
         }
-        #endif
+#endif
         //-------------------------------------------------------------------------------------------------------------
-        public override List<Type> New_OverrideClasseInThisSync()
+        public override List<Type> OverrideClasseInThisSync()
         {
             List<Type> rReturn = new List<Type> { typeof(K) };
             //Debug.Log("New_OverrideClasseInThisSync first override : " + string.Join(" ", rReturn));
             return rReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //        public override void New_LoadFromDatabase()
-        //        {
-
-        //#if UNITY_EDITOR
-        //            RowAnalyzed = false;
-        //#endif
-        //            ResetDatas();
-        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-        //            if (kAccountDependent)
-        //            {
-        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-        //            }
-        //            if (tSQLiteConnection != null)
-        //            {
-        //                if (tSQLiteConnection.IsValid())
-        //                {
-        //                    List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
-        //                    int tCount = 0;
-        //                    // Prepare the datas
-        //                    if (tSelect != null)
-        //                    {
-        //                        foreach (NWDBasis<K> tItem in tSelect)
-        //                        {
-        //                            tCount++;
-        //                            tItem.LoadedFromDatabase();
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
-        //#if UNITY_EDITOR
-        //            New_FilterTableEditor();
-        //            New_RepaintTableEditor();
-        //#endif
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -543,11 +505,11 @@ namespace NetWorkedData
                 }
                 NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
-                tTypeInfos.New_ClassInitialization();
+                tTypeInfos.ClassInitialization();
 
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 tTypeInfos.LoadEditorPrefererences();
-                #endif
+#endif
 
                 tTypeInfos.ClassLoaded = true;
             }

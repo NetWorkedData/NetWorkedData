@@ -30,16 +30,16 @@ namespace NetWorkedData
     public partial class NWDIPBanHelper : NWDHelper<NWDIPBan>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override string New_AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
+        public override string AddonPhpEngineCalculate(NWDAppEnvironment sEnvironment)
         {
-            return NWDIPBan.New_PhpEngine(sEnvironment);
+            return NWDIPBan.PhpEngine(sEnvironment);
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDIPBan : NWDBasis<NWDIPBan>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string New_PhpEngine(NWDAppEnvironment sEnvironment)
+        public static string PhpEngine(NWDAppEnvironment sEnvironment)
         {
             
             string tEnvSync = BasisHelper().PHP_ENV_SYNC(sEnvironment);

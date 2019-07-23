@@ -45,7 +45,7 @@ namespace NetWorkedData
             foreach (Type tType in mTypeLoadedList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tInformations += " • " + tHelper.New_Informations();
+                tInformations += " • " + tHelper.Informations();
                 //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Informations);
                 //if (tMethodInfo != null)
                 //{

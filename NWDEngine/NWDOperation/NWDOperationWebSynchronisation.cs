@@ -94,11 +94,11 @@ namespace NetWorkedData
                 }
 
                 GameObject tGameObjectToSpawn = new GameObject(sName);
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
-                #else
+#else
                 tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-                #endif
+#endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebSynchronisation>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
                 rReturn.Environment = sEnvironment;
@@ -109,7 +109,7 @@ namespace NetWorkedData
                     foreach (Type tType in sTypeList)
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        foreach (Type tR in tHelper.New_ClasseInThisSync())
+                        foreach (Type tR in tHelper.ClasseInThisSync())
                         {
                             if (tReturn.Contains(tR) == false)
                             {
@@ -200,9 +200,9 @@ namespace NetWorkedData
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
-            #endif
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

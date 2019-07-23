@@ -85,7 +85,7 @@ namespace NetWorkedData
             //Debug.Log("NWDBasis<K> NotNullChecker()");
             Type tType = ClassType();
             //List<string> tPropertiesList = PropertiesOrderArray();
-            List<string> tPropertiesList = BasisHelper().New_SLQIntegrityOrder();
+            List<string> tPropertiesList = BasisHelper().SLQIntegrityOrder();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -246,7 +246,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            return BasisHelper().New_HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

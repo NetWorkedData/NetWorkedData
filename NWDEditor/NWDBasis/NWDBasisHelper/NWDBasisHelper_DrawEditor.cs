@@ -30,7 +30,7 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void New_DrawTypeInInspector()
+        public void DrawTypeInInspector()
         {
             //BTBBenchmark.Start();
             if (SaltValid == false)
@@ -62,7 +62,7 @@ namespace NetWorkedData
 
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton))
                 {
-                    New_ResetTable();
+                     ResetTable();
                 }
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, SaltStart);
@@ -70,7 +70,7 @@ namespace NetWorkedData
                 {
                     GUI.FocusControl(null);
                     SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-                    New_RecalculateAllIntegrities();
+                    RecalculateAllIntegrities();
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.BeginHorizontal();
@@ -79,26 +79,26 @@ namespace NetWorkedData
                 {
                     GUI.FocusControl(null);
                     SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-                    New_RecalculateAllIntegrities();
+                    RecalculateAllIntegrities();
                 }
                 GUILayout.EndHorizontal();
 
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, EditorStyles.miniButton))
                 {
                     GUI.FocusControl(null);
-                    New_RecalculateAllIntegrities();
+                    RecalculateAllIntegrities();
                 }
             }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_SelectedFirstObjectInTable(EditorWindow sEditorWindow)
+        public void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
             if (EditorTableDatas.Count > 0)
             {
                 NWDTypeClass sObject = EditorTableDatas.ElementAt(0);
-                New_SetObjectInEdition(sObject);
+                SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
             }
             //BTBBenchmark.Finish();

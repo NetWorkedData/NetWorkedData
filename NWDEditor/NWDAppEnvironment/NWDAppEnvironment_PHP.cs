@@ -128,7 +128,7 @@ namespace NetWorkedData
                 tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
                 EditorUtility.DisplayProgressBar(tTitle, "Create " + tType.Name + " files", tOperation++ / tCountClass);
 
-                Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).New_CreatePHP(this, true);
+                Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
                 foreach (KeyValuePair<string, string> tKeyValue in tResult)
                 {
                     tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
@@ -236,13 +236,13 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             // regenerate basis error
             NWDErrorHelper tErrorHelper = NWDError.BasisHelper() as NWDErrorHelper;
-            tErrorHelper.New_GenerateBasisError();
+            tErrorHelper.GenerateBasisError();
             // regenerate
             //NWDDataManager.SharedInstance().CreateErrorsAndMessagesEngine();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_ErrorRegenerate();
+                tHelper.ErrorRegenerate();
             }
             //BTBBenchmark.Finish();
         }

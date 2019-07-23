@@ -45,7 +45,7 @@ namespace NetWorkedData
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_RestaureObjectInEdition();
+                tHelper.RestaureObjectInEdition();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_RestaureObjectInEdition);
             }
 #endif
@@ -85,7 +85,7 @@ namespace NetWorkedData
                 Type tType = mTypeNotAccountDependantList[sCounter];
 
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_LoadFromDatabase();
+                tHelper.LoadFromDatabase();
 
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
             }
@@ -105,7 +105,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_LoadFromDatabase();
+                    tHelper.LoadFromDatabase();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassEditorDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
@@ -157,7 +157,7 @@ namespace NetWorkedData
 
                 Type tType = mTypeAccountDependantList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_LoadFromDatabase();
+                tHelper.LoadFromDatabase();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
             }
             return rReturn;
@@ -175,7 +175,7 @@ namespace NetWorkedData
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.New_LoadFromDatabase();
+                    tHelper.LoadFromDatabase();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassAccountDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
@@ -222,7 +222,7 @@ namespace NetWorkedData
             {
                 Type tType = mTypeList[sCounter];
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_IndexAll();
+                tHelper.IndexAll();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
             }
             return rReturn;
@@ -235,7 +235,7 @@ namespace NetWorkedData
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.New_IndexAll();
+                tHelper.IndexAll();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
                 BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }

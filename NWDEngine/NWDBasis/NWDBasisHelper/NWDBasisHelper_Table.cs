@@ -22,12 +22,12 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void New_CreateTable()
+        public void CreateTable()
         {
             NWDDataManager.SharedInstance().CreateTable(ClassType, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_CleanTable()
+        public void CleanTable()
         {
             //NWDDebug.Log("New_CleanTable()");
             List<NWDTypeClass> tObjectsListToDelete = new List<NWDTypeClass>();
@@ -41,20 +41,20 @@ namespace NetWorkedData
             foreach (NWDTypeClass tObject in tObjectsListToDelete)
             {
 #if UNITY_EDITOR
-                if (New_IsObjectInEdition(tObject))
+                if (IsObjectInEdition(tObject))
                 {
-                    New_SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                 }
 #endif
                 tObject.DeleteData();
             }
 
 #if UNITY_EDITOR
-            New_RepaintTableEditor();
+            RepaintTableEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_PurgeTable()
+        public void PurgeTable()
         {
             List<object> tObjectsListToDelete = new List<object>();
             // clean object not mine!
@@ -68,20 +68,20 @@ namespace NetWorkedData
             foreach (NWDTypeClass tObject in tObjectsListToDelete)
             {
 #if UNITY_EDITOR
-                if (New_IsObjectInEdition(tObject))
+                if (IsObjectInEdition(tObject))
                 {
-                    New_SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                 }
 #endif
                 tObject.DeleteData();
             }
 
 #if UNITY_EDITOR
-            New_RepaintTableEditor();
+            RepaintTableEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_UpdateDataTable()
+        public void UpdateDataTable()
         {
             NWDDataManager.SharedInstance().MigrateTable(ClassType, kAccountDependent);
             //List<object> tObjectsListToDelete = new List<object>();
@@ -93,7 +93,7 @@ namespace NetWorkedData
 
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public void New_FilterTableEditor()
+        public void FilterTableEditor()
         {
             EditorTableDatas = new List<NWDTypeClass>();
             EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
@@ -240,7 +240,7 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public void New_LoadFromDatabase()
+        public void LoadFromDatabase()
         {
 #if UNITY_EDITOR
             RowAnalyzed = false;
@@ -256,7 +256,7 @@ namespace NetWorkedData
                 if (tSQLiteConnection.IsValid())
                 {
                     //List<NWDTypeClass> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
-                    List<object> tSelect = tSQLiteConnection.Query(new TableMapping(ClassType) ,"SELECT * FROM " + ClassNamePHP);
+                    List<object> tSelect = tSQLiteConnection.Query(new TableMapping(ClassType), "SELECT * FROM " + ClassNamePHP);
                     int tCount = 0;
                     // Prepare the datas
                     if (tSelect != null)
@@ -271,15 +271,15 @@ namespace NetWorkedData
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
             DatasLoaded = true;
-            New_ClassDatasAreLoaded();
+            ClassDatasAreLoaded();
 #if UNITY_EDITOR
-            New_FilterTableEditor();
-            New_RepaintTableEditor();
+            FilterTableEditor();
+            RepaintTableEditor();
 #endif
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_UnloadDataByReference(string sReference)
+        public void UnloadDataByReference(string sReference)
         {
             //Debug.Log("UnloadDataByReference(" + sReference + ")");
             if (DatasByReference.ContainsKey(sReference))
@@ -290,35 +290,35 @@ namespace NetWorkedData
                 tData.Delete();
             }
 #if UNITY_EDITOR
-            New_FilterTableEditor();
-            New_RepaintTableEditor();
+            FilterTableEditor();
+            RepaintTableEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ResetTable()
+        public void ResetTable()
         {
             NWDDataManager.SharedInstance().ResetTable(ClassType, kAccountDependent);
             // reload empty datas
-            New_LoadFromDatabase();
+             LoadFromDatabase();
 #if UNITY_EDITOR
             // refresh the tables windows
-            New_RepaintTableEditor();
+            RepaintTableEditor();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public void New_EmptyTable()
+        public void EmptyTable()
         {
             NWDDataManager.SharedInstance().EmptyTable(ClassType, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_DropTable()
+        public void DropTable()
         {
             NWDDataManager.SharedInstance().DropTable(ClassType, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void New_ReInitializeTable()
+        public void ReInitializeTable()
         {
             NWDDataManager.SharedInstance().ReInitializeTable(ClassType, kAccountDependent);
         }
