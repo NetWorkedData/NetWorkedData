@@ -52,17 +52,17 @@ namespace NetWorkedData
             return tFile.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private const string FUNCTIONPHP_Error = NWD.K_WIP + "error";
-        //private const string FUNCTIONPHP_errorInfos = NWD.K_WIP + "errorInfos";
-        //private const string FUNCTIONPHP_errorReference = NWD.K_WIP + "errorReference";
-        public const string FUNCTIONPHP_errorDetected = NWD.K_WIP + "errorDetected";
-        private const string FUNCTIONPHP_errorCancel = NWD.K_WIP + "errorCancel";
-        public const string FUNCTIONPHP_errorResult = NWD.K_WIP + "errorResult";
-        //private const string FUNCTIONPHP_errorPossibilities = NWD.K_WIP + "errorPossibilities";
+        private const string FUNCTIONPHP_Error = "error";
+        //private const string FUNCTIONPHP_errorInfos = "errorInfos";
+        //private const string FUNCTIONPHP_errorReference = "errorReference";
+        public const string FUNCTIONPHP_errorDetected =  "errorDetected";
+        private const string FUNCTIONPHP_errorCancel =  "errorCancel";
+        public const string FUNCTIONPHP_errorResult = "errorResult";
+        //private const string FUNCTIONPHP_errorPossibilities = "errorPossibilities";
         //-------------------------------------------------------------------------------------------------------------
-        private const string FUNCTIONPHP_log = NWD.K_WIP + "myLog";
-        private const string FUNCTIONPHP_logReturn = NWD.K_WIP + "myLogLineReturn";
-        public const string FUNCTIONPHP_respond = NWD.K_WIP + "mylogRespond";
+        private const string FUNCTIONPHP_log =  "myLog";
+        private const string FUNCTIONPHP_logReturn =  "myLogLineReturn";
+        public const string FUNCTIONPHP_respond =  "mylogRespond";
         private const string K_PHP_ERR_LOG = "$ERR_LOG";
         private const string K_PHP_ERR_LOG_CNT = "$ERR_LOG_CNT";
         private const string K_PHP_ERR_BOL = "$ERR_BOL";

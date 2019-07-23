@@ -101,7 +101,7 @@ namespace NetWorkedData
 
         public const string K_PHP_WSBUILD = "$WSBUILD";
 
-        public const string K_WIP = "WIP_";
+        //public const string K_WIP = "WIP_";
         //-------------------------------------------------------------------------------------------------------------
         //public const string K_ENV = "Environment";
         public const string K_WS_FILE = "webservices.php";

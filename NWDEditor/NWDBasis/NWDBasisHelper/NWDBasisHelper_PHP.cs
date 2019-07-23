@@ -27,37 +27,37 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public string PHP_FUNCTION_CONSTANTS() { return NWD.K_WIP + ClassNamePHP + "Constants"; }
-        public string PHP_FUNCTION_INTERGRITY_TEST() { return NWD.K_WIP + ClassNamePHP + "IntegrityTest"; }
-        public string PHP_FUNCTION_INTERGRITY_REPLACE() { return NWD.K_WIP + ClassNamePHP + "IntegrityReplace"; }
-        public string PHP_FUNCTION_INTERGRITY_REPLACES() { return NWD.K_WIP + ClassNamePHP + "IntegrityReplaces"; }
-        public string PHP_FUNCTION_PREPARE_DATA() { return NWD.K_WIP + ClassNamePHP + "PrepareData"; }
-        public string PHP_FUNCTION_LOG() { return NWD.K_WIP + ClassNamePHP + "Log"; }
-        public string PHP_FUNCTION_INTEGRITY_SERVER_GENERATE() { return NWD.K_WIP + ClassNamePHP + "IntegrityServerGenerate"; }
-        public string PHP_FUNCTION_INTEGRITY_GENERATE() { return NWD.K_WIP + ClassNamePHP + "IntegrityGenerate"; }
-        public string PHP_FUNCTION_INTEGRITY_REEVALUATE() { return NWD.K_WIP + ClassNamePHP + "IntegrityReevalue"; }
-        public string PHP_FUNCTION_INTEGRITY_SERVER_VALIDATE() { return NWD.K_WIP + ClassNamePHP + "IntegrityServerValidate"; }
-        public string PHP_FUNCTION_INTEGRITY_SERVER_VALIDATE_BY_ROW() { return NWD.K_WIP + ClassNamePHP + "IntegrityServerValidateByRow"; }
-        public string PHP_FUNCTION_INTEGRITY_VALIDATE() { return NWD.K_WIP + ClassNamePHP + "IntegrityValidate"; }
-        public string PHP_FUNCTION_INTEGRITY_VALIDATE_BY_ROW() { return NWD.K_WIP + ClassNamePHP + "IntegrityValidateByRow"; }
-        public string PHP_FUNCTION_UPDATE_DATA() { return NWD.K_WIP + ClassNamePHP + "UpdateData"; }
-        public string PHP_FUNCTION_FLUSH_TRASH_DATAS() { return NWD.K_WIP + ClassNamePHP + "FlushTrashedDatas"; }
-        public string PHP_FUNCTION_GET_DATA_BY_REFERENCE() { return NWD.K_WIP + ClassNamePHP + "GetDataByReference"; }
-        public string PHP_FUNCTION_GET_DATAS_BY_REFERENCES() { return NWD.K_WIP + ClassNamePHP + "GetDatasByReferences"; }
-        public string PHP_FUNCTION_GET_DATAS() { return NWD.K_WIP + ClassNamePHP + "GetDatas"; }
-        public string PHP_FUNCTION_GET_DATAS_BY_GAMESAVE() { return NWD.K_WIP + ClassNamePHP + "GetDatasByGameSave"; }
-        public string PHP_FUNCTION_GET_DATAS_BY_ACCOUNT() { return NWD.K_WIP + ClassNamePHP + "GetDatasByAccounts"; }
-        public string PHP_FUNCTION_SPECIAL() { return NWD.K_WIP + ClassNamePHP + "Special"; }
-        public string PHP_FUNCTION_SYNCHRONIZE() { return NWD.K_WIP + ClassNamePHP + "Synchronize"; }
+        public string PHP_FUNCTION_CONSTANTS() { return  ClassNamePHP + "Constants"; }
+        public string PHP_FUNCTION_INTERGRITY_TEST() { return  ClassNamePHP + "IntegrityTest"; }
+        public string PHP_FUNCTION_INTERGRITY_REPLACE() { return  ClassNamePHP + "IntegrityReplace"; }
+        public string PHP_FUNCTION_INTERGRITY_REPLACES() { return  ClassNamePHP + "IntegrityReplaces"; }
+        public string PHP_FUNCTION_PREPARE_DATA() { return  ClassNamePHP + "PrepareData"; }
+        public string PHP_FUNCTION_LOG() { return  ClassNamePHP + "Log"; }
+        public string PHP_FUNCTION_INTEGRITY_SERVER_GENERATE() { return  ClassNamePHP + "IntegrityServerGenerate"; }
+        public string PHP_FUNCTION_INTEGRITY_GENERATE() { return  ClassNamePHP + "IntegrityGenerate"; }
+        public string PHP_FUNCTION_INTEGRITY_REEVALUATE() { return  ClassNamePHP + "IntegrityReevalue"; }
+        public string PHP_FUNCTION_INTEGRITY_SERVER_VALIDATE() { return  ClassNamePHP + "IntegrityServerValidate"; }
+        public string PHP_FUNCTION_INTEGRITY_SERVER_VALIDATE_BY_ROW() { return  ClassNamePHP + "IntegrityServerValidateByRow"; }
+        public string PHP_FUNCTION_INTEGRITY_VALIDATE() { return  ClassNamePHP + "IntegrityValidate"; }
+        public string PHP_FUNCTION_INTEGRITY_VALIDATE_BY_ROW() { return  ClassNamePHP + "IntegrityValidateByRow"; }
+        public string PHP_FUNCTION_UPDATE_DATA() { return  ClassNamePHP + "UpdateData"; }
+        public string PHP_FUNCTION_FLUSH_TRASH_DATAS() { return  ClassNamePHP + "FlushTrashedDatas"; }
+        public string PHP_FUNCTION_GET_DATA_BY_REFERENCE() { return  ClassNamePHP + "GetDataByReference"; }
+        public string PHP_FUNCTION_GET_DATAS_BY_REFERENCES() { return  ClassNamePHP + "GetDatasByReferences"; }
+        public string PHP_FUNCTION_GET_DATAS() { return  ClassNamePHP + "GetDatas"; }
+        public string PHP_FUNCTION_GET_DATAS_BY_GAMESAVE() { return  ClassNamePHP + "GetDatasByGameSave"; }
+        public string PHP_FUNCTION_GET_DATAS_BY_ACCOUNT() { return  ClassNamePHP + "GetDatasByAccounts"; }
+        public string PHP_FUNCTION_SPECIAL() { return  ClassNamePHP + "Special"; }
+        public string PHP_FUNCTION_SYNCHRONIZE() { return  ClassNamePHP + "Synchronize"; }
 
-        public string PHP_FUNCTION_CREATE_TABLE() { return NWD.K_WIP + ClassNamePHP + "CreateTable"; }
-        public string PHP_FUNCTION_DEFRAGMENT_TABLE() { return NWD.K_WIP + ClassNamePHP + "DefragmentTable"; }
-        public string PHP_FUNCTION_DROP_TABLE() { return NWD.K_WIP + ClassNamePHP + "DropTable"; }
-        public string PHP_FUNCTION_FLUSH_TABLE() { return NWD.K_WIP + ClassNamePHP + "FlushTable"; }
+        public string PHP_FUNCTION_CREATE_TABLE() { return  ClassNamePHP + "CreateTable"; }
+        public string PHP_FUNCTION_DEFRAGMENT_TABLE() { return  ClassNamePHP + "DefragmentTable"; }
+        public string PHP_FUNCTION_DROP_TABLE() { return  ClassNamePHP + "DropTable"; }
+        public string PHP_FUNCTION_FLUSH_TABLE() { return  ClassNamePHP + "FlushTable"; }
 
-        public string PHP_CONSTANT_SALT_A() { return "$" + NWD.K_WIP + ClassNamePHP + "SaltA"; }
-        public string PHP_CONSTANT_SALT_B() { return "$" + NWD.K_WIP + ClassNamePHP + "SaltB"; }
-        public string PHP_CONSTANT_WEBSERVICE() { return "$" + NWD.K_WIP + ClassNamePHP + "WebService"; }
+        public string PHP_CONSTANT_SALT_A() { return "$" +  ClassNamePHP + "SaltA"; }
+        public string PHP_CONSTANT_SALT_B() { return "$" +  ClassNamePHP + "SaltB"; }
+        public string PHP_CONSTANT_WEBSERVICE() { return "$" +  ClassNamePHP + "WebService"; }
 
         //-------------------------------------------------------------------------------------------------------------
         //public string PHP_CONSTANT_TABLENAME() { return "'." + NWD.K_ENV + ".'_" + ClassTableName; }
