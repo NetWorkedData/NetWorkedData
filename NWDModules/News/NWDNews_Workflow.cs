@@ -110,10 +110,10 @@ namespace NetWorkedData
             {
                 foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
                 {
-                    NWDNews tNew = NWDNews.GetDataByReference(tNotif.userInfo[KReferenceKey].ToString());
+                    NWDNews tNew = NWDNews.GetReachableDataByReference(tNotif.userInfo[KReferenceKey].ToString());
                     if (tNew != null)
                     {
-                        if (tNew.EventType != NWDNewsType.Programmatically)
+                        if (tNew.NewsType != NWDNewsType.Programmatically)
                         {
                             //remove the notification
                             UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
@@ -219,7 +219,6 @@ namespace NetWorkedData
 #if UNITY_IOS
                             if (sDateTime > DateTime.Now)
                             {
-                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                                 UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
                                 Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
                                 tUserInfo.Add(KReferenceKey, this.Reference);
@@ -296,7 +295,6 @@ namespace NetWorkedData
                     case NWDNewsType.LocalNotificationNow:
                         {
                             #if UNITY_IOS
-                            Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                             UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
                             Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
                             tUserInfo.Add(KReferenceKey, this.Reference);
@@ -317,7 +315,6 @@ namespace NetWorkedData
                             DateTime tDate = DistributionDate.ToDateTime();
                             if (tDate > DateTime.Now)
                             {
-                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                                 UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
                                 Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
                                 tUserInfo.Add(KReferenceKey, this.Reference);
@@ -338,7 +335,6 @@ namespace NetWorkedData
                             #if UNITY_IOS
                             if (ReccurentLifeTime > 0)
                             {
-                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                                 UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
                                 Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
                                 tUserInfo.Add(KReferenceKey, this.Reference);
@@ -360,7 +356,6 @@ namespace NetWorkedData
                             DateTime tDate = ScheduleDateTime.NextDateTime();
                             if (tDate > DateTime.Now)
                             {
-                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                                 UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
                                 Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
                                 tUserInfo.Add(KReferenceKey, this.Reference);
