@@ -92,7 +92,7 @@ namespace NetWorkedData
 			return tColorFieldStyle.CalcHeight (new GUIContent ("A"), 100);
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
 			NWDColorType tTemporary = new NWDColorType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

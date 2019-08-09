@@ -173,7 +173,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 
-        static public string Field(NWDBasisHelper sHelper, Rect sRect, GUIContent sContent, string sReference, float sInsertion = 0)
+        static public string Field(NWDBasisHelper sHelper, Rect sRect, GUIContent sContent, string sReference, bool sDisabled, float sInsertion = 0)
         {
             //BTBBenchmark.Start();
             sHelper.RowAnalyze();
@@ -269,11 +269,12 @@ namespace NetWorkedData
                 NWDGUI.EndColorArea();
                 if (string.IsNullOrEmpty(sReference) == false)
                 {
-
+                    EditorGUI.EndDisabledGroup();
                     if (GUI.Button(tEditRect, NWDGUI.kEditContentIcon, NWDGUI.kEditButtonStyle))
                     {
                         sHelper.SetObjectInEdition(sHelper.GetDataByReference(sReference), false);
                     }
+                    EditorGUI.BeginDisabledGroup(sDisabled);
                 }
                 else
                 {

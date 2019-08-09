@@ -327,8 +327,7 @@ namespace NetWorkedData
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
                             BTBDataType tBTBDataType = tValue as BTBDataType;
-                            BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight),
-                                                                                      "  ", Tooltips) as BTBDataType;
+                            BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "  ", tNotEditable, Tooltips) as BTBDataType;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -351,7 +350,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
                             BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kIntFieldStyle.fixedHeight),
-                                                                                     "  ", Tooltips) as BTBDataTypeInt;
+                                                                                     "  ", tNotEditable, Tooltips) as BTBDataTypeInt;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -374,7 +373,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
                             BTBDataTypeFloat tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
-                                                                                     "  ", Tooltips) as BTBDataTypeFloat;
+                                                                                     "  ", tNotEditable, Tooltips) as BTBDataTypeFloat;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -397,7 +396,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeEnum tBTBDataType = tValue as BTBDataTypeEnum;
                             BTBDataTypeEnum tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
-                                                                                     "  ", Tooltips) as BTBDataTypeEnum;
+                                                                                     "  ", tNotEditable, Tooltips) as BTBDataTypeEnum;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -419,7 +418,7 @@ namespace NetWorkedData
                             }
                             BTBDataTypeMask tBTBDataType = tValue as BTBDataTypeMask;
                             BTBDataTypeMask tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
-                                                                                     " ", Tooltips) as BTBDataTypeMask;
+                                                                                     " ", tNotEditable, Tooltips) as BTBDataTypeMask;
 
                             if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                             {
@@ -442,7 +441,7 @@ namespace NetWorkedData
             }
             if (Group != null)
             {
-                float tIndentGroup = (Group.Indent -1) * NWDGUI.kFieldIndent;
+                float tIndentGroup = (Group.Indent - 1) * NWDGUI.kFieldIndent;
                 if (Group.Visible == true)
                 {
                     if (Group.Separator == true)

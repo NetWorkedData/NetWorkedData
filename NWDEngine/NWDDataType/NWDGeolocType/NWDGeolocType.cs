@@ -134,7 +134,7 @@ namespace NetWorkedData
         /// <param name="sPosition">S position.</param>
         /// <param name="sEntitled">S entitled.</param>
         /// <param name="sPosition">S position.</param>
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDGeolocType tTemporary = new NWDGeolocType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

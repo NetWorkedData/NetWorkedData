@@ -125,7 +125,7 @@
 //            return NWDGUI.kPopupdStyle.fixedHeight;
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
-//        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+//        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 //		{
 //            NWDDateUtcType tTemporary = new NWDDateUtcType ();
 //            GUIContent tContent = new GUIContent(sEntitled, sTooltips);

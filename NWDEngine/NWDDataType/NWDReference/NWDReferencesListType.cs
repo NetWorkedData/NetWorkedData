@@ -287,7 +287,7 @@ namespace NetWorkedData
         //    return tHeight;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled,bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDReferencesListType<K> tTemporary = new NWDReferencesListType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -315,7 +315,7 @@ namespace NetWorkedData
                     tContent = new GUIContent("   ");
                 }
                 string tV = tValueList.ElementAt(i);
-                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV,sDisabled);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     if (i > 0)

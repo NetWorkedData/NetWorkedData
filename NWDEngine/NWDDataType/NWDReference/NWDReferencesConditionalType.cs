@@ -617,7 +617,7 @@ namespace NetWorkedData
         //    return tHeight;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDReferencesConditionalType<K> tTemporary = new NWDReferencesConditionalType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -663,11 +663,11 @@ namespace NetWorkedData
                     tC = NWDToolbox.IntFromString(tLineValue[2]);
                 }
 
-                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV, tIntWidth + tConWidth + NWDGUI.kFieldMarge*2);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV, sDisabled, tIntWidth + tConWidth + NWDGUI.kFieldMarge * 2);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
 
-                    tC = EditorGUI.Popup(new Rect(tX + tWidth - tIntWidth - tConWidth - tEditWidth - NWDGUI.kFieldMarge*2 , tY + NWDGUI.kDatasSelectorYOffset, tConWidth, NWDGUI.kTextFieldStyle.fixedHeight),
+                    tC = EditorGUI.Popup(new Rect(tX + tWidth - tIntWidth - tConWidth - tEditWidth - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kDatasSelectorYOffset, tConWidth, NWDGUI.kTextFieldStyle.fixedHeight),
                                          tC, new string[] { "=", ">", ">=", "<", "=<", "!" });
 
                     int tIndentLevel = EditorGUI.indentLevel;

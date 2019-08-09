@@ -132,7 +132,7 @@ namespace NetWorkedData
             return NWDGUI.kPopupStyle.fixedHeight*2 + NWDGUI.kFieldMarge;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //Debug.Log("Value Receipt= " + Value);
             NWDDateTimeUtcType tTemporary = new NWDDateTimeUtcType ();
