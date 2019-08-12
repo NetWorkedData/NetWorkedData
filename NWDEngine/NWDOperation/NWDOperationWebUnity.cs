@@ -600,13 +600,13 @@ namespace NetWorkedData
 
             }
 #else
-            if (NWDAppConfiguration.SharedInstance().AdminInPLayer())
+            /*if (NWDAppConfiguration.SharedInstance().AdminInPlayer())
             {
                 if (string.IsNullOrEmpty(Environment.AdminKey) == false)
                 {
-                    HeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
+                    HeaderParams.Add(MWD.AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
                 }
-            }
+            }*/
 #endif
             // insert dico of header in request header
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)

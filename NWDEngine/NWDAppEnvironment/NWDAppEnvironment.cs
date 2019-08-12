@@ -51,10 +51,10 @@ namespace NetWorkedData
         public string DataSHAVector = string.Empty;
         public string SaltStart = string.Empty;
         public string SaltEnd = string.Empty;
-#if UNITY_EDITOR
-        public int IPBanMaxTentative = 3;
         public int IPBanTimer = 3600;
+        public int IPBanMaxTentative = 3;
         public bool IPBanActive = true;
+#if UNITY_EDITOR
         public string SaltServer = string.Empty;
         public string MailHost = string.Empty;
         public int MailPort = 465;

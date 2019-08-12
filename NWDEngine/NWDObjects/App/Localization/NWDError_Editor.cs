@@ -11,18 +11,9 @@
 //
 //=====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
-#if UNITY_EDITOR
 using UnityEngine;
 using BasicToolBox;
-using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -68,8 +59,12 @@ namespace NetWorkedData
                     tError.Validation = tValidation;
                     // type of alert
                     tError.Type = sType;
+                    
+                    #if UNITY_EDITOR
                     // add-on edited
                     tError.AddonEdited(true);
+                    #endif
+
                     // reccord
                     //tError.NotNullChecker();
                     tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
@@ -80,6 +75,7 @@ namespace NetWorkedData
             return tError;
         }
         //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
             if (sNeedBeUpdate == true)
@@ -114,8 +110,8 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif
