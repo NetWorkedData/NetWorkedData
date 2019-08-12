@@ -1,9 +1,9 @@
 {
     "name": "NetWorkedDataAssembly",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:9029c366187d14a95bad50956c528613",
-        "GUID:1b3b07cc5f6814e62bdc09ac4eae2e20"
+        "Unity.TextMeshPro",
+        "BasicToolBoxAssembly",
+        "SceneTransitionSystemAssembly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
