@@ -73,7 +73,7 @@ namespace NetWorkedData
                 {
                     if (EditorTableDatas.Contains(tObject))
                     {
-                         SetObjectInEdition(tObject);
+                        SetObjectInEdition(tObject);
                     }
                 }
             }
@@ -683,7 +683,7 @@ namespace NetWorkedData
                     tNewObject.UpdateData();
                 }
                 m_PageSelected = m_MaxPage * 3;
-                 SetObjectInEdition(tNewObject);
+                SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
             }
             //BTBBenchmark.Finish();
@@ -826,7 +826,7 @@ namespace NetWorkedData
                 {
                     string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     FilterTableEditor();
                     RestaureDataInEditionByReference(tReference);
                 }
@@ -837,7 +837,7 @@ namespace NetWorkedData
 
                     string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     //m_SearchReference = "";
                     m_SearchReference = string.Empty;
                     m_SearchInternalName = string.Empty;
@@ -923,7 +923,17 @@ namespace NetWorkedData
                 tRect.y = sRect.y;
                 tRect.width = NWDGUI.KTableSearchFieldWidth;
                 // Draw title
-                GUI.Label(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle);
+
+
+                //GUI.Label(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle);
+
+                if (GUI.Button(tRect, ClassNamePHP, NWDGUI.KTableSearchTitle))
+                {
+                    //TODO edit script
+                    //Debug.Log("ClassNamePHP to edit " + ClassNamePHP);
+                    BTBScriptOpener.OpenScript(ClassType);
+
+                }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // Draw texture of this class
                 tRect.height = NWDGUI.KTableSearchToggle.fixedHeight * 3 + NWDGUI.kFieldMarge * 2;
@@ -1162,7 +1172,7 @@ namespace NetWorkedData
                     {
                         tNextObjectSelected = null;
                     }
-                     SetObjectInEdition(tNextObjectSelected);
+                    SetObjectInEdition(tNextObjectSelected);
                     m_PageSelected = m_MaxPage * 3;
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1366,10 +1376,10 @@ namespace NetWorkedData
                 {
                     string tReference = GetReferenceOfDataInEdition();
                     GUI.FocusControl(null);
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     m_SearchInternalName = string.Empty;
                     m_SearchInternalDescription = string.Empty;
-                     LoadFromDatabase();
+                    LoadFromDatabase();
                     RestaureDataInEditionByReference(tReference);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
@@ -1633,7 +1643,7 @@ namespace NetWorkedData
                         NWDTypeClass tObjectToDelete = tObject;
                         tObjectToDelete.DeleteData();
                     }
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1674,7 +1684,7 @@ namespace NetWorkedData
                         tObjectToTrash.TrashData();
                         tObjectToTrash.RowAnalyze();
                     }
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     //                  sEditorWindow.Repaint ();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
                     NWDDataInspector.ActiveRepaint();
@@ -1716,7 +1726,7 @@ namespace NetWorkedData
                         tObjectToUntrash.UnTrashData();
                         tObjectToUntrash.RowAnalyze();
                     }
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1757,7 +1767,7 @@ namespace NetWorkedData
                         tObjectToReintegrate.UpdateData();
                         tObjectToReintegrate.RowAnalyze();
                     }
-                     SetObjectInEdition(null);
+                    SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
                     NWDDataInspector.ActiveRepaint();
                 }
@@ -1769,7 +1779,7 @@ namespace NetWorkedData
                                                 NWDConstants.K_APP_TABLE_RESET_YES,
                                                 NWDConstants.K_APP_TABLE_RESET_NO))
                 {
-                     ResetTable();
+                    ResetTable();
                 }
             }
             if (tPullProd == true)
@@ -1847,7 +1857,7 @@ namespace NetWorkedData
             }
             if (tLocalizeLocalTable == true)
             {
-                 ExportLocalization();
+                ExportLocalization();
             }
             if (tCreateAllPHPForOnlyThisClass == true)
             {
@@ -2247,7 +2257,7 @@ namespace NetWorkedData
                             if (tIndexSelected < EditorTableDatas.Count - 1)
                             {
                                 NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSelected + 1);
-                                 SetObjectInEdition(tNextSelected);
+                                SetObjectInEdition(tNextSelected);
                                 //float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
                                 //int tPageExpected = (int)Math.Floor(tNumberPage);
                                 //m_PageSelected = tPageExpected;
@@ -2275,7 +2285,7 @@ namespace NetWorkedData
                             if (tIndexSelected > 0)
                             {
                                 NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSelected - 1);
-                                 SetObjectInEdition(tNextSelected);
+                                SetObjectInEdition(tNextSelected);
                                 //float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
                                 //int tPageExpected = (int)Math.Floor(tNumberPage);
                                 //m_PageSelected = tPageExpected;
@@ -2304,7 +2314,7 @@ namespace NetWorkedData
                         if (tIndexSel < EditorTableDatas.Count)
                         {
                             NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(tIndexSel);
-                             SetObjectInEdition(tNextSelected);
+                            SetObjectInEdition(tNextSelected);
                             ChangeScroolPositionToSelection(tScrollRect);
                             Event.current.Use();
                             sEditorWindow.Focus();
@@ -2324,7 +2334,7 @@ namespace NetWorkedData
                         m_PageSelected--;
                         // TODO : reselect first object
                         NWDTypeClass tNextSelected = EditorTableDatas.ElementAt(m_ItemPerPage * m_PageSelected);
-                         SetObjectInEdition(tNextSelected);
+                        SetObjectInEdition(tNextSelected);
                         ChangeScroolPositionToSelection(tScrollRect);
                         Event.current.Use();
                         sEditorWindow.Focus();
