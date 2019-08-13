@@ -126,18 +126,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T NewData<T>() where T : NWDTypeClass, new()
-        {
-            NWDBasisHelper tHelper = FindTypeInfos(typeof(T));
-            tHelper.ClassInformations("#### test");
-            return tHelper.NewData() as T;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass NewData()
-        {
-            NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { true }) as NWDTypeClass;
-            return rReturn;
-        }
+        //public NWDTypeClass NewData()
+        //{
+        //    NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { true }) as NWDTypeClass;
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void FlushTrash(NWDTypeClass sObject)
         {

@@ -53,7 +53,7 @@ namespace NetWorkedData
             NWDAccountConsent rReturn = kAccountIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDAccountConsent>();
                 //rReturn.Account.SetReference(NWDAccount.CurrentReference());
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.Consent.SetReference(sConsent.Reference);

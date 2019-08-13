@@ -152,7 +152,7 @@ namespace NetWorkedData
         //    }
         //    if (rReturn == null && sCreateIfNotExists == true)
         //    {
-        //        rReturn = NWDBasis<K>.NewData(sWritingMode);
+        //        rReturn = NWDBasisHelper.NewData<K>(sWritingMode);
         //        rReturn.InternalKey = sInternalKey;
         //        rReturn.InternalDescription = sInternalDescription;
         //        rReturn.UpdateData(true, sWritingMode);

@@ -67,9 +67,9 @@ namespace NetWorkedData
             NWDUserOwnership rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDUserOwnership>();
 #if UNITY_EDITOR
-                NWDItem tItem = NWDItem.GetRawDataByReference(sReference);
+                NWDItem tItem = NWDBasisHelper.GetRawDataByReference<NWDItem>(sReference);
                 if (tItem != null)
                 {
                     if (tItem.Name != null)

@@ -43,10 +43,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountPreference GetByInternalKeyOrCreate(string sInternalKey, NWDMultiType sDefaultValue, string sInternalDescription = BTBConstants.K_EMPTY_STRING)
         {
-            NWDAccountPreference rObject = GetReacheableFirstDataByInternalKey(sInternalKey,false);
+            NWDAccountPreference rObject = NWDBasisHelper.GetReacheableFirstDataByInternalKey<NWDAccountPreference>(sInternalKey,false);
             if (rObject == null)
             {
-                rObject = NewData();
+                rObject = NWDBasisHelper.NewData<NWDAccountPreference>();
                 #if UNITY_EDITOR
                 rObject.InternalKey = sInternalKey;
                 rObject.InternalDescription = sInternalDescription;

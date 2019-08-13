@@ -49,7 +49,7 @@ namespace NetWorkedData
             NWDAccountInfos rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDAccountInfos>();
                 rReturn.Account.SetReference(sAccountReference);
                 //rReturn.AccountType = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerStatut;
                 //rReturn.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;

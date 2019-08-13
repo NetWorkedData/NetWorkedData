@@ -63,7 +63,7 @@ namespace NetWorkedData
                 tEnv = NWDAppConfiguration.SharedInstance().DevEnvironment;
             }
             SignHash = tEnv.SecretKeyDeviceEditor();
-            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
             {
                 InternalKey = tAccount.InternalKey;
@@ -84,7 +84,7 @@ namespace NetWorkedData
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
             RescueHash = string.Empty;
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
             {
                 InternalKey = tAccount.InternalKey;
@@ -105,7 +105,7 @@ namespace NetWorkedData
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
             RescueHash = string.Empty;
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
             {
                 InternalKey = tAccount.InternalKey;
@@ -126,7 +126,7 @@ namespace NetWorkedData
             SignHash = SignSocialDevice(sSocialToken);
             RescueHash = string.Empty;
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
             {
                 InternalKey = tAccount.InternalKey;
@@ -142,7 +142,7 @@ namespace NetWorkedData
             SignHash = SignSocialDevice(sSocialToken);
             RescueHash = string.Empty;
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
             {
                 InternalKey = tAccount.InternalKey;
@@ -178,7 +178,7 @@ namespace NetWorkedData
                 SignHash = SignLoginPassword(sEmail, sPassword);
                 RescueHash = RescueEmailHash(sEmail);
 #if UNITY_EDITOR
-                NWDAccount tAccount = NWDAccount.GetRawDataByReference(Account.GetReference());
+                NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
                 if (tAccount != null)
                 {
                     InternalKey = tAccount.InternalKey;
@@ -191,7 +191,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAndRegisterEmail(string sEmail, string sPassword, BTBOperationBlock sSuccessBlock = null, BTBOperationBlock sErrorBlock = null)
         {
-            NWDAccountSign tSign = NewData();
+            NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
             tSign.RegisterEmailPassword(sEmail, sPassword);
 
             /*BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bResult)
@@ -212,7 +212,7 @@ namespace NetWorkedData
             };*/
 
             // Sync NWDAccountSign
-            SynchronizationFromWebService(sSuccessBlock, sErrorBlock);
+           NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string SignLoginPassword(string sLogin, string sPassword)
@@ -253,7 +253,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetCorporateDatasAssociated(string sAccountReference = null)
         {
-            List<NWDAccountSign> tSignList = GetCorporateDatasList(sAccountReference);
+            List<NWDAccountSign> tSignList = NWDBasisHelper.GetCorporateDatasList<NWDAccountSign>(sAccountReference);
             List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
             foreach (NWDAccountSign tSign in tSignList)
             {
@@ -267,7 +267,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetReachableDatasAssociated()
         {
-            List<NWDAccountSign> tSignList = GetReachableDatasList();
+            List<NWDAccountSign> tSignList = NWDBasisHelper.GetReachableDatasList<NWDAccountSign>();
             List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
             foreach (NWDAccountSign tSign in tSignList)
             {
@@ -281,7 +281,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetReachableDatasBySignType(NWDAccountSignType tSignType)
         {
-            List<NWDAccountSign> tSignList = GetReachableDatasList();
+            List<NWDAccountSign> tSignList = NWDBasisHelper.GetReachableDatasList<NWDAccountSign>();
             List<NWDAccountSign> rReturn = new List<NWDAccountSign>();
             foreach (NWDAccountSign tSign in tSignList)
             {

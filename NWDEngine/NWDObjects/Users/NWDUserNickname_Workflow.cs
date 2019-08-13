@@ -39,7 +39,7 @@ namespace NetWorkedData
         public static string Enrichment(string sText, bool sBold = true)
         {
             // Get First nickname found and return a new string
-            return Enrichment(sText, GetCorporateFirstData(), sBold);
+            return Enrichment(sText, NWDBasisHelper.GetCorporateFirstData<NWDUserNickname>(), sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : clean
@@ -79,7 +79,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserNickname NewNickname(string name)
         {
-            NWDUserNickname rNickname = NewData();
+            NWDUserNickname rNickname = NWDBasisHelper.NewData<NWDUserNickname>();
             rNickname.InternalKey = name;
             rNickname.InternalDescription = string.Empty;
             rNickname.Nickname = name;
@@ -90,7 +90,7 @@ namespace NetWorkedData
         public static string GetNickname()
         {
             string rNickname = string.Empty;
-            NWDUserNickname[] tNickname = GetReachableDatas();
+            NWDUserNickname[] tNickname = NWDBasisHelper.GetReachableDatas<NWDUserNickname>();
             if (tNickname.Length > 0)
             {
                 rNickname = tNickname[0].Nickname;
@@ -101,7 +101,7 @@ namespace NetWorkedData
         public static string GetUniqueNickname()
         {
             string rUniqueNickname = string.Empty;
-            NWDUserNickname[] tNickname = GetReachableDatas();
+            NWDUserNickname[] tNickname = NWDBasisHelper.GetReachableDatas<NWDUserNickname>();
             if (tNickname.Length > 0)
             {
                 rUniqueNickname = tNickname[0].UniqueNickname;

@@ -113,7 +113,7 @@ namespace NetWorkedData
             List< List<string>> Final = new List<List<string>>();
             foreach (string tA in sItemGroupIngredient)
             {
-                NWDItemGroup tItemGroup = NWDItemGroup.GetRawDataByReference(tA);
+                NWDItemGroup tItemGroup = NWDBasisHelper.GetRawDataByReference<NWDItemGroup>(tA);
                 if (tItemGroup != null)
                 {
                     NWDItem[] tItems = tItemGroup.ItemList.GetRawDatas();

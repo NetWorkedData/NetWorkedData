@@ -239,7 +239,7 @@ namespace NetWorkedData
             {
                 sList.Add(sCat);
                 // analyze children
-                foreach (NWDCategory tData in BasisHelper().Datas)
+                foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
                 {
                     if (tData != null)
                     {

@@ -25,8 +25,9 @@ namespace NetWorkedData
     public partial class NWDCraftBookHelper : NWDHelper<NWDCraftBook>
     {
         //-------------------------------------------------------------------------------------------------------------
-public override List<Type>  OverrideClasseInThisSync()
+        public override List<Type> OverrideClasseInThisSync()
         {
+            Debug.Log("NWDCraftBookHelper OverrideClasseInThisSync() give list");
             return new List<Type> { typeof(NWDCraftReward), typeof(NWDCraftBook), typeof(NWDCraftRecipient) };
         }
         //-------------------------------------------------------------------------------------------------------------

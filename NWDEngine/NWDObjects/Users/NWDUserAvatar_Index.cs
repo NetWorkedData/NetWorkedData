@@ -46,7 +46,7 @@ namespace NetWorkedData
             NWDUserAvatar rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDUserAvatar>();
                 rReturn.GameSave.SetData(NWDGameSave.CurrentData());
                 rReturn.UpdateData();
             }

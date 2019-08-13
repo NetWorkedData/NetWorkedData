@@ -33,13 +33,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-           
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDItem GetNWDItemAvatar()
         {
             NWDItem rItem = null;
-            NWDUserAvatar[] tAvatars = GetReachableDatas();
+            NWDUserAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDUserAvatar>();
             if (tAvatars.Length > 0)
             {
                 return tAvatars[0].RenderItem.GetData();
@@ -50,7 +50,7 @@ namespace NetWorkedData
         public static Sprite GetTextureAvatar()
         {
             Sprite rSprite = null;
-            NWDUserAvatar[] tAvatars = GetReachableDatas();
+            NWDUserAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDUserAvatar>();
             if (tAvatars.Length > 0)
             {
                 return tAvatars[0].RenderTexture.ToSprite();

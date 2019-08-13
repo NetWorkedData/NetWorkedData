@@ -122,7 +122,7 @@ namespace NetWorkedData
             {
                 // TODO Check this
                 //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
-                SynchronizationFromWebService();
+                NWDBasisHelper.SynchronizationFromWebService<NWDAccountInfos>();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

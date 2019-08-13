@@ -181,9 +181,9 @@ namespace NetWorkedData
 #endif
             // I insert the device key if necessary 
             // can be override by the DataUploadPrepare if necessary
-            
+
             // change selected environement! automaticcally?!
-            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(Environment.PlayerAccountReference, null);
+            //NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(Environment.PlayerAccountReference, null);
             NWDAppEnvironment.SetEnvironment(Environment);
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos == null)
@@ -441,7 +441,7 @@ namespace NetWorkedData
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
                                                         // creer Device sign and send to serever with new package
-                                                        NWDAccountSign tSign = NWDAccountSign.NewData();
+                                                        NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
                                                         tSign.Account.SetReference(ResultInfos.uuid);
                                                         tSign.RegisterDevice();
                                                         NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.uuid /*, ResultInfos.signkey*/);
@@ -484,10 +484,16 @@ namespace NetWorkedData
                 {
                     // Notification of a Download success
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
-                    ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
-                    if (Application.isPlaying == true)
+                    if (ResultInfos != null)
                     {
-                        NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
+                        if (ResultInfos.errorInfos != null)
+                        {
+                            ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
+                            if (Application.isPlaying == true)
+                            {
+                                NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
+                            }
+                        }
                     }
                     // Notification of a Download success
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, ResultInfos));

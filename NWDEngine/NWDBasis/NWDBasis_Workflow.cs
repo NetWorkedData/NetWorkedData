@@ -290,7 +290,7 @@ namespace NetWorkedData
         //    if (rReturn == null)
         //    {
         //        //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have a return");
-        //        rReturn = NWDBasis<K>.NewData();
+        //        rReturn = NWDBasisHelper.NewData<K>();
         //        rReturn.InternalKey = sInternalKey;
         //        rReturn.InternalDescription = sInternalDescription;
         //        rReturn.InsertData();

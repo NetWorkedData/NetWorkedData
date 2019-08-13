@@ -37,10 +37,10 @@ namespace NetWorkedData
             NWDUserItemSlot rOwnership = FindFirstByIndex(sItemReference);
             if (rOwnership == null)
             {
-                NWDItemSlot tSlot = NWDItemSlot.GetRawDataByReference(sItemReference);
+                NWDItemSlot tSlot = NWDBasisHelper.GetRawDataByReference<NWDItemSlot>(sItemReference);
                 if (tSlot != null)
                 {
-                    rOwnership = NewData(kWritingMode);
+                    rOwnership = NWDBasisHelper.NewData<NWDUserItemSlot>(kWritingMode);
                     rOwnership.ItemSlot.SetReference(sItemReference);
                     rOwnership.Tag = NWDBasisTag.TagUserCreated;
                     rOwnership.UpdateData(true, kWritingMode);

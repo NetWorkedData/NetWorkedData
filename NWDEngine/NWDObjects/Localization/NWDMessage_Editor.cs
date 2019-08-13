@@ -33,13 +33,13 @@ namespace NetWorkedData
         public static NWDMessage CreateGenericMessage(string sDomain, string sCode, string sTitle, string sDescription,
              string sValid ="Ok", string sCancel = "Cancel", NWDMessageType sType = NWDMessageType.InGame, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
-            string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
+            string tReference = NWDBasisHelper.BasisHelper<NWDMessage>().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDMessage tMessage = NWDMessage.GetRawDataByReference(tReference);
+            NWDMessage tMessage = NWDBasisHelper.GetRawDataByReference<NWDMessage>(tReference);
             //NWDMessage tError = InstanceByReference(tReference) as NWDMessage;
             if (tMessage == null)
             {
-                tMessage = NWDBasis<NWDMessage>.NewData();
+                tMessage = NWDBasisHelper.NewData<NWDMessage>();
                 //RemoveObjectInListOfEdition(tError);
                 tMessage.Reference = tReference;
                 //				tError.InternalKey = Domain + " : " + sCode;

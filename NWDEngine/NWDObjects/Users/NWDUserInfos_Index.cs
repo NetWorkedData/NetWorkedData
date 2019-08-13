@@ -46,7 +46,7 @@ namespace NetWorkedData
             NWDUserInfos rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDUserInfos>();
                 rReturn.GameSave.SetData(NWDGameSave.CurrentData());
                 rReturn.UpdateData();
             }

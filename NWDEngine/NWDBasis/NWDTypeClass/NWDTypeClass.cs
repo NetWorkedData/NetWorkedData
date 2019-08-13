@@ -610,6 +610,20 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual string DGPRLinearization(bool sAsssemblyAsCSV = true)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void PropertiesAutofill()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void Delete()
         {
             //this = null;

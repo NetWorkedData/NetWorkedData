@@ -90,12 +90,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetReachableData()
         {
-            return NWDBasis<K>.GetReachableDataByReference(Value) as K;
+            return NWDBasisHelper.GetReachableDataByReference<K>(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetReachableDatas()
         {
-            K tObject = NWDBasis<K>.GetReachableDataByReference(Value) as K;
+            K tObject = NWDBasisHelper.GetReachableDataByReference<K>(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -108,12 +108,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetRawData()
         {
-            return NWDBasis<K>.GetRawDataByReference(Value) as K;
+            return NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetRawDatas()
         {
-            K tObject = NWDBasis<K>.GetRawDataByReference(Value) as K;
+            K tObject = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -141,7 +141,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -156,7 +156,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (NWDBasis<K>.GetRawDataByReference(Value) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(Value) == null)
                 {
                     rReturn = true;
                 }
@@ -171,7 +171,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.GetRawDataByReference(Value) as K;
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -185,7 +185,7 @@ namespace NetWorkedData
             K rReturn = null;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.GetRawDataByReference(Value) as K;
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn = tObj;

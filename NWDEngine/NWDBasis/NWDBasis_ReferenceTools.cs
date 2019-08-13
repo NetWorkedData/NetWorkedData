@@ -47,7 +47,7 @@ namespace NetWorkedData
         //{
         //    //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
         //    BasisHelper().New_LoadFromDatabase();
-        //    foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
+        //    foreach (NWDBasis<K> tObject in NWDBasisHelper.BasisHelper<K>().Datas)
         //    {
         //        tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
         //    }
@@ -57,7 +57,7 @@ namespace NetWorkedData
         //public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         //{
         //    BasisHelper().New_LoadFromDatabase();
-        //    foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
+        //    foreach (NWDBasis<K> tObject in NWDBasisHelper.BasisHelper<K>().Datas)
         //    {
         //        tObject.ChangeUser(sOldUser, sNewUser);
         //    }
@@ -303,7 +303,7 @@ namespace NetWorkedData
                 if (AccountDependent() == true)
                 {
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
-                    foreach (PropertyInfo tProp in PropertiesAccountConnected())
+                    foreach (PropertyInfo tProp in BasisHelper().kAccountConnectedProperties)
                     {
                         Type tTypeOfThis = tProp.PropertyType;
                         if (tTypeOfThis != null)

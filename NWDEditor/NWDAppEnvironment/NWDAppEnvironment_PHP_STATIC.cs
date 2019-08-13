@@ -27,12 +27,12 @@ namespace NetWorkedData
         //{
         //    //BTBBenchmark.Start();
 
-        //    string tSignAccountKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Account);
-        //    string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
-        //    string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
-        //    string tAC = NWDToolbox.PropertyName(() => NWDAccount.FictiveData().AC);
-        //    string tReference = NWDToolbox.PropertyName(() => NWDAccount.FictiveData().Reference);
-        //    string tBan = NWDToolbox.PropertyName(() => NWDAccount.FictiveData().Ban);
+        //    string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
+        //    string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
+        //    string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
+        //    string tAC = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC);
+        //    string tReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference);
+        //    string tBan = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban);
 
 
         //    StringBuilder tFile = new StringBuilder(string.Empty);
@@ -57,7 +57,7 @@ namespace NetWorkedData
         //    tFile.AppendLine("if (paramValue('shs', '"+NWD.K_WEB_SIGN_Key+"', $ereg_password, 'SHS01', 'SHS01'))");
         //    tFile.AppendLine("{");
         //    tFile.AppendLine("myLog('shs : '.$shs.'', __FILE__, __FUNCTION__, __LINE__);");
-        //    tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'."+NWD.K_ENV+".'_"+NWDAccountSign.BasisHelper().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
+        //    tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
         //    tFile.AppendLine("$tResultSign = "+NWD.K_SQL_CON+"->query($tQuerySign);");
         //    tFile.AppendLine("if (!$tResultSign)");
         //    tFile.AppendLine("{");
@@ -78,7 +78,7 @@ namespace NetWorkedData
         //    tFile.AppendLine("{");
         //    tFile.AppendLine("myLog('shs : '.$shs.' find One Row', __FILE__, __FUNCTION__, __LINE__); ");
         //    tFile.AppendLine("// I get the password uuid hash");
-        //    tFile.AppendLine("$tQuery = 'SELECT `"+tReference+"`, `"+tBan+"` FROM `'."+NWD.K_ENV+".'_"+NWDAccount.BasisHelper().ClassNamePHP+"` WHERE `"+tReference+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tRowSign['"+tSignAccountKey+"']).'\\' AND `"+tAC+"` = 1;';");
+        //    tFile.AppendLine("$tQuery = 'SELECT `"+tReference+"`, `"+tBan+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccount>().ClassNamePHP+"` WHERE `"+tReference+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tRowSign['"+tSignAccountKey+"']).'\\' AND `"+tAC+"` = 1;';");
         //    tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
         //    tFile.AppendLine("if (!$tResult)");
         //    tFile.AppendLine("{");
@@ -459,12 +459,12 @@ namespace NetWorkedData
         private void CreatePHP_StaticFunctionsFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
 
-            string tSignAccountKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Account);
-            string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
-            string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
-            string tAC = NWDToolbox.PropertyName(() => NWDAccount.FictiveData().AC);
-            string tReference = NWDToolbox.PropertyName(() => NWDAccount.FictiveData().Reference);
-            string tBan = NWDToolbox.PropertyName(() => NWDAccount.FictiveData().Ban);
+            string tSignAccountKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account);
+            string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
+            string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
+            string tAC = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC);
+            string tReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Reference);
+            string tBan = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Ban);
 
 
             //BTBBenchmark.Start();
@@ -474,7 +474,7 @@ namespace NetWorkedData
             tFile.AppendLine("// Functions");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once ('" + NWD.K_STATIC_RESPOND_PHP + "');");
-            tFile.AppendLine("include_once (" + NWDError.BasisHelper().PHP_ENGINE_PATH(this) + ");");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDError>().PHP_ENGINE_PATH(this) + ");");
             tFile.AppendLine("include_once ('" + NWD.K_STATIC_VALUES_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/NWDAccount/" + NWD.K_WS_SYNCHRONISATION + "');");
@@ -779,7 +779,7 @@ namespace NetWorkedData
             ////tFile.AppendLine("mysqli_free_result($tResult);");
             ////tFile.AppendLine("}");
             //tFile.AppendLine("myLog('shs : '.$shs.'', __FILE__, __FUNCTION__, __LINE__);");
-            //tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'."+NWD.K_ENV+".'_"+NWDAccountSign.BasisHelper().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
+            //tFile.AppendLine("$tQuerySign = 'SELECT `"+tSignAccountKey+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP+"` WHERE `"+tSignHashKey+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($shs).'\\' AND `"+tSignHashKey+"` != \\'\\' AND `"+tAC+"` = 1;';");
             //tFile.AppendLine("$tResultSign = "+NWD.K_SQL_CON+"->query($tQuerySign);");
             //tFile.AppendLine("if (!$tResultSign)");
             //tFile.AppendLine("{");
@@ -802,7 +802,7 @@ namespace NetWorkedData
             //tFile.AppendLine("{");
             //tFile.AppendLine("myLog('shs : '.$shs.' find One Row', __FILE__, __FUNCTION__, __LINE__); ");
             //tFile.AppendLine("// I get the password uuid hash");
-            //tFile.AppendLine("$tQuery = 'SELECT `"+tReference+"`, `"+tBan+"` FROM `'."+NWD.K_ENV+".'_"+NWDAccount.BasisHelper().ClassNamePHP+"` WHERE `"+tReference+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tRowSign['"+tSignAccountKey+"']).'\\' AND `"+tAC+"` = 1;';");
+            //tFile.AppendLine("$tQuery = 'SELECT `"+tReference+"`, `"+tBan+"` FROM `'."+NWD.K_ENV+".'_"+NWDBasisHelper.BasisHelper<NWDAccount>().ClassNamePHP+"` WHERE `"+tReference+"` = \\''."+NWD.K_SQL_CON+"->real_escape_string($tRowSign['"+tSignAccountKey+"']).'\\' AND `"+tAC+"` = 1;';");
             //tFile.AppendLine("$tResult = "+NWD.K_SQL_CON+"->query($tQuery);");
             //tFile.AppendLine("if (!$tResult)");
             //tFile.AppendLine("{");
@@ -1117,10 +1117,10 @@ namespace NetWorkedData
             tFile.AppendLine(Headlines());
             tFile.AppendLine("// REQUEST");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDAccount.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDIPBan.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDRequestToken.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDVersion.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDIPBan>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDRequestToken>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDVersion>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
             tFile.AppendLine("if (IPBanOk() == true)");
             tFile.AppendLine("{");
             tFile.AppendLine("$ereg_os = '/^(editor|unity|ios|osx|android|web|win|wp8|ps3|ps4|psp|switch)$/';");

@@ -29,7 +29,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The inearization.</returns>
         /// <param name="sAsssemblyAsCSV">If set to <c>true</c> s asssembly as csv.</param>
-        public string DGPRLinearization(bool sAsssemblyAsCSV = true)
+        public override string DGPRLinearization(bool sAsssemblyAsCSV = true)
         {
             Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = string.Empty;
@@ -136,19 +136,19 @@ namespace NetWorkedData
         /// DGPR extraction in string.
         /// </summary>
         /// <returns>The xtract.</returns>
-        public static string DGPRExtract()
-        {
-            Debug.Log("NWDBasis<K> DGPRExtract()");
-            string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
-            List<string> tList = new List<string>();
-            foreach (K tObject in GetReachableDatas())
-            {
-                tList.Add("{ \"csv\" : \"" + tObject.DGPRLinearization() + "\"}");
-            }
-            rExtract += string.Join(",\n\r", tList.ToArray());
-            rExtract += "\n\r]\n\r}";
-            return rExtract;
-        }
+        //public static string DGPRExtract()
+        //{
+        //    Debug.Log("NWDBasis<K> DGPRExtract()");
+        //    string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
+        //    List<string> tList = new List<string>();
+        //    foreach (K tObject in GetReachableDatas())
+        //    {
+        //        tList.Add("{ \"csv\" : \"" + tObject.DGPRLinearization() + "\"}");
+        //    }
+        //    rExtract += string.Join(",\n\r", tList.ToArray());
+        //    rExtract += "\n\r]\n\r}";
+        //    return rExtract;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -208,13 +208,9 @@ namespace NetWorkedData
             // TODO : Add account type ?
             foreach (Type tClassType in tListClasses)
             {
-                var tMethodInfo = tClassType.GetMethod("DGPRExtract", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                string rR = "{\"error\" : \"error\"}";
-                if (tMethodInfo != null)
-                {
-                    rR = tMethodInfo.Invoke(null, null) as string;
-                }
-                tList.Add(rR);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tClassType);
+                tHelper.DGPRExtract();
+                tList.Add(tHelper.DGPRExtract());
             }
             rExtract += string.Join(",\n\r", tList.ToArray());
             rExtract += "\n\r]";

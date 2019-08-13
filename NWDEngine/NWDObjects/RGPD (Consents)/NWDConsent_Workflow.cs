@@ -122,7 +122,7 @@ namespace NetWorkedData
                         sDefault = sText;
                     }
 
-                    NWDConsent tObject = GetRawFirstDataByInternalKey(sText) as NWDConsent;
+                    NWDConsent tObject = NWDBasisHelper.GetRawFirstDataByInternalKey<NWDConsent>(sText) as NWDConsent;
                     if (tObject != null)
                     {
                         // Title

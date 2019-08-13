@@ -24,19 +24,19 @@ namespace NetWorkedData
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
             NWDError tError = null;
-            if (BasisHelper() != null)
+            if (NWDBasisHelper.BasisHelper<NWDError>() != null)
             {
                 //BTBBenchmark.Start();
-                string tReference = BasisHelper().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
+                string tReference = NWDBasisHelper.BasisHelper<NWDError>().ClassTrigramme + "-" + sDomain + BTBConstants.K_MINUS + sCode;
                 // TODO: alert if reference is too long for ereg / or substring if too long
-                tError = NWDError.GetRawDataByReference(tReference);
+                tError = NWDBasisHelper.GetRawDataByReference<NWDError>(tReference);
                 if (tError != null && tError.IsTrashed())
                 {
                     tError = null;
                 }
                 if (tError == null)
                 {
-                    tError = NWDBasis<NWDError>.NewDataWithReference(tReference, true);
+                    tError = NWDBasisHelper.NewDataWithReference<NWDError>(tReference, true);
                     //RemoveObjectInListOfEdition(tError);
                     tError.Reference = tReference;
                     // tError.InternalKey = Domain + " : " + sCode;

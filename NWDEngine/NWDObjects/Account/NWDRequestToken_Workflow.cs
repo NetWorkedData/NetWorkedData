@@ -61,11 +61,11 @@ namespace NetWorkedData
             }
             if (kCurrent == null)
             {
-                NWDRequestToken tResquestToken = GetCorporateFirstData(NWDAccount.CurrentReference(), null);
+                NWDRequestToken tResquestToken = NWDBasisHelper.GetCorporateFirstData<NWDRequestToken>(NWDAccount.CurrentReference(), null);
                 if (tResquestToken == null)
                 {
                     NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                    tResquestToken = NewData();
+                    tResquestToken = NWDBasisHelper.NewData<NWDRequestToken>();
                     tResquestToken.UUIDHash.SetReference(NWDAccount.CurrentReference());
                     tResquestToken.Tag = NWDBasisTag.TagUserCreated;
                     tResquestToken.SaveData();

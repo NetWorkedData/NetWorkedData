@@ -90,18 +90,18 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The data.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            //BTBBenchmark.Start();
-            K rReturnObject = NewDataWithReference(null, true, sWritingMode);
-            //BTBBenchmark.Finish();
-            return rReturnObject;
-        }
+        //static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //BTBBenchmark.Start();
+        //    K rReturnObject = NewDataWithReference(null, true, sWritingMode);
+        //    //BTBBenchmark.Finish();
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //static public T NewData<T>(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         //{
         //    //BTBBenchmark.Start();
-        //    T rReturnObject = NewDataWithReference(null, true, sWritingMode) as T;
+        //    T rReturnObject = PropertiesAutofill as T;
         //    //BTBBenchmark.Finish();
         //    return rReturnObject;
         //}
@@ -113,37 +113,37 @@ namespace NetWorkedData
         /// <param name="sReference">S reference.</param>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            //BTBBenchmark.Start();
-            K rReturnObject = null;
-            if (ClassType() != null)
-            {
-                rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
-                rReturnObject.InstanceInit();
-                if (sReference == null || sReference == string.Empty)
-                {
-                    rReturnObject.Reference = rReturnObject.NewReference();
-                }
-                else
-                {
-                    rReturnObject.Reference = sReference;
-                }
-                rReturnObject.PropertiesAutofill();
-                rReturnObject.Initialization();
-                rReturnObject.InsertData(sAutoDate, sWritingMode);
-            }
-            else
-            {
-                Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
-            }
-            //BTBBenchmark.Finish();
-            return rReturnObject;
-        }
+        //static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //BTBBenchmark.Start();
+        //    K rReturnObject = null;
+        //    if (ClassType() != null)
+        //    {
+        //        rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
+        //        rReturnObject.InstanceInit();
+        //        if (sReference == null || sReference == string.Empty)
+        //        {
+        //            rReturnObject.Reference = rReturnObject.NewReference();
+        //        }
+        //        else
+        //        {
+        //            rReturnObject.Reference = sReference;
+        //        }
+        //        rReturnObject.PropertiesAutofill();
+        //        rReturnObject.Initialization();
+        //        rReturnObject.InsertData(sAutoDate, sWritingMode);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
+        //    }
+        //    //BTBBenchmark.Finish();
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private void PropertiesAutofill()
+        public override void PropertiesAutofill()
         {
-            foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+            foreach (PropertyInfo tPropInfo in BasisHelper().kAccountDependentProperties)
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
@@ -408,7 +408,7 @@ namespace NetWorkedData
         #endregion Duplicate Data
         #region Insert Data
         //-------------------------------------------------------------------------------------------------------------
-        public bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             // Determine the default mode

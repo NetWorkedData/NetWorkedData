@@ -43,15 +43,15 @@ namespace NetWorkedData
             NWDTypeLauncher.Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasisHelper BasisHelper()
-        //{
-        //    NWDBasisHelper rHelper= NWDBasisHelper.FindTypeInfos(typeof(K));
-        //    if (rHelper == null)
-        //    {
-        //        Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
-        //    }
-        //    return rHelper;
-        //}
+        public NWDBasisHelper BasisHelper()
+        {
+            NWDBasisHelper rHelper = NWDBasisHelper.FindTypeInfos(GetType());
+            if (rHelper == null)
+            {
+                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
+            }
+            return rHelper;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static string ClassID()
         {
@@ -172,64 +172,64 @@ namespace NetWorkedData
         //            //BTBBenchmark.Finish();
         //        }
         //-------------------------------------------------------------------------------------------------------------
-        public static PropertyInfo[] PropertiesAccountDependent()
-        {
-            return BasisHelper().kAccountDependentProperties;
-        }
+        //public static PropertyInfo[] PropertiesAccountDependent()
+        //{
+        //    return BasisHelper().kAccountDependentProperties;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static PropertyInfo[] PropertiesAccountConnected()
-        {
-            return BasisHelper().kAccountConnectedProperties;
-        }
+        //public static PropertyInfo[] PropertiesAccountConnected()
+        //{
+        //    return BasisHelper().kAccountConnectedProperties;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static bool AccountConnected()
-        {
-            bool rReturn = false;
-            if (BasisHelper().kAccountConnectedProperties.Length > 0)
-            {
-                rReturn = true;
-            }
-            return rReturn;
-        }
+        //public static bool AccountConnected()
+        //{
+        //    bool rReturn = false;
+        //    if (BasisHelper().kAccountConnectedProperties.Length > 0)
+        //    {
+        //        rReturn = true;
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static bool AccountDependent()
+        public bool AccountDependent()
         {
             return BasisHelper().kAccountDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool GameSaveDependent()
+        public bool GameSaveDependent()
         {
             return BasisHelper().ClassGameSaveDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsClassLockedObject()
+        public bool IsClassLockedObject()
         {
             return BasisHelper().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool AssetDependent()
+        public bool AssetDependent()
         {
             return BasisHelper().kAssetDependent;
         }
         //----------------------------------------------
-        public static PropertyInfo[] PropertiesAssetDependent()
+        public PropertyInfo[] PropertiesAssetDependent()
         {
             return BasisHelper().kAssetDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool DatabaseIsLoaded()
-        {
-            bool rLoaded = true;
-            if (AccountDependent() == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
-            {
-                rLoaded = false;
-            }
-            else if (AccountDependent() == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
-            {
-                rLoaded = false;
-            }
-            return rLoaded;
-        }
+        //public static bool DatabaseIsLoaded()
+        //{
+        //    bool rLoaded = true;
+        //    if (AccountDependent() == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
+        //    {
+        //        rLoaded = false;
+        //    }
+        //    else if (AccountDependent() == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
+        //    {
+        //        rLoaded = false;
+        //    }
+        //    return rLoaded;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

@@ -47,10 +47,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDParameter GetRawByReferenceOrCreate (string sReference, string sInternalKey, NWDMultiType sDefaultValue)
         {
-            NWDParameter rReturn = NWDParameter.GetRawDataByReference(sReference);
+            NWDParameter rReturn = NWDBasisHelper.GetRawDataByReference<NWDParameter>(sReference);
             if (rReturn ==null)
             {
-                rReturn = NWDParameter.NewDataWithReference(sReference);
+                rReturn = NWDBasisHelper.NewDataWithReference<NWDParameter>(sReference);
                 rReturn.InternalKey = sInternalKey;
                 rReturn.Value = sDefaultValue;
                 rReturn.SaveData();

@@ -69,7 +69,7 @@ namespace NetWorkedData
         public static NWDAccountConsent ForConsent(NWDConsent sAppConsent, bool sCreateIfNull = true)
         {
             NWDAccountConsent rUserConsent = null;
-            foreach (NWDAccountConsent tAuthorization in GetReachableDatas())
+            foreach (NWDAccountConsent tAuthorization in NWDBasisHelper.GetReachableDatas<NWDAccountConsent>())
             {
                 if (tAuthorization.Consent.GetData() == sAppConsent && tAuthorization.Version.GetValue() == sAppConsent.Version.GetValue())
                 {
@@ -80,7 +80,7 @@ namespace NetWorkedData
 
             if (rUserConsent == null && sCreateIfNull)
             {
-                rUserConsent = NewData();
+                rUserConsent = NWDBasisHelper.NewData<NWDAccountConsent>();
                 #if UNITY_EDITOR
                 rUserConsent.InternalKey = sAppConsent.InternalKey;
                 rUserConsent.InternalDescription = NWDAccountNickname.GetNickname() + " - " + sAppConsent.Version;

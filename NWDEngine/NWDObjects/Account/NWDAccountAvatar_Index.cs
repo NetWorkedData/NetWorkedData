@@ -47,7 +47,7 @@ namespace NetWorkedData
             NWDAccountAvatar rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDAccountAvatar>();
                 rReturn.Account.SetReference(sAccountReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();

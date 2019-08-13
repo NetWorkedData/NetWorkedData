@@ -52,7 +52,7 @@ namespace NetWorkedData
             NWDAccountPreference rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDAccountPreference>();
                 rReturn.PreferenceKey.SetData(sKey);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.Value.SetValue(sKey.Default.Value);

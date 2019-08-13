@@ -101,13 +101,13 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
     {
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public K FictiveData()
-        {
-            return NWDBasis<K>.FictiveData();
-        }
-#endif
+        //#if UNITY_EDITOR
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        public K FictiveData()
+        //        {
+        //            return NWDBasis<K>NWDBasisHelper.FictiveData<>();
+        //        }
+        //#endif
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> OverrideClasseInThisSync()
         {
