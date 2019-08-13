@@ -610,7 +610,7 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string DGPRLinearization(bool sAsssemblyAsCSV = true)
+        public virtual string DGPRLinearization(string sTypeName,  bool sAsssemblyAsCSV = true)
         {
             return string.Empty;
         }

@@ -53,15 +53,21 @@ namespace NetWorkedData
             return rHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string ClassID()
-        {
-            string tReturn = typeof(K).Name;
-            return tReturn;
-        }
+        //public static string ClassID()
+        //{
+        //    string tReturn = typeof(K).Name;
+        //    return tReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static Type ClassType()
+        //public static Type ClassType()
+        //{
+        //    return typeof(K);
+        //}
+        
+        //-------------------------------------------------------------------------------------------------------------
+        public Type ClassType()
         {
-            return typeof(K);
+            return BasisHelper().ClassType;
         }
         //-------------------------------------------------------------------------------------------------------------
         //        public static void AccountDependentAnalyze()

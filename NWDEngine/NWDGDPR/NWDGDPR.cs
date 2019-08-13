@@ -29,7 +29,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The inearization.</returns>
         /// <param name="sAsssemblyAsCSV">If set to <c>true</c> s asssembly as csv.</param>
-        public override string DGPRLinearization(bool sAsssemblyAsCSV = true)
+        public override string DGPRLinearization(string sTypeName,  bool sAsssemblyAsCSV = true)
         {
             Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = string.Empty;
@@ -56,9 +56,9 @@ namespace NetWorkedData
             {
                 if (tKeyValue.Key <= WebModel && tKeyValue.Key > tLastWebService)
                 {
-                    if (tKeyValue.Value.ContainsKey(ClassID()))
+                    if (tKeyValue.Value.ContainsKey(sTypeName))
                     {
-                        tPropertiesList = tKeyValue.Value[ClassID()];
+                        tPropertiesList = tKeyValue.Value[sTypeName];
                     }
                 }
             }

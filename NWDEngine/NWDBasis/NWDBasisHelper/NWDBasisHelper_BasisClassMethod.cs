@@ -115,7 +115,7 @@ namespace NetWorkedData
             }
             foreach (NWDTypeClass tObject in tListData)
             {
-                tListSerialized.Add("{ \"csv\" : \"" + tObject.DGPRLinearization() + "\"}");
+                tListSerialized.Add("{ \"csv\" : \"" + tObject.DGPRLinearization(ClassNamePHP) + "\"}");
             }
             rExtract += string.Join(",\n\r", tListSerialized.ToArray());
             rExtract += "\n\r]\n\r}";
