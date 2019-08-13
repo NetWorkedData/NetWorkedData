@@ -97,20 +97,20 @@ namespace NetWorkedData
         }
         [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("Geograpphical", true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDSector> SectorList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDArea> AreaList
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd]
+        //[NWDInspectorGroupStart("Geograpphical", true, true, true)]
+        //public NWDReferencesListType<NWDWorld> WorldList
+        //{
+        //    get; set;
+        //}
+        //public NWDReferencesListType<NWDSector> SectorList
+        //{
+        //    get; set;
+        //}
+        //public NWDReferencesListType<NWDArea> AreaList
+        //{
+        //    get; set;
+        //}
+        //[NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Notifications", true, true, true)]
         public NWDItemNotification FirstAcquisitionNotification
