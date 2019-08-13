@@ -160,7 +160,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveDataForAmount(NWDBasis<K> sData, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveDataForAmount(K sData, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             Dictionary<string, float> tThis = GetReferenceAndAmount();
             if (tThis.ContainsKey(sData.Reference) == false)
@@ -204,7 +204,7 @@ namespace NetWorkedData
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddDataAndAmount(NWDBasis<K> sData, float sAmount)
+        public void AddDataAndAmount(K sData, float sAmount)
         {
             // I compare all element
             Dictionary<string, float> tThis = GetReferenceAndAmount();
@@ -219,7 +219,7 @@ namespace NetWorkedData
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveData(NWDBasis<K> sData)
+        public void RemoveData(K sData)
         {
             // I compare all element
             Dictionary<string, float> tThis = GetReferenceAndAmount();

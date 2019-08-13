@@ -286,7 +286,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void AddDataAndValue(NWDBasis<K> sData, float sValue)
+        public void AddDataAndValue(K sData, float sValue)
         {
             // I compare all element
             Dictionary<string, NWDRange> tThis = GetReferenceAndRange();
@@ -301,7 +301,7 @@ namespace NetWorkedData
             SetReferenceAndRange(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveData(NWDBasis<K> sObject)
+        public void RemoveData(K sObject)
         {
             // I compare all element
             Dictionary<string, NWDRange> tThis = GetReferenceAndRange();

@@ -140,7 +140,7 @@ namespace NetWorkedData
             // Shortcut navigation
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
             {
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                    NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                 if (tSelected != null)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tSelected))

@@ -155,7 +155,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveDataQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveDataQuantity(K sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
             if (tThis.ContainsKey(sObject.Reference) == false)
@@ -255,7 +255,7 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddDataQuantity(NWDBasis<K> sData, int sQuantity)
+        public void AddDataQuantity(K sData, int sQuantity)
         {
             // I compare all element
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
@@ -285,7 +285,7 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveData(NWDBasis<K> sData)
+        public void RemoveData(K sData)
         {
             // I compare all element
             Dictionary<string, int> tThis = GetReferenceAndQuantity();

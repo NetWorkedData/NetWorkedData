@@ -292,7 +292,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectValue(NWDBasis<K> sObject, float sValue)
+        public void AddObjectValue(K sObject, float sValue)
         {
             // I compare all element
             Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();
@@ -307,7 +307,7 @@ namespace NetWorkedData
             SetReferenceAndAverage(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObject(NWDBasis<K> sObject)
+        public void RemoveObject(K sObject)
         {
             // I compare all element
             Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();

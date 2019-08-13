@@ -24,6 +24,8 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        private NWDExample kExample;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// DGPR Linearization of user data in database.
         /// </summary>
@@ -31,23 +33,26 @@ namespace NetWorkedData
         /// <param name="sAsssemblyAsCSV">If set to <c>true</c> s asssembly as csv.</param>
         public override string DGPRLinearization(string sTypeName,  bool sAsssemblyAsCSV = true)
         {
-            Debug.Log("NWDBasis<K> DGPRLinearization()");
+            //Debug.Log("DGPRLinearization()");
             string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
-
-            tPropertiesList.Remove("Integrity");
-            tPropertiesList.Remove("Reference");
-            tPropertiesList.Remove("ID");
-            tPropertiesList.Remove("DM");
-            tPropertiesList.Remove("DS");
-            tPropertiesList.Remove("ServerHash");
-            tPropertiesList.Remove("ServerLog");
-            tPropertiesList.Remove("DevSync");
-            tPropertiesList.Remove("PreprodSync");
-            tPropertiesList.Remove("ProdSync");
-            tPropertiesList.Remove("ProdSync");
-            tPropertiesList.Remove("InError");
+            if (kExample==null)
+            {
+                kExample  = NWDBasisHelper.FictiveData<NWDExample>();
+            }
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.Integrity));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.Reference));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ID));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.DM));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.DS));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ServerHash));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ServerLog));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.DevSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.PreprodSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ProdSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ProdSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.InError));
 
             // todo get the good version of assembly 
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
