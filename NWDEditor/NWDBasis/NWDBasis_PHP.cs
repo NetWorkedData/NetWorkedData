@@ -30,10 +30,10 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string TableNamePHP(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().PHP_TABLENAME(sEnvironment);
-        }
+        //public static string TableNamePHP(NWDAppEnvironment sEnvironment)
+        //{
+        //    return BasisHelper().PHP_TABLENAME(sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

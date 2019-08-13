@@ -35,7 +35,7 @@ namespace NetWorkedData
         public void ClassInformations(string sString)
         {
 
-            Debug.Log("From " + sString + " real [" + ClassType.Name + "] = > " + Informations(ClassType) + "' ");
+            Debug.Log(GetType().Name + " > From " + sString + " real [" + ClassType.Name + "] = > " + Informations(ClassType) + "' ");
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Informations()

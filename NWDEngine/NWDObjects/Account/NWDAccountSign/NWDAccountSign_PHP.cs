@@ -43,7 +43,7 @@ namespace NetWorkedData
             sScript.AppendLine("// analyze the sign ");
             sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString()+")");
             sScript.AppendLine("{");
-            sScript.Append("$tQueryRequest = 'SELECT * FROM `" + NWDAccountSign.TableNamePHP(sEnvironment) + "` WHERE ");
+            sScript.Append("$tQueryRequest = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` WHERE ");
             sScript.AppendLine(" ( `" + tSignHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
             sScript.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
             sScript.AppendLine("{");

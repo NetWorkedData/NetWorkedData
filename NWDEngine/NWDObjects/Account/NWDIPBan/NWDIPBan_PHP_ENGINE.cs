@@ -65,7 +65,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.Append("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Reference) + "` FROM `" + TableNamePHP(sEnvironment) + "` WHERE ");
+            tFile.Append("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Reference) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` WHERE ");
             tFile.Append("\\''.$SQL_CON->real_escape_string($_SERVER['REMOTE_ADDR']).'\\' LIKE `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().IP) + "` AND ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Counter) + "` >= `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().CounterMaximum) + "` AND ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Deadline) + "` >= '.$SQL_CON->real_escape_string(" + NWD.K_PHP_TIME_SYNC + ").' AND ");
@@ -101,7 +101,7 @@ namespace NetWorkedData
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("$tIPBanMaxTentative = " + sEnvironment.IPBanMaxTentative.ToString() + ";");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.Append("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Reference) + "` FROM `" + TableNamePHP(sEnvironment) + "` WHERE");
+            tFile.Append("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Reference) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` WHERE");
             tFile.Append(" \\''.$SQL_CON->real_escape_string($_SERVER['REMOTE_ADDR']).'\\' LIKE `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().IP) + "` AND");
             tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDAccount.FictiveData().AC) + "` = 1");
             tFile.AppendLine(";';");
@@ -117,7 +117,7 @@ namespace NetWorkedData
             tFile.AppendLine("if ($tResult->num_rows == 0)");
             tFile.AppendLine("{");
 
-            tFile.Append("$tQuerySelect = 'SELECT `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Reference) + "` FROM `" + TableNamePHP(sEnvironment) + "` WHERE ");
+            tFile.Append("$tQuerySelect = 'SELECT `" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Reference) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` WHERE ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Deadline) + "` < '.$SQL_CON->real_escape_string(" + NWD.K_PHP_TIME_SYNC + ").' AND ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDAccount.FictiveData().AC) + "` = 1 ");
             tFile.Append("LIMIT 1");
@@ -140,7 +140,7 @@ namespace NetWorkedData
                 
             tFile.AppendLine("while($tRowSelect = $tResultSelect->fetch_array())");
             tFile.AppendLine("{");
-            tFile.Append("$tQueryUpdate = 'UPDATE `" + TableNamePHP(sEnvironment) + "` SET ");
+            tFile.Append("$tQueryUpdate = 'UPDATE `" +NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` SET ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().DS) + "` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\' , ");
             tFile.Append("`" + tEnvSync + "` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\' , ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().IP) + "` = \\''.$SQL_CON->real_escape_string($_SERVER['REMOTE_ADDR']).'\\' , ");
@@ -169,7 +169,7 @@ namespace NetWorkedData
             tFile.AppendLine("else if ($tResult->num_rows == 1)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tDeadline = " + NWD.K_PHP_TIME_SYNC + " + " + sEnvironment.IPBanTimer.ToString() + ";");
-            tFile.Append("$tQueryUpdate = 'UPDATE `" + TableNamePHP(sEnvironment) + "` SET ");
+            tFile.Append("$tQueryUpdate = 'UPDATE `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` SET ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().DS) + "` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\' , ");
             tFile.Append("`" + tEnvSync + "` = \\''."+NWD.K_PHP_TIME_SYNC+".'\\' , ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDIPBan.FictiveData().Deadline) + "` = '.$tDeadline.' , ");

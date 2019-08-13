@@ -35,7 +35,22 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-
+        public static string TableNamePHP<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.PHP_TABLENAME(sEnvironment);
+        }
+        
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDBasisHelper BasisHelper<T>() where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(T));
+            if (rHelper == null)
+            {
+                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(T).Name);
+            }
+            return tHelper;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
