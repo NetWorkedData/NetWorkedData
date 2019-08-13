@@ -1,8 +1,8 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:29:37
+//  Date		2019-4-12 18:50:29
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -13,39 +13,39 @@
 
 //=====================================================================================================================
 //
-// ideMobi copyright 2019
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
-// Read License-en or Licence-fr
-//
 //=====================================================================================================================
+
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 #if UNITY_EDITOR
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("App Config",
-        "Project Edition, You can add, change, remove the item of your game here. " +
-        "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
-        "NWDAppConfigurationsWindow",
+    [NWDTypeWindowParamAttribute("Preferences",
+        "Preferences",
         new Type[] {
-            typeof(NWDVersion),
-            typeof(NWDParameter),
-            typeof(NWDPreferenceKey),
-            typeof(NWDError),
-            typeof(NWDAssetBundle),
-			/* Add NWDBasis here*/
+        typeof(NWDPreferenceKey),
+        typeof(NWDAccountPreference),
+        typeof(NWDUserPreference),
 		}
     )]
-    public class NWDAppWindow : NWDBasisWindow<NWDAppWindow>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDPreferenceWindow : NWDBasisWindow<NWDPreferenceWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Configurations", false, 200)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Preferences", false, 271)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDAppWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDPreferenceWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------

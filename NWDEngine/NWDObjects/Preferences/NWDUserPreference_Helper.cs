@@ -2,7 +2,7 @@
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:42:31
+//  Date		2019-4-12 18:50:31
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -11,25 +11,24 @@
 //
 //=====================================================================================================================
 
+
+
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDUserUsage :NWDBasis <NWDUserUsage>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDUserUsage()
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDUserPreferenceHelper : NWDHelper<NWDUserPreference>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override List<Type>  OverrideClasseInThisSync()
         {
-            //Debug.Log("NWDUsage Constructor");
+            return new List<Type> { typeof(NWDPreferenceKey), typeof(NWDAccountPreference), typeof(NWDUserPreference) };
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserUsage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDUsage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
-		//-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
