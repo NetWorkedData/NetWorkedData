@@ -34,7 +34,6 @@ namespace NetWorkedData
         typeof(NWDAccountNickname),
         typeof(NWDAccountAvatar),
         typeof(NWDAccountPreference),
-        typeof(NWDAccountConsent),
         typeof(NWDRequestToken),
         typeof(NWDBasisPreferences),
         typeof(NWDIPBan),
