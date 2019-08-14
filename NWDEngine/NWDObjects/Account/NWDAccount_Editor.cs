@@ -22,7 +22,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccount : NWDBasis<NWDAccount>
+    public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         //public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
@@ -33,7 +33,7 @@ namespace NetWorkedData
         //    {
         //        case NWDAccountEnvironment.Dev:
         //            {
-        //                foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
+        //                foreach (NWDAccount tObject in NWDBasisHelper.BasisHelper<NWDAccount>().Datas)
         //                {
         //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
         //                    {
@@ -44,7 +44,7 @@ namespace NetWorkedData
         //            break;
         //        case NWDAccountEnvironment.Preprod:
         //            {
-        //                foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
+        //                foreach (NWDAccount tObject in NWDBasisHelper.BasisHelper<NWDAccount>().Datas)
         //                {
         //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
         //                    {
@@ -146,18 +146,18 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
                 {
-                    NWDAccountSign.BasisHelper().SetObjectInEdition(tSign);
+                    NWDBasisHelper.BasisHelper<NWDAccountSign>().SetObjectInEdition(tSign);
                 }
                 tI++;
             }
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Add sign"))
             {
-                NWDAccountSign tSign = NWDAccountSign.NewData();
+                NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
                 tSign.Account.SetReference(Reference);
                 tSign.SaveData();
-                NWDAccountSign.BasisHelper().SetObjectInEdition(tSign);
-                NWDAccountSign.BasisHelper().ChangeScroolPositionToSelection();
+                NWDBasisHelper.BasisHelper<NWDAccountSign>().SetObjectInEdition(tSign);
+                NWDBasisHelper.BasisHelper<NWDAccountSign>().ChangeScroolPositionToSelection();
             }
             tI++;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));

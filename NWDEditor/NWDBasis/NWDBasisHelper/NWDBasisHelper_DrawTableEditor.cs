@@ -618,13 +618,13 @@ namespace NetWorkedData
             }
             tRect.x += NWDGUI.KTableSearchWidth + NWDGUI.kFieldMarge;
             // draw toogle corrupted
-            EditorGUI.EndDisabledGroup();
             bool t_ShowIntegrityErrorLine = EditorGUI.ToggleLeft(tRect, NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, m_ShowIntegrityError);
             if (m_ShowIntegrityError != t_ShowIntegrityErrorLine)
             {
                 m_ShowIntegrityError = t_ShowIntegrityErrorLine;
                 FilterTableEditor();
             }
+            EditorGUI.EndDisabledGroup();
             bool tShowMoreInfos = false;
             if (tShowMoreInfos)
             {
@@ -677,6 +677,10 @@ namespace NetWorkedData
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_ADD_ROW, NWDGUI.KTableSearchButton))
             {
                 NWDTypeClass tNewObject = NewData();
+                NWDBasisHelper.NewData<NWDExample>();
+                NWDBasisHelper.NewData<NWDAccount>();
+                NWDBasisHelper.NewData<NWDAccountAvatar>();
+
                 if (m_SearchTag != NWDBasisTag.NoTag)
                 {
                     tNewObject.Tag = m_SearchTag;

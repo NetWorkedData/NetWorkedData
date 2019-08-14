@@ -29,7 +29,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("GSV")]
     [NWDClassDescriptionAttribute("Game Save")]
     [NWDClassMenuNameAttribute("Game Save")]
-    public partial class NWDGameSave : NWDBasis<NWDGameSave>
+    public partial class NWDGameSave : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceType<NWDAccount> Account

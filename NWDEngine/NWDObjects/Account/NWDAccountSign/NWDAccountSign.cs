@@ -55,7 +55,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Account Sign to connect by hash of sign")]
     [NWDClassMenuNameAttribute("Account Sign")]
     [NWDForceSecureData]
-    public partial class NWDAccountSign : NWDBasis<NWDAccountSign>
+    public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations")]

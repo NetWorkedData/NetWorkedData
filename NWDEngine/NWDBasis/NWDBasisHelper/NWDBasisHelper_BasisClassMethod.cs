@@ -18,6 +18,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 using SQLite4Unity3d;
@@ -35,7 +36,747 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            //ClassInformations("#### test");
+            return NewDataWithReference(null, true, sWritingMode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            NWDTypeClass rReturnObject = null;
+            rReturnObject = Activator.CreateInstance(ClassType, new object[] { false }) as NWDTypeClass;
+            rReturnObject.InstanceInit();
+            if (sReference == null || sReference == string.Empty)
+            {
+                rReturnObject.Reference = rReturnObject.NewReference();
+            }
+            else
+            {
+                rReturnObject.Reference = sReference;
+            }
+            rReturnObject.PropertiesAutofill();
+            rReturnObject.Initialization();
+            rReturnObject.InsertData(sAutoDate, sWritingMode);
+            //BTBBenchmark.Finish();
+            return rReturnObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T NewData<T>(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        {
+            //NWDBasisHelper tHelper = FindTypeInfos(typeof(T));
+            //tHelper.ClassInformations("#### test");
+            return NewDataWithReference<T>(null, true, sWritingMode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// New data with reference.
+        /// </summary>
+        /// <returns>The data with reference.</returns>
+        /// <param name="sReference">S reference.</param>
+        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
+        /// <param name="sWritingMode">S writing mode.</param>
+        public static T NewDataWithReference<T>(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.NewDataWithReference(sReference, sAutoDate, sWritingMode) as T;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string TableNamePHP<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.PHP_TABLENAME(sEnvironment);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDBasisHelper BasisHelper<T>() where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(T));
+            if (tHelper == null)
+            {
+                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(T).Name);
+            }
+            return tHelper;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string DGPRExtract()
+        {
+            string rExtract = "{\"" + ClassNamePHP + "\"" + " : [\n\r";
+            List<string> tListSerialized = new List<string>();
+            List<NWDTypeClass> tListData = new List<NWDTypeClass>();
+            string tAccountReference = NWDAccount.CurrentReference();
+            NWDGameSave tGameSave = NWDGameSave.CurrentData();
+            foreach (NWDTypeClass tData in Datas)
+            {
+                NWDTypeClass tDataReturn = QuickFilter(tData, tAccountReference, tGameSave);
+                if (tDataReturn != null)
+                {
+                    tListData.Add(tDataReturn);
+                }
+            }
+            foreach (NWDTypeClass tObject in tListData)
+            {
+                tListSerialized.Add("{ \"csv\" : \"" + tObject.DGPRLinearization(ClassNamePHP) + "\"}");
+            }
+            rExtract += string.Join(",\n\r", tListSerialized.ToArray());
+            rExtract += "\n\r]\n\r}";
+            return rExtract;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<T> GetEditorDatasList<T>() where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            List<T> rReturn = BasisHelper<T>().Datas as List<T>;
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetEditorDatas<T>() where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T[] rReturn = BasisHelper<T>().Datas.ToArray() as T[];
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetEditorDataByReference<T>(string sReference, bool sTryOnDisk = false) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+            }
+            else
+            {
+                if (sTryOnDisk == true)
+                {
+                    // TODO : Lag connection : look for quick solution
+                    rReturn = LoadDataByReference<T>(sReference);
+                }
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetEditorDatasByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            List<T> rReturn;
+            if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
+            {
+                rReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey] as List<T>;
+            }
+            else
+            {
+                rReturn = new List<T>();
+            }
+            //BTBBenchmark.Finish();
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetEditorFirstDataByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            T[] rDatas = GetEditorDatasByInternalKey<T>(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        #region RAW
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<T> GetRawDatasList<T>() where T : NWDTypeClass, new()
+        {
+            return QuickFilterDatas(BasisHelper<T>().Datas as List<T>, null, null);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // ANCIEN GetAllObjects()
+        public static T[] GetRawDatas<T>() where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T[] rReturn = GetRawDatasList<T>().ToArray() as T[];
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetRawFirstData<T>() where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            T[] rDatas = GetRawDatas<T>();
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetRawDataByReference<T>(string sReference, bool sTryOnDisk = false) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+            }
+            else
+            {
+                if (sTryOnDisk == true)
+                {
+                    // TODO : Lag connection : look for quick solution
+                    rReturn = LoadDataByReference<T>(sReference);
+                }
+            }
+            rReturn = QuickFilter<T>(rReturn, null, null);
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetRawDatasByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            List<T> rReturn;
+            if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
+            {
+                rReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey] as List<T>;
+            }
+            else
+            {
+                rReturn = new List<T>();
+            }
+            rReturn = QuickFilterDatas<T>(rReturn as List<T>, null, null);
+            //BTBBenchmark.Finish();
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetRawFirstDataByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            T[] rDatas = GetRawDatasByInternalKey<T>(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region CORPORATE Get datas for by account and by gamesave
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<T> GetCorporateDatasList<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            return QuickFilterDatas<T>(BasisHelper<T>().Datas as List<T>, sAccountReference, sGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetCorporateDatas<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            return QuickFilterDatas<T>(BasisHelper<T>().Datas as List<T>, sAccountReference, sGameSave).ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetCorporateFirstData<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            T[] rDatas = GetCorporateDatas<T>(sAccountReference, sGameSave);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetCorporateDataByReference<T>(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null, bool sTryOnDisk = false) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            if (BasisHelper<T>().DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
+            }
+            else
+            {
+                if (sTryOnDisk == true)
+                {
+                    // TODO : Lag connection : look for quick solution
+                    rReturn = LoadDataByReference<T>(sReference);
+                }
+            }
+            rReturn = QuickFilter<T>(rReturn, sAccountReference, sGameSave);
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetCorporateDatasByInternalKey<T>(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            List<T> rReturn;
+            if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
+            {
+                rReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey] as List<T>;
+            }
+            else
+            {
+                rReturn = new List<T>();
+            }
+            rReturn = QuickFilterDatas<T>(rReturn as List<T>, sAccountReference, sGameSave);
+            //BTBBenchmark.Finish();
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetCorporateFirstDataByInternalKey<T>(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            T[] rDatas = GetCorporateDatasByInternalKey<T>(sInternalKey);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region REACHABLE Get datas for my account and my gamesave
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<T> GetReachableDatasList<T>(bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            //BTBBenchmark.Finish();
+            return GetCorporateDatasList<T>(NWDAccount.CurrentReference(), tGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetReachableDatas<T>(bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            //BTBBenchmark.Finish();
+            return GetCorporateDatas<T>(NWDAccount.CurrentReference(), tGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetReachableFirstData<T>(bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            //BTBBenchmark.Finish();
+            return GetCorporateFirstData<T>(NWDAccount.CurrentReference(), tGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetReachableDataByReference<T>(string sReference, bool sLimitByGameSave = true, bool sTryOnDisk = false) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            //BTBBenchmark.Finish();
+            return GetCorporateDataByReference<T>(sReference, NWDAccount.CurrentReference(), tGameSave, sTryOnDisk);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] GetReacheableDatasByInternalKey<T>(string sInternalKey, bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            //BTBBenchmark.Finish();
+            return GetCorporateDatasByInternalKey<T>(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static T GetReacheableFirstDataByInternalKey<T>(string sInternalKey, bool sLimitByGameSave = true) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDGameSave tGameSave = null;
+            if (sLimitByGameSave == true)
+            {
+                tGameSave = NWDGameSave.CurrentData();
+            }
+            T rReturn = GetCorporateFirstDataByInternalKey<T>(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 
+        #region PRIVATE FILTER
+
+        //-------------------------------------------------------------------------------------------------------------
+        private NWDTypeClass QuickFilter(NWDTypeClass sData, string sAccountReference = null, NWDGameSave sGameSave = null)
+        {
+            //BTBBenchmark.Start();
+            NWDTypeClass rReturn = null;
+            if (sData != null)
+            {
+                if (sData.IsEnable() == true)
+                {
+                    bool tInsert = true;
+                    if (kAccountDependent)
+                    {
+                        if (sGameSave != null)
+                        {
+                            // test game save if necessary
+                            if (GameSaveMethod != null && sGameSave != null)
+                            {
+                                string tGameIndex = sGameSave.Reference;
+                                var tValue = ClassGameDependentProperties.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
+                                string tSaveIndex = GameSaveMethod.Invoke(tValue, null) as string;
+                                if (tSaveIndex != tGameIndex)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                        }
+                        if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                        {
+                            tInsert = false; // research by default false and true when found first solution
+                            foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in AccountMethodDico)
+                            {
+                                var tValue = tInfos.Key.GetValue(sData, null);
+                                string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                                if (tAccountValue.Contains(sAccountReference))
+                                {
+                                    tInsert = true;
+                                    break; // I fonud one solution! this user can see this informations
+                                }
+                            }
+                        }
+                    }
+                    if (tInsert == true)
+                    {
+                        rReturn = sData;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static T QuickFilter<T>(T sData, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            T rReturn = null;
+            if (sData != null)
+            {
+                //if (sData.IsTrashed() == false || sData.IsEnable() == true || sData.TestIntegrityResult == true)
+                if (sData.IsEnable() == true)
+                {
+                    bool tInsert = true;
+                    if (BasisHelper<T>().kAccountDependent)
+                    {
+                        if (sGameSave != null)
+                        {
+                            // test game save if necessary
+                            if (BasisHelper<T>().GameSaveMethod != null && sGameSave != null)
+                            {
+                                string tGameIndex = sGameSave.Reference;
+                                var tValue = BasisHelper<T>().ClassGameDependentProperties.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
+                                string tSaveIndex = BasisHelper<T>().GameSaveMethod.Invoke(tValue, null) as string;
+                                if (tSaveIndex != tGameIndex)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                        }
+                        if (tInsert == true && string.IsNullOrEmpty(sAccountReference) == false)
+                        {
+                            tInsert = false; // research by default false and true when found first solution
+                            foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
+                            {
+                                var tValue = tInfos.Key.GetValue(sData, null);
+                                string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                                if (tAccountValue.Contains(sAccountReference))
+                                {
+                                    tInsert = true;
+                                    break; // I fonud one solution! this user can see this informations
+                                }
+                            }
+                        }
+                    }
+                    if (tInsert == true)
+                    {
+                        rReturn = sData;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static List<T> QuickFilterDatas<T>(List<T> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            List<T> rList = new List<T>();
+            //Debug.Log("chercher les data ");
+            if (sDatasArray != null)
+            {
+                foreach (T tData in sDatasArray)
+                {
+                    T tDataReturn = QuickFilter<T>(tData, sAccountReference, sGameSave);
+                    if (tDataReturn != null)
+                    {
+                        rList.Add(tDataReturn);
+                    }
+                }
+            }
+            else
+            {
+                //Debug.Log("chercher les data a un tableau vide");
+            }
+            //BTBBenchmark.Finish();
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        #endregion
+        #region LOAD PARTIAL
+
+        //-------------------------------------------------------------------------------------------------------------
+        private static T LoadDataByReference<T>(string sReference) where T : NWDTypeClass, new()
+        {
+            Debug.Log("LoadDataByReference(" + sReference + ")");
+            BTBBenchmark.Start();
+            T rReturn = null;
+            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+            if (tTypeInfos.DatasByReference.ContainsKey(sReference) == false)
+            {
+                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+                if (tTypeInfos.kAccountDependent)
+                {
+                    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+                }
+                if (tSQLiteConnection != null)
+                {
+                    if (tSQLiteConnection.IsValid())
+                    {
+                        List<T> tSelect = tSQLiteConnection.Query<T>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` = '" + sReference + "';");
+                        if (tSelect != null)
+                        {
+                            foreach (T tItem in tSelect)
+                            {
+                                rReturn = tItem as T;
+                                tItem.LoadedFromDatabase();
+#if UNITY_EDITOR
+                                tItem.RowAnalyze();
+#endif
+                            }
+                        }
+                    }
+                }
+            }
+            BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            BasisHelper<T>().FilterTableEditor();
+            BasisHelper<T>().RepaintTableEditor();
+#endif
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static void LoadDataToSync<T>(NWDAppEnvironment sEnvironment) where T : NWDTypeClass, new()
+        {
+            BTBBenchmark.Start();
+            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            if (tTypeInfos.kAccountDependent)
+            {
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            }
+            if (tSQLiteConnection != null)
+            {
+                if (tSQLiteConnection.IsValid())
+                {
+                    //SQLiteCommand tCommand = tSQLiteConnection.CreateCommand("SELECT `Reference` FROM " + tTypeInfos.ClassNamePHP + " WHERE `"+ sEnvironment.Environment + "Sync` = '0' OR `"+ sEnvironment.Environment + "Sync` = '1';");
+                    //List<string> tSelect = tCommand.ExecuteQuery<string>();
+                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + sEnvironment.Environment + "Sync` = '0' OR `" + sEnvironment.Environment + "Sync` = '1';";
+                    //Debug.Log(tQuery);
+                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+                    if (tSelect != null)
+                    {
+                        foreach (NWDTypeClassReference tReference in tSelect)
+                        {
+                            //Debug.Log("tReference = " + tReference.Reference);
+                            if (tReference.Reference != null)
+                            {
+                                GetRawDataByReference<T>(tReference.Reference);
+                            }
+                        }
+                    }
+                }
+            }
+            BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            BasisHelper<T>().FilterTableEditor();
+            BasisHelper<T>().RepaintTableEditor();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region SELECT
+        //-------------------------------------------------------------------------------------------------------------
+        public static T[] SelectDatasWhereRequest<T>(string sWhere = "`AC`=1;") where T : NWDTypeClass, new()
+        {
+            BTBBenchmark.Start();
+            List<T> rResult = new List<T>();
+            NWDBasisHelper tTypeInfos = BasisHelper<T>();
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            if (tTypeInfos.kAccountDependent)
+            {
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            }
+            if (tSQLiteConnection != null)
+            {
+                if (tSQLiteConnection.IsValid())
+                {
+                    string tQuery = "SELECT `" + NWDToolbox.PropertyName(() => FictiveData<T>().Reference) + "` FROM " + tTypeInfos.ClassNamePHP + " WHERE " + sWhere;
+                    Debug.Log(tQuery);
+                    SQLiteCommand tCreateCommand = tSQLiteConnection.CreateCommand(tQuery);
+                    List<NWDTypeClassReference> tSelect = tCreateCommand.ExecuteQuery<NWDTypeClassReference>();
+                    if (tSelect != null)
+                    {
+                        foreach (NWDTypeClassReference tReference in tSelect)
+                        {
+                            if (tReference.Reference != null)
+                            {
+                                T tData = GetRawDataByReference<T>(tReference.Reference, true);
+                                if (tData != null)
+                                {
+                                    rResult.Add(tData);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            BasisHelper<T>().FilterTableEditor();
+            BasisHelper<T>().RepaintTableEditor();
+#endif
+            return rResult.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        public static T FictiveData<T>() where T : NWDTypeClass, new()
+        {
+            T rFictive = NewDataWithReference<T>("FICTIVE");
+            rFictive.DeleteData();
+            return rFictive;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static int CSV_IndexOf<T>(string sPropertyName, int sWebBuilt = -1) where T : NWDTypeClass, new()
+        {
+            return BasisHelper<T>().CSV_IndexOf(sPropertyName, sWebBuilt);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SLQSelect<T>(int sWebBuilt = -1) where T : NWDTypeClass, new()
+        {
+            return BasisHelper<T>().SLQSelect(sWebBuilt);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizationFromWebService<T>(BTBOperationBlock sSuccessBlock = null,
+         BTBOperationBlock sErrorBlock = null,
+         BTBOperationBlock sCancelBlock = null,
+         BTBOperationBlock sProgressBlock = null,
+         bool sForce = false,
+         bool sPriority = false) where T : NWDTypeClass, new()
+        {
+            BasisHelper<T>().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDTypeClass rReturnObject = null;
+            if (sData.TestIntegrity() == true)
+            {
+                    rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
+                    rReturnObject.InstanceInit();
+                    //rReturnObject.PropertiesAutofill();
+                    rReturnObject.Initialization();
+                    int tDC = rReturnObject.DC; // memorize date of dupplicate
+                    string tReference = rReturnObject.NewReference(); // create reference for dupplicate
+                    rReturnObject.CopyData(sData); // copy data
+                    // restore the DC and Reference 
+                    rReturnObject.Reference = tReference;
+                    rReturnObject.DC = tDC;
+                    // WARNING ... copy generate an error in XX ? 
+                    // but copy the DD XX and AC from this
+                    rReturnObject.DD = sData.DD;
+                    rReturnObject.XX = sData.XX;
+                    rReturnObject.AC = sData.AC;
+                    // Change internal key by addding  "copy xxx"
+                    string tOriginalKey = string.Empty + sData.InternalKey;
+                    string tPattern = "\\(COPY [0-9]*\\)";
+                    string tReplacement = string.Empty;
+                    Regex tRegex = new Regex(tPattern);
+                    tOriginalKey = tRegex.Replace(tOriginalKey, tReplacement);
+                    tOriginalKey = tOriginalKey.TrimEnd();
+                    // init search
+                    int tCounter = 1;
+                    string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
+                    // search available internal key
+                    while (DatasByInternalKey.ContainsKey(tCopy) == true)
+                    {
+                        tCounter++;
+                        tCopy = tOriginalKey + " (COPY " + tCounter + ")";
+                    }
+                    // set found internalkey
+                    rReturnObject.InternalKey = tCopy;
+                    // Update Data! become it's not a real insert but a copy!
+                    rReturnObject.UpdateDataOperation(sAutoDate);
+                    // Insert Data as new Data!
+                    rReturnObject.AddonDuplicateMe();
+                    rReturnObject.ReIndex();
+                    rReturnObject.InsertData(sAutoDate, sWritingMode);
+            }
+            //BTBBenchmark.Finish();
+            return rReturnObject;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

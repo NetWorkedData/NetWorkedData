@@ -530,12 +530,6 @@ namespace NetWorkedData
         //    base.OnDisable();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        void NewsCheck()
-        {
-            //Debug.Log("NewsCheck");
-            NWDNews.Check();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Raises the application focus event.
         /// </summary>
@@ -565,13 +559,11 @@ namespace NetWorkedData
             if (ApplicationStandBy == false)
             {
                 //Debug.Log("OnApplicationPause Pause is OFF");
-                NWDNews.InstallAllNotifications(false);
                 //NWDTypeLauncher.DatabaseAccountLauncher();
             }
             else
             {
                 //Debug.Log("OnApplicationPause Pause is ON");
-                NWDNews.InstallAllNotifications(true);
                 if (NWDAppConfiguration.SharedInstance().SurProtected == true)
                 {
                     NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
@@ -655,7 +647,6 @@ namespace NetWorkedData
             {
                 LoadingDatasGauge.IsVisible = false;
             }
-            NWDNews.InstallAllNotifications(false);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

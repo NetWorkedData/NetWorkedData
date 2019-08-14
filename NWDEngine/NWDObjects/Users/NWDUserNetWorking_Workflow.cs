@@ -19,7 +19,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
+    public partial class NWDUserNetWorking : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNetWorking()
@@ -64,10 +64,10 @@ namespace NetWorkedData
                     OtherData.Add(typeof(NWDUserNetWorking));
                 }
                 // do something with this class
-                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetCorporateFirstData();
+                NWDUserNetWorking tUserNetWorking = NWDBasisHelper.GetCorporateFirstData<NWDUserNetWorking>();
                 if (tUserNetWorking == null)
                 {
-                    tUserNetWorking = NWDUserNetWorking.NewData();
+                    tUserNetWorking = NWDBasisHelper.NewData<NWDUserNetWorking>();
                     tUserNetWorking.InsertData();
                 }
             }
@@ -77,7 +77,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDUserNetWorking Static NetworkingUpdate()");
                 Started = true;
-            NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetCorporateFirstData();
+            NWDUserNetWorking tUserNetWorking = NWDBasisHelper.GetCorporateFirstData<NWDUserNetWorking>();
                 if (tUserNetWorking != null)
                 {
                     DateTime tDateTime = DateTime.Now;
@@ -98,7 +98,7 @@ namespace NetWorkedData
             if (Started == true)
             {
                 Started = false;
-                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetCorporateFirstData();
+                NWDUserNetWorking tUserNetWorking = NWDBasisHelper.GetCorporateFirstData<NWDUserNetWorking>();
                 if (tUserNetWorking != null)
                 {
                     tUserNetWorking.Offline();

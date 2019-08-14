@@ -126,11 +126,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass NewData()
-        {
-            NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { true }) as NWDTypeClass;
-            return rReturn;
-        }
+        //public NWDTypeClass NewData()
+        //{
+        //    NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { true }) as NWDTypeClass;
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void FlushTrash(NWDTypeClass sObject)
         {

@@ -30,7 +30,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("IP banned")]
     [NWDClassMenuNameAttribute("IP Ban")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDIPBan : NWDBasis<NWDIPBan>
+    public partial class NWDIPBan : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         //PROPERTIES

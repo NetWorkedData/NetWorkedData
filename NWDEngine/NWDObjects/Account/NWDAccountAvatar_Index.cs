@@ -18,7 +18,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountAvatar : NWDBasis<NWDAccountAvatar>
+    public partial class NWDAccountAvatar : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDAccount, NWDAccountAvatar> kAccountIndex = new NWDIndex<NWDAccount, NWDAccountAvatar>();
@@ -47,7 +47,7 @@ namespace NetWorkedData
             NWDAccountAvatar rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
-                rReturn = NewData();
+                rReturn = NWDBasisHelper.NewData<NWDAccountAvatar>();
                 rReturn.Account.SetReference(sAccountReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();

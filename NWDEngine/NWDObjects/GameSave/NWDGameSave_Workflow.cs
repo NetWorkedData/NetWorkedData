@@ -20,7 +20,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDGameSave : NWDBasis<NWDGameSave>
+    public partial class NWDGameSave : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDGameSave()
@@ -43,7 +43,7 @@ namespace NetWorkedData
         public static NWDGameSave NewCurrent()
         {
             NWDGameSave rGameSave = null;
-            rGameSave = NewData();
+            rGameSave = NWDBasisHelper.NewData<NWDGameSave>();
             //rGameSave.InternalKey = NWDAccount.GetCurrentAccountReference();
             rGameSave.Name = "GameSave " + DateTime.Today.ToShortDateString();
             rGameSave.Tag = NWDBasisTag.TagUserCreated;

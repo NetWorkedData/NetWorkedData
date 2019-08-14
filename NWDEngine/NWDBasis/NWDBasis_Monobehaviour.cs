@@ -32,7 +32,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         //public void AddNetWorkedDataToObject(GameObject sGameObject)
@@ -40,21 +40,21 @@ namespace NetWorkedData
         //    SetNetWorkedDataObject(sGameObject, this);
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public static void SetNetWorkedDataObject(GameObject sGameObject, NWDBasis<K> sObject)
+        //public static void SetNetWorkedDataObject(GameObject sGameObject, NWDBasis sObject)
         //{
         //    NWDMonoBehaviour tNWDMonoBehaviour = NWDMonoBehaviour.SetNetWorkedDataObject(sGameObject, sObject);
         //    tNWDMonoBehaviour.Type = sObject.GetType().ToString();
         //    tNWDMonoBehaviour.Reference = sObject.Reference;
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasis<K> GetNetWorkedDataObject(GameObject sGameObject)
+        //public static NWDBasis GetNetWorkedDataObject(GameObject sGameObject)
         //{
         //    object rReturn = NWDMonoBehaviour.GetNetWorkedDataObject(sGameObject);
         //    if (rReturn.GetType() != typeof(K))
         //    {
         //        rReturn = null;
         //    }
-        //    return rReturn as NWDBasis<K>;
+        //    return rReturn as NWDBasis;
         //}
         //-------------------------------------------------------------------------------------------------------------
     }

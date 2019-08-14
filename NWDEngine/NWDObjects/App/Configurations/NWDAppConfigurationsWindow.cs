@@ -34,6 +34,7 @@ namespace NetWorkedData
             typeof(NWDVersion),
             typeof(NWDParameter),
             typeof(NWDPreferenceKey),
+            typeof(NWDError),
             typeof(NWDAssetBundle),
 			/* Add NWDBasis here*/
 		}

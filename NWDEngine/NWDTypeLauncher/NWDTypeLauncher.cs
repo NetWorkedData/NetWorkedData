@@ -114,7 +114,7 @@ namespace NetWorkedData
                 //BTBBenchmark.Finish("Launcher() reflexion");
                 foreach (Type tType in tAllNWDTypes)
                 {
-                    // not the NWDBasis<K> because it's generic class
+                    // not the NWDBasis because it's generic class
                     if (tType.ContainsGenericParameters == false)
                     {
                         // add type in list of class

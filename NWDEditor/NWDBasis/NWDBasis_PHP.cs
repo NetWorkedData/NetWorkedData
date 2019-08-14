@@ -27,13 +27,13 @@ using System.Linq.Expressions;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string TableNamePHP(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().PHP_TABLENAME(sEnvironment);
-        }
+        //public static string TableNamePHP(NWDAppEnvironment sEnvironment)
+        //{
+        //    return BasisHelper().PHP_TABLENAME(sEnvironment);
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

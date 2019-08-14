@@ -36,7 +36,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("BDL")]
     [NWDClassDescriptionAttribute("Asset Bundle Unity Managament")]
     [NWDClassMenuNameAttribute("Asset Bundle")]
-    public partial class NWDAssetBundle : NWDBasis<NWDAssetBundle>
+    public partial class NWDAssetBundle : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Bundle Unity3D loader")]

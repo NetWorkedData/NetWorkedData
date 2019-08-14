@@ -176,9 +176,9 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
             NWDAccount tAccount = null;
             string tAccountReference = NWDAccount.CurrentReference();
-            if (NWDAccount.BasisHelper().DatasByReference.ContainsKey(tAccountReference))
+            if (NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference.ContainsKey(tAccountReference))
             {
-                tAccount = NWDAccount.BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
+                tAccount = NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference[tAccountReference] as NWDAccount;
             }
             if (tAccount != null)
             {
@@ -199,9 +199,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Account informations");
                 string tAccountInfosReference = "?";
-                if (NWDAccountInfos.GetCorporateFirstData(NWDAccount.CurrentReference(), null) != null)
+                if (NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null) != null)
                 {
-                    NWDAccountInfos tAccountInfos = NWDAccountInfos.GetCorporateFirstData(NWDAccount.CurrentReference(), null);
+                    NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null);
                     tAccountInfosReference = tAccountInfos.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, tAccountInfosReference);
 

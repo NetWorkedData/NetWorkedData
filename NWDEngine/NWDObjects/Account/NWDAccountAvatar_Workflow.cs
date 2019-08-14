@@ -18,7 +18,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountAvatar : NWDBasis<NWDAccountAvatar>
+    public partial class NWDAccountAvatar : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountAvatar()
@@ -42,7 +42,7 @@ namespace NetWorkedData
         public static NWDItem GetItemAvatar()
         {
             NWDItem rItem = null;
-            NWDAccountAvatar[] tAvatars = GetReachableDatas();
+            NWDAccountAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDAccountAvatar>();
             if (tAvatars.Length > 0)
             {
                 return tAvatars[0].RenderItem.GetData();
@@ -56,7 +56,7 @@ namespace NetWorkedData
         public static Sprite GetTextureAvatar()
         {
             Sprite rSprite = null;
-            NWDAccountAvatar[] tAvatars = GetReachableDatas();
+            NWDAccountAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDAccountAvatar>();
             if (tAvatars.Length > 0)
             {
                 return tAvatars[0].RenderTexture.ToSprite();

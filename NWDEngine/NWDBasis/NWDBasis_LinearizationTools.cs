@@ -19,32 +19,23 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        static K sFictive;
+        //public static K FictiveData()
+        //{
+        //    return NWDBasisHelper.FictiveData<NWDBasisHelper><K>();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K FictiveData()
-        {
-            //BTBBenchmark.Start();
-            if (sFictive == null)
-            {
-                sFictive = NewDataWithReference("FICTIVE");
-                sFictive.DeleteData();
-            }
-            //BTBBenchmark.Finish();
-            return sFictive;
-        }
+        //public static int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
+        //{
+        //    return BasisHelper()NWDBasisHelper.CSV_IndexOf<>(sPropertyName, sWebBuilt);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
-        {
-            return BasisHelper().CSV_IndexOf(sPropertyName, sWebBuilt);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string SLQSelect(int sWebBuilt = -1)
-        {
-            return BasisHelper().SLQSelect(sWebBuilt);
-        }
+        //public static string SLQSelect(int sWebBuilt = -1)
+        //{
+        //    return BasisHelper().SLQSelect(sWebBuilt);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
                                       string[] sDataArray,

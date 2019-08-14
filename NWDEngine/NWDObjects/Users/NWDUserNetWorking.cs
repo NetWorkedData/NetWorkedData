@@ -31,7 +31,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNW")]
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]
-    public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
+    public partial class NWDUserNetWorking : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceType<NWDAccount> Account

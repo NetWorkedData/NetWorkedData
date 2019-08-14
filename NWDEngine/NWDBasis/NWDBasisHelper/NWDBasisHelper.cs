@@ -99,15 +99,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis<K>, new()
+    public partial class NWDHelper<K> : NWDBasisHelper where K : NWDBasis, new()
     {
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public K FictiveData()
-        {
-            return NWDBasis<K>.FictiveData();
-        }
-#endif
+        //#if UNITY_EDITOR
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        public K FictiveData()
+        //        {
+        //            return NWDBasisNWDBasisHelper.FictiveData<>();
+        //        }
+        //#endif
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> OverrideClasseInThisSync()
         {
@@ -1517,11 +1517,6 @@ namespace NetWorkedData
         //public static string SynchronizeKeyTimestamp = "sync";
         //public static string SynchronizeKeyLastTimestamp = "last";
         //public static string SynchronizeKeyInWaitingTimestamp = "waiting";
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
-    {
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -35,7 +35,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
+    public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos()
@@ -64,10 +64,10 @@ namespace NetWorkedData
             
             if (kCurrent == null)
             {
-                NWDUserInfos tUserInfos = GetCorporateFirstData(NWDAccount.CurrentReference());
+                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
                 if (tUserInfos == null)
                 {
-                    tUserInfos = NewData();
+                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
                     #if UNITY_EDITOR
                     tUserInfos.InternalKey = NWDAccount.CurrentReference();
                     #endif
@@ -83,7 +83,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
         {
-            SynchronizationFromWebService();
+            NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()

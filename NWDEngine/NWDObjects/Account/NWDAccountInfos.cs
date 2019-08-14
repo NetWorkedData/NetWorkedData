@@ -27,7 +27,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
-    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
+    public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ namespace NetWorkedData
             else
             {
                 rReturn = NWDAppEnvironmentPlayerStatut.Certified;
-                NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatas(Account.GetReference());
+                NWDAccountSign[] tSigns = NWDBasisHelper.GetCorporateDatas<NWDAccountSign>(Account.GetReference());
                 foreach(NWDAccountSign tSign in tSigns)
                 {
                     if (tSign.SignType != NWDAccountSignType.None && tSign.SignType != NWDAccountSignType.DeviceID)

@@ -86,7 +86,7 @@ namespace NetWorkedData
         public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments player chooser";
         public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments synchronize";
 
-        public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis<K>)";
+        public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis)";
 
         public const string K_MENU_CREATE_PHP = "Tools/Server auto generate";
         public const string K_MENU_CREATE_ERRORS_AND_MESSAGES = K_MENU_BASE + K_MENU_CREATE_PHP + "/Generate errors and messages";

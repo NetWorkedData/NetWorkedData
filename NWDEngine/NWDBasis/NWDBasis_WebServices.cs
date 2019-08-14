@@ -29,7 +29,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsSynchronized()
@@ -64,57 +64,57 @@ namespace NetWorkedData
             return tWebBuildUsed;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasis<K> SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
+        //public static NWDBasis SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
         //{
-        //    return BasisHelper().New_SynchronizationInsertInBase( sInfos,  sEnvironment, sDataArray) as NWDBasis<K>;
+        //    return BasisHelper().New_SynchronizationInsertInBase( sInfos,  sEnvironment, sDataArray) as NWDBasis;
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasis<K> SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
+        //public static NWDBasis SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         //{
-        //    return BasisHelper().SynchronizationTryToUse( sInfos,  sEnvironment,  sData,  sForceToUse) as NWDBasis<K>;
+        //    return BasisHelper().SynchronizationTryToUse( sInfos,  sEnvironment,  sData,  sForceToUse) as NWDBasis;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizationFromWebService(BTBOperationBlock sSuccessBlock = null,
-         BTBOperationBlock sErrorBlock = null,
-         BTBOperationBlock sCancelBlock = null,
-         BTBOperationBlock sProgressBlock = null,
-         bool sForce = false,
-         bool sPriority = false)
-        {
-            BasisHelper().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
-        }
+        //public static void SynchronizationFromWebService(BTBOperationBlock sSuccessBlock = null,
+        // BTBOperationBlock sErrorBlock = null,
+        // BTBOperationBlock sCancelBlock = null,
+        // BTBOperationBlock sProgressBlock = null,
+        // bool sForce = false,
+        // bool sPriority = false)
+        //{
+        //    BasisHelper().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static bool PullFromWebService(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().PullFromWebService(sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool PullFromWebServiceForce(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().PullFromWebServiceForce(sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool SynchronizationFromWebServiceForce(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().SynchronizationFromWebServiceForce(sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool SynchronizationFromWebService(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().SynchronizationFromWebService(sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
-        {
-            return BasisHelper().SynchronizationFromWebServiceClean(sEnvironment);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        public static bool SynchronizationFromWebServiceSpecial(NWDAppEnvironment sEnvironment, NWDOperationSpecial sSpecial)
-        {
-            return BasisHelper().SynchronizationFromWebServiceSpecial( sEnvironment,  sSpecial);
-        }
-#endif
+//        public static bool PullFromWebService(NWDAppEnvironment sEnvironment)
+//        {
+//            return BasisHelper().PullFromWebService(sEnvironment);
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public static bool PullFromWebServiceForce(NWDAppEnvironment sEnvironment)
+//        {
+//            return BasisHelper().PullFromWebServiceForce(sEnvironment);
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public static bool SynchronizationFromWebServiceForce(NWDAppEnvironment sEnvironment)
+//        {
+//            return BasisHelper().SynchronizationFromWebServiceForce(sEnvironment);
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public static bool SynchronizationFromWebService(NWDAppEnvironment sEnvironment)
+//        {
+//            return BasisHelper().SynchronizationFromWebService(sEnvironment);
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        public static bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
+//        {
+//            return BasisHelper().SynchronizationFromWebServiceClean(sEnvironment);
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//#if UNITY_EDITOR
+//        public static bool SynchronizationFromWebServiceSpecial(NWDAppEnvironment sEnvironment, NWDOperationSpecial sSpecial)
+//        {
+//            return BasisHelper().SynchronizationFromWebServiceSpecial( sEnvironment,  sSpecial);
+//        }
+//#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

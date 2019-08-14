@@ -39,7 +39,7 @@ namespace NetWorkedData
                                    "Parameters are set for all user. Use InternalKey to find them and use them. \n" +
                                    "")]
     [NWDClassMenuNameAttribute("Parameters")]
-    public partial class NWDParameter : NWDBasis<NWDParameter>
+    public partial class NWDParameter : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations", true, true, true)]

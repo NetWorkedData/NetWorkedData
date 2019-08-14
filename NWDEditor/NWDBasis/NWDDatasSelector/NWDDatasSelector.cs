@@ -594,7 +594,6 @@ namespace NetWorkedData
                 TrashedDatas = tTrashedDatas;
                 Filter();
             }
-            EditorGUI.EndDisabledGroup();
 
             bool tCorruptedDatas = GUILayout.Toggle(CorruptedDatas, "Corrupted datas");
             if (CorruptedDatas != tCorruptedDatas)
@@ -602,6 +601,7 @@ namespace NetWorkedData
                 CorruptedDatas = tCorruptedDatas;
                 Filter();
             }
+            EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();

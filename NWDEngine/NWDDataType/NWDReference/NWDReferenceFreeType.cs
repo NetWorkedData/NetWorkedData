@@ -39,7 +39,7 @@ namespace NetWorkedData
     /// NWDReferenceFreeType used to put a reference in value. Use properties with simple name, like 'Account', 'Spot', 'Bonus' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceFreeType<K> : NWDReferenceSimple where K : NWDBasis<K>, new()
+    public class NWDReferenceFreeType<K> : NWDReferenceSimple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceFreeType()
@@ -90,12 +90,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject(string sAccountReference = null)
         {
-            return NWDBasis<K>.GetCorporateDataByReference(Value, sAccountReference) as K;
+            return NWDBasisHelper.GetCorporateDataByReference<K>(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.GetCorporateDataByReference(Value, sAccountReference) as K;
+            K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(Value, sAccountReference) as K;
             if (tObject != null)
             {
                 return new K[] {tObject};
@@ -108,12 +108,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObjectAbsolute(string sAccountReference = null)
         {
-            return NWDBasis<K>.GetRawDataByReference(Value) as K;
+            return NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjectsAbsolute(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.GetRawDataByReference(Value) as K;
+            K tObject = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -141,7 +141,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -156,7 +156,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (NWDBasis<K>.GetRawDataByReference(Value) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(Value) == null)
                 {
                     rReturn = true;
                 }
@@ -170,7 +170,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.GetRawDataByReference(Value) as K;
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -184,7 +184,7 @@ namespace NetWorkedData
             K rReturn = null;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.GetRawDataByReference(Value) as K;
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn = tObj;

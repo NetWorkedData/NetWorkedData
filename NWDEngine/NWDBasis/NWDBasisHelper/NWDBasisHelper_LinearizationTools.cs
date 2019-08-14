@@ -29,6 +29,23 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDExample : NWDBasis
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        static private NWDExample kExample;
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDExample Fictive()
+        {
+            if (kExample == null)
+            {
+                kExample = NWDBasisHelper.FictiveData<NWDExample>();
+            }
+            return kExample;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
@@ -42,7 +59,7 @@ namespace NetWorkedData
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //Debug.Log("NewDataFromWeb ()");
             NWDTypeClass rReturnObject = null;
-            //rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType());
+            //rReturnObject = (NWDBasis)Activator.CreateInstance(ClassType());
             rReturnObject = (NWDTypeClass)Activator.CreateInstance(ClassType, new object[] { false });
             rReturnObject.InstanceInit();
             rReturnObject.Reference = sReference;
@@ -214,36 +231,36 @@ namespace NetWorkedData
                 rReturnList.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.OrdinalIgnoreCase));
 
                 // Reorder to prevent remove correctly
-                rReturnList.Remove("Integrity");
-                rReturnList.Remove("Reference");
-                rReturnList.Remove("ID");
-                rReturnList.Remove("DM");
-                rReturnList.Remove("DS");
-                rReturnList.Remove("ServerHash");
-                rReturnList.Remove("ServerLog");
-                rReturnList.Remove("DevSync");
-                rReturnList.Remove("PreprodSync");
-                rReturnList.Remove("ProdSync");
-                rReturnList.Remove("InError");
-                rReturnList.Remove("WebModel");
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().Integrity));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().Reference));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ID));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DM));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DS));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ServerHash));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ServerLog));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DevSync));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().PreprodSync));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().InError));
+                rReturnList.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().WebModel));
 
                 // not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
-                rReturnList.Insert(0, "Reference");
-                rReturnList.Insert(1, "DM");
-                rReturnList.Insert(2, "DS");
-                rReturnList.Insert(3, "DevSync");
-                rReturnList.Insert(4, "PreprodSync");
-                rReturnList.Insert(5, "ProdSync");
+                rReturnList.Insert(0, NWDToolbox.PropertyName(() => NWDExample.Fictive().Reference));
+                rReturnList.Insert(1, NWDToolbox.PropertyName(() => NWDExample.Fictive().DM));
+                rReturnList.Insert(2, NWDToolbox.PropertyName(() => NWDExample.Fictive().DS));
+                rReturnList.Insert(3, NWDToolbox.PropertyName(() => NWDExample.Fictive().DevSync));
+                rReturnList.Insert(4, NWDToolbox.PropertyName(() => NWDExample.Fictive().PreprodSync));
+                rReturnList.Insert(5, NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
                 //rReturnList.Insert(6, "ServerHash");
                 //rReturnList.Insert(7, "ServerLog");
                 //rReturnList.Insert(8, "InError");
                 //rReturnList.Insert(9, "ID");
 
                 //rReturnList.Add("ID");
-                rReturnList.Add("WebModel");
-                rReturnList.Add("Integrity");
+                rReturnList.Add(NWDToolbox.PropertyName(() => NWDExample.Fictive().WebModel));
+                rReturnList.Add(NWDToolbox.PropertyName(() => NWDExample.Fictive().Integrity));
             }
             return rReturnList;
         }
@@ -316,11 +333,11 @@ namespace NetWorkedData
         {
             List<string> rReturn = new List<string>();
             rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
-            rReturn.Remove("Integrity");
-            rReturn.Remove("DS");
-            rReturn.Remove("DevSync");
-            rReturn.Remove("PreprodSync");
-            rReturn.Remove("ProdSync");
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().Integrity));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DS));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DevSync));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().PreprodSync));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
             return rReturn;
         }
 #if UNITY_EDITOR
@@ -329,13 +346,13 @@ namespace NetWorkedData
         {
             List<string> rReturn = new List<string>();
             rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
-            rReturn.Remove("Integrity");
-            rReturn.Remove("DS");
-            rReturn.Remove("DevSync");
-            rReturn.Remove("PreprodSync");
-            rReturn.Remove("ProdSync");
-            rReturn.Remove("DM");
-            rReturn.Remove("DD");
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().Integrity));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DS));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DevSync));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().PreprodSync));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().ProdSync));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DM));
+            rReturn.Remove(NWDToolbox.PropertyName(() => NWDExample.Fictive().DD));
             return rReturn;
         }//-------------------------------------------------------------------------------------------------------------
         public bool ModelDegraded()

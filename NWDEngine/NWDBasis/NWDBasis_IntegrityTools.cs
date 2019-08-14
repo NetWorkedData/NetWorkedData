@@ -33,7 +33,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWD basis. Integrity tools
     /// </summary>
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace NetWorkedData
         //public static void RecalculateAllIntegrities()
         //{
         //    //loop
-        //    foreach (NWDBasis<K> tObject in BasisHelper().Datas)
+        //    foreach (NWDBasis tObject in BasisHelper().Datas)
         //    {
         //        // update integrity value
         //        tObject.UpdateIntegrity();
@@ -82,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NotNullChecker()
         {
-            //Debug.Log("NWDBasis<K> NotNullChecker()");
+            //Debug.Log("NWDBasis NotNullChecker()");
             Type tType = ClassType();
             //List<string> tPropertiesList = PropertiesOrderArray();
             List<string> tPropertiesList = BasisHelper().SLQIntegrityOrder();
@@ -199,7 +199,7 @@ namespace NetWorkedData
         /// </summary>
         public override void UpdateIntegrity()
         {
-            //Debug.Log("NWDBasis<K> UpdateIntegrity()");
+            //Debug.Log("NWDBasis UpdateIntegrity()");
             NotNullChecker();
 #if UNITY_EDITOR
             ServerLog = IntegrityAssembly();

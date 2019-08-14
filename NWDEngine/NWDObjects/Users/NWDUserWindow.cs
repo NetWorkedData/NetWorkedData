@@ -33,7 +33,6 @@ namespace NetWorkedData
             typeof(NWDUserPreference),
             typeof(NWDUserNetWorking),
             typeof(NWDUserOwnership),
-            typeof(NWDUserInterMessage),
             typeof(NWDMessage),
 		}
     )]

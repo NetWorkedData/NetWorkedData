@@ -34,7 +34,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("BSP")]
     [NWDClassDescriptionAttribute("Basis Preferences Class! Never use by yourself in game!")]
     [NWDClassMenuNameAttribute("Basis Preferences")]
-    public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
+    public partial class NWDBasisPreferences : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDCertified]

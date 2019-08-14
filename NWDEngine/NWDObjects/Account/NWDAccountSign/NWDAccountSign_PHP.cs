@@ -30,11 +30,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
-            string tSignReference = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().Reference);
-            string tSignStatusKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignStatus);
-            string tSignHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().SignHash);
-            string tRescueHashKey = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().RescueHash);
-            string tInternalDescription = NWDToolbox.PropertyName(() => NWDAccountSign.FictiveData().InternalDescription);
+            string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference);
+            string tSignStatusKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus);
+            string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
+            string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
+            string tInternalDescription = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().InternalDescription);
             int t_Index_SignActionKey =  CSV_IndexOf(tSignStatusKey);
             int t_Index_SignHashKey =  CSV_IndexOf(tSignHashKey);
             int t_Index_RescueHashKey =  CSV_IndexOf(tRescueHashKey);
@@ -43,7 +43,7 @@ namespace NetWorkedData
             sScript.AppendLine("// analyze the sign ");
             sScript.AppendLine("if ($sCsvList[" + t_Index_SignActionKey + "] == " + ((int)NWDAccountSignAction.TryToAssociate).ToString()+")");
             sScript.AppendLine("{");
-            sScript.Append("$tQueryRequest = 'SELECT * FROM `" + NWDAccountSign.TableNamePHP(sEnvironment) + "` WHERE ");
+            sScript.Append("$tQueryRequest = 'SELECT * FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` WHERE ");
             sScript.AppendLine(" ( `" + tSignHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_SignHashKey + "]).'\\'';");
             sScript.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
             sScript.AppendLine("{");

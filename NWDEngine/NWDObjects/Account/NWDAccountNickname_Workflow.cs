@@ -28,7 +28,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+    public partial class NWDAccountNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         //public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);
@@ -51,7 +51,7 @@ namespace NetWorkedData
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
             // Get First nickname found and return a new string
-            return Enrichment(sText, GetCorporateFirstData(), sLanguage, sBold);
+            return Enrichment(sText, NWDBasisHelper.GetCorporateFirstData<NWDAccountNickname>(), sLanguage, sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : clean

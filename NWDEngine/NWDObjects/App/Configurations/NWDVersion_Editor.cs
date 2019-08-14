@@ -44,7 +44,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDVersion : NWDBasis<NWDVersion>
+    public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         Texture2D QRCodeTexture = null;
@@ -65,7 +65,7 @@ namespace NetWorkedData
             int tVersionInt = 0;
             int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
             NWDVersion tMaxVersionObject = null;
-            foreach (NWDVersion tVersionObject in NWDVersion.BasisHelper().Datas)
+            foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
             {
                 if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                 {

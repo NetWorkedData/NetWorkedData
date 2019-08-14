@@ -30,7 +30,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
+    public partial class NWDBasisPreferences : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         const string EDITOR = "EDITOR";
@@ -62,10 +62,10 @@ namespace NetWorkedData
             //}
             string tKey = tEnvironment + NWDConstants.kFieldSeparatorA + sKey + NWDConstants.kFieldSeparatorA + tAccountReference;
             // Debug.Log("NWDBasisPreferences SelectDataForEngine() tKey = " + tKey);
-            NWDBasisPreferences rPref = GetRawDataByReference(tKey);
+            NWDBasisPreferences rPref = NWDBasisHelper.GetRawDataByReference<NWDBasisPreferences>(tKey);
             if (rPref == null)
             {
-                rPref = NewDataWithReference(tKey);
+                rPref = NWDBasisHelper.NewDataWithReference<NWDBasisPreferences>(tKey);
                 rPref.DevSync = -1;
                 rPref.PreprodSync = -1;
                 rPref.ProdSync = -1;

@@ -31,7 +31,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
@@ -53,7 +53,7 @@ namespace NetWorkedData
 //                //				// load data from BundleSQLiteConnection
 //                //				IEnumerable tEnumerable = BundleSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
 //                //				if (tEnumerable != null) {
-//                //					foreach (NWDBasis<K> tItem in tEnumerable) {
+//                //					foreach (NWDBasis tItem in tEnumerable) {
 //                //						AddObjectInListOfEdition (tItem);
 //                //						NWDDataManager.SharedInstance().InsertObject (tItem);
 //                //					}
@@ -67,7 +67,7 @@ namespace NetWorkedData
 //        public static void CleanTable()
 //        {
 //            List<object> tObjectsListToDelete = new List<object>();
-//            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
+//            foreach (NWDBasis tObject in BasisHelper().Datas)
 //            {
 //                //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
 //                if (tObject.XX > 0)
@@ -75,7 +75,7 @@ namespace NetWorkedData
 //                    tObjectsListToDelete.Add(tObject);
 //                }
 //            }
-//            foreach (NWDBasis<K> tObject in tObjectsListToDelete)
+//            foreach (NWDBasis tObject in tObjectsListToDelete)
 //            {
 //                //RemoveObjectInListOfEdition(tObject);
 //#if UNITY_EDITOR
@@ -105,7 +105,7 @@ namespace NetWorkedData
 //        {
 //            List<object> tObjectsListToDelete = new List<object>();
 //            // clean object not mine!
-//            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
+//            foreach (NWDBasis tObject in BasisHelper().Datas)
 //            {
 //                //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
 //                if (tObject.IsReacheableByAccount() == false)
@@ -114,7 +114,7 @@ namespace NetWorkedData
 //                }
 //            }
 
-//            foreach (NWDBasis<K> tObject in tObjectsListToDelete)
+//            foreach (NWDBasis tObject in tObjectsListToDelete)
 //            {
 //                //RemoveObjectInListOfEdition(tObject);
 //#if UNITY_EDITOR
@@ -139,7 +139,7 @@ namespace NetWorkedData
         //{
         //    NWDDataManager.SharedInstance().MigrateTable(ClassType(), AccountDependent());
         //    //List<object> tObjectsListToDelete = new List<object>();
-        //    foreach (NWDBasis<K> tObject in BasisHelper().Datas)
+        //    foreach (NWDBasis tObject in BasisHelper().Datas)
         //    {
         //        tObject.UpdateData();
         //    }

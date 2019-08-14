@@ -127,7 +127,7 @@ namespace NetWorkedData
     /// NWDReferencesAverageType used to put a reference with float in value. Use properties with name, like 'ItemAverage', 'SpotAverage', 'BonusAverage' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesAverageType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesAverageType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesAverageType()
@@ -248,7 +248,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public void RemoveObjectQuantity(NWDBasis<K> sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //public void RemoveObjectQuantity(NWDBasis sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         //{
         //    Dictionary<string, float> tThis = GetReferenceAndProportion();
         //    if (tThis.ContainsKey(sObject.Reference) == false)
@@ -292,7 +292,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectValue(NWDBasis<K> sObject, float sValue)
+        public void AddObjectValue(K sObject, float sValue)
         {
             // I compare all element
             Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();
@@ -307,7 +307,7 @@ namespace NetWorkedData
             SetReferenceAndAverage(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObject(NWDBasis<K> sObject)
+        public void RemoveObject(K sObject)
         {
             // I compare all element
             Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();
@@ -324,7 +324,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetReachableDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -339,7 +339,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetRawDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -420,7 +420,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDAverage tQ = new NWDAverage(tLineValue[1]);
-                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -446,7 +446,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDAverage tQ = new NWDAverage(tLineValue[1]);
-                        K tObject = NWDBasis<K>.GetRawDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -466,7 +466,7 @@ namespace NetWorkedData
             Dictionary<string, NWDAverage> tDescDico = GetReferenceAndAverage();
             foreach (KeyValuePair<string, NWDAverage> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;
@@ -502,7 +502,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.GetRawDataByReference(tReference);
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(tReference);
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
@@ -516,9 +516,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void EditorAddNewObject()
         {
-            K tNewObject = NWDBasis<K>.NewData();
+            K tNewObject = NWDBasisHelper.NewData<K>();
             this.AddObjectValue(tNewObject, 0.0F);
-            NWDBasis<K>.BasisHelper().SetObjectInEdition(tNewObject, false, true);
+            NWDBasisHelper.BasisHelper<K>().SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
@@ -526,7 +526,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }

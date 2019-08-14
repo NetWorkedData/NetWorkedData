@@ -219,7 +219,7 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.StandaloneLinux:
+                case BuildTarget.StandaloneLinux64:
                     {
                     }
                     break;
@@ -232,14 +232,6 @@ namespace NetWorkedData
                     }
                     break;
                 case BuildTarget.WSAPlayer:
-                    {
-                    }
-                    break;
-                case BuildTarget.StandaloneLinux64:
-                    {
-                    }
-                    break;
-                case BuildTarget.StandaloneLinuxUniversal:
                     {
                     }
                     break;

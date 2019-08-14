@@ -39,7 +39,7 @@ namespace NetWorkedData
     /// NWDReferencesAmountType used to put a reference with float in value. Use properties with name, like 'ItemAmount', 'SpotAmount', 'BonusAmount' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesAmountType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesAmountType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesAmountType()
@@ -160,7 +160,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveDataForAmount(NWDBasis<K> sData, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveDataForAmount(K sData, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             Dictionary<string, float> tThis = GetReferenceAndAmount();
             if (tThis.ContainsKey(sData.Reference) == false)
@@ -204,7 +204,7 @@ namespace NetWorkedData
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddDataAndAmount(NWDBasis<K> sData, float sAmount)
+        public void AddDataAndAmount(K sData, float sAmount)
         {
             // I compare all element
             Dictionary<string, float> tThis = GetReferenceAndAmount();
@@ -219,7 +219,7 @@ namespace NetWorkedData
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveData(NWDBasis<K> sData)
+        public void RemoveData(K sData)
         {
             // I compare all element
             Dictionary<string, float> tThis = GetReferenceAndAmount();
@@ -236,7 +236,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetReachableDatas() as K;
+                K tObject = NWDBasisHelper.GetReachableDatas<K>() as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -251,7 +251,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetRawDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -335,7 +335,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.GetReachableDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -363,7 +363,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.GetRawDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -391,7 +391,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasis<K>.GetCorporateDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)
@@ -411,7 +411,7 @@ namespace NetWorkedData
             Dictionary<string, float> tDescDico = GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.GetCorporateDataByReference(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;
@@ -446,7 +446,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.GetRawDataByReference(tReference);
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(tReference);
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
@@ -463,7 +463,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetRawDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }

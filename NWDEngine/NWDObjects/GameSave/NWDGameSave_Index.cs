@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDGameSave : NWDBasis<NWDGameSave>
+    public partial class NWDGameSave : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave CurrentData()
@@ -30,7 +30,7 @@ namespace NetWorkedData
             {
                 if (tAccountInfos.CurrentGameSave != null)
                 {
-                    NWDGameSave tParty = NWDGameSave.GetCorporateDataByReference(tAccountInfos.CurrentGameSave.GetReference());
+                    NWDGameSave tParty = NWDBasisHelper.GetCorporateDataByReference<NWDGameSave>(tAccountInfos.CurrentGameSave.GetReference());
                     if (tParty != null)
                     {
                         rParty = tParty;
@@ -42,7 +42,7 @@ namespace NetWorkedData
             }
             if (rParty == null)
             {
-                NWDGameSave[] tParties = NWDGameSave.GetCorporateDatas(NWDAccount.CurrentReference(), null);
+                NWDGameSave[] tParties = NWDBasisHelper.GetCorporateDatas<NWDGameSave>(NWDAccount.CurrentReference(), null);
                 foreach (NWDGameSave tPart in tParties)
                 {
                     if (tPart != null)
@@ -71,7 +71,7 @@ namespace NetWorkedData
         public static NWDGameSave SelectCurrentDataForAccount(string sAccountReference)
         {
             NWDGameSave rParty = null;
-            foreach (NWDGameSave tParty in BasisHelper().Datas)
+            foreach (NWDGameSave tParty in NWDBasisHelper.BasisHelper<NWDGameSave>().Datas)
             {
                 if (tParty.Account.GetReference() == sAccountReference)
                 {

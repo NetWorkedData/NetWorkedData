@@ -31,7 +31,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDGameSave : NWDBasis<NWDGameSave>
+    public partial class NWDGameSave : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonEdited(bool sNeedBeUpdate)

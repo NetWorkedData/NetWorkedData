@@ -235,7 +235,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             // regenerate basis error
-            NWDErrorHelper tErrorHelper = NWDError.BasisHelper() as NWDErrorHelper;
+            NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
             tErrorHelper.GenerateBasisError();
             // regenerate
             //NWDDataManager.SharedInstance().CreateErrorsAndMessagesEngine();

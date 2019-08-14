@@ -603,7 +603,7 @@ namespace NetWorkedData
 
 #if UNITY_EDITOR
             // NEVER DO THAT!!!!
-            //NWDAccount tAccount = NWDBasis<NWDAccount>.NewObjectWithReference (sEnvironment.PlayerAccountReference);
+            //NWDAccount tAccount = NWDBasis.NewObjectWithReference (sEnvironment.PlayerAccountReference);
             //tAccount.SaveModifications();
 #endif
 

@@ -23,7 +23,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
+    public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos()
@@ -122,7 +122,7 @@ namespace NetWorkedData
             {
                 // TODO Check this
                 //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
-                SynchronizationFromWebService();
+                NWDBasisHelper.SynchronizationFromWebService<NWDAccountInfos>();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

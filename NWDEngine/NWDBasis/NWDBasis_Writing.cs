@@ -28,7 +28,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Lock Data
@@ -90,18 +90,18 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The data.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            //BTBBenchmark.Start();
-            K rReturnObject = NewDataWithReference(null, true, sWritingMode);
-            //BTBBenchmark.Finish();
-            return rReturnObject;
-        }
+        //static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //BTBBenchmark.Start();
+        //    K rReturnObject = NewDataWithReference(null, true, sWritingMode);
+        //    //BTBBenchmark.Finish();
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //static public T NewData<T>(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         //{
         //    //BTBBenchmark.Start();
-        //    T rReturnObject = NewDataWithReference(null, true, sWritingMode) as T;
+        //    T rReturnObject = PropertiesAutofill as T;
         //    //BTBBenchmark.Finish();
         //    return rReturnObject;
         //}
@@ -113,37 +113,37 @@ namespace NetWorkedData
         /// <param name="sReference">S reference.</param>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            //BTBBenchmark.Start();
-            K rReturnObject = null;
-            if (ClassType() != null)
-            {
-                rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
-                rReturnObject.InstanceInit();
-                if (sReference == null || sReference == string.Empty)
-                {
-                    rReturnObject.Reference = rReturnObject.NewReference();
-                }
-                else
-                {
-                    rReturnObject.Reference = sReference;
-                }
-                rReturnObject.PropertiesAutofill();
-                rReturnObject.Initialization();
-                rReturnObject.InsertData(sAutoDate, sWritingMode);
-            }
-            else
-            {
-                Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
-            }
-            //BTBBenchmark.Finish();
-            return rReturnObject;
-        }
+        //static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //BTBBenchmark.Start();
+        //    K rReturnObject = null;
+        //    if (ClassType() != null)
+        //    {
+        //        rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
+        //        rReturnObject.InstanceInit();
+        //        if (sReference == null || sReference == string.Empty)
+        //        {
+        //            rReturnObject.Reference = rReturnObject.NewReference();
+        //        }
+        //        else
+        //        {
+        //            rReturnObject.Reference = sReference;
+        //        }
+        //        rReturnObject.PropertiesAutofill();
+        //        rReturnObject.Initialization();
+        //        rReturnObject.InsertData(sAutoDate, sWritingMode);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
+        //    }
+        //    //BTBBenchmark.Finish();
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private void PropertiesAutofill()
+        public override void PropertiesAutofill()
         {
-            foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+            foreach (PropertyInfo tPropInfo in BasisHelper().kAccountDependentProperties)
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
@@ -173,64 +173,7 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public override NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            return DuplicateData(sAutoDate, sWritingMode) as NWDTypeClass;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public K DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            //BTBBenchmark.Start();
-            K rReturnObject = null;
-            if (TestIntegrity() == true)
-            {
-                if (ClassType() != null)
-                {
-                    rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
-                    rReturnObject.InstanceInit();
-                    //rReturnObject.PropertiesAutofill();
-                    rReturnObject.Initialization();
-                    int tDC = rReturnObject.DC; // memorize date of dupplicate
-                    string tReference = rReturnObject.NewReference(); // create reference for dupplicate
-                    rReturnObject.CopyData(this); // copy data
-                    // restore the DC and Reference 
-                    rReturnObject.Reference = tReference;
-                    rReturnObject.DC = tDC;
-                    // WARNING ... copy generate an error in XX ? 
-                    // but copy the DD XX and AC from this
-                    rReturnObject.DD = DD;
-                    rReturnObject.XX = XX;
-                    rReturnObject.AC = AC;
-                    // Change internal key by addding  "copy xxx"
-                    string tOriginalKey = string.Empty + InternalKey;
-                    string tPattern = "\\(COPY [0-9]*\\)";
-                    string tReplacement = string.Empty;
-                    Regex tRegex = new Regex(tPattern);
-                    tOriginalKey = tRegex.Replace(tOriginalKey, tReplacement);
-                    tOriginalKey = tOriginalKey.TrimEnd();
-                    // init search
-                    int tCounter = 1;
-                    string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
-                    // search available internal key
-                    while (BasisHelper().DatasByInternalKey.ContainsKey(tCopy) == true)
-                    {
-                        tCounter++;
-                        tCopy = tOriginalKey + " (COPY " + tCounter + ")";
-                    }
-                    // set found internalkey
-                    rReturnObject.InternalKey = tCopy;
-                    // Update Data! become it's not a real insert but a copy!
-                    rReturnObject.UpdateDataOperation(sAutoDate);
-                    // Insert Data as new Data!
-                    rReturnObject.AddonDuplicateMe();
-                    rReturnObject.ReIndex();
-                    rReturnObject.InsertData(sAutoDate, sWritingMode);
-                }
-                else
-                {
-                    Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
-                }
-            }
-            //BTBBenchmark.Finish();
-            return rReturnObject;
+            return BasisHelper().DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -259,7 +202,7 @@ namespace NetWorkedData
         /// Copy the data.
         /// </summary>
         /// <param name="sOriginal">S original.</param>
-        public void CopyData(NWDTypeClass sOriginal)
+        public override void CopyData(NWDTypeClass sOriginal)
         {
             //BTBBenchmark.Start();
             string[] tKey = BasisHelper().SLQAssemblyOrderArray();
@@ -408,7 +351,7 @@ namespace NetWorkedData
         #endregion Duplicate Data
         #region Insert Data
         //-------------------------------------------------------------------------------------------------------------
-        public bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public override bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             // Determine the default mode
@@ -549,7 +492,7 @@ namespace NetWorkedData
         public override void InsertDataProceed()
         {
             //BTBBenchmark.Start();
-            // Debug.Log("NWDBasis<K> InsertDataProceed()");
+            // Debug.Log("NWDBasis InsertDataProceed()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
@@ -571,7 +514,7 @@ namespace NetWorkedData
         public override void InsertDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
+            Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
@@ -597,7 +540,7 @@ namespace NetWorkedData
         public override void InsertDataFinish()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> InsertDataFinish()");
+            //Debug.Log("NWDBasis InsertDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR
@@ -739,7 +682,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
+        public override void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
         {
             //BTBBenchmark.Start();
             // so object is prepared to be update
@@ -783,7 +726,7 @@ namespace NetWorkedData
         public override void UpdateDataProceed()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataProceed()");
+            //Debug.Log("NWDBasis UpdateDataProceed()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
@@ -805,7 +748,7 @@ namespace NetWorkedData
         public override void UpdateDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
@@ -830,7 +773,7 @@ namespace NetWorkedData
         public override void UpdateDataFinish()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataFinish()");
+            //Debug.Log("NWDBasis UpdateDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR
@@ -1010,7 +953,7 @@ namespace NetWorkedData
         public override void DeleteDataProceed()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataProceed()");
+            //Debug.Log("NWDBasis DeleteDataProceed()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
@@ -1031,7 +974,7 @@ namespace NetWorkedData
         public override void DeleteDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
@@ -1056,7 +999,7 @@ namespace NetWorkedData
         public override void DeleteDataFinish()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataFinish()");
+            //Debug.Log("NWDBasis DeleteDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR

@@ -19,7 +19,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDIPBan : NWDBasis<NWDIPBan>
+    public partial class NWDIPBan : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         // Declare your static properties and private here
