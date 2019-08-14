@@ -1601,6 +1601,8 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("global $TIME_MICRO;");
+            tFile.AppendLine("global $CHANGE_USER;");
+            tFile.AppendLine("$CHANGE_USER = false;");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// datas output");
             tFile.AppendLine("$REP;");
@@ -1701,6 +1703,8 @@ namespace NetWorkedData
             tFile.AppendLine("function respond_ChangeUser($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP;");
+            tFile.AppendLine("global $CHANGE_USER;");
+            tFile.AppendLine("$CHANGE_USER = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");

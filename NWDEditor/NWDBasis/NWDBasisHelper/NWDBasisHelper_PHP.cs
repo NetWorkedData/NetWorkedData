@@ -41,6 +41,7 @@ namespace NetWorkedData
         public string PHP_FUNCTION_INTEGRITY_VALIDATE() { return  ClassNamePHP + "IntegrityValidate"; }
         public string PHP_FUNCTION_INTEGRITY_VALIDATE_BY_ROW() { return  ClassNamePHP + "IntegrityValidateByRow"; }
         public string PHP_FUNCTION_UPDATE_DATA() { return  ClassNamePHP + "UpdateData"; }
+        public string PHP_FUNCTION_ANTICHEAT_DATA() { return  ClassNamePHP + "AntiCheatData"; }
         public string PHP_FUNCTION_FLUSH_TRASH_DATAS() { return  ClassNamePHP + "FlushTrashedDatas"; }
         public string PHP_FUNCTION_GET_DATA_BY_REFERENCE() { return  ClassNamePHP + "GetDataByReference"; }
         public string PHP_FUNCTION_GET_DATAS_BY_REFERENCES() { return  ClassNamePHP + "GetDatasByReferences"; }
@@ -1112,7 +1113,10 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-
+            tFile.AppendLine("function " + PHP_FUNCTION_ANTICHEAT_DATA() + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("function " + PHP_FUNCTION_GET_DATAS_BY_GAMESAVE() + " ($sTimeStamp, $sAccountReference, $sGameSaveReference)");
             tFile.AppendLine("{");
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
@@ -1228,7 +1232,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_SYNCHRONIZE() + " ($sJsonDico, $sAccountReference, $sAdmin)");
             tFile.AppendLine("{");
-            tFile.AppendLine("global $token_FirstUse, " + NWD.K_PATH_BASE + ", "+NWD.K_PHP_TIME_SYNC+", $REP;");
+            tFile.AppendLine("global $token_FirstUse, " + NWD.K_PATH_BASE + ", "+NWD.K_PHP_TIME_SYNC+", $REP, $CHANGE_USER;");
 
             if (ClassType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
             {
@@ -1292,7 +1296,26 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("if ($token_FirstUse == true)");
             tFile.AppendLine("{");
-
+            
+            if (tINeedAdminAccount == false)
+            {
+            tFile.AppendLine("if ($CHANGE_USER == true)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("foreach ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'] as $sCsvValue)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("" + PHP_FUNCTION_ANTICHEAT_DATA() + " ($sCsvValue, $sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $sAccountReference, $sAdmin);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("unset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']); ");
+            tFile.AppendLine("unset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "']); ");
+            tFile.AppendLine("" + PHP_FUNCTION_GET_DATAS() + " (0, $sAccountReference);");
+            tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = "+NWD.K_PHP_TIME_SYNC+";");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            }
             if (tINeedAdminAccount == true)
             {
                 tFile.AppendLine("if ($sAdmin == true){");
@@ -1313,6 +1336,9 @@ namespace NetWorkedData
             if (tINeedAdminAccount == true)
             {
                 tFile.AppendLine("}");
+            }if (tINeedAdminAccount == false)
+            {
+            tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
             tFile.AppendLine("else");

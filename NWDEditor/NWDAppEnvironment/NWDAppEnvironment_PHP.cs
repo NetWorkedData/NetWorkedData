@@ -682,6 +682,36 @@ namespace NetWorkedData
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
+
+
+
+            // I need include ALL tables management files to manage ALL tables
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+            {
+                tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
+                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+                tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+                tFile.AppendLine("}");
+            }
+            // I need to prevent Non synchronized class from editor
+            if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            {
+
+                tFile.AppendLine("if ($admin == true)\n{");
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
+                {
+                    tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
+                    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+                    tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+                    tFile.AppendLine("}");
+                }
+                tFile.AppendLine("}");
+            }
+
+
+
+
+
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
