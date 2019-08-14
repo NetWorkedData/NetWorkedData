@@ -1343,7 +1343,6 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-            tFile.AppendLine("}");
             tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']))");
             tFile.AppendLine("{");
             tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "']))");
@@ -1352,6 +1351,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("" + PHP_FUNCTION_GET_DATAS() + " ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $sAccountReference);");
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = "+NWD.K_PHP_TIME_SYNC+";");
+            tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
