@@ -673,6 +673,7 @@ namespace NetWorkedData
                 // write asmedf reference 
                 File.WriteAllText(tEngineRootFolder + "/" + "NWDAssemblyReference.asmref", "{\n    \"reference\": \"NetWorkedDataAssembly\"\n}");
                 // force to import this file by Unity3D
+                AssetDatabase.ImportAsset(tEngineRootFolder + "/" + "NWDAssemblyReference.asmref");
                 AssetDatabase.ImportAsset(tEngineRootFolder + "/" + sFindClassName + ".cs");
             }
             return tEngineRootFolder;

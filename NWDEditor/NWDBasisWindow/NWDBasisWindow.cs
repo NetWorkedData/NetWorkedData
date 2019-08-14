@@ -54,7 +54,6 @@ namespace NetWorkedData
         /// The tab selected.
         /// </summary>
         private int mTabSelected = 0;
-        public  bool TabSort = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes the <see cref="NWDEditor.NWDBasisWindow"/> class.
@@ -138,11 +137,6 @@ namespace NetWorkedData
                 }
             }
             TabsTotalWidthExpected = TabWidthMax * tCounter * 8;
-            // return result in array
-            if (TabSort == true)
-            {
-                tTabContentList.Sort((GUIContent x, GUIContent y) => string.Compare(x.text, y.text, StringComparison.OrdinalIgnoreCase));
-            }
             mTabContentList = tTabContentList.ToArray();
             //BTBBenchmark.Finish();
         }
@@ -171,8 +165,19 @@ namespace NetWorkedData
                 mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
                 if (tNWDBasisWindowParamAttribute.TypeList == null)
                 {
-                    mTabTypeList = NWDDataManager.SharedInstance().mTypeList.ToArray();
-                    TabSort = true;
+                    List<Type> tTabTypeList = new List<Type>();
+
+                    List<NWDBasisHelper> tHelperList = new List<NWDBasisHelper>();
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                    {
+                        tHelperList.Add(NWDBasisHelper.FindTypeInfos(tType));
+                    }
+                    tHelperList.Sort((NWDBasisHelper x, NWDBasisHelper y) => string.Compare(x.ClassMenuName, y.ClassMenuName, StringComparison.OrdinalIgnoreCase));
+                    foreach (NWDBasisHelper tNWDBasisHelper in tHelperList)
+                    {
+                        tTabTypeList.Add(tNWDBasisHelper.ClassType);
+                    }
+                    mTabTypeList = tTabTypeList.ToArray();
                 }
                 else
                 {
