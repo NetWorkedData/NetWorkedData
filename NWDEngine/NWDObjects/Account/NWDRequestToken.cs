@@ -39,7 +39,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
     [NWDClassMenuNameAttribute("RequestToken")]
-    public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
+    public partial class NWDRequestToken : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         const string K_TOKEN_INDEX = "TokenIndex";

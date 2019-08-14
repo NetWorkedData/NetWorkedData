@@ -18,7 +18,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountAvatar : NWDBasis<NWDAccountAvatar>
+    public partial class NWDAccountAvatar : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountAvatar()

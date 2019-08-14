@@ -18,6 +18,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 using SQLite4Unity3d;
@@ -727,6 +728,55 @@ namespace NetWorkedData
             BasisHelper<T>().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        {
+            //BTBBenchmark.Start();
+            NWDTypeClass rReturnObject = null;
+            if (sData.TestIntegrity() == true)
+            {
+                    rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
+                    rReturnObject.InstanceInit();
+                    //rReturnObject.PropertiesAutofill();
+                    rReturnObject.Initialization();
+                    int tDC = rReturnObject.DC; // memorize date of dupplicate
+                    string tReference = rReturnObject.NewReference(); // create reference for dupplicate
+                    rReturnObject.CopyData(sData); // copy data
+                    // restore the DC and Reference 
+                    rReturnObject.Reference = tReference;
+                    rReturnObject.DC = tDC;
+                    // WARNING ... copy generate an error in XX ? 
+                    // but copy the DD XX and AC from this
+                    rReturnObject.DD = sData.DD;
+                    rReturnObject.XX = sData.XX;
+                    rReturnObject.AC = sData.AC;
+                    // Change internal key by addding  "copy xxx"
+                    string tOriginalKey = string.Empty + sData.InternalKey;
+                    string tPattern = "\\(COPY [0-9]*\\)";
+                    string tReplacement = string.Empty;
+                    Regex tRegex = new Regex(tPattern);
+                    tOriginalKey = tRegex.Replace(tOriginalKey, tReplacement);
+                    tOriginalKey = tOriginalKey.TrimEnd();
+                    // init search
+                    int tCounter = 1;
+                    string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
+                    // search available internal key
+                    while (DatasByInternalKey.ContainsKey(tCopy) == true)
+                    {
+                        tCounter++;
+                        tCopy = tOriginalKey + " (COPY " + tCounter + ")";
+                    }
+                    // set found internalkey
+                    rReturnObject.InternalKey = tCopy;
+                    // Update Data! become it's not a real insert but a copy!
+                    rReturnObject.UpdateDataOperation(sAutoDate);
+                    // Insert Data as new Data!
+                    rReturnObject.AddonDuplicateMe();
+                    rReturnObject.ReIndex();
+                    rReturnObject.InsertData(sAutoDate, sWritingMode);
+            }
+            //BTBBenchmark.Finish();
+            return rReturnObject;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

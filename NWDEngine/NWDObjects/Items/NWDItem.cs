@@ -51,7 +51,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ITM")]
     [NWDClassDescriptionAttribute("Item descriptions Class")]
     [NWDClassMenuNameAttribute("Item")]
-    public partial class NWDItem : NWDBasis<NWDItem>
+    public partial class NWDItem : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_FirstAcquisitionNotificationKey = "NWDItem_FirstAcquisition";

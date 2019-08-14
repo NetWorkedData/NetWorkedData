@@ -32,7 +32,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#region Virtual Instance Methods
@@ -98,10 +98,10 @@ namespace NetWorkedData
 		/// <summary>
 		/// Addon method when duplicate me. Can be ovverride in herited Class.
 		/// </summary>
-		public virtual void AddonDuplicateMe ()
-		{
+		//public virtual void AddonDuplicateMe ()
+		//{
 
-		}
+		//}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Addon method when enable me. Can be ovverride in herited Class.

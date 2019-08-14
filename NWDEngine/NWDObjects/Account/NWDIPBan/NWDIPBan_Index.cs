@@ -23,11 +23,11 @@ namespace NetWorkedData
     // Example with fictive class NWDSomething
     // Connect by property Something
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDSomething : NWDBasis<NWDSomething>
+    public partial class NWDSomething : NWDBasis
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDIPBan : NWDBasis<NWDIPBan>
+    public partial class NWDIPBan : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDLevel, NWDIPBan> kLevelIndex = new NWDIndex<NWDLevel, NWDIPBan>();

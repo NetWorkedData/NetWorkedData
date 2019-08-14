@@ -30,7 +30,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisPreferences : NWDBasis<NWDBasisPreferences>
+    public partial class NWDBasisPreferences : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisPreferences()

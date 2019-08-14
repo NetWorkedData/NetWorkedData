@@ -18,7 +18,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDError : NWDBasis<NWDError>
+    public partial class NWDError : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)

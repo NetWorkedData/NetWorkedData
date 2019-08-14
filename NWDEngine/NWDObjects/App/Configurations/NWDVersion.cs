@@ -50,7 +50,7 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Version")]
     [NWDInternalKeyNotEditableAttribute]
     [NWDNotVersionnableAttribute]
-    public partial class NWDVersion : NWDBasis<NWDVersion>
+    public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         const string K_VERSION_INDEX = "VersionIndex";

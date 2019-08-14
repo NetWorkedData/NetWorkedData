@@ -29,7 +29,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("CAT")]
     [NWDClassDescriptionAttribute("This class is used to reccord the category available in the game")]
     [NWDClassMenuNameAttribute("Category")]
-    public partial class NWDCategory : NWDBasis<NWDCategory>
+    public partial class NWDCategory : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Description", true, true, true)]

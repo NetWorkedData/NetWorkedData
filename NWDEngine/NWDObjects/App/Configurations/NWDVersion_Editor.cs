@@ -44,7 +44,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDVersion : NWDBasis<NWDVersion>
+    public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         Texture2D QRCodeTexture = null;

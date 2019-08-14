@@ -25,7 +25,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Craft Reward")]
     [NWDClassMenuNameAttribute("Craft Reward")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDCraftReward : NWDBasis<NWDCraftReward>
+    public partial class NWDCraftReward : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Reward Batch and Quantity", true, true, true)]

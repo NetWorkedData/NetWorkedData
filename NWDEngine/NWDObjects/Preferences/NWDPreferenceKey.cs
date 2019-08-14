@@ -30,7 +30,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("PRK")]
     [NWDClassDescriptionAttribute("Preference Key")]
     [NWDClassMenuNameAttribute("Preference Key")]
-    public partial class NWDPreferenceKey : NWDBasis<NWDPreferenceKey>
+    public partial class NWDPreferenceKey : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Information")]

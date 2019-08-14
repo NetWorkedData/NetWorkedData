@@ -37,7 +37,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Message descriptions Class")]
     [NWDClassMenuNameAttribute("Messages")]
     [NWDInternalKeyNotEditableAttribute]
-    public partial class NWDMessage : NWDBasis<NWDMessage>
+    public partial class NWDMessage : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations", true, true, true)]

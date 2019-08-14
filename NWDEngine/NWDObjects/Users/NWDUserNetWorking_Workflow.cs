@@ -19,7 +19,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
+    public partial class NWDUserNetWorking : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNetWorking()

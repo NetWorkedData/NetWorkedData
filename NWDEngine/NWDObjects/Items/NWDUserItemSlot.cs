@@ -33,7 +33,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("User Item Slot")]
     [NWDClassMenuNameAttribute("User Item Slot")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDUserItemSlot : NWDBasis<NWDUserItemSlot>
+    public partial class NWDUserItemSlot : NWDBasis
     {
        //-------------------------------------------------------------------------------------------------------------
 		public NWDReferenceType<NWDAccount> Account {get; set;}

@@ -23,7 +23,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("APR")]
     [NWDClassDescriptionAttribute("Account Preference")]
     [NWDClassMenuNameAttribute("Account Preference")]
-    public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
+    public partial class NWDAccountPreference : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountPreference()

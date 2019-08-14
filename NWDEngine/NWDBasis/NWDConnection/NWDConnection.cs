@@ -37,7 +37,7 @@ namespace NetWorkedData
     /// NWDConnection is generic class to create connection to NWDBasis generic class by object's reference.
     /// </summary>
     [Serializable]
-    public class NWDConnection<K> : NWDBasisConnection where K : NWDBasis<K>, new()
+    public class NWDConnection<K> : NWDBasisConnection where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

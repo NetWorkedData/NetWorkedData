@@ -34,7 +34,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDItem : NWDBasis<NWDItem>
+    public partial class NWDItem : NWDBasis
     {
         [NWDNotEditable]
         public NWDReferencesListType<NWDItemGroup> ItemGroupList
@@ -64,7 +64,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ITG")]
     [NWDClassDescriptionAttribute("Item Group descriptions Class")]
     [NWDClassMenuNameAttribute("Item Group")]
-    public partial class NWDItemGroup : NWDBasis<NWDItemGroup>
+    public partial class NWDItemGroup : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties

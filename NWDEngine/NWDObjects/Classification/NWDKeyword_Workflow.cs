@@ -24,7 +24,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDKeyword : NWDBasis<NWDKeyword>
+    public partial class NWDKeyword : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDKeyword()

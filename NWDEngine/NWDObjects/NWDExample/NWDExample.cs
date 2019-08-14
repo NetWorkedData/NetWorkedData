@@ -30,7 +30,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("NWDExample_Description")]
     [NWDClassMenuNameAttribute("NWDExample_MenuName")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExample : NWDBasis
     {
         //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
         //-------------------------------------------------------------------------------------------------------------

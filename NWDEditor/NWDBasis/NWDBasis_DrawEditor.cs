@@ -22,7 +22,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         protected UnityEngine.Object PreviewObject = null;
@@ -140,7 +140,7 @@ namespace NetWorkedData
             // Shortcut navigation
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
             {
-                    NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                    NWDBasis tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
                 if (tSelected != null)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tSelected))
@@ -148,7 +148,7 @@ namespace NetWorkedData
                         int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
                         if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
                         {
-                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
+                            NWDTypeClass tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1);
                             BasisHelper().SetObjectInEdition(tNextSelected);
                             BasisHelper().ChangeScroolPositionToSelection();
                             Event.current.Use();
@@ -161,7 +161,7 @@ namespace NetWorkedData
             }
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
             {
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                NWDBasis tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis;
                 if (tSelected != null)
                 {
                     if (BasisHelper().EditorTableDatas.Contains(tSelected))
@@ -169,7 +169,7 @@ namespace NetWorkedData
                         int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
                         if (tIndexSelected > 0)
                         {
-                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
+                            NWDTypeClass tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1);
                             BasisHelper().SetObjectInEdition(tNextSelected);
                             BasisHelper().ChangeScroolPositionToSelection();
                             Event.current.Use();
@@ -190,7 +190,7 @@ namespace NetWorkedData
                     int tIndexSel = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected;
                     if (tIndexSel < BasisHelper().EditorTableDatas.Count)
                     {
-                        K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
+                        NWDTypeClass tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel);
                         BasisHelper().SetObjectInEdition(tNextSelected);
                         BasisHelper().ChangeScroolPositionToSelection();
                         Event.current.Use();
@@ -205,7 +205,7 @@ namespace NetWorkedData
                 if (BasisHelper().m_PageSelected > 0)
                 {
                     BasisHelper().m_PageSelected--;
-                    K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected) as K;
+                    NWDTypeClass tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected);
                     BasisHelper().SetObjectInEdition(tNextSelected);
                     BasisHelper().ChangeScroolPositionToSelection();
                     Event.current.Use();
@@ -919,7 +919,7 @@ namespace NetWorkedData
                 if (GUI.Button(tMatrixRect[2, 1], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
                 {
                     UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
-                    NWDTypeClass tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
+                    NWDTypeClass tNexObject = BasisHelper().DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
                     if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                     {
                         tNexObject.Tag = BasisHelper().m_SearchTag;

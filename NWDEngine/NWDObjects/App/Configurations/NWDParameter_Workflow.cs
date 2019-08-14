@@ -32,7 +32,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDParameter : NWDBasis<NWDParameter>
+    public partial class NWDParameter : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDParameter()

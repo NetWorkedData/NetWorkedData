@@ -33,7 +33,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDVersion : NWDBasis<NWDVersion>
+    public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string PhpEngine(NWDAppEnvironment sEnvironment)

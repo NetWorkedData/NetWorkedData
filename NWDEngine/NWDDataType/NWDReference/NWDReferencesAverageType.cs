@@ -127,7 +127,7 @@ namespace NetWorkedData
     /// NWDReferencesAverageType used to put a reference with float in value. Use properties with name, like 'ItemAverage', 'SpotAverage', 'BonusAverage' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesAverageType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesAverageType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesAverageType()
@@ -248,7 +248,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public void RemoveObjectQuantity(NWDBasis<K> sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //public void RemoveObjectQuantity(NWDBasis sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         //{
         //    Dictionary<string, float> tThis = GetReferenceAndProportion();
         //    if (tThis.ContainsKey(sObject.Reference) == false)

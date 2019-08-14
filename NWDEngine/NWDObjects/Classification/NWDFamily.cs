@@ -28,7 +28,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("FAM")]
     [NWDClassDescriptionAttribute("This class is used to reccord the family available in the game")]
     [NWDClassMenuNameAttribute("Family")]
-    public partial class NWDFamily : NWDBasis<NWDFamily>
+    public partial class NWDFamily : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations", true, true, true)]

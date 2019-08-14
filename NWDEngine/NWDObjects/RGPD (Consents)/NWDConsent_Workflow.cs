@@ -28,7 +28,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDConsent : NWDBasis<NWDConsent>
+    public partial class NWDConsent : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APPCONSENTS_NEED_VALIDATION = "K_APPCONSENTS_NEED_VALIDATION_Je7dY5z"; // OK Need to test & verify

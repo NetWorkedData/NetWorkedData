@@ -26,7 +26,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCategory : NWDBasis<NWDCategory>
+    public partial class NWDCategory : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDCategory()

@@ -31,7 +31,7 @@ using SQLite4Unity3d;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
@@ -47,7 +47,7 @@ namespace NetWorkedData
         //{
         //    //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
         //    BasisHelper().New_LoadFromDatabase();
-        //    foreach (NWDBasis<K> tObject in NWDBasisHelper.BasisHelper<K>().Datas)
+        //    foreach (NWDBasis tObject in NWDBasisHelper.BasisHelper<K>().Datas)
         //    {
         //        tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
         //    }
@@ -57,7 +57,7 @@ namespace NetWorkedData
         //public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         //{
         //    BasisHelper().New_LoadFromDatabase();
-        //    foreach (NWDBasis<K> tObject in NWDBasisHelper.BasisHelper<K>().Datas)
+        //    foreach (NWDBasis tObject in NWDBasisHelper.BasisHelper<K>().Datas)
         //    {
         //        tObject.ChangeUser(sOldUser, sNewUser);
         //    }

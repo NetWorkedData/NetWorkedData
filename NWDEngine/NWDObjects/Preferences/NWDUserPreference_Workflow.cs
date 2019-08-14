@@ -22,7 +22,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
+    public partial class NWDUserPreference : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserPreference()

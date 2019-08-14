@@ -28,7 +28,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("KWD")]
     [NWDClassDescriptionAttribute("This class is used to reccord the keyword available in the game")]
     [NWDClassMenuNameAttribute("Keyword")]
-    public partial class NWDKeyword : NWDBasis<NWDKeyword>
+    public partial class NWDKeyword : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInformation("Use the internal key as keyword. If you need more complex classification use Category or Family!")]

@@ -25,7 +25,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ACC")]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
     [NWDClassMenuNameAttribute("Account")]
-    public partial class NWDAccount : NWDBasis<NWDAccount>
+    public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         const string K_LOGIN_INDEX = "LoginIndex";

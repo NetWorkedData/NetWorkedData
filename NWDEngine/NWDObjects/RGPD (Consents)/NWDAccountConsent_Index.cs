@@ -20,7 +20,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountConsent : NWDBasis<NWDAccountConsent>
+    public partial class NWDAccountConsent : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDConsent, NWDAccountConsent> kAccountIndex = new NWDIndex<NWDConsent, NWDAccountConsent>();

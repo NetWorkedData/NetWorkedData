@@ -21,38 +21,33 @@ using UnityEngine.Networking;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
-        //-------------------------------------------------------------------------------------------------------------
-        private NWDExample kExample;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// DGPR Linearization of user data in database.
         /// </summary>
         /// <returns>The inearization.</returns>
         /// <param name="sAsssemblyAsCSV">If set to <c>true</c> s asssembly as csv.</param>
-        public override string DGPRLinearization(string sTypeName,  bool sAsssemblyAsCSV = true)
+        public override string DGPRLinearization(string sTypeName, bool sAsssemblyAsCSV = true)
         {
             //Debug.Log("DGPRLinearization()");
             string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
-            if (kExample==null)
-            {
-                kExample  = NWDBasisHelper.FictiveData<NWDExample>();
-            }
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.Integrity));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.Reference));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ID));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.DM));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.DS));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ServerHash));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ServerLog));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.DevSync));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.PreprodSync));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ProdSync));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.ProdSync));
-            tPropertiesList.Remove(NWDToolbox.PropertyName(() => kExample.InError));
+            NWDExample sExample = NWDExample.FictiveData();
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.Integrity));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.Reference));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ID));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.DM));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.DS));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ServerHash));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ServerLog));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.DevSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.PreprodSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ProdSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ProdSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.InError));
 
             // todo get the good version of assembly 
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
@@ -143,7 +138,7 @@ namespace NetWorkedData
         /// <returns>The xtract.</returns>
         //public static string DGPRExtract()
         //{
-        //    Debug.Log("NWDBasis<K> DGPRExtract()");
+        //    Debug.Log("NWDBasis DGPRExtract()");
         //    string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
         //    List<string> tList = new List<string>();
         //    foreach (K tObject in GetReachableDatas())

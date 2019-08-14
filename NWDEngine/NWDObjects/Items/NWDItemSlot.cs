@@ -33,7 +33,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Slot for item definition")]
     [NWDClassMenuNameAttribute("Item Slot")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDItemSlot : NWDBasis<NWDItemSlot>
+    public partial class NWDItemSlot : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDIntSlider(K_NUMBER_MIN, K_NUMBER_MAX)]

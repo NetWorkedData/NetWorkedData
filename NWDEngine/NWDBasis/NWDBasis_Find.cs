@@ -25,7 +25,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region EDITOR       
@@ -591,7 +591,7 @@ namespace NetWorkedData
 //                        List<K> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + tTypeInfos.ClassNamePHP + " WHERE `" + NWDToolbox.PropertyName(() => FictiveData().Reference) + "` = '" + sReference + "';");
 //                        if (tSelect != null)
 //                        {
-//                            foreach (NWDBasis<K> tItem in tSelect)
+//                            foreach (NWDBasis tItem in tSelect)
 //                            {
 //                                rReturn = tItem as K;
 //                                tItem.LoadedFromDatabase();
@@ -897,7 +897,7 @@ namespace NetWorkedData
         //                    // Prepare the datas
         //                    if (tSelect != null)
         //                    {
-        //                        foreach (NWDBasis<K> tItem in tSelect)
+        //                        foreach (NWDBasis tItem in tSelect)
         //                        {
         //                            tCount++;
         //                            tItem.LoadedFromDatabase();
@@ -905,7 +905,7 @@ namespace NetWorkedData
         //                    }
         //                }
         //            }
-        //            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+        //            //Debug.Log("NWDBasis LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
         //#if UNITY_EDITOR
         //            BasisHelper().New_FilterTableEditor();
         //            BasisHelper().New_RepaintTableEditor();

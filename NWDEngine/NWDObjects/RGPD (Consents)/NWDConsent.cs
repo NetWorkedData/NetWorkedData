@@ -31,7 +31,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("CST")]
     [NWDClassDescriptionAttribute("NWDConsent class. This class is used to reccord the consent available in the game for RGPD")]
     [NWDClassMenuNameAttribute("Consent")]
-    public partial class NWDConsent : NWDBasis<NWDConsent>
+    public partial class NWDConsent : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Consent description")]

@@ -23,7 +23,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDPreferenceKey : NWDBasis<NWDPreferenceKey>
+    public partial class NWDPreferenceKey : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_PREFERENCE_CHANGED_KEY = "K_PREFERENCE_CHANGED_KEY_8zQr95er"; // OK Needed by test & verify

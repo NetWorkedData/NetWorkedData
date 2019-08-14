@@ -51,7 +51,7 @@ namespace NetWorkedData
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         const int KSyncRequired = -1;
         const int KSyncWaiting = -2;

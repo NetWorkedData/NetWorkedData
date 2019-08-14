@@ -26,7 +26,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDIPBan : NWDBasis<NWDIPBan>
+    public partial class NWDIPBan : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

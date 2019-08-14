@@ -35,7 +35,7 @@ namespace NetWorkedData
                                    "")]
     [NWDClassMenuNameAttribute("Localization")]
     //-------------------------------------------------------------------------------------------------------------
-    public partial class NWDLocalization : NWDBasis<NWDLocalization>
+    public partial class NWDLocalization : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Localization", true, true, true)]

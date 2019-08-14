@@ -31,7 +31,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>
+    public partial class NWDUserOwnership : NWDBasis
     {
 
         //-------------------------------------------------------------------------------------------------------------

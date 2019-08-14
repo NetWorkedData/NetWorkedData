@@ -39,7 +39,7 @@ namespace NetWorkedData
     /// NWDReferencesListType used to put a reference with float in value. Use properties with name, like 'ItemList', 'SpotList', 'BonusList' , etc.
     /// </summary>
 	[SerializeField]
-    public class NWDReferencesListType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesListType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesListType()

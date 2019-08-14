@@ -21,7 +21,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDLocalization : NWDBasis<NWDLocalization>
+    public partial class NWDLocalization : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalization()

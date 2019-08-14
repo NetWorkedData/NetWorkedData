@@ -29,7 +29,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsSynchronized()
@@ -64,14 +64,14 @@ namespace NetWorkedData
             return tWebBuildUsed;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasis<K> SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
+        //public static NWDBasis SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
         //{
-        //    return BasisHelper().New_SynchronizationInsertInBase( sInfos,  sEnvironment, sDataArray) as NWDBasis<K>;
+        //    return BasisHelper().New_SynchronizationInsertInBase( sInfos,  sEnvironment, sDataArray) as NWDBasis;
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public static NWDBasis<K> SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
+        //public static NWDBasis SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         //{
-        //    return BasisHelper().SynchronizationTryToUse( sInfos,  sEnvironment,  sData,  sForceToUse) as NWDBasis<K>;
+        //    return BasisHelper().SynchronizationTryToUse( sInfos,  sEnvironment,  sData,  sForceToUse) as NWDBasis;
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public static void SynchronizationFromWebService(BTBOperationBlock sSuccessBlock = null,

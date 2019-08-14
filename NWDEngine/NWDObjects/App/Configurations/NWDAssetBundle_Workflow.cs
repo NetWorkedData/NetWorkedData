@@ -32,7 +32,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAssetBundle : NWDBasis<NWDAssetBundle>
+    public partial class NWDAssetBundle : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAssetBundle()

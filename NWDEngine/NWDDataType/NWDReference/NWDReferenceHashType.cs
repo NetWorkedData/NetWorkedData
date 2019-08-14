@@ -39,7 +39,7 @@ namespace NetWorkedData
     /// NWDReferenceHashType used to put a reference in value. Use properties with simple name, like 'Account', 'Spot', 'Bonus' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceHashType<K> : NWDReferenceSimple where K : NWDBasis<K>, new()
+    public class NWDReferenceHashType<K> : NWDReferenceSimple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceHashType()

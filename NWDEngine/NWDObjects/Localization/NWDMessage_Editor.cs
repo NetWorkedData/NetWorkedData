@@ -27,7 +27,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDMessage : NWDBasis<NWDMessage>
+    public partial class NWDMessage : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDMessage CreateGenericMessage(string sDomain, string sCode, string sTitle, string sDescription,

@@ -32,7 +32,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("Account Nickname")]
     [NWDClassMenuNameAttribute("Account Nickname")]
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+    public partial class NWDAccountNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorHeader("Player Informations")]

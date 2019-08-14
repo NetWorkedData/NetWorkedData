@@ -21,7 +21,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ACS")]
     [NWDClassDescriptionAttribute("Account Consent for RGPD")]
     [NWDClassMenuNameAttribute("Account Consent")]
-    public partial class NWDAccountConsent : NWDBasis<NWDAccountConsent>
+    public partial class NWDAccountConsent : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Account")]

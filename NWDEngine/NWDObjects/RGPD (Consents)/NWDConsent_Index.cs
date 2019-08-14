@@ -28,7 +28,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDConsent : NWDBasis<NWDConsent>
+    public partial class NWDConsent : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDConsent[] SelectCurrentDatas()

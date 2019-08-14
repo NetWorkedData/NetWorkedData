@@ -31,7 +31,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDItemRarity : NWDBasis<NWDItemRarity>
+    public partial class NWDItemRarity : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Change for new index

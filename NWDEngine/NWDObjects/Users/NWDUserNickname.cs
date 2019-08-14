@@ -24,7 +24,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
-    public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
+    public partial class NWDUserNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorHeader("Player Informations")]

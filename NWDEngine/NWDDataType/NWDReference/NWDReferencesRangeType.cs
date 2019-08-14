@@ -121,7 +121,7 @@ namespace NetWorkedData
     /// NWDReferencesRangeType used to put a reference with float in value. Use properties with name, like 'ItemRange', 'SpotRange', 'BonusRange' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesRangeType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesRangeType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesRangeType()
@@ -242,7 +242,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public void RemoveObjectQuantity(NWDBasis<K> sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //public void RemoveObjectQuantity(NWDBasis sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         //{
         //    Dictionary<string, float> tThis = GetReferenceAndProportion();
         //    if (tThis.ContainsKey(sObject.Reference) == false)

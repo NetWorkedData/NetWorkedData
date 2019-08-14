@@ -37,7 +37,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UOW")]
     [NWDClassDescriptionAttribute("User Ownership descriptions Class")]
     [NWDClassMenuNameAttribute("User Ownership")]
-    public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>
+    public partial class NWDUserOwnership : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties

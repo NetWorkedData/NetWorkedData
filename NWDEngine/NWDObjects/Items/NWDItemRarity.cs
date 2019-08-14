@@ -38,7 +38,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Rarity of Item")]
     [NWDClassMenuNameAttribute("Item Rarity")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDItemRarity : NWDBasis<NWDItemRarity>
+    public partial class NWDItemRarity : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDTooltips("The item to check")]

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
+    public partial class NWDUserPreference : NWDBasis
     {
 
 

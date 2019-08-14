@@ -67,7 +67,7 @@
 //    [NWDClassTrigrammeAttribute("ITX")]
 //    [NWDClassDescriptionAttribute("Item Properties descriptions Class")]
 //    [NWDClassMenuNameAttribute("Item Properties")]
-//    public partial class NWDItemProperty : NWDBasis<NWDItemProperty>
+//    public partial class NWDItemProperty : NWDBasis
 //    {
 //        //-------------------------------------------------------------------------------------------------------------
 //        #region Properties

@@ -22,7 +22,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDItem : NWDBasis<NWDItem>
+    public partial class NWDItem : NWDBasis
     {
         [NWDNotEditable]
         public NWDReferenceType<NWDCraftBook> CraftBookAttachment
@@ -35,7 +35,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("CFB")]
     [NWDClassDescriptionAttribute("CraftBook Recipes descriptions Class")]
     [NWDClassMenuNameAttribute("CraftBook")]
-    public partial class NWDCraftBook : NWDBasis<NWDCraftBook>
+    public partial class NWDCraftBook : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Description", true, true, true)] // ok

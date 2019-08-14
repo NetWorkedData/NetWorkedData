@@ -17,7 +17,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountConsent : NWDBasis<NWDAccountConsent>
+    public partial class NWDAccountConsent : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountConsent()

@@ -39,7 +39,7 @@ namespace NetWorkedData
     /// NWDReferencesArrayType used to put a reference with float in value. Use properties with name, like 'ItemArray', 'SpotArray', 'BonusArray' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesArrayType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesArrayType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType()

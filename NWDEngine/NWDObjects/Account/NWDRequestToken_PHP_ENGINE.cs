@@ -33,7 +33,7 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
+    public partial class NWDRequestToken : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string PhpEngine(NWDAppEnvironment sEnvironment)

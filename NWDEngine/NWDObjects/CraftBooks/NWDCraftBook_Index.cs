@@ -22,7 +22,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCraftBook : NWDBasis<NWDCraftBook>
+    public partial class NWDCraftBook : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;

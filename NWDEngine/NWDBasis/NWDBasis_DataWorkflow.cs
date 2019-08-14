@@ -26,13 +26,13 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllDatas(string sAccountReference = null)
         //{
         //    List<K> rReturn = new List<K>();
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference))
         //        {
@@ -45,7 +45,7 @@ namespace NetWorkedData
         //public static K[] GetAllDatasInGameSave(string sAccountReference = null)
         //{
         //    List<K> rReturn = new List<K>();
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference))
         //        {
@@ -122,10 +122,10 @@ namespace NetWorkedData
         //            }
         //        }
         //        K[] rReturnArray = tAllList.ToArray();
-        //        //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
+        //        //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
         //        if (rReturnArray.Length > 0)
         //        {
-        //            //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have some return");
+        //            //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() I have some return");
         //            rReturn = rReturnArray[0];
         //        }
         //        if (rReturnArray.Length > 1)

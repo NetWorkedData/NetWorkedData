@@ -29,7 +29,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("CFR")]
     [NWDClassDescriptionAttribute("Craft Recipient descriptions Class")]
     [NWDClassMenuNameAttribute("Craft Recipient")]
-    public partial class NWDCraftRecipient : NWDBasis<NWDCraftRecipient>
+    public partial class NWDCraftRecipient : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Description Item", true, true, true)] // ok

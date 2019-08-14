@@ -23,7 +23,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UPR")]
     [NWDClassDescriptionAttribute("User Preference")]
     [NWDClassMenuNameAttribute("User Preference")]
-    public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
+    public partial class NWDUserPreference : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Connections")]

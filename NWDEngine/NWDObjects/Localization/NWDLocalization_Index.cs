@@ -28,7 +28,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDLocalization : NWDBasis<NWDLocalization>
+    public partial class NWDLocalization : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDLocalization> kKeyIndex = new NWDIndexSimple<NWDLocalization>();

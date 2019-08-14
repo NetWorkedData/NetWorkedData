@@ -27,7 +27,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDItemSlot : NWDBasis<NWDItemSlot>
+    public partial class NWDItemSlot : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDItemSlot()

@@ -32,7 +32,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
@@ -48,7 +48,7 @@ namespace NetWorkedData
             NWDBasisHelper rHelper = NWDBasisHelper.FindTypeInfos(GetType());
             if (rHelper == null)
             {
-                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
+                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + GetType().Name);
             }
             return rHelper;
         }

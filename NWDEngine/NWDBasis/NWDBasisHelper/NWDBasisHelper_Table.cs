@@ -269,7 +269,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+            //Debug.Log("NWDBasis LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
             DatasLoaded = true;
             ClassDatasAreLoaded();
 #if UNITY_EDITOR

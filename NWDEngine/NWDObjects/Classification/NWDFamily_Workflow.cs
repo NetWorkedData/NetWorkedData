@@ -24,7 +24,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDFamily : NWDBasis<NWDFamily>
+    public partial class NWDFamily : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDFamily()

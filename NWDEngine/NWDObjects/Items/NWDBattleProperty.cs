@@ -63,7 +63,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("BTP")]
     [NWDClassDescriptionAttribute("Battle Properties descriptions Class")]
     [NWDClassMenuNameAttribute("Battle Properties")]
-    public partial class NWDBattleProperty : NWDBasis<NWDBattleProperty>
+    public partial class NWDBattleProperty : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties

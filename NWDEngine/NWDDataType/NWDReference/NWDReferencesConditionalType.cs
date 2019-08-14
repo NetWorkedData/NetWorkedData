@@ -50,7 +50,7 @@ namespace NetWorkedData
     /// NWDReferenceConditionalType used to put a reference with float in value. Use properties with name, like 'ItemConditional', 'SpotConditional', 'BonusConditional' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferenceConditionalType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferenceConditionalType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public string Reference;
@@ -209,7 +209,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDReferencesConditionalType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesConditionalType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesConditionalType()
@@ -316,7 +316,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public void RemoveObjectQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //public void RemoveObjectQuantity(NWDBasis sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         //{
         //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
         //    if (tThis.ContainsKey(sObject.Reference) == false)
@@ -360,7 +360,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public void AddObjectQuantity(NWDBasis<K> sObject, int sQuantity)
+        //public void AddObjectQuantity(NWDBasis sObject, int sQuantity)
         //{
         //    // I compare all element
         //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
@@ -481,7 +481,7 @@ namespace NetWorkedData
         //            {
         //                int tQ = 0;
         //                int.TryParse(tLineValue[1], out tQ);
-        //                K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
+        //                K tObject = NWDBasis.GetObjectByReference(tLineValue[0], sAccountReference) as K;
         //                if (tObject != null)
         //                {
         //                    tValueDico.Add(tObject, tQ);
@@ -505,7 +505,7 @@ namespace NetWorkedData
         //            {
         //                int tQ = 0;
         //                int.TryParse(tLineValue[1], out tQ);
-        //                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
+        //                K tObject = NWDBasis.GetObjectAbsoluteByReference(tLineValue[0]) as K;
         //                if (tObject != null)
         //                {
         //                    tValueDico.Add(tObject, tQ);

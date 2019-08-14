@@ -47,7 +47,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Error descriptions Class")]
     [NWDClassMenuNameAttribute("Errors")]
     [NWDInternalKeyNotEditableAttribute]
-    public partial class NWDError : NWDBasis<NWDError>
+    public partial class NWDError : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         // Your properties

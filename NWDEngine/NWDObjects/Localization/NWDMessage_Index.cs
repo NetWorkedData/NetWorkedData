@@ -25,7 +25,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDMessage : NWDBasis<NWDMessage>
+    public partial class NWDMessage : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDMessage> kCodeIndex = new NWDIndexSimple<NWDMessage>();

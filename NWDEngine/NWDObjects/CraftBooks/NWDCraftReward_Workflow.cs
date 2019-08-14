@@ -20,7 +20,7 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCraftReward : NWDBasis<NWDCraftReward>
+    public partial class NWDCraftReward : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDCraftReward()

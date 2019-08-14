@@ -20,7 +20,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
+    public partial class NWDUserNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);

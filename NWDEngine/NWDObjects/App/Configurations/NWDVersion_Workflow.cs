@@ -45,7 +45,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDVersion : NWDBasis<NWDVersion>
+    public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVersion()
