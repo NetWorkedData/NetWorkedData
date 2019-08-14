@@ -35,7 +35,7 @@ namespace NetWorkedData
             string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
-            NWDExample sExample = NWDExample.FictiveData();
+            NWDExample sExample = NWDExample.Fictive();
             tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.Integrity));
             tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.Reference));
             tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ID));
