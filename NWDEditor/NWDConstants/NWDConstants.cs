@@ -487,8 +487,8 @@ namespace NetWorkedData
         };
 
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_BASIS_WARNING_MODEL = "WARNING! MODEL WAS CHANGED BUT NOT REGENERATED! ";
-        public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED! ";
+        public const string K_APP_BASIS_WARNING_MODEL = "WARNING! MODEL WAS CHANGED BUT WEBSERVICE NOT REGENERATED!";
+        public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED!";
 
         //-------------------------------------------------------------------------------------------------------------
     }

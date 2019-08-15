@@ -1967,6 +1967,12 @@ namespace NetWorkedData
 
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
 
+                //if (GUI.Button(tRect, "See log", NWDGUI.KTableSearchButton))
+                //{
+                //    Debug.Log("log ...");
+                //}
+                //tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;
+
             }
             // alert degadraded model infos
             if (WebModelDegraded == true)
@@ -1978,6 +1984,12 @@ namespace NetWorkedData
                 tMargeNeed = true;
 
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
+                
+                //if (GUI.Button(tRect, "See log", NWDGUI.KTableSearchButton))
+                //{
+                //    Debug.Log("log ...");
+                //}
+                //tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;
 
             }
             if (SearchActions == true)

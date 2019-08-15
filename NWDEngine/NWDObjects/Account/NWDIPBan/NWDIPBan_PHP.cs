@@ -55,7 +55,7 @@ namespace NetWorkedData
             //"\t ..."
             //"\t Datas Updated"
             //"\t ..."
-            rReturn.AppendLine("// write your php script string here to update afetr sync on server");
+            rReturn.AppendLine("// write your php script string here to update after sync on server");
             //"\t ..."
             //"\t}\n"
             return rReturn.ToString();
@@ -64,27 +64,26 @@ namespace NetWorkedData
         public override string  AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
-            //rReturn.AppendLine("while($tRow = $tResult->fetch_row())");
-            //rReturn.AppendLine("{");
-            //rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " After Get'] ='success!!!';");
-            //rReturn.AppendLine("}");
+            rReturn.AppendLine("// use $tRow)");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " After Get'] ='success!!!';");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
-            //rReturn.AppendLine("function Special" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
-            //rReturn.AppendLine("{"); 
-            //rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
-            //rReturn.AppendLine("}");
+            rReturn.AppendLine("// in function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string  AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
             StringBuilder rReturn = new StringBuilder();
-            //rReturn.AppendLine("// write your php script string here to add function in php file;");
+            rReturn.AppendLine("function AddOnOne" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
+            rReturn.AppendLine("}");
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -1280,6 +1280,7 @@ namespace NetWorkedData
             tFile.AppendLine("mysqli_free_result($tResult);");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
+
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
             tFile.AppendLine("{");

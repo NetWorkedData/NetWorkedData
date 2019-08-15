@@ -93,41 +93,6 @@ namespace NetWorkedData
             return sScript.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
-        {
-            // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
-            //"\t{\n" 
-            //"\t ..."
-            //"\t\t\t\t$sCsvList = Prepare" + tClassName + "Data($sCsv);\n"
-            //"\t ..."
-            //"\t Datas Updated"
-            //"\t ..."
-            return "// write your php script string here to update afetr sync on server\n";
-            //"\t ..."
-            //"\t}\n"
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
-        {
-            //"while($tRow = $tResult->fetch_row()")
-            //"{"
-            return "// write your php script string here to special operation, example : \n$REP['" + ClassName + " After Get'] ='success!!!';\n";
-            //"\t}\n"
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
-        {
-            //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
-            //"\t{\n" 
-            return "// write your php script string here to special operation, example : \n$REP['" + ClassName + " Special'] ='success!!!';\n";
-            //"\t}\n"
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpFunctions(NWDAppEnvironment sEnvironment)
-        {
-            return "// write your php script string here to add function in php file;\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

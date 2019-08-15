@@ -51,7 +51,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void  RepaintInspectorEditor()
+        public void RepaintInspectorEditor()
         {
             NWDDataInspector.ActiveRepaint();
         }
@@ -532,6 +532,10 @@ namespace NetWorkedData
                 SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 SaltValid = false;
+            }
+            if (LastWebBuild > NWDAppConfiguration.SharedInstance().WebBuildMax)
+            {
+                LastWebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
             }
             //SaltA = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
             //SaltB = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
