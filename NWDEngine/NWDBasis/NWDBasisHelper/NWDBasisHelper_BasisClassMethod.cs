@@ -728,10 +728,10 @@ namespace NetWorkedData
             BasisHelper<T>().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        public T DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
         {
             //BTBBenchmark.Start();
-            NWDTypeClass rReturnObject = null;
+            T rReturnObject = null;
             if (sData.TestIntegrity() == true)
             {
                     rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
