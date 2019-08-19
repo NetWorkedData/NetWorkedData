@@ -29,7 +29,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDExample : NWDBasis
     {
@@ -406,7 +406,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public  bool ModelChanged()
+        public bool ModelChanged()
         {
             bool rReturn = false;
             int tLasBuild = LastWebBuild;
@@ -431,10 +431,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ForceOrders(int sWebBuild)
         {
-            if (LastWebBuild < sWebBuild)
-            {
-                LastWebBuild = sWebBuild;
-            }
+            //if (LastWebBuild < sWebBuild)
+            //{
+            //    LastWebBuild = sWebBuild;
+            //}
             if (WebServiceWebModel.ContainsKey(sWebBuild))
             {
                 WebServiceWebModel.Remove(sWebBuild);
@@ -466,11 +466,24 @@ namespace NetWorkedData
             ReplaceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void DetermineLast()
+        {
+            // generate new last build for this model
+            LastWebBuild = 0;
+            foreach (KeyValuePair<int, List<string>> tWS_WebModel in WebModelPropertiesOrder)
+            {
+                if (LastWebBuild < tWS_WebModel.Key)
+                {
+                    LastWebBuild = tWS_WebModel.Key;
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void ReplaceOrders(int sWebBuild)
         {
+            //Debug.Log("ReplaceOrders");
             if (WebModelChanged)
             {
-                LastWebBuild = sWebBuild;
                 if (WebModelPropertiesOrder.ContainsKey(sWebBuild) == false)
                 {
                     WebModelPropertiesOrder.Add(sWebBuild, PropertiesOrderArray(sWebBuild));
@@ -488,6 +501,8 @@ namespace NetWorkedData
             {
                 WebServiceWebModel.Remove(sWebBuild);
             }
+
+            DetermineLast();
 
             WebServiceWebModel.Add(sWebBuild, LastWebBuild);
             Dictionary<int, int> tNextWebServiceWebModel = new Dictionary<int, int>();

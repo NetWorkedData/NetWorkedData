@@ -75,6 +75,7 @@ namespace NetWorkedData
         public override void RowAnalyze()
         {
             //BTBBenchmark.Start();
+            CanBeEdit = true; // change to false in draw editor
             AnalyzeID = ID;
             AnalyzeModel = WebModel;
             TestIntegrityResult = TestIntegrity();

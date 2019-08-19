@@ -1447,6 +1447,9 @@ namespace NetWorkedData
             {
                 PrepareOrders();
             }
+
+            DetermineLast();
+
             foreach (KeyValuePair<string, string> tKeyValue in CreatePHPConstant(sEnvironment))
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);

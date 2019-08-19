@@ -110,24 +110,27 @@ namespace NetWorkedData
             {
                 if (TestIntegrityResult == false)
                 {
-
+                    //Debug.Log("TestIntegrityResult false");
                     EditorGUI.DrawRect(tRTotal, NWDGUI.kRowColorError);
                     CanBeEdit = false;
                 }
                 else if (XX > 0)
                 {
+                    //Debug.Log("XX > 0");
                     EditorGUI.DrawRect(tRTotal, NWDGUI.kRowColorTrash);
                     CanBeEdit = false;
                 }
 
                 else if (IsEnable() == false)
                 {
+                    //Debug.Log("IsEnable == false");
                     EditorGUI.DrawRect(tRTotal, NWDGUI.kRowColorDisactive);
                     CanBeEdit = true;
                 }
             }
             else
             {
+                //Debug.Log("WebserviceVersionIsValid() == false");
                 EditorGUI.DrawRect(tRTotal, NWDGUI.kRowColorWarning);
                 CanBeEdit = false;
             }
