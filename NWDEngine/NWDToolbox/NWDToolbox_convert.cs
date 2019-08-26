@@ -455,6 +455,53 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string TransformToString(Transform sTransform)
+        {
+            return FloatToString(sTransform.position.x) + NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.position.y) + NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.position.z)+ NWDConstants.kFieldSeparatorF +
+                    
+                    FloatToString(sTransform.rotation.w)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.x)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.y)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.rotation.z)+ NWDConstants.kFieldSeparatorF +
+
+                    FloatToString(sTransform.localScale.x)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.localScale.y)+ NWDConstants.kFieldSeparatorF +
+                    FloatToString(sTransform.localScale.z);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void TransformFromString(Transform sTransform, string sString)
+        {
+            string[] tFloats = sString.Split(new string[] { NWDConstants.kFieldSeparatorF }, StringSplitOptions.RemoveEmptyEntries);
+            if (tFloats.Count() == 10)
+            {
+            float tX = 0.0F;
+            float tY = 0.0F;
+            float tZ = 0.0F;
+                float.TryParse(tFloats[0], NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+                float.TryParse(tFloats[1], NumberStyles.Float, NWDConstants.FormatCountry, out tY);
+                float.TryParse(tFloats[2], NumberStyles.Float, NWDConstants.FormatCountry, out tZ);
+                sTransform.position = new Vector3(tX, tY, tZ);
+            float trX = 0.0F;
+            float trY = 0.0F;
+            float trZ = 0.0F;
+            float trW = 0.0F;
+                float.TryParse(tFloats[3], NumberStyles.Float, NWDConstants.FormatCountry, out trW);
+                float.TryParse(tFloats[4], NumberStyles.Float, NWDConstants.FormatCountry, out trX);
+                float.TryParse(tFloats[5], NumberStyles.Float, NWDConstants.FormatCountry, out trY);
+                float.TryParse(tFloats[6], NumberStyles.Float, NWDConstants.FormatCountry, out trZ);
+                sTransform.rotation = new Quaternion(trX, trY, trZ, trW);
+            float tsX = 0.0F;
+            float tsY = 0.0F;
+            float tsZ = 0.0F;
+                float.TryParse(tFloats[7], NumberStyles.Float, NWDConstants.FormatCountry, out tsX);
+                float.TryParse(tFloats[8], NumberStyles.Float, NWDConstants.FormatCountry, out tsY);
+                float.TryParse(tFloats[9], NumberStyles.Float, NWDConstants.FormatCountry, out tsZ);
+                sTransform.localScale = new Vector3(tsX, tsY, tsZ);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

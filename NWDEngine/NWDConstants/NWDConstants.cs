@@ -69,6 +69,7 @@ namespace NetWorkedData
         public static string kFieldSeparatorC = "_";
         public static string kFieldSeparatorD = "∆";
         public static string kFieldSeparatorE = "∂";
+        public static string kFieldSeparatorF = ";";
         public static string kFieldSeparatorASubstitute = "@1#";
         public static string kFieldSeparatorBSubstitute = "@2#";
         public static string kFieldSeparatorCSubstitute = "@3#";
