@@ -62,7 +62,6 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         //public string PHP_CONSTANT_TABLENAME() { return "'." + NWD.K_ENV + ".'_" + ClassTableName; }
-        public string PHP_TABLENAME(NWDAppEnvironment sEnvironment) { return sEnvironment.Environment + "_" + ClassTableName; }
         public string PHP_ENV_SYNC(NWDAppEnvironment sEnvironment)
         {
             string rReturn = "ERROR";
