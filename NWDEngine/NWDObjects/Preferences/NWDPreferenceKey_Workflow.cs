@@ -40,6 +40,24 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        private static NWDPreferenceKey GetPrefKey(string sReferenceKey, string sTitle, string sDescription, NWDPreferencesDomain sDomain, NWDMultiType sDefault, bool sNotifyChange)
+        {
+            string tReferenceKey = NWDBasisHelper.BasisHelper<NWDPreferenceKey>().ClassTrigramme + "-" + sReferenceKey + "-999";
+            NWDPreferenceKey rReturn = NWDBasisHelper.GetCorporateDataByReference<NWDPreferenceKey>(tReferenceKey);
+            if (rReturn == null)
+            {
+                rReturn = NWDBasisHelper.NewDataWithReference<NWDPreferenceKey>(tReferenceKey);
+                rReturn.InternalKey = sReferenceKey;
+                rReturn.Title.AddBaseString(sTitle);
+                rReturn.Description.AddBaseString(sDescription);
+                rReturn.Domain = sDomain;
+                rReturn.Default = sDefault;
+                rReturn.NotifyChange = sNotifyChange;
+                rReturn.SaveData();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddEnter(NWDMultiType sValue)
         {
             switch (Domain)
