@@ -197,7 +197,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<T> GetRawDatasList<T>() where T : NWDTypeClass, new()
         {
-            return QuickFilterDatas(BasisHelper<T>().Datas as List<T>, null, null);
+            List<NWDTypeClass> tDatas = BasisHelper<T>().Datas;
+            return QuickFilterDatas<T>(tDatas, null, null);
         }
         //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
@@ -246,16 +247,16 @@ namespace NetWorkedData
         public static T[] GetRawDatasByInternalKey<T>(string sInternalKey) where T : NWDTypeClass, new()
         {
             //BTBBenchmark.Start();
-            List<T> rReturn;
+            List<NWDTypeClass> tReturn;
             if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
             {
-                rReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey] as List<T>;
+                tReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey];
             }
             else
             {
-                rReturn = new List<T>();
+                tReturn = new List<NWDTypeClass>();
             }
-            rReturn = QuickFilterDatas<T>(rReturn as List<T>, null, null);
+            List<T> rReturn = QuickFilterDatas<T>(tReturn, null, null);
             //BTBBenchmark.Finish();
             return rReturn.ToArray();
         }
@@ -278,12 +279,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<T> GetCorporateDatasList<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            return QuickFilterDatas<T>(BasisHelper<T>().Datas as List<T>, sAccountReference, sGameSave);
+            List<NWDTypeClass> tDatas = BasisHelper<T>().Datas;
+            return QuickFilterDatas<T>(tDatas, sAccountReference, sGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T[] GetCorporateDatas<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            return QuickFilterDatas<T>(BasisHelper<T>().Datas as List<T>, sAccountReference, sGameSave).ToArray();
+            List<NWDTypeClass> tDatas = BasisHelper<T>().Datas;
+            return QuickFilterDatas<T>(tDatas, sAccountReference, sGameSave).ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static T GetCorporateFirstData<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
@@ -323,16 +326,16 @@ namespace NetWorkedData
         public static T[] GetCorporateDatasByInternalKey<T>(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             //BTBBenchmark.Start();
-            List<T> rReturn;
+            List<NWDTypeClass> tReturn;
             if (BasisHelper<T>().DatasByInternalKey.ContainsKey(sInternalKey))
             {
-                rReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey] as List<T>;
+                tReturn = BasisHelper<T>().DatasByInternalKey[sInternalKey];
             }
             else
             {
-                rReturn = new List<T>();
+                tReturn = new List<NWDTypeClass>();
             }
-            rReturn = QuickFilterDatas<T>(rReturn as List<T>, sAccountReference, sGameSave);
+            List<T> rReturn = QuickFilterDatas<T>(tReturn, sAccountReference, sGameSave);
             //BTBBenchmark.Finish();
             return rReturn.ToArray();
         }
@@ -548,13 +551,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static List<T> QuickFilterDatas<T>(List<T> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        private static List<T> QuickFilterDatas<T>(List<NWDTypeClass> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             //BTBBenchmark.Start();
             List<T> rList = new List<T>();
-            //Debug.Log("chercher les data ");
             if (sDatasArray != null)
             {
+                //Debug.Log(BasisHelper<T>().ClassNamePHP + " : search data in " + sDatasArray.Count + " rows ");
                 foreach (T tData in sDatasArray)
                 {
                     T tDataReturn = QuickFilter<T>(tData, sAccountReference, sGameSave);
@@ -734,8 +737,10 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             T rReturnObject = null;
-            if (sData.TestIntegrity() == true)
+            if (sData != null)
             {
+                if (sData.TestIntegrity() == true)
+                {
                     rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
                     rReturnObject.InstanceInit();
                     //rReturnObject.PropertiesAutofill();
@@ -743,7 +748,7 @@ namespace NetWorkedData
                     int tDC = rReturnObject.DC; // memorize date of dupplicate
                     string tReference = rReturnObject.NewReference(); // create reference for dupplicate
                     rReturnObject.CopyData(sData); // copy data
-                    // restore the DC and Reference 
+                                                   // restore the DC and Reference 
                     rReturnObject.Reference = tReference;
                     rReturnObject.DC = tDC;
                     // WARNING ... copy generate an error in XX ? 
@@ -775,6 +780,11 @@ namespace NetWorkedData
                     rReturnObject.AddonDuplicateMe();
                     rReturnObject.ReIndex();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Data is null, no dupplicate possibility");
             }
             //BTBBenchmark.Finish();
             return rReturnObject;

@@ -11,8 +11,6 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,6 +36,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDPreferenceKey GetPrefKey(string sInternalKey, string sTitle, string sDescription, NWDPreferencesDomain sDomain, NWDMultiType sDefault, bool sNotifyChange)
+        {
+            string tReferenceKey = NWDBasisHelper.BasisHelper<NWDPreferenceKey>().ClassTrigramme + "-" + sInternalKey + "-999";
+            NWDPreferenceKey rReturn = NWDBasisHelper.GetCorporateDataByReference<NWDPreferenceKey>(tReferenceKey);
+            if (rReturn == null)
+            {
+                rReturn = NWDBasisHelper.NewDataWithReference<NWDPreferenceKey>(tReferenceKey);
+                rReturn.InternalKey = sInternalKey;
+                rReturn.Title.AddBaseString(sTitle);
+                rReturn.Description.AddBaseString(sDescription);
+                rReturn.Domain = sDomain;
+                rReturn.Default = sDefault;
+                rReturn.NotifyChange = sNotifyChange;
+                rReturn.SaveData();
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddEnter(NWDMultiType sValue)
