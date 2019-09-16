@@ -145,6 +145,19 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool AlertBoxButton(string sTitle, string sButtonTitle)
+        {
+            //LittleSpace();
+            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+            //https://unitylist.com/p/5c3/Unity-editor-icons
+           Texture2D tIcon = EditorGUIUtility.FindTexture("console.erroricon");
+            GUILayout.Label(new GUIContent(sTitle,tIcon));
+            bool rReturn = GUILayout.Button(sButtonTitle, NWDGUI.KTableSearchButton, GUILayout.Width(160.0F));
+            EditorGUILayout.EndHorizontal();
+            //LittleSpace();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void ErrorBox(string sTitle)
         {
             //LittleSpace();

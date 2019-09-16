@@ -1034,7 +1034,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonEditor(Rect sRect)
         {
-            EditorGUI.DrawRect(sRect, Color.blue);
+            //EditorGUI.DrawRect(sRect, Color.blue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool AddonEdited(bool sNeedBeUpdate)

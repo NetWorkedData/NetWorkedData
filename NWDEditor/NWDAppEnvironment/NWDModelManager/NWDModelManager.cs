@@ -108,7 +108,7 @@ namespace NetWorkedData
             {
                 TypeList.Add(tType);
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                if (tHelper.WebModelChanged == true || tHelper.WebModelDegraded == true)
+                if (tHelper.WebModelChanged == true || tHelper.WebModelDegraded == true || tHelper.SaltValid == false)
                 {
                     TypeErrorList.Add(tType);
                 }
@@ -137,6 +137,17 @@ namespace NetWorkedData
             {
                 GUILayout.Label("Model has definition for Webservice " + tModels.Key.ToString());
             }
+
+            if (tHelper.SaltValid == false)
+                {
+                if (NWDGUILayout.AlertBoxButton(NWDConstants.K_ALERT_SALT_SHORT_ERROR, NWDConstants.K_APP_CLASS_SALT_REGENERATE))
+                {
+                    tHelper.DeleteOldsModels();
+                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    GUIUtility.ExitGUI();
+                }
+            }
+
             if (tHelper.WebModelChanged == true)
             {
                 // draw reintegrate the model
@@ -147,6 +158,7 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { sType }, false, false);
                     NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { sType }, false, false);
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    GUIUtility.ExitGUI();
                 }
             }
             if (tHelper.WebModelDegraded == true)
@@ -155,6 +167,7 @@ namespace NetWorkedData
                 {
                     tHelper.DeleteOldsModels();
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    GUIUtility.ExitGUI();
                 }
             }
 

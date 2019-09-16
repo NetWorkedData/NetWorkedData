@@ -282,7 +282,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kLabelStyle.fixedHeight + (NWDGUI.kFieldMarge)*2;
+            return 0.0f;
+            //return NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kLabelStyle.fixedHeight + (NWDGUI.kFieldMarge)*2;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

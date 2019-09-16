@@ -263,6 +263,7 @@ namespace NetWorkedData
         public void OnGUI()
         {
             //BTBBenchmark.Start();
+            NWDGUI.LoadStyles();
             NWDGUILayout.Title("Custom class Generator");
             NWDGUILayout.Informations("Custom your class!");
             NWDGUILayout.Line();

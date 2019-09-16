@@ -1413,6 +1413,10 @@ namespace NetWorkedData
             {
                 tFile.AppendLine("}");
             }
+            if (tINeedAdminAccount == false)
+            {
+                tFile.AppendLine("}");
+            }
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");

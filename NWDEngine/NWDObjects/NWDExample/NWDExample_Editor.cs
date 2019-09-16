@@ -36,20 +36,23 @@ namespace NetWorkedData
         /// <param name="sNeedBeUpdate">If set to <c>true</c> need be update in enter.</param>
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
-            if (sNeedBeUpdate == true)
+            // do base
+            bool tNeedBeUpdate =  base.AddonEdited(sNeedBeUpdate);
+            if (tNeedBeUpdate == true)
             {
                 // do something
             }
-            return sNeedBeUpdate;
+            return tNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor interface.
         /// </summary>
         /// <returns>The editor height addon.</returns>
-        /// <param name="sInRect">S in rect.</param>
+        /// <param name="sRect">S in rect.</param>
         public override void AddonEditor(Rect sRect)
         {
+            base.AddonEditor(sRect);
             // Draw the interface addon for editor
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -60,7 +63,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = base.AddonEditorHeight(sWidth);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -70,7 +73,9 @@ namespace NetWorkedData
         /// <returns>The on node draw height.</returns>
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            float tYadd = base.AddOnNodeDrawHeight(sCardWidth);
+            tYadd += 130;
+            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -79,12 +84,12 @@ namespace NetWorkedData
         /// <param name="sRect">S rect.</param>
         public override void AddOnNodeDraw(Rect sRect)
         {
-
+            base.AddOnNodeDraw(sRect);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonErrorFound()
         {
-            bool rReturnErrorFound = false;
+            bool rReturnErrorFound = base.AddonErrorFound();
             // check if you found error in Data values.
             // normal way is return false!
             return rReturnErrorFound;
