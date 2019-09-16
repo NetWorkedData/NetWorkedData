@@ -55,14 +55,14 @@ namespace NetWorkedData
         private const string FUNCTIONPHP_Error = "error";
         //private const string FUNCTIONPHP_errorInfos = "errorInfos";
         //private const string FUNCTIONPHP_errorReference = "errorReference";
-        public const string FUNCTIONPHP_errorDetected =  "errorDetected";
-        private const string FUNCTIONPHP_errorCancel =  "errorCancel";
+        public const string FUNCTIONPHP_errorDetected = "errorDetected";
+        private const string FUNCTIONPHP_errorCancel = "errorCancel";
         public const string FUNCTIONPHP_errorResult = "errorResult";
         //private const string FUNCTIONPHP_errorPossibilities = "errorPossibilities";
         //-------------------------------------------------------------------------------------------------------------
-        private const string FUNCTIONPHP_log =  "myLog";
-        private const string FUNCTIONPHP_logReturn =  "myLogLineReturn";
-        public const string FUNCTIONPHP_respond =  "mylogRespond";
+        private const string FUNCTIONPHP_log = "myLog";
+        private const string FUNCTIONPHP_logReturn = "myLogLineReturn";
+        public const string FUNCTIONPHP_respond = "mylogRespond";
         private const string K_PHP_ERR_LOG = "$ERR_LOG";
         private const string K_PHP_ERR_LOG_CNT = "$ERR_LOG_CNT";
         private const string K_PHP_ERR_BOL = "$ERR_BOL";
@@ -82,7 +82,7 @@ namespace NetWorkedData
             tFile.AppendLine("// Use to insert error pre-declare in JSON's respond");
             tFile.AppendLine("function " + FUNCTIONPHP_Error + "($sCode, $sInfos, $sExit=true, $sFile='', $sFunction='', $sLine='')");
             tFile.AppendLine("{");
-            tFile.AppendLine("global " + K_PHP_ERR_BOL + ", " + K_PHP_ERR_COD + ", " + NWD.K_PATH_BASE + ";");
+            tFile.AppendLine("global " + K_PHP_ERR_BOL + ", " + K_PHP_ERR_COD + ", " + K_PHP_ERR_INF + ", " + NWD.K_PATH_BASE + ";");
             tFile.AppendLine(K_PHP_ERR_BOL + " = true;");
             tFile.AppendLine(K_PHP_ERR_COD + " = $sCode;");
             tFile.AppendLine(K_PHP_ERR_INF + " = $sInfos;");

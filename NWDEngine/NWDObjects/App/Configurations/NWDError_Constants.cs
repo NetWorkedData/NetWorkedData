@@ -228,6 +228,10 @@ namespace NetWorkedData
         /// </summary>
         static public NWDError NWDError_XXx91;
         /// <summary>
+        ///  MODEL SQL error in columns hedear sign
+        /// </summary>
+        static public NWDError NWDError_XXx98;
+        /// <summary>
         ///  MODEL SQL error in columns number
         /// </summary>
         static public NWDError NWDError_XXx99;

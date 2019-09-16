@@ -228,7 +228,8 @@ namespace NetWorkedData
                 NWDError.NWDError_XXx39 = NWDError.CreateGenericError("XXX", "XXXx39", "Error in  model XXX", "error more than one row for this reference in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
                 NWDError.NWDError_XXx40 = NWDError.CreateGenericError("XXX", "XXXx40", "Error in  model XXX", "error in flush trashed in  XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
                 NWDError.NWDError_XXx91 = NWDError.CreateGenericError("XXX", "XXXx91", "Error in  model XXX", "error update integrity in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
-                NWDError.NWDError_XXx99 = NWDError.CreateGenericError("XXX", "XXXx99", "Error in  model XXX", "error columns number in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+                NWDError.NWDError_XXx98 = NWDError.CreateGenericError("XXX", "XXXx98", "Error in  model XXX", "error columns header sign in XXX (update webservice?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
+                NWDError.NWDError_XXx99 = NWDError.CreateGenericError("XXX", "XXXx99", "Error in  model XXX", "error columns number in XXX (update table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
                 NWDError.NWDError_XXx88 = NWDError.CreateGenericError("XXX", "XXXx88", "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
                 NWDError.NWDError_XXx77 = NWDError.CreateGenericError("XXX", "XXXx77", "Error in  model XXX", "error update log in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
 
@@ -320,7 +321,7 @@ namespace NetWorkedData
                                string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
                                NWDVersion tVersion = NWDVersion.CurrentData();
 #if UNITY_EDITOR
-                            // NO CHANGE
+                               // NO CHANGE
 #elif UNITY_IOS
                             if (string.IsNullOrEmpty(tVersion.IOSStoreURL) == false)
                             {
@@ -373,7 +374,9 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.UnityEditor:
                     {
+                        #if UNITY_EDITOR
                         BTBAlert.Alert(Title.GetLocalString().Replace(XXX, sInfo), Description.GetLocalString().Replace(XXX, sInfo), Validation.GetLocalString().Replace(XXX, sInfo), sCompleteBlock);
+                        #endif
                     }
                     break;
             }

@@ -59,6 +59,7 @@ namespace NetWorkedData
         public string PHP_CONSTANT_SALT_A() { return "$" +  ClassNamePHP + "SaltA"; }
         public string PHP_CONSTANT_SALT_B() { return "$" +  ClassNamePHP + "SaltB"; }
         public string PHP_CONSTANT_WEBSERVICE() { return "$" +  ClassNamePHP + "WebService"; }
+        public string PHP_CONSTANT_SIGN() { return "$" +  ClassNamePHP + "Sign"; }
 
         //-------------------------------------------------------------------------------------------------------------
         //public string PHP_CONSTANT_TABLENAME() { return "'." + NWD.K_ENV + ".'_" + ClassTableName; }
@@ -105,10 +106,13 @@ namespace NetWorkedData
             tFile.AppendLine("function " + PHP_FUNCTION_CONSTANTS() + "()");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
+            tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ","+PHP_CONSTANT_SIGN()+";");
             tFile.AppendLine("" + PHP_CONSTANT_SALT_A() + " = '" + SaltStart + "';");
             tFile.AppendLine("" + PHP_CONSTANT_SALT_B() + " = '" + SaltEnd + "';");
             tFile.AppendLine("" + PHP_CONSTANT_WEBSERVICE() + " = " + LastWebBuild + "; // last build for this model is " + LastWebBuild + " / " + NWDAppConfiguration.SharedInstance().WebBuild + "");
+            
+            tFile.AppendLine("// Add sign of " + WebServiceOrder(LastWebBuild) + " ");
+            tFile.AppendLine("" + PHP_CONSTANT_SIGN() + " = '" +  WebServiceSign(LastWebBuild) + "';");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("//Run this function to install globals of theses datas!");
@@ -1301,8 +1305,9 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_SYNCHRONIZE() + " ($sJsonDico, $sAccountReference, $sAdmin)");
             tFile.AppendLine("{");
-            tFile.AppendLine("global $token_FirstUse, " + NWD.K_PATH_BASE + ", "+NWD.K_PHP_TIME_SYNC+", $REP, $CHANGE_USER;");
-
+            tFile.AppendLine("global $token_FirstUse, " + NWD.K_PATH_BASE + ", "+NWD.K_PHP_TIME_SYNC+", $REP, $CHANGE_USER, "+PHP_CONSTANT_SIGN()+";");
+            tFile.AppendLine("if ("+PHP_CONSTANT_SIGN()+" == $sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_WEBSIGN_KEY + "'])");
+            tFile.AppendLine("{");
             if (ClassType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
             {
                 tFile.AppendLine("respondAdd('"+NWD.K_JSON_SECURE_KEY+"',true);");
@@ -1365,6 +1370,7 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("if ($token_FirstUse == true)");
             tFile.AppendLine("{");
+
             
             if (tINeedAdminAccount == false)
             {
@@ -1406,9 +1412,6 @@ namespace NetWorkedData
             if (tINeedAdminAccount == true)
             {
                 tFile.AppendLine("}");
-            }if (tINeedAdminAccount == false)
-            {
-            tFile.AppendLine("}");
             }
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -1425,6 +1428,11 @@ namespace NetWorkedData
             tFile.AppendLine("$REP['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'] = "+NWD.K_PHP_TIME_SYNC+";");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx98, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);

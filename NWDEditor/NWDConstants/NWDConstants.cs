@@ -82,6 +82,7 @@ namespace NetWorkedData
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Tools/New Data/Create New Window NWD management";
 
         public const string K_MENU_APP_EDIT = K_MENU_BASE + "App configurations";
+        public const string K_MENU_MODEL_MANAGER = K_MENU_BASE + "Models manager";
         public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments configurations";
         public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments player chooser";
         public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments synchronize";

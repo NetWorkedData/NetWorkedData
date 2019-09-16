@@ -50,6 +50,17 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public string WebServiceOrder(int sWebBuild)
+        {
+            return string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string WebServiceSign(int sWebBuild)
+        {
+            //return string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray());
+            return BTBSecurityTools.GenerateSha(string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray()));
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private NWDTypeClass NewDataFromWeb(NWDAppEnvironment sEnvironment,
                                                   string[] sDataArray,
                                                   string sReference,

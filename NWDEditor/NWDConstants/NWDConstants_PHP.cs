@@ -54,6 +54,7 @@ namespace NetWorkedData
         public const string K_WEB_EREG_SDKI = "'/^(.{24,64})$/'";
         public const string K_WEB_EREG_EMAIL = "'/^(.{24,64})$/'";
         public const string K_WEB_EREG_PASSWORD = "'/^(.{24,64})$/'";
+        public const string K_WEB_WEBSIGN_KEY = "Wign";
         public const string K_WEB_ACTION_SYNC_KEY = "sync";
         public const string K_WEB_SIGN_Key = "sdki";
         public const string K_WEB_DATA_KEY = "data";

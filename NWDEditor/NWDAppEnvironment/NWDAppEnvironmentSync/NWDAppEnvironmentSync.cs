@@ -196,9 +196,11 @@ namespace NetWorkedData
                                 {
                                     tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
                                 }
+#if UNITY_EDITOR
+                                Debug.LogWarning("" + tTitle + " " + tDescription);
+                                //LastInfos.errorDesc.ShowAlert(LastInfos.errorInfos);
+#endif
                             }
-                            Debug.LogWarning("" + tTitle + " " + tDescription);
-                            //EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
                         }
                     }
                 }

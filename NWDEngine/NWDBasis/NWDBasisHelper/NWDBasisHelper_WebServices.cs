@@ -48,7 +48,7 @@ namespace NetWorkedData
             else
             {
                 //Debug.Log("SynchronizationTryToUse () OLD DATA");
-                string tActualIntegrity =  GetIntegrityValueFromCSV(sDataArray);
+                string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
                     // Ok integrity is != I will update data
@@ -75,7 +75,7 @@ namespace NetWorkedData
                 tDataArray[tI] = NWDToolbox.TextCSVUnprotect(tDataArray[tI]);
             }
             // I need to test the integrity of datas... 
-            bool tIntegrityTest =  TestIntegrityValueFromCSV(tDataArray);
+            bool tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
             if (tIntegrityTest == false)
             {
 #if UNITY_EDITOR
@@ -241,6 +241,7 @@ namespace NetWorkedData
                 rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
             rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
+            rSendDatas.Add(NWD.K_WEB_WEBSIGN_KEY, WebServiceSign(LastWebBuild));
             // return the data
             //Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
             return rSend;
@@ -339,7 +340,7 @@ namespace NetWorkedData
             else
             {
 #if UNITY_EDITOR
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(null,  ClasseInThisSync(), false, false, NWDOperationSpecial.None);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(null, ClasseInThisSync(), false, false, NWDOperationSpecial.None);
 #endif
             }
         }
@@ -355,7 +356,7 @@ namespace NetWorkedData
             }
             else
             {
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, NWDOperationSpecial.Pull);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), false, false, NWDOperationSpecial.Pull);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPull(ClasseInThisSync(), true, sEnvironment);
@@ -379,7 +380,7 @@ namespace NetWorkedData
             else
             {
                 //NWDEditorMenu.EnvironementSync().PullForce(ClasseInThisSync(), sEnvironment);
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), true, false, NWDOperationSpecial.Pull);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), true, false, NWDOperationSpecial.Pull);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestPullForce(ClasseInThisSync(), true, sEnvironment);
@@ -406,7 +407,7 @@ namespace NetWorkedData
             }
             else
             {
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), true, true, NWDOperationSpecial.None);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), true, true, NWDOperationSpecial.None);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync(), true, sEnvironment);
@@ -430,7 +431,7 @@ namespace NetWorkedData
             else
             {
                 //NWDEditorMenu.EnvironementSync().Synchronization(ClasseInThisSync(), sEnvironment);
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, NWDOperationSpecial.None);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), false, false, NWDOperationSpecial.None);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync(), true, sEnvironment);
@@ -450,14 +451,14 @@ namespace NetWorkedData
             if (Application.isPlaying == true)
             {
                 //NWDEditorMenu.EnvironementSync().SynchronizationClean(ClasseInThisSync(), sEnvironment);
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, NWDOperationSpecial.Clean);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), false, false, NWDOperationSpecial.Clean);
             }
             else
             {
 
                 //NWDEditorMenu.EnvironementSync().SynchronizationClean(ClasseInThisSync(), sEnvironment);
 
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, NWDOperationSpecial.Clean);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), false, false, NWDOperationSpecial.Clean);
                 //NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean(ClasseInThisSync(), true, sEnvironment);
             }
 #else
@@ -480,7 +481,7 @@ namespace NetWorkedData
             else
             {
                 //NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment, sSpecial);
-                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment,  ClasseInThisSync(), false, false, sSpecial);
+                NWDAppEnvironmentSync.SharedInstance().OperationSynchro(sEnvironment, ClasseInThisSync(), false, false, sSpecial);
             }
             rReturn = true;
             return rReturn;
