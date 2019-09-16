@@ -86,7 +86,7 @@ namespace NetWorkedData
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE;
+                IconAndTitle.text = NWDConstants.K_APP_MODEL_MANAGER_TITLE;
                 if (IconAndTitle.image == null)
                 {
                     string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDModelManager).Name + " t:texture");
