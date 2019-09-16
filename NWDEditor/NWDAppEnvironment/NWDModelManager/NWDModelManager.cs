@@ -16,6 +16,8 @@ using System;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -29,6 +31,8 @@ namespace NetWorkedData
         /// </summary>
         GUIContent IconAndTitle;
         Vector2 ScrollPosition;
+        public List<Type> TypeList = new List<Type>();
+        public List<Type> TypeErrorList = new List<Type>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
@@ -98,42 +102,71 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            TypeList.Clear();
+            TypeErrorList.Clear();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList.OrderBy(A => NWDBasisHelper.FindTypeInfos(A).ClassNamePHP))
+            {
+                TypeList.Add(tType);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper.WebModelChanged == true || tHelper.WebModelDegraded == true)
+                {
+                    TypeErrorList.Add(tType);
+                }
+            }
             //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void DrawType(Type sType)
+        {
+            GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+            NWDGUILayout.SubSection(tHelper.ClassNamePHP);
+
+            GUILayout.BeginHorizontal();
+            Texture2D tTextureOfClass = tHelper.TextureOfClass();
+            if (tTextureOfClass != null)
+            {
+                GUILayout.Label(tTextureOfClass, NWDGUI.KTableSearchClassIcon, GUILayout.Width(48.0F), GUILayout.Height(48.0F));
+            }
+            GUILayout.BeginVertical();
+            GUILayout.Label(tHelper.ClassMenuName, EditorStyles.boldLabel);
+            GUILayout.Label("Webservice last version generated for this Class  is " + tHelper.LastWebBuild.ToString() + " ( App use Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")");
+            GUILayout.Label(tHelper.ClassDescription);
+            if (tHelper.WebModelChanged == true)
+            {
+                NWDGUILayout.WarningBox(NWDConstants.K_APP_BASIS_WARNING_MODEL);
+            }
+            if (tHelper.WebModelDegraded == true)
+            {
+                NWDGUILayout.WarningBox(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED);
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
             //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
-            NWDGUILayout.Title("Model Manager");
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
-            {
-                GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                NWDGUILayout.SubSection(tHelper.ClassNamePHP);
 
-                GUILayout.BeginHorizontal();
-                Texture2D tTextureOfClass = tHelper.TextureOfClass();
-                if (tTextureOfClass != null)
+            NWDGUILayout.Title("Model Manager");
+
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            if (TypeErrorList.Count > 0)
+            {
+                NWDGUILayout.Section("Models in error");
+                foreach (Type tType in TypeErrorList)
                 {
-                    GUILayout.Label(tTextureOfClass, NWDGUI.KTableSearchClassIcon, GUILayout.Width(48.0F), GUILayout.Height(48.0F));
+                    DrawType(tType);
                 }
-                GUILayout.BeginVertical();
-                GUILayout.Label(tHelper.ClassMenuName, EditorStyles.boldLabel);
-                GUILayout.Label("Webservice last version generated for this Class  is " + tHelper.LastWebBuild.ToString() + " ( App use web service " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")");
-                GUILayout.Label(tHelper.ClassDescription);
-                if (tHelper.WebModelChanged == true)
-                {
-                    NWDGUILayout.WarningBox(NWDConstants.K_APP_BASIS_WARNING_MODEL);
-                }
-                if (tHelper.WebModelDegraded == true)
-                {
-                    NWDGUILayout.WarningBox(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED);
-                }
-                GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
+            }
+
+            NWDGUILayout.Section("Models list");
+            foreach (Type tType in TypeList)
+            {
+                DrawType(tType);
             }
 
             GUILayout.EndScrollView();

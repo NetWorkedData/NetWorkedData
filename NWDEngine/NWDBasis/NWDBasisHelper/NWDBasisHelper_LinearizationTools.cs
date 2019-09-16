@@ -58,7 +58,7 @@ namespace NetWorkedData
         public string WebServiceSign(int sWebBuild)
         {
             //return string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray());
-            return BTBSecurityTools.GenerateSha(string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray()));
+            return BTBSecurityTools.GenerateSha(SaltEnd+string.Join(NWDConstants.kFieldSeparatorD, PropertiesOrderArray(sWebBuild).ToArray()));
         }
         //-------------------------------------------------------------------------------------------------------------
         private NWDTypeClass NewDataFromWeb(NWDAppEnvironment sEnvironment,
