@@ -132,14 +132,33 @@ namespace NetWorkedData
             GUILayout.Label(tHelper.ClassMenuName, EditorStyles.boldLabel);
             GUILayout.Label("Webservice last version generated for this Class  is " + tHelper.LastWebBuild.ToString() + " ( App use Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")");
             GUILayout.Label(tHelper.ClassDescription);
+            NWDGUILayout.Separator();
+            foreach (KeyValuePair<int, string> tModels in tHelper.WebModelSQLOrder)
+            {
+                GUILayout.Label("Model has definition for Webservice " + tModels.Key.ToString());
+            }
             if (tHelper.WebModelChanged == true)
             {
-                NWDGUILayout.WarningBox(NWDConstants.K_APP_BASIS_WARNING_MODEL);
+                // draw reintegrate the model
+                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL, NWDConstants.K_APP_WS_MODEL_TOOLS))
+                {
+                    tHelper.ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { sType }, false, false);
+                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { sType }, false, false);
+                    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { sType }, false, false);
+                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                }
             }
             if (tHelper.WebModelDegraded == true)
             {
-                NWDGUILayout.WarningBox(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED);
+                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED, NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS))
+                {
+                    tHelper.DeleteOldsModels();
+                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                }
             }
+
+
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();

@@ -132,6 +132,19 @@ namespace NetWorkedData
             //LittleSpace();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool WarningBoxButton(string sTitle, string sButtonTitle)
+        {
+            //LittleSpace();
+            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+            //https://unitylist.com/p/5c3/Unity-editor-icons
+           Texture2D tIcon = EditorGUIUtility.FindTexture("console.warnicon");
+            GUILayout.Label(new GUIContent(sTitle,tIcon));
+            bool rReturn = GUILayout.Button(sButtonTitle, NWDGUI.KTableSearchButton, GUILayout.Width(160.0F));
+            EditorGUILayout.EndHorizontal();
+            //LittleSpace();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void ErrorBox(string sTitle)
         {
             //LittleSpace();
