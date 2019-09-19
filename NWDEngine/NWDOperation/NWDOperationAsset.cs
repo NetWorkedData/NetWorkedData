@@ -1,9 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:34
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,9 +19,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 using BasicToolBox;
 using BTBMiniJSON;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {

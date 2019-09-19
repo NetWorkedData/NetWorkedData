@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:53
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -124,6 +130,32 @@ namespace NetWorkedData
             //LittleSpace();
             EditorGUILayout.HelpBox(sTitle, MessageType.Warning);
             //LittleSpace();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool WarningBoxButton(string sTitle, string sButtonTitle)
+        {
+            //LittleSpace();
+            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+            //https://unitylist.com/p/5c3/Unity-editor-icons
+           Texture2D tIcon = EditorGUIUtility.FindTexture("console.warnicon");
+            GUILayout.Label(new GUIContent(sTitle,tIcon));
+            bool rReturn = GUILayout.Button(sButtonTitle, NWDGUI.KTableSearchButton, GUILayout.Width(160.0F));
+            EditorGUILayout.EndHorizontal();
+            //LittleSpace();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AlertBoxButton(string sTitle, string sButtonTitle)
+        {
+            //LittleSpace();
+            EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+            //https://unitylist.com/p/5c3/Unity-editor-icons
+           Texture2D tIcon = EditorGUIUtility.FindTexture("console.erroricon");
+            GUILayout.Label(new GUIContent(sTitle,tIcon));
+            bool rReturn = GUILayout.Button(sButtonTitle, NWDGUI.KTableSearchButton, GUILayout.Width(160.0F));
+            EditorGUILayout.EndHorizontal();
+            //LittleSpace();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ErrorBox(string sTitle)

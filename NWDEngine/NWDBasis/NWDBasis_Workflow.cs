@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:23
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -27,7 +33,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
@@ -35,7 +41,7 @@ namespace NetWorkedData
         //public static K NewObject()
         //{
         //    //Debug.Log("NWDBasis <K> NewObject()");
-        //    K rReturn = NWDBasis<K>.NewInstance() as K;
+        //    K rReturn = NWDBasis.NewInstance() as K;
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
@@ -43,7 +49,7 @@ namespace NetWorkedData
         //        //-------------------------------------------------------------------------------------------------------------
         //        public static K NewObjectWithReference(string sReference)
         //        {
-        //            K rReturn = NWDBasis<K>.NewInstanceWithReference(sReference) as K;
+        //            K rReturn = NWDBasis.NewInstanceWithReference(sReference) as K;
         //            return rReturn;
         //        }
         //        //-------------------------------------------------------------------------------------------------------------
@@ -58,15 +64,11 @@ namespace NetWorkedData
         /// Finds the datas. = ANCIEN GetAllObjects()
         /// </summary>
         /// <returns>The datas.</returns>
-        public static K[] FindDatas()
-        {
-            return FindDatas(NWDAccount.GetCurrentAccountReference(), NWDGameSave.Current());
-        }
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllObjects(string sAccountReference = null)
         //{
         //    List<K> rReturn = new List<K>();
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference))
         //        {
@@ -79,7 +81,7 @@ namespace NetWorkedData
         //public static K[] GetAllEnableObjects(string sAccountReference = null)
         //{
         //    List<K> rReturn = new List<K>();
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference) && tObject.IsEnable())
         //        {
@@ -92,7 +94,7 @@ namespace NetWorkedData
         //public static K GetFirstObject(string sAccountReference = null)
         //{
         //    K rReturn = null;
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference))
         //        {
@@ -103,22 +105,10 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
-        {
-            K rReturn = null;
-            K[] rDatas = FindDatas(sAccountReference, sGameSave);
-            if (rDatas.Length > 0)
-            {
-                rReturn = rDatas[0];
-            }
-            return rReturn;
-        }
-
-        //-------------------------------------------------------------------------------------------------------------
         //public static K GetFirstEnableObject(string sAccountReference = null)
         //{
         //    K rReturn = null;
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference) && tObject.IsEnable())
         //        {
@@ -129,20 +119,20 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] TrashAllObjects(string sAccountReference = null)
-        {
-            List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.FindDatas(sAccountReference))
-            {
-                tObject.TrashData();
-                rReturn.Add(tObject);
-            }
-#if UNITY_EDITOR
-            RepaintTableEditor();
-            RepaintInspectorEditor();
-#endif
-            return rReturn.ToArray();
-        }
+//        public static K[] TrashAllObjects(string sAccountReference = null)
+//        {
+//            List<K> rReturn = new List<K>();
+//            foreach (K tObject in NWDBasis.FindDatas(sAccountReference))
+//            {
+//                tObject.TrashData();
+//                rReturn.Add(tObject);
+//            }
+//#if UNITY_EDITOR
+//            BasisHelper().New_RepaintTableEditor();
+//            BasisHelper().New_RepaintInspectorEditor();
+//#endif
+        //    return rReturn.ToArray();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public static K GetObjectByReference(string sReference, string sAccountReference = null)
         //{
@@ -257,7 +247,7 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "", bool sFlushOlderDupplicate = false, string sAccountReference = null)
         //{
-        //    //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate()");
+        //    //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate()");
         //    //K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
         //    K[] tArray = GetAllObjects(sAccountReference);
         //    List<K> tAllList = new List<K>();
@@ -270,10 +260,10 @@ namespace NetWorkedData
         //    }
         //    K[] rReturnArray = tAllList.ToArray();
         //    K rReturn = null;
-        //    //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
+        //    //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
         //    if (rReturnArray.Length > 0)
         //    {
-        //        //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have some return");
+        //        //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() I have some return");
         //        rReturn = rReturnArray[0];
         //    }
         //    if (rReturnArray.Length > 1)
@@ -299,8 +289,8 @@ namespace NetWorkedData
         //    }
         //    if (rReturn == null)
         //    {
-        //        //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have a return");
-        //        rReturn = NWDBasis<K>.NewData();
+        //        //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() I have a return");
+        //        rReturn = NWDBasisHelper.NewData<K>();
         //        rReturn.InternalKey = sInternalKey;
         //        rReturn.InternalDescription = sInternalDescription;
         //        rReturn.InsertData();
@@ -373,22 +363,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Methods
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsEnable()
-        {
-            return AC;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool IsTrashed()
-        {
-            if (XX > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public bool IsEnable()
+        //{
+        //    return AC;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool IsTrashed()
+        //{
+        //    if (XX > 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool IsUsable()
+        //{
+        //    if (AC == true && XX <= 0 && TestIntegrity() == true)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDBasisTag GetTag()
         //{

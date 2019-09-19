@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:51
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -19,9 +25,11 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public static float kFieldMarge = 5.0f;
+        //public static float kTopAdjustMarge = 2.0f;
         public static float kFieldIndent = 15.0f;
-        public static float kScrollbar = 20f;
+        public static float kScrollbar = 18f;
         public static GUIStyle kScrollviewFullWidth;
+        public static float KTAB_BAR_HEIGHT = 40.0F;
         //-------------------------------------------------------------------------------------------------------------
         // window top tabbar 
         public static Color KTAB_BAR_BACK_COLOR;
@@ -79,10 +87,12 @@ namespace NetWorkedData
         public static GUIStyle kSeparatorStyle;
         static Texture2D kSeparatorTexture;
         static Color kSeparatorColor;
+        public static float kSeparatorHeight = 1.0F;
         //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kLineStyle;
         static Texture2D kLineTexture;
         static Color kLineColor;
+        public static float kLineHeight = 1.0F;
         //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kTitleStyle;
         static Texture2D kTitleTexture;
@@ -100,16 +110,18 @@ namespace NetWorkedData
         public static float KTableSearchWidth = 120.0F;
         public static float KTableSearchFieldWidth = 200.0F;
         public static float KTableReferenceWidth = 160.0F;
-        public static float KTableRowWebModelWidth = 60.0F;
+        public static float KTableRowWebModelWidth = 70.0F;
         public static float KTablePageMarge = 5.0F;
         public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6.0F;
 
         public static Color kRowColorSelected;
+        public static Color kRowColorSelectedDark;
         public static Color kRowColorError;
         public static Color kRowColorWarning;
         public static Color kRowColorTrash;
         public static Color kRowColorDisactive;
 
+        public static GUIStyle KTableToolbar;
         public static GUIStyle KTableSearchTitle;
         public static GUIStyle KTableSearchMask;
         public static GUIStyle KTableSearchButton;
@@ -127,7 +139,7 @@ namespace NetWorkedData
         public static float kTablePrefabWidth = 40.0F;
         public static float kTableSelectWidth = 20.0f;
         public static float kTableIDWidth = 45.0f;
-        public static float kTableIconWidth = 40.0f;
+        public static float kTableIconWidth = 44.0f;
 
         public static float kTableHeaderHeight = 30.0f;
         public static Color kTableHeaderColor;
@@ -152,14 +164,16 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         // Datas Selector
-        public static Color kSelectorTileSelected;
-        public static GUIStyle kSelectorTileStyle;
-        public static GUIStyle kSelectorTileDarkStyle;
-        public static Color kSelectorRowSelected;
-        public static GUIStyle kSelectorRowStyle;
-        public static GUIStyle kSelectorRowDarkStyle;
-        public static GUIStyle kDatasSelectorRowStyle;
-        public static GUIStyle kDatasSelectorRowErrorStyle;
+        //public static Color kSelectorTileSelected;
+        //public static GUIStyle kSelectorTileDarkStyle;
+        //public static Color kSelectorRowSelected;
+        //public static GUIStyle kSelectorRowDarkStyle;
+        ////public static GUIStyle kDatasSelectorRowStyle;
+        //public static GUIStyle kDatasSelectorRowErrorStyle;
+
+        public static GUIStyle kDataSelectorFieldStyle;
+        public static GUIStyle kDataSelectorTileStyle;
+        public static GUIStyle kDataSelectorRowStyle;
         public static float kDatasSelectorYOffset;
         //-------------------------------------------------------------------------------------------------------------
         // Data inspector properties
@@ -167,6 +181,8 @@ namespace NetWorkedData
 
         public static Color kIdentityColor; // inspector identity color area
         public static Color kPropertyColor; // inspector identity color area
+
+        public static float kIconClassWidth = 48.0f;
 
         public static int kLongString = 5;
         public static int kVeryLongString = 15;
@@ -227,9 +243,9 @@ namespace NetWorkedData
         // Nodal Document
         // TODO : all rename!! with right name!
 
-        public static float kNodeCardWidth = 200.0F;
-        public static float kNodeCardHeight = 200.0F;
-        public static float kNodeCardMarging = 50.0F;
+        public static float kNodeCardWidth = 360.0F;
+        public static float kNodeCardHeight = 360.0F;
+        //public static float kNodeCardMarging = 50.0F;
 
         public static float kNodeCanvasFraction = 20;
         public static Color kNodeCanvasMajor;
@@ -251,10 +267,118 @@ namespace NetWorkedData
             StyleLoaded = false;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static float AreaHeight(float tFieldHeigt, int tFieldNumber, bool sAlreadyMarged = true)
+        {
+            if (sAlreadyMarged == true)
+            {
+                return tFieldNumber * tFieldHeigt + (tFieldNumber - 1) * kFieldMarge;
+            }
+            else
+            {
+                return tFieldNumber * tFieldHeigt + (tFieldNumber + 1) * kFieldMarge;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect AssemblyArea(Rect sA, Rect sB)
+        {
+            float tXo = Math.Min(sA.x, sB.x);
+            float tXf = Math.Max(sA.x+sA.width, sB.x+sB.width);
+            float tYo = Math.Min(sA.y, sB.y);
+            float tYf = Math.Max(sA.y + sA.height, sB.y + sB.height);
+            return new Rect(tXo, tYo, tXf - tXo, tYf - tYo);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect[] DiviseArea(Rect sRect, int sX, bool sAlreadyMarged = true)
+        {
+            Rect[] rReturn = new Rect[sX];
+            if (sX < 1)
+            {
+                sX = 1;
+            }
+            if (sAlreadyMarged == true)
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX - 1) * kFieldMarge) / sX;
+                float tWL = (tW + kFieldMarge) / sX;
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    rReturn[tI] = new Rect(sRect.x + tI * tWL, sRect.y, tWW, sRect.height);
+                }
+            }
+            else
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX + 1) * kFieldMarge) / sX;
+                float tWL = (tW - kFieldMarge) / sX;
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    rReturn[tI] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y, tWW, sRect.height);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect[,] DiviseArea(Rect sRect, int sX, int sY, bool sAlreadyMarged = true)
+        {
+            Rect[,] rReturn = new Rect[sX,sY];
+            if (sX < 1)
+            {
+                sX = 1;
+            }
+            if (sY < 1)
+            {
+                sY = 1;
+            }
+            if (sAlreadyMarged == true)
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX - 1) * kFieldMarge) / sX;
+                float tWL = (tW + kFieldMarge) / sX;
+
+                float tH = sRect.height;
+                float tHH = (tH - (sY - 1) * kFieldMarge) / sY;
+                float tHL = (tH + kFieldMarge) / sY;
+
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    for (int tJ = 0; tJ < sY; tJ++)
+                    {
+                        rReturn[tI,tJ] = new Rect(sRect.x + tI * tWL, sRect.y + tJ * tHL, tWW, tHH);
+                    }
+                }
+            }
+            else
+            {
+                float tW = sRect.width;
+                float tWW = (tW - (sX + 1) * kFieldMarge) / sX;
+                float tWL = (tW - kFieldMarge) / sX;
+
+                float tH = sRect.height;
+                float tHH = (tH - (sY + 1) * kFieldMarge) / sY;
+                float tHL = (tH - kFieldMarge) / sY;
+
+                for (int tI = 0; tI < sX; tI++)
+                {
+                    for (int tJ = 0; tJ < sY; tJ++)
+                    {
+                        rReturn[tI,tJ] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y + kFieldMarge + tJ * tHL, tWW, tHH);
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LoadStylesReforce()
+        {
+            StyleLoaded = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void LoadStyles()
         {
+            //BTBBenchmark.Start();
             if (StyleLoaded == false)
             {
+                //Debug.Log("LoadStyles()");
                 StyleLoaded = true;
 
                 // color force 
@@ -281,6 +405,7 @@ namespace NetWorkedData
                 kSubSectionColor = new Color(0, 0, 0, 0.1F);
 
                 kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
+                kRowColorSelectedDark = new Color(0.55f, 0.55f, 1.00f, 0.75f);
                 kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
                 kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
                 kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
@@ -293,9 +418,9 @@ namespace NetWorkedData
                 kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
 
 
-                kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+                //kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
 
-                kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+                //kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
 
                 kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
                 kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
@@ -303,7 +428,7 @@ namespace NetWorkedData
                 kNodeCanvasMargeBlack = new Color(0.1F, 0.1F, 0.1F, 1.0F);
 
                 kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
-                kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
+                kNodeOverLineColor = new Color(0.50F, 0.50F, 0.50F, 0.70F);
 
                 // texture apply
 
@@ -341,7 +466,7 @@ namespace NetWorkedData
                 kSeparatorStyle.normal.background = kSeparatorTexture;
                 kSeparatorStyle.padding = new RectOffset(2, 2, 2, 2);
                 kSeparatorStyle.margin = new RectOffset(0, 0, 1, 1);
-                kSeparatorStyle.fixedHeight = 1.0f;
+                kSeparatorStyle.fixedHeight = kSeparatorHeight;
 
                 // Line
 
@@ -350,7 +475,7 @@ namespace NetWorkedData
                 kLineStyle.normal.background = kLineTexture;
                 kLineStyle.padding = new RectOffset(0, 0, 0, 0);
                 kLineStyle.margin = new RectOffset(0, 0, 0, 0);
-                kLineStyle.fixedHeight = 1.0f;
+                kLineStyle.fixedHeight = kLineHeight;
 
                 // general windows design 
 
@@ -389,6 +514,7 @@ namespace NetWorkedData
                 KTableClassPopup = new GUIStyle(EditorStyles.popup);
                 KTableClassPopup.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
+                KTableToolbar = new GUIStyle(EditorStyles.toolbar);
                 KTableSearchIcon = new GUIStyle(EditorStyles.label);
                 KTableSearchTitle = new GUIStyle(EditorStyles.helpBox);
                 KTableSearchDescription = new GUIStyle(EditorStyles.helpBox);
@@ -400,6 +526,7 @@ namespace NetWorkedData
                 KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
                 KTableSearchLabel = new GUIStyle(EditorStyles.label);
 
+                KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
 
                 float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
@@ -554,46 +681,50 @@ namespace NetWorkedData
 
                 // Data Selector design
 
-                kDatasSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
-                kDatasSelectorRowStyle.richText = true;
-                kDatasSelectorRowStyle.fontSize = 12;
-                kDatasSelectorRowStyle.wordWrap = false;
-                kDatasSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kDatasSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
-                kDatasSelectorRowStyle.border = new RectOffset(2, 2, 2, 2);
-                kDatasSelectorRowStyle.fixedHeight = kDatasSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
-                kDatasSelectorRowErrorStyle = new GUIStyle(kDatasSelectorRowStyle);
-                kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
+                kDataSelectorFieldStyle = new GUIStyle(EditorStyles.helpBox);
+                kDataSelectorFieldStyle.richText = true;
+                kDataSelectorFieldStyle.fontSize = 12;
+                kDataSelectorFieldStyle.wordWrap = false;
+                kDataSelectorFieldStyle.alignment = TextAnchor.MiddleLeft;
+                kDataSelectorFieldStyle.imagePosition = ImagePosition.ImageLeft;
+                kDataSelectorFieldStyle.border = new RectOffset(2, 2, 2, 2);
+                kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kDatasSelectorRowErrorStyle = new GUIStyle(kDataSelectorFieldStyle);
+                //kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
 
                 // Selector design
 
-                kSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorTileStyle.fontSize = 14;
-                kSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
-                kSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
-                kSelectorTileStyle.alignment = TextAnchor.LowerCenter;
-                kSelectorTileStyle.fixedHeight = kSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
+                kDataSelectorTileStyle.richText = true;
+                kDataSelectorTileStyle.fontSize = 10;
+                kDataSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
+                kDataSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
+                kDataSelectorTileStyle.alignment = TextAnchor.LowerCenter;
+                kDataSelectorTileStyle.fixedHeight = kDataSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorTileDarkStyle.fontSize = 14;
-                kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
-                kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
-                kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
-                kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
+                //kSelectorTileDarkStyle.richText = true;
+                //kSelectorTileDarkStyle.fontSize = 14;
+                //kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
+                //kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
+                //kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
+                //kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorRowStyle.fontSize = 14;
-                kSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
-                kSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
-                kSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowStyle.fixedHeight = kSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
+                kDataSelectorRowStyle.richText = true;
+                kDataSelectorRowStyle.fontSize = 14;
+                kDataSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
+                kDataSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
+                kDataSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
+                kDataSelectorRowStyle.fixedHeight = kDataSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
-                kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                kSelectorRowDarkStyle.fontSize = 14;
-                kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
-                kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
-                kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
-                kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
+                //kSelectorRowDarkStyle.richText = true;
+                //kSelectorRowDarkStyle.fontSize = 14;
+                //kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
+                //kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
+                //kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
+                //kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
 
                 // References content
@@ -629,6 +760,7 @@ namespace NetWorkedData
                 //kLeftContentIcon = new GUIContent("<");
                 //kRightContentIcon = new GUIContent(">");
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect MargeLeftRight(Rect sRect)
@@ -651,6 +783,11 @@ namespace NetWorkedData
             return new Rect(sRect.x - kFieldMarge, sRect.y - kFieldMarge, sRect.width + kFieldMarge * 2, sRect.height + kFieldMarge * 2);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static Rect UnMargeLeftRight(Rect sRect)
+        {
+            return new Rect(sRect.x - kFieldMarge, sRect.y, sRect.width + kFieldMarge * 2, sRect.height);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static Rect Line(Rect sRect)
         {
             sRect.height = kLineStyle.fixedHeight;
@@ -669,6 +806,11 @@ namespace NetWorkedData
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static float SeparatorHeight()
+        {
+            return kSeparatorStyle.fixedHeight + kFieldMarge * 2;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void BeginRedArea()
         {
             if (kOldColorInit == false)
@@ -685,6 +827,16 @@ namespace NetWorkedData
             {
                 GUI.backgroundColor = kOldColor;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color DefaultColorArea()
+        {
+            if (kOldColorInit == false)
+            {
+                kOldColor = GUI.backgroundColor;
+                kOldColorInit = true;
+            }
+            return kOldColor;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void BeginColorArea(Color sColor)
@@ -775,7 +927,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Rect WarningBox(Rect sRect, string sTitle)
         {
-            //sRect.y += kFieldMarge;
             BeginColorArea(kYellowElementColor);
             sRect.height = EditorStyles.helpBox.CalcHeight(new GUIContent(sTitle), sRect.width);
             if (sRect.height < WarningMinHeight)
@@ -784,8 +935,17 @@ namespace NetWorkedData
             }
             EditorGUI.HelpBox(sRect, sTitle, MessageType.Warning);
             EndColorArea();
-            //sRect.height += kFieldMarge * 2;
             return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static float WarningBoxHeight(Rect sRect, string sTitle)
+        {
+            float tHeight = EditorStyles.helpBox.CalcHeight(new GUIContent(sTitle), sRect.width);
+            if (tHeight < WarningMinHeight)
+            {
+                tHeight = WarningMinHeight;
+            }
+            return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect ErrorBox(Rect sRect, string sTitle)

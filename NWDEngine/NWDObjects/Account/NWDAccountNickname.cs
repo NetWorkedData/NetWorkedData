@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:23
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -24,7 +32,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("Account Nickname")]
     [NWDClassMenuNameAttribute("Account Nickname")]
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+    public partial class NWDAccountNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorHeader("Player Informations")]

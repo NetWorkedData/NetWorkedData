@@ -1,7 +1,13 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:32
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -17,8 +23,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Users",
-                                 "Users",
+    [NWDTypeWindowParamAttribute(
+        "Users",
+        "Users",
         new Type[] {
             typeof(NWDUserInfos),
             typeof(NWDUserNickname),
@@ -26,10 +33,9 @@ namespace NetWorkedData
             typeof(NWDUserPreference),
             typeof(NWDUserNetWorking),
             typeof(NWDUserOwnership),
-            typeof(NWDUserInterMessage),
             typeof(NWDMessage),
 		}
-                                )]
+    )]
     public class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------

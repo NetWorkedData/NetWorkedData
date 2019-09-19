@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:47
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -28,11 +34,11 @@ namespace NetWorkedData
         GUIContent IconAndTitle;
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
-    
+
         bool ClassSynchronize = true;
         bool ClassUnityConnection = true;
 
-        string ClassBase= "NWDBasis";
+        string ClassBase = "NWDBasis";
         /// <summary>
         /// The futur name of the class.
         /// </summary>
@@ -63,7 +69,13 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewClass()
         {
+            //BTBBenchmark.Start();
             GUI.FocusControl(null);
+
+            if (string.IsNullOrEmpty(ClassBase))
+            {
+                ClassBase = "NWDBasis";
+            }
             // get the NWDExample code source
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample.cs";
             string tClassExample = File.ReadAllText(tClassExamplePath);
@@ -77,10 +89,7 @@ namespace NetWorkedData
             tClassExample = tClassExample.Replace("NWDExample_MenuName", ClassNameMenuName);
             tClassExample = tClassExample.Replace("//#warning", "#warning");
             tClassExample = tClassExample.Replace("NWDExample", ClassName);
-            if (string.IsNullOrEmpty(ClassBase))
-            {
-                tClassExample = tClassExample.Replace("NWDBasis", ClassBase);
-            }
+            tClassExample = tClassExample.Replace("NWDBasis", ClassBase);
             // prepare properties 
             Dictionary<string, string> tPropertiesDico = new Dictionary<string, string>();
             foreach (KeyValuePair<string, string> tKeyValue in ClassNameProperties)
@@ -106,10 +115,10 @@ namespace NetWorkedData
             }
             tClassExample = tClassExample.Replace("//PROPERTIES", tPropertiesLinearize);
             // find the owner classes folder
-            string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() +"/"+ ClassName;
+            string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder() + "/" + ClassName;
             // create directories
             Directory.CreateDirectory(tOwnerClassesFolderPath);
-            Directory.CreateDirectory(tOwnerClassesFolderPath+ "/Editor");
+            Directory.CreateDirectory(tOwnerClassesFolderPath + "/Editor");
             // write file basis
             string tFilePath = tOwnerClassesFolderPath + "/" + ClassName + ".cs";
             File.WriteAllText(tFilePath, tClassExample);
@@ -119,6 +128,7 @@ namespace NetWorkedData
                 string tClassExamplePath_Connection = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Connection.cs";
                 string tClassExample_Connection = File.ReadAllText(tClassExamplePath_Connection);
                 tClassExample_Connection = tClassExample_Connection.Replace("NWDExample", ClassName);
+                tClassExample_Connection = tClassExample_Connection.Replace("NWDBasis", ClassBase);
                 string tFilePath_Connection = tOwnerClassesFolderPath + "/" + ClassName + "_Connection.cs";
                 File.WriteAllText(tFilePath_Connection, tClassExample_Connection);
                 AssetDatabase.ImportAsset(tFilePath_Connection);
@@ -127,24 +137,28 @@ namespace NetWorkedData
             string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Workflow.cs";
             string tClassExample_Workflow = File.ReadAllText(tClassExamplePath_Workflow);
             tClassExample_Workflow = tClassExample_Workflow.Replace("NWDExample", ClassName);
+            tClassExample_Workflow = tClassExample_Workflow.Replace("NWDBasis", ClassBase);
             string tFilePath_Workflow = tOwnerClassesFolderPath + "/" + ClassName + "_Workflow.cs";
             File.WriteAllText(tFilePath_Workflow, tClassExample_Workflow);
             // write file editor
             string tClassExamplePath_Editor = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Editor.cs";
             string tClassExample_Editor = File.ReadAllText(tClassExamplePath_Editor);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDExample", ClassName);
+            tClassExample_Editor = tClassExample_Editor.Replace("NWDBasis", ClassBase);
             string tFilePath_Editor = tOwnerClassesFolderPath + "/" + ClassName + "_Editor.cs";
             File.WriteAllText(tFilePath_Editor, tClassExample_Editor);
             // write file index example
             string tClassExamplePath_Index = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Index.cs";
             string tClassExample_Index = File.ReadAllText(tClassExamplePath_Index);
             tClassExample_Index = tClassExample_Index.Replace("NWDExample", ClassName);
+            tClassExample_Index = tClassExample_Index.Replace("NWDBasis", ClassBase);
             string tFilePath_Index = tOwnerClassesFolderPath + "/" + ClassName + "_Index.cs";
             File.WriteAllText(tFilePath_Index, tClassExample_Index);
             // write file PHP extension
             string tClassExamplePath_PHP = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_PHP.cs";
             string tClassExample_PHP = File.ReadAllText(tClassExamplePath_PHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDExample", ClassName);
+            tClassExample_PHP = tClassExample_PHP.Replace("NWDBasis", ClassBase);
             string tFilePath_PHP = tOwnerClassesFolderPath + "/" + ClassName + "_PHP.cs";
             File.WriteAllText(tFilePath_PHP, tClassExample_PHP);
             // write icon to modify
@@ -169,10 +183,12 @@ namespace NetWorkedData
 
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -215,7 +231,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tClassPossiblesList.Add(tType.Name.Replace("`1",""));
+                    tClassPossiblesList.Add(tType.Name.Replace("`1", ""));
                 }
             }
             tListOfclass = new List<string>();
@@ -233,11 +249,12 @@ namespace NetWorkedData
             {
                 foreach (string tCC in tClassPossiblesList)
                 {
-                    tListOfType.Add(tCC+"<K>/" + tTypeName);
+                    tListOfType.Add(tCC + "<K>/" + tTypeName);
                 }
             }
             tListOfclass.Insert(0, "  ");
             tListOfclass.Insert(0, "NWDBasis");
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -245,6 +262,8 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
+            NWDGUI.LoadStyles();
             NWDGUILayout.Title("Custom class Generator");
             NWDGUILayout.Informations("Custom your class!");
             NWDGUILayout.Line();
@@ -399,6 +418,7 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -408,11 +428,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
+            //BTBBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == string.Empty && tObject.Value == " ")
             {
                 tReturn = true;
             }
+            //BTBBenchmark.Finish();
             return tReturn;
         }
 

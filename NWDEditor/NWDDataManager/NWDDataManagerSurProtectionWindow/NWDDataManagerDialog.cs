@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:38
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -91,6 +97,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnGUI()
         {
+            //BTBBenchmark.Start();
             EditorGUILayout.HelpBox(Message, DialogType);
             bool tValid = true;
             Value = EditorGUILayout.TextField("Code", Value);
@@ -113,6 +120,7 @@ namespace NetWorkedData
             Rect tLastRect = GUILayoutUtility.GetLastRect();
             maxSize = new Vector2(NWDGUI.KTableSearchWidth * 2, tLastRect.y + tLastRect.height + NWDGUI.kFieldMarge);
             minSize = new Vector2(NWDGUI.KTableSearchWidth * 2, tLastRect.y + tLastRect.height + NWDGUI.kFieldMarge);
+            //BTBBenchmark.Finish();
         }
         //------------------------------------------------------------------------------------------------------------- 
     }

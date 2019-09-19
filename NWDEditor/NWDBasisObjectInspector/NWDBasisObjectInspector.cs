@@ -1,9 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:22:18
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -19,7 +23,7 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBasisObjectInspector : ScriptableObject
 	{
-		public object mObjectInEdition;
+		public NWDTypeClass mObjectInEdition;
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[CustomEditor (typeof(NWDBasisObjectInspector))]
@@ -30,19 +34,17 @@ namespace NetWorkedData
         public static Type ObjectEditorLastType;
         //-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
-		{
-			NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
+        {
+            //BTBBenchmark.Start();
+            NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
 			if (tTarget.mObjectInEdition != null)
 			{
-                Type tType = tTarget.mObjectInEdition.GetType ();
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-                if (tMethodInfo != null) 
-				{
-					tMethodInfo.Invoke (tTarget.mObjectInEdition, new object[]{Rect.zero,false});
-				}
-			}
-		}
-	}
+                tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null);
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

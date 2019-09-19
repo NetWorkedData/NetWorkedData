@@ -1,9 +1,15 @@
-﻿////=====================================================================================================================
-////
-//// ideMobi copyright 2017 
-//// All rights reserved by ideMobi
-////
-////=====================================================================================================================
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:31
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
 
 //using System;
 //using System.Collections;
@@ -119,7 +125,7 @@
 //            return NWDGUI.kPopupdStyle.fixedHeight;
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
-//        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+//        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 //		{
 //            NWDDateUtcType tTemporary = new NWDDateUtcType ();
 //            GUIContent tContent = new GUIContent(sEntitled, sTooltips);

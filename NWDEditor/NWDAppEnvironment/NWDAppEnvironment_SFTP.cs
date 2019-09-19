@@ -1,11 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:23
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -13,6 +18,7 @@ using UnityEngine;
 using System.IO;
 using System.Text;
 using Renci.SshNet;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {

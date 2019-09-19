@@ -1,20 +1,25 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:42:16
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExample : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         // Declare your static properties and private here
@@ -30,17 +35,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_OverrideClasseInThisSync)]
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDExample)/*, typeof(NWDUserNickname), etc*/ };
-        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -61,6 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+            base.Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -72,6 +67,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonLoadedMe()
         {
+            base.AddonLoadedMe();
             // do something when object was loaded
             // TODO verif if method is call in good place in good timing
         }
@@ -81,6 +77,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUnloadMe()
         {
+            base.AddonUnloadMe();
             // do something when object will be unload
             // TODO verif if method is call in good place in good timing
         }
@@ -90,6 +87,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonInsertMe()
         {
+            base.AddonInsertMe();
             // do something when object will be inserted
             // TODO verif if method is call in good place in good timing
         }
@@ -99,6 +97,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            base.AddonUpdateMe();
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -108,6 +107,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdatedMe()
         {
+            base.AddonUpdatedMe();
             // do something when object finish to be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -117,6 +117,7 @@ namespace NetWorkedData
         /// </summary>
         //public override void AddonUpdatedMeFromWeb()
         //{
+        //   base.AddonUpdatedMeFromWeb();
         //    // do something when object finish to be updated from CSV from WebService response
         //    // TODO verif if method is call in good place in good timing
         //}
@@ -126,6 +127,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonDuplicateMe()
         {
+            base.AddonDuplicateMe();
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
         }
@@ -135,6 +137,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonEnableMe()
         {
+            base.AddonEnableMe();
             // do something when object will be enabled
             // TODO verif if method is call in good place in good timing
         }
@@ -144,6 +147,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonDisableMe()
         {
+            base.AddonDisableMe();
             // do something when object will be disabled
             // TODO verif if method is call in good place in good timing
         }
@@ -153,6 +157,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonTrashMe()
         {
+            base.AddonTrashMe();
             // do something when object will be put in trash
             // TODO verif if method is call in good place in good timing
         }
@@ -162,6 +167,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUnTrashMe()
         {
+            base.AddonUnTrashMe();
             // do something when object will be remove from trash
             // TODO verif if method is call in good place in good timing
         }
@@ -171,16 +177,19 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonDeleteMe()
         {
+            base.AddonDeleteMe();
             // do something when object will be delete from local base
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonSyncForce()
-        {
-            return false;
-        }
+        //public override bool AddonSyncForce()
+        //{
+        //    base.AddonSyncForce();
+        //    return false;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
+            base.AddonWebversionUpgradeMe(sOldWebversion, sNewWebVersion);
             // do something when object will be web service upgrade
             // TODO verif if method is call in good place in good timing
         }

@@ -1,16 +1,22 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:13
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -34,21 +40,34 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDLocalizationConfigurationManager SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
             }
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDLocalizationConfigurationManager SharedInstanceFocus()
         {
+            //BTBBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDLocalizationConfigurationManager));
+            foreach (NWDLocalizationConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
         {
             if (kSharedInstance != null)
             {
@@ -62,18 +81,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
                 IconAndTitle.text = NWDConstants.K_LOCALIZATION_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDLocalizationConfigurationManager t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDLocalizationConfigurationManager).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDLocalizationConfigurationManager"))
+                        if (tPathFilename.Equals(typeof(NWDLocalizationConfigurationManager).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -81,10 +101,12 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
@@ -180,6 +202,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

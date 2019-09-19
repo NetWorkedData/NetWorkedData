@@ -1,9 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:22:16
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -30,11 +34,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void OnInspectorGUI()
         {
+            //BTBBenchmark.Start();
             NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
             if (tTarget.mTypeInEdition != null)
             {
-                NWDAliasMethod.InvokeClassMethod(tTarget.mTypeInEdition, NWDConstants.M_DrawTypeInInspector);
+                NWDBasisHelper.FindTypeInfos(tTarget.mTypeInEdition).DrawTypeInInspector();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

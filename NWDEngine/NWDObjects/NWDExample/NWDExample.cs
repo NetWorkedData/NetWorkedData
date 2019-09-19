@@ -1,16 +1,26 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:42:10
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 using System;
 using System.Collections.Generic;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDExampleHelper : NWDHelper<NWDExample>
+    {
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDExample class. This class is use for (complete description here).
@@ -20,7 +30,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("NWDExample_Description")]
     [NWDClassMenuNameAttribute("NWDExample_MenuName")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExample : NWDBasis
     {
         //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
         //-------------------------------------------------------------------------------------------------------------

@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:20:58
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -10,23 +16,12 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
-        public static void ChangeAssetPath(string sOldPath, string sNewPath)
+        public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
-            if (AssetDependent() == true)
-            {
-                foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
-                {
-                    tObject.ChangeAssetPathMe(sOldPath, sNewPath);
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
-        {
+            //BTBBenchmark.Start();
             if (TestIntegrity() == true)
             {
                 bool tUpdate = false;
@@ -55,6 +50,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByDefaultLocal);
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

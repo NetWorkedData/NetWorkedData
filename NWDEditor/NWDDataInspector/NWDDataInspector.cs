@@ -1,9 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:22:33
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -21,8 +25,8 @@ namespace NetWorkedData
     public class NWDDataInspector : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
-        public object mObjectInEdition;
-        public List<object> mObjectsList = new List<object>();
+        public NWDTypeClass mObjectInEdition;
+        public List<NWDTypeClass> mObjectsList = new List<NWDTypeClass>();
         public int ActualIndex = 0;
         public bool RemoveActualFocus = true;
         //-------------------------------------------------------------------------------------------------------------
@@ -32,6 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataInspector ShareInstance()
         {
+            //BTBBenchmark.Start();
             if (kShareInstance == null)
             {
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
@@ -40,6 +45,7 @@ namespace NetWorkedData
                 kShareInstance.minSize = new Vector2(300, 500);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
+            //BTBBenchmark.Finish();
             return kShareInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -61,18 +67,32 @@ namespace NetWorkedData
             ShareInstance().DataPreview();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDDataInspector));
+            foreach (NWDDataInspector tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void DataPreview()
         {
+            //BTBBenchmark.Start();
             ActualIndex--;
             if (ActualIndex < 0)
             {
                 ActualIndex = 0;
             }
-            object tTarget = mObjectsList[ActualIndex];
-            mObjectInEdition = tTarget;
-            Repaint();
-            RemoveActualFocus = true;
-            Focus();
+            if (mObjectsList.Count > ActualIndex)
+            {
+                NWDTypeClass tTarget = mObjectsList[ActualIndex];
+                mObjectInEdition = tTarget;
+                Repaint();
+                RemoveActualFocus = true;
+                Focus();
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedDataNext()
@@ -82,16 +102,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataNext()
         {
+            //BTBBenchmark.Start();
             ActualIndex++;
             if (ActualIndex >= mObjectsList.Count)
             {
                 ActualIndex = 0;
             }
-            object tTarget = mObjectsList[ActualIndex];
-            mObjectInEdition = tTarget;
-            Repaint();
-            RemoveActualFocus = true;
-            Focus();
+            if (mObjectsList.Count > ActualIndex)
+            {
+                NWDTypeClass tTarget = mObjectsList[ActualIndex];
+                mObjectInEdition = tTarget;
+                Repaint();
+                RemoveActualFocus = true;
+                Focus();
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool InspectNetWorkedPreview()
@@ -114,8 +139,9 @@ namespace NetWorkedData
             return (ActualIndex < mObjectsList.Count - 1);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void InspectNetWorkedData(object sTarget, bool sResetStack = true, bool sFocus = true)
+        public static void InspectNetWorkedData(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
+            //BTBBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
@@ -127,22 +153,31 @@ namespace NetWorkedData
                     }
                 }
             }
+            else
+            {
+                ShareInstance().Data(null, true, sFocus);
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Data(object sTarget, bool sResetStack = true, bool sFocus = true)
+        public void Data(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
+            //BTBBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
                 {
-                    MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(sTarget, null);
-                    }
+                    //MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(sTarget, null);
+                    //}
+                    NWDTypeClass tTarget = sTarget as NWDTypeClass;
+                    tTarget.ErrorCheck();
+
                     if (sResetStack == true)
                     {
-                        mObjectsList = new List<object>();
+                        mObjectsList = new List<NWDTypeClass>();
                     }
                     else
                     {
@@ -160,13 +195,25 @@ namespace NetWorkedData
                     {
                         Focus();
                     }
-                    NWDNodeEditor.ReDraw();
+                    NWDNodeEditor.Refresh();
                 }
             }
-            //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
+            else
+            {
+                mObjectsList = new List<NWDTypeClass>();
+                mObjectInEdition = null;
+                Repaint();
+                RemoveActualFocus = sFocus;
+                if (sFocus == true)
+                {
+                    Focus();
+                }
+                NWDNodeEditor.Refresh();
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static object ObjectInEdition()
+        public static NWDTypeClass ObjectInEdition()
         {
             return ShareInstance().mObjectInEdition;
         }
@@ -195,6 +242,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
+
+            this.minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
+            this.maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
+
+
             if (RemoveActualFocus == true)
             {
                 GUI.FocusControl(null);
@@ -228,14 +281,16 @@ namespace NetWorkedData
             }
             else
             {
-                Type tType = mObjectInEdition.GetType();
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
-                }
+                //Type tType = mObjectInEdition.GetType();
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(mObjectInEdition, new object[] { position, true });
+                //}
+                //mObjectInEdition.New_DrawObjectEditor(position, true);
+                mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
             }
-            //			GUI.EndScrollView();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

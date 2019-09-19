@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:42
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -13,16 +19,12 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-
-//using BTBMiniJSON;
+using SQLite4Unity3d;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -95,7 +97,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
-            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+                tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebSynchronisation>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
@@ -106,23 +108,33 @@ namespace NetWorkedData
                 {
                     foreach (Type tType in sTypeList)
                     {
-                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodInfo != null)
+                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                        foreach (Type tR in tHelper.ClasseInThisSync())
                         {
-                            foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
+                            if (tReturn.Contains(tR) == false)
                             {
-                                if (tReturn.Contains(tR) == false)
-                                {
-                                    tReturn.Add(tR);
-                                }
+                                tReturn.Add(tR);
                             }
                         }
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        //if (tMethodInfo != null)
+                        //{
+                        //    foreach (Type tR in tMethodInfo.Invoke(null, null) as List<Type>)
+                        //    {
+                        //        if (tReturn.Contains(tR) == false)
+                        //        {
+                        //            tReturn.Add(tR);
+                        //        }
+                        //    }
+                        //}
                     }
                 }
+                //Debug.Log("New_ClasseInThisSync return : " + string.Join(" ", tReturn));
                 rReturn.TypeList = tReturn;
                 rReturn.ForceSync = sForceSync;
                 rReturn.Special = sSpecial;
                 rReturn.SecureData = sEnvironment.AllwaysSecureData;
+                // TODO : Mettre dans le helper!!!!
                 foreach (Type tType in sTypeList)
                 {
                     if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
@@ -139,7 +151,7 @@ namespace NetWorkedData
                 //NWDOperationResult tResult = new NWDOperationResult();
                 //tOperation.QueueName = NWDAppEnvironment.SelectedEnvironment().Environment;
                 sFailBlock(null, 1.0F, null);
-                Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
+                //Debug.LogWarning("SYNC NEED TO OPEN ALL ACCOUNT TABLES AND LOADED ALL DATAS!");
             }
             return rReturn;
         }
@@ -149,16 +161,48 @@ namespace NetWorkedData
             return NWD.K_WS_FILE;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            Statut = BTBOperationState.ReStart;
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()
         {
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
-            tData.Add("action", "sync");
-            Data = tData;
+            // Not synchronize with temporray account
+            bool tSync = true;
+            //NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(Environment.PlayerAccountReference, null);
+            NWDAppEnvironment.SetEnvironment(Environment);
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            if (tAccountInfos == null)
+            {
+                tSync = false;
+            }
+            else
+            {
+                if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
+                {
+                    tSync = false;
+                }
+            }
+            if (tSync == true)
+            {
+                Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, ForceSync, TypeList, Special);
+                tData.Add(NWD.K_WEB_ACTION_KEY, NWD.K_WEB_ACTION_SYNC_KEY);
+                Data = tData;
+            }
+            else
+            {
+                DataAddSecetDevicekey();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
+#if UNITY_EDITOR
+            NWDAppEnvironmentChooser.Refresh();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

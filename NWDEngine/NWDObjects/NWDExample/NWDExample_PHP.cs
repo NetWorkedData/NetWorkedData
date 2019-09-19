@@ -1,11 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:42:15
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -16,30 +21,35 @@ using System.Reflection;
 using UnityEngine;
 using BasicToolBox;
 using UnityEditor;
+using System.Text;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExampleHelper : NWDHelper<NWDExample>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.Append(base.AddonPhpPreCalculate(sEnvironment));
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t ..."
             //"\t\t\t\t$sCsvList = Prepare" + tClassName + "Data($sCsv);\n"
             //"\t ..."
-            return "// write your php script string here to update $tReference before sync on server\n";
+            rReturn.AppendLine("// write your php script string here to update $tReference before sync on server");
             //"\t ..."
             //"\t Datas Updated"
             //"\t ..."
             //"\t}\n"
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
+        public override string AddonPhpPostCalculate(NWDAppEnvironment sEnvironment)
         {
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.Append(base.AddonPhpPostCalculate(sEnvironment));
             // "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" 
             //"\t{\n" 
             //"\t ..."
@@ -47,33 +57,39 @@ namespace NetWorkedData
             //"\t ..."
             //"\t Datas Updated"
             //"\t ..."
-            return "// write your php script string here to update afetr sync on server\n";
+            rReturn.AppendLine("// write your php script string here to update after sync on server");
             //"\t ..."
             //"\t}\n"
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpGetCalculate)]
-        public static string AddonPhpGetCalculate(NWDAppEnvironment AppEnvironment)
+        public override string  AddonPhpGetCalculate(NWDAppEnvironment sEnvironment)
         {
-            //"while($tRow = $tResult->fetch_row()")
-            //"{"
-            return "// write your php script string here to special operation, example : \n$REP['" + BasisHelper().ClassName + " After Get'] ='success!!!';\n";
-            //"\t}\n"
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.Append(base.AddonPhpGetCalculate(sEnvironment));
+            rReturn.AppendLine("// use $tRow");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassNamePHP + " After Get'] ='success!!!';");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpSpecialCalculate)]
-        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
+        public override string  AddonPhpSpecialCalculate(NWDAppEnvironment sEnvironment)
         {
-            //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
-            //"\t{\n" 
-            return "// write your php script string here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
-            //"\t}\n"
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.Append(base.AddonPhpSpecialCalculate(sEnvironment));
+            rReturn.AppendLine("// in function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_AddonPhpFunctions)]
-        public static string AddonPhpFunctions(NWDAppEnvironment AppEnvironment)
+        public override string  AddonPhpFunctions(NWDAppEnvironment sEnvironment)
         {
-            return "// write your php script string here to add function in php file;\n";
+            StringBuilder rReturn = new StringBuilder();
+            rReturn.Append(base.AddonPhpFunctions(sEnvironment));
+            rReturn.AppendLine("function AddOnOne" + ClassNamePHP + " ($sTimeStamp, $sAccountReferences)");
+            rReturn.AppendLine("{");
+            rReturn.AppendLine("// write your php script string here to special operation, example : $REP['" + ClassName + " Special'] ='success!!!';");
+            rReturn.AppendLine("}");
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

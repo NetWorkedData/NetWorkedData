@@ -2,3 +2,4 @@
 	path = BasicToolBox
 	url = git@gitlab.hephaiscode.com:idemobi-games/BasicToolBox.git
 	fetchrecursesubmodules = true
+	update = checkout

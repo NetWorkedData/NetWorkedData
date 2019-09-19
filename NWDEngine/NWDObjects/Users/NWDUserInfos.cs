@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:20
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -28,7 +34,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UIF")]
     [NWDClassDescriptionAttribute("General User Informations")]
     [NWDClassMenuNameAttribute("User Infos")]
-    public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
+    public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Player Informations")]
@@ -39,13 +45,9 @@ namespace NetWorkedData
         public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
         [NWDInspectorGroupEnd]
 
-       
-
         [NWDInspectorGroupStart("Localization Options")]
         public NWDLanguageType Language { get; set; }
         [NWDInspectorGroupEnd]
-
-       
 
         [NWDInspectorGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn { get; set; }
@@ -58,8 +60,6 @@ namespace NetWorkedData
         public string GoogleNotificationToken { get; set; }
         [NWDInspectorGroupEnd]
 
-       
-
         [NWDInspectorGroupStart("Game Options")]
         public bool SFX { get; set; }
         public float SFXVolume { get; set; }
@@ -67,8 +67,6 @@ namespace NetWorkedData
         public float MusicVolume { get; set; }
         public NWDLocalizableStringType MusicVolumeLangu { get; set; }
         [NWDInspectorGroupEnd]
-
-       
 
         [NWDInspectorGroupStart("Last Game Informations")]
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }

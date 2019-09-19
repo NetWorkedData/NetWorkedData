@@ -1,4 +1,17 @@
-﻿//
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:19:58
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+//
 //  Copyright 2017  Kortex
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,12 +37,21 @@
 // [CONVENTION] xxxxxService
 // [CONVENTION] xxxxxRequestor
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
+/* 
+=====================================================================================================================
+
+ ideMobi ${Year}©
+
+ Date   ${Year}-${Month}-${Day} ${Hour}:${Minute}:${Second}
+ Author ${AuthorName} 
+ Email  ${AuthorEmail}
+ Project    NetWorkedData for Unity3D
+
+ All rights reserved by ideMobi
+
+=====================================================================================================================
+*/
+
 
 // [CONVENTION] use delimiter by namespace
 // [CONVENTION] use delimeter around precompile macro if necessary

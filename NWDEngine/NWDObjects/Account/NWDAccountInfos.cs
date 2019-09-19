@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:20
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -21,7 +27,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
-    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
+    public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
 
@@ -30,9 +36,34 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDAppEnvironmentPlayerStatut AccountType
+        //public NWDAppEnvironmentPlayerStatut AccountType
+        //{
+        //    get; set;
+        //}
+        public NWDAppEnvironmentPlayerStatut AccountType()
         {
-            get; set;
+            NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+            if (Account.GetReference().Contains("T"))
+            {
+                rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+            }
+            else
+            {
+                rReturn = NWDAppEnvironmentPlayerStatut.Certified;
+                NWDAccountSign[] tSigns = NWDBasisHelper.GetCorporateDatas<NWDAccountSign>(Account.GetReference());
+                foreach(NWDAccountSign tSign in tSigns)
+                {
+                    if (tSign.SignType != NWDAccountSignType.None && tSign.SignType != NWDAccountSignType.DeviceID)
+                    {
+                        if (tSign.SignStatus == NWDAccountSignAction.Associated)
+                        {
+                            rReturn = NWDAppEnvironmentPlayerStatut.Signed;
+                            break;
+                        }
+                    }
+                }
+            }
+            return rReturn;
         }
         public NWDReferenceType<NWDAccountAvatar> Avatar
         {
@@ -46,11 +77,22 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public string FirstName
+        //public string FirstName
+        //{
+        //    get; set;
+        //}
+        //public string LastName
+        //{
+        //    get; set;
+        //}
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Stat")]
+        public NWDDateTimeType LastSignIn
         {
             get; set;
         }
-        public string LastName
+        public NWDDateTimeType LastAppOpen
         {
             get; set;
         }

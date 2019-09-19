@@ -1,7 +1,13 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:26
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -13,7 +19,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
+    public partial class NWDUserNetWorking : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNetWorking()
@@ -58,10 +64,10 @@ namespace NetWorkedData
                     OtherData.Add(typeof(NWDUserNetWorking));
                 }
                 // do something with this class
-                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstData();
+                NWDUserNetWorking tUserNetWorking = NWDBasisHelper.GetCorporateFirstData<NWDUserNetWorking>();
                 if (tUserNetWorking == null)
                 {
-                    tUserNetWorking = NWDUserNetWorking.NewData();
+                    tUserNetWorking = NWDBasisHelper.NewData<NWDUserNetWorking>();
                     tUserNetWorking.InsertData();
                 }
             }
@@ -71,7 +77,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDUserNetWorking Static NetworkingUpdate()");
                 Started = true;
-            NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstData();
+            NWDUserNetWorking tUserNetWorking = NWDBasisHelper.GetCorporateFirstData<NWDUserNetWorking>();
                 if (tUserNetWorking != null)
                 {
                     DateTime tDateTime = DateTime.Now;
@@ -92,7 +98,7 @@ namespace NetWorkedData
             if (Started == true)
             {
                 Started = false;
-                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstData();
+                NWDUserNetWorking tUserNetWorking = NWDBasisHelper.GetCorporateFirstData<NWDUserNetWorking>();
                 if (tUserNetWorking != null)
                 {
                     tUserNetWorking.Offline();

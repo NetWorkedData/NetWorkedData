@@ -1,16 +1,23 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:9
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -22,7 +29,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The Shared Instance.
+        /// The shared instance.
         /// </summary>
         private static NWDAppConfigurationManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
@@ -35,16 +42,36 @@ namespace NetWorkedData
         /// </summary>
         static Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
             }
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
+        /// <summary>
+        /// Repaint all app configuration manager windows.
+        /// </summary>
+        public static void Refresh()
+        {
+            //BTBBenchmark.Start();
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppConfigurationManager));
+            foreach (NWDAppConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
         {
             if (kSharedInstance != null)
             {
@@ -56,15 +83,25 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of app configuration manager window and focus on.
+        /// </summary>
+        /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstanceFocus()
         {
+            //BTBBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             // Init Title and icon 
             if (IconAndTitle == null)
             {
@@ -72,12 +109,13 @@ namespace NetWorkedData
                 IconAndTitle.text = NWDConstants.K_APP_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppConfigurationManager t:texture");
+                    
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppConfigurationManager).Name+" t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDAppConfigurationManager"))
+                        if (tPathFilename.Equals(typeof(NWDAppConfigurationManager).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -85,15 +123,20 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
-                EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
@@ -101,16 +144,17 @@ namespace NetWorkedData
             }
             // begin scroll view
             NWDGUILayout.Title("App configurations");
-            NWDGUILayout.Informations("BECAREfull!");
+            NWDGUILayout.Informations("The settings below modify the compiled binary. Be careful when making changes.!");
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account Anonymous");
-            NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal = EditorGUILayout.ToggleLeft("Anonymous account is stored on system device!", NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal);
+            //NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal = EditorGUILayout.ToggleLeft("Anonymous account is stored on system device!", NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal);
+            NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);
 
-            NWDGUILayout.Section("WebServices");
-            NWDGUILayout.SubSection("Webservices config for all environements");
+            NWDGUILayout.Section("Web Services");
+            NWDGUILayout.SubSection("Web Services config for all environments");
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
@@ -130,9 +174,9 @@ namespace NetWorkedData
                     tWSListUsableString.Add(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000"));
                 }
             }
-            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
+            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("Web Service Folder", NWDAppConfiguration.SharedInstance().WebFolder);
             int tIndexWS = tWSListUsable.IndexOf(NWDAppConfiguration.SharedInstance().WebBuild);
-            tIndexWS = EditorGUILayout.Popup("WebService active", tIndexWS, tWSListUsableString.ToArray());
+            tIndexWS = EditorGUILayout.Popup("Web Service active", tIndexWS, tWSListUsableString.ToArray());
             if (tIndexWS >= 0)
             {
                 NWDAppConfiguration.SharedInstance().WebBuild = tWSListUsable[tIndexWS];
@@ -160,60 +204,90 @@ namespace NetWorkedData
             // Database informations
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
-            NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Sur Protected Database", NWDAppConfiguration.SharedInstance().SurProtected);
+            NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Overprotected Database", NWDAppConfiguration.SharedInstance().SurProtected);
             if (NWDAppConfiguration.SharedInstance().SurProtected == true)
             {
                 NWDAppConfiguration.SharedInstance().PreloadDatas = false;
             }
             EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
-            NWDAppConfiguration.SharedInstance().PinCodeLenghtMin = EditorGUILayout.IntField("Min lenght", NWDAppConfiguration.SharedInstance().PinCodeLenghtMin);
-            NWDAppConfiguration.SharedInstance().PinCodeLenghtMax = EditorGUILayout.IntField("Max lenght", NWDAppConfiguration.SharedInstance().PinCodeLenghtMax);
+            NWDAppConfiguration.SharedInstance().PinCodeLenghtMin = EditorGUILayout.IntField("Min length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMin);
+            NWDAppConfiguration.SharedInstance().PinCodeLenghtMax = EditorGUILayout.IntField("Max length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMax);
 
-            NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Sur Protected Tentative", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
+            NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Maximum attempt", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
             EditorGUI.EndDisabledGroup();
             EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
-            //NWDAppConfiguration.SharedInstance().PreloadDatasInEditor = EditorGUILayout.Toggle("Preload In Editor", NWDAppConfiguration.SharedInstance().PreloadDatasInEditor);
             EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
-            NWDGUILayout.SubSection("Databases Editor config for all environements");
-            //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
+            NWDGUILayout.SubSection("Databases editor config for all environments");
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
-            EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
-            EditorGUILayout.LabelField("EditorPassA", NWDAppConfiguration.SharedInstance().EditorPassA);
-            EditorGUILayout.LabelField("EditorPassAB", NWDAppConfiguration.SharedInstance().EditorPassB);
+            EditorGUILayout.LabelField("Editor hash salt", NWDAppConfiguration.SharedInstance().EditorPass);
+            EditorGUILayout.LabelField("Editor hash salt A", NWDAppConfiguration.SharedInstance().EditorPassA);
+            EditorGUILayout.LabelField("Editor hash salt B", NWDAppConfiguration.SharedInstance().EditorPassB);
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.TextField("Editor Pass Result", NWDAppConfiguration.SharedInstance().GetEditorPass());
+            EditorGUILayout.TextField("Editor pass result", NWDAppConfiguration.SharedInstance().GetEditorPass());
             EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Editor Database File"))
+            if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
             {
-                EditorUtility.RevealInFinder("Assets/" +tDatabasePathEditor);
+                BTBClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
+                EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
+                EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
-                Debug.LogWarning("Editor Pass Result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
+                Debug.LogWarning("Editor pass result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
             }
             // Database account informations
-            NWDGUILayout.SubSection("Databases Accountconfig for all environements (by device)");
-            //GUILayout.Label(" TODO : explain", EditorStyles.helpBox);
+            NWDGUILayout.SubSection("Databases accounts config for all environments (by device)");
             EditorGUILayout.LabelField("Account path ", NWDDataManager.SharedInstance().PathDatabaseAccount());
-            EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
-            EditorGUILayout.LabelField("AccountHashSaltA", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
-            EditorGUILayout.LabelField("AccountHashSaltB", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
-            EditorGUI.BeginDisabledGroup(true);
-            if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+            EditorGUILayout.LabelField("Account hash salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
+            EditorGUILayout.LabelField("Account hash salt A", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
+            EditorGUILayout.LabelField("Account hash salt B", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
+            string tSurProtection = string.Empty;
+
+           if (NWDAppConfiguration.SharedInstance().SurProtected == true)
             {
-                EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass(EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY)));
-            }
-            EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Account Database File"))
-            {
-                EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
-                Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
-                if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                if (NWDDataManager.SharedInstance().DatabaseAccountExists() == false)
                 {
-                    Debug.LogWarning("Account Pass Result = " + NWDAppConfiguration.SharedInstance().GetAccountPass(EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY)));
                 }
+                else
+                {
+#if UNITY_EDITOR
+                    if (NWDLauncher.EditorByPass == true)
+                    {
+                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                        {
+                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+                        }
+                    }
+#endif
+                }
+            }
+            else
+            {
+#if UNITY_EDITOR
+                if (NWDLauncher.EditorByPass == true)
+                {
+                    if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                    {
+                        tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+                    }
+                }
+#endif
+            }
+
+            string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(tSurProtection);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.TextField("Account pass result", tAccountPass);
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Account Database File and password copy to Clipboard"))
+            {
+                BTBClipboard.CopyToClipboard(tAccountPass);
+                EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
+                Debug.LogWarning("Account pass result = " + tAccountPass);
+                
             }
             NWDGUILayout.LittleSpace();
             // finish scroll view
@@ -228,6 +302,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

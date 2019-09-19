@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:35
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -21,14 +27,15 @@ namespace NetWorkedData
         public float performRequest { get; private set; }
         public bool isError { get; private set; }
         public string errorCode { get; private set; }
+        public string errorInfos { get; private set; }
         public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
-        public NWDAppEnvironmentPlayerStatut sign { get; private set; }
-        public bool isSignUpdate { get; private set; }
+        //public NWDAppEnvironmentPlayerStatut sign { get; private set; }
+        //public bool isSignUpdate { get; private set; }
         public string uuid { get; private set; }
         public bool isSignIn { get; private set; }
         public bool isSignOut { get; private set; }
-        public bool isSignUp { get; private set; }
+        public bool isRescue { get; private set; }
         //public bool isGoogleSignIn
         //{
         //    get; private set;
@@ -45,11 +52,11 @@ namespace NetWorkedData
         //{
         //    get; private set;
         //}
-        public bool isCreateAnonymous { get; private set; }
-        public string signkey { get; private set; }
+        //public bool isCreateAnonymous { get; private set; }
+        //public string signkey { get; private set; }
         public bool isNewUser { get; private set; }
         public bool isUserTransfert { get; private set; }
-        public bool isReloadingData { get; private set; }
+        //public bool isReloadingData { get; private set; }
         public int wsBuild { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> param { get; private set; }
@@ -75,33 +82,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(Dictionary<string, object> sData)
         {
-            if (sData.ContainsKey("timestamp"))
+            if (sData.ContainsKey(NWD.K_JSON_TIMESTAMP_KEY))
             {
-                timestamp = int.Parse(sData["timestamp"].ToString());
+                timestamp = int.Parse(sData[NWD.K_JSON_TIMESTAMP_KEY].ToString());
             }
-            if (sData.ContainsKey("perform"))
+            if (sData.ContainsKey(NWD.K_JSON_PERFORM_KEY))
             {
-                perform = float.Parse(sData["perform"].ToString());
+                perform = float.Parse(sData[NWD.K_JSON_PERFORM_KEY].ToString());
             }
-            if (sData.ContainsKey("performRequest"))
+            if (sData.ContainsKey(NWD.K_JSON_PERFORM_REQUEST_KEY))
             {
-                performRequest = float.Parse(sData["performRequest"].ToString());
+                performRequest = float.Parse(sData[NWD.K_JSON_PERFORM_REQUEST_KEY].ToString());
             }
-            if (sData.ContainsKey("token"))
+            if (sData.ContainsKey(NWD.RequestTokenKey))
             {
-                token = sData["token"] as string;
+                token = sData[NWD.RequestTokenKey] as string;
             }
-            if (sData.ContainsKey("signin"))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNIN_KEY))
             {
-                isSignIn = (bool)sData["signin"];
+                isSignIn = (bool)sData[NWD.K_WEB_ACTION_SIGNIN_KEY];
             }
-            if (sData.ContainsKey("signout"))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNOUT_KEY))
             {
-                isSignOut = (bool)sData["signout"];
+                isSignOut = (bool)sData[NWD.K_WEB_ACTION_SIGNOUT_KEY];
             }
-            if (sData.ContainsKey("signup"))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_RESCUE_KEY))
             {
-                isSignUp = (bool)sData["signup"];
+                isRescue = (bool)sData[NWD.K_WEB_ACTION_RESCUE_KEY];
+            }
+            if (sData.ContainsKey(NWD.K_JSON_ERROR_INFOS_KEY))
+            {
+                errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
             }
             //if (data.ContainsKey("google_signin"))
             //{
@@ -119,53 +130,53 @@ namespace NetWorkedData
             //{
             //    isFacebookSignUp = (bool)data["facebook_signup"];
             //}
-            if (sData.ContainsKey("create-anonymous"))
+            //if (sData.ContainsKey("create-anonymous"))
+            //{
+            //    isCreateAnonymous = (bool)sData["create-anonymous"];
+            //}
+            //if (sData.ContainsKey("sign"))
+            //{
+            //    isSignUpdate = true;
+            //    try
+            //    {
+            //        //sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), sData["sign"].ToString(), true);
+            //    }
+            //    catch (ArgumentException e)
+            //    {
+            //        Debug.Log(e.StackTrace);
+            //    }
+            //}
+            //if (sData.ContainsKey("signkey"))
+            //{
+            //    signkey = sData["signkey"] as string;
+            //}
+            if (sData.ContainsKey(NWD.K_JSON_ERROR_KEY))
             {
-                isCreateAnonymous = (bool)sData["create-anonymous"];
+                isError = (bool)sData[NWD.K_JSON_ERROR_KEY];
             }
-            if (sData.ContainsKey("sign"))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_NEW_USER_KEY))
             {
-                isSignUpdate = true;
-                try
-                {
-                    sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), sData["sign"].ToString(), true);
-                }
-                catch (ArgumentException e)
-                {
-                    Debug.Log(e.StackTrace);
-                }
+                isNewUser = (bool)sData[NWD.K_WEB_ACTION_NEW_USER_KEY];
             }
-            if (sData.ContainsKey("signkey"))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_USER_TRANSFERT_KEY))
             {
-                signkey = sData["signkey"] as string;
+                isUserTransfert = (bool)sData[NWD.K_WEB_ACTION_USER_TRANSFERT_KEY];
             }
-            if (sData.ContainsKey("error"))
+            //if (sData.ContainsKey("reloaddatas"))
+            //{
+            //    isReloadingData = (bool)sData["reloaddatas"];
+            //}
+            if (sData.ContainsKey(NWD.K_JSON_ERROR_CODE_KEY))
             {
-                isError = (bool)sData["error"];
+                errorCode = sData[NWD.K_JSON_ERROR_CODE_KEY] as string;
             }
-            if (sData.ContainsKey("newuser"))
+            if (sData.ContainsKey(NWD.UUIDKey))
             {
-                isNewUser = (bool)sData["newuser"];
+                uuid = sData[NWD.UUIDKey] as string;
             }
-            if (sData.ContainsKey("usertransfert"))
+            if (sData.ContainsKey(NWD.K_JSON_WEB_SERVICE_KEY))
             {
-                isUserTransfert = (bool)sData["usertransfert"];
-            }
-            if (sData.ContainsKey("reloaddatas"))
-            {
-                isReloadingData = (bool)sData["reloaddatas"];
-            }
-            if (sData.ContainsKey("error_code"))
-            {
-                errorCode = sData["error_code"] as string;
-            }
-            if (sData.ContainsKey("uuid"))
-            {
-                uuid = sData["uuid"] as string;
-            }
-            if (sData.ContainsKey("wsbuild"))
-            {
-                wsBuild = int.Parse(sData["wsbuild"].ToString());
+                wsBuild = int.Parse(sData[NWD.K_JSON_WEB_SERVICE_KEY].ToString());
                 //int tWSBuildEditor = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD);
                 int tWSBuildEditor = NWDAppConfiguration.SharedInstance().WebBuild;
                 if (wsBuild != tWSBuildEditor)
@@ -178,7 +189,7 @@ namespace NetWorkedData
 
             if (isError)
             {
-                errorDesc = NWDError.GetErrorWithCode(errorCode) as NWDError;
+                errorDesc = NWDError.FindDataByCode(errorCode) as NWDError;
                 // Move to the good place
                 //if (errorDesc != null)
                 //{
@@ -189,11 +200,18 @@ namespace NetWorkedData
             param = new Dictionary<string, object>(sData);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetErrorCode(string sCode)
+        //public void SetErrorCode(string sCode)
+        //{
+        //    errorDesc = NWDError.FindDataByCode(sCode) as NWDError;
+        //    isError = true;
+        //    errorCode = sCode;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetError(NWDError sError)
         {
-            errorDesc = NWDError.GetErrorWithCode(sCode) as NWDError;
+            errorDesc = sError;
             isError = true;
-            errorCode = sCode;
+            errorCode = sError.Code;
         }
         //-------------------------------------------------------------------------------------------------------------
         private void Init()
@@ -209,13 +227,13 @@ namespace NetWorkedData
             //isGoogleSignUp = false;
             //isFacebookSignIn = false;
             //isFacebookSignUp = false;
-            isCreateAnonymous = false;
-            signkey = string.Empty;
-            sign = NWDAppEnvironmentPlayerStatut.Unknow;
-            isSignUpdate = false;
+            //isCreateAnonymous = false;
+            //signkey = string.Empty;
+            //sign = NWDAppEnvironmentPlayerStatut.Unknow;
+            //isSignUpdate = false;
             isNewUser = false;
             isUserTransfert = false;
-            isReloadingData = false;
+            //isReloadingData = false;
             uuid = string.Empty;
 
             param = new Dictionary<string, object>();

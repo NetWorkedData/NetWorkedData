@@ -1,11 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:42:12
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System;
 using System.Collections;
@@ -16,18 +21,13 @@ using System.Reflection;
 using UnityEngine;
 using BasicToolBox;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExample : NWDBasis
     {
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_ErrorRegenerate)]
-        public static void ErrorRegenerate()
-        {
-            NWDError.CreateGenericError("NWDExample BasicError", "NWDExample_Triz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
-        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons in edition state of object.
@@ -36,44 +36,35 @@ namespace NetWorkedData
         /// <param name="sNeedBeUpdate">If set to <c>true</c> need be update in enter.</param>
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
-            if (sNeedBeUpdate == true)
+            // do base
+            bool tNeedBeUpdate =  base.AddonEdited(sNeedBeUpdate);
+            if (tNeedBeUpdate == true)
             {
                 // do something
             }
-            return sNeedBeUpdate;
+            return tNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor interface.
         /// </summary>
         /// <returns>The editor height addon.</returns>
-        /// <param name="sInRect">S in rect.</param>
-        public override float AddonEditor(Rect sInRect)
+        /// <param name="sRect">S in rect.</param>
+        public override void AddonEditor(Rect sRect)
         {
+            base.AddonEditor(sRect);
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor intreface expected height.
         /// </summary>
         /// <returns>The editor expected height.</returns>
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = base.AddonEditorHeight(sWidth);
             return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Adds the width of node draw.
-        /// </summary>
-        /// <returns>The on node draw width.</returns>
-        /// <param name="sDocumentWidth">S document width.</param>
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
-        {
-            return 250.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -82,30 +73,23 @@ namespace NetWorkedData
         /// <returns>The on node draw height.</returns>
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            float tYadd = base.AddOnNodeDrawHeight(sCardWidth);
+            tYadd += 130;
+            return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Adds node draw.
         /// </summary>
         /// <param name="sRect">S rect.</param>
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void AddOnNodeDraw(Rect sRect)
         {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Adds color on node.
-        /// </summary>
-        /// <returns>The on node color.</returns>
-        public override Color AddOnNodeColor()
-        {
-            return Color.gray;
+            base.AddOnNodeDraw(sRect);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonErrorFound()
         {
-            bool rReturnErrorFound = false;
+            bool rReturnErrorFound = base.AddonErrorFound();
             // check if you found error in Data values.
             // normal way is return false!
             return rReturnErrorFound;

@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:24:46
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -26,17 +32,17 @@ namespace NetWorkedData
         #region properties
         //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
-        [NWDAlias(NWD.K_DevEnvironment)]
+       // [NWDAlias(NWD.K_DevEnvironment)]
         public NWDAppEnvironment DevEnvironment
         {
             set; get;
         }
-        [NWDAlias(NWD.K_PreprodEnvironment)]
+       // [NWDAlias(NWD.K_PreprodEnvironment)]
         public NWDAppEnvironment PreprodEnvironment
         {
             set; get;
         }
-        [NWDAlias(NWD.K_ProdEnvironment)]
+       // [NWDAlias(NWD.K_ProdEnvironment)]
         public NWDAppEnvironment ProdEnvironment
         {
             set; get;
@@ -68,12 +74,16 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
-        public int PinCodeLenghtMin = 4;
-        public int PinCodeLenghtMax = 8;
         //public bool PreloadDatasInEditor = true;
-        public bool AnonymousPlayerIsLocal = true;
-        public bool SurProtected = false;
-        public int ProtectionTentativeMax = 6;
+        //public bool AnonymousPlayerIsLocal = true;
+        public bool AnonymousDeviceConnected = true;
+
+        public bool SurProtected = false; //TODO:  rename OverProtected
+        public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
+        public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
+        public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
+
+        public bool EditorTableCommun = true; //TODO param in config editor extension...
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
@@ -306,39 +316,39 @@ namespace NetWorkedData
             return DevEnvironment.Selected;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool AdminInPLayer()
-        {
-            bool rReturn = false;
-            NWDAppEnvironment tEnvironment = SelectedEnvironment();
-            if (tEnvironment.AdminInPlayer == true)
-            {
-                if (string.IsNullOrEmpty(tEnvironment.AdminKey) == false)
-                {
-                    if (string.IsNullOrEmpty(tEnvironment.AdminKeyHash) == false)
-                    {
-                        if (tEnvironment.AdminKeyHash == tEnvironment.AdminKeyHashGenerate())
-                        {
-                            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-                            //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
-                            //{
-                                foreach (NWDAccounTest tAccount in NWDAccount.GetTestsAccounts())
-                                {
-                                    if (tAccount.Reference == tEnvironment.PlayerAccountReference)
-                                    {
-                                        rReturn = true;
-                                    }
-                                }
-                            //}
-                        }
-                    }
-                }
-            }
-            return rReturn;
-        }
+        //public bool AdminInPLayer()
+        //{
+        //    bool rReturn = false;
+        //    NWDAppEnvironment tEnvironment = SelectedEnvironment();
+        //    if (tEnvironment.AdminInPlayer == true)
+        //    {
+        //        if (string.IsNullOrEmpty(tEnvironment.AdminKey) == false)
+        //        {
+        //            if (string.IsNullOrEmpty(tEnvironment.AdminKeyHash) == false)
+        //            {
+        //                if (tEnvironment.AdminKeyHash == tEnvironment.AdminKeyHashGenerate())
+        //                {
+        //                    //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
+        //                    //if (tAccountInfos.Tag == NWDBasisTag.TagAdminCreated)
+        //                    //{
+        //                        foreach (NWDAccounTest tAccount in NWDAccount.SelectDatasForTests())
+        //                        {
+        //                            if (tAccount.Reference == tEnvironment.PlayerAccountReference)
+        //                            {
+        //                                rReturn = true;
+        //                            }
+        //                        }
+        //                    //}
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment[] AllEnvironements()
         {
-            NWDAppEnvironment[] tEnvironnements = new NWDAppEnvironment[] {
+            NWDAppEnvironment[] tEnvironnements = {
                 DevEnvironment,
                 PreprodEnvironment,
                 ProdEnvironment

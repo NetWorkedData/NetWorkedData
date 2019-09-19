@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:51
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -125,14 +133,16 @@ namespace NetWorkedData
         //    return tResourceRequest;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public GameObject ToGameObject (GameObject sParent = null)
+        public GameObject ToGameObject(GameObject sParent = null, bool sWorldPosition = true)
 		{
 			GameObject rReturn = null;
-			GameObject tPrefab = ToPrefab ();
-			if (tPrefab != null) {
-				rReturn = UnityEngine.Object.Instantiate (tPrefab);
-				if (sParent != null) {
-					rReturn.transform.SetParent (sParent.transform);
+			GameObject tPrefab = ToPrefab();
+			if (tPrefab != null)
+            {
+				rReturn = UnityEngine.Object.Instantiate(tPrefab);
+				if (sParent != null)
+                {
+					rReturn.transform.SetParent(sParent.transform, sWorldPosition);
 				}
 			}
 			return rReturn;
@@ -188,7 +198,7 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDPrefabType tTemporary = new NWDPrefabType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

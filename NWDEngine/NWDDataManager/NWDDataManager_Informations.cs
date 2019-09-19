@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:10
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -38,15 +44,17 @@ namespace NetWorkedData
                                    "_______________\n";
             foreach (Type tType in mTypeLoadedList)
             {
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Informations);
-                if (tMethodInfo != null)
-                {
-                    tInformations += " • " + tMethodInfo.Invoke(null, null);
-                }
-                else
-                {
-                    tInformations += tType.Name + " error \n";
-                }
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tInformations += " • " + tHelper.Informations();
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Informations);
+                //if (tMethodInfo != null)
+                //{
+                //    tInformations += " • " + tMethodInfo.Invoke(null, null);
+                //}
+                //else
+                //{
+                //    tInformations += tType.Name + " error \n";
+                //}
             }
             InformationsString = tInformations;
         }
@@ -59,6 +67,11 @@ namespace NetWorkedData
         public float PurcentLoaded()
         {
             return (float)ClassDataLoaded / (float)ClassExpected;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float PurcentIndexed()
+        {
+            return (float)ClassIndexation / (float)ClassExpected;
         }
         //-------------------------------------------------------------------------------------------------------------
         public float PurcentEditorLoaded()

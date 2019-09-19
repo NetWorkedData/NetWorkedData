@@ -1,9 +1,15 @@
-﻿////=====================================================================================================================
-////
-//// ideMobi copyright 2017 
-//// All rights reserved by ideMobi
-////
-////=====================================================================================================================
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:0
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
 
 //using System;
 //using System.Collections;
@@ -27,27 +33,27 @@
 //namespace NetWorkedData
 //{
 //	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+//    public partial class NWDBasis : NWDTypeClass where K : NWDBasis, new()
 //	{
 //        //-------------------------------------------------------------------------------------------------------------
 //		static bool cFileMustBeWrite = false;
 //        //-------------------------------------------------------------------------------------------------------------
 //		public static void MustUpdateFile()
 //        {
-//            Debug.Log("NWDBasis<K> MustUpdateFile()");
+//            Debug.Log("NWDBasis MustUpdateFile()");
 //			cFileMustBeWrite=true;
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static void ForceWriteFile()
 //        {
-//            Debug.Log("NWDBasis<K> ForceWriteFile()");
+//            Debug.Log("NWDBasis ForceWriteFile()");
 //            cFileMustBeWrite = true;
 //            WriteFile();
 //        }
 //		//-------------------------------------------------------------------------------------------------------------
 //		public static void WriteFile()
 //		{
-//            Debug.Log("NWDBasis<K> WriteFile()");
+//            Debug.Log("NWDBasis WriteFile()");
 //            //BTBBenchmark.Start();
 //			if (cFileMustBeWrite==true)
 //			{
@@ -141,7 +147,7 @@
 //		//-------------------------------------------------------------------------------------------------------------
 //        public static void ReadFile()
 //        {
-//            Debug.Log("NWDBasis<K> ReadFile()");
+//            Debug.Log("NWDBasis ReadFile()");
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //	}

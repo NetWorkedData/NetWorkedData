@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:48
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections.Generic;
@@ -106,18 +114,21 @@ namespace NetWorkedData
                 //BTBBenchmark.Finish("Launcher() reflexion");
                 foreach (Type tType in tAllNWDTypes)
                 {
-                    // not the NWDBasis<K> because it's generic class
+                    // not the NWDBasis because it's generic class
                     if (tType.ContainsGenericParameters == false)
                     {
                         // add type in list of class
                         tTypeList.Add(tType);
                         // invoke the ClassDeclare method!
-                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
 
-                        if (tMethodInfo != null)
-                        {
-                            tMethodInfo.Invoke(null, null);
-                        }
+                        NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType);
+
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
+
+                        //if (tMethodInfo != null)
+                        //{
+                        //    tMethodInfo.Invoke(null, null);
+                        //}
                     }
                 }
                 AllTypes = tTypeList.ToArray();

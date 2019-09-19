@@ -1,9 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:22:35
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -32,8 +36,10 @@ namespace NetWorkedData
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  " + tType.Name + " objects", tOperation / tCountClass);
                 tOperation++;
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ReOrderAllLocalizations);
 
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.ReOrderAllLocalizations();
+                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ReOrderAllLocalizations);
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
@@ -61,12 +67,14 @@ namespace NetWorkedData
                 // populate file by class result
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                 {
-                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
-                    if (tMethodInfo != null)
-                    {
-                        string tResult = tMethodInfo.Invoke(null, null) as string;
-                        tFile += tResult;
-                    }
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                    tFile +=  tHelper.ExportLocalizationInCSV();
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    string tResult = tMethodInfo.Invoke(null, null) as string;
+                    //    tFile += tResult;
+                    //}
                 }
                 // write file
                 File.WriteAllText(tPath, tFile);
@@ -90,12 +98,13 @@ namespace NetWorkedData
                 {
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
                     {
-                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
-                        if (tMethodInfo != null)
-                        {
-                            string tResult = tMethodInfo.Invoke(null, new object[] { tLanguageArray, tFileRows }) as string;
-                            tFile += tResult;
-                        }
+                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                        tHelper.ImportAllLocalizations(tLanguageArray, tFileRows);
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
+                        //if (tMethodInfo != null)
+                        //{
+                        //    string tResult = tMethodInfo.Invoke(null, new object[] { tLanguageArray, tFileRows }) as string;
+                        //}
                     }
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();

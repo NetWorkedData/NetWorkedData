@@ -1,16 +1,22 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:16
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -31,21 +37,34 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentChooser SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
             }
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentChooser SharedInstanceFocus()
         {
+            //BTBBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppEnvironmentChooser));
+            foreach (NWDAppEnvironmentChooser tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
         {
             if (kSharedInstance != null)
             {
@@ -59,18 +78,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
                 IconAndTitle.text = NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentChooser t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDAppEnvironmentChooser).Name + " t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDAppEnvironmentChooser"))
+                        if (tPathFilename.Equals(typeof(NWDAppEnvironmentChooser).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -78,10 +98,12 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
 
             NWDGUILayout.Title("Environment chooser");
@@ -102,7 +124,7 @@ namespace NetWorkedData
             {
                 tTabSelected = 2;
             }
-            string[] tTabList = new string[3] {
+            string[] tTabList = {
                 NWDConstants.K_APP_CONFIGURATION_DEV,
                 NWDConstants.K_APP_CONFIGURATION_PREPROD,
                 NWDConstants.K_APP_CONFIGURATION_PROD
@@ -141,12 +163,23 @@ namespace NetWorkedData
                 {
                     NWDAppEnvironmentSync.SharedInstance().Repaint();
                 }
+                NWDDataInspector.Refresh();
             }
             // Show version selected
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
+            //SystemInfo.deviceUniqueIdentifier
+            EditorGUILayout.LabelField("Device ID", SystemInfo.deviceUniqueIdentifier, EditorStyles.label);
+            EditorGUILayout.LabelField("Secret Key used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice(), EditorStyles.label);
+            EditorGUILayout.LabelField("Secret Key editor", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor(), EditorStyles.label);
+            EditorGUILayout.LabelField("Secret Key player", NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer(), EditorStyles.label);
             EditorGUILayout.LabelField("Account used", NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-            NWDAccount tAccount = NWDAccount.CurrentAccount();
+            NWDAccount tAccount = null;
+            string tAccountReference = NWDAccount.CurrentReference();
+            if (NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference.ContainsKey(tAccountReference))
+            {
+                tAccount = NWDBasisHelper.BasisHelper<NWDAccount>().DatasByReference[tAccountReference] as NWDAccount;
+            }
             if (tAccount != null)
             {
                 NWDGUILayout.SubSection("Account");
@@ -166,9 +199,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Account informations");
                 string tAccountInfosReference = "?";
-                if (NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null) != null)
+                if (NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null) != null)
                 {
-                    NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
+                    NWDAccountInfos tAccountInfos = NWDBasisHelper.GetCorporateFirstData<NWDAccountInfos>(NWDAccount.CurrentReference(), null);
                     tAccountInfosReference = tAccountInfos.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, tAccountInfosReference);
 
@@ -183,9 +216,9 @@ namespace NetWorkedData
                 }
                 NWDGUILayout.SubSection("Gamse save informations");
                 string tGameSaveReference = "?";
-                if (NWDGameSave.CurrentForAccount(tAccount.Reference) != null)
+                if (NWDGameSave.SelectCurrentDataForAccount(tAccount.Reference) != null)
                 {
-                    NWDGameSave tGameSave = NWDGameSave.CurrentForAccount(tAccount.Reference);
+                    NWDGameSave tGameSave = NWDGameSave.SelectCurrentDataForAccount(tAccount.Reference);
                     tGameSaveReference = tGameSave.Reference;
                     EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
                     if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
@@ -208,6 +241,7 @@ namespace NetWorkedData
                 NWDGUILayout.BigSpace();
             }
             GUILayout.EndScrollView();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

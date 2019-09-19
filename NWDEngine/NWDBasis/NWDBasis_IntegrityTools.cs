@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:7
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -27,59 +33,59 @@ namespace NetWorkedData
     /// <summary>
     /// NWD basis. Integrity tools
     /// </summary>
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Determines hash sum of specified strToEncrypt.
-        /// </summary>
-        /// <returns>Integrity value</returns>
-        /// <param name="strToEncrypt">String to encrypt.</param>
-        public static string HashSum(string strToEncrypt)
-        {
-            // force to utf-8
-            System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
-            byte[] bytes = ue.GetBytes(strToEncrypt);
-            // encrypt bytes
-            System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            byte[] hashBytes = md5.ComputeHash(bytes);
-            // Convert the encrypted bytes back to a string (base 16)
-            string hashString = string.Empty;
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
-            }
-            // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
-            hashString = hashString.Replace(NWDConstants.kStandardSeparator, string.Empty);
-            // return value
-            return hashString.PadLeft(24, '0');
-        }
+        ///// <summary>
+        ///// Determines hash sum of specified strToEncrypt.
+        ///// </summary>
+        ///// <returns>Integrity value</returns>
+        ///// <param name="strToEncrypt">String to encrypt.</param>
+        //public static string HashSum(string strToEncrypt)
+        //{
+        //    // force to utf-8
+        //    System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
+        //    byte[] bytes = ue.GetBytes(strToEncrypt);
+        //    // encrypt bytes
+        //    System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+        //    byte[] hashBytes = md5.ComputeHash(bytes);
+        //    // Convert the encrypted bytes back to a string (base 16)
+        //    string hashString = string.Empty;
+        //    for (int i = 0; i < hashBytes.Length; i++)
+        //    {
+        //        hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
+        //    }
+        //    // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
+        //    hashString = hashString.Replace(NWDConstants.kStandardSeparator, string.Empty);
+        //    // return value
+        //    return hashString.PadLeft(24, '0');
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Recalculates all integrities for all objects in ObjectsList.
         /// </summary>
-        public static void RecalculateAllIntegrities()
-        {
-            //loop
-            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
-            {
-                // update integrity value
-                tObject.UpdateIntegrity();
-                // force to write object in database
-                tObject.UpdateData();
-            }
-        }
+        //public static void RecalculateAllIntegrities()
+        //{
+        //    //loop
+        //    foreach (NWDBasis tObject in BasisHelper().Datas)
+        //    {
+        //        // update integrity value
+        //        tObject.UpdateIntegrity();
+        //        // force to write object in database
+        //        tObject.UpdateData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region Instance Methods
         //-------------------------------------------------------------------------------------------------------------
         public void NotNullChecker()
         {
-            //Debug.Log("NWDBasis<K> NotNullChecker()");
+            //Debug.Log("NWDBasis NotNullChecker()");
             Type tType = ClassType();
             //List<string> tPropertiesList = PropertiesOrderArray();
-            List<string> tPropertiesList = SLQIntegrityOrder();
+            List<string> tPropertiesList = BasisHelper().SLQIntegrityOrder();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -191,21 +197,28 @@ namespace NetWorkedData
         /// <summary>
         /// Updates the integrity. Set the integrity value of object's data in the field Integrity.
         /// </summary>
-        public void UpdateIntegrity()
+        public override void UpdateIntegrity()
         {
-            //Debug.Log("NWDBasis<K> UpdateIntegrity()");
+            //Debug.Log("NWDBasis UpdateIntegrity()");
             NotNullChecker();
 #if UNITY_EDITOR
             ServerLog = IntegrityAssembly();
 #endif
             Integrity = IntegrityValue();
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        //public override void UpdateIntegrityAction()
+        //{
+        //    //UpdateIntegrity();
+        //    UpdateData();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Tests the integrity.
         /// </summary>
         /// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
-        public bool TestIntegrity()
+        public override bool TestIntegrity()
         {
             bool rReturn = false;
             if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
@@ -214,6 +227,10 @@ namespace NetWorkedData
                 if (Integrity == IntegrityValue())
                 {
                     rReturn = true;
+                }
+                else
+                {
+                    AC = false;
                 }
             }
             else
@@ -229,7 +246,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            return HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

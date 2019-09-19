@@ -1,16 +1,22 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:11
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -32,23 +38,47 @@ namespace NetWorkedData
         /// </summary>
         static Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Returns the SharedInstance or instance one
+        /// </summary>
+        /// <returns></returns>
         public static NWDEditorConfigurationManager SharedInstance()
         {
+            //BTBBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorConfigurationManager)) as NWDEditorConfigurationManager;
             }
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Show the SharedInstance of Editor Configuration Manager Window and focus on.
+        /// </summary>
+        /// <returns></returns>
         public static NWDEditorConfigurationManager SharedInstanceFocus()
         {
+            //BTBBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
+            //BTBBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsSharedInstance()
+        /// <summary>
+        /// Repaint all Editor Configuration Manager Windows.
+        /// </summary>
+        public static void Refresh()
+        {
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDEditorConfigurationManager));
+            foreach (NWDEditorConfigurationManager tWindow in tWindows)
+            {
+                tWindow.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsSharedInstanced()
         {
             if (kSharedInstance != null)
             {
@@ -60,20 +90,24 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable action.
+        /// </summary>
         public void OnEnable()
         {
+            //BTBBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
                 IconAndTitle.text = NWDConstants.K_EDITOR_CONFIGURATION_TITLE;
                 if (IconAndTitle.image == null)
                 {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDEditorConfigurationManager t:texture");
+                    string[] sGUIDs = AssetDatabase.FindAssets(typeof(NWDEditorConfigurationManager).Name+" t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        if (tPathFilename.Equals("NWDEditorConfigurationManager"))
+                        if (tPathFilename.Equals(typeof(NWDEditorConfigurationManager).Name))
                         {
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
@@ -81,19 +115,25 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        ///  On GUI drawing.
+        /// </summary>
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Editor preferences");
-            NWDGUILayout.Informations("Some informations!");
+            //NWDGUILayout.Informations("Some informations!");
+            NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
             NWDGUILayout.Line();
             float tMinWidht = 270.0F;
             int tColum = 1;
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
-                EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
+                EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
@@ -137,6 +177,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

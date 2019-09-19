@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:46
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -109,11 +115,18 @@ namespace NetWorkedData
         {
             NWDAppConfigurationManager.SharedInstanceFocus();
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_MODEL_MANAGER, false, 61)]
+        public static void ModelManagerWindowShow()
+        {
+            NWDModelManager.SharedInstanceFocus();
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Menus the method.
         /// </summary>
-        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 60)]
+        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 62)]
         public static void AppEnvironmentManagerWindowShow()
         {
             NWDAppEnvironmentConfigurationManager.SharedInstanceFocus();
@@ -122,7 +135,7 @@ namespace NetWorkedData
         /// <summary>
         /// TheNWD app configuration window.
         /// </summary>
-        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT, false, 61)]
+        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT, false, 63)]
         public static void EnvironementChooserShow()
         {
             NWDAppEnvironmentChooser.SharedInstanceFocus();
@@ -131,7 +144,7 @@ namespace NetWorkedData
         /// <summary>
         /// TheNWD app configuration window.
         /// </summary>
-        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 62)]
+        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 64)]
         public static void EnvironementSyncShow()
         {
             NWDAppEnvironmentSync.SharedInstanceFocus();
@@ -141,10 +154,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // CREATE FILE
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_ERRORS, false, 9001)]
-        public static void CreateErrors()
+        [MenuItem(NWDConstants.K_MENU_CREATE_ERRORS_AND_MESSAGES, false, 9001)]
+        public static void CreateErrorsAndMessages()
         {
-            NWDDataManager.SharedInstance().CreateErrorAllClass();
+            NWDDataManager.SharedInstance().CreateErrorsAndMessagesAllClasses();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES, false, 9002)]
@@ -481,14 +494,14 @@ namespace NetWorkedData
         {
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+                NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
 
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
-                if (tMethodInfo != null)
-                {
-                    NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
+                //if (tMethodInfo != null)
+                //{
+                    //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
                     if (tBasisHelper != null)
                     {
                         foreach (NWDTypeClass tObject in tBasisHelper.Datas)
@@ -499,7 +512,7 @@ namespace NetWorkedData
                             }
                         }
                     }
-                }
+                //}
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
@@ -509,22 +522,22 @@ namespace NetWorkedData
         {
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+                NWDBasisHelper tBasisHelper = NWDBasisHelper.FindTypeInfos(tType);
 
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
-                if (tMethodInfo != null)
-                {
-                    NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
+                //if (tMethodInfo != null)
+                //{
+                    //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
                     if (tBasisHelper != null)
                     {
                         foreach (NWDTypeClass tObject in tBasisHelper.Datas)
                         {
-                            tObject.UpdateIntegrityAction();
+                            tObject.UpdateData();
                         }
                     }
-                }
+                //}
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
         }

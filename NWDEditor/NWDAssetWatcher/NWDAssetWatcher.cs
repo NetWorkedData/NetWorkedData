@@ -1,15 +1,21 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:23
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -38,7 +44,8 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static AssetMoveResult OnWillMoveAsset (string sOldPath, string sNewPath)
-		{
+        {
+            //BTBBenchmark.Start();
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
             if (sOldPath.Contains(NWD.K_Resources))
             {
@@ -48,11 +55,13 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
                 }
             }
-			return rReturn;
+            //BTBBenchmark.Finish();
+            return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions sUnused)
         {
+            //BTBBenchmark.Start();
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
             if (sOldPath.Contains(NWD.K_Resources))
             {
@@ -62,7 +71,8 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, "");
                 }
             }
-			return rReturn;
+            //BTBBenchmark.Finish();
+            return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

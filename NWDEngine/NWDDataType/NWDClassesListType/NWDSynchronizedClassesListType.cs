@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:22
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -197,7 +203,7 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             //NWDConstants.LoadImages();
             //NWDGUI.LoadStyles();
@@ -210,7 +216,6 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-			float tEditWidth = NWDGUI.kEditWidth;
 			bool tConnection = true;
 
 
@@ -267,26 +272,27 @@ namespace NetWorkedData
                 tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), NWDGUI.kPopupStyle);
 
 				if (tValueListERROR.Contains (tV)) {
-                    GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth+NWDGUI.kFieldMarge, tY+1, tWidth - EditorGUIUtility.labelWidth -NWDGUI.kFieldMarge*4 - tEditWidth, NWDGUI.kGrayLabelStyle.fixedHeight), "? <"+tV+">", NWDGUI.kGrayLabelStyle);
+                    GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth+NWDGUI.kFieldMarge, tY+1, tWidth - EditorGUIUtility.labelWidth -NWDGUI.kFieldMarge*4 - NWDGUI.kUpDownWidth, NWDGUI.kGrayLabelStyle.fixedHeight), "? <"+tV+">", NWDGUI.kGrayLabelStyle);
 				}
                 if (tIndex >= 0)
                 {
                     if (i > 0)
                     {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge)*2, tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), NWDGUI.kUpContentIcon, NWDGUI.kPopupStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
-                    }
-                    if (i < tValueList.Count-2)
-                    {
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDGUI.kFieldMarge), tY, tEditWidth, NWDGUI.kPopupStyle.fixedHeight), NWDGUI.kDownContentIcon, NWDGUI.kPopupStyle))
+                        if (i < tValueList.Count - 2)
                         {
-                            tDown = true;
-                            tIndexToMove = i;
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            {
+                                tDown = true;
+                                tIndexToMove = i;
+                            }
                         }
                     }
+                    tValueList[i] = tV;
 				}
 
                 tY += NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -326,9 +332,16 @@ namespace NetWorkedData
                 tValueList.Insert(tNewIndex, tP);
             }
 
-            tValueList.Distinct();
             tValueList.Remove(NWDConstants.kFieldSeparatorA);
-            string[] tNextValueArray = tValueList.ToArray();
+            List<string> tDistinct = new List<string>();
+            foreach (string tVD in tValueList)
+            {
+                if (tDistinct.Contains(tVD) == false)
+                {
+                    tDistinct.Add(tVD);
+                }
+            }
+            string[] tNextValueArray = tDistinct.ToArray();
             string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray)+tNewClasse;
 			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 			tTemporary.Value = tNextValue;

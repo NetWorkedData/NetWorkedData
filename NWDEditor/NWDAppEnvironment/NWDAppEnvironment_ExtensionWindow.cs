@@ -1,16 +1,22 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:20:19
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
 using UnityEngine;
 using BasicToolBox;
 using System;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -26,14 +32,19 @@ namespace NetWorkedData
         public void DrawInEditor(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
-            //float tMinWidht = 270.0F;
-            //float tScrollMarge = 20.0f;
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
-            NWDGUILayout.Informations(Environment);
-            NWDGUILayout.SubSection("AppName for server action " + Environment);
+            //NWDGUILayout.Informations(Environment);
+            NWDGUILayout.SubSection("App identity " + Environment);
             AppName = EditorGUILayout.TextField("AppName", AppName);
-            PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
+            PreProdTimeFormat = EditorGUILayout.TextField("Preprod Time Format", PreProdTimeFormat);
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
+            
+            NWDGUILayout.SubSection("IP Ban " + Environment);
+            IPBanActive = EditorGUILayout.Toggle("IP Ban Active", IPBanActive);
+            EditorGUI.BeginDisabledGroup(!IPBanActive);
+            IPBanMaxTentative = EditorGUILayout.IntField("Max Tentative", IPBanMaxTentative);
+            IPBanTimer = EditorGUILayout.IntField("Timer", IPBanTimer);
+            EditorGUI.EndDisabledGroup();
 
             NWDGUILayout.SubSection("Security of Datas" + Environment);
             DataSHAPassword = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Password", DataSHAPassword));
@@ -80,12 +91,12 @@ namespace NetWorkedData
             MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
             MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
 
-            NWDGUILayout.SubSection("Social Params for " + Environment);
-            FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
-            FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);
-            GoogleAppKey = EditorGUILayout.TextField("GoogleAppKey", GoogleAppKey);
-            UnityAppKey = EditorGUILayout.TextField("UnityAppKey", UnityAppKey);
-            TwitterAppKey = EditorGUILayout.TextField("TwitterAppKey", TwitterAppKey);
+            //NWDGUILayout.SubSection("Social Params for " + Environment);
+            //FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
+            //FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);
+            //GoogleAppKey = EditorGUILayout.TextField("GoogleAppKey", GoogleAppKey);
+            //UnityAppKey = EditorGUILayout.TextField("UnityAppKey", UnityAppKey);
+            //TwitterAppKey = EditorGUILayout.TextField("TwitterAppKey", TwitterAppKey);
 
             NWDGUILayout.SubSection("Admin Key for " + Environment);
             AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
@@ -94,10 +105,8 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Token Historic limit for " + Environment);
             TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
 
-            //GUILayout.Label("Options for game in " + Environment, EditorStyles.boldLabel);
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of Game Time", SpeedOfGameTime);
 
-            //GUILayout.Label("Version for " + Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("version", NWDVersion.GetMaxVersionStringForEnvironemt(this), EditorStyles.boldLabel);
 
             NWDGUILayout.SubSection("SQL Thread Activation " + Environment);

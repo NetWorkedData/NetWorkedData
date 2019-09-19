@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:29
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -9,11 +15,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
+    public partial class NWDUserNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);
@@ -29,14 +36,14 @@ namespace NetWorkedData
             //Debug.Log("NWDUserNickname Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
+        public static string Enrichment(string sText, bool sBold = true)
         {
             // Get First nickname found and return a new string
-            return Enrichment(sText, GetFirstData(), sLanguage, sBold);
+            return Enrichment(sText, NWDBasisHelper.GetCorporateFirstData<NWDUserNickname>(), sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : clean
-        public static string Enrichment(string sText, NWDUserNickname sNickname, string sLanguage = null , bool sBold = true)
+        public static string Enrichment(string sText, NWDUserNickname sNickname, bool sBold = true)
         {
             string rText = sText;
             string tBstart = "<b>";
@@ -46,10 +53,10 @@ namespace NetWorkedData
                 tBstart = string.Empty;
                 tBend = string.Empty;
             }
-            if (sLanguage == null)
+            /*if (sLanguage == null)
             {
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
-            }
+            }*/
             // Replace the nickname
             string tNickname = string.Empty;
             string tNicknameID = string.Empty;
@@ -72,7 +79,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserNickname NewNickname(string name)
         {
-            NWDUserNickname rNickname = NewData();
+            NWDUserNickname rNickname = NWDBasisHelper.NewData<NWDUserNickname>();
             rNickname.InternalKey = name;
             rNickname.InternalDescription = string.Empty;
             rNickname.Nickname = name;
@@ -83,7 +90,7 @@ namespace NetWorkedData
         public static string GetNickname()
         {
             string rNickname = string.Empty;
-            NWDUserNickname[] tNickname = FindDatas();
+            NWDUserNickname[] tNickname = NWDBasisHelper.GetReachableDatas<NWDUserNickname>();
             if (tNickname.Length > 0)
             {
                 rNickname = tNickname[0].Nickname;
@@ -94,7 +101,7 @@ namespace NetWorkedData
         public static string GetUniqueNickname()
         {
             string rUniqueNickname = string.Empty;
-            NWDUserNickname[] tNickname = FindDatas();
+            NWDUserNickname[] tNickname = NWDBasisHelper.GetReachableDatas<NWDUserNickname>();
             if (tNickname.Length > 0)
             {
                 rUniqueNickname = tNickname[0].UniqueNickname;

@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:33
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -27,7 +35,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDRequestToken : NWDBasis<NWDRequestToken>
+    public partial class NWDRequestToken : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDRequestToken()
@@ -46,19 +54,19 @@ namespace NetWorkedData
         {
             if (kCurrent != null)
             {
-                if (kCurrent.UUIDHash.GetReference() != NWDAccount.GetCurrentAccountReference())
+                if (kCurrent.UUIDHash.GetReference() != NWDAccount.CurrentReference())
                 {
                     kCurrent = null;
                 }
             }
             if (kCurrent == null)
             {
-                NWDRequestToken tResquestToken = GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
+                NWDRequestToken tResquestToken = NWDBasisHelper.GetCorporateFirstData<NWDRequestToken>(NWDAccount.CurrentReference(), null);
                 if (tResquestToken == null)
                 {
                     NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                    tResquestToken = NewData();
-                    tResquestToken.UUIDHash.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tResquestToken = NWDBasisHelper.NewData<NWDRequestToken>();
+                    tResquestToken.UUIDHash.SetReference(NWDAccount.CurrentReference());
                     tResquestToken.Tag = NWDBasisTag.TagUserCreated;
                     tResquestToken.SaveData();
                 }

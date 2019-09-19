@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:29
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -33,15 +39,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Quit()
         {
+            //BTBBenchmark.Start();
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            NWDVersion.UpdateVersionBundle();
+            // NWDVersion.UpdateVersionBundle();
+            //BTBBenchmark.Finish();
         }
-		//-------------------------------------------------------------------------------------------------------------
-        public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
+        //-------------------------------------------------------------------------------------------------------------
+        public static void PlayModeStateChangedCallback(PlayModeStateChange sState)
         {
+            //BTBBenchmark.Start();
             //Debug.Log("Play Mode State Changed!");
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
@@ -51,11 +60,13 @@ namespace NetWorkedData
                 //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-			NWDVersion.UpdateVersionBundle ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            // update bundle before playing to test with the good version 
+            NWDVersion.UpdateVersionBundle();
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

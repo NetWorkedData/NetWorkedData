@@ -1,9 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:22:23
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -50,8 +54,6 @@ namespace NetWorkedData
         /// The tab selected.
         /// </summary>
         private int mTabSelected = 0;
-        public  bool TabSort = false;
-
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes the <see cref="NWDEditor.NWDBasisWindow"/> class.
@@ -68,28 +70,6 @@ namespace NetWorkedData
         {
             //Debug.Log ("NWDBasisWindow basic construtor");
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public Texture FromGizmos(string sName)
-        //{
-        //    Texture rTexture = NWDFindPackage.PackageEditorTexture(sName+".png");
-        //    if (rTexture == null)
-        //    {
-        //        string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
-        //        foreach (string tGUID in sGUIDs)
-        //        {
-        //            //Debug.Log("TextureOfClass GUID " + tGUID);
-        //            string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-        //            string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-        //            //Debug.Log("tPathFilename = " + tPathFilename);
-        //            if (tPathFilename.Equals(sName))
-        //            {
-        //                //Debug.Log("TextureOfClass " + tPath);
-        //                rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-        //            }
-        //        }
-        //    }
-        //    return rTexture;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisWindow(string sTitleKey = BTBConstants.K_EMPTY_STRING, string sDescriptionKey = BTBConstants.K_EMPTY_STRING, Type[] sTabTypeList = null)
         {
@@ -113,11 +93,13 @@ namespace NetWorkedData
         /// </summary>
         void OnInspectorUpdate()
         {
+            //BTBBenchmark.Start();
             // Add to detect mouse event and redraw the widow
             if (EditorWindow.focusedWindow == this && EditorWindow.mouseOverWindow == this)
             {
                 this.Repaint();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -125,6 +107,7 @@ namespace NetWorkedData
         /// </summary>
         public void DefineTab()
         {
+            //BTBBenchmark.Start();
             // force to check database connection
             //NWDDataManager.SharedInstance().ConnectToDatabase ();
             // prepare futur list results
@@ -154,25 +137,8 @@ namespace NetWorkedData
                 }
             }
             TabsTotalWidthExpected = TabWidthMax * tCounter * 8;
-            // return result in array
-            if (TabSort == true)
-            {
-                tTabContentList.Sort((GUIContent x, GUIContent y) => string.Compare(x.text, y.text, StringComparison.OrdinalIgnoreCase));
-            }
             mTabContentList = tTabContentList.ToArray();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDatas()
-        {
-            foreach (Type tType in mTabTypeList)
-            {
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ApplyAllModifications, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                }
-            }
-            this.Repaint();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -180,6 +146,7 @@ namespace NetWorkedData
         /// </summary>
         void OnEnable()
         {
+            //BTBBenchmark.Start();
             NWDDataManager.SharedInstance().DataQueueExecute();
             if (typeof(K).GetCustomAttributes(typeof(NWDTypeWindowParamAttribute), true).Length > 0)
             {
@@ -198,8 +165,19 @@ namespace NetWorkedData
                 mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
                 if (tNWDBasisWindowParamAttribute.TypeList == null)
                 {
-                    mTabTypeList = NWDDataManager.SharedInstance().mTypeList.ToArray();
-                    TabSort = true;
+                    List<Type> tTabTypeList = new List<Type>();
+
+                    List<NWDBasisHelper> tHelperList = new List<NWDBasisHelper>();
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                    {
+                        tHelperList.Add(NWDBasisHelper.FindTypeInfos(tType));
+                    }
+                    tHelperList.Sort((NWDBasisHelper x, NWDBasisHelper y) => string.Compare(x.ClassMenuName, y.ClassMenuName, StringComparison.OrdinalIgnoreCase));
+                    foreach (NWDBasisHelper tNWDBasisHelper in tHelperList)
+                    {
+                        tTabTypeList.Add(tNWDBasisHelper.ClassType);
+                    }
+                    mTabTypeList = tTabTypeList.ToArray();
                 }
                 else
                 {
@@ -213,6 +191,7 @@ namespace NetWorkedData
                 // redefine the TabBar navigation
                 DefineTab();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -250,6 +229,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetClassInEdition(Type sClassType)
         {
+            //BTBBenchmark.Start();
             //			ApplyUpdate();
             NWDDataManager.SharedInstance().DataQueueExecute();
             GUI.FocusControl(null);
@@ -257,6 +237,7 @@ namespace NetWorkedData
             tBasisClassInspector.mTypeInEdition = sClassType;
             //			tBasisClassInspector.mWindowInEdition = this;
             Selection.activeObject = tBasisClassInspector;
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -264,26 +245,12 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
+            //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
-            // prepare the style
-            // get width of window
-            float tWidthUsed = EditorGUIUtility.currentViewWidth;
+
+            float tWidthUsed = position.width;
             // determine height
-            float tHeight = 40;
-            //tHeight+=tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
-            //if (mTabContentList.Length > 1)
-            //{
-            //    if (tWidthUsed > TabsTotalWidthExpected)
-            //    {
-            //        tHeight += tToolbarStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
-            //    }
-            //    else
-            //    {
-            //        tHeight += tPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
-            //    }
-            //    tHeight += NWDGUI.kFieldMarge * 2;
-            //}
-            // draw background for toolbar
+            float tHeight = NWDGUI.KTAB_BAR_HEIGHT;
 
 
             EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDGUI.KTAB_BAR_BACK_COLOR);
@@ -294,57 +261,76 @@ namespace NetWorkedData
             //{
             //    EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
             //}
-            if (mTabSelected > mTabContentList.Count())
+            if (mTabContentList != null)
             {
-                mTabSelected = 0;
-            }
-            // the next selected tab
-            int tTabSelected = 0;
-            // check if tab ids necessary
-            if (mTabContentList.Length > 1)
-            {
-                if (tWidthUsed > TabsTotalWidthExpected)
+                if (mTabSelected > mTabContentList.Count())
                 {
-                    Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge*2);
-                    tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList);
+                    mTabSelected = 0;
                 }
-                else
+                // the next selected tab
+                int tTabSelected = 0;
+                // check if tab ids necessary
+                if (mTabContentList.Length > 1)
                 {
-                    Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
-                    tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList);
+                    if (tWidthUsed > TabsTotalWidthExpected)
+                    {
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
+                        tTabSelected = GUI.Toolbar(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassToolbar);
+                    }
+                    else
+                    {
+                        Rect tRectTab = new Rect(NWDGUI.kFieldMarge, NWDGUI.kFieldMarge, tWidthUsed - NWDGUI.kFieldMarge * 2, tHeight - NWDGUI.kFieldMarge * 2);
+                        tTabSelected = EditorGUI.Popup(tRectTab, mTabSelected, mTabContentList, NWDGUI.KTableClassPopup);
+                    }
                 }
-            }
 
-            bool tAutoselect = false;
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab && Event.current.shift)
-            {
-                //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
-                tTabSelected++;
-                if (tTabSelected >= mTabContentList.Length)
+                bool tAutoselect = false;
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Tab && Event.current.shift)
+                {
+                    //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
+                    tTabSelected++;
+                    if (tTabSelected >= mTabContentList.Length)
+                    {
+                        tTabSelected = 0;
+                    }
+                    tAutoselect = true;
+                    Event.current.Use();
+                }
+                // select the good class to show
+                if (tTabSelected >= mTabTypeList.Count())
                 {
                     tTabSelected = 0;
                 }
-                tAutoselect = true;
-                Event.current.Use();
-            }
-            // select the good class to show
-            if (tTabSelected >= mTabTypeList.Count())
-            {
-                tTabSelected = 0;
-            }
-            if (mTabTypeList.Count() > 0)
-            {
-                Type tType = mTabTypeList[tTabSelected];
-                if (mTabSelected != tTabSelected)
+                if (mTabTypeList.Count() > 0)
                 {
-                    // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
+                    Type tType = mTabTypeList[tTabSelected];
+                    if (mTabSelected != tTabSelected)
+                    {
+                        // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
 
-                    //SetClassInEdition (tType);
+                        //SetClassInEdition (tType);
+                        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                        tHelper.LoadEditorPrefererences();
+                    }
+                    mTabSelected = tTabSelected;
+                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
+
+                    NWDBasisHelper.FindTypeInfos(tType).DrawInEditor(this, tAutoselect);
+
+
                 }
-                mTabSelected = tTabSelected;
-                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
             }
-
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void SelectTab(Type tType)
+        {
+            if (mTabTypeList.Contains(tType))
+            {
+                mTabSelected = Array.IndexOf(mTabTypeList, tType);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.LoadEditorPrefererences();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

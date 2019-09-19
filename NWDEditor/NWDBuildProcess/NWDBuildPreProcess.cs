@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:27
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -28,7 +34,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnPreprocessBuild(BuildReport report)
         {
-            //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
+            //BTBBenchmark.Start();
+            Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
 
@@ -145,7 +152,8 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
-		}
+            //BTBBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

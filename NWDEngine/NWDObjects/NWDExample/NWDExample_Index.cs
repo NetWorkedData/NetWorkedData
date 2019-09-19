@@ -1,9 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
+//  ideMobi 2019©
 //
-// Read License-en or Licence-fr
+//  Date		2019-4-12 18:42:14
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -19,153 +23,45 @@ namespace NetWorkedData
     // Example with fictive class NWDSomething
     // Connect by property Something
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDSomething : NWDBasis<NWDSomething>
+    public partial class NWDSomething : NWDBasis
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDExample : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        NWDReferenceType<NWDSomething> Something;
+        static protected NWDIndex<NWDLevel, NWDExample> kLevelIndex = new NWDIndex<NWDLevel, NWDExample>();
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
-        static Dictionary<string, List<NWDExample>> kIndex = new Dictionary<string, List<NWDExample>>();
-        private List<NWDExample> kIndexList;
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
+        [NWDIndexInsert]
+        public void InsertInLevelIndex()
         {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void InsertInIndex()
-        {
-            if (Something != null)
+            // Re-add to the actual indexation ?
+            if (IsUsable())
             {
-                if (Something.GetReference() != null
-                    && GameSave != null
-                    && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
-                    && IsEnable() == true
-                    && IsTrashed() == false
-                    && TestIntegrity() == true)
-                {
-                    string tKey = Something.GetReference();
-                    if (kIndexList != null)
-                    {
-                        // I have allready index
-                        if (kIndex.ContainsKey(tKey))
-                        {
-                            if (kIndex[tKey] == kIndexList)
-                            {
-                                // I am in the good index ... do nothing
-                            }
-                            else
-                            {
-                                // I Changed index! during update ?!!
-                                kIndexList.Remove(this);
-                                kIndexList = null;
-                                kIndexList = kIndex[tKey];
-                                kIndexList.Add(this);
-                            }
-                        }
-                        else
-                        {
-                            kIndexList.Remove(this);
-                            kIndexList = null;
-                            kIndexList = new List<NWDExample>();
-                            kIndex.Add(tKey, kIndexList);
-                            kIndexList.Add(this);
-                        }
-                    }
-                    else
-                    {
-                        // I need add in index!
-                        if (kIndex.ContainsKey(tKey))
-                        {
-                            // index exists
-                            kIndexList = kIndex[tKey];
-                            kIndexList.Add(this);
-                        }
-                        else
-                        {
-                            // index must be create
-                            kIndexList = new List<NWDExample>();
-                            kIndex.Add(tKey, kIndexList);
-                            kIndexList.Add(this);
-                        }
-                    }
-                }
-                else
-                {
-                    RemoveFromIndex();
-                }
+                // Re-add !
+                string tKey = Level.GetReference() + NWDConstants.kFieldSeparatorA + this.GameSave.GetReference();
+                kLevelIndex.InsertInIndex(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void RemoveFromIndex()
+        [NWDIndexRemove]
+        public void RemoveFromLevelIndex()
         {
-            if (kIndexList != null)
-            {
-                kIndexList.Contains(this);
-                {
-                    kIndexList.Remove(this);
-                }
-                kIndexList = null;
-            }
+            // Remove from the actual indexation
+            kLevelIndex.RemoveFromIndex(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDExample> FindByIndex(NWDSomething sSomething)
+        public static NWDExample FindDataByLevel(NWDLevel sKey, bool sOrCreate = false)
         {
-            List<NWDExample> rReturn = null;
-            if (sSomething != null)
+            string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDGameSave.Current().Reference;
+            NWDUserLevelScore rReturn = kLevelIndex.FindFirstByReference(tKey);
+            if (rReturn == null && sOrCreate == true)
             {
-                string tKey = sSomething.Reference;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
+                rReturn = NewData();
+                rReturn.Level.SetObject(sKey);
+                rReturn.UpdateData();
             }
             return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDExample> FindByIndex(string sSomething)
-        {
-            List<NWDExample> rReturn = null;
-            if (sSomething != null)
-            {
-                string tKey = sSomething;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public NWDExample FindFirstByIndex(string sSomething)
-        {
-            NWDExample rObject = null;
-            List<NWDExample> rReturn = null;
-            if (sSomething != null)
-            {
-                string tKey = sSomething;
-                if (kIndex.ContainsKey(tKey))
-                {
-                    rReturn = kIndex[tKey];
-                }
-            }
-            if (rReturn != null)
-            {
-                if (rReturn.Count > 0)
-                {
-                    rObject = rReturn[0];
-                }
-            }
-            return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

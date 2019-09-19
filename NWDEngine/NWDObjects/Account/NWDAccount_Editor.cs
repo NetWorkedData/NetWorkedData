@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:12
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -14,52 +22,53 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccount : NWDBasis<NWDAccount>
+    public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
-        {
-            string rReturn = string.Empty;
-            List<string> tList = new List<string>();
-            switch (sEnvironment)
-            {
-                case NWDAccountEnvironment.Dev:
-                    {
-                        foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
-                        {
-                            if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
-                            {
-                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
-                            }
-                        }
-                    }
-                    break;
-                case NWDAccountEnvironment.Preprod:
-                    {
-                        foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
-                        {
-                            if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
-                            {
-                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
-                            }
-                        }
-                    }
-                    break;
-            }
-            rReturn = string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
-            return rReturn;
-        }
+        //public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
+        //{
+        //    string rReturn = string.Empty;
+        //    List<string> tList = new List<string>();
+        //    switch (sEnvironment)
+        //    {
+        //        case NWDAccountEnvironment.Dev:
+        //            {
+        //                foreach (NWDAccount tObject in NWDBasisHelper.BasisHelper<NWDAccount>().Datas)
+        //                {
+        //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
+        //                    {
+        //                        tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDAccountEnvironment.Preprod:
+        //            {
+        //                foreach (NWDAccount tObject in NWDBasisHelper.BasisHelper<NWDAccount>().Datas)
+        //                {
+        //                    if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
+        //                    {
+        //                        tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //    }
+        //    rReturn = string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccount CurrentAccount()
-        {
-            NWDAccount rAccount = null;
-            string tAccountReference = GetCurrentAccountReference();
-            if (BasisHelper().DatasByReference.ContainsKey(tAccountReference))
-            {
-                rAccount = BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
-            }
-            return rAccount;
-        }
+        // TOO DANGEROUS FONCTION ...
+        //public static NWDAccount Current()
+        //{
+        //    NWDAccount rAccount = null;
+        //    string tAccountReference = CurrentReference();
+        //    if (BasisHelper().DatasByReference.ContainsKey(tAccountReference))
+        //    {
+        //        rAccount = BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
+        //    }
+        //    return rAccount;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
@@ -73,12 +82,96 @@ namespace NetWorkedData
         private string kInternalLogin; //TODO : change prefiuxe by p
         private string kInternalPassword; //TODO : change prefiuxe by p
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
+        public override void AddonEditor(Rect sRect)
         {
-            //Debug.Log ("AddonEditor");
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tY = sInRect.y;
+            NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAssociated(Reference);
+            int tRow = tSigns.Length;
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 20);
+            int tI = 0;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Reference;
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+            tI++;
+            //bool tAddEditor = true;
+            //bool tAddPlayer = true;
+            foreach (NWDAccountSign tSign in tSigns)
+            {
+                //if (tSign.SignType == NWDAccountSignType.DeviceID && tSign.SignAction== NWDAccountSignAction.Associated)
+                //{
+                //    tAddPlayer = false;
+                //}
+                //if (tSign.SignType == NWDAccountSignType.EditorID && tSign.SignAction== NWDAccountSignAction.Associated)
+                //{
+                //tAddEditor = true;
+                //}
+                bool tActive = true;
+                List<string> tEnvironment = new  List<string>();
+
+                if (tSign.DevSync>=0)
+                {
+                    tEnvironment.Add(NWDConstants.K_DEVELOPMENT_NAME);
+                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                    {
+                    tActive = false;
+                    }
+                }
+                if (tSign.PreprodSync>=0)
+                {
+                    tEnvironment.Add(NWDConstants.K_PREPRODUCTION_NAME);
+                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                    {
+                    tActive = false;
+                    }
+                }
+                if (tSign.ProdSync>=0)
+                {
+                    tEnvironment.Add(NWDConstants.K_PRODUCTION_NAME);
+                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                    {
+                    tActive = false;
+                    }
+                }
+                EditorGUI.BeginDisabledGroup(tActive);
+                if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString() +" "+string.Join(" ",tEnvironment), NWDGUI.kMiniButtonStyle))
+                {
+                    NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
+                }
+                EditorGUI.EndDisabledGroup();
+                if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
+                {
+                    NWDBasisHelper.BasisHelper<NWDAccountSign>().SetObjectInEdition(tSign);
+                }
+                tI++;
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Add sign"))
+            {
+                NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
+                tSign.Account.SetReference(Reference);
+                tSign.SaveData();
+                NWDBasisHelper.BasisHelper<NWDAccountSign>().SetObjectInEdition(tSign);
+                NWDBasisHelper.BasisHelper<NWDAccountSign>().ChangeScroolPositionToSelection();
+            }
+            tI++;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Log Out"))
+            {
+            NWDDataManager.SharedInstance().AddWebRequestSignOut();
+            }
+            tI++;
+            /*
+                //Debug.Log ("AddonEditor");
+                float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -90,7 +183,7 @@ namespace NetWorkedData
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sInRect)).height;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
 
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
@@ -255,38 +348,44 @@ namespace NetWorkedData
                     tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                 }
             }*/
-            return tY;
+            ;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
+        public override float AddonEditorHeight(float sWidth)
         {
-            //Debug.Log ("AddonEditorHeight");
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+            NWDAccountSign[] tSigns = NWDAccountSign.GetCorporateDatasAssociated(Reference);
+            int tRow = tSigns.Length;
+            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, tRow + 20);
+            return tYadd;
 
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+            ////Debug.Log ("AddonEditorHeight");
+            //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            float tY = NWDGUI.kFieldMarge;
+            //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
-            tY += NWDGUI.kFieldMarge * 2;
-            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += NWDGUI.kFieldMarge * 2;
-            tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            /*foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-            {
-                tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
-            }*/
-            return tY;
+            //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
+            //float tY = NWDGUI.kFieldMarge;
+
+            //tY += NWDGUI.kFieldMarge * 2;
+            //tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += NWDGUI.kFieldMarge * 2;
+            //tY += tLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            ///*foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            //{
+            //    tY += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //}*/
+            //return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

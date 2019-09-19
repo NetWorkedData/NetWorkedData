@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:46
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -69,6 +77,7 @@ namespace NetWorkedData
             {
                 Debug.Log("<b>"+ sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D TextureFromColor(Color sColor)
@@ -661,7 +670,10 @@ namespace NetWorkedData
                                            "//=====================================================================================================================\n" +
                                            "#endif";
                 File.WriteAllText(tEngineRootFolder + "/" + sFindClassName + ".cs", tFindClassesClass);
+                // write asmedf reference 
+                File.WriteAllText(tEngineRootFolder + "/" + "NWDAssemblyReference.asmref", "{\n    \"reference\": \"NetWorkedDataAssembly\"\n}");
                 // force to import this file by Unity3D
+                AssetDatabase.ImportAsset(tEngineRootFolder + "/" + "NWDAssemblyReference.asmref");
                 AssetDatabase.ImportAsset(tEngineRootFolder + "/" + sFindClassName + ".cs");
             }
             return tEngineRootFolder;

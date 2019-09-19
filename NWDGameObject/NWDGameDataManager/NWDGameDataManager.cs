@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:45:48
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -410,7 +418,7 @@ namespace NetWorkedData
             //    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
             //}
 
-            NWDToolbox.EditorAndPlaying("NWDGameDataManager Awake()");
+            //NWDToolbox.EditorAndPlaying("NWDGameDataManager Awake()");
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)
@@ -484,7 +492,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.LogWarning("NWD => NWDStatut.NetWorkedDataReady!");
+                //Debug.LogWarning("NWD => NWDStatut.NetWorkedDataReady!");
                 if (LoadingDatasGauge != null)
                 {
                     LoadingDatasGauge.IsVisible = false;
@@ -522,12 +530,6 @@ namespace NetWorkedData
         //    base.OnDisable();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        void NewsCheck()
-        {
-            //Debug.Log("NewsCheck");
-            NWDNews.Check();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Raises the application focus event.
         /// </summary>
@@ -557,14 +559,15 @@ namespace NetWorkedData
             if (ApplicationStandBy == false)
             {
                 //Debug.Log("OnApplicationPause Pause is OFF");
-                NWDNews.InstallAllNotifications(false);
                 //NWDTypeLauncher.DatabaseAccountLauncher();
             }
             else
             {
                 //Debug.Log("OnApplicationPause Pause is ON");
-                NWDNews.InstallAllNotifications(true);
-                NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+                {
+                    NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -644,7 +647,6 @@ namespace NetWorkedData
             {
                 LoadingDatasGauge.IsVisible = false;
             }
-            NWDNews.InstallAllNotifications(false);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

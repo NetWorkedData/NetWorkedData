@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:22
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -29,7 +35,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
+    public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos()
@@ -50,7 +56,7 @@ namespace NetWorkedData
         {
             if (kCurrent != null)
             {
-                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
+                if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
                 {
                     kCurrent = null;
                 }
@@ -58,14 +64,14 @@ namespace NetWorkedData
             
             if (kCurrent == null)
             {
-                NWDUserInfos tUserInfos = GetFirstData(NWDAccount.GetCurrentAccountReference());
+                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
                 if (tUserInfos == null)
                 {
-                    tUserInfos = NewData();
+                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
                     #if UNITY_EDITOR
-                    tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
                     #endif
-                    tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
                     tUserInfos.Tag = NWDBasisTag.TagUserCreated;
                     tUserInfos.SaveData();
                 }
@@ -77,7 +83,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
         {
-            SynchronizationFromWebService();
+            NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()

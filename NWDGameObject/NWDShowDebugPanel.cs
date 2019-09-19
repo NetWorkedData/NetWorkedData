@@ -1,9 +1,17 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:46:9
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,7 +73,7 @@ namespace NetWorkedData
         {
             if (ParameterConnection != null)
             {
-                NWDParameter tParam = ParameterConnection.GetObject();
+                NWDParameter tParam = ParameterConnection.GetData();
                 if (tParam != null)
                 {
                     TextDebug.text = tParam.Name.GetLocalString();
@@ -158,7 +166,7 @@ namespace NetWorkedData
             }
             if (CartridgeImageSecond != null)
             {
-                NWDVersion tVersion = NWDVersion.GetActualVersion();
+                NWDVersion tVersion = NWDVersion.CurrentData();
                 if (tVersion != null)
                 {
                     CartridgeImageSecond.color = tVersion.Cartridge.GetColor();

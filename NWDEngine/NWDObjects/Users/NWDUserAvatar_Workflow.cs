@@ -1,7 +1,13 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:20
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -12,7 +18,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserAvatar : NWDBasis<NWDUserAvatar>
+    public partial class NWDUserAvatar : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar()
@@ -27,16 +33,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-           
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDItem GetNWDItemAvatar()
         {
             NWDItem rItem = null;
-            NWDUserAvatar[] tAvatars = FindDatas();
+            NWDUserAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDUserAvatar>();
             if (tAvatars.Length > 0)
             {
-                return tAvatars[0].RenderItem.GetObject();
+                return tAvatars[0].RenderItem.GetData();
             }
             return rItem;
         }
@@ -44,7 +50,7 @@ namespace NetWorkedData
         public static Sprite GetTextureAvatar()
         {
             Sprite rSprite = null;
-            NWDUserAvatar[] tAvatars = FindDatas();
+            NWDUserAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDUserAvatar>();
             if (tAvatars.Length > 0)
             {
                 return tAvatars[0].RenderTexture.ToSprite();
@@ -54,7 +60,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDItem GetNWDItem()
         {
-            return RenderItem.GetObject();
+            return RenderItem.GetData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Sprite GetTexture()

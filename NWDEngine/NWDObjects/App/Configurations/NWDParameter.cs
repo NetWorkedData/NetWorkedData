@@ -1,5 +1,18 @@
 ﻿//=====================================================================================================================
 //
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:41
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+//=====================================================================================================================
+//
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
@@ -26,7 +39,7 @@ namespace NetWorkedData
                                    "Parameters are set for all user. Use InternalKey to find them and use them. \n" +
                                    "")]
     [NWDClassMenuNameAttribute("Parameters")]
-    public partial class NWDParameter : NWDBasis<NWDParameter>
+    public partial class NWDParameter : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations", true, true, true)]
@@ -39,7 +52,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("The description item. Usable to be ownershipped")]
-        public NWDReferenceType<NWDItem> DescriptionItem
+        public NWDReferenceType<NWDItem> ItemDescription
         {
             get; set;
         }

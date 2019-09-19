@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:3
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 using System;
@@ -26,6 +32,7 @@ namespace NetWorkedData
         public int ClassDataLoaded = 0;
         public int ClassEditorDataLoaded = 0;
         public int ClassAccountDataLoaded = 0;
+        public int ClassIndexation = 0;
         //-------------------------------------------------------------------------------------------------------------
         public bool DataAccountConnected = false;
         public bool DataAccountConnectionInProgress = false;

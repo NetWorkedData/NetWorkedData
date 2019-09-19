@@ -1,5 +1,18 @@
 ﻿//=====================================================================================================================
 //
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:50
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+//=====================================================================================================================
+//
 // ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
@@ -32,7 +45,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDVersion : NWDBasis<NWDVersion>
+    public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVersion()
@@ -56,13 +69,14 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDVersion.UpdateVersionBundle();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDVersion));
+            QRCodeTexture = FlashMyApp(false, 256);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RecommendationBy(NWDRecommendationType sType)
         {
             //Debug.Log("NWDVersion RecommendationBy()");
-            NWDVersion tVersion = GetMaxVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+            NWDVersion tVersion = SelectMaxDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
 
             string tToFlash = tVersion.URLMyApp(false);
             switch (sType)
@@ -178,15 +192,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string URLMyApp(bool sRedirection)
         {
-            string tText = NWDAppEnvironment.SelectedEnvironment().ServerHTTPS;
-            tText += NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            //string tText = NWDAppEnvironment.SelectedEnvironment().ServerHTTPS;
+            //tText += NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            string tText = null;
             if (sRedirection == true)
             {
-                tText += "/" + NWD.K_STATIC_FLASH_PHP + "?r=0";
+                tText = NWD.K_STATIC_FLASH_PHP + "?r=0";
             }
             else
             {
-                tText += "/" + NWD.K_STATIC_FLASH_PHP + "?r=1";
+                tText =  NWD.K_STATIC_FLASH_PHP + "?r=1";
             }
             if (string.IsNullOrEmpty(OSXStoreID) == false)
             {
@@ -233,72 +248,11 @@ namespace NetWorkedData
             return GetMaxVersionStringForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion GetMaxVersionForEnvironemt(NWDAppEnvironment sEnvironment)
-        {
-            //Debug.Log("GetMaxVersionForEnvironemt");
-            // I will change th last version of my App
-            NWDVersion tVersion = null;
-            string tVersionString = "0.00.00";
-            int tVersionInt = 0;
-            int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
-            if (NWDVersion.BasisHelper() != null)
-            {
-                foreach (NWDVersion tVersionObject in NWDVersion.BasisHelper().Datas)
-                {
-                    if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
-                    {
-                        if ((NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) ||
-                            (NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
-                            (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
-                        {
-                            int tVersionInteger = 0;
-                            int.TryParse(tVersionObject.Version.ToString().Replace(".", string.Empty), out tVersionInteger);
-                            if (tVersionInt < tVersionInteger)
-                            {
-                                tVersionInt = tVersionInteger;
-                                tVersionString = tVersionObject.Version.ToString();
-                                tVersion = tVersionObject;
-                            }
-                        }
-                    }
-                }
-            }
-            return tVersion;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion GetActualVersion()
-        {
-            //Debug.Log("NWDVersion GetActualVersion()");
-            return GetActualVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion GetActualVersionForEnvironemt(NWDAppEnvironment sEnvironment)
-        {
-            //Debug.Log("NWDVersion GetActualVersionForEnvironemt()");
-            NWDVersion tVersion = null;
-            foreach (NWDVersion tVersionObject in NWDVersion.BasisHelper().Datas)
-            {
-                if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
-                {
-                    if ((NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) ||
-                        (NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
-                        (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
-                    {
-                        if (Application.version == tVersionObject.Version.ToString())
-                        {
-                            tVersion = tVersionObject;
-                        }
-                    }
-                }
-            }
-            return tVersion;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static string GetMaxVersionStringForEnvironemt(NWDAppEnvironment sEnvironment)
         {
             //Debug.Log("NWDVersion GetMaxVersionStringForEnvironemt()");
             string tVersionString = "0.00.00";
-            NWDVersion tVersion = GetMaxVersionForEnvironemt(sEnvironment);
+            NWDVersion tVersion = SelectMaxDataForEnvironment(sEnvironment);
             if (tVersion != null)
             {
                 tVersionString = tVersion.Version.ToString();

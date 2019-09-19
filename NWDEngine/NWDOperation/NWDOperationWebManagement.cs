@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:40
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -13,7 +19,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-//using BTBMiniJSON;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -88,6 +93,11 @@ namespace NetWorkedData
         public override string ServerFile()
         {
             return NWD.K_MANAGEMENT_FILE;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool CanRestart()
+        {
+            return false;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataUploadPrepare()

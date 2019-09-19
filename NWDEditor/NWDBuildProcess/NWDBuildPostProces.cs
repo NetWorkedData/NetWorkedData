@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:26
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -40,6 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnPostprocessBuild(BuildReport report)
         {
+            //BTBBenchmark.Start();
             //Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
             BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
             switch (tBuildTarget)
@@ -212,7 +219,7 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.StandaloneLinux:
+                case BuildTarget.StandaloneLinux64:
                     {
                     }
                     break;
@@ -225,14 +232,6 @@ namespace NetWorkedData
                     }
                     break;
                 case BuildTarget.WSAPlayer:
-                    {
-                    }
-                    break;
-                case BuildTarget.StandaloneLinux64:
-                    {
-                    }
-                    break;
-                case BuildTarget.StandaloneLinuxUniversal:
                     {
                     }
                     break;
@@ -269,6 +268,7 @@ namespace NetWorkedData
                     }
                     break;
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

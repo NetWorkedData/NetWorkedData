@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:23
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -119,7 +127,7 @@ namespace NetWorkedData
     /// NWDReferencesAverageType used to put a reference with float in value. Use properties with name, like 'ItemAverage', 'SpotAverage', 'BonusAverage' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesAverageType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesAverageType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesAverageType()
@@ -240,7 +248,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public void RemoveObjectQuantity(NWDBasis<K> sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //public void RemoveObjectQuantity(NWDBasis sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         //{
         //    Dictionary<string, float> tThis = GetReferenceAndProportion();
         //    if (tThis.ContainsKey(sObject.Reference) == false)
@@ -284,7 +292,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectValue(NWDBasis<K> sObject, float sValue)
+        public void AddObjectValue(K sObject, float sValue)
         {
             // I compare all element
             Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();
@@ -299,7 +307,7 @@ namespace NetWorkedData
             SetReferenceAndAverage(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObject(NWDBasis<K> sObject)
+        public void RemoveObject(K sObject)
         {
             // I compare all element
             Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();
@@ -310,13 +318,13 @@ namespace NetWorkedData
             SetReferenceAndAverage(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FindDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -325,13 +333,13 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -412,7 +420,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDAverage tQ = new NWDAverage(tLineValue[1]);
-                        K tObject = NWDBasis<K>.FindDataByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -438,7 +446,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         NWDAverage tQ = new NWDAverage(tLineValue[1]);
-                        K tObject = NWDBasis<K>.GetDataByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -458,7 +466,7 @@ namespace NetWorkedData
             Dictionary<string, NWDAverage> tDescDico = GetReferenceAndAverage();
             foreach (KeyValuePair<string, NWDAverage> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.FindDataByReference(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;
@@ -488,13 +496,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public K[] EditorGetObjects()
+        //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
+        public override object[] GetEditorDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.GetDataByReference(tReference);
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(tReference);
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
@@ -508,9 +516,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void EditorAddNewObject()
         {
-            K tNewObject = NWDBasis<K>.NewData();
+            K tNewObject = NWDBasisHelper.NewData<K>();
             this.AddObjectValue(tNewObject, 0.0F);
-            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+            NWDBasisHelper.BasisHelper<K>().SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
@@ -518,7 +526,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -534,11 +542,11 @@ namespace NetWorkedData
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
             }
-            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge * 2 - NWDGUI.kTextFieldStyle.fixedHeight;
+            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge * 2 - NWDGUI.kTextFieldStyle.fixedHeight;
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDReferencesAverageType<K> tTemporary = new NWDReferencesAverageType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -576,10 +584,10 @@ namespace NetWorkedData
                     tV = tLineValue[0];
                     tQ = new NWDAverage(tLineValue[1]);
                 }
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV, sDisabled);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
-                    float tYb = tY + NWDGUI.kDatasSelectorRowStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    float tYb = tY + NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                     float tXb = sPosition.x + EditorGUIUtility.labelWidth;
                     float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
                     float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
@@ -620,7 +628,7 @@ namespace NetWorkedData
                 {
                     tValueList[i] = string.Empty;
                 }
-                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
                 tY = tY + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight;
             }
             if (tDown == true)
@@ -657,6 +665,31 @@ namespace NetWorkedData
             tTemporary.Value = tNextValue;
             tTemporary.DistinctReference();
             return tTemporary;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
+        {
+            int tCounter = 0;
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef,
+                    new Vector2(0,
+                    tHeight
+                   + (NWDGUI.kFieldMarge * tCounter) + (NWDGUI.kDataSelectorFieldStyle.fixedHeight + NWDGUI.kFieldMarge + NWDGUI.kTextFieldStyle.fixedHeight) * (tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight *0.5F
+                    )));
+                tCounter++;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef, new Vector2(0,
+                    tHeight
+                    + NWDGUI.kFieldMarge + NWDGUI.kBoldFoldoutStyle.fixedHeight * (0.5f)
+                    )));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

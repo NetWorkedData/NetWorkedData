@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:5
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,24 +33,28 @@ namespace NetWorkedData
         EngineLaunching = 10,
         EngineLaunched = 19,
 
-        DataEditorConnecting =20,
-        DataEditorConnected=21,
+        DataEditorConnecting = 20,
+        DataEditorConnected = 21,
         DataEditorTableUpdated = 22,
-        DataEditorLoading =23,
-        DataEditorLoaded=29,
+        DataEditorLoading = 23,
+        DataEditorLoaded = 29,
 
-        DataAccountConnecting=30,
-        DataAccountCodePinCreate=31,
-        DataAccountCodePinRequest=32,
-        DataAccountCodePinFail=33,
-        DataAccountCodePinStop=34,
-        DataAccountCodePinSuccess=35,
-        DataAccountConnected=36,
+        DataAccountConnecting = 30,
+        DataAccountCodePinCreate = 31,
+        DataAccountCodePinRequest = 32,
+        DataAccountCodePinFail = 33,
+        DataAccountCodePinStop = 34,
+        DataAccountCodePinSuccess = 35,
+        DataAccountConnected = 36,
         DataAccountTableUpdated = 37,
-        DataAccountLoading =38,
-        DataAccountLoaded=39,
+        DataAccountLoading = 38,
+        DataAccountLoaded = 39,
 
-        NetWorkedDataReady=99,
+        DataIndexationStart = 40,
+        DataIndexationStep = 41,
+        DataIndexationFinish = 42,
+
+        NetWorkedDataReady = 99,
 
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -57,33 +69,34 @@ namespace NetWorkedData
             return State;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static private bool EditorByPass;
+        static public bool EditorByPass;
         //-------------------------------------------------------------------------------------------------------------
         public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
         //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
+            BTBBenchmark.Start("NetWorkedData");
             if (Launched == false)
             {
                 Launched = true;
 
-                NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
+                //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
 #if UNITY_EDITOR
                 EditorApplication.quitting += Quit;
                 if (EditorApplication.isPlayingOrWillChangePlaymode == false)
                 {
-                    Debug.Log("EditorByPass = true");
+                    //Debug.Log("EditorByPass = true");
                     EditorByPass = true;
                     if (EditorPrefs.HasKey(K_PINCODE_KEY))
                     {
                         string tPincode = EditorPrefs.GetString(K_PINCODE_KEY);
-                        Debug.Log("and tPincode found with value = '" + tPincode + "'");
+                        //Debug.Log("and tPincode found with value = '" + tPincode + "'");
                     }
                 }
 #endif
-                LaunchNext();
             }
+            LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()
@@ -103,8 +116,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void LaunchNext()
         {
-            Debug.Log("LaunchNext() with state = "+ State.ToString());
-            NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
+            //Debug.Log("LaunchNext() with state = "+ State.ToString());
+            //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
                 case NWDStatut.Error:
@@ -192,11 +205,26 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountLoaded:
                     {
-                        State = NWDStatut.NetWorkedDataReady; // Sucesss!!!!!!
+                        // Reload all Index
+                        DatabaseIndexation();
+                    }
+                    break;
+                case NWDStatut.DataIndexationStart:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationStep:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationFinish:
+                    {
+                        Ready();
                     }
                     break;
                 case NWDStatut.NetWorkedDataReady:
                     {
+                       
                     }
                     break;
             }
@@ -284,6 +312,18 @@ namespace NetWorkedData
                     }
                     break;
                 case NWDStatut.DataAccountLoaded:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationStart:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationStep:
+                    {
+                    }
+                    break;
+                case NWDStatut.DataIndexationFinish:
                     {
                     }
                     break;

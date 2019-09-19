@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:15
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -25,7 +31,7 @@ using SQLite4Unity3d;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
@@ -36,24 +42,26 @@ namespace NetWorkedData
         /// <param name="sOldReference">S old reference.</param>
         /// <param name="sNewReference">S new reference.</param>
         /// 
-        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnotherInAllObjects)]
-        public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
-        {
-            //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
-            {
-                tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
-        public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
-        {
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
-            {
-                tObject.ChangeUser(sOldUser, sNewUser);
-            }
-        }
+        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnotherInAllObjects)]
+        //public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
+        //{
+        //    //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
+        //    BasisHelper().New_LoadFromDatabase();
+        //    foreach (NWDBasis tObject in NWDBasisHelper.BasisHelper<K>().Datas)
+        //    {
+        //        tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //[NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
+        //public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
+        //{
+        //    BasisHelper().New_LoadFromDatabase();
+        //    foreach (NWDBasis tObject in NWDBasisHelper.BasisHelper<K>().Datas)
+        //    {
+        //        tObject.ChangeUser(sOldUser, sNewUser);
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -154,11 +162,11 @@ namespace NetWorkedData
         /// New reference. If account dependent this UUID of Player Account is integrate in Reference generation
         /// </summary>
         /// <returns>The reference.</returns>
-        public string NewReference()
+        public override string NewReference()
         {
             if (AccountDependent() == true)
             {
-                return NewReferenceFromUUID(NWDAccount.GetCurrentAccountReference());
+                return NewReferenceFromUUID(NWDAccount.CurrentReference());
             }
             else
             {
@@ -180,19 +188,24 @@ namespace NetWorkedData
             {
                 tNewReference = NewShortReference();
             }
+            NWDDataManager.SharedInstance().DataQueueExecute();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
-                }
+                //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
+                //}
+
+                BasisHelper().ChangeReferenceForAnotherInAllObjects(tOldReference, tNewReference);
+
+
             }
             Reference = tNewReference;
             UpdateData();
-            LoadFromDatabase();
+            BasisHelper().LoadFromDatabase();
             //BasisHelper().SortEditorTableDatas();
-            RestaureDataInEditionByReference(tNewReference);
+            BasisHelper().RestaureDataInEditionByReference(tNewReference);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 
             if (BasisHelper().ConnexionType != null)
@@ -213,12 +226,8 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Changes the reference for another.
-        /// </summary>
-        /// <param name="sOldReference">old reference.</param>
-        /// <param name="sNewReference">new reference.</param>
-        public void ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        // TODO : rename ... yhaht change refertence in properties not the object reference!
+        public override void ChangeReferenceForAnother(string sOldReference, string sNewReference)
         {
             bool rModify = false;
             Type tType = ClassType();
@@ -229,39 +238,54 @@ namespace NetWorkedData
                 {
                     //if (tTypeOfThis.IsGenericType)
                     {
-                        if (
 
-                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)) ||
-                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
-
-                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>) ||
-                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) ||
-                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>) ||
-                            //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                            )
+                        if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
                         {
-                            // TODO : Change to remove invoke!
-                            //							Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
-                            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_ChangeReferenceForAnother);
-
-                            //var tMethodInfo = tTypeOfThis.GetMethod("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
-                            if (tMethodInfo != null)
-                            {
-                                var tNext = tProp.GetValue(this, null);
-                                if (tNext == null)
-                                {
-                                    tNext = Activator.CreateInstance(tTypeOfThis);
-                                }
-                                //								Debug.LogVerbose ("tNext preview = " + tNext);
-                                string tChanged = tMethodInfo.Invoke(tNext, new object[] { sOldReference, sNewReference }) as string;
-                                if (tChanged == "YES")
-                                {
-                                    //									Debug.LogVerbose ("tNext changed = " + tNext);
-                                    tProp.SetValue(this, tNext, null);
-                                    rModify = true;
-                                }
-                            }
+                            NWDReferenceSimple tTestChange = tProp.GetValue(this, null) as NWDReferenceSimple;
+                            tTestChange.ChangeReferenceForAnother(sOldReference, sNewReference);
+                            tProp.SetValue(this, tTestChange, null);
                         }
+
+                        if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                        {
+                            NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
+                            tTestChange.ChangeReferenceForAnother(sOldReference, sNewReference);
+                            tProp.SetValue(this, tTestChange, null);
+                        }
+
+                        //if (
+
+                        //    tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)) ||
+                        //    tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+
+                        //    //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>) ||
+                        //    //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) ||
+                        //    //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>) ||
+                        //    //tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                        //    )
+                        //{
+                        //    // TODO : Change to remove invoke!
+                        //    //							Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
+
+                        //    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_ChangeReferenceForAnother);
+                        //    //var tMethodInfo = tTypeOfThis.GetMethod("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
+                        //    if (tMethodInfo != null)
+                        //    {
+                        //        var tNext = tProp.GetValue(this, null);
+                        //        if (tNext == null)
+                        //        {
+                        //            tNext = Activator.CreateInstance(tTypeOfThis);
+                        //        }
+                        //        //								Debug.LogVerbose ("tNext preview = " + tNext);
+                        //        string tChanged = tMethodInfo.Invoke(tNext, new object[] { sOldReference, sNewReference }) as string;
+                        //        if (tChanged == "YES")
+                        //        {
+                        //            //									Debug.LogVerbose ("tNext changed = " + tNext);
+                        //            tProp.SetValue(this, tNext, null);
+                        //            rModify = true;
+                        //        }
+                        //    }
+                        //}
                     }
                 }
             }
@@ -272,19 +296,37 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeUser(string sOldUser, string sNewUser)
+        public override void ChangeUser(string sOldUser, string sNewUser)
         {
             if (TestIntegrity() == true)
             {
                 if (AccountDependent() == true)
                 {
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
-                    foreach (PropertyInfo tProp in PropertiesAccountConnected())
+                    foreach (PropertyInfo tProp in BasisHelper().kAccountConnectedProperties)
                     {
-                        NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
-                        if (tObject != null)
+                        Type tTypeOfThis = tProp.PropertyType;
+                        if (tTypeOfThis != null)
                         {
-                            tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
+                            {
+                                NWDReferenceSimple tTestChange = tProp.GetValue(this, null) as NWDReferenceSimple;
+                                tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+                                tProp.SetValue(this, tTestChange, null);
+                            }
+
+                            if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
+                            {
+                                NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
+                                tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+                                tProp.SetValue(this, tTestChange, null);
+                            }
+
+                            //NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
+                            //if (tObject != null)
+                            //{
+                            //    tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
+                            //}
                         }
                     }
                     UpdateDataIfModified();

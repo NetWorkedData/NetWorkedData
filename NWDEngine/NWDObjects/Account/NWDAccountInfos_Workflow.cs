@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:22
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -17,7 +23,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
+    public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos()
@@ -32,51 +38,52 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDAccountInfos kCurrent = null;
+        //private static NWDAccountInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos GetAccountInfosOrCreate()
-        {
-            if (kCurrent != null)
-            {
-                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
-                {
-                    kCurrent = null;
-                }
-            }
+        //public static NWDAccountInfos GetAccountInfosOrCreate()
+        //{
+        //    if (kCurrent != null)
+        //    {
+        //        if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
+        //        {
+        //            kCurrent = null;
+        //        }
+        //    }
 
-            if (kCurrent == null)
-            {
-                NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
-                if (tAccountInfos == null)
-                {
-                    NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                    tAccountInfos = NewData();
-                    tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                    tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
-                    tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
-                    tAccountInfos.SaveData();
-                }
-                kCurrent = tAccountInfos;
-            }
+        //    if (kCurrent == null)
+        //    {
+        //        NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.CurrentReference(), null);
+        //        if (tAccountInfos == null)
+        //        {
+        //            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        //            tAccountInfos = NewData();
+        //            tAccountInfos.Account.SetReference(NWDAccount.CurrentReference());
+        //            tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
+        //            tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
+        //            tAccountInfos.SaveData();
+        //        }
+        //        kCurrent = tAccountInfos;
+        //    }
 
-            return kCurrent;
-        }
+        //    return kCurrent;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
-        {
-            NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
-            if (tActiveAccount != null)
-            {
-                tActiveAccount.AccountType = tStatus;
-                tActiveAccount.SaveData();
-            }
-        }
+        //public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
+        //{
+        //    //NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
+        //    NWDAccountInfos tActiveAccount = CurrentData();
+        //    if (tActiveAccount != null)
+        //    {
+        //        tActiveAccount.AccountType = tStatus;
+        //        tActiveAccount.SaveData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeDatas()
-        {
-            SynchronizationFromWebService();
-            //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
-        }
+        //public static void SynchronizeDatas()
+        //{
+        //    SynchronizationFromWebService();
+        //    //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {
@@ -113,8 +120,9 @@ namespace NetWorkedData
 
             if (UpdateDataIfModified())
             {
-                // TODO send to server immediatly
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
+                // TODO Check this
+                //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
+                NWDBasisHelper.SynchronizationFromWebService<NWDAccountInfos>();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

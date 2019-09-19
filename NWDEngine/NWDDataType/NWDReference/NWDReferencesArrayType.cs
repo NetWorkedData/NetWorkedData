@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:22
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -31,7 +39,7 @@ namespace NetWorkedData
     /// NWDReferencesArrayType used to put a reference with float in value. Use properties with name, like 'ItemArray', 'SpotArray', 'BonusArray' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesArrayType<K> : NWDReferenceMultiple where K : NWDBasis<K>, new()
+    public class NWDReferencesArrayType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType()
@@ -53,7 +61,7 @@ namespace NetWorkedData
         public NWDReferencesArrayType(K[] sObjects)
         {
             Value = string.Empty;
-            this.SetObjects(sObjects);
+            this.SetDatas(sObjects);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType(NWDReferencesArrayType<K> sArray)
@@ -157,22 +165,22 @@ namespace NetWorkedData
             return string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
+        public bool ContainsData(K sData)
         {
-            if (sObject == null)
+            if (sData == null)
             {
                 return false;
             }
-            return Value.Contains(sObject.Reference);
+            return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FindDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -181,13 +189,13 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsList(string sAccountReference = null)
+        public List<K> GetReachableDatasList()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FindDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -196,13 +204,13 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -211,13 +219,13 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsAbsoluteList()
+        public List<K> GetRawDatasList()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -226,7 +234,7 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetObjects(K[] sObjects)
+        public void SetDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -243,7 +251,7 @@ namespace NetWorkedData
             SetReferences(tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObject(K sObject)
+        public void AddData(K sObject)
         {
             if (sObject != null)
             {
@@ -255,7 +263,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjects(K[] sObjects)
+        public void AddDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -272,7 +280,7 @@ namespace NetWorkedData
             AddReferences(tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjects(K[] sObjects)
+        public void RemoveDatas(K[] sObjects)
         {
             List<string> tList = new List<string>();
             foreach (K tObject in sObjects)
@@ -299,13 +307,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
-        public K[] EditorGetObjects()
+        public override object[] GetEditorDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.GetDataByReference(tReference);
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(tReference);
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -314,39 +321,32 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
-        {
-            K tNewObject = NWDBasis<K>.NewData();
-            this.AddObject(tNewObject);
-            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
             }
             return rReturn;
         }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public override float ControlFieldHeight()
+        //{
+        //    int tRow = 1;
+        //    if (Value != null && Value != string.Empty)
+        //    {
+        //        string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //        tRow += tValueArray.Count();
+        //    }
+        //    float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
+        //    return tHeight;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public override float ControlFieldHeight()
-        {
-            int tRow = 1;
-            if (Value != null && Value != string.Empty)
-            {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                tRow += tValueArray.Count();
-            }
-            float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
-            return tHeight;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDReferencesArrayType<K> tTemporary = new NWDReferencesArrayType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -373,7 +373,7 @@ namespace NetWorkedData
                     tContent = new GUIContent("   ");
                 }
                 string tV = tValueList.ElementAt(i);
-                tV = NWDDatasSelector<K>.Field(new Rect(tX, tY, tWidth, NWDGUI.kDatasSelectorRowStyle.fixedHeight), tContent, tV);
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV, sDisabled);
                 if (string.IsNullOrEmpty(tV) == false)
                 {
                     if (i > 0)
@@ -398,7 +398,7 @@ namespace NetWorkedData
                 {
                     tValueList[i] = string.Empty;
                 }
-                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDatasSelectorRowStyle.fixedHeight;
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
             }
             if (tDown == true)
             {
@@ -434,22 +434,32 @@ namespace NetWorkedData
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+        public override void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
+        {
+            int tCounter = 0;
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef,
+                    new Vector2(0,
+                    tHeight
+                   + (NWDGUI.kFieldMarge * tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight * (tCounter + 0.5f)
+                    )));
+                tCounter++;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        //{
-        //    string rReturn = "NO";
-        //    if (Value != null)
-        //    {
-        //        if (Value.Contains(sOldReference))
-        //        {
-        //            //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
-        //            Value = Value.Replace(sOldReference, sNewReference);
-        //            rReturn = "YES";
-        //        }
-        //    }
-        //    return rReturn;
-        //}
+        public override void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef, new Vector2(0,
+                    tHeight
+                    + NWDGUI.kFieldMarge + NWDGUI.kBoldFoldoutStyle.fixedHeight * (0.5f)
+                    )));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

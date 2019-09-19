@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:43
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
@@ -23,8 +29,9 @@ namespace NetWorkedData
         public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
         //-------------------------------------------------------------------------------------------------------------
 		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
-		{
-			foreach (Type tType in sType) 
+        {
+            //BTBBenchmark.Start();
+            foreach (Type tType in sType) 
 			{
 				if (mTypeWindowDico.ContainsKey (tType))
 				{
@@ -41,44 +48,52 @@ namespace NetWorkedData
 					mTypeWindowDico.Add (tType, tList);
 						
 				}
-			}
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void RemoveWindowFromManager (NWDTypeWindow sWindow)
-		{
-			foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
+        public void RemoveWindowFromManager (NWDTypeWindow sWindow)
+        {
+            //BTBBenchmark.Start();
+            foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
 			{
 				List<NWDTypeWindow> tList = tKeyValue.Value;
 				if (tList.Contains (sWindow) == true) 
 				{
 					tList.Remove (sWindow);
                 }
-			}
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void RepaintWindowsInManager (Type sType)
-		{
+        public void RepaintWindowsInManager (Type sType)
+        {
+            //BTBBenchmark.Start();
             //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-			if (mTypeWindowDico.ContainsKey (sType))
+            if (mTypeWindowDico.ContainsKey (sType))
 			{
 				foreach (NWDTypeWindow tWindow in mTypeWindowDico [sType])
 				{
 					tWindow.Repaint ();
 				}
-			}
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public void RepaintWindowForData(Type sType)
-        //{
-        //    //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-        //    if (mTypeWindowDico.ContainsKey(sType))
-        //    {
-        //        foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
-        //        {
-        //            tWindow.Repaint();
-        //        }
-        //    }
-        //}
+        public List<NWDTypeWindow> EditorWindowsInManager(Type sType)
+        {
+            //BTBBenchmark.Start();
+            List<NWDTypeWindow> tReturn = new List<NWDTypeWindow>();
+            if (mTypeWindowDico.ContainsKey(sType))
+            {
+                foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
+                {
+                    tReturn.Add(tWindow);
+                }
+            }
+            //BTBBenchmark.Finish();
+            return tReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
