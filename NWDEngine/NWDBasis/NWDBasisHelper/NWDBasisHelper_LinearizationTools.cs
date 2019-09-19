@@ -293,6 +293,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             WebModelDegraded = ModelDegraded();
             WebModelChanged = ModelChanged();
+            RefreshAllWindows();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -461,6 +462,7 @@ namespace NetWorkedData
                 WebModelSQLOrder.Remove(sWebBuild);
             }
             WebModelSQLOrder.Add(sWebBuild, SLQSelect(sWebBuild));
+            RefreshAllWindows();
         }
         //-------------------------------------------------------------------------------------------------------------
         //[NWDAliasMethod(NWDConstants.M_ModelReset)]
@@ -470,11 +472,13 @@ namespace NetWorkedData
             WebModelPropertiesOrder.Clear();
             WebModelSQLOrder.Clear();
             ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            RefreshAllWindows();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void PrepareOrders()
         {
             ReplaceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            RefreshAllWindows();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DetermineLast()
@@ -552,6 +556,7 @@ namespace NetWorkedData
                 }
             }
             WebModelSQLOrder = tNewWebModelSQLOrder;
+            RefreshAllWindows();
         }
         //-------------------------------------------------------------------------------------------------------------
 

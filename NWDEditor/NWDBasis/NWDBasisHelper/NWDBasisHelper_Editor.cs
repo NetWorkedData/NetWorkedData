@@ -471,6 +471,14 @@ namespace NetWorkedData
             return NWDError.CreateGenericError(ClassTableName, ClassTrigramme + sXCode, "Error in " + ClassTableName, sDescription, "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RefreshAllWindows()
+        {
+            NWDModelManager.Refresh();
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType);
+            NWDDataInspector.Refresh();
+            NWDNodeEditor.Refresh();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -121,7 +121,6 @@ namespace NetWorkedData
             GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
             NWDGUILayout.SubSection(tHelper.ClassNamePHP);
-
             GUILayout.BeginHorizontal();
             Texture2D tTextureOfClass = tHelper.TextureOfClass();
             if (tTextureOfClass != null)
@@ -139,7 +138,7 @@ namespace NetWorkedData
             }
 
             if (tHelper.SaltValid == false)
-                {
+            {
                 if (NWDGUILayout.AlertBoxButton(NWDConstants.K_ALERT_SALT_SHORT_ERROR, NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     tHelper.DeleteOldsModels();
@@ -147,11 +146,10 @@ namespace NetWorkedData
                     GUIUtility.ExitGUI();
                 }
             }
-
             if (tHelper.WebModelChanged == true)
             {
                 // draw reintegrate the model
-                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL, NWDConstants.K_APP_WS_MODEL_TOOLS))
+                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"))))
                 {
                     tHelper.ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                     NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { sType }, false, false);
@@ -170,8 +168,6 @@ namespace NetWorkedData
                     GUIUtility.ExitGUI();
                 }
             }
-
-
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -181,11 +177,8 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             NWDGUI.LoadStyles();
-
             NWDGUILayout.Title("Model Manager");
-
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
             if (TypeErrorList.Count > 0)
             {
                 NWDGUILayout.Section("Models in error");
@@ -194,13 +187,11 @@ namespace NetWorkedData
                     DrawType(tType);
                 }
             }
-
             NWDGUILayout.Section("Models list");
             foreach (Type tType in TypeList)
             {
                 DrawType(tType);
             }
-
             GUILayout.EndScrollView();
             //BTBBenchmark.Finish();
         }
