@@ -21,7 +21,7 @@ using System.Reflection;
 using UnityEngine;
 
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 
 #if UNITY_EDITOR
@@ -186,7 +186,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log("NWDDatas Declare for " + sType.Name + " !");
 
             NWDBasisHelper tTypeInfos = null;
@@ -232,7 +232,7 @@ namespace NetWorkedData
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
 
-                //BTBBenchmark.Start("Declare() step A");
+                //NWEBenchmark.Start("Declare() step A");
                 // find infos object if exists or create 
                 if (TypesDictionary.ContainsKey(sType))
                 {
@@ -276,8 +276,8 @@ namespace NetWorkedData
                 tTypeInfos.ClassTableName = sType.Name;
 
                 tTypeInfos.ClassName = sType.AssemblyQualifiedName;
-                //BTBBenchmark.Finish("Declare() step A");
-                //BTBBenchmark.Start("Declare() step B");
+                //NWEBenchmark.Finish("Declare() step A");
+                //NWEBenchmark.Start("Declare() step B");
 
                 TableMapping tTableMapping = new TableMapping(sType);
                 string rClassName = tTableMapping.TableName;
@@ -291,8 +291,8 @@ namespace NetWorkedData
                 {
                     StringsDictionary.Add(rClassName, tTypeInfos);
                 }
-                //BTBBenchmark.Finish("Declare() step B");
-                //BTBBenchmark.Start("Declare() step C");
+                //NWEBenchmark.Finish("Declare() step B");
+                //NWEBenchmark.Start("Declare() step C");
                 // insert attributs infos
                 tTypeInfos.ClassTrigramme = tClassTrigramme;
                 tTypeInfos.ClassMenuName = tMenuName;
@@ -315,16 +315,16 @@ namespace NetWorkedData
                         tTypeInfos.IndexRemoveMethodList.Add(tMethod);
                     }
                 }
-                //BTBBenchmark.Finish("Declare() step C");
-                //BTBBenchmark.Start("Declare() step D");
+                //NWEBenchmark.Finish("Declare() step C");
+                //NWEBenchmark.Start("Declare() step D");
                 // create GUI object
 
                 //#if UNITY_EDITOR
                 // tTypeInfos.ClassMenuNameContent = new GUIContenm();t(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
                 //#endif
 
-                //BTBBenchmark.Finish("Declare() step D");
-                //BTBBenchmark.Start("Declare() step E");
+                //NWEBenchmark.Finish("Declare() step D");
+                //NWEBenchmark.Start("Declare() step E");
                 // Prepare engine informlations
                 //tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
                 //tTypeInfos.PropertiesArrayPrepare();
@@ -334,13 +334,13 @@ namespace NetWorkedData
                 //tTypeInfos.SLQIntegrityOrderPrepare();
                 //tTypeInfos.DataAssemblyPropertiesListPrepare();
 
-                //BTBBenchmark.Finish("Declare() step E");
-                //BTBBenchmark.Start("Declare() step F");
+                //NWEBenchmark.Finish("Declare() step E");
+                //NWEBenchmark.Start("Declare() step F");
                 // get salt 
                 tTypeInfos.PrefLoad();
-                //BTBBenchmark.Finish("Declare() step F");
-                //BTBBenchmark.Finish();
-                //BTBBenchmark.Start();
+                //NWEBenchmark.Finish("Declare() step F");
+                //NWEBenchmark.Finish();
+                //NWEBenchmark.Start();
 
                 bool rAccountConnected = false;
                 bool rAssetConnected = false;
@@ -443,7 +443,7 @@ namespace NetWorkedData
                 // reccord if class' object is asset dependent
                 tTypeInfos.kAssetDependent = rAssetConnected;
                 tTypeInfos.kAssetDependentProperties = tAssetPropertyList.ToArray();
-                //BTBBenchmark.Finish();
+                //NWEBenchmark.Finish();
 
                 if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
                 {
@@ -842,7 +842,7 @@ namespace NetWorkedData
         public void ResetDatas()
         {
             //Debug.Log("ResetDatas()");
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // all datas prepare handler
             Datas = new List<NWDTypeClass>();
             DatasByReference = new Dictionary<string, NWDTypeClass>();
@@ -866,7 +866,7 @@ namespace NetWorkedData
             EditorDatasMenu = new Dictionary<string, string>();
             EditorDatasMenu.Add("---", string.Empty);
 #endif
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool DatabaseIsLoaded()
@@ -911,7 +911,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //private void AddDataReachable(NWDTypeClass sData)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    if (sData.ReachableState() == true)
         //    {
         //        string tReference = sData.ReferenceUsedValue();
@@ -936,13 +936,13 @@ namespace NetWorkedData
         //            DatasReachableByReverseInternalKey.Add(sData, tInternalKey);
         //        }
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
         {
             //Debug.Log("NWDDatas AddData()");
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
             // Anyway I check if Data is allready in datalist
@@ -1015,12 +1015,12 @@ namespace NetWorkedData
             }
             /*NEW*/
 #endif
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //private void RemoveDataReachable(NWDTypeClass sData)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    string tReference = sData.ReferenceUsedValue();
         //    // Anyway I check if Data is allready in datalist
         //    if (DatasReachableByReference.ContainsKey(tReference) == true)
@@ -1040,13 +1040,13 @@ namespace NetWorkedData
         //        }
         //        DatasReachableByReverseInternalKey.Remove(sData);
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveData(NWDTypeClass sData)
         {
             //Debug.Log("NWDDatas RemoveData()");
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
             // Anyway I check if Data is allready in datalist
@@ -1099,7 +1099,7 @@ namespace NetWorkedData
             }
             /*NEW*/
 #endif
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UpdateDataReachable(NWDTypeClass sData)
@@ -1223,7 +1223,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass[] GetAllDatas(NWDDatasFilter sFilter)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    NWDTypeClass[] rReturn;
         //    switch (sFilter)
         //    {
@@ -1278,13 +1278,13 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass[] GetDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    NWDTypeClass[] rReturn = null;
         //    switch (sFilter)
         //    {
@@ -1358,13 +1358,13 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass GetFirstDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    NWDTypeClass rReturn = null;
         //    switch (sFilter)
         //    {
@@ -1444,14 +1444,14 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public NWDTypeClass GetDataByReference(string sReference, NWDDatasFilter sFilter)
         //{
         //    // TODO
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    NWDTypeClass rReturn = null;
         //    switch (sFilter)
         //    {
@@ -1512,7 +1512,7 @@ namespace NetWorkedData
         //            }
         //            break;
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------

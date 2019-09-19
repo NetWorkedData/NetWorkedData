@@ -34,13 +34,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void OnInspectorGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDBasisClassInspector tTarget = (NWDBasisClassInspector)target;
             if (tTarget.mTypeInEdition != null)
             {
                 NWDBasisHelper.FindTypeInfos(tTarget.mTypeInEdition).DrawTypeInInspector();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

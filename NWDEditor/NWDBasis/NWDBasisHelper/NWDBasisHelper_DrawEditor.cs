@@ -20,7 +20,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -32,7 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawTypeInInspector()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (SaltValid == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
@@ -89,19 +89,19 @@ namespace NetWorkedData
                     RecalculateAllIntegrities();
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (EditorTableDatas.Count > 0)
             {
                 NWDTypeClass sObject = EditorTableDatas.ElementAt(0);
                 SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

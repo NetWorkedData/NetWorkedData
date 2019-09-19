@@ -14,7 +14,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 using System;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -203,21 +203,21 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDDataManagerMainThread Update() InsertCompleted detected!");
                 InsertCompleted--;
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             }
             // not necessary to lock int
             if (UpdateCompleted > 0)
             {
                 //Debug.Log("NWDDataManagerMainThread Update() UpdateCompleted detected!");
                 UpdateCompleted--;
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
             }
             // not necessary to lock int
             if (DeleteCompleted > 0)
             {
                 //Debug.Log("NWDDataManagerMainThread Update() DeleteCompleted detected!");
                 DeleteCompleted--;
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             }
             // necessary to lock list
             lock (ListInsertCompleted)
@@ -227,7 +227,7 @@ namespace NetWorkedData
                     //Debug.Log("NWDDataManagerMainThread Update() ListInsertCompleted detected!");
                     List<Type> tTypeList =  ListInsertCompleted[0];
                     ListInsertCompleted.RemoveAt(0);
-                    BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+                    NWENotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                         {
@@ -244,7 +244,7 @@ namespace NetWorkedData
                     //Debug.Log("NWDDataManagerMainThread Update() ListUpdateCompleted detected!");
                     List<Type> tTypeList = ListUpdateCompleted[0];
                     ListUpdateCompleted.RemoveAt(0);
-                    BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+                    NWENotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {
@@ -261,7 +261,7 @@ namespace NetWorkedData
                     //Debug.Log("NWDDataManagerMainThread Update() ListDeleteCompleted detected!");
                     List<Type> tTypeList = ListDeleteCompleted[0];
                     ListDeleteCompleted.RemoveAt(0);
-                    BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+                    NWENotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {

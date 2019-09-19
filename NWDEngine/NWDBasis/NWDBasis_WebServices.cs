@@ -18,7 +18,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -74,10 +74,10 @@ namespace NetWorkedData
         //    return BasisHelper().SynchronizationTryToUse( sInfos,  sEnvironment,  sData,  sForceToUse) as NWDBasis;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public static void SynchronizationFromWebService(BTBOperationBlock sSuccessBlock = null,
-        // BTBOperationBlock sErrorBlock = null,
-        // BTBOperationBlock sCancelBlock = null,
-        // BTBOperationBlock sProgressBlock = null,
+        //public static void SynchronizationFromWebService(NWEOperationBlock sSuccessBlock = null,
+        // NWEOperationBlock sErrorBlock = null,
+        // NWEOperationBlock sCancelBlock = null,
+        // NWEOperationBlock sProgressBlock = null,
         // bool sForce = false,
         // bool sPriority = false)
         //{

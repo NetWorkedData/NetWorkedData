@@ -20,7 +20,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,10 +44,10 @@ namespace NetWorkedData
         public string PasswordToken;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebAccount AddOperation(string sName,
-                                                           BTBOperationBlock sSuccessBlock = null,
-                                                           BTBOperationBlock sFailBlock = null,
-                                                           BTBOperationBlock sCancelBlock = null,
-                                                           BTBOperationBlock sProgressBlock = null,
+                                                           NWEOperationBlock sSuccessBlock = null,
+                                                           NWEOperationBlock sFailBlock = null,
+                                                           NWEOperationBlock sCancelBlock = null,
+                                                           NWEOperationBlock sProgressBlock = null,
                                                            NWDAppEnvironment sEnvironment = null, bool sPriority = false)
         {
             NWDOperationWebAccount rReturn = NWDOperationWebAccount.Create(sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment);
@@ -59,10 +59,10 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebAccount Create(string sName,
-                                                     BTBOperationBlock sSuccessBlock = null,
-                                                     BTBOperationBlock sFailBlock = null,
-                                                     BTBOperationBlock sCancelBlock = null,
-                                                     BTBOperationBlock sProgressBlock = null,
+                                                     NWEOperationBlock sSuccessBlock = null,
+                                                     NWEOperationBlock sFailBlock = null,
+                                                     NWEOperationBlock sCancelBlock = null,
+                                                     NWEOperationBlock sProgressBlock = null,
                                                      NWDAppEnvironment sEnvironment = null)
         {
             NWDOperationWebAccount rReturn = null;

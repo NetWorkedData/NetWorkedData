@@ -16,7 +16,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine;
 using SQLite4Unity3d;
 using System.IO;
@@ -65,7 +65,7 @@ namespace NetWorkedData
             //Debug.Log ("NWDBasisWindow basic construtor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBasisWindow(string sTitleKey = BTBConstants.K_EMPTY_STRING, string sDescriptionKey = BTBConstants.K_EMPTY_STRING, Type[] sTabTypeList = null)
+        public NWDBasisWindow(string sTitleKey = NWEConstants.K_EMPTY_STRING, string sDescriptionKey = NWEConstants.K_EMPTY_STRING, Type[] sTabTypeList = null)
         {
             //Debug.Log ("NWDBasisWindow advanced constructor");
             this.mTitleKey = sTitleKey;
@@ -87,13 +87,13 @@ namespace NetWorkedData
         /// </summary>
         void OnInspectorUpdate()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // Add to detect mouse event and redraw the widow
             if (EditorWindow.focusedWindow == this && EditorWindow.mouseOverWindow == this)
             {
                 this.Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -101,7 +101,7 @@ namespace NetWorkedData
         /// </summary>
         public void DefineTab()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // force to check database connection
             //NWDDataManager.SharedInstance().ConnectToDatabase ();
             // prepare futur list results
@@ -132,7 +132,7 @@ namespace NetWorkedData
             }
             TabsTotalWidthExpected = TabWidthMax * tCounter * 8;
             mTabContentList = tTabContentList.ToArray();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -140,7 +140,7 @@ namespace NetWorkedData
         /// </summary>
         void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManager.SharedInstance().DataQueueExecute();
             if (typeof(K).GetCustomAttributes(typeof(NWDTypeWindowParamAttribute), true).Length > 0)
             {
@@ -185,7 +185,7 @@ namespace NetWorkedData
                 // redefine the TabBar navigation
                 DefineTab();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -223,7 +223,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetClassInEdition(Type sClassType)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //			ApplyUpdate();
             NWDDataManager.SharedInstance().DataQueueExecute();
             GUI.FocusControl(null);
@@ -231,7 +231,7 @@ namespace NetWorkedData
             tBasisClassInspector.mTypeInEdition = sClassType;
             //			tBasisClassInspector.mWindowInEdition = this;
             Selection.activeObject = tBasisClassInspector;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -239,7 +239,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
 
             float tWidthUsed = position.width;
@@ -314,7 +314,7 @@ namespace NetWorkedData
 
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void SelectTab(Type tType)

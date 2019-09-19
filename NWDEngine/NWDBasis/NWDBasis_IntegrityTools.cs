@@ -21,7 +21,7 @@ using System.Reflection;
 using SQLite4Unity3d;
 
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -130,44 +130,44 @@ namespace NetWorkedData
                         {
                             tProp.SetValue(this, string.Empty, null);
                         }
-                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
-                            BTBDataType tValueBTBDataType = (BTBDataType)tValue;
-                            tValueBTBDataType.Default();
+                            NWEDataType tValueNWEDataType = (NWEDataType)tValue;
+                            tValueNWEDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
-                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
-                            BTBDataTypeInt tValueBTBDataType = (BTBDataTypeInt)tValue;
-                            tValueBTBDataType.Default();
+                            NWEDataTypeInt tValueNWEDataType = (NWEDataTypeInt)tValue;
+                            tValueNWEDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
-                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
-                            BTBDataTypeFloat tValueBTBDataType = (BTBDataTypeFloat)tValue;
-                            tValueBTBDataType.Default();
+                            NWEDataTypeFloat tValueNWEDataType = (NWEDataTypeFloat)tValue;
+                            tValueNWEDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
-                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
-                            BTBDataTypeEnum tValueBTBDataType = (BTBDataTypeEnum)tValue;
-                            tValueBTBDataType.Default();
+                            NWEDataTypeEnum tValueNWEDataType = (NWEDataTypeEnum)tValue;
+                            tValueNWEDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
-                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
-                            BTBDataTypeMask tValueBTBDataType = (BTBDataTypeMask)tValue;
-                            tValueBTBDataType.Default();
+                            NWEDataTypeMask tValueNWEDataType = (NWEDataTypeMask)tValue;
+                            tValueNWEDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
                         else
@@ -177,16 +177,16 @@ namespace NetWorkedData
                     else
                     {
                         // verif if value is conforme for localization
-                        if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
+                        if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
                         {
-                            BTBDataType tValueBTBDataType = (BTBDataType)tValue;
-                            tValueBTBDataType.BaseVerif();
+                            NWEDataType tValueNWEDataType = (NWEDataType)tValue;
+                            tValueNWEDataType.BaseVerif();
                             tProp.SetValue(this, tValue, null);
                         }
                         //if (tProp.PropertyType.IsSubclassOf(typeof(NWDMultiType)))
                         //{
-                        //    NWDMultiType tValueBTBDataType = (NWDMultiType)tValue;
-                        //    tValueBTBDataType.BaseVerif();
+                        //    NWDMultiType tValueNWEDataType = (NWDMultiType)tValue;
+                        //    tValueNWEDataType.BaseVerif();
                         //    tProp.SetValue(this, tValue, null);
                         //}
                     }

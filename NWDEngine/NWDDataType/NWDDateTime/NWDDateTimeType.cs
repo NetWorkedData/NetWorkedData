@@ -22,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -35,7 +35,7 @@ namespace NetWorkedData
 	//TODO: FINISH THIS CLASS NWDDateTimeType
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateTimeType : BTBDataType
+	public class NWDDateTimeType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDateTimeType ()
@@ -43,7 +43,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateTimeType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDDateTimeType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -54,7 +54,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            SetDateTime(BTBDateHelper.ConvertFromTimestamp(0));
+            SetDateTime(NWEDateHelper.ConvertFromTimestamp(0));
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void BaseVerif()
@@ -282,7 +282,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetTimestamp(double sTimestamp)
         {
-            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+            SetDateTime(NWEDateHelper.ConvertFromTimestamp(sTimestamp));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetCurrentDateTime()
@@ -347,7 +347,7 @@ namespace NetWorkedData
             return NWDGUI.kPopupStyle.fixedHeight*2 + NWDGUI.kFieldMarge;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDateTimeType tTemporary = new NWDDateTimeType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

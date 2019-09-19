@@ -20,7 +20,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 using System.Linq.Expressions;
 
@@ -28,7 +28,7 @@ using System.Linq.Expressions;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDBasisEditorDatasSortType : int
+    public enum NWDBasisEditorDatasSortType
     {
         //-------------------------------------------------------------------------------------------------------------
         None,
@@ -106,7 +106,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string ActionsPrefkey<T>(Expression<Func<T>> sProperty)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tKey = "NWDBasisHelper_"; // prevent herited class
             if (NWDAppConfiguration.SharedInstance().EditorTableCommun == false)
             {
@@ -114,7 +114,7 @@ namespace NetWorkedData
             }
             tKey = tKey + NWDToolbox.PropertyName(sProperty);
             //Debug.Log("ActionsPrefkey() : " + tKey);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tKey;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -200,8 +200,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetIconByDefaultIcon()
         {
-            //BTBBenchmark.Start();
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Resources/Textures/NWDExample.psd";
+            //NWEBenchmark.Start();
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExample.psd";
             string tLookFor = ClassNamePHP + "";
             //Debug.Log("Loook for :" + tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
@@ -251,12 +251,12 @@ namespace NetWorkedData
             }
             Texture = null;
             TextureOfClass();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D TextureOfClass()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (Texture == null)
             {
                 Texture2D rTexture = null;
@@ -280,13 +280,13 @@ namespace NetWorkedData
                     Texture = NWDGUI.kImageDefaultIcon;
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return Texture;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SelectScript()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tLookFor = ClassNamePHP + " t:script";
             //Debug.Log("Loook for :"+ tLookFor);
             string[] sGUIDs = AssetDatabase.FindAssets(tLookFor);
@@ -306,12 +306,12 @@ namespace NetWorkedData
                 EditorUtility.FocusProjectWindow();
                 Selection.activeObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(tPathString);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RowAnalyze()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (RowAnalyzed == false)
             {
                 foreach (NWDTypeClass tData in Datas)
@@ -322,13 +322,13 @@ namespace NetWorkedData
                 SortType = (NWDBasisEditorDatasSortType)EditorPrefs.GetInt(ClassNamePHP + "_SortEditor");
                 SortEditorTableDatas();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
 
         //-------------------------------------------------------------------------------------------------------------
         public void SortEditorTableDatas()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // first sort to order result constant
             EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
             // reccord the new pref!
@@ -462,7 +462,7 @@ namespace NetWorkedData
                     }
                     break;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDError Error(string sXCode, string sDescription)

@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using System.Text;
 
 #if UNITY_EDITOR
@@ -58,7 +58,7 @@ namespace NetWorkedData
         public string WebServiceSign(int sWebBuild)
         {
             //return string.Join(NWDConstants.kStandardSeparator, PropertiesOrderArray(sWebBuild).ToArray());
-            return BTBSecurityTools.GenerateSha(SaltEnd+string.Join(NWDConstants.kFieldSeparatorD, PropertiesOrderArray(sWebBuild).ToArray()));
+            return NWESecurityTools.GenerateSha(SaltEnd+string.Join(NWDConstants.kFieldSeparatorD, PropertiesOrderArray(sWebBuild).ToArray()));
         }
         //-------------------------------------------------------------------------------------------------------------
         private NWDTypeClass NewDataFromWeb(NWDAppEnvironment sEnvironment,
@@ -146,7 +146,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().InsertData(rReturnObject, sWritingMode);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             //Data waiting for queue to finish the process
             return rReturnObject;
         }

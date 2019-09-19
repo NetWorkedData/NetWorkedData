@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -48,12 +48,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstance()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -62,13 +62,13 @@ namespace NetWorkedData
         /// </summary>
         public static void Refresh()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDAppConfigurationManager));
             foreach (NWDAppConfigurationManager tWindow in tWindows)
             {
                 tWindow.Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsSharedInstanced()
@@ -89,10 +89,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDAppConfigurationManager SharedInstanceFocus()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // Init Title and icon 
             if (IconAndTitle == null)
             {
@@ -123,7 +123,7 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -131,7 +131,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
@@ -231,7 +231,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
             {
-                BTBClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
+                NWEClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
                 EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
                 EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
@@ -282,7 +282,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             if (GUILayout.Button("Account Database File and password copy to Clipboard"))
             {
-                BTBClipboard.CopyToClipboard(tAccountPass);
+                NWEClipboard.CopyToClipboard(tAccountPass);
                 EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
                 EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
                 Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
@@ -302,7 +302,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

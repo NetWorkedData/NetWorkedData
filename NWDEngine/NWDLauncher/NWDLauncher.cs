@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -75,7 +75,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
-            BTBBenchmark.Start("NetWorkedData");
+            NWEBenchmark.Start("NetWorkedData");
             if (Launched == false)
             {
                 Launched = true;
@@ -116,7 +116,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void LaunchNext()
         {
-            //Debug.Log("LaunchNext() with state = "+ State.ToString());
+            Debug.Log("LaunchNext() preloaddata in "+NWDAppConfiguration.SharedInstance().PreloadDatas.ToString()+" and state = "+ State.ToString());
             //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {

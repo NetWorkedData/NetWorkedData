@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 using SQLite4Unity3d;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -30,7 +30,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeAssetPath (string sOldPath, string sNewPath)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = mTypeList.Count + 1;
 			float tOperation = 1;
@@ -45,7 +45,7 @@ namespace NetWorkedData
             DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

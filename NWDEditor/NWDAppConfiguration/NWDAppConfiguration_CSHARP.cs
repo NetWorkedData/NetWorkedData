@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -33,7 +33,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment"></param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
@@ -170,7 +170,7 @@ namespace NetWorkedData
             File.WriteAllText(tPath, rReturnFormatted);
             AssetDatabase.ImportAsset(tPath);
             AssetDatabase.Refresh();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

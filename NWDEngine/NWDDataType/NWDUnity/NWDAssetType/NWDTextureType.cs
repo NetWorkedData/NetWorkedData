@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +44,7 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTextureType(string sValue = BTBConstants.K_EMPTY_STRING)
+        public NWDTextureType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
@@ -59,7 +59,7 @@ namespace NetWorkedData
         public Texture ToTexureAsync(Texture sInterim, NWDOperationTextureDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationTexture tOperation = NWDOperationTexture.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }
@@ -67,7 +67,7 @@ namespace NetWorkedData
         public Texture2D ToTexure2DAsync(Texture2D sInterim, NWDOperationTexture2DDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationTexture2D tOperation = NWDOperationTexture2D.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }
@@ -81,7 +81,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture)) as Texture;
 #else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 rTexture = Resources.Load(tPath, typeof(Texture)) as Texture;
 #endif
                 //Debug.LogWarning("rTexture at path " + tPath);
@@ -102,7 +102,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
 #else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 rTexture = Resources.Load(tPath, typeof(Texture2D)) as Texture2D;
 #endif
                 //Debug.LogWarning("rTexture at path " + tPath);
@@ -171,7 +171,7 @@ namespace NetWorkedData
             return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDTextureType tTemporary = new NWDTextureType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

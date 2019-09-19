@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using BasicToolBox;
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -375,7 +375,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadStyles()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (StyleLoaded == false)
             {
                 //Debug.Log("LoadStyles()");
@@ -485,7 +485,7 @@ namespace NetWorkedData
                 kTitleStyle.normal.background = kTitleTexture;
                 kTitleStyle.padding = new RectOffset(6, 2, 16, 2);
                 kTitleStyle.margin = new RectOffset(0, 0, 1, 1);
-                kTitleStyle.fixedHeight = kTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kTitleStyle.fixedHeight = kTitleStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kTitleStyle.richText = true;
                 //kTitleStyle.normal.textColor = Color.red;
 
@@ -495,7 +495,7 @@ namespace NetWorkedData
                 kSectionStyle.normal.background = kSectionTexture;
                 kSectionStyle.padding = new RectOffset(6, 2, 8, 2);
                 kSectionStyle.margin = new RectOffset(0, 0, 1, 1);
-                kSectionStyle.fixedHeight = kSectionStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kSectionStyle.fixedHeight = kSectionStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 //kSectionStyle.normal.textColor = Color.yellow;
 
                 kSubSectionStyle = new GUIStyle(EditorStyles.label);
@@ -504,15 +504,15 @@ namespace NetWorkedData
                 kSubSectionStyle.normal.background = kSubSectionTexture;
                 kSubSectionStyle.padding = new RectOffset(6, 2, 8, 2);
                 kSubSectionStyle.margin = new RectOffset(0, 0, 1, 1);
-                kSubSectionStyle.fixedHeight = kSubSectionStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kSubSectionStyle.fixedHeight = kSubSectionStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 //kSubSectionStyle.normal.textColor = Color.blue;
 
                 // Table design
 
                 KTableClassToolbar = new GUIStyle(GUI.skin.button);
-                KTableClassToolbar.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                KTableClassToolbar.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 KTableClassPopup = new GUIStyle(EditorStyles.popup);
-                KTableClassPopup.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                KTableClassPopup.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
                 KTableToolbar = new GUIStyle(EditorStyles.toolbar);
                 KTableSearchIcon = new GUIStyle(EditorStyles.label);
@@ -526,10 +526,10 @@ namespace NetWorkedData
                 KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
                 KTableSearchLabel = new GUIStyle(EditorStyles.label);
 
-                KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
 
-                float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
                 KTableSearchTitle.fixedHeight = tTableSearchHeight;
                 KTableSearchTextfield.fixedHeight = tTableSearchHeight;
@@ -566,7 +566,7 @@ namespace NetWorkedData
                 KTableRowStatut = new GUIStyle(EditorStyles.label);
                 KTableRowReference = new GUIStyle(EditorStyles.label);
 
-                KTableRowSelect.fixedHeight = KTableRowSelect.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                KTableRowSelect.fixedHeight = KTableRowSelect.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
                 KTableRowSelect.alignment = TextAnchor.MiddleCenter;
                 KTableRowPrefab.alignment = TextAnchor.MiddleCenter;
@@ -597,74 +597,74 @@ namespace NetWorkedData
                 kInspectorInternalTitle = new GUIStyle(EditorStyles.boldLabel);
                 kInspectorInternalTitle.alignment = TextAnchor.MiddleCenter;
                 kInspectorInternalTitle.fontSize = 14;
-                kInspectorInternalTitle.fixedHeight = kInspectorInternalTitle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kInspectorInternalTitle.fixedHeight = kInspectorInternalTitle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kInspectorInternalTitle.richText = true;
 
                 kInspectorReferenceCenter = new GUIStyle(EditorStyles.miniLabel);
-                kInspectorReferenceCenter.fixedHeight = kInspectorReferenceCenter.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kInspectorReferenceCenter.fixedHeight = kInspectorReferenceCenter.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kInspectorReferenceCenter.alignment = TextAnchor.MiddleCenter;
 
 
                 kPropertyEntitlementStyle = new GUIStyle(EditorStyles.label);
-                kPropertyEntitlementStyle.fixedHeight = kPropertyEntitlementStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kPropertyEntitlementStyle.fixedHeight = kPropertyEntitlementStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kPropertyEntitlementStyle.richText = true;
 
                 kLabelStyle = new GUIStyle(EditorStyles.label);
-                kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
-                kMiniLabelStyle.fixedHeight = kMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kMiniLabelStyle.fixedHeight = kMiniLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-                kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                 kHelpBoxStyle.fixedHeight = kHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), 100);
 
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-                kObjectFieldStyle.fixedHeight = kObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kObjectFieldStyle.fixedHeight = kObjectFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kTextFieldStyle = new GUIStyle(EditorStyles.textField);
-                kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kTextFieldStyle.richText = true;
 
                 kFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
-                kFloatFieldStyle.fixedHeight = kFloatFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kFloatFieldStyle.fixedHeight = kFloatFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kIntFieldStyle = new GUIStyle(EditorStyles.numberField);
-                kIntFieldStyle.fixedHeight = kIntFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kIntFieldStyle.fixedHeight = kIntFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kLongFieldStyle = new GUIStyle(EditorStyles.numberField);
-                kLongFieldStyle.fixedHeight = kLongFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kLongFieldStyle.fixedHeight = kLongFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kDoubleFieldStyle = new GUIStyle(EditorStyles.numberField);
-                kDoubleFieldStyle.fixedHeight = kDoubleFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kDoubleFieldStyle.fixedHeight = kDoubleFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-                kFoldoutStyle.fixedHeight = kFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kFoldoutStyle.fixedHeight = kFoldoutStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kColorFieldStyle = new GUIStyle(EditorStyles.colorField);
-                kColorFieldStyle.fixedHeight = kColorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kColorFieldStyle.fixedHeight = kColorFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kPopupStyle = new GUIStyle(EditorStyles.popup);
-                kPopupStyle.fixedHeight = kPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kPopupStyle.fixedHeight = kPopupStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kEnumStyle = new GUIStyle(EditorStyles.popup);
-                kEnumStyle.fixedHeight = kEnumStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kEnumStyle.fixedHeight = kEnumStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kToggleStyle = new GUIStyle(EditorStyles.toggle);
-                kToggleStyle.fixedHeight = kToggleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kToggleStyle.fixedHeight = kToggleStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kBoldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
                 kBoldFoldoutStyle.fontStyle = FontStyle.Bold;
-                kBoldFoldoutStyle.fixedHeight = kBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+                kBoldFoldoutStyle.fixedHeight = kBoldFoldoutStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
                 kLabelRightStyle = new GUIStyle(EditorStyles.label);
                 kLabelRightStyle.alignment = TextAnchor.MiddleRight;
-                kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
 
                 kTextAreaStyle = new GUIStyle(EditorStyles.textField);
@@ -672,11 +672,11 @@ namespace NetWorkedData
 
 
                 kRedLabelStyle = new GUIStyle(EditorStyles.label);
-                kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kRedLabelStyle.normal.textColor = Color.red;
 
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
 
                 // Data Selector design
@@ -688,7 +688,7 @@ namespace NetWorkedData
                 kDataSelectorFieldStyle.alignment = TextAnchor.MiddleLeft;
                 kDataSelectorFieldStyle.imagePosition = ImagePosition.ImageLeft;
                 kDataSelectorFieldStyle.border = new RectOffset(2, 2, 2, 2);
-                kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 //kDatasSelectorRowErrorStyle = new GUIStyle(kDataSelectorFieldStyle);
                 //kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
 
@@ -700,7 +700,7 @@ namespace NetWorkedData
                 kDataSelectorTileStyle.imagePosition = ImagePosition.ImageAbove;
                 kDataSelectorTileStyle.border = new RectOffset(2, 2, 2, 4);
                 kDataSelectorTileStyle.alignment = TextAnchor.LowerCenter;
-                kDataSelectorTileStyle.fixedHeight = kDataSelectorTileStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorTileStyle.fixedHeight = kDataSelectorTileStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
                 //kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
                 //kSelectorTileDarkStyle.richText = true;
@@ -708,7 +708,7 @@ namespace NetWorkedData
                 //kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
                 //kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
                 //kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
-                //kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
                 kDataSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
                 kDataSelectorRowStyle.richText = true;
@@ -716,7 +716,7 @@ namespace NetWorkedData
                 kDataSelectorRowStyle.imagePosition = ImagePosition.ImageLeft;
                 kDataSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
                 kDataSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
-                kDataSelectorRowStyle.fixedHeight = kDataSelectorRowStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kDataSelectorRowStyle.fixedHeight = kDataSelectorRowStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
                 //kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
                 //kSelectorRowDarkStyle.richText = true;
@@ -724,18 +724,18 @@ namespace NetWorkedData
                 //kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
                 //kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
                 //kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
-                //kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                //kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
 
                 // References content
 
                 kIconButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kIconButtonStyle.fixedHeight = kIconButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kIconButtonStyle.fixedHeight = kIconButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kIconButtonStyle.padding = new RectOffset(2, 2, 2, 2);
                 kUpDownWidth = kIconButtonStyle.fixedHeight;
 
                 kEditButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kEditButtonStyle.fixedHeight = kEditButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kEditButtonStyle.fixedHeight = kEditButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kEditButtonStyle.padding = new RectOffset(2, 2, 2, 2);
 
                 kNodeContentIcon = new GUIContent(/*kImageSelectionUpdate,*/ "node");
@@ -760,7 +760,7 @@ namespace NetWorkedData
                 //kLeftContentIcon = new GUIContent("<");
                 //kRightContentIcon = new GUIContent(">");
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Rect MargeLeftRight(Rect sRect)

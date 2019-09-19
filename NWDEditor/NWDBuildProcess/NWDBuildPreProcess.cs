@@ -34,7 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnPreprocessBuild(BuildReport report)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
@@ -152,7 +152,7 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

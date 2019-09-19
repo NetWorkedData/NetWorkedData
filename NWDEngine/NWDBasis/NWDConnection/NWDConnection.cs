@@ -18,7 +18,7 @@ using System.Linq;
 using System.Reflection;
 using System.IO;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 using SQLite4Unity3d;
 
@@ -39,6 +39,15 @@ namespace NetWorkedData
     [Serializable]
     public class NWDConnection<K> : NWDBasisConnection where K : NWDBasis, new()
     {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the object instance referenced.
+        /// </summary>
+        /// <returns>The object.</returns>
+        public void Log()
+        {
+            Debug.Log(" type is " + GetType().Name + " with Generic " + NWDBasisHelper.FindTypeInfos(typeof(K)).ClassNamePHP + " and reference is " + Reference);
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the object instance referenced.

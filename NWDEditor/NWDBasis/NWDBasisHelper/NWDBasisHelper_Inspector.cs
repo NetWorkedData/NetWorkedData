@@ -13,7 +13,7 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
-using BasicToolBox;
+//using BasicToolBox;
 using System.Text;
 using System.Reflection;
 using System;
@@ -50,11 +50,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetDrawable(bool sOpen = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tKey = Key();
             //EditorPrefs.HasKey(tKey);
             EditorPrefs.SetBool(tKey, sOpen);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool GetDrawable()
@@ -95,7 +95,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspector(object sObject, NWDNodeCard sNodalCard, float sX, float sY, float sWidth)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             float tWidth = sWidth;
             float tX = sX;
             float tY = sY;
@@ -316,7 +316,7 @@ namespace NetWorkedData
                             }
                             //tY += NWDBasisHelper.tFloatFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                         {
 
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
@@ -326,20 +326,20 @@ namespace NetWorkedData
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataType tBTBDataType = tValue as BTBDataType;
-                            BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "  ", tNotEditable, Tooltips) as BTBDataType;
+                            NWEDataType tNWEDataType = tValue as NWEDataType;
+                            NWEDataType tNWEDataTypeNext = tNWEDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), "  ", tNotEditable, Tooltips) as NWEDataType;
 
-                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            if (tNWEDataTypeNext.Value != tNWEDataType.Value)
                             {
                                 //Debug.Log("change in "+tTypeOfThis.Name);
-                                Property.SetValue(sObject, tBTBDataTypeNext, null);
+                                Property.SetValue(sObject, tNWEDataTypeNext, null);
                                 //rNeedBeUpdate = true;
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                         {
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
 
@@ -348,21 +348,21 @@ namespace NetWorkedData
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
-                            BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kIntFieldStyle.fixedHeight),
-                                                                                     "  ", tNotEditable, Tooltips) as BTBDataTypeInt;
+                            NWEDataTypeInt tNWEDataType = tValue as NWEDataTypeInt;
+                            NWEDataTypeInt tNWEDataTypeNext = tNWEDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kIntFieldStyle.fixedHeight),
+                                                                                     "  ", tNotEditable, Tooltips) as NWEDataTypeInt;
 
-                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            if (tNWEDataTypeNext.Value != tNWEDataType.Value)
                             {
                                 //Debug.Log("change in "+tTypeOfThis.Name);
-                                Property.SetValue(sObject, tBTBDataTypeNext, null);
+                                Property.SetValue(sObject, tNWEDataTypeNext, null);
                                 //rNeedBeUpdate = true;
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                         {
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
 
@@ -371,21 +371,21 @@ namespace NetWorkedData
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
-                            BTBDataTypeFloat tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
-                                                                                     "  ", tNotEditable, Tooltips) as BTBDataTypeFloat;
+                            NWEDataTypeFloat tNWEDataType = tValue as NWEDataTypeFloat;
+                            NWEDataTypeFloat tNWEDataTypeNext = tNWEDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
+                                                                                     "  ", tNotEditable, Tooltips) as NWEDataTypeFloat;
 
-                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            if (tNWEDataTypeNext.Value != tNWEDataType.Value)
                             {
                                 //Debug.Log("change in "+tTypeOfThis.Name);
-                                Property.SetValue(sObject, tBTBDataTypeNext, null);
+                                Property.SetValue(sObject, tNWEDataTypeNext, null);
                                 //rNeedBeUpdate = true;
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                         {
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
 
@@ -394,20 +394,20 @@ namespace NetWorkedData
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeEnum tBTBDataType = tValue as BTBDataTypeEnum;
-                            BTBDataTypeEnum tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
-                                                                                     "  ", tNotEditable, Tooltips) as BTBDataTypeEnum;
+                            NWEDataTypeEnum tNWEDataType = tValue as NWEDataTypeEnum;
+                            NWEDataTypeEnum tNWEDataTypeNext = tNWEDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
+                                                                                     "  ", tNotEditable, Tooltips) as NWEDataTypeEnum;
 
-                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            if (tNWEDataTypeNext.Value != tNWEDataType.Value)
                             {
-                                ((BTBDataTypeEnum)tValue).Value = tBTBDataTypeNext.Value;
+                                ((NWEDataTypeEnum)tValue).Value = tNWEDataTypeNext.Value;
                                 Property.SetValue(sObject, tValue, null);
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                         {
                             EditorGUI.LabelField(tEntitlementRect, Content(), NWDGUI.kPropertyEntitlementStyle);
 
@@ -416,17 +416,17 @@ namespace NetWorkedData
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeMask tBTBDataType = tValue as BTBDataTypeMask;
-                            BTBDataTypeMask tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
-                                                                                     " ", tNotEditable, Tooltips) as BTBDataTypeMask;
+                            NWEDataTypeMask tNWEDataType = tValue as NWEDataTypeMask;
+                            NWEDataTypeMask tNWEDataTypeNext = tNWEDataType.ControlField(new Rect(tX, tY, tWidth, NWDGUI.kFloatFieldStyle.fixedHeight),
+                                                                                     " ", tNotEditable, Tooltips) as NWEDataTypeMask;
 
-                            if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                            if (tNWEDataTypeNext.Value != tNWEDataType.Value)
                             {
-                                ((BTBDataTypeMask)tValue).Value = tBTBDataTypeNext.Value;
+                                ((NWEDataTypeMask)tValue).Value = tNWEDataTypeNext.Value;
                                 Property.SetValue(sObject, tValue, null);
                                 NWDNodeEditor.ReAnalyzeIfNecessary(sObject);
                             }
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
                         else
@@ -489,7 +489,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -504,7 +504,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AnalyzeForInspector()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (LoadStyle == false)
             {
                 LoadStyle = true;
@@ -702,12 +702,12 @@ namespace NetWorkedData
                 InspectorHelper.Open = true;
                 InspectorHelper.Name = ClassNamePHP + "_hj444gf445675xhcjh444vk";
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public GUIContent GetGUIContent(string sReference)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             GUIContent rReturn = null;
             if (DatasByReference.ContainsKey(sReference))
             {
@@ -732,7 +732,7 @@ namespace NetWorkedData
                     rReturn = new GUIContent("<i>WARNING</i> [" + sReference + "]");
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -47,7 +47,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateTimeScheduleType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDDateTimeScheduleType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -122,7 +122,7 @@ namespace NetWorkedData
 			return tHeight * (tCount + tCountB + tCountC + tCountD+ tCountE) + tHeightTitle*5;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDateTimeScheduleType tTemporary = new NWDDateTimeScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

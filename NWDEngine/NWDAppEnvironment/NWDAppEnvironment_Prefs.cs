@@ -15,7 +15,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -38,21 +38,21 @@ namespace NetWorkedData
             }
             else
             {
-                //BTBPrefsManager.ShareInstance().set(Environment + kPlayerStatusKey, PlayerStatut.ToString());
-                //BTBPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
-                //BTBPrefsManager.ShareInstance().set(Environment + kRequesTokenKey, RequesToken);
-                //BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                //BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
+                //NWEPrefsManager.ShareInstance().set(Environment + kPlayerStatusKey, PlayerStatut.ToString());
+                //NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
+                //NWEPrefsManager.ShareInstance().set(Environment + kRequesTokenKey, RequesToken);
+                //NWEPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
+                //NWEPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
 
-                BTBPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
+                NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
                 //NWDBasisPreferences.SetString(kPlayerAccountReferenceKey, this, PlayerAccountReference, false);
                 //NWDBasisPreferences.SetString(kPlayerStatusKey, this, PlayerStatut.ToString(), true);
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
 
                 //if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
                 //{
-                //    BTBPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                //    BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
+                //    NWEPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
+                //    NWEPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
                 //}
                 //else
                 //{
@@ -75,17 +75,17 @@ namespace NetWorkedData
             //Debug.Log("<color=blue>NWDAppEnvironment() LoadPreferences : " + Environment + " " + tEnvCompiler + "</color>");
             //try
             //{
-            //    PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), BTBPrefsManager.ShareInstance().getString(Environment + kPlayerStatusKey), true);
+            //    PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), NWEPrefsManager.ShareInstance().getString(Environment + kPlayerStatusKey), true);
             //}
             //catch (ArgumentException e)
             //{
             //    Debug.Log(e.StackTrace);
             //}
 
-            //PlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
-            //RequesToken = BTBPrefsManager.ShareInstance().getString(Environment + kRequesTokenKey);
-            //AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
-            //AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
+            //PlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
+            //RequesToken = NWEPrefsManager.ShareInstance().getString(Environment + kRequesTokenKey);
+            //AnonymousPlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
+            //AnonymousResetPassword = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
 
             //try
             //{
@@ -96,14 +96,14 @@ namespace NetWorkedData
             //    Debug.Log(e.StackTrace);
             //}
 
-            PlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
+            PlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
             //PlayerAccountReference = NWDBasisPreferences.GetString(kPlayerAccountReferenceKey, this, string.Empty, false);
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
 
             //if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
             //{
-            //    AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
-            //    AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
+            //    AnonymousPlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
+            //    AnonymousResetPassword = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
             //}
             //else
             //{
@@ -141,7 +141,7 @@ namespace NetWorkedData
             //PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
-            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
             NWDDataManager.SharedInstance().PlayerLanguageLoad();
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
@@ -158,7 +158,7 @@ namespace NetWorkedData
             //PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
-            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
             NWDDataManager.SharedInstance().PlayerLanguageLoad();
             NWDDataManager.SharedInstance().PlayerLanguageLoad();
 #if UNITY_EDITOR
@@ -175,7 +175,7 @@ namespace NetWorkedData
         //            //AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
         //            SavePreferences();
         //            // add notification
-        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
         //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         //#if UNITY_EDITOR
@@ -194,7 +194,7 @@ namespace NetWorkedData
         //            // TODO :  must connect to server
         //            SavePreferences();
         //            // add notification
-        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
         //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
         //#if UNITY_EDITOR

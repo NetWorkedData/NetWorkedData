@@ -21,7 +21,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,7 +33,7 @@ namespace NetWorkedData
 {
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-    public class NWDLanguageType : BTBDataType
+    public class NWDLanguageType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public NWDLanguageType ()
@@ -41,7 +41,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public NWDLanguageType (string sValue = BTBConstants.K_EMPTY_STRING)
+        public NWDLanguageType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = "en";
@@ -72,7 +72,7 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDLanguageType tTemporary = new NWDLanguageType ();
             tTemporary.Value = Value;
@@ -86,7 +86,7 @@ namespace NetWorkedData
             float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
 			List<string> tLocalizationList = new List<string> ();
-			tLocalizationList.Add (BTBConstants.K_MINUS);
+			tLocalizationList.Add (NWEConstants.K_MINUS);
 
 			string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
 			string[] tLanguageArray = tLanguage.Split (new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);

@@ -20,7 +20,7 @@ using System.Reflection;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 using UnityEngine;
 
@@ -32,13 +32,12 @@ namespace NetWorkedData
     /// NWDBasisConnection is an abstract class to refere to an NWDBasis generic class object by its reference.
     /// </summary>
 	[Serializable]
-	public abstract class NWDBasisConnection
+	public class NWDBasisConnection
 	{
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The reference of refered object.
         /// </summary>
-		[SerializeField]
 		public string Reference = string.Empty;
 		//-------------------------------------------------------------------------------------------------------------
 	}

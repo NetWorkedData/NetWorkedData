@@ -22,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +44,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDJsonType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDJsonType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -55,12 +55,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public List<object> UnlinearizeList()
         {
-            return (List<object>)BTBMiniJSON.Json.Deserialize(NWDToolbox.JsonFromString(Value));
+            return (List<object>)NWEMiniJSON.Json.Deserialize(NWDToolbox.JsonFromString(Value));
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> UnlinearizeDictionary()
         {
-            return (Dictionary<string, object>)BTBMiniJSON.Json.Deserialize(NWDToolbox.JsonFromString(Value));
+            return (Dictionary<string, object>)NWEMiniJSON.Json.Deserialize(NWDToolbox.JsonFromString(Value));
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
@@ -79,12 +79,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void LinearizeList(List<object> sList)
 		{
-			Value = NWDToolbox.JsonToString(BTBMiniJSON.Json.Serialize(sList));
+			Value = NWDToolbox.JsonToString(NWEMiniJSON.Json.Serialize(sList));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void LinearizeDictionary(Dictionary<string,object> sDictionary)
 		{
-            Value = NWDToolbox.JsonToString(BTBMiniJSON.Json.Serialize(sDictionary));
+            Value = NWDToolbox.JsonToString(NWEMiniJSON.Json.Serialize(sDictionary));
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
@@ -95,7 +95,7 @@ namespace NetWorkedData
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDJsonType tTemporary = new NWDJsonType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

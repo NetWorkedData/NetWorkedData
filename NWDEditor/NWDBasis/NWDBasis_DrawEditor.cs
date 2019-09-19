@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -43,7 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreview()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             PreviewTexture = null;
             PreviewObject = null;
             if (string.IsNullOrEmpty(Preview) == false)
@@ -59,7 +59,7 @@ namespace NetWorkedData
                     PreviewTextureIsLoaded = true;
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return PreviewTexture;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -71,20 +71,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Vector2 sOrigin)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             DrawPreviewTexture2D(new Rect(sOrigin.x, sOrigin.y, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize));
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPreviewTexture2D(Rect sRect)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Texture2D tTexture = PreviewTexture2D();
             if (tTexture != null)
             {
                 GUI.DrawTexture(sRect, tTexture, ScaleMode.ScaleToFit, true);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
@@ -1054,68 +1054,68 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ErrorCheck()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             bool tErrorResult = false;
             Type tType = ClassType();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 Type tTypeOfThis = tProp.PropertyType;
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                 {
                     var tValue = tProp.GetValue(this, null);
                     if (tValue != null)
                     {
-                        BTBDataType tBTBDataType = tValue as BTBDataType;
-                        tBTBDataType.BaseVerif();
-                        if (tBTBDataType.ErrorAnalyze() == true)
+                        NWEDataType tNWEDataType = tValue as NWEDataType;
+                        tNWEDataType.BaseVerif();
+                        if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
                     }
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
                     var tValue = tProp.GetValue(this, null);
                     if (tValue != null)
                     {
-                        BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
-                        if (tBTBDataType.ErrorAnalyze() == true)
+                        NWEDataTypeInt tNWEDataType = tValue as NWEDataTypeInt;
+                        if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
                     }
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                 {
                     var tValue = tProp.GetValue(this, null);
                     if (tValue != null)
                     {
-                        BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
-                        if (tBTBDataType.ErrorAnalyze() == true)
+                        NWEDataTypeFloat tNWEDataType = tValue as NWEDataTypeFloat;
+                        if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
                     }
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                 {
                     var tValue = tProp.GetValue(this, null);
                     if (tValue != null)
                     {
-                        BTBDataTypeEnum tBTBDataType = tValue as BTBDataTypeEnum;
-                        if (tBTBDataType.ErrorAnalyze() == true)
+                        NWEDataTypeEnum tNWEDataType = tValue as NWEDataTypeEnum;
+                        if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
                     }
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                 {
                     var tValue = tProp.GetValue(this, null);
                     if (tValue != null)
                     {
-                        BTBDataTypeMask tBTBDataType = tValue as BTBDataTypeMask;
-                        if (tBTBDataType.ErrorAnalyze() == true)
+                        NWEDataTypeMask tNWEDataType = tValue as NWEDataTypeMask;
+                        if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
                         }
@@ -1130,7 +1130,7 @@ namespace NetWorkedData
             {
                 InError = tErrorResult;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

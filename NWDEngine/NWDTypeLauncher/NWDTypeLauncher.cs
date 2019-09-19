@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -105,13 +105,13 @@ namespace NetWorkedData
                 // craeta a list to reccord all classes
                 List<Type> tTypeList = new List<Type>();
                 // Find all Type of NWDType
-                //BTBBenchmark.Start("Launcher() reflexion");
+                //NWEBenchmark.Start("Launcher() reflexion");
                 Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
                 // sort and filter by NWDBasis (NWDTypeClass subclass)
                 Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                        where type.IsSubclassOf(typeof(NWDTypeClass))
                                        select type).ToArray();
-                //BTBBenchmark.Finish("Launcher() reflexion");
+                //NWEBenchmark.Finish("Launcher() reflexion");
                 foreach (Type tType in tAllNWDTypes)
                 {
                     // not the NWDBasis because it's generic class
@@ -164,7 +164,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public static void DatabaseAccountLauncher()
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == false && IsLaunching == true)
         //    {
         //        string tSurProtection = string.Empty;
@@ -175,13 +175,13 @@ namespace NetWorkedData
         //            if (tShareInstance.DatabaseAccountExists() == false)
         //            {
         //                Debug.LogWarning("### Database NOT EXISTS");
-        //                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+        //                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
         //                NWDTypeLauncher.CodePinCreationNeeded = true;
         //            }
         //            else
         //            {
         //                Debug.LogWarning("### Database EXISTS NEED PINCODE");
-        //                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
+        //                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
         //            }
         //        }
         //        else
@@ -189,13 +189,13 @@ namespace NetWorkedData
         //            DatabaseAccountConnection(string.Empty);
         //        }
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
 //        public static void DatabaseAccountConnection(string sSurProtection)
 //        {
 //            Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
-//            BTBBenchmark.Start();
+//            NWEBenchmark.Start();
 //            //if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
 //            if (NWDDataManager.SharedInstance().DataAccountConnected == false)
 //            {
@@ -209,14 +209,14 @@ namespace NetWorkedData
 //                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
 //#endif
 //                        Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
-//                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
+//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
 //                        //DatabaseAccountLauncher();
 //                    }
 //                    else
 //                    {
 //                        Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
 //                        // Kill App || Destroy Database || Call FBI || Vodoo ?
-//                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
+//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
 //                    }
 //                }
 //                else
@@ -225,11 +225,11 @@ namespace NetWorkedData
 //                    if (NWDAppConfiguration.SharedInstance().SurProtected == true)
 //                    {
 //                        Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
-//                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
+//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
 //                    }
 //                    NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
 //                    Debug.Log("<color=orange>Database is connected</color>");
-//                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_CONNECTED);
+//                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_CONNECTED);
 //#if UNITY_EDITOR
 //                    if (Application.isEditor && Application.isPlaying == false)
 //                    {
@@ -238,16 +238,16 @@ namespace NetWorkedData
 //#endif
         //        }
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
 //        public static void DatabaseAccountLoadDatas()
 //        {
-//            BTBBenchmark.Start();
+//            NWEBenchmark.Start();
 //            if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == true)
 //            {
 //                // Ok database is connected
-//                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED);
+//                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED);
 //                // start to lauch datas from database
 //                // create, recreate or update all account's tables!
 //                // Loaded data 
@@ -263,16 +263,16 @@ namespace NetWorkedData
 //#endif
         //            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
         //            {
-        //                BTBBenchmark.Start("DatabaseAccountLoadDatas() load Datas");
+        //                NWEBenchmark.Start("DatabaseAccountLoadDatas() load Datas");
         //                NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-        //                BTBBenchmark.Finish("DatabaseAccountLoadDatas() load Datas");
+        //                NWEBenchmark.Finish("DatabaseAccountLoadDatas() load Datas");
         //            }
         //        }
         //        // finish launch
         //        NWDDataManager.SharedInstance().DataAccountLoaded = true;
         //        //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
     }

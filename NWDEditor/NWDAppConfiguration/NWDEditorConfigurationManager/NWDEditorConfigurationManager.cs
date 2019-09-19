@@ -44,12 +44,12 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDEditorConfigurationManager SharedInstance()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDEditorConfigurationManager)) as NWDEditorConfigurationManager;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -59,10 +59,10 @@ namespace NetWorkedData
         /// <returns></returns>
         public static NWDEditorConfigurationManager SharedInstanceFocus()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -115,7 +115,7 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -123,7 +123,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Editor preferences");
             //NWDGUILayout.Informations("Some informations!");
@@ -177,7 +177,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

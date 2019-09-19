@@ -12,7 +12,7 @@
 //=====================================================================================================================
 using System;
 using UnityEngine.Events;
-using BasicToolBox;
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -21,7 +21,7 @@ namespace NetWorkedData
     /// NWDCallBackEvent for Event interface in editor.
     /// </summary>
     [Serializable]
-    public class NWDCallBackEvent : UnityEvent<BTBNotification>
+    public class NWDCallBackEvent : UnityEvent<NWENotification>
     {
         // Event interface for unity
     }

@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -68,10 +68,10 @@ namespace NetWorkedData
             }
             else
             {
-                BTBPrefsManager.ShareInstance().set(PlayerLanguageKey, sNewLanguage);
+                NWEPrefsManager.ShareInstance().set(PlayerLanguageKey, sNewLanguage);
             }
             PlayerLanguage = sNewLanguage;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
+            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
@@ -88,10 +88,10 @@ namespace NetWorkedData
             }
             else
             {
-                PlayerLanguage = BTBPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
+                PlayerLanguage = NWEPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
+            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ namespace NetWorkedData
         ~NWDDataManager()
         {
             SharedInstance().DataQueueExecute();
-            BTBNotificationManager.SharedInstance().RemoveAll();
+            NWENotificationManager.SharedInstance().RemoveAll();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltMemorizationForAllClass()

@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -28,7 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true)
         {
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
             float tCountClass = 4;
@@ -150,12 +150,12 @@ namespace NetWorkedData
                 DeconnectSFTP();
             }
             EditorUtility.ClearProgressBar();
-            BTBBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Headlines()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
 
             string tWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
@@ -169,13 +169,13 @@ namespace NetWorkedData
             rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
             rReturn.AppendLine(NWD.K_CommentCreator);
             rReturn.AppendLine(NWD.K_CommentSeparator);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         private string EnvFolder(bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string rReturn = string.Empty;
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             if (sWriteOnDisk == true)
@@ -187,29 +187,29 @@ namespace NetWorkedData
             {
                 rReturn = tWebServiceFolder + "/" + Environment + "/";
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private string EngFolder(bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_ENG + "/";
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private string DBFolder(bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_DB + "/";
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private List<string> CreatePHPFolder(bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             List<string> rReturn = new List<string>();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             if (sWriteOnDisk == true)
@@ -227,13 +227,13 @@ namespace NetWorkedData
                 rReturn.Add(tWebServiceFolder + "/" + Environment + "/" + NWD.K_ENG);
                 rReturn.Add(tWebServiceFolder + "/" + Environment + "/" + NWD.K_DB);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPErrorGenerate(bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // regenerate basis error
             NWDErrorHelper tErrorHelper = NWDBasisHelper.BasisHelper<NWDError>() as NWDErrorHelper;
             tErrorHelper.GenerateBasisError();
@@ -244,12 +244,12 @@ namespace NetWorkedData
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.ErrorRegenerate();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPConstantsFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             StringBuilder tConstantsFile = new StringBuilder(string.Empty);
             tConstantsFile.AppendLine("<?php");
             tConstantsFile.AppendLine(Headlines());
@@ -325,12 +325,12 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tConstantsFile.ToString());
             sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_CONSTANTS_FILE, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPManagementFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             StringBuilder tManagementFile = new StringBuilder(string.Empty);
             tManagementFile.AppendLine("<?php");
             tManagementFile.AppendLine(Headlines());
@@ -377,12 +377,12 @@ namespace NetWorkedData
             tManagementFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tManagementFile.ToString());
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_MANAGEMENT_FILE, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPWebservicesFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             StringBuilder tWebServices = new StringBuilder(string.Empty);
             tWebServices.AppendLine("<?php");
             tWebServices.AppendLine(Headlines());
@@ -441,12 +441,12 @@ namespace NetWorkedData
             tWebServices.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tWebServices.ToString());
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_FILE, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //private void CreatePHPWebservicesInsideFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    StringBuilder tWebServicesAnnexe = new StringBuilder(string.Empty);
         //    tWebServicesAnnexe.AppendLine("<?php");
         //    tWebServicesAnnexe.AppendLine(Headlines());
@@ -482,12 +482,12 @@ namespace NetWorkedData
         //    tWebServicesAnnexe.AppendLine("?>");
         //    string tFileFormatted = NWDToolbox.CSharpFormat(tWebServicesAnnexe.ToString());
         //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_INSIDE_FILE, tFileFormatted);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //private void CreatePHPWebservicesAddonFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);         //    tWebServicesAddon.AppendLine("<?php");
         //    tWebServicesAddon.AppendLine(Headlines());
         //    tWebServicesAddon.AppendLine("// WEBSERVICES ADDON");
@@ -557,12 +557,12 @@ namespace NetWorkedData
         //    tWebServicesAddon.AppendLine("?>");
         //    string tFileFormatted = NWDToolbox.CSharpFormat(tWebServicesAddon.ToString());
         //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_FILE_ADDON, tFileFormatted);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //private void CreatePHPAccountServicesFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    StringBuilder tAccountServices = new StringBuilder(string.Empty);
         //    tAccountServices.AppendLine("<?php");
         //    tAccountServices.AppendLine(Headlines());
@@ -601,12 +601,12 @@ namespace NetWorkedData
         //    tAccountServices.AppendLine("?>");
         //    string tFileFormatted = NWDToolbox.CSharpFormat(tAccountServices.ToString());
         //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_WS_ACCOUNT_ADDON, tFileFormatted);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPAuthentificationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(Headlines());
@@ -721,12 +721,12 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_AUTHENTIFICATION_PHP, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPBlankFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
 {
-    //BTBBenchmark.Start();
+    //NWEBenchmark.Start();
     StringBuilder tFile = new StringBuilder(string.Empty);
     tFile.AppendLine("<?php");
     tFile.AppendLine(Headlines());
@@ -748,12 +748,12 @@ namespace NetWorkedData
     tFile.AppendLine("?>");
     string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
     sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_BLANK_PHP, tFileFormatted);
-    //BTBBenchmark.Finish();
+    //NWEBenchmark.Finish();
 }
 //-------------------------------------------------------------------------------------------------------------
 //private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
 //{
-//    //BTBBenchmark.Start();
+//    //NWEBenchmark.Start();
 //    StringBuilder tFile = new StringBuilder(string.Empty);
 //    tFile.AppendLine("<?php");
 //    tFile.AppendLine(Headlines());
@@ -774,12 +774,12 @@ namespace NetWorkedData
 //    tFile.AppendLine("?>");
 //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
 //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_RESCUE_PHP, tFileFormatted);
-//    //BTBBenchmark.Finish();
+//    //NWEBenchmark.Finish();
 //}
 //-------------------------------------------------------------------------------------------------------------
 private void CreatePHPIndexFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
 {
-    //BTBBenchmark.Start();
+    //NWEBenchmark.Start();
     StringBuilder tFile = new StringBuilder(string.Empty);
     tFile.AppendLine("<?php");
     tFile.AppendLine(Headlines());
@@ -794,12 +794,12 @@ private void CreatePHPIndexFile(Dictionary<string, string> sFilesAndDatas, bool 
     string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
     sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_INDEX_PHP, tFileFormatted);
     sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_INDEX_PHP, tFileFormatted);
-    //BTBBenchmark.Finish();
+    //NWEBenchmark.Finish();
 }
 //-------------------------------------------------------------------------------------------------------------
 private void CreatePHPMaintenanceFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
 {
-    //BTBBenchmark.Start();
+    //NWEBenchmark.Start();
     StringBuilder tFile = new StringBuilder(string.Empty);
     tFile.AppendLine("<?php");
     tFile.AppendLine(Headlines());
@@ -816,12 +816,12 @@ private void CreatePHPMaintenanceFile(Dictionary<string, string> sFilesAndDatas,
     tFile.AppendLine("{\"" + NWD.K_MAINTENANCE_HEADER_KEY + "\":\"true\"}");
     string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
     sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_MAINTENANCE_PHP, tFileFormatted);
-    //BTBBenchmark.Finish();
+    //NWEBenchmark.Finish();
 }
 //-------------------------------------------------------------------------------------------------------------
 private void CreatePHPObsoleteFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
 {
-    //BTBBenchmark.Start();
+    //NWEBenchmark.Start();
     StringBuilder tFile = new StringBuilder(string.Empty);
     tFile.AppendLine("<?php");
     tFile.AppendLine(Headlines());
@@ -838,12 +838,12 @@ private void CreatePHPObsoleteFile(Dictionary<string, string> sFilesAndDatas, bo
     tFile.AppendLine("{\"" + NWD.K_OBSOLETE_HEADER_KEY + "\":\"true\"}");
     string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
     sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_OBSOLETE_PHP, tFileFormatted);
-    //BTBBenchmark.Finish();
+    //NWEBenchmark.Finish();
 }
 //-------------------------------------------------------------------------------------------------------------
 private void CreatePHPDotHTAccessFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
 {
-    //BTBBenchmark.Start();
+    //NWEBenchmark.Start();
     if (sWriteOnDisk == false)
     {
         sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_HTACCESS, "deny from all");
@@ -854,7 +854,7 @@ private void CreatePHPDotHTAccessFile(Dictionary<string, string> sFilesAndDatas,
         sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_DOT_HTACCESS, "deny from all");
         sFilesAndDatas.Add(DBFolder(sWriteOnDisk) + NWD.K_DOT_HTACCESS, "deny from all");
     }
-    //BTBBenchmark.Finish();
+    //NWEBenchmark.Finish();
 }
         //-------------------------------------------------------------------------------------------------------------
     }

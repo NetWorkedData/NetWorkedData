@@ -22,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -34,7 +34,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-	public class NWDColorType : BTBDataType
+	public class NWDColorType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDColorType ()
@@ -73,7 +73,7 @@ namespace NetWorkedData
         public Color GetColor ()
 		{
             //Color tColor = new Color ();
-            //ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out tColor);
+            //ColorUtility.TryParseHtmlString (NWEConstants.K_HASHTAG + Value, out tColor);
             //return tColor;
             return NWDToolbox.ColorFromString(Value);
         }
@@ -92,7 +92,7 @@ namespace NetWorkedData
 			return tColorFieldStyle.CalcHeight (new GUIContent ("A"), 100);
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
 			NWDColorType tTemporary = new NWDColorType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

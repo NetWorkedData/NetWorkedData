@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using BasicToolBox;
-using BTBMiniJSON;
+//using BasicToolBox;
+using NWEMiniJSON;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -40,7 +40,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
-    public partial class NWDOperationWebUnity : BTBOperation
+    public partial class NWDOperationWebUnity : NWEOperation
     {
         //-------------------------------------------------------------------------------------------------------------
         //public static int kTimeOutOfRequest = 300;
@@ -165,11 +165,11 @@ namespace NetWorkedData
             ResultInfos.ClassPushCounter = 0;
             ResultInfos.RowPullCounter = 0;
             ResultInfos.RowPushCounter = 0;
-            Statut = BTBOperationState.Start;
+            Statut = NWEOperationState.Start;
             bool tUserChange = false;
             ProgressInvoke(0.0f, ResultInfos);
             //Operation progress
-            Statut = BTBOperationState.InProgress;
+            Statut = NWEOperationState.InProgress;
             float tStart = Time.time;
             // Send this operation in actual operation for this environment
             Parent.Controller[QueueName].ActualOperation = this;
@@ -220,16 +220,16 @@ namespace NetWorkedData
                     DebugShowHeaderUploaded(tWWWForm.data);
                 }
                 // Notification of an Upload start
-                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
+                NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
                 Request.SendWebRequest();
                 while (!Request.isDone)
                 {
-                    Statut = BTBOperationState.InProgress;
+                    Statut = NWEOperationState.InProgress;
                     ProgressInvoke(Request.downloadProgress, ResultInfos);
                     if (Request.uploadProgress < 1.0f)
                     {
                         // Notification of an Upload in progress
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, this));
+                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, this));
                         ResultInfos.UploadedDateTime = DateTime.Now;
                         ResultInfos.DownloadedDateTime = ResultInfos.UploadedDateTime;
                         ResultInfos.FinishDateTime = ResultInfos.UploadedDateTime;
@@ -237,7 +237,7 @@ namespace NetWorkedData
                     if (Request.downloadProgress < 1.0f)
                     {
                         // Notification of an Download in progress
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
+                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
                     }
                     yield return null;
                 }
@@ -246,7 +246,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n");
 #endif
-                    Statut = BTBOperationState.Error;
+                    Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.NWDError_WEB01);
                 }
                 else if (Request.isHttpError)
@@ -254,7 +254,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                     Debug.Log(Request.error + "\n" + Request.downloadHandler.text + "\n");
 #endif
-                    Statut = BTBOperationState.Error;
+                    Statut = NWEOperationState.Error;
                     ResultInfos.SetError(NWDError.NWDError_WEB02);
                 }
                 else
@@ -270,7 +270,7 @@ namespace NetWorkedData
                         ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
                         ResultInfos.OctetDownload = tDataConverted.Length;
                         // Notification of an Download is done
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
+                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
                         // Debug Show Header Download
                         if (Environment.LogMode == true)
                         {
@@ -316,7 +316,7 @@ namespace NetWorkedData
                                             NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
                                         }
                                         // Notification of a Download success
-                                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
+                                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                                         // Request Failed, send Invoke
                                         FailInvoke(Request.downloadProgress, ResultInfos);
                                     }
@@ -324,18 +324,18 @@ namespace NetWorkedData
                                     {
                                         if (SecureData)
                                         {
-                                            if (tData.ContainsKey(BTBUnityWebService.SecureKey) && tData.ContainsKey(BTBUnityWebService.SecureDigestKey))
+                                            if (tData.ContainsKey(NWEUnityWebService.SecureKey) && tData.ContainsKey(NWEUnityWebService.SecureDigestKey))
                                             {
-                                                string tSCR = (string)tData[BTBUnityWebService.SecureKey];
-                                                string tSCRDGT = (string)tData[BTBUnityWebService.SecureDigestKey];
-                                                string tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                                                string tSCR = (string)tData[NWEUnityWebService.SecureKey];
+                                                string tSCRDGT = (string)tData[NWEUnityWebService.SecureDigestKey];
+                                                string tDigestValue = NWESecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, NWESecurityShaTypeEnum.Sha1);
                                                 if (tDigestValue != tSCRDGT)
                                                 {
                                                     ResultInfos.SetError(NWDError.NWDError_RQT98);
                                                 }
                                                 else
                                                 {
-                                                    tData = BTBSecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, BTBSecurityAesTypeEnum.Aes128);
+                                                    tData = NWESecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, NWESecurityAesTypeEnum.Aes128);
                                                     if (tData == null)
                                                     {
                                                         ResultInfos.SetError(NWDError.NWDError_RQT99);
@@ -394,7 +394,7 @@ namespace NetWorkedData
                                         // Check if error
                                         if (ResultInfos.isError)
                                         {
-                                            Statut = BTBOperationState.Failed;
+                                            Statut = NWEOperationState.Failed;
 
                                             if (
                                                 ResultInfos.errorCode == NWDError.NWDError_RQT90.Code ||
@@ -410,7 +410,7 @@ namespace NetWorkedData
                                                 )
                                             {
                                                 // Notification of a Session expired
-                                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
+                                                NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
                                                 // Restore for anonymous account
                                                 NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
                                             }
@@ -424,14 +424,14 @@ namespace NetWorkedData
                                                         )
                                                     {
                                                         // Notification of an Account Banned
-                                                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
+                                                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
                                                     }
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            Statut = BTBOperationState.Success;
+                                            Statut = NWEOperationState.Success;
                                             if (ResultInfos.isNewUser)
                                             {
                                                 tUserChange = true;
@@ -454,7 +454,7 @@ namespace NetWorkedData
                                             }
                                             DataDownloadedCompute(ResultInfos);
                                             // Notification of a Download success
-                                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
+                                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
                                             // Request Success, send Invoke
                                             SuccessInvoke(Request.downloadProgress, ResultInfos);
                                         }
@@ -476,14 +476,14 @@ namespace NetWorkedData
                     // Notification of current Account have change
                     if (tUserChange == true)
                     {
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
+                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                     }
                 }
                 //if (ResultInfos.errorDesc != null)
                 if (ResultInfos.isError)
                 {
                     // Notification of a Download success
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
+                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                     if (ResultInfos != null)
                     {
                         if (ResultInfos.errorInfos != null)
@@ -496,7 +496,7 @@ namespace NetWorkedData
                         }
                     }
                     // Notification of a Download success
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, ResultInfos));
+                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, ResultInfos));
                     FailInvoke(Request.downloadProgress, ResultInfos);
                 }
                 Finish();
@@ -510,7 +510,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebUnity Cancel()");
             ResultInfos.FinishDateTime = DateTime.Now;
-            Statut = BTBOperationState.Cancel;
+            Statut = NWEOperationState.Cancel;
             if (Request != null)
             {
                 Request.Abort();
@@ -525,14 +525,14 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebUnity Finish()");
             ResultInfos.FinishDateTime = DateTime.Now;
-            if (Statut == BTBOperationState.ReStart)
+            if (Statut == NWEOperationState.ReStart)
             {
                 // I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT
                 Parent.ReplayOperation(QueueName);
             }
             else
             {
-                Statut = BTBOperationState.Finish;
+                Statut = NWEOperationState.Finish;
                 IsFinish = true;
                 Parent.NextOperation(QueueName);
             }
@@ -541,7 +541,7 @@ namespace NetWorkedData
         public override void DestroyThisOperation()
         {
             //Debug.Log("NWDOperationWebUnity DestroyThisOperation()");
-            Statut = BTBOperationState.Destroy;
+            Statut = NWEOperationState.Destroy;
 #if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
 #else
@@ -563,11 +563,11 @@ namespace NetWorkedData
             UUID = Environment.PlayerAccountReference;
             if (SecureData)
             {
-                HeaderParams.Add(BTBUnityWebService.SecureKey, BTBUnityWebService.SecureDigestKey);
+                HeaderParams.Add(NWEUnityWebService.SecureKey, NWEUnityWebService.SecureDigestKey);
             }
             else
             {
-                HeaderParams.Add(BTBUnityWebService.UnSecureKey, BTBUnityWebService.UnSecureDigestKey);
+                HeaderParams.Add(NWEUnityWebService.UnSecureKey, NWEUnityWebService.UnSecureDigestKey);
             }
             RequestToken = Environment.RequesToken;
 #if UNITY_EDITOR
@@ -598,7 +598,7 @@ namespace NetWorkedData
             HeaderParams.Add(NWD.K_WEB_HEADER_LANG_KEY, Lang);
             // create hash security
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
-            HeaderParams.Add(NWD.HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
+            HeaderParams.Add(NWD.HashKey, NWESecurityTools.GenerateSha(tHashValue, NWESecurityShaTypeEnum.Sha1));
 #if UNITY_EDITOR
             if (Application.isPlaying == false && Application.isEditor == true)
             {
@@ -629,21 +629,21 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebUnity InsertDataInRequest()");
             WWWForm tBodyData = new WWWForm();
-            string tParamKey = BTBUnityWebService.UnSecureKey;
-            string tDigestKey = BTBUnityWebService.UnSecureDigestKey;
+            string tParamKey = NWEUnityWebService.UnSecureKey;
+            string tDigestKey = NWEUnityWebService.UnSecureDigestKey;
             string tParamValue = string.Empty;
             string tDigestValue = string.Empty;
             if (SecureData)
             {
-                tParamKey = BTBUnityWebService.SecureKey;
-                tDigestKey = BTBUnityWebService.SecureDigestKey;
-                tParamValue = BTBSecurityTools.AddAes(Data, Environment.DataSHAPassword, Environment.DataSHAVector, BTBSecurityAesTypeEnum.Aes128);
-                tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                tParamKey = NWEUnityWebService.SecureKey;
+                tDigestKey = NWEUnityWebService.SecureDigestKey;
+                tParamValue = NWESecurityTools.AddAes(Data, Environment.DataSHAPassword, Environment.DataSHAVector, NWESecurityAesTypeEnum.Aes128);
+                tDigestValue = NWESecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, NWESecurityShaTypeEnum.Sha1);
             }
             else
             {
-                tParamValue = BTBSecurityTools.Base64Encode(Json.Serialize(Data));
-                tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                tParamValue = NWESecurityTools.Base64Encode(Json.Serialize(Data));
+                tDigestValue = NWESecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, NWESecurityShaTypeEnum.Sha1);
             }
             tBodyData.AddField(tParamKey, tParamValue);
             tBodyData.AddField(tDigestKey, tDigestValue);
@@ -666,9 +666,9 @@ namespace NetWorkedData
             string tSaltB = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 0);
             string tSaltC = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, -1);
             string sVector = Environment.DataSHAVector;
-            if (BTBSecurityTools.GenerateSha(tSaltA + sVector + sToken) == sHash ||
-                BTBSecurityTools.GenerateSha(tSaltB + sVector + sToken) == sHash ||
-                BTBSecurityTools.GenerateSha(tSaltC + sVector + sToken) == sHash)
+            if (NWESecurityTools.GenerateSha(tSaltA + sVector + sToken) == sHash ||
+                NWESecurityTools.GenerateSha(tSaltB + sVector + sToken) == sHash ||
+                NWESecurityTools.GenerateSha(tSaltC + sVector + sToken) == sHash)
             {
                 rReturn = true;
             }

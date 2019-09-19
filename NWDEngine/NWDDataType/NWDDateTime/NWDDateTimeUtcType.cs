@@ -22,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -35,12 +35,12 @@ namespace NetWorkedData
 	//TODO: FINISH THIS CLASS NWDUTCDateTimeType
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateTimeUtcType : BTBDataTypeInt
+	public class NWDDateTimeUtcType : NWEDataTypeInt
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDDateTimeUtcType ()
 		{
-            Value = (long)BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow);
+            Value = (long)NWEDateHelper.ConvertToTimestamp(DateTime.UtcNow);
 
         }
 		//-------------------------------------------------------------------------------------------------------------
@@ -52,14 +52,14 @@ namespace NetWorkedData
         public override void Default()
         {
             //Value = string.Empty;
-            Value = (long)BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow);
+            Value = (long)NWEDateHelper.ConvertToTimestamp(DateTime.UtcNow);
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDateTime (DateTime sDatetime)
 		{
             sDatetime = sDatetime.ToUniversalTime();
 
-            Value = (long)BTBDateHelper.ConvertToTimestamp(sDatetime);
+            Value = (long)NWEDateHelper.ConvertToTimestamp(sDatetime);
 
     //        Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
 				//sDatetime.Month+NWDConstants.kFieldSeparatorA+
@@ -71,7 +71,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetTimeStamp(double sTimestamp)
         {
-            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+            SetDateTime(NWEDateHelper.ConvertFromTimestamp(sTimestamp));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetCurrentDateTime()
@@ -122,7 +122,7 @@ namespace NetWorkedData
             //DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Utc);
             //return rReturn;
 
-            return BTBDateHelper.ConvertFromTimestamp(Value);
+            return NWEDateHelper.ConvertFromTimestamp(Value);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
@@ -132,7 +132,7 @@ namespace NetWorkedData
             return NWDGUI.kPopupStyle.fixedHeight*2 + NWDGUI.kFieldMarge;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING)
         {
             //Debug.Log("Value Receipt= " + Value);
             NWDDateTimeUtcType tTemporary = new NWDDateTimeUtcType ();
@@ -143,7 +143,7 @@ namespace NetWorkedData
             {
                 Value = 0;
             }
-            DateTime tValueDateTime = BTBDateHelper.ConvertFromTimestamp(Value);
+            DateTime tValueDateTime = NWEDateHelper.ConvertFromTimestamp(Value);
 
             int tYear = tValueDateTime.Year;
 			int tMonth = tValueDateTime.Month;
@@ -254,7 +254,7 @@ namespace NetWorkedData
             //tMinute + NWDConstants.kFieldSeparatorA +
             //tSecond);
 
-            tTemporary.Value = (long)BTBDateHelper.ConvertToTimestamp(tDateTimeFinal);
+            tTemporary.Value = (long)NWEDateHelper.ConvertToTimestamp(tDateTimeFinal);
 
             //Debug.Log("tTemporary.Value = " + tTemporary.Value);
             //        tTemporary.Value = tYear+NWDConstants.kFieldSeparatorA+

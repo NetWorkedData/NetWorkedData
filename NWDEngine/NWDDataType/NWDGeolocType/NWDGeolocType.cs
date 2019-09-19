@@ -22,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -37,7 +37,7 @@ namespace NetWorkedData
     /// </summary>
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDGeolocType : BTBDataType
+    public class NWDGeolocType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -134,7 +134,7 @@ namespace NetWorkedData
         /// <param name="sPosition">S position.</param>
         /// <param name="sEntitled">S entitled.</param>
         /// <param name="sPosition">S position.</param>
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDGeolocType tTemporary = new NWDGeolocType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

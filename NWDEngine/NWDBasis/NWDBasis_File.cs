@@ -27,7 +27,7 @@
 
 //using SQLite4Unity3d;
 
-//using BasicToolBox;
+////using BasicToolBox;
 
 ////=====================================================================================================================
 //namespace NetWorkedData
@@ -54,20 +54,20 @@
 //		public static void WriteFile()
 //		{
 //            Debug.Log("NWDBasis WriteFile()");
-//            //BTBBenchmark.Start();
+//            //NWEBenchmark.Start();
 //			if (cFileMustBeWrite==true)
 //			{
 //                string rFinal = "";
 //                Type tType = ClassType();
 //                List<string> tPropertiesList = DataAssemblyPropertiesList();
-//                //BTBBenchmark.Increment(ObjectsList.Count());
+//                //NWEBenchmark.Increment(ObjectsList.Count());
 //			foreach(K tObject in ObjectsList)
 //			{
 //                    rFinal+= tObject.DataLinearization(tType, tPropertiesList, true);
 //			}
 //			}         
 //            cFileMustBeWrite = false;
-//            //BTBBenchmark.Finish();
+//            //NWEBenchmark.Finish();
 //		}      
 //        //-------------------------------------------------------------------------------------------------------------
 //        static void DataEss()

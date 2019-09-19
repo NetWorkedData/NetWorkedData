@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -37,7 +37,7 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDScheduleType
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDScheduleType : BTBDataType
+    public class NWDScheduleType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string kDaysSchedulePrefix = "N";
@@ -60,7 +60,7 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDScheduleType(string sValue = BTBConstants.K_EMPTY_STRING)
+        public NWDScheduleType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
@@ -154,11 +154,11 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            float tHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+            float tHeight = tPopupdStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDScheduleType tTemporary = new NWDScheduleType();
             //GUIContent tContent = new GUIContent(sEntitled, sTooltips);

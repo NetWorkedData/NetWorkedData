@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -74,12 +74,12 @@ namespace NetWorkedData
         /// <param name="sUUID">UUID.</param>
         public string UUIDTransformForReference(string sUUID)
         {
-            string tUUID = BTBConstants.K_MINUS + sUUID;
+            string tUUID = NWEConstants.K_MINUS + sUUID;
             tUUID = tUUID.Replace("ACC", string.Empty);
             tUUID = tUUID.Replace("S", string.Empty);
             tUUID = tUUID.Replace("C", string.Empty);
             //tUUID = tUUID.Replace ("T", ""); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
-            tUUID = tUUID.Replace(BTBConstants.K_MINUS, string.Empty);
+            tUUID = tUUID.Replace(NWEConstants.K_MINUS, string.Empty);
             return tUUID;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ namespace NetWorkedData
             bool tValid = false;
             if (sUUID != null && sUUID != string.Empty)
             {
-                sUUID = UUIDTransformForReference(sUUID) + BTBConstants.K_MINUS;
+                sUUID = UUIDTransformForReference(sUUID) + NWEConstants.K_MINUS;
             }
             //int tTimeRef = 0;
             //int.TryParse(sUUID, out tTimeRef);
@@ -102,7 +102,7 @@ namespace NetWorkedData
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 18h00:00
             while (tValid == false)
             {
-                rReturn = BasisHelper().ClassTrigramme + BTBConstants.K_MINUS + sUUID + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
+                rReturn = BasisHelper().ClassTrigramme + NWEConstants.K_MINUS + sUUID + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -114,7 +114,7 @@ namespace NetWorkedData
             bool tValid = false;
             while (tValid == false)
             {
-                rReturn = BasisHelper().ClassTrigramme + BTBConstants.K_SHORT_REFERENCE + UnityEngine.Random.Range(1111, 9999).ToString();
+                rReturn = BasisHelper().ClassTrigramme + NWEConstants.K_SHORT_REFERENCE + UnityEngine.Random.Range(1111, 9999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;

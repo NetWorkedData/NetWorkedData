@@ -13,9 +13,10 @@
 
 
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using BasicToolBox;
+//using BasicToolBox;
 
 //#if COLORED_ADVANCED_DEBUG
 //using ColoredAdvancedDebug;
@@ -71,11 +72,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ParametersTestAction()
         {
+            Debug.Log("NWDShowDebugPanel ParametersTestAction()");
+
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+            Debug.Log(" class "+tHelper.ClassNamePHP+" row nb =" +tHelper.Datas.Count);
+            }
+
             if (ParameterConnection != null)
             {
+            Debug.Log("NWDShowDebugPanel ParametersTestAction() ParameterConnection not null ParameterConnection.reference = "+ParameterConnection.Reference);
                 NWDParameter tParam = ParameterConnection.GetData();
                 if (tParam != null)
                 {
+                  Debug.Log("NWDShowDebugPanel ParametersTestAction() tParam not null get local string = " + tParam.Name.GetLocalString());
                     TextDebug.text = tParam.Name.GetLocalString();
                 }
             }
@@ -89,21 +100,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()
         {
+            Debug.Log("NWDShowDebugPanel AlertTestAction()");
             TextDebug.text = "TEST ALERT : NOK";
-            BTBAlert.Alert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
+            NWEAlert.Alert("Test Alert", "Messsage", "Ok",  delegate (NWEMessageState state) {
             TextDebug.text = "TEST ALERT : OK";
             });
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DialogTestAction()
         {
+            Debug.Log("NWDShowDebugPanel DialogTestAction()");
             TextDebug.text = "TEST DIALOG: NOK";
-            BTBDialog.Dialog("Test Dialog", "Choose", "YES", "NO", delegate (BTBMessageState state) {
-                if (state == BTBMessageState.OK)
+            NWEDialog.Dialog("Test Dialog", "Choose", "YES", "NO", delegate (NWEMessageState state) {
+                if (state == NWEMessageState.OK)
                 {
                     TextDebug.text = "TEST DIALOG: YES";
                 }
-                else if (state == BTBMessageState.NOK)
+                else if (state == NWEMessageState.NOK)
                 {
                     TextDebug.text = "TEST DIALOG: NO";
                 }
@@ -150,7 +163,7 @@ namespace NetWorkedData
         {
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
-            BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
+            NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (NWENotification sNotification)
             {
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });
@@ -183,7 +196,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
-            BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+            NWENotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
             //#if COLORED_ADVANCED_DEBUG
             //CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
             //#endif
@@ -194,27 +207,27 @@ namespace NetWorkedData
             ParametersTestAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification)
+        public override void NotificationDatasLoaded(NWENotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationDatasLoaded()");
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasWebUpdate(BTBNotification sNotification)
+        public override void NotificationDatasWebUpdate(NWENotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationDatasWebUpdate()");
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadSuccessed (BTBNotification sNotification)
+        public override void NotificationWebOperationDownloadSuccessed (NWENotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()"); 
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationLanguageChanged(BTBNotification sNotification)
+        public override void NotificationLanguageChanged(NWENotification sNotification)
         {
-            Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()");
+            Debug.Log("NWDShowDebugPanel NotificationLanguageChanged()");
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------

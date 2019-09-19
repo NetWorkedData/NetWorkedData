@@ -25,7 +25,7 @@ using UnityEditor;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -43,8 +43,8 @@ namespace NetWorkedData
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
-        public BTBOperationController WebOperationQueue = new BTBOperationController();
-        public BTBOperationController AssetOperationQueue = new BTBOperationController();
+        public NWEOperationController WebOperationQueue = new NWEOperationController();
+        public NWEOperationController AssetOperationQueue = new NWEOperationController();
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronization(bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
@@ -185,119 +185,119 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationCleanWithBlock(
-            BTBOperationBlock sSuccessBlock = null,
-            BTBOperationBlock sErrorBlock = null,
-            BTBOperationBlock sCancelBlock = null,
-            BTBOperationBlock sProgressBlock = null,
+            NWEOperationBlock sSuccessBlock = null,
+            NWEOperationBlock sErrorBlock = null,
+            NWEOperationBlock sCancelBlock = null,
+            NWEOperationBlock sProgressBlock = null,
             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestAllSynchronizationWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority, NWDOperationSpecial.Clean);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationWithBlock(
-            BTBOperationBlock sSuccessBlock = null,
-            BTBOperationBlock sErrorBlock = null,
-            BTBOperationBlock sCancelBlock = null,
-            BTBOperationBlock sProgressBlock = null,
+            NWEOperationBlock sSuccessBlock = null,
+            NWEOperationBlock sErrorBlock = null,
+            NWEOperationBlock sCancelBlock = null,
+            NWEOperationBlock sProgressBlock = null,
             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("###### DEBUG ####### AddWebRequestAllSynchronizationWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForceWithBlock(
-            BTBOperationBlock sSuccessBlock = null,
-            BTBOperationBlock sErrorBlock = null,
-            BTBOperationBlock sCancelBlock = null,
-            BTBOperationBlock sProgressBlock = null,
+            NWEOperationBlock sSuccessBlock = null,
+            NWEOperationBlock sErrorBlock = null,
+            NWEOperationBlock sCancelBlock = null,
+            NWEOperationBlock sProgressBlock = null,
             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestSynchronizationCleanWithBlock(List<Type> sTypeList,
-            BTBOperationBlock sSuccessBlock = null,
-            BTBOperationBlock sErrorBlock = null,
-            BTBOperationBlock sCancelBlock = null,
-            BTBOperationBlock sProgressBlock = null,
+            NWEOperationBlock sSuccessBlock = null,
+            NWEOperationBlock sErrorBlock = null,
+            NWEOperationBlock sCancelBlock = null,
+            NWEOperationBlock sProgressBlock = null,
             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationCleanWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, NWDOperationSpecial.Clean);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestSynchronizationSpecialWithBlock(List<Type> sTypeList,
-            BTBOperationBlock sSuccessBlock = null,
-            BTBOperationBlock sErrorBlock = null,
-            BTBOperationBlock sCancelBlock = null,
-            BTBOperationBlock sProgressBlock = null,
+            NWEOperationBlock sSuccessBlock = null,
+            NWEOperationBlock sErrorBlock = null,
+            NWEOperationBlock sCancelBlock = null,
+            NWEOperationBlock sProgressBlock = null,
             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationSpecialWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, NWDOperationSpecial.Special);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock(List<Type> sTypeList,
-                                                                                     BTBOperationBlock sSuccessBlock = null,
-                                                                                     BTBOperationBlock sErrorBlock = null,
-                                                                                     BTBOperationBlock sCancelBlock = null,
-                                                                                     BTBOperationBlock sProgressBlock = null,
+                                                                                     NWEOperationBlock sSuccessBlock = null,
+                                                                                     NWEOperationBlock sErrorBlock = null,
+                                                                                     NWEOperationBlock sCancelBlock = null,
+                                                                                     NWEOperationBlock sProgressBlock = null,
                                                                                      bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestPullWithBlock(List<Type> sTypeList,
-                                                                                     BTBOperationBlock sSuccessBlock = null,
-                                                                                     BTBOperationBlock sErrorBlock = null,
-                                                                                     BTBOperationBlock sCancelBlock = null,
-                                                                                     BTBOperationBlock sProgressBlock = null,
+                                                                                     NWEOperationBlock sSuccessBlock = null,
+                                                                                     NWEOperationBlock sErrorBlock = null,
+                                                                                     NWEOperationBlock sCancelBlock = null,
+                                                                                     NWEOperationBlock sProgressBlock = null,
                                                                                      bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             //return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
             return NWDOperationWebSynchronisation.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, NWDOperationSpecial.Pull);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestPullForceWithBlock(List<Type> sTypeList,
-                                                                                     BTBOperationBlock sSuccessBlock = null,
-                                                                                     BTBOperationBlock sErrorBlock = null,
-                                                                                     BTBOperationBlock sCancelBlock = null,
-                                                                                     BTBOperationBlock sProgressBlock = null,
+                                                                                     NWEOperationBlock sSuccessBlock = null,
+                                                                                     NWEOperationBlock sErrorBlock = null,
+                                                                                     NWEOperationBlock sCancelBlock = null,
+                                                                                     NWEOperationBlock sProgressBlock = null,
                                                                                      bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             //return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
             return NWDOperationWebSynchronisation.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority, NWDOperationSpecial.Pull);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebSynchronisation AddWebRequestSynchronizationForceWithBlock(List<Type> sTypeList,
-                                                                                          BTBOperationBlock sSuccessBlock = null,
-                                                                                          BTBOperationBlock sErrorBlock = null,
-                                                                                          BTBOperationBlock sCancelBlock = null,
-                                                                                          BTBOperationBlock sProgressBlock = null,
+                                                                                          NWEOperationBlock sSuccessBlock = null,
+                                                                                          NWEOperationBlock sErrorBlock = null,
+                                                                                          NWEOperationBlock sCancelBlock = null,
+                                                                                          NWEOperationBlock sProgressBlock = null,
                                                                                           bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronizationForceWithBlock");
-            /*BTBOperationSynchronisation sOperation = */
+            /*NWEOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public NWDOperationWebAccount AddWebRequestSessionWithBlock(BTBOperationBlock sSuccessBlock = null,
-        //                                                             BTBOperationBlock sErrorBlock = null,
-        //                                                             BTBOperationBlock sCancelBlock = null,
-        //                                                             BTBOperationBlock sProgressBlock = null,
+        //public NWDOperationWebAccount AddWebRequestSessionWithBlock(NWEOperationBlock sSuccessBlock = null,
+        //                                                             NWEOperationBlock sErrorBlock = null,
+        //                                                             NWEOperationBlock sCancelBlock = null,
+        //                                                             NWEOperationBlock sProgressBlock = null,
         //                                                             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestSessionWithBlock");
@@ -308,10 +308,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestSignUpWithBlock(string sEmail, string sPassword, string sConfirmPassword,
-        //                                                            BTBOperationBlock sSuccessBlock = null,
-        //                                                            BTBOperationBlock sErrorBlock = null,
-        //                                                            BTBOperationBlock sCancelBlock = null,
-        //                                                            BTBOperationBlock sProgressBlock = null,
+        //                                                            NWEOperationBlock sSuccessBlock = null,
+        //                                                            NWEOperationBlock sErrorBlock = null,
+        //                                                            NWEOperationBlock sCancelBlock = null,
+        //                                                            NWEOperationBlock sProgressBlock = null,
         //                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestSignUpWithBlock");
@@ -325,10 +325,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignInWithBlock(string sPasswordToken,
-                                                                    BTBOperationBlock sSuccessBlock = null,
-                                                                    BTBOperationBlock sErrorBlock = null,
-                                                                    BTBOperationBlock sCancelBlock = null,
-                                                                    BTBOperationBlock sProgressBlock = null,
+                                                                    NWEOperationBlock sSuccessBlock = null,
+                                                                    NWEOperationBlock sErrorBlock = null,
+                                                                    NWEOperationBlock sCancelBlock = null,
+                                                                    NWEOperationBlock sProgressBlock = null,
                                                                     bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSignInWithBlock");
@@ -340,10 +340,10 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestSignTestWithBlock(string sEmailHash, string sPasswordHash,
-        //                                                            BTBOperationBlock sSuccessBlock = null,
-        //                                                            BTBOperationBlock sErrorBlock = null,
-        //                                                            BTBOperationBlock sCancelBlock = null,
-        //                                                            BTBOperationBlock sProgressBlock = null,
+        //                                                            NWEOperationBlock sSuccessBlock = null,
+        //                                                            NWEOperationBlock sErrorBlock = null,
+        //                                                            NWEOperationBlock sCancelBlock = null,
+        //                                                            NWEOperationBlock sProgressBlock = null,
         //                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log("AddWebRequestSignInWithBlock");
@@ -355,10 +355,10 @@ namespace NetWorkedData
         //    return sOperation;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignOutWithBlock(BTBOperationBlock sSuccessBlock = null,
-                                                                     BTBOperationBlock sErrorBlock = null,
-                                                                     BTBOperationBlock sCancelBlock = null,
-                                                                     BTBOperationBlock sProgressBlock = null,
+        public NWDOperationWebAccount AddWebRequestSignOutWithBlock(NWEOperationBlock sSuccessBlock = null,
+                                                                     NWEOperationBlock sErrorBlock = null,
+                                                                     NWEOperationBlock sCancelBlock = null,
+                                                                     NWEOperationBlock sProgressBlock = null,
                                                                      bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSignOutWithBlock");
@@ -368,10 +368,10 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock(BTBOperationBlock sSuccessBlock = null,
-        //                                                                       BTBOperationBlock sErrorBlock = null,
-        //                                                                       BTBOperationBlock sCancelBlock = null,
-        //                                                                       BTBOperationBlock sProgressBlock = null,
+        //public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock(NWEOperationBlock sSuccessBlock = null,
+        //                                                                       NWEOperationBlock sErrorBlock = null,
+        //                                                                       NWEOperationBlock sCancelBlock = null,
+        //                                                                       NWEOperationBlock sProgressBlock = null,
         //                                                                       bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestAnonymousRestaureWithBlock");
@@ -387,10 +387,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestSignModifyWithBlock(string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword,
-        //                                                                BTBOperationBlock sSuccessBlock = null,
-        //                                                                BTBOperationBlock sErrorBlock = null,
-        //                                                                BTBOperationBlock sCancelBlock = null,
-        //                                                                BTBOperationBlock sProgressBlock = null,
+        //                                                                NWEOperationBlock sSuccessBlock = null,
+        //                                                                NWEOperationBlock sErrorBlock = null,
+        //                                                                NWEOperationBlock sCancelBlock = null,
+        //                                                                NWEOperationBlock sProgressBlock = null,
         //                                                                bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestSignModifyWithBlock");
@@ -405,10 +405,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestRescueWithBlock(string sEmailToken,
-                                                                    BTBOperationBlock sSuccessBlock = null,
-                                                                    BTBOperationBlock sErrorBlock = null,
-                                                                    BTBOperationBlock sCancelBlock = null,
-                                                                    BTBOperationBlock sProgressBlock = null,
+                                                                    NWEOperationBlock sSuccessBlock = null,
+                                                                    NWEOperationBlock sErrorBlock = null,
+                                                                    NWEOperationBlock sCancelBlock = null,
+                                                                    NWEOperationBlock sProgressBlock = null,
                                                                     bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestRescueWithBlock");
@@ -420,10 +420,10 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestSignDeleteWithBlock(string sPassword, string sConfirmPassword,
-        //                                                                BTBOperationBlock sSuccessBlock = null,
-        //                                                                BTBOperationBlock sErrorBlock = null,
-        //                                                                BTBOperationBlock sCancelBlock = null,
-        //                                                                BTBOperationBlock sProgressBlock = null,
+        //                                                                NWEOperationBlock sSuccessBlock = null,
+        //                                                                NWEOperationBlock sErrorBlock = null,
+        //                                                                NWEOperationBlock sCancelBlock = null,
+        //                                                                NWEOperationBlock sProgressBlock = null,
         //                                                                bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestSignDeleteWithBlock");
@@ -436,10 +436,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestLogFacebookWithBlock(string sSocialToken,
-        //                                                                 BTBOperationBlock sSuccessBlock = null,
-        //                                                                 BTBOperationBlock sErrorBlock = null,
-        //                                                                 BTBOperationBlock sCancelBlock = null,
-        //                                                                 BTBOperationBlock sProgressBlock = null,
+        //                                                                 NWEOperationBlock sSuccessBlock = null,
+        //                                                                 NWEOperationBlock sErrorBlock = null,
+        //                                                                 NWEOperationBlock sCancelBlock = null,
+        //                                                                 NWEOperationBlock sProgressBlock = null,
         //                                                                 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestLogFacebookWithBlock");
@@ -451,10 +451,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestLogGoogleWithBlock(string sSocialToken,
-        //                                                               BTBOperationBlock sSuccessBlock = null,
-        //                                                               BTBOperationBlock sErrorBlock = null,
-        //                                                               BTBOperationBlock sCancelBlock = null,
-        //                                                               BTBOperationBlock sProgressBlock = null,
+        //                                                               NWEOperationBlock sSuccessBlock = null,
+        //                                                               NWEOperationBlock sErrorBlock = null,
+        //                                                               NWEOperationBlock sCancelBlock = null,
+        //                                                               NWEOperationBlock sProgressBlock = null,
         //                                                               bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log ("AddWebRequestLogGoogleWithBlock");
@@ -466,10 +466,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestRemoveFacebookWithBlock(string sSocialToken,
-        //                                                                 BTBOperationBlock sSuccessBlock = null,
-        //                                                                 BTBOperationBlock sErrorBlock = null,
-        //                                                                 BTBOperationBlock sCancelBlock = null,
-        //                                                                 BTBOperationBlock sProgressBlock = null,
+        //                                                                 NWEOperationBlock sSuccessBlock = null,
+        //                                                                 NWEOperationBlock sErrorBlock = null,
+        //                                                                 NWEOperationBlock sCancelBlock = null,
+        //                                                                 NWEOperationBlock sProgressBlock = null,
         //                                                                 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log("AddWebRequestLogFacebookWithBlock");
@@ -481,10 +481,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         //public NWDOperationWebAccount AddWebRequestRemoveGoogleWithBlock(string sSocialToken,
-        //                                                               BTBOperationBlock sSuccessBlock = null,
-        //                                                               BTBOperationBlock sErrorBlock = null,
-        //                                                               BTBOperationBlock sCancelBlock = null,
-        //                                                               BTBOperationBlock sProgressBlock = null,
+        //                                                               NWEOperationBlock sSuccessBlock = null,
+        //                                                               NWEOperationBlock sErrorBlock = null,
+        //                                                               NWEOperationBlock sCancelBlock = null,
+        //                                                               NWEOperationBlock sProgressBlock = null,
         //                                                               bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         //{
         //    //Debug.Log("AddWebRequestLogGoogleWithBlock");
@@ -516,10 +516,10 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebBlank AddWebRequestBlankWithBlock(BTBOperationBlock sSuccessBlock = null,
-                                                                BTBOperationBlock sErrorBlock = null,
-                                                                BTBOperationBlock sCancelBlock = null,
-                                                                BTBOperationBlock sProgressBlock = null,
+        public NWDOperationWebBlank AddWebRequestBlankWithBlock(NWEOperationBlock sSuccessBlock = null,
+                                                                NWEOperationBlock sErrorBlock = null,
+                                                                NWEOperationBlock sCancelBlock = null,
+                                                                NWEOperationBlock sProgressBlock = null,
                                                                 bool sPriority = false,
                                                                 NWDAppEnvironment sEnvironment = null)
         {
@@ -530,10 +530,10 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebNoPage AddWebRequestNoPageWithBlock(BTBOperationBlock sSuccessBlock = null,
-                                                                BTBOperationBlock sErrorBlock = null,
-                                                                BTBOperationBlock sCancelBlock = null,
-                                                                BTBOperationBlock sProgressBlock = null,
+        public NWDOperationWebNoPage AddWebRequestNoPageWithBlock(NWEOperationBlock sSuccessBlock = null,
+                                                                NWEOperationBlock sErrorBlock = null,
+                                                                NWEOperationBlock sCancelBlock = null,
+                                                                NWEOperationBlock sProgressBlock = null,
                                                                 bool sPriority = false,
                                                                 NWDAppEnvironment sEnvironment = null)
         {
@@ -544,10 +544,10 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebMaintenance AddWebRequestMaintenanceWithBlock(BTBOperationBlock sSuccessBlock = null,
-                                                                BTBOperationBlock sErrorBlock = null,
-                                                                BTBOperationBlock sCancelBlock = null,
-                                                                BTBOperationBlock sProgressBlock = null,
+        public NWDOperationWebMaintenance AddWebRequestMaintenanceWithBlock(NWEOperationBlock sSuccessBlock = null,
+                                                                NWEOperationBlock sErrorBlock = null,
+                                                                NWEOperationBlock sCancelBlock = null,
+                                                                NWEOperationBlock sProgressBlock = null,
                                                                 bool sPriority = false,
                                                                 NWDAppEnvironment sEnvironment = null)
         {
@@ -613,8 +613,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList, NWDOperationSpecial sSpecial)
         {
-            //BTBBenchmark.Start();
-            //BTBBenchmark.Increment(sTypeList.Count());
+            //NWEBenchmark.Start();
+            //NWEBenchmark.Increment(sTypeList.Count());
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
             //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -689,18 +689,18 @@ namespace NetWorkedData
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
 
-            //BTBBenchmark.Start("DataQueueExecute");
+            //NWEBenchmark.Start("DataQueueExecute");
             SharedInstance().DataQueueExecute();
-            //BTBBenchmark.Finish("DataQueueExecute");
+            //NWEBenchmark.Finish("DataQueueExecute");
             //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
             //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
 
             if (tUpdateData)
             {
-                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
+                NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
             }
 
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> SynchronizationPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)

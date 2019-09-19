@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -164,39 +164,39 @@ namespace NetWorkedData
                             int.TryParse(tValueString, out tValueInsert);
                             tPropertyInfo.SetValue(this, tValueInsert, null);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                         {
-                            BTBDataType tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
+                            NWEDataType tObject = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
                             tObject.SetValue(tValueString);
                             tPropertyInfo.SetValue(this, tObject, null);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                         {
-                            BTBDataTypeInt tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
+                            NWEDataTypeInt tObject = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
                             long tTemp = 0;
                             long.TryParse(tValueString, out tTemp);
                             tObject.SetLong(tTemp);
                             tPropertyInfo.SetValue(this, tObject, null);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                         {
-                            BTBDataTypeFloat tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeFloat;
+                            NWEDataTypeFloat tObject = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
                             double tTemp = 0;
                             double.TryParse(tValueString, out tTemp);
                             tObject.SetDouble(tTemp);
                             tPropertyInfo.SetValue(this, tObject, null);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                         {
-                            BTBDataTypeEnum tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeEnum;
+                            NWEDataTypeEnum tObject = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
                             long tTemp = 0;
                             long.TryParse(tValueString, out tTemp);
                             tObject.SetLong(tTemp);
                             tPropertyInfo.SetValue(this, tObject, null);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                         {
-                            BTBDataTypeMask tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeMask;
+                            NWEDataTypeMask tObject = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
                             long tTemp = 0;
                             long.TryParse(tValueString, out tTemp);
                             tObject.SetLong(tTemp);
@@ -303,25 +303,25 @@ namespace NetWorkedData
                             int tInt = (int)tValue;
                             tValueString = tInt.ToString();
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                         {
                             tValueString = tValue.ToString();
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                         {
-                            tValueString = NWDToolbox.LongToString(((BTBDataTypeInt)tValue).Value);
+                            tValueString = NWDToolbox.LongToString(((NWEDataTypeInt)tValue).Value);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                         {
-                            tValueString = NWDToolbox.DoubleToString(((BTBDataTypeFloat)tValue).Value);
+                            tValueString = NWDToolbox.DoubleToString(((NWEDataTypeFloat)tValue).Value);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                         {
-                            tValueString = NWDToolbox.LongToString(((BTBDataTypeEnum)tValue).Value);
+                            tValueString = NWDToolbox.LongToString(((NWEDataTypeEnum)tValue).Value);
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                         {
-                            tValueString = NWDToolbox.LongToString(((BTBDataTypeMask)tValue).Value);
+                            tValueString = NWDToolbox.LongToString(((NWEDataTypeMask)tValue).Value);
                         }
                         else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                         {

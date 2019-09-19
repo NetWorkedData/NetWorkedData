@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using BasicToolBox;
-using BTBMiniJSON;
+//using BasicToolBox;
+using NWEMiniJSON;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,7 +31,7 @@ namespace NetWorkedData
     public delegate void NWDOperationTexture2DDelegate(Texture2D sInterim, Texture2D sResult);
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[ExecuteInEditMode]
-    public class NWDOperationTexture2D : BTBOperation
+    public class NWDOperationTexture2D : NWEOperation
     {
         //-------------------------------------------------------------------------------------------------------------
         public GameObject GameObjectToSpawn;
@@ -75,15 +75,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
-            //BTBBenchmark.Start();
-            Statut = BTBOperationState.Start;
+            //NWEBenchmark.Start();
+            Statut = NWEOperationState.Start;
             //Debug.Log("ExecuteAsync loading for path : " + Path);
             if (!string.IsNullOrEmpty(Path))
             {
                 Parent.Controller[QueueName].ActualOperation = this;
                 ResourceRequest ResourceRequest = Resources.LoadAsync<Texture2D>(Path);
                 //Operation progress
-                Statut = BTBOperationState.InProgress;
+                Statut = NWEOperationState.InProgress;
                 // Put Sync in progress
                 while (!ResourceRequest.isDone)
                 {
@@ -99,26 +99,26 @@ namespace NetWorkedData
                 }
             }
             Finish();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()
         {
-            Statut = BTBOperationState.Cancel;
+            Statut = NWEOperationState.Cancel;
             IsFinish = true;
             Parent.NextOperation(QueueName);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Finish()
         {
-            if (Statut == BTBOperationState.ReStart)
+            if (Statut == NWEOperationState.ReStart)
             {
                 // I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT
                 Parent.ReplayOperation(QueueName);
             }
             else
             {
-                Statut = BTBOperationState.Finish;
+                Statut = NWEOperationState.Finish;
                 IsFinish = true;
                 Parent.NextOperation(QueueName);
             }
@@ -126,7 +126,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DestroyThisOperation()
         {
-            Statut = BTBOperationState.Destroy;
+            Statut = NWEOperationState.Destroy;
 #if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
 #else

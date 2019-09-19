@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -37,7 +37,7 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDVector2Int
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDVector2Int : BTBDataType
+    public class NWDVector2Int : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector2Int()
@@ -45,7 +45,7 @@ namespace NetWorkedData
             Value = NWDToolbox.Vector2IntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public NWDVector2Int(string sValue = BTBConstants.K_EMPTY_STRING)
+        //public NWDVector2Int(string sValue = NWEConstants.K_EMPTY_STRING)
         //{
         //    if (sValue == null)
         //    {
@@ -101,11 +101,11 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.textField);
-            float tHeight = tStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+            float tHeight = tStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             return tHeight*2;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDVector2Int tTemporary = new NWDVector2Int();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

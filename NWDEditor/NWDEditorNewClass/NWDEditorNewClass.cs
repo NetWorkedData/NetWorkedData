@@ -19,7 +19,7 @@ using System;
 using System.Reflection;
 using System.IO;
 using UnityEditor;
-using BasicToolBox;
+//using BasicToolBox;
 using System.Linq;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -69,7 +69,7 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewClass()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             GUI.FocusControl(null);
 
             if (string.IsNullOrEmpty(ClassBase))
@@ -77,7 +77,7 @@ namespace NetWorkedData
                 ClassBase = "NWDBasis";
             }
             // get the NWDExample code source
-            string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample.cs";
+            string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample.cs";
             string tClassExample = File.ReadAllText(tClassExamplePath);
             // replace template by this params
             if (ClassSynchronize == false)
@@ -125,7 +125,7 @@ namespace NetWorkedData
             // write file connection with unity
             if (ClassUnityConnection == true)
             {
-                string tClassExamplePath_Connection = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Connection.cs";
+                string tClassExamplePath_Connection = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Connection.cs";
                 string tClassExample_Connection = File.ReadAllText(tClassExamplePath_Connection);
                 tClassExample_Connection = tClassExample_Connection.Replace("NWDExample", ClassName);
                 tClassExample_Connection = tClassExample_Connection.Replace("NWDBasis", ClassBase);
@@ -134,35 +134,35 @@ namespace NetWorkedData
                 AssetDatabase.ImportAsset(tFilePath_Connection);
             }
             // write file workflow
-            string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Workflow.cs";
+            string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Workflow.cs";
             string tClassExample_Workflow = File.ReadAllText(tClassExamplePath_Workflow);
             tClassExample_Workflow = tClassExample_Workflow.Replace("NWDExample", ClassName);
             tClassExample_Workflow = tClassExample_Workflow.Replace("NWDBasis", ClassBase);
             string tFilePath_Workflow = tOwnerClassesFolderPath + "/" + ClassName + "_Workflow.cs";
             File.WriteAllText(tFilePath_Workflow, tClassExample_Workflow);
             // write file editor
-            string tClassExamplePath_Editor = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Editor.cs";
+            string tClassExamplePath_Editor = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Editor.cs";
             string tClassExample_Editor = File.ReadAllText(tClassExamplePath_Editor);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDExample", ClassName);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDBasis", ClassBase);
             string tFilePath_Editor = tOwnerClassesFolderPath + "/" + ClassName + "_Editor.cs";
             File.WriteAllText(tFilePath_Editor, tClassExample_Editor);
             // write file index example
-            string tClassExamplePath_Index = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_Index.cs";
+            string tClassExamplePath_Index = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Index.cs";
             string tClassExample_Index = File.ReadAllText(tClassExamplePath_Index);
             tClassExample_Index = tClassExample_Index.Replace("NWDExample", ClassName);
             tClassExample_Index = tClassExample_Index.Replace("NWDBasis", ClassBase);
             string tFilePath_Index = tOwnerClassesFolderPath + "/" + ClassName + "_Index.cs";
             File.WriteAllText(tFilePath_Index, tClassExample_Index);
             // write file PHP extension
-            string tClassExamplePath_PHP = NWDFindPackage.PathOfPackage() + "/NWDEngine/NWDObjects/NWDExample/NWDExample_PHP.cs";
+            string tClassExamplePath_PHP = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_PHP.cs";
             string tClassExample_PHP = File.ReadAllText(tClassExamplePath_PHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDExample", ClassName);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDBasis", ClassBase);
             string tFilePath_PHP = tOwnerClassesFolderPath + "/" + ClassName + "_PHP.cs";
             File.WriteAllText(tFilePath_PHP, tClassExample_PHP);
             // write icon to modify
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Resources/Textures/NWDExample.psd";
+            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExample.psd";
             string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + ClassName + ".psd";
             File.Copy(tIconPath, tIconPathNew);
 
@@ -183,12 +183,12 @@ namespace NetWorkedData
 
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -220,7 +220,7 @@ namespace NetWorkedData
 
             Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
             Type[] tAllNWDTypes = (from System.Type type in tAllTypes
-                                   where type.IsSubclassOf(typeof(BTBDataType))
+                                   where type.IsSubclassOf(typeof(NWEDataType))
                                    select type).ToArray();
             List<string> tClassPossiblesList = new List<string>();
             foreach (Type tType in tAllNWDTypes)
@@ -254,7 +254,7 @@ namespace NetWorkedData
             }
             tListOfclass.Insert(0, "  ");
             tListOfclass.Insert(0, "NWDBasis");
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -262,7 +262,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Custom class Generator");
             NWDGUILayout.Informations("Custom your class!");
@@ -418,7 +418,7 @@ namespace NetWorkedData
             }
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -428,13 +428,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == string.Empty && tObject.Value == " ")
             {
                 tReturn = true;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tReturn;
         }
 

@@ -30,7 +30,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             foreach (Type tType in sType) 
 			{
 				if (mTypeWindowDico.ContainsKey (tType))
@@ -49,12 +49,12 @@ namespace NetWorkedData
 						
 				}
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveWindowFromManager (NWDTypeWindow sWindow)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
 			{
 				List<NWDTypeWindow> tList = tKeyValue.Value;
@@ -63,12 +63,12 @@ namespace NetWorkedData
 					tList.Remove (sWindow);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RepaintWindowsInManager (Type sType)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
             if (mTypeWindowDico.ContainsKey (sType))
 			{
@@ -77,12 +77,12 @@ namespace NetWorkedData
 					tWindow.Repaint ();
 				}
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDTypeWindow> EditorWindowsInManager(Type sType)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             List<NWDTypeWindow> tReturn = new List<NWDTypeWindow>();
             if (mTypeWindowDico.ContainsKey(sType))
             {
@@ -91,7 +91,7 @@ namespace NetWorkedData
                     tReturn.Add(tWindow);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

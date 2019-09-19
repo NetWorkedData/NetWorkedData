@@ -13,7 +13,7 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
-using BasicToolBox;
+//using BasicToolBox;
 using System.Text;
 using System.Reflection;
 using System;
@@ -35,11 +35,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NewDrawObjectInspectorHeightInvisible(object sObject, NWDNodeCard sNodalCard)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (Property != null)
             {
                 Type tTypeOfThis = Property.PropertyType;
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                 {
 
                     var tValue = Property.GetValue(sObject, null);
@@ -47,7 +47,7 @@ namespace NetWorkedData
                     {
                         tValue = Activator.CreateInstance(tTypeOfThis);
                     }
-                    BTBDataType tBTBDataType = (BTBDataType)tValue;
+                    NWEDataType tNWEDataType = (NWEDataType)tValue;
 
                     if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
                     {
@@ -55,7 +55,7 @@ namespace NetWorkedData
                         IsReconnectionMultiple = false;
                         if (sNodalCard != null)
                         {
-                            NWDReferenceSimple tV = (NWDReferenceSimple)tBTBDataType;
+                            NWDReferenceSimple tV = (NWDReferenceSimple)tNWEDataType;
                             tV.CreatePlotersInvisible(sNodalCard, sNodalCard.TotalHeight);
                         }
                     }
@@ -65,7 +65,7 @@ namespace NetWorkedData
                         IsReconnectionMultiple = true;
                         if (sNodalCard != null)
                         {
-                            NWDReferenceMultiple tV = (NWDReferenceMultiple)tBTBDataType;
+                            NWDReferenceMultiple tV = (NWDReferenceMultiple)tNWEDataType;
                             tV.CreatePlotersInvisible(sNodalCard, sNodalCard.TotalHeight);
                         }
                     }
@@ -81,14 +81,14 @@ namespace NetWorkedData
                     }
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
 
 
         //-------------------------------------------------------------------------------------------------------------
         public float NewDrawObjectInspectorHeight(object sObject, NWDNodeCard sNodalCard, float sWidth)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             float tY = SpaceBefore;
             float tIndent = Indent * NWDGUI.kFieldIndent;
             if (Property != null)
@@ -165,7 +165,7 @@ namespace NetWorkedData
                         {
                             tY += NWDGUI.kDoubleFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                         {
 
                             var tValue = Property.GetValue(sObject, null);
@@ -173,7 +173,7 @@ namespace NetWorkedData
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataType tBTBDataType = (BTBDataType)tValue;
+                            NWEDataType tNWEDataType = (NWEDataType)tValue;
 
                             if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
                             {
@@ -181,7 +181,7 @@ namespace NetWorkedData
                                 IsReconnectionMultiple = false;
                                 if (sNodalCard != null)
                                 {
-                                    NWDReferenceSimple tV = (NWDReferenceSimple)tBTBDataType;
+                                    NWDReferenceSimple tV = (NWDReferenceSimple)tNWEDataType;
                                     tV.CreatePloters(sNodalCard, sNodalCard.TotalHeight + tY);
                                 }
                             }
@@ -191,56 +191,56 @@ namespace NetWorkedData
                                 IsReconnectionMultiple = true;
                                 if (sNodalCard != null)
                                 {
-                                    NWDReferenceMultiple tV = (NWDReferenceMultiple)tBTBDataType;
+                                    NWDReferenceMultiple tV = (NWDReferenceMultiple)tNWEDataType;
                                     tV.CreatePloters(sNodalCard, sNodalCard.TotalHeight + tY);
                                 }
                             }
 
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                         {
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeInt tBTBDataType = (BTBDataTypeInt)tValue;
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            NWEDataTypeInt tNWEDataType = (NWEDataTypeInt)tValue;
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                         {
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeFloat tBTBDataType = (BTBDataTypeFloat)tValue;
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            NWEDataTypeFloat tNWEDataType = (NWEDataTypeFloat)tValue;
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                         {
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeEnum tBTBDataType = (BTBDataTypeEnum)tValue;
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            NWEDataTypeEnum tNWEDataType = (NWEDataTypeEnum)tValue;
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                        else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                         {
                             var tValue = Property.GetValue(sObject, null);
                             if (tValue == null)
                             {
                                 tValue = Activator.CreateInstance(tTypeOfThis);
                             }
-                            BTBDataTypeMask tBTBDataType = (BTBDataTypeMask)tValue;
-                            float tHeight = tBTBDataType.ControlFieldHeight();
+                            NWEDataTypeMask tNWEDataType = (NWEDataTypeMask)tValue;
+                            float tHeight = tNWEDataType.ControlFieldHeight();
                             tY += tHeight + NWDGUI.kFieldMarge;
                         }
                         else
@@ -337,7 +337,7 @@ namespace NetWorkedData
                 }
             }
             return tY;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

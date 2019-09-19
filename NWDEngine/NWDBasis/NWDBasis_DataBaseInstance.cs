@@ -26,7 +26,7 @@ using UnityEditor;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 using System.Text.RegularExpressions;
 
 //=====================================================================================================================
@@ -125,7 +125,7 @@ namespace NetWorkedData
             foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                 {
                 // TODO : Change to remove invoke!
                     var tObject = Activator.CreateInstance(tTypeOfThis);
@@ -136,19 +136,19 @@ namespace NetWorkedData
                     }
                     tPropertyInfo.SetValue(this, tObject, null);
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
                     // int is default 0, not null!
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                 {
                     // int is default 0, not null!
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                 {
                     // int is default 0, not null!
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeMask)))
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                 {
                     // int is default 0, not null!
                 }

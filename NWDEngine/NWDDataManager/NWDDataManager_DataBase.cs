@@ -26,7 +26,7 @@ using UnityEditor;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 //using ColoredAdvancedDebug;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -41,7 +41,7 @@ namespace NetWorkedData
         {
             // waiting ... do nothing
             bool rReturn = true;
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             if (DataEditorConnected == false && DataEditorConnectionInProgress == false)
             {
                 DataEditorConnectionInProgress = true;
@@ -165,7 +165,7 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionEditor connexion in progress");
                 }
             }
-            BTBBenchmark.Finish();
+            NWEBenchmark.Finish();
 
             return rReturn;
         }
@@ -194,7 +194,7 @@ namespace NetWorkedData
         public bool ConnectToDatabaseAccount(string sSurProtection)
         {
             bool rReturn = true;
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
             if (DataAccountConnected == false && DataAccountConnectionInProgress == false)
             {
@@ -212,7 +212,7 @@ namespace NetWorkedData
                 //    if (!File.Exists(tDatabasePathAccount) && string.IsNullOrEmpty(sSurProtection))
                 //    {
                 //        Debug.LogWarning("NEED NEW DATABASE ACCOUNT");
-                //        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+                //        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
                 //        NWDTypeLauncher.CodePinCreationNeeded = true;
                 //        rReturn = false;
                 //    }
@@ -259,7 +259,7 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionAccount connexion in progress");
                 }
             }
-            BTBBenchmark.Finish();
+            NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -329,7 +329,7 @@ namespace NetWorkedData
             }
             if (sRegenerateDeviceSalt == true)
             {
-                NWDAppConfiguration.SharedInstance().DatabasePrefix = "NWD" + BTBDateHelper.ConvertToTimestamp(DateTime.Now).ToString("F0");
+                NWDAppConfiguration.SharedInstance().DatabasePrefix = "NWD" + NWEDateHelper.ConvertToTimestamp(DateTime.Now).ToString("F0");
                 NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
                 NWDAppConfiguration.SharedInstance().AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
                 NWDAppConfiguration.SharedInstance().AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
@@ -347,7 +347,7 @@ namespace NetWorkedData
             bool rReturn = false;
             // Get saved App version from pref
             int tBuildTimeStamp = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
-            int tBuildTimeStampActual = BTBPrefsManager.ShareInstance().getInt("APP_VERSION");
+            int tBuildTimeStampActual = NWEPrefsManager.ShareInstance().getInt("APP_VERSION");
             // test version
             if (tBuildTimeStamp > tBuildTimeStampActual)
             {
@@ -360,7 +360,7 @@ namespace NetWorkedData
                 //    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 //    tHelper.New_SynchronizationSetNewTimestamp(NWDAppConfiguration.SharedInstance().SelectedEnvironment(), tBuildTimeStamp);
                 //}
-                BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
+                NWEPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
             }
             // Save App version in pref for futur used
             if (rReturn == true)

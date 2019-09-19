@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -39,7 +39,7 @@ namespace NetWorkedData
     /// NWDStringsArrayType used to put a reference with float in value. Use properties with name, like 'ItemArray', 'SpotArray', 'BonusArray' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDStringsArrayType : BTBDataType
+    public class NWDStringsArrayType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDStringsArrayType()
@@ -135,7 +135,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDStringsArrayType tTemporary = new NWDStringsArrayType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

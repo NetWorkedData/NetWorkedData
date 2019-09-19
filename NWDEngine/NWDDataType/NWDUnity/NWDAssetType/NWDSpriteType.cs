@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +44,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSpriteType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDSpriteType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -56,7 +56,7 @@ namespace NetWorkedData
         public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }
@@ -70,7 +70,7 @@ namespace NetWorkedData
 				#if UNITY_EDITOR
 				rSprite = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
                 #else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
                 #endif
                 if (rSprite == null)
@@ -127,7 +127,7 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDSpriteType tTemporary = new NWDSpriteType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

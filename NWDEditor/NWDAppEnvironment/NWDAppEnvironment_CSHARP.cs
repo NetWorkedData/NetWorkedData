@@ -13,7 +13,7 @@
 
 #if UNITY_EDITOR
 using System.Text;
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -24,7 +24,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string CreateAppConfigurationCsharp(NWDAppEnvironment sSelectedEnvironment)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
             string tPropertyName = "null";
             if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
@@ -145,7 +145,7 @@ namespace NetWorkedData
                 rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
             }
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------

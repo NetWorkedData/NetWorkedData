@@ -24,7 +24,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WriteFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             foreach (string tFolder in sFolders)
             {
                 if (string.IsNullOrEmpty(tFolder) == false)
@@ -36,7 +36,7 @@ namespace NetWorkedData
             {
                 File.WriteAllText(tFileAndData.Key, tFileAndData.Value);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

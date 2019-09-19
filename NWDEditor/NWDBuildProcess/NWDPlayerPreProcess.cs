@@ -15,7 +15,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 using UnityEditor.Build;
 //=====================================================================================================================
@@ -39,18 +39,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Quit()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             // NWDVersion.UpdateVersionBundle();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void PlayModeStateChangedCallback(PlayModeStateChange sState)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log("Play Mode State Changed!");
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
@@ -62,7 +62,7 @@ namespace NetWorkedData
             }
             // update bundle before playing to test with the good version 
             NWDVersion.UpdateVersionBundle();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

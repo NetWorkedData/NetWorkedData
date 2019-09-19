@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -37,7 +37,7 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDFloatRange
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDFloatRange : BTBDataType
+    public class NWDFloatRange : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDFloatRange()
@@ -132,7 +132,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDFloatRange tTemporary = new NWDFloatRange();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

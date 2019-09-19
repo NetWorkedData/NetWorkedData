@@ -22,7 +22,7 @@
 
 //using SQLite4Unity3d;
 
-//using BasicToolBox;
+////using BasicToolBox;
 
 //#if UNITY_EDITOR
 //using UnityEditor;
@@ -35,7 +35,7 @@
 //	//TODO: FINISH THIS CLASS NWDTimeUtcType
 //	[SerializeField]
 //	//-------------------------------------------------------------------------------------------------------------
-//	public class NWDTimeUtcType : BTBDataType
+//	public class NWDTimeUtcType : NWEDataType
 //	{
 //		//-------------------------------------------------------------------------------------------------------------
 //		public NWDTimeUtcType ()
@@ -43,7 +43,7 @@
 //			Value = string.Empty;
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
-//		public NWDTimeUtcType (string sValue = BTBConstants.K_EMPTY_STRING)
+//		public NWDTimeUtcType (string sValue = NWEConstants.K_EMPTY_STRING)
 //		{
 //			if (sValue == null) {
 //				Value = string.Empty;
@@ -70,7 +70,7 @@
 //        //-------------------------------------------------------------------------------------------------------------
 //        public void SetTimeStamp(double sTimestamp)
 //        {
-//            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+//            SetDateTime(NWEDateHelper.ConvertFromTimestamp(sTimestamp));
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public void SetCurrentTime()
@@ -116,7 +116,7 @@
 //			return tHeight;
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
-//        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+//        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING)
 //		{
 //            NWDTimeUtcType tTemporary = new NWDTimeUtcType ();
 //            GUIContent tContent = new GUIContent(sEntitled, sTooltips);

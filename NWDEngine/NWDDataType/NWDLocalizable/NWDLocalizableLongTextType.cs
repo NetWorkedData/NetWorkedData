@@ -21,7 +21,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +44,7 @@ namespace NetWorkedData
             AddBaseString(string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableLongTextType(string sValue = BTBConstants.K_EMPTY_STRING)
+        public NWDLocalizableLongTextType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (string.IsNullOrEmpty(sValue))
             {
@@ -156,7 +156,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDLocalizableLongTextType tTemporary = new NWDLocalizableLongTextType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -168,7 +168,7 @@ namespace NetWorkedData
             float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
             List<string> tLocalizationList = new List<string>();
-            tLocalizationList.Add(BTBConstants.K_MINUS);
+            tLocalizationList.Add(NWEConstants.K_MINUS);
 
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -265,7 +265,7 @@ namespace NetWorkedData
                     tResult.Add(tLangague, tText);
                 }
             }
-            tResult.Remove(BTBConstants.K_MINUS); // remove default value
+            tResult.Remove(NWEConstants.K_MINUS); // remove default value
             tResult.Remove(string.Empty); // remove empty value
             if (tResult.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {

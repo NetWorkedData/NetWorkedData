@@ -40,21 +40,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDLocalizationConfigurationManager SharedInstance()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager)) as NWDLocalizationConfigurationManager;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDLocalizationConfigurationManager SharedInstanceFocus()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -101,12 +101,12 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA);
             NWDGUILayout.Informations("Some informations");
@@ -202,7 +202,7 @@ namespace NetWorkedData
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

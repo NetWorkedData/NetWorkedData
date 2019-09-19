@@ -11,7 +11,7 @@
 //
 //=====================================================================================================================
 
-using BasicToolBox;
+//using BasicToolBox;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public class NWDOperationResult : BTBOperationResult
+    public class NWDOperationResult : NWEOperationResult
     {
         //-------------------------------------------------------------------------------------------------------------
         public int timestamp { get; private set; }
@@ -177,7 +177,7 @@ namespace NetWorkedData
             if (sData.ContainsKey(NWD.K_JSON_WEB_SERVICE_KEY))
             {
                 wsBuild = int.Parse(sData[NWD.K_JSON_WEB_SERVICE_KEY].ToString());
-                //int tWSBuildEditor = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD);
+                //int tWSBuildEditor = NWEConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD);
                 int tWSBuildEditor = NWDAppConfiguration.SharedInstance().WebBuild;
                 if (wsBuild != tWSBuildEditor)
                 {

@@ -42,7 +42,7 @@ namespace NetWorkedData
         /// </summary>
         public void GenerateNewWindow()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             GUI.FocusControl(null);
             // get the NWDExample code source
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDWindowExample/NWDWindowExample.cs";
@@ -76,7 +76,7 @@ namespace NetWorkedData
             // TODO: not working ... must be fix or remove
             //			GameObject tScript = AssetDatabase.LoadAssetAtPath<GameObject> (tFilePath);
             //			Selection.activeObject = tScript;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -84,7 +84,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -104,7 +104,7 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -112,7 +112,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUILayout.Title("Custom Window Manager ");
             NWDGUILayout.Informations("Custom your window!");
             NWDGUILayout.Line();
@@ -241,7 +241,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             NWDGUILayout.BigSpace();
             // calculate the good dimension for window
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -251,13 +251,13 @@ namespace NetWorkedData
         /// <param name="tObject">T object.</param>
         bool RemoveAllPredicate(KeyValuePair<string, string> tObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             bool tReturn = false;
             if (tObject.Key == "" && tObject.Value == " ")
             {
                 tReturn = true;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tReturn;
         }
 

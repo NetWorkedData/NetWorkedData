@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +44,7 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAudioClipType(string sValue = BTBConstants.K_EMPTY_STRING)
+        public NWDAudioClipType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
@@ -65,7 +65,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 rAudioClip = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
 #else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 rAudioClip = Resources.Load(tPath, typeof(AudioClip)) as AudioClip;
 #endif
                 //Debug.LogWarning("rTexture at path " + tPath);
@@ -110,20 +110,20 @@ namespace NetWorkedData
                 tAdd = 1;
             }
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
             tLabelAssetStyle.fontSize = 12;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
+            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             tLabelAssetStyle.normal.textColor = Color.gray;
 
             return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDAudioClipType tTemporary = new NWDAudioClipType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -136,16 +136,16 @@ namespace NetWorkedData
             float tY = sPosition.position.y;
 
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
             tLabelStyle.normal.textColor = Color.red;
             GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
             tLabelAssetStyle.fontSize = 12;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
             tLabelAssetStyle.normal.textColor = Color.gray;
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), tWidth);
 
             AudioClip tObject = null;
 

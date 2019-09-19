@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -51,17 +51,17 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Installs the observer in the BTBNotification manager
+        /// Installs the observer in the NWENotification manager
         /// </summary>
         void InstallObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
 
             // Launch engine
             if (TrackEngineLaunch == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (NWENotification sNotification)
                 {
                     NotificationEngineLaunch(sNotification);
                 });
@@ -70,14 +70,14 @@ namespace NetWorkedData
             // load datas
             if (TrackDatasEditorStartLoading == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING, delegate (NWENotification sNotification)
                 {
                     NotificationDatasEditorStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
             }
             if (TrackDatasEditorPartialLoaded == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED, delegate (NWENotification sNotification)
                 {
                     float tPurcent = NWDDataManager.SharedInstance().PurcentEditorLoaded();
                     NotificationDatasEditorPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
@@ -85,7 +85,7 @@ namespace NetWorkedData
             }
             if (TrackDatasEditorLoaded == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
                 {
                     NotificationDatasEditorLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
@@ -95,14 +95,14 @@ namespace NetWorkedData
 
             if (TrackDatasAccountStartLoading == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING, delegate (NWENotification sNotification)
                 {
                     NotificationDatasAccountStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
             }
             if (TrackDatasAccountPartialLoaded == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED, delegate (NWENotification sNotification)
                 {
                     float tPurcent = NWDDataManager.SharedInstance().PurcentAccountLoaded();
                     NotificationDatasAccountPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
@@ -110,7 +110,7 @@ namespace NetWorkedData
             }
             if (TrackDatasAccountLoaded == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED, delegate (NWENotification sNotification)
                 {
                     NotificationDatasAccountLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
@@ -119,10 +119,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
 
-            // remove this from BTBNotificationManager
+            // remove this from NWENotificationManager
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
@@ -149,7 +149,7 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationEngineLaunch(BTBNotification sNotification)
+        public virtual void NotificationEngineLaunch(NWENotification sNotification)
         {
             if (EngineLaunchEvent != null)
             {
@@ -157,7 +157,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasEditorStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasEditorStartLoading(NWENotification sNotification, bool sPreloadDatas)
         {
             if (DatasEditorStartLoadingEvent != null)
             {
@@ -165,7 +165,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasEditorPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public virtual void NotificationDatasEditorPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             if (DatasEditorPartialLoadedEvent != null)
             {
@@ -173,7 +173,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasEditorLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasEditorLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
             if (DatasEditorLoadedEvent != null)
             {
@@ -181,7 +181,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasAccountStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasAccountStartLoading(NWENotification sNotification, bool sPreloadDatas)
         {
             if (DatasAccountStartLoadingEvent != null)
             {
@@ -189,7 +189,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasAccountPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public virtual void NotificationDatasAccountPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             if (DatasAccountPartialLoadedEvent != null)
             {
@@ -197,7 +197,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasAccountLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasAccountLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
             if (DatasAccountLoadedEvent != null)
             {

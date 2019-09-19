@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -67,17 +67,17 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The path.</returns>
 		/// <param name="sAddPath">S add path.</param>
-		public static string PathOfPackage (string sAddPath= BTBConstants.K_EMPTY_STRING)
+		public static string PathOfPackage (string sAddPath= NWEConstants.K_EMPTY_STRING)
 		{
 			return SharedInstance ().ScriptFolderFromAssets + sAddPath;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string PathEditorTextures(string sAddPath = BTBConstants.K_EMPTY_STRING)
+        public static string PathEditorTextures(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
-            return SharedInstance().ScriptFolderFromAssets +"/NWDEditor/Editor/Resources/Textures/"+ sAddPath;
+            return SharedInstance().ScriptFolderFromAssets +"/NWDEditor/Editor/Textures/"+ sAddPath;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D PackageEditorTexture(string sAddPath = BTBConstants.K_EMPTY_STRING)
+        public static Texture2D PackageEditorTexture(string sAddPath = NWEConstants.K_EMPTY_STRING)
         {
             return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditorTextures(sAddPath));
 

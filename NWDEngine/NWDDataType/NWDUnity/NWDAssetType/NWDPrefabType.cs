@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +44,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPrefabType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDPrefabType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -74,7 +74,7 @@ namespace NetWorkedData
         public GameObject ToGameObjectAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
         {
             string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
-            tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+            tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
             NWDOperationAsset tOperation = NWDOperationAsset.AddOperation(tPath, sInterim, false, sDelegate);
             return tOperation.Interim;
         }
@@ -89,7 +89,7 @@ namespace NetWorkedData
                 tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
                 Resources.LoadAsync(tPath, typeof(GameObject));
 #else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 Debug.Log("ToPrefab() path = " + tPath);
                 tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
 #endif
@@ -125,7 +125,7 @@ namespace NetWorkedData
 //#if UNITY_EDITOR
 //                tResourceRequest = Resources.LoadAsync(tPath, typeof(GameObject));
 //#else
-//                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+//                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
 //                tResourceRequest = Resources.LoadAsync(tPath, typeof(GameObject));
 //#endif
         //        //Debug.LogWarning("tObject at path " + tPath);
@@ -198,7 +198,7 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDPrefabType tTemporary = new NWDPrefabType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

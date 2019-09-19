@@ -23,7 +23,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateErrorsAndMessagesAllClasses()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Create error";
             float tCountClass = mTypeList.Count + 1;
             float tOperation = 1;
@@ -45,14 +45,14 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().DataQueueExecute();
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //static public NWDError NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
         //-------------------------------------------------------------------------------------------------------------
         //public void CreateErrorsAndMessagesEngine()
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    //NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
         //    //NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
         //    //NWDError.CreateGenericError("webrequest", "WEB03", "Network", "http respond is empty", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -205,12 +205,12 @@ namespace NetWorkedData
         //                                //"Best regards,\r\n" +
         //                                //"The {APP}'s team.", "OK");
 
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass(NWDAppEnvironment sEnvironment ,bool sIncrement = true, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (sIncrement == true)
             {
                 NWDAppConfiguration.SharedInstance().WebBuildMax++;
@@ -228,12 +228,12 @@ namespace NetWorkedData
             }
             sEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass(bool sIncrement = true, bool sWriteOnDisk = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (sIncrement == true)
             {
                 NWDAppConfiguration.SharedInstance().WebBuildMax++;
@@ -254,12 +254,12 @@ namespace NetWorkedData
                 tEnvironement.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
             }
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ModelResetAllClass()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Models Resets";
             float tCountClass = mTypeList.Count + 1;
             float tOperation = 1;
@@ -274,12 +274,12 @@ namespace NetWorkedData
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportWebSites()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tPath = EditorUtility.SaveFolderPanel("Export WebSite(s)", "", "NetWorkedDataServer");
             string tFolder = NWDAppConfiguration.SharedInstance().WebFolder;
             if (tPath != null)
@@ -297,7 +297,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

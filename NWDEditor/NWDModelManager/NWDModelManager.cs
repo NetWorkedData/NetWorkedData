@@ -41,21 +41,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDModelManager SharedInstance()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kSharedInstance == null)
             {
                 kSharedInstance = EditorWindow.GetWindow(typeof(NWDModelManager)) as NWDModelManager;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDModelManager SharedInstanceFocus()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SharedInstance().ShowUtility();
             SharedInstance().Focus();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -113,7 +113,7 @@ namespace NetWorkedData
                     TypeErrorList.Add(tType);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DrawType(Type sType)
@@ -175,7 +175,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Model Manager");
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
@@ -193,7 +193,7 @@ namespace NetWorkedData
                 DrawType(tType);
             }
             GUILayout.EndScrollView();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

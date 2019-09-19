@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -31,19 +31,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderAllLocalizations()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportLocalization()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log ("ExportThisLocalization");
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
@@ -63,12 +63,12 @@ namespace NetWorkedData
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string ExportLocalizationInCSV()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -76,13 +76,13 @@ namespace NetWorkedData
             {
                 tRows += tObject.ExportCSV(tLanguageArray);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tRows;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log ("ImportAllLocalizations");
             int tI = 0;
             int tCount = sCSVFileArray.Length;
@@ -95,12 +95,12 @@ namespace NetWorkedData
             {
                 ImportLocalization(sLanguageArray, tKeysArray, sCSVFileArray[tI]);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportLocalization(string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log ("sCSVrow = " + sCSVrow);
             //string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" + 
             string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.None);
@@ -168,7 +168,7 @@ namespace NetWorkedData
                 }
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

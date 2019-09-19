@@ -20,7 +20,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -38,10 +38,10 @@ namespace NetWorkedData
         public bool ForceSync = false;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebMaintenance AddOperation(string sName,
-                                                                   BTBOperationBlock sSuccessBlock = null,
-                                                                   BTBOperationBlock sFailBlock = null,
-                                                                   BTBOperationBlock sCancelBlock = null,
-                                                                BTBOperationBlock sProgressBlock = null,
+                                                                   NWEOperationBlock sSuccessBlock = null,
+                                                                   NWEOperationBlock sFailBlock = null,
+                                                                   NWEOperationBlock sCancelBlock = null,
+                                                                NWEOperationBlock sProgressBlock = null,
                                                                 NWDAppEnvironment sEnvironment = null,
                                                                 bool sForceSync = false,
                                                                 bool sPriority = false)
@@ -56,10 +56,10 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebMaintenance Create(string sName,
-                                                          BTBOperationBlock sSuccessBlock = null,
-                                                          BTBOperationBlock sFailBlock = null,
-                                                          BTBOperationBlock sCancelBlock = null,
-                                                          BTBOperationBlock sProgressBlock = null,
+                                                          NWEOperationBlock sSuccessBlock = null,
+                                                          NWEOperationBlock sFailBlock = null,
+                                                          NWEOperationBlock sCancelBlock = null,
+                                                          NWEOperationBlock sProgressBlock = null,
             NWDAppEnvironment sEnvironment = null, bool sForceSync = false)
         {
             //Debug.Log("NWDOperationWebMaintenance Create()");
@@ -90,7 +90,7 @@ namespace NetWorkedData
             }
             else
             {
-                //BTBOperation tOperation = new BTBOperation();
+                //NWEOperation tOperation = new NWEOperation();
                 //NWDOperationResult tResult = new NWDOperationResult();
                 //tOperation.QueueName = NWDAppEnvironment.SelectedEnvironment().Environment;
                 //sFailBlock(tOperation, 1.0F, tResult);

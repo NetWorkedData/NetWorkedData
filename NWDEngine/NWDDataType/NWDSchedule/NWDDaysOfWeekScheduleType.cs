@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -47,7 +47,7 @@ namespace NetWorkedData
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDaysOfWeekScheduleType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDDaysOfWeekScheduleType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -98,7 +98,7 @@ namespace NetWorkedData
 			return tHeight * tCount + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDaysOfWeekScheduleType tTemporary = new NWDDaysOfWeekScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

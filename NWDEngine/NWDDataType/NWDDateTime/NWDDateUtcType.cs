@@ -22,7 +22,7 @@
 
 //using SQLite4Unity3d;
 
-//using BasicToolBox;
+////using BasicToolBox;
 
 //#if UNITY_EDITOR
 //using UnityEditor;
@@ -36,21 +36,21 @@
 //	//TODO: FINISH THIS CLASS NWDDateUtcType
 //	[SerializeField]
 //	//-------------------------------------------------------------------------------------------------------------
-//	public class NWDDateUtcType : BTBDataTypeInt
+//	public class NWDDateUtcType : NWEDataTypeInt
 //    {
 //        //-------------------------------------------------------------------------------------------------------------
 //        public NWDDateUtcType ()
 //        {
 //            //Value = string.Empty;
-//            Value = BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow);
+//            Value = NWEDateHelper.ConvertToTimestamp(DateTime.UtcNow);
 //        }
 //		//-------------------------------------------------------------------------------------------------------------
-//		public NWDDateUtcType (string sValue = BTBConstants.K_EMPTY_STRING)
+//		public NWDDateUtcType (string sValue = NWEConstants.K_EMPTY_STRING)
 //        {
 //            if (string.IsNullOrEmpty(sValue) == true)
 //            {
 //                //Value = string.Empty;
-//                Value = BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow);
+//                Value = NWEDateHelper.ConvertToTimestamp(DateTime.UtcNow);
 //            }
 //            else
 //            {
@@ -61,19 +61,19 @@
 //        public override void Default()
 //        {
 //            //Value = string.Empty;
-//            Value = BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow).ToString();
+//            Value = NWEDateHelper.ConvertToTimestamp(DateTime.UtcNow).ToString();
 //        }
 //		//-------------------------------------------------------------------------------------------------------------
 //		public void SetDateTime(DateTime sDatetime)
 //        {
 //            sDatetime = sDatetime.ToUniversalTime();
 
-//            Value = BTBDateHelper.ConvertToTimestamp(sDatetime).ToString();
+//            Value = NWEDateHelper.ConvertToTimestamp(sDatetime).ToString();
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public void SetTimeStamp(double sTimestamp)
 //        {
-//            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+//            SetDateTime(NWEDateHelper.ConvertFromTimestamp(sTimestamp));
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public void SetCurrentDate()
@@ -115,7 +115,7 @@
 
 //            int tTimeStamp = 0;
 //            int.TryParse(Value, out tTimeStamp);
-//            return BTBDateHelper.ConvertFromTimestamp(tTimeStamp);
+//            return NWEDateHelper.ConvertFromTimestamp(tTimeStamp);
 //        }
 //		//-------------------------------------------------------------------------------------------------------------
 //		#if UNITY_EDITOR
@@ -125,14 +125,14 @@
 //            return NWDGUI.kPopupdStyle.fixedHeight;
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
-//        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+//        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING)
 //		{
 //            NWDDateUtcType tTemporary = new NWDDateUtcType ();
 //            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 //            //string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 //            int tTimeStamp = 0;
 //            int.TryParse(Value, out tTimeStamp);
-//            DateTime tValueDateTime = BTBDateHelper.ConvertFromTimestamp(tTimeStamp);
+//            DateTime tValueDateTime = NWEDateHelper.ConvertFromTimestamp(tTimeStamp);
 
 //            int tYear = tValueDateTime.Year;
 //            int tMonth = tValueDateTime.Month;
@@ -220,7 +220,7 @@
 //            //tMinute + NWDConstants.kFieldSeparatorA +
 //            //tSecond);
 
-//            tTemporary.Value = BTBDateHelper.ConvertToTimestamp(tDateTimeFinal).ToString();
+//            tTemporary.Value = NWEDateHelper.ConvertToTimestamp(tDateTimeFinal).ToString();
 
 //            //Debug.Log("tTemporary.Value = " + tTemporary.Value);
 //            //        tTemporary.Value = tYear+NWDConstants.kFieldSeparatorA+

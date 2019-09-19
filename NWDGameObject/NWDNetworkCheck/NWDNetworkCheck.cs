@@ -20,7 +20,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -156,7 +156,7 @@ namespace NetWorkedData
             double tDelta = -1;
             if (DebugLog == true)
             {
-                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tStartTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
             }
             const float timeout = 0.50f;
             float startTime = Time.timeSinceLevelLoad;
@@ -175,7 +175,7 @@ namespace NetWorkedData
                     }
                     if (DebugLog == true)
                     {
-                        tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                         tDelta = tFinishTimestamp - tStartTimestamp;
                         Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") "+ ping.time + ": " + tDelta.ToString("F3") + " seconds");
                     }
@@ -192,7 +192,7 @@ namespace NetWorkedData
 
                     if (DebugLog == true)
                     {
-                        tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                         tDelta = tFinishTimestamp - tStartTimestamp;
                         Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + AddressPing + ") : " + tDelta.ToString("F3") + " seconds");
                     }
@@ -215,7 +215,7 @@ namespace NetWorkedData
             double tStartTimestamp = 0;
             if (DebugLog == true)
             {
-                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tStartTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
             }
             switch (RequestType)
             {
@@ -312,7 +312,7 @@ namespace NetWorkedData
             }
             if (DebugLog == true)
             {
-                double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                double tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                 double tDelta = tFinishTimestamp - tStartTimestamp;
                 Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
             }
@@ -363,7 +363,7 @@ namespace NetWorkedData
             double tDelta = -1;
             if (DebugLog == true)
             {
-                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tStartTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
             }
             var tRequest = (HttpWebRequest)WebRequest.Create(URL);
             tRequest.Method = "HEAD";
@@ -396,7 +396,7 @@ namespace NetWorkedData
             NetworkStatutChange(tNetworkState);
             if (DebugLog == true)
             {
-                tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                 tDelta = tFinishTimestamp - tStartTimestamp;
                 Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
             }
@@ -413,23 +413,23 @@ namespace NetWorkedData
                 {
                     case NWDNetworkState.Check :
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_CHECK, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_CHECK, null));
                         }
                         break;
                     case NWDNetworkState.OnLine:
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
                         }
                         break;
                     case NWDNetworkState.OffLine:
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
                         }
                         break;
                     case NWDNetworkState.Unknow:
                     default :
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
                         }
                     break;
                 }

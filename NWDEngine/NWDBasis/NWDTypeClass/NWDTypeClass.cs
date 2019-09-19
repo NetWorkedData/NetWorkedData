@@ -204,13 +204,13 @@ namespace NetWorkedData
         /// </summary>
         public void WritingLockAdd()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             WritingLocksCounter++;
             if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
             {
                 NWDDataManager.SharedInstance().kDataInWriting.Add(this);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -218,7 +218,7 @@ namespace NetWorkedData
         /// </summary>
         public void WritingLockRemove()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             WritingLocksCounter--;
             if (WritingLocksCounter == 0)
             {
@@ -228,7 +228,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InstanceInit()

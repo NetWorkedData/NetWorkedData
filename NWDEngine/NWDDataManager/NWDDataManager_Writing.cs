@@ -20,7 +20,7 @@ using UnityEngine;
 using System.Threading;
 using System.Text.RegularExpressions;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -70,13 +70,13 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if in writing process was dataed, <c>false</c> otherwise.</returns>
         public bool DataInWritingProcess()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             bool rReturn = false;
             if (kDataInWriting.Count > 0)
             {
                 rReturn = true;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -85,9 +85,9 @@ namespace NetWorkedData
         /// </summary>
         public int DataQueueCounter()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             int rResult = kDataInWriting.Count;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -96,13 +96,13 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueExecute()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (DataInWritingProcess())
             {
                 DataQueueMainExecute();
                 DataQueuePoolExecute();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -110,7 +110,7 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueMainExecute()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (DataInWritingProcess())
             {
                 List<NWDTypeClass> tInsertDataQueueMain = new List<NWDTypeClass>(kInsertDataQueueMain);
@@ -123,7 +123,7 @@ namespace NetWorkedData
                 UpdateDataQueueExecute(tUpdateDataQueueMain);
                 DeleteDataQueueExecute(tDeleteDataQueueMain);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -131,7 +131,7 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueuePoolExecute()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (DataInWritingProcess())
             {
                 List<NWDTypeClass> tInsertDataQueuePool = new List<NWDTypeClass>(kInsertDataQueuePool);
@@ -146,7 +146,7 @@ namespace NetWorkedData
                 tDeleteDataQueuePool
             });
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -154,7 +154,7 @@ namespace NetWorkedData
         /// </summary>
         private void DataQueuePoolThread(object sState)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             object[] tParam = sState as object[];
             List<NWDTypeClass> tInsertDataQueue = tParam[0] as List<NWDTypeClass>;
             List<NWDTypeClass> tUpdateDataQueue = tParam[1] as List<NWDTypeClass>;
@@ -162,7 +162,7 @@ namespace NetWorkedData
             InsertDataQueueExecute(tInsertDataQueue);
             UpdateDataQueueExecute(tUpdateDataQueue);
             DeleteDataQueueExecute(tDeleteDataQueue);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Queue Data
@@ -178,7 +178,7 @@ namespace NetWorkedData
             //            Debug.Log("NWDDataManager InsertData()");
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:
@@ -221,7 +221,7 @@ namespace NetWorkedData
                     }
                     break;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -230,7 +230,7 @@ namespace NetWorkedData
         /// <param name="sObject">S object.</param>
         private void InsertDataExecute(object sObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Type tType = sObject.GetType();
             NWDTypeClass tObject = sObject as NWDTypeClass;
 
@@ -248,7 +248,7 @@ namespace NetWorkedData
             //}
             InsertDataCompleted(tObject);
 
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -259,7 +259,7 @@ namespace NetWorkedData
         {
             if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
-                //BTBBenchmark.Start();
+                //NWEBenchmark.Start();
                 //Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
                 List<Type> tTypeList = new List<Type>();
                 if (sInsertDataQueuePool.Count > 0)
@@ -308,21 +308,21 @@ namespace NetWorkedData
                 }
                 sInsertDataQueuePool = null;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void InsertDataCompleted(NWDTypeClass sObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManagerMainThread.AddInsertType(sObject.GetType());
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void InsertDataQueueCompleted(List<Type> sTypeList)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManagerMainThread.AddInsertTypeList(sTypeList);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Insert Data
@@ -337,14 +337,14 @@ namespace NetWorkedData
         {
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:
                     {
                         //Debug.Log("NWDDataManager UpdateData() MainThread");
                         UpdateDataExecute(sObject);
-                        BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+                        NWENotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
@@ -395,7 +395,7 @@ namespace NetWorkedData
                 sObject.ErrorCheck();
             }
 #endif
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -404,7 +404,7 @@ namespace NetWorkedData
         /// <param name="sObject">S object.</param>
         private void UpdateDataExecute(object sObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Type tType = sObject.GetType();
             NWDTypeClass tObject = sObject as NWDTypeClass;
             tObject.UpdateDataProceedWithTransaction();
@@ -420,7 +420,7 @@ namespace NetWorkedData
             //    tMethodFinish.Invoke(sObject, null);
             //}
             UpdateDataCompleted(tObject);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -429,7 +429,7 @@ namespace NetWorkedData
         /// <param name="sUpdateDataQueuePool">S update data queue pool.</param>
         private void UpdateDataQueueExecute(List<NWDTypeClass> sUpdateDataQueuePool)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
             if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
@@ -480,21 +480,21 @@ namespace NetWorkedData
                 }
                 sUpdateDataQueuePool = null;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void UpdateDataCompleted(NWDTypeClass sObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManagerMainThread.AddUpdateType(sObject.GetType());
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void UpdateDataQueueCompleted(List<Type> sTypeList)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManagerMainThread.AddUpdateTypeList(sTypeList);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Update Data
@@ -509,14 +509,14 @@ namespace NetWorkedData
         {
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:
                     {
                         //Debug.Log("NWDDataManager DeleteData() MainThread");
                         DeleteDataExecute(sObject);
-                        BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+                        NWENotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
@@ -553,7 +553,7 @@ namespace NetWorkedData
                     }
                     break;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -562,7 +562,7 @@ namespace NetWorkedData
         /// <param name="sObject">S object.</param>
         private void DeleteDataExecute(object sObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //Type tType = sObject.GetType();
             NWDTypeClass tObject = sObject as NWDTypeClass;
             tObject.DeleteDataProceed();
@@ -578,7 +578,7 @@ namespace NetWorkedData
             //    tMethodFinish.Invoke(sObject, null);
             //}
             DeleteDataCompleted(tObject);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -589,7 +589,7 @@ namespace NetWorkedData
         {
             if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid() && NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
             {
-                //BTBBenchmark.Start();
+                //NWEBenchmark.Start();
                 //Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
                 List<Type> tTypeList = new List<Type>();
                 if (sDeleteDataQueuePool.Count > 0)
@@ -638,21 +638,21 @@ namespace NetWorkedData
                 }
                 sDeleteDataQueuePool = null;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DeleteDataCompleted(NWDTypeClass sObject)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManagerMainThread.AddDeleteType(sObject.GetType());
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DeleteDataQueueCompleted(List<Type> sTypeList)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManagerMainThread.AddDeleteTypeList(sTypeList);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Delete Data

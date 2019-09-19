@@ -11,12 +11,12 @@
 //
 //=====================================================================================================================
 using System;
-using BasicToolBox;
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasisCheckList : BTBDataTypeMaskGeneric<NWDBasisCheckList>
+    public partial class NWDBasisCheckList : NWEDataTypeMaskGeneric<NWDBasisCheckList>
     {
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisCheckList Translate = Add(1, "Translate");

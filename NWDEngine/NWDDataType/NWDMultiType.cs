@@ -24,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 using System.Globalization;
 
 #if UNITY_EDITOR
@@ -57,7 +57,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDMultiType : BTBDataType
+    public class NWDMultiType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDMultiType()
@@ -65,7 +65,7 @@ namespace NetWorkedData
             Value = ((int)NWDMultiTypeEnum.AnString).ToString() + NWDConstants.kFieldSeparatorD + string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDMultiType(string sValue = BTBConstants.K_EMPTY_STRING)
+        public NWDMultiType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (string.IsNullOrEmpty(sValue))
             {
@@ -385,7 +385,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             // prepare next value
             NWDMultiType tTemporary = new NWDMultiType();

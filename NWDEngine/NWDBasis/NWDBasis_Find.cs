@@ -13,7 +13,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using BasicToolBox;
+//using BasicToolBox;
 using SQLite4Unity3d;
 using UnityEngine;
 
@@ -34,23 +34,23 @@ namespace NetWorkedData
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static List<K> GetEditorDatasList()
 //        {
-//            //BTBBenchmark.Start();
+//            //NWEBenchmark.Start();
 //            List<K> rReturn = BasisHelper().Datas as List<K>;
-//            //BTBBenchmark.Finish();
+//            //NWEBenchmark.Finish();
 //            return rReturn;
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static K[] GetEditorDatas()
 //        {
-//            //BTBBenchmark.Start();
+//            //NWEBenchmark.Start();
 //            K[] rReturn = BasisHelper().Datas.ToArray() as K[];
-//            //BTBBenchmark.Finish();
+//            //NWEBenchmark.Finish();
 //            return rReturn;
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static K GetEditorDataByReference(string sReference, bool sTryOnDisk = false)
 //        {
-//            //BTBBenchmark.Start();
+//            //NWEBenchmark.Start();
 //            K rReturn = null;
 //            if (BasisHelper().DatasByReference.ContainsKey(sReference))
 //            {
@@ -64,13 +64,13 @@ namespace NetWorkedData
 //                    rReturn = LoadDataByReference(sReference);
 //                }
 //            }
-//            //BTBBenchmark.Finish();
+//            //NWEBenchmark.Finish();
 //            return rReturn;
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static K[] GetEditorDatasByInternalKey(string sInternalKey)
 //        {
-//            //BTBBenchmark.Start();
+//            //NWEBenchmark.Start();
 //            List<K> rReturn;
 //            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
 //            {
@@ -80,20 +80,20 @@ namespace NetWorkedData
 //            {
 //                rReturn = new List<K>();
 //            }
-//            //BTBBenchmark.Finish();
+//            //NWEBenchmark.Finish();
 //            return rReturn.ToArray();
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static K GetEditorFirstDataByInternalKey(string sInternalKey)
 //        {
-//            //BTBBenchmark.Start();
+//            //NWEBenchmark.Start();
 //            K rReturn = null;
 //            K[] rDatas = GetEditorDatasByInternalKey(sInternalKey);
 //            if (rDatas.Length > 0)
 //            {
 //                rReturn = rDatas[0];
 //            }
-//            //BTBBenchmark.Finish();
+//            //NWEBenchmark.Finish();
 //            return rReturn;
 //        }
 //        //-------------------------------------------------------------------------------------------------------------
@@ -110,28 +110,28 @@ namespace NetWorkedData
         //// ANCIEN GetAllObjects()
         //public static K[] GetRawDatas()
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K[] rReturn = GetRawDatasList().ToArray() as K[];
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetRawFirstData()
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    K[] rDatas = GetRawDatas();
         //    if (rDatas.Length > 0)
         //    {
         //        rReturn = rDatas[0];
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetRawDataByReference(string sReference, bool sTryOnDisk = false)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    if (BasisHelper().DatasByReference.ContainsKey(sReference))
         //    {
@@ -146,13 +146,13 @@ namespace NetWorkedData
         //        }
         //    }
         //    rReturn = QuickFilter(rReturn, null, null);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K[] GetRawDatasByInternalKey(string sInternalKey)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    List<K> rReturn;
         //    if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
         //    {
@@ -163,20 +163,20 @@ namespace NetWorkedData
         //        rReturn = new List<K>();
         //    }
         //    rReturn = QuickFilterDatas(rReturn as List<NWDTypeClass>, null, null);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn.ToArray();
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetRawFirstDataByInternalKey(string sInternalKey)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    K[] rDatas = GetRawDatasByInternalKey(sInternalKey);
         //    if (rDatas.Length > 0)
         //    {
         //        rReturn = rDatas[0];
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
@@ -195,20 +195,20 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetCorporateFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    K[] rDatas = GetCorporateDatas(sAccountReference, sGameSave);
         //    if (rDatas.Length > 0)
         //    {
         //        rReturn = rDatas[0];
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetCorporateDataByReference(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null, bool sTryOnDisk = false)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    if (BasisHelper().DatasByReference.ContainsKey(sReference))
         //    {
@@ -223,13 +223,13 @@ namespace NetWorkedData
         //        }
         //    }
         //    rReturn = QuickFilter(rReturn, sAccountReference, sGameSave);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K[] GetCorporateDatasByInternalKey(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    List<K> rReturn;
         //    if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey))
         //    {
@@ -240,20 +240,20 @@ namespace NetWorkedData
         //        rReturn = new List<K>();
         //    }
         //    rReturn = QuickFilterDatas(rReturn as List<NWDTypeClass>, sAccountReference, sGameSave);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn.ToArray();
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetCorporateFirstDataByInternalKey(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    K[] rDatas = GetCorporateDatasByInternalKey(sInternalKey);
         //    if (rDatas.Length > 0)
         //    {
         //        rReturn = rDatas[0];
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
@@ -262,74 +262,74 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         //public static List<K> GetReachableDatasList(bool sLimitByGameSave = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    NWDGameSave tGameSave = null;
         //    if (sLimitByGameSave == true)
         //    {
         //        tGameSave = NWDGameSave.CurrentData();
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return GetCorporateDatasList(NWDAccount.CurrentReference(), tGameSave);
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K[] GetReachableDatas(bool sLimitByGameSave = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    NWDGameSave tGameSave = null;
         //    if (sLimitByGameSave == true)
         //    {
         //        tGameSave = NWDGameSave.CurrentData();
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return GetCorporateDatas(NWDAccount.CurrentReference(), tGameSave);
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetReachableFirstData(bool sLimitByGameSave = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    NWDGameSave tGameSave = null;
         //    if (sLimitByGameSave == true)
         //    {
         //        tGameSave = NWDGameSave.CurrentData();
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return GetCorporateFirstData(NWDAccount.CurrentReference(), tGameSave);
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetReachableDataByReference(string sReference, bool sLimitByGameSave = true, bool sTryOnDisk = false)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    NWDGameSave tGameSave = null;
         //    if (sLimitByGameSave == true)
         //    {
         //        tGameSave = NWDGameSave.CurrentData();
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return GetCorporateDataByReference(sReference, NWDAccount.CurrentReference(), tGameSave, sTryOnDisk);
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K[] GetReacheableDatasByInternalKey(string sInternalKey, bool sLimitByGameSave = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    NWDGameSave tGameSave = null;
         //    if (sLimitByGameSave == true)
         //    {
         //        tGameSave = NWDGameSave.CurrentData();
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return GetCorporateDatasByInternalKey(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static K GetReacheableFirstDataByInternalKey(string sInternalKey, bool sLimitByGameSave = true)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    NWDGameSave tGameSave = null;
         //    if (sLimitByGameSave == true)
         //    {
         //        tGameSave = NWDGameSave.CurrentData();
         //    }
         //    K rReturn = GetCorporateFirstDataByInternalKey(sInternalKey, NWDAccount.CurrentReference(), tGameSave);
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
@@ -339,7 +339,7 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         //private static K QuickFilter(K sData, string sAccountReference = null, NWDGameSave sGameSave = null)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    K rReturn = null;
         //    if (sData != null)
         //    {
@@ -392,13 +392,13 @@ namespace NetWorkedData
 
         //        }
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //private static List<K> QuickFilterDatas(List<NWDTypeClass> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    List<K> rList = new List<K>();
         //    //Debug.Log("chercher les data ");
         //    if (sDatasArray != null)
@@ -416,7 +416,7 @@ namespace NetWorkedData
         //    {
         //        //Debug.Log("chercher les data a un tableau vide");
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rList;
         //}
         ////-------------------------------------------------------------------------------------------------------------
@@ -573,7 +573,7 @@ namespace NetWorkedData
 //        private static K LoadDataByReference(string sReference)
 //        {
 //            Debug.Log("LoadDataByReference(" + sReference + ")");
-//            BTBBenchmark.Start();
+//            NWEBenchmark.Start();
 //            K rReturn = null;
 //            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
 //            tTypeInfos = BasisHelper();
@@ -603,7 +603,7 @@ namespace NetWorkedData
 //                    }
 //                }
 //            }
-//            BTBBenchmark.Finish();
+//            NWEBenchmark.Finish();
 //#if UNITY_EDITOR
 //            BasisHelper().FilterTableEditor();
 //            BasisHelper().RepaintTableEditor();
@@ -613,7 +613,7 @@ namespace NetWorkedData
 //        //-------------------------------------------------------------------------------------------------------------
 //        private static void LoadDataToSync(NWDAppEnvironment sEnvironment)
 //        {
-//            BTBBenchmark.Start();
+//            NWEBenchmark.Start();
 //            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
 //            tTypeInfos = BasisHelper();
 //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
@@ -644,7 +644,7 @@ namespace NetWorkedData
 //                    }
 //                }
 //            }
-//            BTBBenchmark.Finish();
+//            NWEBenchmark.Finish();
 //#if UNITY_EDITOR
 //            BasisHelper().FilterTableEditor();
 //            BasisHelper().RepaintTableEditor();
@@ -656,7 +656,7 @@ namespace NetWorkedData
 //        //-------------------------------------------------------------------------------------------------------------
 //        public static K[] SelectDatasWhereRequest(string sWhere = "`AC`=1;")
 //        {
-//            BTBBenchmark.Start();
+//            NWEBenchmark.Start();
 //            List<K> rResult = new List<K>();
 //            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
 //            tTypeInfos = BasisHelper();
@@ -689,7 +689,7 @@ namespace NetWorkedData
 //                    }
 //                }
 //            }
-//            BTBBenchmark.Finish();
+//            NWEBenchmark.Finish();
 //#if UNITY_EDITOR
 //            BasisHelper().FilterTableEditor();
 //            BasisHelper().RepaintTableEditor();
@@ -910,7 +910,7 @@ namespace NetWorkedData
         //            BasisHelper().New_FilterTableEditor();
         //            BasisHelper().New_RepaintTableEditor();
         //#endif
-        //    //BTBBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
+        //    //NWEBenchmark.Finish("LoadFromDatabase " + tTypeInfos.ClassNamePHP);
         //}
         //-------------------------------------------------------------------------------------------------------------
         //        public static void UnloadDataByReference(string sReference)

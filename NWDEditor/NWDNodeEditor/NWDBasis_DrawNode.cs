@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 using SQLite4Unity3d;
 using System.IO;
@@ -30,7 +30,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NodeCardAnalyze(NWDNodeCard sCard)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             sCard.ClassTexture = BasisHelper().TextureOfClass();
             bool tDataAllReadyAnalyze = false;
             foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCardsAnalyzed)
@@ -108,7 +108,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

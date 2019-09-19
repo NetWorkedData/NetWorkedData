@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -161,7 +161,7 @@ namespace NetWorkedData
         public static Color ColorFromString(string sString)
         {
             Color tColor = new Color();
-            ColorUtility.TryParseHtmlString(BTBConstants.K_HASHTAG + sString, out tColor);
+            ColorUtility.TryParseHtmlString(NWEConstants.K_HASHTAG + sString, out tColor);
             return tColor;
         }
         //-------------------------------------------------------------------------------------------------------------

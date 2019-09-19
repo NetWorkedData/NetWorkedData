@@ -21,7 +21,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 using UnityEngine;
 using System.Text;
@@ -457,7 +457,7 @@ namespace NetWorkedData
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = "ACC-" + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString() + "T";
+            rReturn = "ACC-" + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString() + "T";
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -498,7 +498,7 @@ namespace NetWorkedData
         /// <param name="sFrequence">refresh frequency</param>
         public static string GenerateAdminHash(string sAdminKey, int sFrequence)
         {
-            return BTBSecurityTools.GenerateSha(sAdminKey + GenerateSALT(sFrequence), BTBSecurityShaTypeEnum.Sha1);
+            return NWESecurityTools.GenerateSha(sAdminKey + GenerateSALT(sFrequence), NWESecurityShaTypeEnum.Sha1);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

@@ -15,7 +15,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 using Renci.SshNet;
@@ -182,7 +182,7 @@ namespace NetWorkedData
         public string SecretKeyDeviceEditor()
         {
             string rReturn;
-            rReturn = BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
+            rReturn = NWESecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -194,23 +194,23 @@ namespace NetWorkedData
             string rReturn;
             if (NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected == true)
             {
-                rReturn = BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltEnd);
+                rReturn = NWESecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltEnd);
             }
             else
             {
-                rReturn = BTBPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+                rReturn = NWEPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SecretKeyDevicePlayerReset()
         {
-            BTBPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+            NWEPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AdminKeyHashGenerate()
         {
-            return BTBSecurityTools.GenerateSha("455" + AdminKey + "gytf");
+            return NWESecurityTools.GenerateSha("455" + AdminKey + "gytf");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void FormatVerification()

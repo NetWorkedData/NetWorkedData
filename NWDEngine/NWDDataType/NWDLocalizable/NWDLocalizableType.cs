@@ -22,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,7 +33,7 @@ namespace NetWorkedData
 {
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDLocalizableType : BTBDataType
+	public class NWDLocalizableType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
@@ -210,7 +210,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDictionary (Dictionary<string,string> sDictionary)
 		{
-			sDictionary.Remove (BTBConstants.K_MINUS); // remove default value
+			sDictionary.Remove (NWEConstants.K_MINUS); // remove default value
 			sDictionary.Remove (string.Empty); // remove empty value
 			List<string> tValueNextList = new List<string> ();
 			foreach (KeyValuePair<string,string> tKeyValue in sDictionary) {

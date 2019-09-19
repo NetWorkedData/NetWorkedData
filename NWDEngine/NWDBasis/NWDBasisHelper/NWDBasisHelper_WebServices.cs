@@ -18,7 +18,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -254,8 +254,8 @@ namespace NetWorkedData
         public string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
         {
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
-            //BTBBenchmark.Start();
-            //BTBBenchmark.Tag(ClassNamePHP());
+            //NWEBenchmark.Start();
+            //NWEBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
@@ -283,7 +283,7 @@ namespace NetWorkedData
                     if (tClassResult.ContainsKey(NWD.K_WEB_DATA_KEY))
                     {
                         tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
-                        //BTBBenchmark.Increment(tListOfRows.Count);
+                        //NWEBenchmark.Increment(tListOfRows.Count);
                         if (tListOfRows.Count > 0)
                         {
                             //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
@@ -322,14 +322,14 @@ namespace NetWorkedData
                     }
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SynchronizationFromWebService(BTBOperationBlock sSuccessBlock = null,
-         BTBOperationBlock sErrorBlock = null,
-         BTBOperationBlock sCancelBlock = null,
-         BTBOperationBlock sProgressBlock = null,
+        public void SynchronizationFromWebService(NWEOperationBlock sSuccessBlock = null,
+         NWEOperationBlock sErrorBlock = null,
+         NWEOperationBlock sCancelBlock = null,
+         NWEOperationBlock sProgressBlock = null,
          bool sForce = false,
          bool sPriority = false)
         {

@@ -13,7 +13,7 @@
 
 #if UNITY_EDITOR
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 using System;
 using UnityEditor;
 
@@ -31,7 +31,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawInEditor(EditorWindow sEditorWindow)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUILayout.Section("Configuration for " + Environment + " environment");
             //NWDGUILayout.Informations(Environment);
             NWDGUILayout.SubSection("App identity " + Environment);
@@ -118,7 +118,7 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Last Build infos " + Environment);
             EditorGUILayout.LabelField("Build date", this.BuildDate, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);
-            DateTime tDate = BTBDateHelper.ConvertFromTimestamp(this.BuildTimestamp);
+            DateTime tDate = NWEDateHelper.ConvertFromTimestamp(this.BuildTimestamp);
             EditorGUILayout.LabelField("Build Timestamp string ", tDate.ToString("yyyy/MM/dd HH:mm:ss"), EditorStyles.boldLabel);
             CartridgeColor = EditorGUILayout.ColorField("Cartridge Color", CartridgeColor);
             if (GUILayout.Button("Reset Build Timestamp"))
@@ -127,7 +127,7 @@ namespace NetWorkedData
             }
             FormatVerification();
             NWDGUILayout.LittleSpace();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

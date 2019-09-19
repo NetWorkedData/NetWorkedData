@@ -36,7 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataInspector ShareInstance()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kShareInstance == null)
             {
                 EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataInspector));
@@ -45,7 +45,7 @@ namespace NetWorkedData
                 kShareInstance.minSize = new Vector2(300, 500);
                 kShareInstance.maxSize = new Vector2(600, 2048);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kShareInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataPreview()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             ActualIndex--;
             if (ActualIndex < 0)
             {
@@ -92,7 +92,7 @@ namespace NetWorkedData
                 RemoveActualFocus = true;
                 Focus();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedDataNext()
@@ -102,7 +102,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DataNext()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             ActualIndex++;
             if (ActualIndex >= mObjectsList.Count)
             {
@@ -116,7 +116,7 @@ namespace NetWorkedData
                 RemoveActualFocus = true;
                 Focus();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool InspectNetWorkedPreview()
@@ -141,7 +141,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void InspectNetWorkedData(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
@@ -157,12 +157,12 @@ namespace NetWorkedData
             {
                 ShareInstance().Data(null, true, sFocus);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Data(NWDTypeClass sTarget, bool sResetStack = true, bool sFocus = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (sTarget != null)
             {
                 if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
@@ -210,7 +210,7 @@ namespace NetWorkedData
                 }
                 NWDNodeEditor.Refresh();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDTypeClass ObjectInEdition()
@@ -242,7 +242,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
 
             this.minSize = new Vector2(NWDGUI.kNodeCardWidth, NWDGUI.kNodeCardHeight);
             this.maxSize = new Vector2(NWDGUI.kNodeCardWidth * 2, NWDGUI.kNodeCardHeight * 2);
@@ -290,7 +290,7 @@ namespace NetWorkedData
                 //mObjectInEdition.New_DrawObjectEditor(position, true);
                 mObjectInEdition.DrawEditor(new Rect(0, 0, position.width, position.height), true, null);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

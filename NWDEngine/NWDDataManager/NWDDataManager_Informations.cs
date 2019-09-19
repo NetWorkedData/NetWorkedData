@@ -20,7 +20,7 @@ using System.Reflection;
 using UnityEngine;
 
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -34,7 +34,7 @@ namespace NetWorkedData
         public void InformationsUpdate()
         {
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            DateTime tDate = BTBDateHelper.ConvertFromTimestamp(tEnvironment.BuildTimestamp);
+            DateTime tDate = NWEDateHelper.ConvertFromTimestamp(tEnvironment.BuildTimestamp);
             string tInformations = "Environment : " + tEnvironment.Environment + "\n" +
                                    "BuildTimestamp : " + tEnvironment.BuildTimestamp + "\n" +
                                    "BuildTimestamp => " + tDate.ToString("yyyy/MM/dd HH:mm:ss") + "\n" +

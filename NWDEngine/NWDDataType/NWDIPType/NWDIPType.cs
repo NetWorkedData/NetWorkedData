@@ -22,7 +22,7 @@ using System.IO;
 
 using UnityEngine;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -34,7 +34,7 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[SerializeField]
-	public class NWDIPType : BTBDataType
+	public class NWDIPType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDIPType()
@@ -82,7 +82,7 @@ namespace NetWorkedData
             return NWDGUI.kPopupStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDIPType tTemporary = new NWDIPType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

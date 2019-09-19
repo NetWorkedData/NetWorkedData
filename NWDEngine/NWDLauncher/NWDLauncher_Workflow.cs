@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using System.Collections;
 using System.IO;
 
@@ -38,13 +38,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void EngineLaunch()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.EngineLaunching;
             NWDTypeLauncher.RunLauncher();
             State = NWDStatut.EngineLaunched;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             // Ok engine is launched
-            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
             if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
             {
                 LaunchNext();
@@ -53,7 +53,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void ConnectToDatabaseEditor()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataEditorConnecting;
             if (NWDDataManager.SharedInstance().ConnectToDatabaseEditor())
             {
@@ -63,17 +63,17 @@ namespace NetWorkedData
             {
                 State = NWDStatut.Error;
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseEditorTable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
             State = NWDStatut.DataEditorTableUpdated;
-            //BTBBenchmark.Finish();
-            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_READY);
+            //NWEBenchmark.Finish();
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_READY);
             if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
             {
                 LaunchNext();
@@ -82,22 +82,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseEditorLoadData()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataEditorLoading;
             NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
             State = NWDStatut.DataEditorLoaded;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public IEnumerator DatabaseEditorLoadDataAsync()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataEditorLoading;
             IEnumerator tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor();
             yield return tWaitTime;
             State = NWDStatut.DataEditorLoaded;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -141,26 +141,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void DeconnectFromDatabaseAccount()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             DeconnectAccount();
             DeconnectAccountAnalyzeState();
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void DeleteDatabaseAccount()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             DeconnectAccount();
             File.Delete(NWDDataManager.SharedInstance().PathDatabaseAccount());
             DeconnectAccountAnalyzeState();
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void ConnectToDatabaseAccount()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
             // prevent old connexion
             tShareInstance.DeconnectFromDatabaseAccount();
@@ -172,13 +172,13 @@ namespace NetWorkedData
                 {
                     Debug.LogWarning("### Database NOT EXISTS");
                     State = NWDStatut.DataAccountCodePinCreate;
-                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
                 }
                 else
                 {
                     Debug.LogWarning("### Database EXISTS NEED PINCODE");
                     State = NWDStatut.DataAccountCodePinRequest;
-                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
+                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
 #if UNITY_EDITOR
                     if (EditorByPass == true)
                     {
@@ -204,15 +204,15 @@ namespace NetWorkedData
 #endif
                 DatabaseAccountConnection(tPincode);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void DatabaseAccountConnection(string sSurProtection)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataAccountConnecting;
             //Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             //if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
             if (NWDDataManager.SharedInstance().DataAccountConnected == false)
             {
@@ -227,7 +227,7 @@ namespace NetWorkedData
                         //                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
                         //#endif
                         //Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
+                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
                         //DatabaseAccountLauncher();
                     }
                     else
@@ -235,7 +235,7 @@ namespace NetWorkedData
                         State = NWDStatut.DataAccountCodePinStop;
                         //Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
                         // Kill App || Destroy Database || Call FBI || Vodoo ?
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
+                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
                     }
                 }
                 else
@@ -252,22 +252,22 @@ namespace NetWorkedData
 
                         State = NWDStatut.DataAccountCodePinSuccess;
                         //Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
-                        BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
+                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
                     }
                     State = NWDStatut.DataAccountConnected;
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseAccountTable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
             State = NWDStatut.DataAccountTableUpdated;
-            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_READY);
-            //BTBBenchmark.Finish();
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_READY);
+            //NWEBenchmark.Finish();
             if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
             {
                 LaunchNext();
@@ -276,53 +276,53 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseAccountLoadData()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataAccountLoading;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
             State = NWDStatut.DataAccountLoaded;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public IEnumerator DatabaseAccountLoadDataAsync()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataAccountLoading;
             IEnumerator tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount();
             yield return tWaitTime;
             State = NWDStatut.DataAccountLoaded;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseIndexation()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataIndexationStart;
             NWDDataManager.SharedInstance().IndexAllObjects();
             State = NWDStatut.DataIndexationFinish;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static public IEnumerator DatabaseIndexationAsync()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.DataIndexationStart;
             IEnumerator tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
             yield return tWaitTime;
             State = NWDStatut.DataIndexationFinish;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void Ready()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             State = NWDStatut.NetWorkedDataReady;
-            BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
-            //BTBBenchmark.Finish();
-            BTBBenchmark.Finish("NetWorkedData");
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
+            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish("NetWorkedData");
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------

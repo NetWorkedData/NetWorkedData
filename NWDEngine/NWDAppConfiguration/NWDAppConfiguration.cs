@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -230,12 +230,12 @@ namespace NetWorkedData
             string tPass = tDeviceUniqueID;
             if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().AccountHashSalt))
             {
-                tPass = BTBSecurityTools.GenerateSha(tPass);
+                tPass = NWESecurityTools.GenerateSha(tPass);
             }
             else
             {
                 tPass = NWDAppConfiguration.SharedInstance().AccountHashSaltA.Substring(0, 8) +
-                    BTBSecurityTools.GenerateSha(tPass + NWDAppConfiguration.SharedInstance().AccountHashSalt) +
+                    NWESecurityTools.GenerateSha(tPass + NWDAppConfiguration.SharedInstance().AccountHashSalt) +
                     NWDAppConfiguration.SharedInstance().AccountHashSaltB.Substring(2, 8);
             }
             return tPass;

@@ -32,7 +32,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -43,7 +43,7 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDReference : BTBDataType
+    public class NWDReference : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeReferenceForAnother(string sOldReference, string sNewReference) // TODO rename Change Reference
@@ -74,7 +74,7 @@ namespace NetWorkedData
             return NWDGUI.kDataSelectorFieldStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = BTBConstants.K_EMPTY_STRING, object sAdditionnal = null)
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             return this;
         }

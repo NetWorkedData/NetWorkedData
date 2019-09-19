@@ -21,7 +21,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (TestIntegrity() == true)
             {
                 bool tUpdate = false;
@@ -50,7 +50,7 @@ namespace NetWorkedData
                     UpdateData(true, NWDWritingMode.ByDefaultLocal);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -15,7 +15,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
-using BasicToolBox;
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReOrderAllLocalizations()
         {
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData Reorder localization";
             float tCountClass = NWDDataManager.SharedInstance().mTypeList.Count + 1;
             float tOperation = 1;
@@ -43,12 +43,12 @@ namespace NetWorkedData
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
-            BTBBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ExportToCSV()
         {
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             // apply the pending modification : prevent lost modification
             NWDDataManager.SharedInstance().DataQueueExecute();
             // ask for final file path
@@ -79,12 +79,12 @@ namespace NetWorkedData
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
-            BTBBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ImportFromCSV()
         {
-            BTBBenchmark.Start();
+            NWEBenchmark.Start();
             string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", string.Empty, "csv");
             if (tPath != null)
             {
@@ -109,7 +109,7 @@ namespace NetWorkedData
                 }
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
-            BTBBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

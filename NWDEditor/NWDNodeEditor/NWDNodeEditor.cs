@@ -22,7 +22,7 @@ using System.Reflection;
 using System.IO;
 
 using UnityEditor;
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -60,7 +60,7 @@ namespace NetWorkedData
         /// </summary>
         public static NWDNodeEditor SharedInstance()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kNodeEditorSharedInstance == null)
             {
                 kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
@@ -69,14 +69,14 @@ namespace NetWorkedData
                 ReAnalyzeAll();
                 kNodeEditorSharedInstance.Focus();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return kNodeEditorSharedInstance;
         }
 
         //-------------------------------------------------------------------------------------------------------------
         public static void RestaureObjectInEdition()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             string tTypeEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
             string tLastReferenceEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
 
@@ -86,12 +86,12 @@ namespace NetWorkedData
                 NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
                 SetObjectInNodeWindow(tData);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SaveObjectInEdition(NWDTypeClass sSelection)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (sSelection == null)
             {
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
@@ -102,7 +102,7 @@ namespace NetWorkedData
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.Reference);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -111,7 +111,7 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
             {
                 kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
@@ -121,7 +121,7 @@ namespace NetWorkedData
                 SaveObjectInEdition(sSelection);
             }
 
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -129,7 +129,7 @@ namespace NetWorkedData
         /// </summary>
         public static void Refresh()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             //if (kNodeEditorSharedInstance != null)
             //{
             //    kNodeEditorSharedInstance.Repaint();
@@ -139,7 +139,7 @@ namespace NetWorkedData
             {
                 tWindow.Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -147,26 +147,26 @@ namespace NetWorkedData
         /// </summary>
         public static void ReAnalyzeIfNecessary(object sObjectModified)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
                 kNodeEditorSharedInstance.Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ReAnalyzeAll()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -184,14 +184,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void UpdateNodeWindow(NWDTypeClass sSelection)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.EditorWindow = kNodeEditorSharedInstance;
                 kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -200,14 +200,14 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public void SetSelection(NWDTypeClass sSelection)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
             {
                 Document.EditorWindow = this;
                 Document.SetData(sSelection);
                 Repaint();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -226,7 +226,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnEnable()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -249,7 +249,7 @@ namespace NetWorkedData
             Document.EditorWindow = this;
             Document.LoadClasses();
             Repaint();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -257,7 +257,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             float tX = Document.DocumentMarge +15;
             if (Document.FixeMargePreference == false)
@@ -318,7 +318,7 @@ namespace NetWorkedData
                     DragDetect = false;
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetLanguage()

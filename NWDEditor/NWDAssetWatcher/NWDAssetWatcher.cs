@@ -45,7 +45,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static AssetMoveResult OnWillMoveAsset (string sOldPath, string sNewPath)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
             if (sOldPath.Contains(NWD.K_Resources))
             {
@@ -55,13 +55,13 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions sUnused)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
             if (sOldPath.Contains(NWD.K_Resources))
             {
@@ -71,7 +71,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, "");
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -35,7 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectSFTP()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (SftpConnexion == null)
             {
                 SftpConnexion = new SftpClient(SFTPHost, SFTPPort, SFTPUser, SFTPPassword);
@@ -45,33 +45,33 @@ namespace NetWorkedData
                     SftpConnexion.BufferSize = 4 * 1024; // bypass Payload error large files
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SetHTACCESS(sMaintenance, false);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetObsolete(bool sObsolete)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SetHTACCESS(false, sObsolete);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetActivate()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SetHTACCESS(false, false);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetHTACCESS(bool sMaintenance, bool sObsolete)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // connect SFTP
             ConnectSFTP();
             // prepare the destination
@@ -96,12 +96,12 @@ namespace NetWorkedData
             }
             //SFTPHost will close
             DeconnectSFTP();
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles, bool sAutoDeconnect = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             ConnectSFTP();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tDestinationFolder = tWebServiceFolder + "/" + sFolder;
@@ -136,19 +136,19 @@ namespace NetWorkedData
             {
                 DeconnectSFTP();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFile(string sAlternate, string sFolder, string sWSFile, bool sAutoDeconnect = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             SendFiles(sAlternate, sFolder, new string[] { sWSFile }, sAutoDeconnect);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false, bool sAutoDeconnect = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             ConnectSFTP();
             foreach (string tFolder in sFolders)
             {
@@ -190,19 +190,19 @@ namespace NetWorkedData
             {
                 DeconnectSFTP();
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeconnectSFTP()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (SftpConnexion == null)
             {
                 SftpConnexion.Disconnect();
                 SftpConnexion.Dispose();
             }
             SftpConnexion = null;
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -21,7 +21,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -38,7 +38,7 @@ namespace NetWorkedData
         void DataNotLoaded()
         {
             //Debug.Log("NWDAutolocalized DataIsLoaded()");
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
             if (UseCanvas == true)
             {
@@ -84,8 +84,8 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDAutolocalized Awake() install observer");
                 DataNotLoaded();
-                BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (BTBNotification sNotification)
+                NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (NWENotification sNotification)
                 {
                     DataIsLoaded();
                     tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
@@ -101,7 +101,7 @@ namespace NetWorkedData
         private void OnDestroy()
         {
             //Debug.Log("NWDAutolocalized OnDestroy()");
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------

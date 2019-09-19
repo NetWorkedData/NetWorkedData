@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 using System.Text;
 
 //=====================================================================================================================
@@ -92,7 +92,7 @@ namespace NetWorkedData
 #region FILE CONSTANT
         public Dictionary<string, string> CreatePHPConstant(NWDAppEnvironment sEnvironment)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
@@ -121,14 +121,14 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
 #endregion
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPEngine(NWDAppEnvironment sEnvironment)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             StringBuilder tFile = new StringBuilder(string.Empty);
             //tFile.AppendLine("<?php");
@@ -148,13 +148,13 @@ namespace NetWorkedData
             //tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_WS_ENGINE, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             //string tClassName = ClassNamePHP;
             //string tTrigramme = ClassTrigramme;
@@ -325,23 +325,23 @@ namespace NetWorkedData
                 {
                     PropertyInfo tColumnInfos = ClassType.GetProperty(tName);
                     Type tColumnType = tColumnInfos.PropertyType;
-                    if (tColumnType.IsSubclassOf(typeof(BTBDataType)))
+                    if (tColumnType.IsSubclassOf(typeof(NWEDataType)))
                     {
                         columnNamesFinalList.Add("`" + tName + "`(24)");
                     }
-                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeInt)))
+                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeInt)))
                     {
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
-                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeFloat)))
                     {
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
-                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeEnum)))
+                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeEnum)))
                     {
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
-                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeMask)))
+                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeMask)))
                     {
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
@@ -465,13 +465,13 @@ namespace NetWorkedData
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_MANAGEMENT_FILE, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             //string tClassName = ClassNamePHP;
             //string tTableName = ClassTableName;
@@ -1445,13 +1445,13 @@ namespace NetWorkedData
 
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
             rReturn.Add(ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION, tFileFormatted);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string>  CreatePHP(NWDAppEnvironment sEnvironment, bool sPrepareOrder = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
             PrefLoad();
             if (sPrepareOrder == true)
@@ -1477,7 +1477,7 @@ namespace NetWorkedData
             {
                 rReturn.Add(tKeyValue.Key, tKeyValue.Value);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
