@@ -43,7 +43,7 @@ namespace NetWorkedData
         /// <summary>
         /// The type's list of the tables managed in this windows
         /// </summary>
-        public Type[] mTabTypeList = new Type[] { typeof(NWDItem) };
+        public Type[] mTabTypeList = { typeof(NWDItem) };
         /// <summary>
         /// the array to reccord the name menu of each Type
         /// </summary>
@@ -55,17 +55,11 @@ namespace NetWorkedData
         /// </summary>
         private int mTabSelected = 0;
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes the <see cref="NWDEditor.NWDBasisWindow"/> class.
-        /// </summary>
         static NWDBasisWindow()
         {
             //Debug.Log ("NWDBasisWindow clas constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NWDEditor.NWDBasisWindow"/> class.
-        /// </summary>
         public NWDBasisWindow()
         {
             //Debug.Log ("NWDBasisWindow basic construtor");
