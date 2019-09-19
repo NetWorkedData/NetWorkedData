@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -222,15 +223,17 @@ namespace NetWorkedData
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             NWDGUILayout.SubSection("Databases editor config for all environments");
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
-            EditorGUILayout.LabelField("Editor pass", NWDAppConfiguration.SharedInstance().EditorPass);
-            EditorGUILayout.LabelField("Editor pass A", NWDAppConfiguration.SharedInstance().EditorPassA);
-            EditorGUILayout.LabelField("Editor pass B", NWDAppConfiguration.SharedInstance().EditorPassB);
+            EditorGUILayout.LabelField("Editor hash salt", NWDAppConfiguration.SharedInstance().EditorPass);
+            EditorGUILayout.LabelField("Editor hash salt A", NWDAppConfiguration.SharedInstance().EditorPassA);
+            EditorGUILayout.LabelField("Editor hash salt B", NWDAppConfiguration.SharedInstance().EditorPassB);
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextField("Editor pass result", NWDAppConfiguration.SharedInstance().GetEditorPass());
             EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Editor Database File"))
+            if (GUILayout.Button("Editor Database File and password copy to Clipboard"))
             {
+                BTBClipboard.CopyToClipboard(NWDAppConfiguration.SharedInstance().GetEditorPass());
                 EditorUtility.RevealInFinder("Assets/" + tDatabasePathEditor);
+                EditorUtility.OpenWithDefaultApp("Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("DatabasePathEditor = Assets/" + tDatabasePathEditor);
                 Debug.LogWarning("Editor pass result = " + NWDAppConfiguration.SharedInstance().GetEditorPass());
             }
@@ -240,20 +243,51 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Account hash salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
             EditorGUILayout.LabelField("Account hash salt A", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
             EditorGUILayout.LabelField("Account hash salt B", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
-            EditorGUI.BeginDisabledGroup(true);
-            if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+            string tSurProtection = string.Empty;
+
+           if (NWDAppConfiguration.SharedInstance().SurProtected == true)
             {
-                EditorGUILayout.TextField("Account hash result", NWDAppConfiguration.SharedInstance().GetAccountPass(EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY)));
-            }
-            EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Account Database File"))
-            {
-                EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
-                Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
-                if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                if (NWDDataManager.SharedInstance().DatabaseAccountExists() == false)
                 {
-                    Debug.LogWarning("Account pass result = " + NWDAppConfiguration.SharedInstance().GetAccountPass(EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY)));
                 }
+                else
+                {
+#if UNITY_EDITOR
+                    if (NWDLauncher.EditorByPass == true)
+                    {
+                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                        {
+                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+                        }
+                    }
+#endif
+                }
+            }
+            else
+            {
+#if UNITY_EDITOR
+                if (NWDLauncher.EditorByPass == true)
+                {
+                    if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+                    {
+                        tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+                    }
+                }
+#endif
+            }
+
+            string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(tSurProtection);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.TextField("Account pass result", tAccountPass);
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Account Database File and password copy to Clipboard"))
+            {
+                BTBClipboard.CopyToClipboard(tAccountPass);
+                EditorUtility.RevealInFinder(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                EditorUtility.OpenWithDefaultApp(NWDDataManager.SharedInstance().PathDatabaseAccount());
+                Debug.LogWarning("DatabasePathAccount = " + NWDDataManager.SharedInstance().PathDatabaseAccount());
+                Debug.LogWarning("Account pass result = " + tAccountPass);
+                
             }
             NWDGUILayout.LittleSpace();
             // finish scroll view
