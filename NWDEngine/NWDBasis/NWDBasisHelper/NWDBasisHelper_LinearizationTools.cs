@@ -450,21 +450,20 @@ namespace NetWorkedData
             {
                 if (SLQSelect() != WebModelSQLOrder[tLasBuild])
                 {
-                    rReturn += "Model changed member(s) : ";
                     List<string> tListA  = new  List<string>(SLQSelect().Split(new char[]{','}));
                     List<string> tListB= new  List<string>(WebModelSQLOrder[tLasBuild].Split(new char[]{','}));
                     foreach (string t in  tListA)
                     {
                         if (tListB.Contains(t)==false)
                         {
-                            rReturn += t;
+                            rReturn += "\n+ Add : " +t;
                         }
                     }
-                    foreach (string t in  tListB)
+                    foreach (string t in tListB)
                     {
-                        if (tListA.Contains(t)==false)
+                        if (tListA.Contains(t) == false)
                         {
-                            rReturn += t;
+                            rReturn += "\n- Remove : " + t;
                         }
                     }
                 }
