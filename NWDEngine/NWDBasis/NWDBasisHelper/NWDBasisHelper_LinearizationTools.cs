@@ -441,6 +441,37 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string ModelChangedGetChange()
+        {
+            string rReturn = string.Empty;
+            int tLasBuild = LastWebBuild;
+            int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+            if (WebModelSQLOrder.ContainsKey(tLasBuild))
+            {
+                if (SLQSelect() != WebModelSQLOrder[tLasBuild])
+                {
+                    rReturn += "Model changed member(s) : ";
+                    List<string> tListA  = new  List<string>(SLQSelect().Split(new char[]{','}));
+                    List<string> tListB= new  List<string>(WebModelSQLOrder[tLasBuild].Split(new char[]{','}));
+                    foreach (string t in  tListA)
+                    {
+                        if (tListB.Contains(t)==false)
+                        {
+                            rReturn += t;
+                        }
+                    }
+                    foreach (string t in  tListB)
+                    {
+                        if (tListA.Contains(t)==false)
+                        {
+                            rReturn += t;
+                        }
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void ForceOrders(int sWebBuild)
         {
             //if (LastWebBuild < sWebBuild)

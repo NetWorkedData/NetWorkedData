@@ -149,7 +149,7 @@ namespace NetWorkedData
             if (tHelper.WebModelChanged == true)
             {
                 // draw reintegrate the model
-                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"))))
+                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL + "\n" + tHelper.ModelChangedGetChange(), NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"))))
                 {
                     tHelper.ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                     NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { sType }, false, false);
@@ -161,7 +161,7 @@ namespace NetWorkedData
             }
             if (tHelper.WebModelDegraded == true)
             {
-                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED, NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS))
+                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "\n" + tHelper.ModelChangedGetChange(), NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS))
                 {
                     tHelper.DeleteOldsModels();
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
