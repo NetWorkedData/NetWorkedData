@@ -11,6 +11,7 @@
 //
 //=====================================================================================================================
 
+using UnityEditor;
 using UnityEngine;
 //using BasicToolBox;
 
@@ -59,11 +60,11 @@ namespace NetWorkedData
                     tError.Validation = tValidation;
                     // type of alert
                     tError.Type = sType;
-                    
-                    #if UNITY_EDITOR
+
+#if UNITY_EDITOR
                     // add-on edited
                     tError.AddonEdited(true);
-                    #endif
+#endif
 
                     // reccord
                     //tError.NotNullChecker();
@@ -75,7 +76,7 @@ namespace NetWorkedData
             return tError;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
             if (sNeedBeUpdate == true)
@@ -99,7 +100,17 @@ namespace NetWorkedData
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
             {
-                NWEAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), null);
+                if (Application.isPlaying)
+                {
+                    this.ShowAlert("TEST");
+                }
+                else
+                {
+                    //NWEAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), null);
+                    if (EditorUtility.DisplayDialog(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString()) == true)
+                    {
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -110,7 +121,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
