@@ -101,30 +101,11 @@ namespace NetWorkedData
         public void AlertTestAction()
         {
             Debug.Log("NWDShowDebugPanel AlertTestAction()");
-            TextDebug.text = "TEST ALERT : NOK";
-            NWEAlert.Alert("Test Alert", "Messsage", "Ok",  delegate (NWEMessageState state) {
-            TextDebug.text = "TEST ALERT : OK";
-            });
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DialogTestAction()
         {
             Debug.Log("NWDShowDebugPanel DialogTestAction()");
-            TextDebug.text = "TEST DIALOG: NOK";
-            NWEDialog.Dialog("Test Dialog", "Choose", "YES", "NO", delegate (NWEMessageState state) {
-                if (state == NWEMessageState.OK)
-                {
-                    TextDebug.text = "TEST DIALOG: YES";
-                }
-                else if (state == NWEMessageState.NOK)
-                {
-                    TextDebug.text = "TEST DIALOG: NO";
-                }
-                else
-                {
-                    TextDebug.text = "TEST DIALOG: ERROR";
-                }
-            });
         }
         //-------------------------------------------------------------------------------------------------------------
         void Start()

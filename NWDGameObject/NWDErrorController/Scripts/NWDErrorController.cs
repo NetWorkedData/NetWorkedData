@@ -37,7 +37,7 @@ namespace NetWorkedData
         private bool ShowPossible = true;
         private List<NWENotification> ErrorList = new List<NWENotification>();
         private NWENotification ActualNotification;
-        private NWDError ActualError;
+        private NWDErrorNotification ActualErrorNotification;
         //-------------------------------------------------------------------------------------------------------------
         public NWDErrorConnection ErroForTest;
         //-------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDErrorController ErroForTest()");
             NWDError tError = ErroForTest.GetData();
-            if (tError!=null)
+            if (tError != null)
             {
                 tError.ShowAlert("NONE");
             }
@@ -71,23 +71,22 @@ namespace NetWorkedData
                     ShowPossible = false;
                     ActualNotification = ErrorList[0];
                     ErrorList.RemoveAt(0);
-                    ActualError = ActualNotification.Datas as NWDError;
-                    string tSender = ActualNotification.Sender as string;
+                    ActualErrorNotification = ActualNotification.Datas as NWDErrorNotification;
                     //Install error
                     if (Title != null)
                     {
-                        Title.text = ActualError.Title.GetLocalString().Replace("XXX", tSender);
+                        Title.text = ActualErrorNotification.Title();
                     }
                     if (Description != null)
                     {
-                        Description.text = ActualError.Description.GetLocalString().Replace("XXX", tSender);
+                        Description.text = ActualErrorNotification.Description();
                     }
                     if (Validation != null)
                     {
-                        Validation.text = ActualError.Validation.GetLocalString().Replace("XXX", tSender);
+                        Validation.text = ActualErrorNotification.Validation();
                     }
                     bool tShow = true;
-                    switch (ActualError.Type)
+                    switch (ActualErrorNotification.Type())
                     {
                         case NWDErrorType.Alert:
                             {
@@ -147,7 +146,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDErrorController CloseIsFinish()");
             ShowPossible = true;
-            switch (ActualError.Type)
+            switch (ActualErrorNotification.Type())
             {
                 case NWDErrorType.Alert:
                 case NWDErrorType.InGame:
@@ -168,6 +167,7 @@ namespace NetWorkedData
                     }
                     break;
             }
+            ActualErrorNotification.Close();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override NWESingletonRoot DestroyRoot()
@@ -194,7 +194,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDErrorController RemoveObserver()");
             NWENotificationManager tNotifManager = NWENotificationManager.SharedInstance();
-            tNotifManager.RemoveObserverForAll(this,NWDNotificationConstants.K_ERROR);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnEnable()

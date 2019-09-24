@@ -100,17 +100,11 @@ namespace NetWorkedData
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
             {
-                if (Application.isPlaying)
+                ShowAlert("TEST", delegate (NWDErrorNotification sErrorNotification)
                 {
-                    this.ShowAlert("TEST");
+                    Debug.Log("Completed! block is running!");
                 }
-                else
-                {
-                    //NWEAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), null);
-                    if (EditorUtility.DisplayDialog(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString()) == true)
-                    {
-                    }
-                }
+                   );
             }
         }
         //-------------------------------------------------------------------------------------------------------------

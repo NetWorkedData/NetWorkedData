@@ -97,10 +97,10 @@ namespace NetWorkedData
             float tY = sRect.y;
 
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
-            if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test message", NWDGUI.kMiniButtonStyle))
-            {
-                NWEDialog.Dialog(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), Cancel.GetLocalString(), null);
-            }
+            //if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test message", NWDGUI.kMiniButtonStyle))
+            //{
+            //    NWEDialog.Dialog(Enrichment(Title.GetLocalString()), Enrichment(Description.GetLocalString()), Validation.GetLocalString(), Cancel.GetLocalString(), null);
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)

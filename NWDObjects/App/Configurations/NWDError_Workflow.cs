@@ -27,10 +27,95 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public delegate void NWDErrorDelegate(NWDErrorNotification sNotification);
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDErrorNotification
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        private NWDErrorDelegate ErrorDelegate;
+        private NWDError Error;
+        private string Info;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDErrorNotification(NWDError sError, string sInfo, NWDErrorDelegate sCompleteBlock = null)
+        {
+            Error = sError;
+            Info = sInfo;
+            ErrorDelegate = sCompleteBlock;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Close()
+        {
+            ErrorDelegate(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDErrorType Type()
+        {
+            NWDErrorType rReturn = NWDErrorType.Ignore;
+            if (Error != null)
+            {
+                rReturn = Error.Type;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Domain()
+        {
+            string rReturn = string.Empty;
+            if (Error != null)
+            {
+                rReturn = Error.Domain;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Code()
+        {
+            string rReturn = string.Empty;
+            if (Error != null)
+            {
+                rReturn = Error.Code;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Title()
+        {
+            string rReturn = string.Empty;
+            if (Error != null)
+            {
+                rReturn = Error.Title.GetLocalString().Replace("XXX", Info);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Description()
+        {
+            string rReturn = string.Empty;
+            if (Error != null)
+            {
+                rReturn = Error.Description.GetLocalString().Replace("XXX", Info);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Validation()
+        {
+            string rReturn = string.Empty;
+            if (Error != null)
+            {
+                rReturn = Error.Validation.GetLocalString().Replace("XXX", Info);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDErrorHelper : NWDHelper<NWDError>
     {
@@ -166,7 +251,7 @@ namespace NetWorkedData
                 NWDError.NWDError_SHS01 = NWDError.CreateGenericError("account", "SHS01", "secret key error", "secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_SHS02 = NWDError.CreateGenericError("account", "SHS02", "secret key error", "invalid secret key error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                 
+
                 NWDError.NWDError_RQT01 = NWDError.CreateGenericError("token", "RQT01", "Token error", "error in request token creation", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT11 = NWDError.CreateGenericError("token", "RQT11", "Token error", "new token is not in base", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT12 = NWDError.CreateGenericError("token", "RQT12", "Token error", "error in token select", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -272,111 +357,42 @@ namespace NetWorkedData
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PostNotificationError()
+        public void PostNotificationError(string sInfo, NWDErrorDelegate sCompleteBlock = null)
         {
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
+            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, new NWDErrorNotification(this, sInfo, sCompleteBlock));
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowAlert(string sInfo, NWEAlertOnCompleteBlock sCompleteBlock = null)
+        public void ShowAlert(string sInfo, NWDErrorDelegate sCompleteBlock = null)
         {
             NWDErrorType tType = Type;
-            // NWDErrorType set by compile environment
 #if UNITY_EDITOR
-            // NO CHANGE
-            //tType = NWDErrorType.UnityEditor;
-#elif UNITY_IOS
-            // NO CHANGE
-#elif UNITY_ANDROID
-            // NO CHANGE
-#elif UNITY_STANDALONE_OSX
-            // NO CHANGE
-            //tType = NWDErrorType.InGame;
-#elif UNITY_STANDALONE_WIN
-            tType = NWDErrorType.InGame;
-#elif UNITY_STANDALONE_LINUX
-            tType = NWDErrorType.InGame;
-#else
-            tType = NWDErrorType.InGame;
+            if (Application.isPlaying == false)
+            {
+                tType = NWDErrorType.UnityEditor;
+            }
 #endif
             switch (tType)
             {
                 case NWDErrorType.Alert:
-                    {
-                        NWEAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX, sInfo)), Enrichment(Description.GetLocalString().Replace(XXX, sInfo)), Validation.GetLocalString().Replace(XXX, sInfo), sCompleteBlock);
-                    }
-                    break;
                 case NWDErrorType.Critical:
-                    {
-                        NWEAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX, sInfo)), Enrichment(Description.GetLocalString().Replace(XXX, sInfo)), Validation.GetLocalString().Replace(XXX, sInfo), delegate (NWEMessageState state)
-                           {
-                               Application.Quit();
-                           }
-                        );
-                    }
-                    break;
                 case NWDErrorType.Upgrade:
-                    {
-                        NWEAlert.Alert(Enrichment(Title.GetLocalString().Replace(XXX, sInfo)), Enrichment(Description.GetLocalString().Replace(XXX, sInfo)), Validation.GetLocalString().Replace(XXX, sInfo), delegate (NWEMessageState state)
-                           {
-                               string tURL = "https://www.google.fr/search?q=" + NWDAppEnvironment.SelectedEnvironment().AppName;
-                               NWDVersion tVersion = NWDVersion.CurrentData();
-#if UNITY_EDITOR
-                               // NO CHANGE
-#elif UNITY_IOS
-                            if (string.IsNullOrEmpty(tVersion.IOSStoreURL) == false)
-                            {
-                                tURL = tVersion.IOSStoreURL;
-                            }
-#elif UNITY_ANDROID
-                            if (string.IsNullOrEmpty(tVersion.GooglePlayURL) == false)
-                            {
-                                tURL = tVersion.GooglePlayURL;
-                            }
-#elif UNITY_STANDALONE_OSX
-                            if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
-                            {
-                                tURL = tVersion.OSXStoreURL;
-                            }
-#elif UNITY_STANDALONE_WIN
-
-#elif UNITY_STANDALONE_LINUX
-
-#else
-
-#endif
-                               Application.OpenURL(tURL);
-                               Application.Quit();
-                           });
-                        // TODO : redirection to Store
-
-                    }
-                    break;
                 case NWDErrorType.Ignore:
-                    {
-                        // Do nothing
-                    }
-                    break;
                 case NWDErrorType.InGame:
-                    {
-                        // Do nothing
-                        PostNotificationError();
-                    }
-                    break;
                 case NWDErrorType.LogVerbose:
-                    {
-                        Debug.Log("ALERT! " + Title.GetLocalString().Replace(XXX, sInfo) + " : " + Description.GetLocalString().Replace(XXX, sInfo));
-                    }
-                    break;
                 case NWDErrorType.LogWarning:
                     {
-                        Debug.LogWarning("WARNING! " + Title.GetLocalString().Replace(XXX, sInfo) + " : " + Description.GetLocalString().Replace(XXX, sInfo));
+                        PostNotificationError(sInfo, sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.UnityEditor:
                     {
-                        #if UNITY_EDITOR
-                        NWEAlert.Alert(Title.GetLocalString().Replace(XXX, sInfo), Description.GetLocalString().Replace(XXX, sInfo), Validation.GetLocalString().Replace(XXX, sInfo), sCompleteBlock);
-                        #endif
+#if UNITY_EDITOR
+                        NWDErrorNotification tErrorNotification = new NWDErrorNotification(this, sInfo, sCompleteBlock);
+                        if (EditorUtility.DisplayDialog(tErrorNotification.Title(), tErrorNotification.Description(), tErrorNotification.Validation()) == true)
+                        {
+                            tErrorNotification.Close();
+                        }
+#endif
                     }
                     break;
             }

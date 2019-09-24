@@ -1,1 +1,0 @@
-To create the Android Jar

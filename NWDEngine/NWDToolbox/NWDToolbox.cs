@@ -538,7 +538,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string FindOwnerServerFolder()
         {
-            string tPath = NWDToolbox.FindClassFolder("NWDFindOwnerServer", "NetWorkedDataServer");
+            string tPath = NWDToolbox.FindClassFolder("NWDFindOwnerServer", "NetWorkedData_Server");
             if (AssetDatabase.IsValidFolder(tPath + "/Editor") == false)
             {
                 AssetDatabase.CreateFolder(tPath, "Editor");
@@ -549,12 +549,12 @@ namespace NetWorkedData
         //------------------------------------------------------------------------------------------------------------- 
         public static string FindOwnerClassesFolder()
         {
-            return NWDToolbox.FindClassFolder("NWDFindOwnerClasses", "NetWorkedDataClasses");
+            return NWDToolbox.FindClassFolder("NWDFindOwnerClasses", "NetWorkedData_Classes");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string FindOwnerConfigurationFolder()
         {
-            return NWDToolbox.FindClassFolder("NWDFindOwnerConfiguration", "NetWorkedDataConfiguration");
+            return NWDToolbox.FindClassFolder("NWDFindOwnerConfiguration", "NetWorkedData_Configuration");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
