@@ -29,6 +29,7 @@ namespace NetWorkedData
             typeof(NWDLocalization),
             typeof(NWDError),
             typeof(NWDMessage),
+            typeof(NWDUserInterMessage),
             /* Add NWDBasis here*/
         }
     )]

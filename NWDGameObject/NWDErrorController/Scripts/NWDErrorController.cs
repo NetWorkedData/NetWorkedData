@@ -37,7 +37,7 @@ namespace NetWorkedData
         private bool ShowPossible = true;
         private List<NWENotification> ErrorList = new List<NWENotification>();
         private NWENotification ActualNotification;
-        private NWDErrorNotification ActualErrorNotification;
+        private NWDUserNotification ActualErrorNotification;
         //-------------------------------------------------------------------------------------------------------------
         public NWDErrorConnection ErroForTest;
         //-------------------------------------------------------------------------------------------------------------
@@ -56,7 +56,15 @@ namespace NetWorkedData
             Debug.Log("NWDErrorController Show()");
             if (sNotification != null)
             {
-                ErrorList.Add(sNotification);
+                NWDUserNotification tNot = sNotification.Datas as NWDUserNotification;
+                if (tNot.Origin() == NWDUserNotificationOrigin.Error)
+                {
+                    ErrorList.Insert(0, sNotification);
+                }
+                else
+                {
+                    ErrorList.Add(sNotification);
+                }
             }
             ShowNext();
         }
@@ -71,7 +79,8 @@ namespace NetWorkedData
                     ShowPossible = false;
                     ActualNotification = ErrorList[0];
                     ErrorList.RemoveAt(0);
-                    ActualErrorNotification = ActualNotification.Datas as NWDErrorNotification;
+                    ActualErrorNotification = ActualNotification.Datas as NWDUserNotification;
+                    ActualErrorNotification.IsShowing();
                     //Install error
                     if (Title != null)
                     {
@@ -83,37 +92,64 @@ namespace NetWorkedData
                     }
                     if (Validation != null)
                     {
-                        Validation.text = ActualErrorNotification.Validation();
+                        Validation.text = ActualErrorNotification.TextValidate();
                     }
                     bool tShow = true;
-                    switch (ActualErrorNotification.Type())
+                    switch (ActualErrorNotification.Origin())
                     {
-                        case NWDErrorType.Alert:
+                        case NWDUserNotificationOrigin.Error:
                             {
+                                switch (ActualErrorNotification.ErrorType())
+                                {
+                                    case NWDErrorType.Alert:
+                                        {
 
+                                        }
+                                        break;
+                                    case NWDErrorType.Critical:
+                                        {
+
+                                        }
+                                        break;
+                                    case NWDErrorType.Upgrade:
+                                        {
+
+                                        }
+                                        break;
+                                    case NWDErrorType.InGame:
+                                        {
+
+                                        }
+                                        break;
+                                    case NWDErrorType.Ignore:
+                                        {
+                                            // not a error ... perhaps a message
+                                        }
+                                        break;
+                                    case NWDErrorType.UnityEditor:
+                                    case NWDErrorType.LogWarning:
+                                    case NWDErrorType.LogVerbose:
+                                        {
+                                            tShow = false;
+                                        }
+                                        break;
+                                }
                             }
                             break;
-                        case NWDErrorType.Critical:
+                        case NWDUserNotificationOrigin.Message:
+                        case NWDUserNotificationOrigin.InterMessage:
                             {
-
-                            }
-                            break;
-                        case NWDErrorType.Upgrade:
-                            {
-
-                            }
-                            break;
-                        case NWDErrorType.InGame:
-                            {
-
-                            }
-                            break;
-                        case NWDErrorType.Ignore:
-                        case NWDErrorType.UnityEditor:
-                        case NWDErrorType.LogWarning:
-                        case NWDErrorType.LogVerbose:
-                            {
-                                tShow = false;
+                                if (ActualErrorNotification.MessageStyle() == NWDMessageStyle.kNotification)
+                                {
+                                    if (Validation != null)
+                                    {
+                                        Validation.text = "......";
+                                    }
+                                    Anim.SetTrigger("Close");
+                                }
+                                else
+                                {
+                                }
                             }
                             break;
                     }
@@ -146,7 +182,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDErrorController CloseIsFinish()");
             ShowPossible = true;
-            switch (ActualErrorNotification.Type())
+            switch (ActualErrorNotification.ErrorType())
             {
                 case NWDErrorType.Alert:
                 case NWDErrorType.InGame:
@@ -162,12 +198,11 @@ namespace NetWorkedData
                 case NWDErrorType.Critical:
                 case NWDErrorType.Upgrade:
                     {
-                        // Stop application!
-                        Application.Quit(9);
+                        // error manage the quit operation
                     }
                     break;
             }
-            ActualErrorNotification.Close();
+            ActualErrorNotification.Complete();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override NWESingletonRoot DestroyRoot()
@@ -188,6 +223,14 @@ namespace NetWorkedData
             {
                 Show(sNotification);
             });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_MESSAGE, delegate (NWENotification sNotification)
+            {
+                Show(sNotification);
+            });
+            tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_NEWS_NOTIFICATION, delegate (NWENotification sNotification)
+            {
+                Show(sNotification);
+            });
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void RemoveObserver()
@@ -195,6 +238,8 @@ namespace NetWorkedData
             Debug.Log("NWDErrorController RemoveObserver()");
             NWENotificationManager tNotifManager = NWENotificationManager.SharedInstance();
             tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_MESSAGE);
+            tNotifManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NEWS_NOTIFICATION);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnEnable()

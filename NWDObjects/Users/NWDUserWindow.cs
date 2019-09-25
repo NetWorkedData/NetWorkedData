@@ -33,7 +33,7 @@ namespace NetWorkedData
             typeof(NWDUserPreference),
             typeof(NWDUserNetWorking),
             typeof(NWDUserOwnership),
-            typeof(NWDMessage),
+            typeof(NWDUserInterMessage),
 		}
     )]
     public class NWDUserWindow : NWDBasisWindow<NWDUserWindow>

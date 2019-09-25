@@ -286,10 +286,6 @@ namespace NetWorkedData
                         {
                             ResultInfos.SetError(NWDError.NWDError_WEB04);
                             // Application is in running mode
-                            if (Application.isPlaying == true)
-                            {
-                                NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
-                            }
                             // Request Failed, send Invoke
                             FailInvoke(Request.downloadProgress, ResultInfos);
                         }
@@ -310,11 +306,6 @@ namespace NetWorkedData
                                     {
                                         // Log DownloadHandler in console
                                         ResultInfos.SetError(NWDError.NWDError_WEB03);
-                                        // Application is in running mode
-                                        if (Application.isPlaying == true)
-                                        {
-                                            NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
-                                        }
                                         // Notification of a Download success
                                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                                         // Request Failed, send Invoke
@@ -489,10 +480,6 @@ namespace NetWorkedData
                         if (ResultInfos.errorInfos != null)
                         {
                             ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
-                            if (Application.isPlaying == true)
-                            {
-                                NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
-                            }
                         }
                     }
                     // Notification of a Download success

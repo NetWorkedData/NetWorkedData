@@ -38,17 +38,30 @@ namespace NetWorkedData
             //Debug.Log("NWDMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
+        public void PostNotification(NWDUserNotificationDelegate sValidationbBlock = null, NWDUserNotificationDelegate sCancelBlock = null)
         {
-            string rText = NWDLocalization.Enrichment(sText, sLanguage, sBold);
-            rText = NWDUserNickname.Enrichment(rText, sBold);
-            rText = NWDAccountNickname.Enrichment(rText, sLanguage, sBold);
-            return rText;
+            NWDUserNotification tNotification = new NWDUserNotification(this, sValidationbBlock, sCancelBlock);
+            tNotification.Post();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PostNotificationError()
+        public NWDUserInterMessage PostCustomNotification(
+                                          NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                          NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
+                                          NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
+                                          NWDReferencesQuantityType<NWDPack> sReplacePacks = null,
+                                          NWDUserNotificationDelegate sValidationbBlock = null,
+                                          NWDUserNotificationDelegate sCancelBlock = null)
         {
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_MESSAGE, this);
+            NWDUserInterMessage rUserIntermessage = NWDUserInterMessage.CreateNewMessageWith(this,
+                    string.Empty,
+                    0,
+                    sReplaceCharacters,
+                    sReplaceItems,
+                    sReplaceItemPack,
+                    sReplacePacks);
+            NWDUserNotification tNotification = new NWDUserNotification(rUserIntermessage, sValidationbBlock, sCancelBlock);
+            tNotification.Post();
+            return rUserIntermessage;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

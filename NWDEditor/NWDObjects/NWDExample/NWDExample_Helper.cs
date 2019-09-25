@@ -26,8 +26,6 @@ namespace NetWorkedData
         public override void  ErrorRegenerate()
         {
             //NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "01", "your error 01", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
-            //NWDError.CreateGenericError(ClassNamePHP, ClassTrigramme + "02", "your error 02", "your description", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
-            NWDMessage.CreateGenericMessage(ClassNamePHP, ClassTrigramme + "01", "your message 01", "your description", "OK", "Cancel", NWDMessageType.InGame, NWDBasisTag.TagInternal);
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------

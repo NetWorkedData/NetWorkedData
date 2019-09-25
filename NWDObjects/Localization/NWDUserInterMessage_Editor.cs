@@ -27,21 +27,8 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDMessage : NWDBasis
+    public partial class NWDUserInterMessage : NWDBasis
     {
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonEdited(bool sNeedBeUpdate)
-        {
-            if (sNeedBeUpdate == true)
-            {
-                if (Domain == null || Domain == string.Empty)
-                {
-                    Domain = "Unknow";
-                }
-                InternalKey = Domain + " : " + Code;
-            }
-            return sNeedBeUpdate;
-        }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {

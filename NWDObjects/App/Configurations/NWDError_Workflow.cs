@@ -34,89 +34,6 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public delegate void NWDErrorDelegate(NWDErrorNotification sNotification);
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDErrorNotification
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        private NWDErrorDelegate ErrorDelegate;
-        private NWDError Error;
-        private string Info;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDErrorNotification(NWDError sError, string sInfo, NWDErrorDelegate sCompleteBlock = null)
-        {
-            Error = sError;
-            Info = sInfo;
-            ErrorDelegate = sCompleteBlock;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Close()
-        {
-            ErrorDelegate(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDErrorType Type()
-        {
-            NWDErrorType rReturn = NWDErrorType.Ignore;
-            if (Error != null)
-            {
-                rReturn = Error.Type;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Domain()
-        {
-            string rReturn = string.Empty;
-            if (Error != null)
-            {
-                rReturn = Error.Domain;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Code()
-        {
-            string rReturn = string.Empty;
-            if (Error != null)
-            {
-                rReturn = Error.Code;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Title()
-        {
-            string rReturn = string.Empty;
-            if (Error != null)
-            {
-                rReturn = Error.Title.GetLocalString().Replace("XXX", Info);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Description()
-        {
-            string rReturn = string.Empty;
-            if (Error != null)
-            {
-                rReturn = Error.Description.GetLocalString().Replace("XXX", Info);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Validation()
-        {
-            string rReturn = string.Empty;
-            if (Error != null)
-            {
-                rReturn = Error.Validation.GetLocalString().Replace("XXX", Info);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDErrorHelper : NWDHelper<NWDError>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -326,17 +243,14 @@ namespace NetWorkedData
         public override void ClassDatasAreLoaded()
         {
             base.ClassDatasAreLoaded();
-            Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
+            //Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
             GenerateBasisError();
-
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDError : NWDBasis
     {
-        //-------------------------------------------------------------------------------------------------------------
-        private const string XXX = "XXX";
         //-------------------------------------------------------------------------------------------------------------
         public NWDError()
         {
@@ -348,49 +262,45 @@ namespace NetWorkedData
             //Debug.Log("NWDError Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
-        {
-
-            string rText = NWDLocalization.Enrichment(sText, sLanguage, sBold);
-            rText = NWDUserNickname.Enrichment(rText, sBold);
-            rText = NWDAccountNickname.Enrichment(rText, sLanguage, sBold);
-            return rText;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void PostNotificationError(string sInfo, NWDErrorDelegate sCompleteBlock = null)
-        {
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, new NWDErrorNotification(this, sInfo, sCompleteBlock));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ShowAlert(string sInfo, NWDErrorDelegate sCompleteBlock = null)
+        public void ShowAlert(string sInfo, NWDUserNotificationDelegate sCompleteBlock = null)
         {
             NWDErrorType tType = Type;
 #if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
+                // for editor alert!
                 tType = NWDErrorType.UnityEditor;
             }
 #endif
+            NWDUserNotification tErrorNotification = new NWDUserNotification(this, sInfo, sCompleteBlock);
             switch (tType)
             {
+                case NWDErrorType.LogVerbose:
+                    {
+                        Debug.Log(tErrorNotification.Title());
+                    }
+                    break;
+                case NWDErrorType.LogWarning:
+                    {
+                        Debug.LogWarning(tErrorNotification.Title() + "\n" + tErrorNotification.Description());
+                    }
+                    break;
                 case NWDErrorType.Alert:
                 case NWDErrorType.Critical:
                 case NWDErrorType.Upgrade:
                 case NWDErrorType.Ignore:
                 case NWDErrorType.InGame:
-                case NWDErrorType.LogVerbose:
-                case NWDErrorType.LogWarning:
                     {
-                        PostNotificationError(sInfo, sCompleteBlock);
+                        tErrorNotification.Post();
                     }
                     break;
                 case NWDErrorType.UnityEditor:
                     {
 #if UNITY_EDITOR
-                        NWDErrorNotification tErrorNotification = new NWDErrorNotification(this, sInfo, sCompleteBlock);
-                        if (EditorUtility.DisplayDialog(tErrorNotification.Title(), tErrorNotification.Description(), tErrorNotification.Validation()) == true)
+                        // if editor alert!
+                        if (EditorUtility.DisplayDialog(tErrorNotification.Title(), tErrorNotification.Description(), tErrorNotification.TextValidate()) == true)
                         {
-                            tErrorNotification.Close();
+                            tErrorNotification.Validate();
                         }
 #endif
                     }

@@ -100,7 +100,7 @@ namespace NetWorkedData
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
             {
-                ShowAlert("TEST", delegate (NWDErrorNotification sErrorNotification)
+                ShowAlert("TEST", delegate (NWDUserNotification sUserNotification)
                 {
                     Debug.Log("Completed! block is running!");
                 }
