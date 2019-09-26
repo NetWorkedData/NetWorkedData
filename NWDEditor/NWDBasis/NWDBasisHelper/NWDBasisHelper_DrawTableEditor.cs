@@ -1872,12 +1872,14 @@ namespace NetWorkedData
             if (tReintegrateOnlyThisClass == true)
             {
                 ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             if (tDeleteOldModelOnlyThisClass == true)
             {
                 DeleteOldsModels();
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             if (tCreateAllPHPForOnlyThisClassDEV == true)
             {
@@ -1951,7 +1953,8 @@ namespace NetWorkedData
                 Rect tRectButton = new Rect(tRect.x + NWDGUI.kFieldMarge, tRect.y, tRect.width - NWDGUI.kFieldMarge * 2, tRect.height);
                 if (GUI.Button(tRectButton, NWDConstants.K_APP_CLASS_SALT_REGENERATE, NWDGUI.KTableSearchButton))
                 {
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
                 tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;

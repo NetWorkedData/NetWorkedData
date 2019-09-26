@@ -25,7 +25,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDEditorNewWindow : EditorWindow
+    public class NWDEditorNewWindow : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
@@ -110,7 +110,7 @@ namespace NetWorkedData
         /// <summary>
         /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUILayout.Title("Custom Window Manager ");

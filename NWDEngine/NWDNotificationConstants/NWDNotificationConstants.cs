@@ -32,6 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // connect to editor database
         public const string K_DB_EDITOR_READY = "K_DATABASE_EDITOR_READY_de4be4t"; // OK Needed by test & verify
+        public const string K_DB_EDITOR_START_ASYNC_LOADING = "K_DB_EDITOR_START_ASYNC_LOADING_drez4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // connect to account database
         public const string K_DB_ACCOUNT_PINCODE_REQUEST = "K_DATABASE_PROTECTION_REQUEST_defeet"; // OK Needed by test & verify
@@ -41,6 +42,7 @@ namespace NetWorkedData
         public const string K_DB_ACCOUNT_PINCODE_NEEDED = "K_DATABASE_PROTECTION_NEED_PINCODE_lki5dt"; // OK Needed by test & verify
 
         public const string K_DB_ACCOUNT_READY = "K_DATABASE_ACCOUNT_READY_de4be4t"; // OK Needed by test & verify
+        public const string K_DB_ACCOUNT_START_ASYNC_LOADING = "K_DB_ACCOUNT_START_ASYNC_LOADING_dee48yu"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Load datas
         public const string K_DATA_EDITOR_START_LOADING = "K_DATAS_EDITOR_START_LOADING_Mr524ztr"; // OK Needed by test & verify
@@ -55,6 +57,7 @@ namespace NetWorkedData
         public const string K_DATA_PARTIAL_LOADED = "K_DATAS_PARTIAL_LOADED_f77475df"; // OK Needed by test & verify
         public const string K_DATA_LOADED = "K_DATAS_LOADED_er47478z"; // OK Needed by test & verify
         // indexation
+        public const string K_INDEXATION_START_ASYNC = "K_DB_INDEXATION_START_ASYNC_drez4t"; // OK Needed by test & verify
         public const string K_INDEXATION_START = "K_INDEXATION_START_er668rez"; // OK Needed by test & verify
         public const string K_INDEXATION_STEP = "K_INDEXATION_STEP_er4678ez"; // OK Needed by test & verify
         public const string K_INDEXATION_FINISH = "K_INDEXATION_FINISH_e7868rez"; // OK Needed by test & verify

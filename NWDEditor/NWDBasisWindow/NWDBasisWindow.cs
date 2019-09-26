@@ -237,7 +237,7 @@ namespace NetWorkedData
         /// <summary>
         /// Call when draw this window, once per frame
         /// </summary>
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();

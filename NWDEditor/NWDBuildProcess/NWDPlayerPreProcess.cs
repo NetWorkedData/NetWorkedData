@@ -43,7 +43,8 @@ namespace NetWorkedData
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
-            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            NWDEditorWindow.GenerateCSharpFile();
+            //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             // NWDVersion.UpdateVersionBundle();
             //NWEBenchmark.Finish();
         }
@@ -58,7 +59,8 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 // must check the accounts for test
                 //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             // update bundle before playing to test with the good version 
             NWDVersion.UpdateVersionBundle();

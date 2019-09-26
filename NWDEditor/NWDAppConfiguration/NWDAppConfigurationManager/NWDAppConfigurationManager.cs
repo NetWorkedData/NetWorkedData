@@ -25,7 +25,7 @@ namespace NetWorkedData
     /// <summary>
     /// the App configuration manager window. It's editor window to parameter the NWD App in the project.
     /// </summary>
-    public class NWDAppConfigurationManager : EditorWindow
+    public class NWDAppConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -129,7 +129,7 @@ namespace NetWorkedData
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
@@ -139,7 +139,8 @@ namespace NetWorkedData
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             // begin scroll view
@@ -298,7 +299,7 @@ namespace NetWorkedData
             NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();

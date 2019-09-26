@@ -30,11 +30,9 @@ namespace NetWorkedData
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static int CodePinTentative = 0;
+        private static int CodePinTentative = 0;
         public static string CodePinValue;
         public static string CodePinValueConfirm;
-        //public static bool CodePinNeeded = false;
-        //public static bool CodePinCreationNeeded = false;
         //-------------------------------------------------------------------------------------------------------------
         static private void EngineLaunch()
         {
@@ -74,13 +72,17 @@ namespace NetWorkedData
             State = NWDStatut.DataEditorTableUpdated;
             //NWEBenchmark.Finish();
             NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_READY);
-            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
+            if (Preload == true)
             {
                 LaunchNext();
             }
+            else
+            {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_START_ASYNC_LOADING);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static private void DatabaseEditorLoadData()
+        static public void DatabaseEditorLoadData()
         {
             //NWEBenchmark.Start();
             State = NWDStatut.DataEditorLoading;
@@ -118,6 +120,12 @@ namespace NetWorkedData
             CodePinTentative = 0;
             CodePinValue = string.Empty;
             CodePinValueConfirm = string.Empty;
+#if UNITY_EDITOR
+            if (EditorPrefs.HasKey(K_PINCODE_KEY))
+            {
+                EditorPrefs.DeleteKey(K_PINCODE_KEY);
+            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void DeconnectAccountAnalyzeState()
@@ -268,9 +276,13 @@ namespace NetWorkedData
             State = NWDStatut.DataAccountTableUpdated;
             NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_READY);
             //NWEBenchmark.Finish();
-            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || EditorByPass == true)
+            if (Preload == true)
             {
                 LaunchNext();
+            }
+            else
+            {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_START_ASYNC_LOADING);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -294,11 +306,25 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
             LaunchNext();
         }
+        
+        //-------------------------------------------------------------------------------------------------------------
+        static private void DatabaseIndexationStart()
+        {
+            State = NWDStatut.DataIndexationStart;
+            if (Preload == true)
+            {
+                DatabaseIndexation();
+            }
+            else
+            {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_INDEXATION_START_ASYNC);
+            }
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseIndexation()
         {
             //NWEBenchmark.Start();
-            State = NWDStatut.DataIndexationStart;
             NWDDataManager.SharedInstance().IndexAllObjects();
             State = NWDStatut.DataIndexationFinish;
             //NWEBenchmark.Finish();
@@ -308,7 +334,6 @@ namespace NetWorkedData
         static public IEnumerator DatabaseIndexationAsync()
         {
             //NWEBenchmark.Start();
-            State = NWDStatut.DataIndexationStart;
             IEnumerator tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
             yield return tWaitTime;
             State = NWDStatut.DataIndexationFinish;
@@ -324,6 +349,22 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
             NWEBenchmark.Finish("NetWorkedData");
             LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+       static public void OnApplicationPause(bool sPauseStatus)
+        {
+            if (sPauseStatus == false)
+            {
+                //Debug.Log("OnApplicationPause Pause is OFF");
+            }
+            else
+            {
+                //Debug.Log("OnApplicationPause Pause is ON");
+                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+                {
+                    NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

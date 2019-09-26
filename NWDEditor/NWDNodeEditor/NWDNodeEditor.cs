@@ -31,7 +31,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWD Node Editor. This editor can edit data as nodal card.
     /// </summary>
-    public class NWDNodeEditor : EditorWindow
+    public class NWDNodeEditor : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string K_NODE_EDITOR_LAST_TYPE_KEY = "K_NODE_EDITOR_LAST_TYPE_KEY_5fdshjktr";
@@ -112,15 +112,17 @@ namespace NetWorkedData
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
             //NWEBenchmark.Start();
-            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            if (sSelection != null)
             {
-                kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-                kNodeEditorSharedInstance.Show();
-                kNodeEditorSharedInstance.Focus();
-                kNodeEditorSharedInstance.SetSelection(sSelection);
-                SaveObjectInEdition(sSelection);
+                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+                {
+                    kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+                    kNodeEditorSharedInstance.Show();
+                    kNodeEditorSharedInstance.Focus();
+                    kNodeEditorSharedInstance.SetSelection(sSelection);
+                    SaveObjectInEdition(sSelection);
+                }
             }
-
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -134,7 +136,7 @@ namespace NetWorkedData
             //{
             //    kNodeEditorSharedInstance.Repaint();
             //}
-             var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDNodeEditor));
+            var tWindows = Resources.FindObjectsOfTypeAll(typeof(NWDNodeEditor));
             foreach (NWDNodeEditor tWindow in tWindows)
             {
                 tWindow.Repaint();
@@ -255,11 +257,11 @@ namespace NetWorkedData
         /// <summary>
         /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
-            float tX = Document.DocumentMarge +15;
+            float tX = Document.DocumentMarge + 15;
             if (Document.FixeMargePreference == false)
             {
                 tX = 0;
@@ -272,7 +274,7 @@ namespace NetWorkedData
                 Document.DrawPreferences();
                 GUI.EndScrollView();
             }
-            Rect tScrollViewRect = new Rect(tX, 0, position.width- tX, position.height);
+            Rect tScrollViewRect = new Rect(tX, 0, position.width - tX, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             ScrollPosition = GUI.BeginScrollView(tScrollViewRect, ScrollPosition, Document.Dimension());
             Rect tVisibleRect = new Rect(ScrollPosition.x, ScrollPosition.y, position.width + ScrollPosition.x, position.height + ScrollPosition.y);

@@ -21,7 +21,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDLocalizationConfigurationManager : EditorWindow
+    public class NWDLocalizationConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -104,7 +104,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
@@ -198,7 +198,8 @@ namespace NetWorkedData
             NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();
