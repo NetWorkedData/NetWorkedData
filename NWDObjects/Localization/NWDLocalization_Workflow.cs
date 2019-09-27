@@ -32,39 +32,6 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        /*[Obsolete]
-        public static NWDLocalization CreateLocalizationTextValue(string sKey, string sDefault = NWEConstants.K_EMPTY_STRING)
-        {
-            NWDLocalization rReturn = NewData();
-            rReturn.InternalKey = sKey;
-            if (sDefault != string.Empty)
-            {
-                rReturn.TextValue.AddBaseString(sDefault);
-            }
-            else
-            {
-                rReturn.TextValue.AddBaseString(sKey);
-            }
-            rReturn.UpdateData();
-            return rReturn;
-        }*/
-        //-------------------------------------------------------------------------------------------------------------
-        /*[Obsolete]
-        public static string GetLocalText(string sKey, string sDefault = NWEConstants.K_EMPTY_STRING)
-        {
-            NWDLocalization tObject = GetRawFirstDataByInternalKey(sKey) as NWDLocalization;
-            string rReturn = sDefault;
-            if (tObject != null)
-            {
-                rReturn = tObject.TextValue.GetLocalString();
-            }
-            else
-            {
-                CreateLocalizationTextValue(sKey, sDefault);
-            }
-            return rReturn;
-        }*/
-        //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
             string rText = sText;
@@ -84,7 +51,7 @@ namespace NetWorkedData
                 {
                     tI++;
                     int tJ = 0;
-                    foreach (NWDLocalization tObject in RawDatasByIndex())
+                    foreach (NWDLocalization tObject in RawDatasWithKey())
                     {
                         if (sText.Contains(tObject.KeyValue))
                         {

@@ -81,6 +81,7 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RowDataIntegrity) + " = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ShowCompile) + " = " + ShowCompile.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {

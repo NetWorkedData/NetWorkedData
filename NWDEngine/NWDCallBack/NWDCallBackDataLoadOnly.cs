@@ -184,11 +184,11 @@ namespace NetWorkedData
             RemoveObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected void PinCodeInsert(string sPinCode, string sPinCodeConfirm)
+        public void PinCodeInsert(string sPinCode, string sPinCodeConfirm)
         {
             NWDLauncher.CodePinValue = sPinCode;
             NWDLauncher.CodePinValueConfirm = sPinCodeConfirm;
-            NWDLauncher.LaunchNext();
+            NWDLauncher.DatabaseAccountConnection(sPinCode);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void LaunchNext()

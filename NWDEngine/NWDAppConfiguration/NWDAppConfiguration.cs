@@ -84,6 +84,7 @@ namespace NetWorkedData
         public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
 
         public bool EditorTableCommun = true; //TODO param in config editor extension...
+        public bool ShowCompile = true; //TODO param in config editor extension...
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 

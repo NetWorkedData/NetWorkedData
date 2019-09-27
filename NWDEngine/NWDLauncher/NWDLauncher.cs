@@ -206,6 +206,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountCodePinRequest:
                     {
+                        ConnectToDatabaseAccount();
                     }
                     break;
                 case NWDStatut.DataAccountCodePinFail:

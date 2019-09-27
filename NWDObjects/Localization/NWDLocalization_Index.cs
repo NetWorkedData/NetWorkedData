@@ -34,7 +34,7 @@ namespace NetWorkedData
         static protected NWDIndexSimple<NWDLocalization> kKeyIndex = new NWDIndexSimple<NWDLocalization>();
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
-        public void InsertInCodeIndex()
+        public void InsertInKeyIndex()
         {
             // Re-add to the actual indexation ?
             if (IsUsable() && string.IsNullOrEmpty(KeyValue) == false)
@@ -45,18 +45,18 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexRemove]
-        public void RemoveFromCodeIndex()
+        public void RemoveFromKeyIndex()
         {
             // Remove from the actual indexation
             kKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDLocalization FindFirstDataByCode(string sKeyValue)
+        public static NWDLocalization FindFirstDataByKey(string sKeyValue)
         {
             return kKeyIndex.RawFirstDataByKey(sKeyValue);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDLocalization> RawDatasByIndex()
+        public static List<NWDLocalization> RawDatasWithKey()
         {
             return kKeyIndex.RawDatas();
         }

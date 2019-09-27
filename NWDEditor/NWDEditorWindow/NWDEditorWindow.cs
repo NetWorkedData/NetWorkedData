@@ -26,11 +26,14 @@ namespace NetWorkedData
         public static void GenerateCSharpFile()
         {
             Debug.Log("NWDEditorWindow GenerateCSharpFile()");
-            foreach (NWDEditorWindow tWindow in AllWindowsList)
+            if (NWDAppConfiguration.SharedInstance().ShowCompile == true)
             {
-                //Debug.Log("NWDEditorWindow RecompilePrevent() tWindow = " + tWindow.titleContent.text);
-                tWindow.Recompile = true;
-                tWindow.Repaint();
+                foreach (NWDEditorWindow tWindow in AllWindowsList)
+                {
+                    //Debug.Log("NWDEditorWindow RecompilePrevent() tWindow = " + tWindow.titleContent.text);
+                    tWindow.Recompile = true;
+                    tWindow.Repaint();
+                }
             }
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
