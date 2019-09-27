@@ -177,8 +177,20 @@ namespace NetWorkedData
             string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
             string rReturnFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
             File.WriteAllText(tPath, rReturnFormatted);
-            AssetDatabase.ImportAsset(tPath);
-            AssetDatabase.Refresh();
+
+            try
+            {
+                AssetDatabase.ImportAsset(tPath, ImportAssetOptions.ForceUpdate);
+                //AssetDatabase.Refresh();
+            }
+            catch (IOException sException)
+            {
+                if (sException.Source != null)
+                {
+                    Console.WriteLine("IOException source: {0}", sException.Source);
+                }
+                throw;
+            }
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

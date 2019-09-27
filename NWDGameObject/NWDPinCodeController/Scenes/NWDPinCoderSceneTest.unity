@@ -795,21 +795,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3480227157550038181, guid: bc5aa69ed04da42b6926cb4ebbfa1bcc,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 8000
-      objectReference: {fileID: 0}
-    - target: {fileID: 6554719386152816212, guid: bc5aa69ed04da42b6926cb4ebbfa1bcc,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: ef60b08dbe1754d048215895c6c621e2, type: 2}
-    - target: {fileID: 7137685963964966670, guid: bc5aa69ed04da42b6926cb4ebbfa1bcc,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2867803483682747977, guid: bc5aa69ed04da42b6926cb4ebbfa1bcc,
         type: 3}
       propertyPath: m_AnchorMin.y
