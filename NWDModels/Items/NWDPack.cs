@@ -34,25 +34,25 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("PCK")]
-	[NWDClassDescriptionAttribute ("Pack descriptions Class")]
-	[NWDClassMenuNameAttribute ("Pack")]
-	public partial class NWDPack :NWDBasis
-	{
-		//-------------------------------------------------------------------------------------------------------------
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("PCK")]
+    [NWDClassDescriptionAttribute("Pack descriptions Class")]
+    [NWDClassMenuNameAttribute("Pack")]
+    public partial class NWDPack : NWDBasis
+    {
+        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Description Item", true, true, true)]
         public NWDReferenceType<NWDItem> ItemDescription { get; set; }
         [NWDInspectorGroupEnd]
 
-        
+
 
         [NWDInspectorGroupStart("Item Pack in this Pack", true, true, true)]
-		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
+        public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
         public int Quantity { get; set; }
         [NWDInspectorGroupEnd]
 
-        
+
 
         [NWDInspectorGroupStart("Item to Pay for this Pack", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
@@ -60,16 +60,18 @@ namespace NetWorkedData
         public bool EnableFreePack { get; set; }
         [NWDInspectorGroupEnd]
 
-        
+
 
         [NWDInspectorGroupStart("Classification", true, true, true)]
+#if NWD_MODULE_GAME
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
+#endif
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
         [NWDInspectorGroupEnd]
 
-        
+
 
         [NWDInspectorGroupStart("Availability schedule ", true, true, true)]
         [NWDTooltips("Availability schedule of this Pack")]
