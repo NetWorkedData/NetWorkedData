@@ -28,7 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Classification", true, true, true)]
 #if NWD_MODULE_GAME
-        public NWDReferencesListType<NWDWorld> WorldList { get; set;
+        public NWDReferencesListType<NWDWorld> WorldList { get; set;}
 #endif
         public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
         public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
