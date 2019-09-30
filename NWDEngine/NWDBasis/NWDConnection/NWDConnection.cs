@@ -53,10 +53,33 @@ namespace NetWorkedData
         /// Get the object instance referenced.
         /// </summary>
         /// <returns>The object.</returns>
+        [Obsolete("Use GetReachableData()")]
         public K GetData()
+        {
+            return NWDBasisHelper.GetReachableDataByReference<K>(Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K GetReachableData()
+        {
+            return NWDBasisHelper.GetReachableDataByReference<K>(Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K GetRawData()
         {
             return NWDBasisHelper.GetRawDataByReference<K>(Reference);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public K GetCorporateData()
+        {
+            return NWDBasisHelper.GetCorporateDataByReference<K>(Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        public K GetEditorData()
+        {
+            return NWDBasisHelper.GetEditorDataByReference<K>(Reference);
+        }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Set the object instance by its reference.

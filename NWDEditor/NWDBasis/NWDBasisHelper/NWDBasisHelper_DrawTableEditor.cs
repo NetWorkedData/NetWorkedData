@@ -1865,9 +1865,11 @@ namespace NetWorkedData
             }
             if (tCreateAllPHPForOnlyThisClass == true)
             {
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                NWDEditorWindow.GenerateCSharpFile();
             }
             if (tReintegrateOnlyThisClass == true)
             {
@@ -1878,12 +1880,15 @@ namespace NetWorkedData
             if (tDeleteOldModelOnlyThisClass == true)
             {
                 DeleteOldsModels();
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                 NWDEditorWindow.GenerateCSharpFile();
                 //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             if (tCreateAllPHPForOnlyThisClassDEV == true)
             {
+                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                NWDEditorWindow.GenerateCSharpFile();
             }
             //NWEBenchmark.Finish();
             return rRect;

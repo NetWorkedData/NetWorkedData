@@ -652,7 +652,7 @@ namespace NetWorkedData
                                            "			FileInfo tFileInfo = new FileInfo (ScriptFilePath);\n" +
                                            "			ScriptFolder = tFileInfo.Directory.ToString ();\n" +
                                            "			ScriptFolder = ScriptFolder.Replace (\"\\\\\", \"/\");\n" +
-                                           "			ScriptFolderFromAssets = \"Assets\"+ScriptFolder.Replace (Application.dataPath, \"\");\n" +
+                                           "			ScriptFolderFromAssets = \"Assets\"+ScriptFolder.Replace (Application.dataPath, NWEConstants.K_EMPTY_STRING);\n" +
                                            "		}\n" +
                                            "		//-------------------------------------------------------------------------------------------------------------\n" +
                                            "		/// <summary>\n" +
@@ -660,7 +660,7 @@ namespace NetWorkedData
                                            "		/// </summary>\n" +
                                            "		/// <returns>The path.</returns>\n" +
                                            "		/// <param name=\"sAddPath\">S add path.</param>\n" +
-                                           "		public static string PathOfPackage (string sAddPath=\"\")\n" +
+                                           "		public static string PathOfPackage (string sAddPath = NWEConstants.K_EMPTY_STRING)\n" +
                                            "		{\n" +
                                            "			return SharedInstance ().ScriptFolderFromAssets + sAddPath;\n" +
                                            "		}\n" +
