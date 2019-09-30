@@ -55,6 +55,7 @@ namespace NetWorkedData
         public int IPBanMaxTentative = 3;
         public bool IPBanActive = true;
 #if UNITY_EDITOR
+        public NWDServerLanguage ServerLanguage = NWDServerLanguage.PHP;
         public string SaltServer = string.Empty;
         public string MailHost = string.Empty;
         public int MailPort = 465;

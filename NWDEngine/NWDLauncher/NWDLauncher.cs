@@ -11,12 +11,14 @@
 //
 //=====================================================================================================================
 
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite4Unity3d;
 //using BasicToolBox;
+using System.Collections;
+using System.IO;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -24,19 +26,27 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDStatut : int
+    public enum NWDStatut
     {
         Error = -9,
 
         None = -1,
 
+        // launch engine NetWorkedData
         EngineLaunching = 10,
         EngineLaunched = 19,
+        // engine NetWorkedData ready
 
+        // connect database editor
         DataEditorConnecting = 20,
         DataEditorConnected = 21,
         DataEditorTableUpdated = 22,
-        DataEditorLoading = 23,
+        // waiting to load data async or sync order
+            // then Notify K_DB_EDITOR_START_ASYNC_LOADING to call 
+            // DataEditorStartLoading
+            // DataEditorPartialLoaded
+            // DataEditorLoaded
+        DataEditorLoading = 28,
         DataEditorLoaded = 29,
 
         DataAccountConnecting = 30,
@@ -46,12 +56,22 @@ namespace NetWorkedData
         DataAccountCodePinStop = 34,
         DataAccountCodePinSuccess = 35,
         DataAccountConnected = 36,
+
         DataAccountTableUpdated = 37,
+        // waiting to load data async or sync order
+            // then Notify K_DB_ACCOUNT_START_ASYNC_LOADING to call 
+            // DataAccountStartLoading
+            // DataAccountPartialLoaded
+            // DataAccountLoaded
         DataAccountLoading = 38,
         DataAccountLoaded = 39,
-
+        
+        // waiting to load data async or sync order
+            // then Notify K_DB_INDEXATION_START_ASYNC_LOADING to call 
+            // DataIndexationStart
+            // DataIndexationStep
+            // DataIndexationFinish
         DataIndexationStart = 40,
-        DataIndexationStep = 41,
         DataIndexationFinish = 42,
 
         NetWorkedDataReady = 99,
@@ -63,10 +83,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
         static private bool Launched = false;
+        static bool Preload = true;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDStatut GetState()
         {
             return State;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public bool GetPreload()
+        {
+            return Preload;
         }
         //-------------------------------------------------------------------------------------------------------------
         static public bool EditorByPass;
@@ -86,15 +112,21 @@ namespace NetWorkedData
                 EditorApplication.quitting += Quit;
                 if (EditorApplication.isPlayingOrWillChangePlaymode == false)
                 {
-                    //Debug.Log("EditorByPass = true");
                     EditorByPass = true;
                     if (EditorPrefs.HasKey(K_PINCODE_KEY))
                     {
                         string tPincode = EditorPrefs.GetString(K_PINCODE_KEY);
-                        //Debug.Log("and tPincode found with value = '" + tPincode + "'");
                     }
                 }
 #endif
+                if (EditorByPass == true)
+                {
+                    Preload = true;
+                }
+                else
+                {
+                    Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
+                }
             }
             LaunchNext();
         }
@@ -102,7 +134,7 @@ namespace NetWorkedData
         static void Quit()
         {
             // close connection?
-            //TODO: close connection
+            //TODO: close connection ?
 
             // delete editor key
 #if UNITY_EDITOR
@@ -114,9 +146,9 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        static private void LaunchNext()
+        static public void LaunchNext()
         {
-            Debug.Log("LaunchNext() preloaddata in "+NWDAppConfiguration.SharedInstance().PreloadDatas.ToString()+" and state = "+ State.ToString());
+            Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
             //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
@@ -132,7 +164,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.EngineLaunching:
                     {
-                        // waiting ... do nothing
+                        // engine in progress ... do nothing
                     }
                     break;
                 case NWDStatut.EngineLaunched:
@@ -142,7 +174,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataEditorConnecting:
                     {
-                        // waiting ... do nothing
+                        // engine in progress ... do nothing
                     }
                     break;
                 case NWDStatut.DataEditorConnected:
@@ -157,7 +189,6 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataEditorLoading:
                     {
-                        // waiting ... do nothing
                     }
                     break;
                 case NWDStatut.DataEditorLoaded:
@@ -175,6 +206,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountCodePinRequest:
                     {
+                        ConnectToDatabaseAccount();
                     }
                     break;
                 case NWDStatut.DataAccountCodePinFail:
@@ -205,15 +237,10 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountLoaded:
                     {
-                        // Reload all Index
-                        DatabaseIndexation();
+                        DatabaseIndexationStart();
                     }
                     break;
                 case NWDStatut.DataIndexationStart:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationStep:
                     {
                     }
                     break;
@@ -224,7 +251,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.NetWorkedDataReady:
                     {
-                       
+
                     }
                     break;
             }
@@ -240,6 +267,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.EngineLaunching:
                     {
+                        // engine in progress ... do nothing
                     }
                     break;
                 case NWDStatut.EngineLaunched:
@@ -316,10 +344,6 @@ namespace NetWorkedData
                     }
                     break;
                 case NWDStatut.DataIndexationStart:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationStep:
                     {
                     }
                     break;

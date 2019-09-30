@@ -63,6 +63,9 @@ namespace NetWorkedData
             ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             AllwaysSecureData = EditorGUILayout.Toggle("Allways Secure Data", AllwaysSecureData);
             LogMode = EditorGUILayout.Toggle("LogMode", LogMode);
+            EditorGUI.BeginDisabledGroup(true);
+            ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server Language", ServerLanguage);
+            EditorGUI.EndDisabledGroup();
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);

@@ -21,7 +21,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDEditorConfigurationManager : EditorWindow
+    public class NWDEditorConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -121,13 +121,14 @@ namespace NetWorkedData
         /// <summary>
         ///  On GUI drawing.
         /// </summary>
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
             NWDGUILayout.Title("Editor preferences");
             //NWDGUILayout.Informations("Some informations!");
             NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
+            NWDAppConfiguration.SharedInstance().ShowCompile = EditorGUILayout.Toggle("Show re-compile ", NWDAppConfiguration.SharedInstance().ShowCompile);
             NWDGUILayout.Line();
             float tMinWidht = 270.0F;
             int tColum = 1;
@@ -136,7 +137,8 @@ namespace NetWorkedData
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
@@ -173,7 +175,8 @@ namespace NetWorkedData
             NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();

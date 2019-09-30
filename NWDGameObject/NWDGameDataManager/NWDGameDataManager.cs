@@ -206,6 +206,16 @@ namespace NetWorkedData
         //{
         //    return AppConfiguration.SelectedEnvironment().PlayerAccountReference;
         //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public NWDErrorBlock ErrorDelegate;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void ErrorManagement(NWDError sError)
+        //{
+        //    if (ErrorDelegate != null)
+        //    {
+        //        ErrorDelegate(sError);
+        //    }
+        //}
         ////-------------------------------------------------------------------------------------------------------------
         //// Test network connection
         //public void NetworkStatutChange(NWDNetworkState sNewNetWorkStatut)
@@ -537,20 +547,7 @@ namespace NetWorkedData
         /// <param name="sPauseStatus">If set to <c>true</c> s pause status.</param>
         protected void OnApplicationPause(bool sPauseStatus)
         {
-            ApplicationStandBy = sPauseStatus;
-            if (ApplicationStandBy == false)
-            {
-                //Debug.Log("OnApplicationPause Pause is OFF");
-                //NWDTypeLauncher.DatabaseAccountLauncher();
-            }
-            else
-            {
-                //Debug.Log("OnApplicationPause Pause is ON");
-                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-                {
-                    NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
-                }
-            }
+            NWDLauncher.OnApplicationPause(sPauseStatus);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void EngineLaunch(NWENotification sNotification, bool sPreloadDatas)
@@ -561,8 +558,21 @@ namespace NetWorkedData
         public override void DBEditorConnected(NWENotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBEditorConnected</color>");
-
-            StartCoroutine(NWDLauncher.DatabaseEditorLoadDataAsync());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBEditorStartAsyncLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataEditorStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorStartLoading</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataEditorPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorPartialLoaded</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataEditorLoaded(NWENotification sNotification, bool sPreloadDatas)
@@ -573,7 +583,7 @@ namespace NetWorkedData
         public override void DBAccountPinCodeRequest(NWENotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeRequest</color>");
-            NWDLauncher.DatabaseAccountConnection("111");
+           // PinCodeInsert("111","111");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountPinCodeSuccess(NWENotification sNotification, bool sPreloadDatas)
@@ -594,13 +604,32 @@ namespace NetWorkedData
         public override void DBAccountPinCodeNeeded(NWENotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeNeeded</color>");
-            NWDLauncher.DatabaseAccountConnection("111");
+           // PinCodeInsert("111","111");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountConnected(NWENotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountConnected</color>");
-            StartCoroutine(NWDLauncher.DatabaseAccountLoadDataAsync());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountStartAsyncLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataAccountStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountStartLoading</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataAccountPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountPartialLoaded</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataAccountLoaded(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountLoaded</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataStartLoading(NWENotification sNotification, bool sPreloadDatas)
@@ -629,6 +658,35 @@ namespace NetWorkedData
             {
                 LoadingDatasGauge.IsVisible = false;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataIndexationStartAsync(NWENotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataIndexationStart(NWENotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationStart</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataIndexationStep(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationStep</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataIndexationFinish(NWENotification sNotification, bool sPreloadDatas)
+        {
+            // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationFinish</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void EngineReady(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataStartLoading</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

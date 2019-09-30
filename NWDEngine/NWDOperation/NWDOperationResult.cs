@@ -28,33 +28,12 @@ namespace NetWorkedData
         public string errorInfos { get; private set; }
         public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
-        //public NWDAppEnvironmentPlayerStatut sign { get; private set; }
-        //public bool isSignUpdate { get; private set; }
         public string uuid { get; private set; }
         public bool isSignIn { get; private set; }
         public bool isSignOut { get; private set; }
         public bool isRescue { get; private set; }
-        //public bool isGoogleSignIn
-        //{
-        //    get; private set;
-        //}
-        //public bool isGoogleSignUp
-        //{
-        //    get; private set;
-        //}
-        //public bool isFacebookSignIn
-        //{
-        //    get; private set;
-        //}
-        //public bool isFacebookSignUp
-        //{
-        //    get; private set;
-        //}
-        //public bool isCreateAnonymous { get; private set; }
-        //public string signkey { get; private set; }
         public bool isNewUser { get; private set; }
         public bool isUserTransfert { get; private set; }
-        //public bool isReloadingData { get; private set; }
         public int wsBuild { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> param { get; private set; }
@@ -112,42 +91,6 @@ namespace NetWorkedData
             {
                 errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
             }
-            //if (data.ContainsKey("google_signin"))
-            //{
-            //    isGoogleSignIn = (bool)data["google_signin"];
-            //}
-            //if (data.ContainsKey("google_signup"))
-            //{
-            //    isGoogleSignUp = (bool)data["google_signup"];
-            //}
-            //if (data.ContainsKey("facebook_signin"))
-            //{
-            //    isFacebookSignIn = (bool)data["facebook_signin"];
-            //}
-            //if (data.ContainsKey("facebook_signup"))
-            //{
-            //    isFacebookSignUp = (bool)data["facebook_signup"];
-            //}
-            //if (sData.ContainsKey("create-anonymous"))
-            //{
-            //    isCreateAnonymous = (bool)sData["create-anonymous"];
-            //}
-            //if (sData.ContainsKey("sign"))
-            //{
-            //    isSignUpdate = true;
-            //    try
-            //    {
-            //        //sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), sData["sign"].ToString(), true);
-            //    }
-            //    catch (ArgumentException e)
-            //    {
-            //        Debug.Log(e.StackTrace);
-            //    }
-            //}
-            //if (sData.ContainsKey("signkey"))
-            //{
-            //    signkey = sData["signkey"] as string;
-            //}
             if (sData.ContainsKey(NWD.K_JSON_ERROR_KEY))
             {
                 isError = (bool)sData[NWD.K_JSON_ERROR_KEY];
@@ -160,10 +103,6 @@ namespace NetWorkedData
             {
                 isUserTransfert = (bool)sData[NWD.K_WEB_ACTION_USER_TRANSFERT_KEY];
             }
-            //if (sData.ContainsKey("reloaddatas"))
-            //{
-            //    isReloadingData = (bool)sData["reloaddatas"];
-            //}
             if (sData.ContainsKey(NWD.K_JSON_ERROR_CODE_KEY))
             {
                 errorCode = sData[NWD.K_JSON_ERROR_CODE_KEY] as string;
@@ -209,17 +148,8 @@ namespace NetWorkedData
             token = string.Empty;
             isSignIn = false;
             isSignOut = false;
-            //isGoogleSignIn = false;
-            //isGoogleSignUp = false;
-            //isFacebookSignIn = false;
-            //isFacebookSignUp = false;
-            //isCreateAnonymous = false;
-            //signkey = string.Empty;
-            //sign = NWDAppEnvironmentPlayerStatut.Unknow;
-            //isSignUpdate = false;
             isNewUser = false;
             isUserTransfert = false;
-            //isReloadingData = false;
             uuid = string.Empty;
 
             param = new Dictionary<string, object>();

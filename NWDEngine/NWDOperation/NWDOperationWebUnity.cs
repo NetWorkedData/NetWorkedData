@@ -284,8 +284,8 @@ namespace NetWorkedData
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
-                            // Log DownloadHandler in console
                             ResultInfos.SetError(NWDError.NWDError_WEB04);
+                            // Application is in running mode
                             // Request Failed, send Invoke
                             FailInvoke(Request.downloadProgress, ResultInfos);
                         }

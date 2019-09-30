@@ -22,7 +22,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDataInspector : EditorWindow
+    public class NWDDataInspector : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeClass mObjectInEdition;
@@ -240,7 +240,7 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
 

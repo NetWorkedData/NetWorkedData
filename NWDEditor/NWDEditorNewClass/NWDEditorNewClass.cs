@@ -28,7 +28,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
     /// </summary>
-    public class NWDEditorNewClass : EditorWindow
+    public class NWDEditorNewClass : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
@@ -260,7 +260,7 @@ namespace NetWorkedData
         /// <summary>
         /// Raises the OnGUI event. Create the interface to enter a new class.
         /// </summary>
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();

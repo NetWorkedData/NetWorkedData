@@ -95,9 +95,9 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SpeedOfGameTime) + " = " + SpeedOfGameTime.ToString() + "F;");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.BuildTimestamp) + " = " + BuildTimestamp.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ThreadPoolForce) + " = " + ThreadPoolForce.ToString().ToLower() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeLocal) + " = "+typeof(NWDWritingMode).Name + "." + WritingModeLocal.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeWebService) + " = "+typeof(NWDWritingMode).Name + "." + WritingModeWebService.ToString() + ";");
-            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeEditor) + " = "+typeof(NWDWritingMode).Name + "." + WritingModeEditor.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeLocal) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeLocal.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeWebService) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeWebService.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.WritingModeEditor) + " = " + typeof(NWDWritingMode).Name + "." + WritingModeEditor.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.CartridgeColor) + " = new Color(" + NWDToolbox.FloatToString(CartridgeColor.r) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.g) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.b) + "F," +
@@ -107,6 +107,7 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanMaxTentative) + " = " + IPBanMaxTentative.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanActive) + " = " + IPBanActive.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.ServerLanguage) + " = " + ServerLanguage.GetType().Name + "." + ServerLanguage.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPHost) + " = \"" + SFTPHost.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPPort) + " = " + SFTPPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPFolder) + " = \"" + SFTPFolder.Replace("\"", "\\\"") + "\";");

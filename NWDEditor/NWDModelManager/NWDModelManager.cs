@@ -23,7 +23,7 @@ using System.Linq;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDModelManager : EditorWindow
+    public class NWDModelManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -142,7 +142,8 @@ namespace NetWorkedData
                 if (NWDGUILayout.AlertBoxButton(NWDConstants.K_ALERT_SALT_SHORT_ERROR, NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     tHelper.DeleteOldsModels();
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
@@ -155,7 +156,8 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { sType }, false, false);
                     NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { sType }, false, false);
                     NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { sType }, false, false);
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
@@ -164,7 +166,8 @@ namespace NetWorkedData
                 if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "\n" + tHelper.ModelChangedGetChange(), NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS))
                 {
                     tHelper.DeleteOldsModels();
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                     GUIUtility.ExitGUI();
                 }
             }
@@ -173,7 +176,7 @@ namespace NetWorkedData
             GUILayout.EndVertical();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();

@@ -21,7 +21,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentChooser : EditorWindow
+    public class NWDAppEnvironmentChooser : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -101,7 +101,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();

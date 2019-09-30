@@ -21,7 +21,7 @@ using System.Linq.Expressions;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDatasSelectorWindow : EditorWindow
+    public class NWDDatasSelectorWindow : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         public int ID = -1;
@@ -71,7 +71,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             if (SelectorBasis != null)

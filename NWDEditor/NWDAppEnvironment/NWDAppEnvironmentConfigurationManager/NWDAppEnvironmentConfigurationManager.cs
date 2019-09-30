@@ -20,7 +20,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAppEnvironmentConfigurationManager : EditorWindow
+    public class NWDAppEnvironmentConfigurationManager : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -98,7 +98,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnGUI()
+        public override void OnPreventGUI()
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
@@ -108,7 +108,8 @@ namespace NetWorkedData
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                   NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             // Draw warning if salt for class is false
@@ -117,7 +118,8 @@ namespace NetWorkedData
                 EditorGUILayout.HelpBox(NWDConstants.K_ALERT_SALT_SHORT_ERROR, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
-                    NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                    NWDEditorWindow.GenerateCSharpFile();
+                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
             // List environment
@@ -162,7 +164,8 @@ namespace NetWorkedData
             NWDGUI.BeginRedArea();
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
             NWDGUI.EndRedArea();
             NWDGUILayout.BigSpace();

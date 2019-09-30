@@ -17,12 +17,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 //using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDServerLanguage
+    {
+        PHP = 10,
+        Java = 20,
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppConfiguration
     {
@@ -34,6 +41,7 @@ namespace NetWorkedData
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
             //NWEBenchmark.Start();
+            Debug.Log("NWDAppConfiguration GenerateCSharpFile()");
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
@@ -73,6 +81,7 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RowDataIntegrity) + " = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ShowCompile) + " = " + ShowCompile.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
@@ -168,8 +177,20 @@ namespace NetWorkedData
             string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
             string rReturnFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
             File.WriteAllText(tPath, rReturnFormatted);
-            AssetDatabase.ImportAsset(tPath);
-            AssetDatabase.Refresh();
+
+            try
+            {
+                AssetDatabase.ImportAsset(tPath, ImportAssetOptions.ForceUpdate);
+                //AssetDatabase.Refresh();
+            }
+            catch (IOException sException)
+            {
+                if (sException.Source != null)
+                {
+                    Console.WriteLine("IOException source: {0}", sException.Source);
+                }
+                throw;
+            }
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
