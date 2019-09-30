@@ -206,16 +206,6 @@ namespace NetWorkedData
         //{
         //    return AppConfiguration.SelectedEnvironment().PlayerAccountReference;
         //}
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDErrorBlock ErrorDelegate;
-        //-------------------------------------------------------------------------------------------------------------
-        public void ErrorManagement(NWDError sError)
-        {
-            if (ErrorDelegate != null)
-            {
-                ErrorDelegate(sError);
-            }
-        }
         ////-------------------------------------------------------------------------------------------------------------
         //// Test network connection
         //public void NetworkStatutChange(NWDNetworkState sNewNetWorkStatut)

@@ -192,7 +192,7 @@ namespace NetWorkedData
         {
             if (LocalizationReference != null)
             {
-                Debug.Log("LocalizationReference not null = " + LocalizationReference.Reference);
+                //Debug.Log("LocalizationReference not null = " + LocalizationReference.Reference);
                 NWDLocalization tLocalization = LocalizationReference.GetData();
             }
             //Debug.Log("NWDAutolocalized Localize()");

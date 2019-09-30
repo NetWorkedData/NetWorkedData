@@ -11,10 +11,8 @@
 //
 //=====================================================================================================================
 
-//using BasicToolBox;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -190,22 +188,10 @@ namespace NetWorkedData
             if (isError)
             {
                 errorDesc = NWDError.FindDataByCode(errorCode) as NWDError;
-                // Move to the good place
-                //if (errorDesc != null)
-                //{
-                //    errorDesc.ShowAlert();
-                //}
             }
 
             param = new Dictionary<string, object>(sData);
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public void SetErrorCode(string sCode)
-        //{
-        //    errorDesc = NWDError.FindDataByCode(sCode) as NWDError;
-        //    isError = true;
-        //    errorCode = sCode;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public void SetError(NWDError sError)
         {
