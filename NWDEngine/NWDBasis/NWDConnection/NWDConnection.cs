@@ -46,7 +46,7 @@ namespace NetWorkedData
         /// <returns>The object.</returns>
         public void Log()
         {
-            Debug.Log(" type is " + GetType().Name + " with Generic " + NWDBasisHelper.FindTypeInfos(typeof(K)).ClassNamePHP + " and reference is " + Reference);
+            //Debug.Log(" type is " + GetType().Name + " with Generic " + NWDBasisHelper.FindTypeInfos(typeof(K)).ClassNamePHP + " and reference is " + Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
