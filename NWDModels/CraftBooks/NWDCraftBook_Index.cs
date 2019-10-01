@@ -83,7 +83,7 @@ namespace NetWorkedData
         static string[] IndexKeyByItem(bool sOrderIsImportant, NWDReferenceType<NWDCraftRecipient> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {
             List<string> rReturn = new List<string>();
-            NWDCraftRecipient tRecipientGroup = sRecipientGroup.GetData();
+            NWDCraftRecipient tRecipientGroup = sRecipientGroup.GetRawData();
             if (tRecipientGroup != null)
             {
                 foreach (NWDItem tRecipient in tRecipientGroup.ItemGroup.GetRawData().ItemList.GetRawDatas())

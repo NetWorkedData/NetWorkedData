@@ -136,7 +136,7 @@ namespace NetWorkedData
             {
                 DiscoveredDate.SetDateTime(DateTime.Now);
                 Discovered = true;
-                NWDItem tItem = Item.GetData();
+                NWDItem tItem = Item.GetRawData();
                 if (tItem != null && tItem.FirstAcquisitionNotification != NWDItemNotification.NoNotification)
                 {
                     NWENotificationManager.SharedInstance().PostNotification(tItem, NWDItem.K_FirstAcquisitionNotificationKey);
@@ -444,7 +444,7 @@ namespace NetWorkedData
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
-            NWDItemGroup tItemGroup = NWDBasisHelper.GetCorporateDataByReference<NWDItemGroup>(sConditional.Reference);
+            NWDItemGroup tItemGroup = NWDBasisHelper.GetRawDataByReference<NWDItemGroup>(sConditional.Reference);
             if (tItemGroup != null)
             {
                 rReturn = false;
@@ -472,7 +472,7 @@ namespace NetWorkedData
         public bool CheckOwnershipAndItemValidity()
         {
             bool rReturn = false;
-            NWDItem tNWDItem = Item.GetData();
+            NWDItem tNWDItem = Item.GetRawData();
             // Check if item is not null
             if (tNWDItem != null)
             {

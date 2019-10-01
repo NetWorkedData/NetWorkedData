@@ -32,9 +32,9 @@ namespace NetWorkedData
             if (IsUsable())
             {
                 // Re-add !
-                if (Consent.GetData() != null)
+                if (Consent.GetRawData() != null)
                 {
-                    string tKey = Consent.GetReference() + NWDConstants.kFieldSeparatorA + Consent.GetData().Version.ToString() + NWDConstants.kFieldSeparatorA + Account.GetReference();
+                    string tKey = Consent.GetReference() + NWDConstants.kFieldSeparatorA + Consent.GetRawData().Version.ToString() + NWDConstants.kFieldSeparatorA + Account.GetReference();
                     kAccountIndex.InsertData(this, tKey);
                 }
             }

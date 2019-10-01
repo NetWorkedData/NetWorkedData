@@ -277,19 +277,19 @@ namespace NetWorkedData
         #endregion
         #region CORPORATE Get datas for by account and by gamesave
         //-------------------------------------------------------------------------------------------------------------
-        public static List<T> GetCorporateDatasList<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        public static List<T> GetCorporateDatasList<T>(string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             List<NWDTypeClass> tDatas = BasisHelper<T>().Datas;
             return QuickFilterDatas<T>(tDatas, sAccountReference, sGameSave);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T[] GetCorporateDatas<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        public static T[] GetCorporateDatas<T>(string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             List<NWDTypeClass> tDatas = BasisHelper<T>().Datas;
             return QuickFilterDatas<T>(tDatas, sAccountReference, sGameSave).ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T GetCorporateFirstData<T>(string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        public static T GetCorporateFirstData<T>(string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             //NWEBenchmark.Start();
             T rReturn = null;
@@ -302,7 +302,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T GetCorporateDataByReference<T>(string sReference, string sAccountReference = null, NWDGameSave sGameSave = null, bool sTryOnDisk = false) where T : NWDTypeClass, new()
+        public static T GetCorporateDataByReference<T>(string sReference, string sAccountReference, NWDGameSave sGameSave = null, bool sTryOnDisk = false) where T : NWDTypeClass, new()
         {
             //NWEBenchmark.Start();
             T rReturn = null;
@@ -323,7 +323,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T[] GetCorporateDatasByInternalKey<T>(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        public static T[] GetCorporateDatasByInternalKey<T>(string sInternalKey, string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             //NWEBenchmark.Start();
             List<NWDTypeClass> tReturn;
@@ -340,11 +340,11 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static T GetCorporateFirstDataByInternalKey<T>(string sInternalKey, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
+        public static T GetCorporateFirstDataByInternalKey<T>(string sInternalKey, string sAccountReference, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
             //NWEBenchmark.Start();
             T rReturn = null;
-            T[] rDatas = GetCorporateDatasByInternalKey<T>(sInternalKey);
+            T[] rDatas = GetCorporateDatasByInternalKey<T>(sInternalKey, sAccountReference);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
@@ -494,7 +494,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static T QuickFilter<T>(T sData, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
             T rReturn = null;
             if (sData != null)
             {
@@ -542,18 +541,13 @@ namespace NetWorkedData
                         rReturn = sData;
                     }
                 }
-                else
-                {
-
-                }
             }
-            //NWEBenchmark.Finish();
+
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private static List<T> QuickFilterDatas<T>(List<NWDTypeClass> sDatasArray, string sAccountReference = null, NWDGameSave sGameSave = null) where T : NWDTypeClass, new()
         {
-            //NWEBenchmark.Start();
             List<T> rList = new List<T>();
             if (sDatasArray != null)
             {
@@ -567,11 +561,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            else
-            {
-                //Debug.Log("chercher les data a un tableau vide");
-            }
-            //NWEBenchmark.Finish();
+
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------

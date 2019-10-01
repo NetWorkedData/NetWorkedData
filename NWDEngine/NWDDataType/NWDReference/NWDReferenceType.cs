@@ -96,12 +96,30 @@ namespace NetWorkedData
             return Value;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetData(string sAccountReference = null)
+        public K GetRawData()
+        {
+            return NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] GetRawDatas()
+        {
+            K tObject = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
+            if (tObject != null)
+            {
+                return new K[] { tObject };
+            }
+            else
+            {
+                return new K[] { };
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K GetCorporateData(string sAccountReference)
         {
             return NWDBasisHelper.GetCorporateDataByReference<K>(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetDatas(string sAccountReference = null)
+        public K[] GetCorporateDatas(string sAccountReference)
         {
             K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(Value, sAccountReference) as K;
             if (tObject != null)
@@ -114,14 +132,14 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K GetRawData()
+        public K GetReachableData()
         {
-            return NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
+            return NWDBasisHelper.GetReachableDataByReference<K>(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetRawDatas()
+        public K[] GetReachableDatas()
         {
-            K tObject = NWDBasisHelper.GetRawDataByReference<K>(Value) as K;
+            K tObject = NWDBasisHelper.GetReachableDataByReference<K>(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };

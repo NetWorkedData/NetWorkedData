@@ -494,7 +494,7 @@ namespace NetWorkedData
             Dictionary<string, int> tDescDico = GetReferenceAndQuantity();
             foreach (KeyValuePair<string, int> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;

@@ -236,7 +236,7 @@ namespace NetWorkedData
             }
             if (_UserMessage != null)
             {
-                rReturn = _UserMessage.Message.GetData().Type;
+                rReturn = _UserMessage.Message.GetRawData().Type;
             }
             return rReturn;
         }
@@ -252,7 +252,7 @@ namespace NetWorkedData
             }
             if (_UserMessage != null)
             {
-                rReturn = _UserMessage.Message.GetData().Style;
+                rReturn = _UserMessage.Message.GetRawData().Style;
             }
             return rReturn;
         }
@@ -270,7 +270,7 @@ namespace NetWorkedData
             }
             if (_UserMessage != null)
             {
-                rReturn = _UserMessage.Message.GetData().Domain;
+                rReturn = _UserMessage.Message.GetRawData().Domain;
             }
             return rReturn;
         }
@@ -288,7 +288,7 @@ namespace NetWorkedData
             }
             if (_UserMessage != null)
             {
-                rReturn = _UserMessage.Message.GetData().Code;
+                rReturn = _UserMessage.Message.GetRawData().Code;
             }
             return rReturn;
         }

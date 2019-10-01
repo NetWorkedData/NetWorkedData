@@ -314,9 +314,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RecalculMe()
         {
-            if (ItemDescription.GetData() != null)
+            if (ItemDescription.GetRawData() != null)
             {
-                NWDItem tItem = ItemDescription.GetData();
+                NWDItem tItem = ItemDescription.GetRawData();
                 tItem.CraftBookAttachment.SetData(this);
                 tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
                 tItem.UpdateDataIfModified();

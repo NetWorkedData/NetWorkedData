@@ -44,7 +44,7 @@ namespace NetWorkedData
         public void TestError()
         {
             Debug.Log("NWDErrorController ErroForTest()");
-            NWDError tError = ErroForTest.GetData();
+            NWDError tError = ErroForTest.GetReachableData();
             if (tError != null)
             {
                 tError.ShowAlert("NONE");

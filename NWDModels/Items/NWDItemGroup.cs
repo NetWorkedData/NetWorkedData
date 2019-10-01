@@ -50,7 +50,7 @@ namespace NetWorkedData
         public bool Contains(NWDItem sItem, bool sNotConnectedResult = false)
         {
             bool rReturn = sNotConnectedResult;
-            NWDItemGroup tItemGroup = GetData();
+            NWDItemGroup tItemGroup = GetReachableData();
             if (tItemGroup != null)
             {
                 rReturn = tItemGroup.ItemList.ConstaintsData(sItem);

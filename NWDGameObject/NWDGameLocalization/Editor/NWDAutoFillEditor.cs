@@ -41,7 +41,7 @@ namespace NetWorkedData
             DrawDefaultInspector();
             //if (GUILayout.Button("AutoFill copy"))
             {
-                NWDLocalization tLocalization = tTarget.LocalizationReference.GetData();
+                NWDLocalization tLocalization = tTarget.LocalizationReference.GetReachableData();
                 if (tLocalization != null)
                 {
                     tTarget.LocalizeEditor();

@@ -11,24 +11,15 @@
 //
 //=====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using System;
-//using BasicToolBox;
+
 //=====================================================================================================================
-namespace NetWorkedData
-{
+namespace NetWorkedData {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[Serializable]
-    public class NWDLocalizationConnection : NWDConnection<NWDLocalization>     {
+    [Serializable]
+    public class NWDLocalizationConnection : NWDConnection<NWDLocalization> {
         //-------------------------------------------------------------------------------------------------------------
-        public string GetLocalString(string sDefault = NWEConstants.K_EMPTY_STRING)         {             NWDLocalization tObject = GetData();             if (tObject != null)             {                 return GetData().GetLocalString();             }              return sDefault;         }
+        public string GetLocalString(string sDefault = NWEConstants.K_EMPTY_STRING) { NWDLocalization tObject = GetReachableData(); if (tObject != null) { return GetReachableData().GetLocalString(); } return sDefault; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

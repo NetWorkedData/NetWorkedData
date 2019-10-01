@@ -51,7 +51,7 @@ namespace NetWorkedData
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
             // Get First nickname found and return a new string
-            return Enrichment(sText, NWDBasisHelper.GetCorporateFirstData<NWDAccountNickname>(), sLanguage, sBold);
+            return Enrichment(sText, NWDBasisHelper.GetReachableFirstData<NWDAccountNickname>(), sLanguage, sBold);
         }
         //-------------------------------------------------------------------------------------------------------------
         //TODO : clean

@@ -28,7 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetString(string sValue)
         {
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 tPref.AddEnter(new NWDMultiType (sValue));
@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetInt(int sValue)
         {
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 tPref.AddEnter(new NWDMultiType(sValue));
@@ -46,7 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetFloat(float sValue)
         {
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 tPref.AddEnter(new NWDMultiType(sValue));
@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetBool(bool sValue)
         {
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 tPref.AddEnter(new NWDMultiType(sValue));
@@ -65,7 +65,7 @@ namespace NetWorkedData
         public string GetString(string sNotExistValue = NWEConstants.K_EMPTY_STRING)
         {
             string rReturn = sNotExistValue;
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 rReturn = tPref.GetEnter().GetStringValue();
@@ -76,7 +76,7 @@ namespace NetWorkedData
         public int GetInt(int sNotExistValue = 0)
         {
             int rReturn = sNotExistValue;
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 rReturn = tPref.GetEnter().GetIntValue();
@@ -87,7 +87,7 @@ namespace NetWorkedData
         public float GetFloat(float sNotExistValue = 0.0F)
         {
             float rReturn = sNotExistValue;
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 rReturn = tPref.GetEnter().GetFloatValue();
@@ -98,7 +98,7 @@ namespace NetWorkedData
         public bool GetBool(bool sNotExistValue = true)
         {
             bool rReturn = sNotExistValue;
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 rReturn = tPref.GetEnter().GetBoolValue();
@@ -109,7 +109,7 @@ namespace NetWorkedData
         public bool ToogleBool(bool sNotExistValue = true)
         {
             bool rReturn = sNotExistValue;
-            NWDPreferenceKey tPref = GetData();
+            NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
             {
                 rReturn = tPref.GetEnter().GetBoolValue();

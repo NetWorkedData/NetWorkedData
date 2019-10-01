@@ -83,7 +83,7 @@ namespace NetWorkedData
             if (ParameterConnection != null)
             {
             Debug.Log("NWDShowDebugPanel ParametersTestAction() ParameterConnection not null ParameterConnection.reference = "+ParameterConnection.Reference);
-                NWDParameter tParam = ParameterConnection.GetData();
+                NWDParameter tParam = ParameterConnection.GetReachableData();
                 if (tParam != null)
                 {
                   Debug.Log("NWDShowDebugPanel ParametersTestAction() tParam not null get local string = " + tParam.Name.GetLocalString());

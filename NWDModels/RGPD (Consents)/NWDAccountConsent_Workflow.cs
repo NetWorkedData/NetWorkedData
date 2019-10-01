@@ -33,10 +33,10 @@ namespace NetWorkedData
         public bool ConsentIsValid()
         {
             bool rReturn = true;
-            NWDConsent tAppConsent = Consent.GetData();
+            NWDConsent tAppConsent = Consent.GetRawData();
             if (tAppConsent != null)
             {
-                switch (Consent.GetData().ExpectedState)
+                switch (Consent.GetRawData().ExpectedState)
                 {
                     case NWESwitchState.On:
                         {
@@ -71,7 +71,7 @@ namespace NetWorkedData
             NWDAccountConsent rUserConsent = null;
             foreach (NWDAccountConsent tAuthorization in NWDBasisHelper.GetReachableDatas<NWDAccountConsent>())
             {
-                if (tAuthorization.Consent.GetData() == sAppConsent && tAuthorization.Version.GetValue() == sAppConsent.Version.GetValue())
+                if (tAuthorization.Consent.GetRawData() == sAppConsent && tAuthorization.Version.GetValue() == sAppConsent.Version.GetValue())
                 {
                     rUserConsent = tAuthorization;
                     break;

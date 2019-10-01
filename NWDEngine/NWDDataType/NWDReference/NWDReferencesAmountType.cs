@@ -391,7 +391,7 @@ namespace NetWorkedData
                         float tQ = NWDToolbox.FloatFromString(tLineValue[1]);
                         //float tQ = 0;
                         //float.TryParse(tLineValue[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)
@@ -411,7 +411,7 @@ namespace NetWorkedData
             Dictionary<string, float> tDescDico = GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;

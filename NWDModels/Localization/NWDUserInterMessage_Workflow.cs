@@ -157,7 +157,7 @@ namespace NetWorkedData
         public string MessageRichText(bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Description.GetLocalString();
@@ -169,7 +169,7 @@ namespace NetWorkedData
         public string MessageRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Description.GetLanguageString(sLanguage);
@@ -181,7 +181,7 @@ namespace NetWorkedData
         public string TitleRichText(bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Title.GetLocalString();
@@ -193,7 +193,7 @@ namespace NetWorkedData
         public string TitleRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Title.GetLanguageString(sLanguage);
@@ -205,7 +205,7 @@ namespace NetWorkedData
         public string ValidationRichText(bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Validation.GetLocalString();
@@ -217,7 +217,7 @@ namespace NetWorkedData
         public string ValidationRichTextForLanguage(string sLanguage,bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Validation.GetLanguageString(sLanguage);
@@ -229,7 +229,7 @@ namespace NetWorkedData
         public string CancelRichText(bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Cancel.GetLocalString();
@@ -241,7 +241,7 @@ namespace NetWorkedData
         public string CancelRichTextForLanguage(string sLanguage,bool sBold = true)
         {
             string rReturn = string.Empty;
-            NWDMessage tMessage = Message.GetData();
+            NWDMessage tMessage = Message.GetRawData();
             if (tMessage != null)
             {
                 rReturn = tMessage.Cancel.GetLanguageString(sLanguage);

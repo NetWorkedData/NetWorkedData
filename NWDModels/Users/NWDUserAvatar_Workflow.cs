@@ -42,7 +42,7 @@ namespace NetWorkedData
             NWDUserAvatar[] tAvatars = NWDBasisHelper.GetReachableDatas<NWDUserAvatar>();
             if (tAvatars.Length > 0)
             {
-                return tAvatars[0].RenderItem.GetData();
+                return tAvatars[0].RenderItem.GetRawData();
             }
             return rItem;
         }
@@ -60,7 +60,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDItem GetNWDItem()
         {
-            return RenderItem.GetData();
+            return RenderItem.GetRawData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Sprite GetTexture()

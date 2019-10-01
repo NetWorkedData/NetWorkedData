@@ -41,7 +41,7 @@ namespace NetWorkedData
         private static NWDPreferenceKey GetPrefKey(string sInternalKey, string sTitle, string sDescription, NWDPreferencesDomain sDomain, NWDMultiType sDefault, bool sNotifyChange)
         {
             string tReferenceKey = NWDBasisHelper.BasisHelper<NWDPreferenceKey>().ClassTrigramme + "-" + sInternalKey + "-999";
-            NWDPreferenceKey rReturn = NWDBasisHelper.GetCorporateDataByReference<NWDPreferenceKey>(tReferenceKey);
+            NWDPreferenceKey rReturn = NWDBasisHelper.GetRawDataByReference<NWDPreferenceKey>(tReferenceKey);
             if (rReturn == null)
             {
                 rReturn = NWDBasisHelper.NewDataWithReference<NWDPreferenceKey>(tReferenceKey);

@@ -62,7 +62,7 @@ namespace NetWorkedData
             }
 
             // Replace Tag by Item Name
-            NWDItem tItem = ItemDescription.GetData();
+            NWDItem tItem = ItemDescription.GetRawData();
             string tName = "[Missing Detail]";
             if (tItem != null)
             {
@@ -75,7 +75,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetIAPKey()
         {
-            NWDInAppPack tInAppPack = InAppReference.GetData();
+            NWDInAppPack tInAppPack = InAppReference.GetRawData();
             if (tInAppPack != null)
             {
                 if (Application.platform == RuntimePlatform.Android)

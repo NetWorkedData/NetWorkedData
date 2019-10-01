@@ -46,7 +46,7 @@ namespace NetWorkedData
             PreferenceApply();
             NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDPreferenceKey.K_PREFERENCE_CHANGED_KEY, delegate (NWENotification sNotification)
             {
-                if (sNotification.Sender == PreferenceKeyConnection.GetData())
+                if (sNotification.Sender == PreferenceKeyConnection.GetReachableData())
                 {
                     PreferenceApply();
                 }

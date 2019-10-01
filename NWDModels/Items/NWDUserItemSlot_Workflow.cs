@@ -88,7 +88,7 @@ namespace NetWorkedData
             {
                 List<NWDItem> rItemUsedList = ItemsUsed.GetReachableDatasList();
                 List<NWDItem> rItemAuthorizedList = new List<NWDItem>();
-                rItemAuthorizedList = sSlot.ItemGroup.GetData().ItemList.GetReachableDatasList();
+                rItemAuthorizedList = sSlot.ItemGroup.GetRawData().ItemList.GetReachableDatasList();
                 foreach (NWDItem tItem in rItemUsedList)
                 {
                     if (tItem != sNoneItem)
@@ -125,7 +125,7 @@ namespace NetWorkedData
         {
             bool rReturn = false;
             NWDItemSlot tSlot = ItemSlot.GetRawData();
-            if (tSlot.ItemGroup.GetData().ItemList.GetReachableDatasList().Contains(sItem) == false)
+            if (tSlot.ItemGroup.GetRawData().ItemList.GetReachableDatasList().Contains(sItem) == false)
             {
                 sItem = null;
             }
@@ -184,7 +184,7 @@ namespace NetWorkedData
                 if (sIndex < tList.Count)
                 {
                     rReturn = tList[sIndex];
-                    if (rReturn == tSlot.ItemNone.GetData())
+                    if (rReturn == tSlot.ItemNone.GetRawData())
                     {
                         rReturn = null;
                     }

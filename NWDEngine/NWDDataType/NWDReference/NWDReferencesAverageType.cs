@@ -466,7 +466,7 @@ namespace NetWorkedData
             Dictionary<string, NWDAverage> tDescDico = GetReferenceAndAverage();
             foreach (KeyValuePair<string, NWDAverage> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;

@@ -92,7 +92,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
         {
-            K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(Reference);
+            K tObject = NWDBasisHelper.GetRawDataByReference<K>(Reference);
             string rDescription = Reference;
             if (tObject == null)
             {
@@ -143,7 +143,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject()
         {
-            return NWDBasisHelper.GetCorporateDataByReference<K>(Reference);
+            return NWDBasisHelper.GetRawDataByReference<K>(Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool isValid(int sQuantity)
@@ -530,7 +530,7 @@ namespace NetWorkedData
                         int tQ = NWDToolbox.IntFromString(tLineValue[1]);
                         //int tQ = 0;
                         //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
-                        K tObject = NWDBasisHelper.GetCorporateDataByReference<K>(tLineValue[0]) as K;
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)

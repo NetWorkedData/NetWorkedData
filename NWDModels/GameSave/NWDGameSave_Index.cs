@@ -24,13 +24,12 @@ namespace NetWorkedData
         public static NWDGameSave CurrentData()
         {
             NWDGameSave rParty = null;
-            //NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos != null)
             {
                 if (tAccountInfos.CurrentGameSave != null)
                 {
-                    NWDGameSave tParty = NWDBasisHelper.GetCorporateDataByReference<NWDGameSave>(tAccountInfos.CurrentGameSave.GetReference());
+                    NWDGameSave tParty = NWDBasisHelper.GetReachableDataByReference<NWDGameSave>(tAccountInfos.CurrentGameSave.GetReference());
                     if (tParty != null)
                     {
                         rParty = tParty;

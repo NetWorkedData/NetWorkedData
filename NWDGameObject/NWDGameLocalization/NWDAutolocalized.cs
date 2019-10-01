@@ -100,7 +100,7 @@ namespace NetWorkedData
                             // set the localizable text
                             if (LocalizationReference != null)
                             {
-                                NWDLocalization tLocalization = LocalizationReference.GetData();
+                                NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                                 if (tLocalization != null)
                                 {
                                     string tTextString = string.Empty;
@@ -152,7 +152,7 @@ namespace NetWorkedData
                             // set the localizable text
                             if (LocalizationReference != null)
                             {
-                                NWDLocalization tLocalization = LocalizationReference.GetData();
+                                NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                                 if (tLocalization != null)
                                 {
                                     string tTextString = string.Empty;
@@ -193,7 +193,7 @@ namespace NetWorkedData
             if (LocalizationReference != null)
             {
                 //Debug.Log("LocalizationReference not null = " + LocalizationReference.Reference);
-                NWDLocalization tLocalization = LocalizationReference.GetData();
+                NWDLocalization tLocalization = LocalizationReference.GetReachableData();
             }
             //Debug.Log("NWDAutolocalized Localize()");
             //Text
@@ -217,7 +217,7 @@ namespace NetWorkedData
                     // set the localizable text
                     if (LocalizationReference != null)
                     {
-                        NWDLocalization tLocalization = LocalizationReference.GetData();
+                        NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                         if (tLocalization != null)
                         {
                             string tTextString = string.Empty;
@@ -264,7 +264,7 @@ namespace NetWorkedData
                     // set the localizable text
                     if (LocalizationReference != null)
                     {
-                        NWDLocalization tLocalization = LocalizationReference.GetData();
+                        NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                         if (tLocalization != null)
                         {
                             string tTextString = string.Empty;

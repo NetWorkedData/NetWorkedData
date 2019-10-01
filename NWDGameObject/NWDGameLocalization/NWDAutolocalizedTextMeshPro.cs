@@ -88,7 +88,7 @@ namespace NetWorkedData
                         if (TextMeshProUGUITarget != null)
                         {
                             // set the localizable text
-                            NWDLocalization tLocalization = LocalizationReference.GetData();
+                            NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                             if (tLocalization != null)
                             {
                                 string tTextString = string.Empty;
@@ -137,7 +137,7 @@ namespace NetWorkedData
                         if (TextMeshProTarget != null)
                         {
                             // set the localizable text
-                            NWDLocalization tLocalization = LocalizationReference.GetData();
+                            NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                             if (tLocalization != null)
                             {
                                 string tTextString = "";
@@ -195,7 +195,7 @@ namespace NetWorkedData
                 if (TextMeshProUGUITarget != null)
                 {
                     // set the localizable text
-                    NWDLocalization tLocalization = LocalizationReference.GetData();
+                    NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                     if (tLocalization != null)
                     {
                         string tTextString = string.Empty;
@@ -242,7 +242,7 @@ namespace NetWorkedData
                 if (TextMeshProTarget != null)
                 {
                     // set the localizable text
-                    NWDLocalization tLocalization = LocalizationReference.GetData();
+                    NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                     if (tLocalization != null)
                     {
                         string tTextString = string.Empty;
