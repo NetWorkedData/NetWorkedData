@@ -42,8 +42,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
-            EditorWindow tWindow = GetWindow(typeof(NWDGameSaveWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

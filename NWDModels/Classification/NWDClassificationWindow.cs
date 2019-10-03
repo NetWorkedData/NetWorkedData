@@ -41,8 +41,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "Game/Classification", false, 220)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDClassificationWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

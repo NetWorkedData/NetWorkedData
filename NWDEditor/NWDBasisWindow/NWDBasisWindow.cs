@@ -28,6 +28,26 @@ namespace NetWorkedData
     public class NWDBasisWindow<K> : NWDTypeWindow where K : NWDBasisWindow<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        protected static K SharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ShowWindow()
+        {
+            if (SharedInstance == null)
+            {
+                
+                Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
+                Type[] tAllNWDTypes = (from System.Type type in tAllTypes
+                                       where (
+                                       type.BaseType != null &&
+                                       type.BaseType.IsGenericType &&
+                                       type.BaseType.GetGenericTypeDefinition() == typeof(NWDBasisWindow<>)
+                                       )
+                                       select type).ToArray();
+                SharedInstance = EditorWindow.GetWindow<K>(tAllNWDTypes);
+            }
+            SharedInstance.Show(true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The title of window
         /// </summary>

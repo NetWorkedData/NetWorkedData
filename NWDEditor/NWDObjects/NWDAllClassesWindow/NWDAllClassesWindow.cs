@@ -32,8 +32,7 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 100)]
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = GetWindow (typeof(NWDAllClassesWindow));
-			tWindow.Show ();
+            ShowWindow();
 		}
 		//-------------------------------------------------------------------------------------------------------------
     }

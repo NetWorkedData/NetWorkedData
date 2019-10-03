@@ -45,8 +45,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "Game/Preferences", false, 271)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDPreferenceWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

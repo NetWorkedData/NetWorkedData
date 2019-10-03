@@ -45,8 +45,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "App/Configurations", false, 200)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDAppWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

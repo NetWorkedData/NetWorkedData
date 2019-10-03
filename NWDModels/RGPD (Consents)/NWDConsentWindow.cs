@@ -41,8 +41,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "App/RGPD Consent", false, 250)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDConsentWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

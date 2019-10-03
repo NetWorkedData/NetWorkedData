@@ -36,8 +36,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/In App Purchase", false, 570)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = GetWindow(typeof(NWDInAppPurchaseWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

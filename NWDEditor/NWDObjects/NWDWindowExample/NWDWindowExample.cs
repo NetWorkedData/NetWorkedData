@@ -33,8 +33,7 @@ namespace NetWorkedData
 		//[MenuItem (NWDConstants.K_MENU_BASE + "NWDWindowExample_Name" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 12345)]
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDWindowExample));
-			tWindow.Show ();
+            ShowWindow();
 		}
 		//-------------------------------------------------------------------------------------------------------------
     }

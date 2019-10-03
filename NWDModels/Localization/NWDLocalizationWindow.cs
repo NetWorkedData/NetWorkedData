@@ -39,15 +39,13 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "App/Localization, Error and Message", false, 201)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLocalizationWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Game/Localization, Error and Message", false, 223)]
         public static void MenuMethodBis()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLocalizationWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

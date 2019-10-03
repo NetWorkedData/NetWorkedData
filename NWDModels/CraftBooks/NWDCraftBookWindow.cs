@@ -35,8 +35,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "CraftBooks", false, 531)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDCraftBookWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

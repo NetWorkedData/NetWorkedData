@@ -35,8 +35,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "Game/Actions and SchemeActions", false, 227)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDActionWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

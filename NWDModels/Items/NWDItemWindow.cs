@@ -43,8 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDItemWindow));
-            tWindow.Show();
+            ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
