@@ -30,6 +30,7 @@ namespace NetWorkedData
         protected bool PreviewTextureIsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         bool CanBeEdit = true;
+        string ErrorLog;
         bool WithScrollview = true;
         public Rect TotalRect;
         public Rect HeaderRect;
@@ -274,7 +275,7 @@ namespace NetWorkedData
                 tTitle = "<b><color=red>" + NWDConstants.K_WARNING + tTitle + "</color></b>";
             }
             tR.height = NWDGUI.kInspectorInternalTitle.fixedHeight;
-            GUI.Label(tR, tTitle, NWDGUI.kInspectorInternalTitle);
+            GUI.Label(tR, new GUIContent (tTitle,ErrorLog), NWDGUI.kInspectorInternalTitle);
             tR.y += NWDGUI.kInspectorInternalTitle.fixedHeight;
             Rect tRcenter = new Rect(tR.x + NWDGUI.kIconClassWidth + NWDGUI.kFieldMarge, tR.y, HeaderRect.width - NWDGUI.kFieldMarge * 2 - NWDGUI.kIconClassWidth * 2, NWDGUI.kInspectorReferenceCenter.fixedHeight);
             // Draw reference
@@ -1055,6 +1056,7 @@ namespace NetWorkedData
         public override void ErrorCheck()
         {
             //NWEBenchmark.Start();
+            ErrorLog = string.Empty;
             bool tErrorResult = false;
             Type tType = ClassType();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -1070,6 +1072,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
                         }
                     }
                 }
@@ -1082,6 +1085,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
                         }
                     }
                 }
@@ -1094,6 +1098,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
                         }
                     }
                 }
@@ -1106,6 +1111,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
                         }
                     }
                 }
@@ -1118,6 +1124,7 @@ namespace NetWorkedData
                         if (tNWEDataType.ErrorAnalyze() == true)
                         {
                             tErrorResult = true;
+                            ErrorLog += "error in " + tProp.Name + " with value " + tValue.ToString()+"\n";
                         }
                     }
                 }
@@ -1129,6 +1136,10 @@ namespace NetWorkedData
             if (InError != tErrorResult)
             {
                 InError = tErrorResult;
+            }
+            if (InError == false)
+            {
+                ErrorLog = "No error detected";
             }
             //NWEBenchmark.Finish();
         }

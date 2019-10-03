@@ -351,13 +351,13 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             Rect tRectRow = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom, sRectRow.width, NWDGUI.kTableRowHeight * sZoom);
-            Rect tRectRowLineWhite = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom +1, sRectRow.width, 1);
+            Rect tRectRowLineWhite = new Rect(0, NWDGUI.kTableRowHeight * sRow * sZoom + 1, sRectRow.width, 1);
             Rect tRectRowLineBLack = new Rect(0, NWDGUI.kTableRowHeight * (sRow + 1) * sZoom, sRectRow.width, 1);
             Rect tRect = new Rect(NWDGUI.kFieldMarge, NWDGUI.kTableRowHeight * sRow * sZoom, 0, NWDGUI.kTableRowHeight * sZoom);
             EditorGUI.DrawRect(tRectRow, tBoxColor);
             if (BasisHelper().IsObjectInEdition(this) == true)
             {
-                Rect tRectRowSelected = new Rect(tRectRow.x, tRectRow.y +2, tRectRow.width, tRectRow.height-2);
+                Rect tRectRowSelected = new Rect(tRectRow.x, tRectRow.y + 2, tRectRow.width, tRectRow.height - 2);
                 EditorGUI.DrawRect(tRectRowSelected, NWDGUI.kRowColorSelected);
             }
             //GUI.Label(tRectRow, "TEST " + sRow.ToString());
@@ -434,7 +434,7 @@ namespace NetWorkedData
             tRect.x += NWDGUI.kTableIconWidth;
             // Draw State
             tRect.width = NWDGUI.KTableSearchWidth;
-            GUI.Label(tRect, StateInfos, NWDGUI.KTableRowStatut);
+            GUI.Label(tRect, new GUIContent(StateInfos, ErrorLog), NWDGUI.KTableRowStatut);
             tRect.x += NWDGUI.KTableSearchWidth;
             // Draw Reference
             tRect.width = NWDGUI.KTableReferenceWidth;
