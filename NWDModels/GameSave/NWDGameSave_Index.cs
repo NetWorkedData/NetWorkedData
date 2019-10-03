@@ -29,19 +29,19 @@ namespace NetWorkedData
             {
                 if (tAccountInfos.CurrentGameSave != null)
                 {
-                    NWDGameSave tParty = NWDBasisHelper.GetReachableDataByReference<NWDGameSave>(tAccountInfos.CurrentGameSave.GetReference());
+                    NWDGameSave tParty = NWDBasisHelper.GetRawDataByReference<NWDGameSave>(tAccountInfos.CurrentGameSave.GetReference());
                     if (tParty != null)
                     {
-                        rParty = tParty;
+                        if(tParty.Account.GetReference() == tAccountInfos.Account.GetReference())
+                        {
+                            rParty = tParty;
+                        }
                     }
-                }
-                else
-                {
                 }
             }
             if (rParty == null)
             {
-                NWDGameSave[] tParties = NWDBasisHelper.GetCorporateDatas<NWDGameSave>(NWDAccount.CurrentReference(), null);
+                NWDGameSave[] tParties = NWDBasisHelper.GetCorporateDatas<NWDGameSave>(NWDAccount.CurrentReference());
                 foreach (NWDGameSave tPart in tParties)
                 {
                     if (tPart != null)
