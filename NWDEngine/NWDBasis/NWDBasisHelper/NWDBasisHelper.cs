@@ -133,6 +133,7 @@ namespace NetWorkedData
         public Type ConnexionType = null;
         public string ClassName = string.Empty;
         public string ClassNamePHP = string.Empty;
+        public string TablePrefix = string.Empty;
         public bool ClassSynchronize;
         public string ClassTrigramme = string.Empty;
         public string ClassDescription = string.Empty;

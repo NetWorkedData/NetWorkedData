@@ -24,6 +24,8 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public string TablePrefixOld = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()
         {
             //NWEBenchmark.St art();
@@ -46,6 +48,7 @@ namespace NetWorkedData
             rReturn.AppendLine("tBasisHelper = " + typeof(NWDBasisHelper).Name + ".FindTypeInfos(\"" + ClassNamePHP + "\");");
             rReturn.AppendLine("if (tBasisHelper!=null)");
             rReturn.AppendLine("{");
+            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefix) + " = \"" + TablePrefix + "\";");
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.SaltStart) + " = \"" + SaltStart.Replace("}", "").Replace("{", "") + "\";");
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.SaltEnd) + " = \"" + SaltEnd.Replace("}", "").Replace("{", "") + "\";");
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.SaltValid) + " = true;"); // salt was reccord because loaded :-p
@@ -73,6 +76,7 @@ namespace NetWorkedData
                 }
             }
             rReturn.AppendLine("#if UNITY_EDITOR");
+            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"" + TablePrefix + "\";");
             rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Clear();");
             foreach (KeyValuePair<int, string> tKeyValue in WebModelSQLOrder.OrderBy(x => x.Key))
             {

@@ -1964,6 +1964,17 @@ namespace NetWorkedData
                 }
                 tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;
             }
+            // Alert warning prefixs infos
+            if (TablePrefix != TablePrefixOld)
+            {
+                if (tMargeNeed == false)
+                {
+                    tRect.y += NWDGUI.kFieldMarge;
+                }
+                tMargeNeed = true;
+
+                tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_PREFIXE).height + NWDGUI.kFieldMarge;
+            }
             // Alert warning model infos
             if (WebModelChanged == true)
             {
@@ -1974,13 +1985,6 @@ namespace NetWorkedData
                 tMargeNeed = true;
 
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL).height + NWDGUI.kFieldMarge;
-
-                //if (GUI.Button(tRect, "See log", NWDGUI.KTableSearchButton))
-                //{
-                //    Debug.Log("log ...");
-                //}
-                //tRect.y += NWDGUI.KTableSearchButton.fixedHeight + NWDGUI.kFieldMarge;
-
             }
             // alert degadraded model infos
             if (WebModelDegraded == true)

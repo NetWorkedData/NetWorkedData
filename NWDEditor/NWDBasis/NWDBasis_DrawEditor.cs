@@ -236,6 +236,11 @@ namespace NetWorkedData
                 NWDGUI.Line(NWDGUI.UnMargeLeftRight(tR));
             }
             // DARW MODEL ALERT DEBUG 
+            if (BasisHelper().TablePrefix == BasisHelper().TablePrefixOld)
+            {
+                tR.y += NWDGUI.kFieldMarge;
+                tR.y += NWDGUI.WarningBox(tR, NWDConstants.K_APP_BASIS_WARNING_PREFIXE).height + NWDGUI.kFieldMarge;
+            }
             if (BasisHelper().WebModelChanged == true)
             {
                 tR.y += NWDGUI.kFieldMarge;

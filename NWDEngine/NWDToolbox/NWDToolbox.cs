@@ -636,7 +636,7 @@ namespace NetWorkedData
                                            "		public static " + sFindClassName + " SharedInstance ()\n" +
                                            "		{\n" +
                                            "			if (kSharedInstance == null) {\n" +
-                                           "				kSharedInstance = ScriptableObject.CreateInstance (\"" + sFindClassName + "\") as " + sFindClassName + ";\n" +
+                                           "				kSharedInstance = ScriptableObject.CreateInstance<" + sFindClassName + ">();\n" +
                                            "				kSharedInstance.ReadPaths ();\n" +
                                            "			}\n" +
                                            "			return kSharedInstance; \n" +

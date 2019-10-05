@@ -176,6 +176,7 @@ namespace NetWorkedData
                 }
             }
             NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("Web Service Folder", NWDAppConfiguration.SharedInstance().WebFolder);
+            NWDAppConfiguration.SharedInstance().TablePrefixe = EditorGUILayout.TextField("Table Prefixe in Web Service", NWDAppConfiguration.SharedInstance().TablePrefixe);
             int tIndexWS = tWSListUsable.IndexOf(NWDAppConfiguration.SharedInstance().WebBuild);
             tIndexWS = EditorGUILayout.Popup("Web Service active", tIndexWS, tWSListUsableString.ToArray());
             if (tIndexWS >= 0)

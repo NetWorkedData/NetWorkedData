@@ -62,6 +62,10 @@ namespace NetWorkedData
             tH += NWDGUI.kInspectorInternalTitle.fixedHeight;
             tH += NWDGUI.kInspectorReferenceCenter.fixedHeight;
             tH += NWDGUI.kIconClassWidth;
+            if (BasisHelper().TablePrefix == BasisHelper().TablePrefixOld)
+            {
+                tH += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_PREFIXE) + NWDGUI.kFieldMarge * 2;
+            }
             if (BasisHelper().WebModelChanged == true)
             {
                 tH += NWDGUI.WarningBoxHeight(new Rect(0, 0, NWDGUI.kNodeCardWidth - NWDGUI.kFieldMarge * 2, 0), NWDConstants.K_APP_BASIS_WARNING_MODEL) + NWDGUI.kFieldMarge *2;
