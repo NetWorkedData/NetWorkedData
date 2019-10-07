@@ -108,7 +108,7 @@ namespace NetWorkedData
                 }
             }
             // place the properties
-            string tPropertiesLinearize = "//PROPERTIES\n";
+            string tPropertiesLinearize = "//PROPERTIES\n[NWDInspectorGroupReset]\n";
             foreach (KeyValuePair<string, string> tKeyValue in tPropertiesDico)
             {
                 tPropertiesLinearize += "\t\tpublic " + tKeyValue.Value + " " + tKeyValue.Key + " {get; set;}\n";
