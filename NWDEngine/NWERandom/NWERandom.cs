@@ -11,7 +11,7 @@ namespace NetWorkedData
     public static class NWERandom
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static void Shuffle<T>(this IList<T> sList)
+        public static void ShuffleList<T>(this IList<T> sList)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = sList.Count;
