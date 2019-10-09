@@ -933,7 +933,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override bool DataIntegrityState()
         {
-            return TestIntegrity();
+            return Integrity == IntegrityValue();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public override bool TrashState()

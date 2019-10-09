@@ -230,7 +230,7 @@ namespace NetWorkedData
                     {
                         NWDGUI.BeginColorArea(NWDGUI.kRowColorDisactive);
                     }
-                    else if (tData.TestIntegrity() == false)
+                    else if (tData.DataIntegrityState() == false)
                     {
                         NWDGUI.BeginColorArea(NWDGUI.kRowColorWarning);
                     }
