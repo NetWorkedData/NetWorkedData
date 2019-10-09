@@ -301,7 +301,9 @@ namespace NetWorkedData
         public const string K_APP_BASIS_CLASS_RESET_TABLE = "RESET TABLE";
         public const string K_APP_BASIS_CLASS_FIRST_SALT = "First Salt";
         public const string K_APP_BASIS_CLASS_SECOND_SALT = "Second Salt";
+        public const string K_APP_BASIS_CLASS_PREFIXE = "Table Prefixe in WS";
         public const string K_APP_BASIS_CLASS_REGENERATE = "Regenerate";
+        public const string K_APP_BASIS_CLASS_RECCORD = "Save";
         public const string K_APP_BASIS_CLASS_SEE_WORKFLOW = "See Workflow Script";
         public const string K_APP_BASIS_CLASS_INTEGRITY_REEVALUE = "Integrity re-evaluate";
         public const string K_APP_BASIS_CLASS_PHP_GENERATE = "Generate PHP files for";
@@ -490,6 +492,7 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_BASIS_WARNING_MODEL = "WARNING! MODEL WAS CHANGED BUT WEBSERVICE NOT REGENERATED!";
+        public const string K_APP_BASIS_WARNING_PREFIXE = "WARNING! PREFIX WAS CHANGED BUT WEBSERVICE NOT REGENERATED!";
         public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "WARNING! MODEL WAS DEGRADED!";
 
         //-------------------------------------------------------------------------------------------------------------

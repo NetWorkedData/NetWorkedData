@@ -121,58 +121,7 @@ namespace NetWorkedData
             GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
             NWDGUILayout.SubSection(tHelper.ClassNamePHP);
-            GUILayout.BeginHorizontal();
-            Texture2D tTextureOfClass = tHelper.TextureOfClass();
-            if (tTextureOfClass != null)
-            {
-                GUILayout.Label(tTextureOfClass, NWDGUI.KTableSearchClassIcon, GUILayout.Width(48.0F), GUILayout.Height(48.0F));
-            }
-            GUILayout.BeginVertical();
-            GUILayout.Label(tHelper.ClassMenuName, EditorStyles.boldLabel);
-            GUILayout.Label("Webservice last version generated for this Class  is " + tHelper.LastWebBuild.ToString() + " ( App use Webservice " + NWDAppConfiguration.SharedInstance().WebBuild.ToString() + ")");
-            GUILayout.Label(tHelper.ClassDescription);
-            NWDGUILayout.Separator();
-            foreach (KeyValuePair<int, string> tModels in tHelper.WebModelSQLOrder)
-            {
-                GUILayout.Label("Model has definition for Webservice " + tModels.Key.ToString());
-            }
-
-            if (tHelper.SaltValid == false)
-            {
-                if (NWDGUILayout.AlertBoxButton(NWDConstants.K_ALERT_SALT_SHORT_ERROR, NWDConstants.K_APP_CLASS_SALT_REGENERATE))
-                {
-                    tHelper.DeleteOldsModels();
-                    NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                    GUIUtility.ExitGUI();
-                }
-            }
-            if (tHelper.WebModelChanged == true)
-            {
-                // draw reintegrate the model
-                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL + "\n" + tHelper.ModelChangedGetChange(), NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"))))
-                {
-                    tHelper.ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { sType }, false, false);
-                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { sType }, false, false);
-                    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { sType }, false, false);
-                    NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                    GUIUtility.ExitGUI();
-                }
-            }
-            if (tHelper.WebModelDegraded == true)
-            {
-                if (NWDGUILayout.WarningBoxButton(NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "\n" + tHelper.ModelChangedGetChange(), NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS))
-                {
-                    tHelper.DeleteOldsModels();
-                    NWDEditorWindow.GenerateCSharpFile();
-                    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                    GUIUtility.ExitGUI();
-                }
-            }
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
+            tHelper.DrawTypeInformations();
             GUILayout.EndVertical();
         }
         //-------------------------------------------------------------------------------------------------------------

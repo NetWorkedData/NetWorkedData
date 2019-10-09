@@ -69,6 +69,7 @@ namespace NetWorkedData
             rReturn.AppendLine("{");
 
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TablePrefixe) + " = \"" + TablePrefixe + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebBuild) + " = " + WebBuild + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebBuildMax) + " = " + WebBuildMax + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DatabasePrefix) + " = \"" + DatabasePrefix + "\";");

@@ -22,7 +22,7 @@ using System.IO;
 
 using UnityEngine;
 
-using SQLite4Unity3d;
+using UnityEngine.SceneManagement;
 
 //using BasicToolBox;
 
@@ -56,6 +56,20 @@ namespace NetWorkedData
          public bool IsEmpty()
         {
             return (Value == string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Scene GetScene()
+        {
+            return SceneManager.GetSceneByName(GetSceneName());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetSceneName()
+        {
+            if (string.IsNullOrEmpty(Value))
+            {
+                return string.Empty;
+            }
+            return Path.GetFileNameWithoutExtension(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
@@ -130,14 +144,14 @@ namespace NetWorkedData
             tScenesInBuildList.Insert(1, " ");
             foreach (string tSettingSceneName in tScenesInBuildList)
             {
-                tScenesInContentList.Add(new GUIContent(tSettingSceneName.Replace('/', '…')));
+                    tScenesInContentList.Add(new GUIContent(tSettingSceneName));
             }
             int tSceneIndex = tScenesInBuildList.IndexOf(Value);
             int tNextSceneIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupFieldStyle.fixedHeight), tContent,tSceneIndex,tScenesInContentList.ToArray(), tPopupFieldStyle);
+            if (tNextSceneIndex<0 || tNextSceneIndex>=tScenesInBuildList.Count())
             {
                 tNextSceneIndex = 0;
             }
-            if (tNextSceneIndex<0 || tNextSceneIndex>=tScenesInBuildList.Count())
             tTemporary.Value = tScenesInBuildList[tNextSceneIndex];
             if (tTemporary.Value == " ")
             {
@@ -153,6 +167,7 @@ namespace NetWorkedData
                 NWDGUI.EndRedArea();
                 tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
+            Debug.Log("tTemporary value =" +tTemporary.Value);
 			return tTemporary;
 		}
         //-------------------------------------------------------------------------------------------------------------

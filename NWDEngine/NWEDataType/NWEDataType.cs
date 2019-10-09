@@ -163,7 +163,7 @@ namespace NetWorkedData
         /// 
         /// </summary>
         /// <returns>a boolean</returns>
-        public bool IsNullOrEmpty()
+        public bool ValueIsNullOrEmpty()
         {
             return string.IsNullOrEmpty(Value);
         }

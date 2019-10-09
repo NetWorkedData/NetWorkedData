@@ -48,6 +48,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        //[SQLite.Attribute.IndexedAttribute(NWD.K_REFERENCE_INDEX, 0)]
         [Indexed(NWD.K_BASIS_INDEX, 0)]
         [NWDNotEditable]
         [NWDCertified]

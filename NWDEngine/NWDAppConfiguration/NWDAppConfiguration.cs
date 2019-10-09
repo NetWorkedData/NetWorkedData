@@ -50,6 +50,7 @@ namespace NetWorkedData
         //public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
         //public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
+        public string TablePrefixe = string.Empty;
         public string DatabasePrefix = "NWD000000000";
         public string EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
         public string EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
