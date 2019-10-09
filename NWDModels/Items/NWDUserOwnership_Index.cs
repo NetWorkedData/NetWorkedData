@@ -31,9 +31,16 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDItem : NWDBasis
+    {
+        public NWDUserOwnership FindReachableUserOwnerShip(bool sOrCreate = true)
+        {
+            return NWDUserOwnership.FindFisrtByItem(this, sOrCreate);
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserOwnership : NWDBasis
     {
-
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDItem, NWDUserOwnership> kAchievementKeyIndex = new NWDIndex<NWDItem, NWDUserOwnership>();
         //-------------------------------------------------------------------------------------------------------------
@@ -56,12 +63,24 @@ namespace NetWorkedData
             kAchievementKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserOwnership FindFisrtByItem (NWDItem sKey, bool sOrCreate = true)
+        [Obsolete("FindReachableByItem")]
+        public static NWDUserOwnership FindFisrtByItem(NWDItem sKey, bool sOrCreate = true)
         {
             return FindFisrtByItemReference(sKey.Reference, sOrCreate);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership FindReachableByItem(NWDItem sKey, bool sOrCreate = true)
+        {
+            return FindFisrtByItemReference(sKey.Reference, sOrCreate);
+        }
+        [Obsolete("FindReachableByItem")]
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership FindFisrtByItemReference(string sReference, bool sOrCreate = true)
+        {
+            return FindFirstByItemReference(sReference, sOrCreate);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership FindFirstByItemReference(string sReference, bool sOrCreate = true)
         {
             string tKey = sReference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
             NWDUserOwnership rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
@@ -97,27 +116,27 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The ownership.</returns>
         /// <param name="sItemReference">S item reference.</param>
-//        public static NWDUserOwnership OwnershipForItem(string sItemReference)
-//        {
-//            NWDUserOwnership rOwnership = FindFisrtByItemReference(sItemReference);
-//            if (rOwnership == null)
-//            {
-//                rOwnership = NewData();
-//#if UNITY_EDITOR
-//                NWDItem tItem = NWDItem.GetDataByReference(sItemReference);
-//                if (tItem != null)
-//                {
-//                    if (tItem.Name != null)
-//                    {
-//                        string tItemNameBase = tItem.Name.GetBaseString();
-//                        if (tItemNameBase != null)
-//                        {
-//                            rOwnership.InternalKey = tItemNameBase;
-//                        }
-//                    }
-//                }
-//                rOwnership.InternalDescription = NWDUserNickname.GetNickname();
-//#endif
+        //        public static NWDUserOwnership OwnershipForItem(string sItemReference)
+        //        {
+        //            NWDUserOwnership rOwnership = FindFisrtByItemReference(sItemReference);
+        //            if (rOwnership == null)
+        //            {
+        //                rOwnership = NewData();
+        //#if UNITY_EDITOR
+        //                NWDItem tItem = NWDItem.GetDataByReference(sItemReference);
+        //                if (tItem != null)
+        //                {
+        //                    if (tItem.Name != null)
+        //                    {
+        //                        string tItemNameBase = tItem.Name.GetBaseString();
+        //                        if (tItemNameBase != null)
+        //                        {
+        //                            rOwnership.InternalKey = tItemNameBase;
+        //                        }
+        //                    }
+        //                }
+        //                rOwnership.InternalDescription = NWDUserNickname.GetNickname();
+        //#endif
         //        rOwnership.Item.SetReference(sItemReference);
         //        rOwnership.Tag = NWDBasisTag.TagUserCreated;
         //        rOwnership.Quantity = 0;
