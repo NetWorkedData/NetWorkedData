@@ -139,7 +139,7 @@ namespace NetWorkedData
                     tScenesInBuildList.Add(tSettingScene.path);
                 }
             }
-            tScenesInBuildList.Sort((tA, tB) => tA.CompareTo(tB));
+            tScenesInBuildList.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.Ordinal));
             tScenesInBuildList.Insert(0, string.Empty);
             tScenesInBuildList.Insert(1, " ");
             foreach (string tSettingSceneName in tScenesInBuildList)
@@ -167,7 +167,7 @@ namespace NetWorkedData
                 NWDGUI.EndRedArea();
                 tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
-            Debug.Log("tTemporary value =" +tTemporary.Value);
+            //Debug.Log("tTemporary value =" +tTemporary.Value);
 			return tTemporary;
 		}
         //-------------------------------------------------------------------------------------------------------------

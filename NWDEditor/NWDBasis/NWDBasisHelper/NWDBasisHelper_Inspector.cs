@@ -748,11 +748,13 @@ namespace NetWorkedData
                 NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
                 if (string.IsNullOrEmpty(tObject.InternalKey))
                 {
-                    rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                    //rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                    rReturn = new GUIContent("<i>no internal key</i> <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
                 }
                 else
                 {
-                    rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                    //rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.PreviewTexture2D(), tObject.InternalDescription);
+                    rReturn = new GUIContent(tObject.InternalKey + " <color=#555555>[" + sReference + "]</color> ", tObject.InternalDescription);
                 }
             }
             else
@@ -767,6 +769,21 @@ namespace NetWorkedData
                 }
             }
             //NWEBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GUIContent GetGUIPreview(string sReference)
+        {
+            GUIContent rReturn = null;
+            if (DatasByReference.ContainsKey(sReference))
+            {
+                NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
+               rReturn = new GUIContent(tObject.PreviewTexture2D());
+            }
+            else
+            {
+               rReturn = new GUIContent("");
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

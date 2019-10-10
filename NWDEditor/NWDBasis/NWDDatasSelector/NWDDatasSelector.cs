@@ -197,11 +197,17 @@ namespace NetWorkedData
             Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge - sInsertion, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
             Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDGUI.kEditWidth, sRect.position.y + NWDGUI.kDatasSelectorYOffset, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight);
 
+            Rect tPreviewRect = new Rect(sRect.position.x + EditorGUIUtility.labelWidth - NWDGUI.kFieldMarge - NWDGUI.kDataSelectorFieldStyle.fixedHeight, sRect.position.y, NWDGUI.kDataSelectorFieldStyle.fixedHeight, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
+
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
             GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
 
             GUIContent sDataLabel = sHelper.GetGUIContent(sReference);
+            GUIContent sImageLabel = sHelper.GetGUIPreview(sReference);
             NWDTypeClass tData = sHelper.GetDataByReference(sReference);
+
+            GUI.Label(tPreviewRect, sImageLabel);
+
             if (string.IsNullOrEmpty(sReference) == false && sHelper.GetDataByReference(sReference) == null)
             {
                 NWDGUI.BeginRedArea();
@@ -616,7 +622,7 @@ namespace NetWorkedData
             //SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition,false,true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true));
             SelectorWindow.ScrollPosition = GUILayout.BeginScrollView(SelectorWindow.ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             {
-                float tWidth = (SelectorWindow.position.width - NWDGUI.kScrollbar- NWDGUI.kFieldMarge);
+                float tWidth = (SelectorWindow.position.width - NWDGUI.kScrollbar - NWDGUI.kFieldMarge);
                 int tColumn = 1;
                 if (tByTile)
                 {
