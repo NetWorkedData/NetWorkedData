@@ -11,8 +11,7 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections.Generic;
+using UnityEngine;
 
 #if UNITY_IOS
 using NotificationServices = UnityEngine.iOS.NotificationServices;
@@ -26,75 +25,145 @@ namespace NetWorkedData
     public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountInfos()
+        public NWDAccountInfos() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization() {}
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDAccountInfos ActiveAccount => CheckAccount();
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountInfos CheckAccount()
         {
+            NWDAccountInfos rAccountInfos = CurrentData();
+            if (rAccountInfos != null)
+            {
+                rAccountInfos.SetLastSignIn();
+            }
+            return rAccountInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public static string GetNickname()
         {
+            NWDAccountNickname tNickname = CurrentData().Nickname.GetReachableData();
+            if (tNickname != null)
+            {
+                return tNickname.Nickname;
+            }
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
+        public static Sprite GetAvatar(bool isRenderTexture = false)
+        {            
+            Sprite rSprite = null;
+            NWDAccountAvatar tAvatar = CurrentData().Avatar.GetReachableData();
+            if (tAvatar != null)
+            {
+                NWDItem tAvatarItem = tAvatar.RenderItem.GetRawData();
+                if (tAvatarItem != null)
+                {
+                    if (isRenderTexture)
+                    {
+                        NWDImagePNGType tImage = tAvatar.RenderTexture;
+                        if (tImage != null)
+                        {
+                            rSprite = tImage.ToSprite();
+                        }
+                    }
+                    else
+                    {
+                        if (!tAvatarItem.SecondarySprite.ValueIsNullOrEmpty())
+                        {
+                            rSprite = tAvatarItem.SecondarySprite.ToSprite();
+                        }
+                        else
+                        {
+                            rSprite = tAvatarItem.PrimarySprite.ToSprite();
+                        }
+                    }
+                }
+            }
+            return rSprite;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //private static NWDAccountInfos kCurrent = null;
+        public string GetAbsoluteNickname()
+        {
+            string rNickname = NWEConstants.K_MINUS;
+            NWDAccountNickname tNickname = Nickname.GetRawData();
+            if (tNickname != null)
+            {
+                rNickname = tNickname.Nickname;
+            }
+            return rNickname;
+        }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDAccountInfos GetAccountInfosOrCreate()
-        //{
-        //    if (kCurrent != null)
-        //    {
-        //        if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
-        //        {
-        //            kCurrent = null;
-        //        }
-        //    }
+        public Sprite GetAbsoluteAvatar(bool isPrimaryTexture = true)
+        {
+            Sprite rAvatar = null;
+            NWDAccountAvatar tAvatar = Avatar.GetRawData();
+            if (tAvatar != null)
+            {
+                NWDItem tItem = tAvatar.RenderItem.GetRawData();
+                if (tItem != null)
+                {
+                    if (isPrimaryTexture)
+                    {
+                        rAvatar = tItem.PrimarySprite.ToSprite();
+                    }
+                    else
+                    {
+                        rAvatar = tItem.SecondarySprite.ToSprite();
+                    }
+                }
+            }
+            return rAvatar;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetLastSignIn()
+        {
+            LastSignIn.SetCurrentDateTime();
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetAvatar(NWDItem sAvatar)
+        {
+            NWDAccountAvatar tAvatar = Avatar.GetRawData();
+            if (tAvatar == null)
+            {
+                tAvatar = NWDBasisHelper.NewData<NWDAccountAvatar>();
+                tAvatar.InternalKey = NWDAccount.CurrentReference();
+                tAvatar.Tag = NWDBasisTag.TagUserCreated;
+            }
+            tAvatar.RenderItem.SetData(sAvatar);
+            tAvatar.SaveData();
+            
+            Avatar.SetData(tAvatar);
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetNickname(string sNickname)
+        {
+            NWDAccountNickname tNickname = Nickname.GetRawData();
+            if (tNickname == null)
+            {
+                tNickname = NWDBasisHelper.NewData<NWDAccountNickname>();
+                tNickname.InternalKey = NWDAccount.CurrentReference();
+                tNickname.InternalDescription = sNickname;
+                tNickname.Tag = NWDBasisTag.TagUserCreated;
+            }
+            tNickname.Nickname = sNickname;
+            tNickname.SaveData();
 
-        //    if (kCurrent == null)
-        //    {
-        //        NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.CurrentReference(), null);
-        //        if (tAccountInfos == null)
-        //        {
-        //            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-        //            tAccountInfos = NewData();
-        //            tAccountInfos.Account.SetReference(NWDAccount.CurrentReference());
-        //            tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
-        //            tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
-        //            tAccountInfos.SaveData();
-        //        }
-        //        kCurrent = tAccountInfos;
-        //    }
-
-        //    return kCurrent;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
-        //{
-        //    //NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
-        //    NWDAccountInfos tActiveAccount = CurrentData();
-        //    if (tActiveAccount != null)
-        //    {
-        //        tActiveAccount.AccountType = tStatus;
-        //        tActiveAccount.SaveData();
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static void SynchronizeDatas()
-        //{
-        //    SynchronizationFromWebService();
-        //    //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos)}, true);
-        //}
+            Nickname.SetData(tNickname);
+            SaveData();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {
 #if UNITY_ANDROID
             OSLastSignIn = NWDOperatingSystem.Android;
-            // TODO register notification token
-
 #elif UNITY_IOS
             OSLastSignIn = NWDOperatingSystem.IOS;
-            // TODO register notification token
-
             NotificationServices.RegisterForNotifications( NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
 
             byte[] tToken = NotificationServices.deviceToken;
@@ -102,20 +171,14 @@ namespace NetWorkedData
             {
                 AppleNotificationToken = "%" + System.BitConverter.ToString(tToken).Replace('-', '%');
             }
-
 #elif UNITY_STANDALONE_OSX
             OSLastSignIn = NWDOperatingSystem.OSX;
-            // TODO register notification token
-
 #elif UNITY_STANDALONE_WIN
             OSLastSignIn = NWDOperatingSystem.WIN;
-
 #elif UNITY_WP8
             OSLastSignIn = NWDOperatingSystem.WIN;
-
 #elif UNITY_WINRT
             OSLastSignIn = NWDOperatingSystem.WINRT;
-
 #endif
 
             if (UpdateDataIfModified())

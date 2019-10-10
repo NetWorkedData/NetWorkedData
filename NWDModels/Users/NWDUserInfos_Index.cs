@@ -41,17 +41,75 @@ namespace NetWorkedData
             kIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos CurrentData(bool sOrCreate = true)
+        public static NWDUserInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
-            NWDUserInfos rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
-            if (rReturn == null && sOrCreate == true)
+            if (kCurrent != null)
             {
-                rReturn = NWDBasisHelper.NewData<NWDUserInfos>();
-                rReturn.GameSave.SetData(NWDGameSave.CurrentData());
-                rReturn.UpdateData();
+                if (kCurrent.Account.GetReference() != sAccountReference)
+                {
+                    kCurrent = null;
+                }
             }
-            return rReturn;
+
+            if (kCurrent == null)
+            {
+                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
+                //NWDUserInfos tUserInfos = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+                if (tUserInfos == null && sOrCreate)
+                {
+                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
+                    
+                    #if UNITY_EDITOR
+                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
+                    #endif
+
+                    tUserInfos.GameSave.SetData(NWDGameSave.CurrentData());
+                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
+                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
+                    tUserInfos.SaveData();
+                }
+                kCurrent = tUserInfos;
+            }
+            return kCurrent;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInfos CurrentData()
+        {
+            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /*public static NWDUserInfos CurrentData()
+        {
+            if (kCurrent != null)
+            {
+                if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
+                {
+                    kCurrent = null;
+                }
+            }
+
+            if (kCurrent == null)
+            {
+                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
+                //NWDUserInfos tUserInfos = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+                if (tUserInfos == null)
+                {
+                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
+                    
+                    #if UNITY_EDITOR
+                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
+                    #endif
+
+                    tUserInfos.GameSave.SetData(NWDGameSave.CurrentData());
+                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
+                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
+                    tUserInfos.SaveData();
+                }
+                kCurrent = tUserInfos;
+            }
+
+            return kCurrent;
+        }*/
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

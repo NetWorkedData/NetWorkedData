@@ -45,14 +45,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
-            //Debug.Log("NWDAccountInfos FindFirstDataByAccount()");
             NWDAccountInfos rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NWDBasisHelper.NewData<NWDAccountInfos>();
+                
+                #if UNITY_EDITOR
+                rReturn.InternalKey = sAccountReference;
+                #endif
+
                 rReturn.Account.SetReference(sAccountReference);
-                //rReturn.AccountType = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerStatut;
-                //rReturn.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.UpdateData();
             }
@@ -61,7 +63,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountInfos CurrentData()
         {
-            //Debug.Log("NWDAccountInfos CurrentData()");
             return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
         }
         //-------------------------------------------------------------------------------------------------------------

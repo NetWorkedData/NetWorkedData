@@ -86,7 +86,7 @@ namespace NetWorkedData
         {
             NWEBenchmark.Start();
             string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", string.Empty, "csv");
-            if (tPath != null)
+            if (string.IsNullOrEmpty(tPath) == false)
             {
                 string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
                 string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);

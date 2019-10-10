@@ -387,7 +387,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_RESET_WARNING = "Warning Table";
         public const string K_APP_TABLE_RESET_ZONE = "Reset table";
         public const string K_APP_TABLE_RESET_ALERT = "Warning";
-        public const string K_APP_TABLE_RESET_TABLE = "Do ypou want really reset this table?";
+        public const string K_APP_TABLE_RESET_TABLE = "Do you want really reset this table?";
         public const string K_APP_TABLE_RESET_YES = "Yes! Reset!";
         public const string K_APP_TABLE_RESET_NO = "No, cancel!";
 
