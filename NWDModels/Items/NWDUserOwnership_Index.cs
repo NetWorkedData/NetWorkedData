@@ -11,8 +11,6 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +33,7 @@ namespace NetWorkedData
     {
         public NWDUserOwnership FindReachableUserOwnerShip(bool sOrCreate = true)
         {
-            return NWDUserOwnership.FindFisrtByItem(this, sOrCreate);
+            return NWDUserOwnership.FindReachableByItem(this, sOrCreate);
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -63,24 +61,12 @@ namespace NetWorkedData
             kAchievementKeyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [Obsolete("FindReachableByItem")]
-        public static NWDUserOwnership FindFisrtByItem(NWDItem sKey, bool sOrCreate = true)
-        {
-            return FindFisrtByItemReference(sKey.Reference, sOrCreate);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership FindReachableByItem(NWDItem sKey, bool sOrCreate = true)
         {
-            return FindFisrtByItemReference(sKey.Reference, sOrCreate);
-        }
-        [Obsolete("FindReachableByItem")]
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserOwnership FindFisrtByItemReference(string sReference, bool sOrCreate = true)
-        {
-            return FindFirstByItemReference(sReference, sOrCreate);
+            return FindReachableByItemReference(sKey.Reference, sOrCreate);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserOwnership FindFirstByItemReference(string sReference, bool sOrCreate = true)
+        public static NWDUserOwnership FindReachableByItemReference(string sReference, bool sOrCreate = true)
         {
             string tKey = sReference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
             NWDUserOwnership rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
