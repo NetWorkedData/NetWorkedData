@@ -321,7 +321,7 @@ namespace NetWorkedData
         {
             Rect[,] tMatrixRect = NWDGUI.DiviseArea(sRect, 3, 6);
 
-            NWDUserOwnership tOwnership = NWDUserOwnership.FindFisrtByItem(this);
+            NWDUserOwnership tOwnership = NWDUserOwnership.FindReachableByItem(this);
 
             if (tOwnership != null)
             {

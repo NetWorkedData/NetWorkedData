@@ -100,7 +100,7 @@ namespace NetWorkedData
         /// <param name="sItemReference">item reference.</param>
         public static int QuantityForItem(string sItemReference)
         {
-            NWDUserOwnership rOwnership = FindFisrtByItemReference(sItemReference);
+            NWDUserOwnership rOwnership = FindReachableByItemReference(sItemReference);
             int rQte = 0;
             if (rOwnership != null)
             {
@@ -116,7 +116,7 @@ namespace NetWorkedData
         /// <param name="sItemReference">item reference.</param>
         public static bool OwnershipForItemExists(string sItemReference)
         {
-            NWDUserOwnership rOwnership = FindFisrtByItemReference(sItemReference);
+            NWDUserOwnership rOwnership = FindReachableByItemReference(sItemReference);
             return rOwnership.Discovered;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
         {
-            NWDUserOwnership rOwnershipToUse = FindFisrtByItem(sItem);
+            NWDUserOwnership rOwnershipToUse = FindReachableByItem(sItem);
             int tOldQuantity = rOwnershipToUse.Quantity;
             rOwnershipToUse.Quantity = sQuantity;
             rOwnershipToUse.UncountableVerify(sItem);
@@ -204,13 +204,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsDiscovered(NWDItem sItem)
         {
-            NWDUserOwnership rOwnershipToUse = FindFisrtByItem(sItem);
+            NWDUserOwnership rOwnershipToUse = FindReachableByItem(sItem);
             return rOwnershipToUse.Discovered;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetDiscovered(NWDItem sItem, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            NWDUserOwnership rOwnershipToUse = FindFisrtByItem(sItem);
+            NWDUserOwnership rOwnershipToUse = FindReachableByItem(sItem);
             if (rOwnershipToUse.Discovered == false)
             {
                 rOwnershipToUse.FirstAcquisitionMethod();
@@ -223,7 +223,7 @@ namespace NetWorkedData
             NWDUserOwnership rOwnershipToUse = null;
             if (sItem != null)
             {
-                rOwnershipToUse = FindFisrtByItem(sItem);
+                rOwnershipToUse = FindReachableByItem(sItem);
                 rOwnershipToUse.Quantity += sQuantity;
                 rOwnershipToUse.UncountableVerify(sItem);
                 rOwnershipToUse.FirstAcquisitionMethod();
@@ -298,7 +298,7 @@ namespace NetWorkedData
             bool rReturn = true;
             if (sItem != null)
             {
-                NWDUserOwnership rOwnershipToUse = FindFisrtByItem(sItem);
+                NWDUserOwnership rOwnershipToUse = FindReachableByItem(sItem);
                 if (sItem.Uncountable == false)
                 {
                     if (rOwnershipToUse.Quantity < sQuantity)
@@ -367,7 +367,7 @@ namespace NetWorkedData
                             sQuantity = 0;
                         }
                     }
-                    NWDUserOwnership tOwnership = FindFisrtByItem(tItem);
+                    NWDUserOwnership tOwnership = FindReachableByItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
                     if (tQ >= sQuantity)
                     {
@@ -412,7 +412,7 @@ namespace NetWorkedData
             bool rReturn = true;
             if (sConditional.Reference != null)
             {
-                NWDUserOwnership rOwnershipToUse = FindFisrtByItemReference(sConditional.Reference);
+                NWDUserOwnership rOwnershipToUse = FindReachableByItemReference(sConditional.Reference);
                 rReturn = sConditional.isValid(rOwnershipToUse.Quantity);
             }
             //NWEBenchmark.Finish();
@@ -451,7 +451,7 @@ namespace NetWorkedData
                 int tQ = 0;
                 foreach (NWDItem tItem in tItemGroup.ItemList.GetReachableDatas())
                 {
-                    NWDUserOwnership tOwnership = FindFisrtByItem(tItem);
+                    NWDUserOwnership tOwnership = FindReachableByItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
                 }
                 // I Got the quantity
