@@ -138,7 +138,7 @@ namespace NetWorkedData
 
             // delete editor key
 #if UNITY_EDITOR
-            Debug.Log("Quitting the Editor");
+            //Debug.Log("Quitting the Editor");
             if (EditorPrefs.HasKey(K_PINCODE_KEY))
             {
                 EditorPrefs.DeleteKey(K_PINCODE_KEY);
@@ -148,7 +148,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void LaunchNext()
         {
-            Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
+            //Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
             //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {

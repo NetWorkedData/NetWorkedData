@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
-            Debug.Log("NWDEditorWindow GenerateCSharpFile()");
+            //Debug.Log("NWDEditorWindow GenerateCSharpFile()");
             if (NWDAppConfiguration.SharedInstance().ShowCompile == true)
             {
                 foreach (NWDEditorWindow tWindow in AllWindowsList)
@@ -41,7 +41,7 @@ namespace NetWorkedData
         [DidReloadScripts]
         private static void OnScriptsReloaded()
         {
-            Debug.Log("NWDEditorWindow OnScriptsReloaded()");
+            //Debug.Log("NWDEditorWindow OnScriptsReloaded()");
             if (AllWindowsList != null)
             {
                 foreach (NWDEditorWindow tWindow in AllWindowsList)

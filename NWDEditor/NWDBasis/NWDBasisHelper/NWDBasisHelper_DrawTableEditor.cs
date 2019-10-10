@@ -1202,6 +1202,46 @@ namespace NetWorkedData
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionLeft.y;
+                // draw row Actions
+                GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // export import
+                if (GUI.Button(tRect, "Reorder localization", NWDGUI.KTableSearchButton))
+                {
+                    ReOrderAllLocalizations();
+                    NWDDataInspector.Refresh();
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+                if (GUI.Button(tRect, "Export localization", NWDGUI.KTableSearchButton))
+                {
+                    ExportLocalization(true);
+                }
+                EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Import localization", NWDGUI.KTableSearchButton))
+                {
+                    NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+                if (GUI.Button(tRect, "Export data", NWDGUI.KTableSearchButton))
+                {
+                    ExportCSV(true);
+                }
+                EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Import data", NWDGUI.KTableSearchButton))
+                {
+                    ImportCSV();
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+
+                tRect.x += tRect.width + NWDGUI.kFieldMarge;
+                tRect.y = tRectActionLeft.y;
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 NWDGUI.BeginRedArea();
                 // DELETE SELECTION
@@ -1996,7 +2036,7 @@ namespace NetWorkedData
                 tMargeNeed = true;
 
                 tRect.y += NWDGUI.WarningBox(NWDGUI.MargeLeftRight(tRect), NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED).height + NWDGUI.kFieldMarge;
-                
+
                 //if (GUI.Button(tRect, "See log", NWDGUI.KTableSearchButton))
                 //{
                 //    Debug.Log("log ...");

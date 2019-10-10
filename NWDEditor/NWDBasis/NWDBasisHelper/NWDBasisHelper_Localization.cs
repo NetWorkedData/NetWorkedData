@@ -41,7 +41,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ExportLocalization()
+        public void ExportLocalization(bool sOnlySelection = false)
         {
             //NWEBenchmark.Start();
             //Debug.Log ("ExportThisLocalization");
@@ -52,29 +52,42 @@ namespace NetWorkedData
                 string.Empty,
                 ClassNamePHP + ".csv",
                 "csv");
-            if (tPath != null)
+            if (string.IsNullOrEmpty(tPath) ==false)
             {
                 // prepare header
                 string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" +
                                  NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace(";", "\";\"") + "\"\n";
                 // start to create file
                 string tFile = tHeaders;
-                tFile += ExportLocalizationInCSV();
+                tFile += ExportLocalizationInCSV(sOnlySelection);
                 // write file
                 File.WriteAllText(tPath, tFile);
             }
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string ExportLocalizationInCSV()
+        public string ExportLocalizationInCSV(bool sOnlySelection = false)
         {
             //NWEBenchmark.Start();
             string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDTypeClass tObject in Datas)
+            if (sOnlySelection == false)
             {
-                tRows += tObject.ExportCSV(tLanguageArray);
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    tRows += tObject.ExportCSV(tLanguageArray);
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<NWDTypeClass,bool> tObjectSelection in EditorTableDatasSelected)
+                {
+                    if (tObjectSelection.Value == true)
+                    {
+                        tRows += tObjectSelection.Key.ExportCSV(tLanguageArray);
+                    }
+                }
             }
             //NWEBenchmark.Finish();
             return tRows;
