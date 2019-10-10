@@ -298,15 +298,15 @@ namespace NetWorkedData
         //    return string.Empty;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool DataIntegrityState()
+        public virtual bool IntegrityIsValid()
         {
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool TestIntegrity()
-        {
-            return true;
-        }
+        //public virtual bool TestIntegrity()
+        //{
+        //    return true;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public bool IsEnable()
         {
@@ -437,9 +437,9 @@ namespace NetWorkedData
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
-            public bool IsUsable()
+        public bool IsUsable()
         {
-            if (AC == true && XX <= 0 && TestIntegrity() == true)
+            if (AC == true && XX <= 0 && IntegrityIsValid() == true)
             {
                 return true;
             }
@@ -460,6 +460,10 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void UpdateIntegrity()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataEditor()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -505,27 +509,27 @@ namespace NetWorkedData
         {
             return 0;
         }
-            //------------------------------------------------------------------------------------------------------------- 
-            //public virtual bool EnableState()
-            //{
-            //    return true;
-            //}
-            //-------------------------------------------------------------------------------------------------------------
-            //public virtual bool ReachableState()
-            //{
-            //    return true;
-            //}
-            //-------------------------------------------------------------------------------------------------------------
-            //public virtual bool InGameSaveState()
-            //{
-            //    return true;
-            //}
-            //-------------------------------------------------------------------------------------------------------------
-            //public virtual void SetCurrentGameSave()
-            //{
-            //}
-            //-------------------------------------------------------------------------------------------------------------
-            public string DatasMenu()
+        //------------------------------------------------------------------------------------------------------------- 
+        //public virtual bool EnableState()
+        //{
+        //    return true;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual bool ReachableState()
+        //{
+        //    return true;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual bool InGameSaveState()
+        //{
+        //    return true;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual void SetCurrentGameSave()
+        //{
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public string DatasMenu()
         {
             string rReturn = InternalKey + " <" + Reference + ">";
             rReturn = rReturn.Replace("/", " ");
@@ -609,7 +613,7 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string DGPRLinearization(string sTypeName,  bool sAsssemblyAsCSV = true)
+        public virtual string DGPRLinearization(string sTypeName, bool sAsssemblyAsCSV = true)
         {
             return string.Empty;
         }
@@ -636,10 +640,10 @@ namespace NetWorkedData
             //this = null;
         }
         //-------------------------------------------------------------------------------------------------------------
-		public virtual void AddonDuplicateMe ()
-		{
+        public virtual void AddonDuplicateMe()
+        {
 
-		}
+        }
         //-------------------------------------------------------------------------------------------------------------
         ~NWDTypeClass()
         {

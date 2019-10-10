@@ -160,7 +160,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (IsEnable() == true
                 && IsTrashed() == false
-                && TestIntegrity() == true)
+                && IntegrityIsValid() == true)
             {
                 foreach (string tHash in RecipeHashesArray.GetReferences())
                 {

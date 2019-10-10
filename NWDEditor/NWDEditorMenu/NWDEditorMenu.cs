@@ -504,11 +504,11 @@ namespace NetWorkedData
                     //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
                     if (tBasisHelper != null)
                     {
-                        foreach (NWDTypeClass tObject in tBasisHelper.Datas)
+                        foreach (NWDTypeClass tData in tBasisHelper.Datas)
                         {
-                            if (tObject.DataIntegrityState() == false)
+                            if (tData.IntegrityIsValid() == false)
                             {
-                                tObject.TrashAction();
+                                tData.TrashAction();
                             }
                         }
                     }

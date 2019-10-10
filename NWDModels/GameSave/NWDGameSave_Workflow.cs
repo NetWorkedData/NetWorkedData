@@ -63,7 +63,7 @@ namespace NetWorkedData
         {
             foreach (NWDGameSave tParty in BasisHelper().Datas)
             {
-                if (tParty.Account.GetReference() == NWDAccount.CurrentReference() && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
+                if (tParty.Account.GetReference() == NWDAccount.CurrentReference() && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.IntegrityIsValid() == true)
                 {
                     tParty.IsCurrent = false;
                     tParty.SaveDataIfModified();

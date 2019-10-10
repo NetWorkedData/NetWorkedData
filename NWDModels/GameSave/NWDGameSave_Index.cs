@@ -74,7 +74,7 @@ namespace NetWorkedData
             {
                 if (tParty.Account.GetReference() == sAccountReference)
                 {
-                    if (tParty.IsCurrent == true && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
+                    if (tParty.IsCurrent == true && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.IntegrityIsValid() == true)
                     {
                         rParty = tParty;
                         break;

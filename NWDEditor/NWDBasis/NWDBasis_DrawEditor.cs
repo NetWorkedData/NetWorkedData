@@ -518,12 +518,7 @@ namespace NetWorkedData
                     {
                         tInternalName = NWDToolbox.TextProtect(tInternalName);
                         InternalKey = tInternalName;
-                        DM = NWDToolbox.Timestamp();
-                        UpdateIntegrity();
-                        UpdateData(true, NWDWritingMode.ByEditorDefault);
-                        RowAnalyze();
-                        BasisHelper().RepaintTableEditor();
-                        //NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                        UpdateDataEditor();
                     }
                 }
                 else
@@ -541,12 +536,7 @@ namespace NetWorkedData
                 {
                     tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
                     InternalDescription = tInternalDescription;
-                    DM = NWDToolbox.Timestamp();
-                    UpdateIntegrity();
-                    UpdateData(true, NWDWritingMode.ByEditorDefault);
-                    RowAnalyze();
-                    BasisHelper().RepaintTableEditor();
-                    //NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                        UpdateDataEditor();
                 }
 
                 if (CanBeEdit == true)
@@ -603,11 +593,7 @@ namespace NetWorkedData
                     {
                         // Debug.Log(" set from " + WebModel + " To " + tWebServiceVersionNew);
                         WebModel = tWebServiceVersionNew;
-                        DM = NWDToolbox.Timestamp();
-                        UpdateIntegrity();
-                        UpdateData(true, NWDWritingMode.ByEditorDefault, false);
-                        RowAnalyze();
-                        BasisHelper().RepaintTableEditor();
+                        UpdateDataEditor();
                     }
                 }
                 else
@@ -633,11 +619,7 @@ namespace NetWorkedData
                 if (tInternalTag != Tag)
                 {
                     Tag = tInternalTag;
-                    DM = NWDToolbox.Timestamp();
-                    UpdateIntegrity();
-                    UpdateData(true, NWDWritingMode.ByEditorDefault);
-                    RowAnalyze();
-                    BasisHelper().RepaintTableEditor();
+                        UpdateDataEditor();
                 }
 
                 if (BasisHelper().kAccountDependent == false)
@@ -653,11 +635,7 @@ namespace NetWorkedData
                     if (tCheckList.Value != CheckList.Value)
                     {
                         CheckList = tCheckList;
-                        DM = NWDToolbox.Timestamp();
-                        UpdateIntegrity();
-                        UpdateData(true, NWDWritingMode.MainThread);
-                        RowAnalyze();
-                        BasisHelper().RepaintTableEditor();
+                        UpdateDataEditor();
                     }
                 }
 
@@ -920,8 +898,8 @@ namespace NetWorkedData
                 }
                 if (GUI.Button(tMatrixRect[1, 1], NWDConstants.K_APP_BASIS_UPDATE, NWDGUI.kMiniButtonStyle))
                 {
-                    DM = NWDToolbox.Timestamp();
-                    UpdateIntegrity();
+                    //DM = NWDToolbox.Timestamp();
+                    //UpdateIntegrity();
                     UpdateData(true, NWDWritingMode.ByEditorDefault);
                     NWDDataManager.SharedInstance().DataQueueExecute();
                 }

@@ -298,7 +298,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ChangeUser(string sOldUser, string sNewUser)
         {
-            if (TestIntegrity() == true)
+            if (IntegrityIsValid() == true)
             {
                 if (AccountDependent() == true)
                 {

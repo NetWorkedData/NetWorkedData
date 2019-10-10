@@ -10,15 +10,6 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using System;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -32,7 +23,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInformation("Use the internal key as keyword. If you need more complex classification use Category or Family!")]
-        [NWDInspectorGroupStart("Informations", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDLocalizableStringType Name
         {
             get; set;

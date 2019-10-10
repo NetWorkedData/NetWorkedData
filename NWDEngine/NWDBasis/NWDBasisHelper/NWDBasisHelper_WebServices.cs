@@ -193,7 +193,7 @@ namespace NetWorkedData
                 {
                     // I test integrity and if object is locked (only editable by editor)
                     // I add test if WebService is not outgrade for this object 
-                    if (tItem.TestIntegrity() && tItem.IsLockedObject() == false && tItem.WebserviceVersionIsValid() == true)
+                    if (tItem.IntegrityIsValid() && tItem.IsLockedObject() == false && tItem.WebserviceVersionIsValid() == true)
                     {
                         // I need to update the webservice to synchronize !
                         tItem.WebserviceVersionCheckMe(); // use this method is more effectient

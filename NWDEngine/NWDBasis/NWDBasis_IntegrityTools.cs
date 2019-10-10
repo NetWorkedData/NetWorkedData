@@ -201,44 +201,62 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis UpdateIntegrity()");
             NotNullChecker();
-#if UNITY_EDITOR
-            ServerLog = IntegrityAssembly();
-#endif
-            Integrity = IntegrityValue();
-        }
 
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+#if UNITY_EDITOR
+                //ServerLog = IntegrityAssembly();
+#endif
+                Integrity = IntegrityValue();
+            }
+            else
+            {
+#if UNITY_EDITOR
+                //ServerLog = string.Empty;
+#endif
+                Integrity = string.Empty;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-        //public override void UpdateIntegrityAction()
-        //{
-        //    //UpdateIntegrity();
-        //    UpdateData();
-        //}
+        public override bool IntegrityIsValid()
+        {
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+                return Integrity == IntegrityValue();
+            }
+            else
+            {
+                return true;
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Tests the integrity.
         /// </summary>
         /// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
-        public override bool TestIntegrity()
-        {
-            bool rReturn = false;
-            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
-            {
-                // test integrity
-                if (Integrity == IntegrityValue())
-                {
-                    rReturn = true;
-                }
-                else
-                {
-                    AC = false;
-                }
-            }
-            else
-            {
-                rReturn = true;
-            }
-            return rReturn;
-        }
+        //public override bool TestIntegrity()
+        //{
+        //    bool rReturn = false;
+        //    if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+        //    {
+        //        // test integrity
+        //        if (Integrity == IntegrityValue())
+        //        {
+        //            rReturn = true;
+        //        }
+        //        else
+        //        {
+        //            //DisableData();
+        //            //DD = NWDToolbox.Timestamp();
+        //            //AC = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        rReturn = true;
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Integrity value for this object's data.
@@ -246,7 +264,14 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+                return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

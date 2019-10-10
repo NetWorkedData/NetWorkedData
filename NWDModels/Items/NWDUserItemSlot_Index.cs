@@ -41,7 +41,7 @@ namespace NetWorkedData
             if (ItemSlot.GetReference() != null
                 && IsEnable() == true
                 && IsTrashed() == false
-                && TestIntegrity() == true)
+                && IntegrityIsValid() == true)
             {
                 string tKey = ItemSlot.GetReference();
                 if (kIndexList != null)

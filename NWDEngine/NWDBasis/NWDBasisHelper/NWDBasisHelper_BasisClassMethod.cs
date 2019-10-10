@@ -729,7 +729,7 @@ namespace NetWorkedData
             T rReturnObject = null;
             if (sData != null)
             {
-                if (sData.TestIntegrity() == true)
+                if (sData.IntegrityIsValid() == true)
                 {
                     rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
                     rReturnObject.InstanceInit();

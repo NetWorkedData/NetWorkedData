@@ -35,7 +35,7 @@ namespace NetWorkedData
         public override void ReOrderLocalizationsValues(string[] sLanguageArray)
         {
             //NWEBenchmark.Start();
-            if (TestIntegrity() == true)
+            if (IntegrityIsValid() == true)
             {
                 bool tUpdate = false;
                 //				string tRows = "";

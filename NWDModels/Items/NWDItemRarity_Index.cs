@@ -49,7 +49,7 @@ namespace NetWorkedData
             if (ItemReference.GetReference() != null
                 && IsEnable() == true
                 && IsTrashed() == false
-                && TestIntegrity() == true)
+                && IntegrityIsValid() == true)
             {
                 string tKey = ItemReference.GetReference();
                 if (kIndexList != null)

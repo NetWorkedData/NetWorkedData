@@ -22,7 +22,7 @@ namespace NetWorkedData
         public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
             //NWEBenchmark.Start();
-            if (TestIntegrity() == true)
+            if (IntegrityIsValid() == true)
             {
                 bool tUpdate = false;
                 if (Preview != null)

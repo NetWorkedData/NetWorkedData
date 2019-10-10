@@ -10,15 +10,6 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using System;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -31,7 +22,7 @@ namespace NetWorkedData
     public partial class NWDFamily : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Informations", true, true, true)]
+        [NWDInspectorGroupStart("Description", true, true, true)]
         public NWDLocalizableStringType Name
         {
             get; set;

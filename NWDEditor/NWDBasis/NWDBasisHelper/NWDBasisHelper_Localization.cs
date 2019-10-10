@@ -118,11 +118,11 @@ namespace NetWorkedData
                 if (tDico["Type"] == ClassTrigramme)
                 {
                     //Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
-                    NWDTypeClass tObject = GetDataByReference(tDico["Reference"]);
-                    if (tObject != null)
+                    NWDTypeClass tData = GetDataByReference(tDico["Reference"]);
+                    if (tData != null)
                     {
                         //Debug.Log ("tObject reference " + tObject.Reference + " found ");
-                        if (tObject.TestIntegrity() == true)
+                        if (tData.IntegrityIsValid() == true)
                         {
                             List<string> tValueNextList = new List<string>();
                             foreach (string tLang in sLanguageArray)
@@ -145,7 +145,7 @@ namespace NetWorkedData
                             }
                             string tPropertyName = tDico["PropertyName"];
 
-                            PropertyInfo tInfo = tObject.GetType().GetProperty(tPropertyName);
+                            PropertyInfo tInfo = tData.GetType().GetProperty(tPropertyName);
                             if (tInfo == null)
                             {
                                 Debug.LogError("tPropertyName not exist : " + tPropertyName);
@@ -155,11 +155,11 @@ namespace NetWorkedData
                                 if (tInfo.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
                                 {
                                     Debug.Log("import : " + tDico["Type"] + " "+ tPropertyName);
-                                    NWDLocalizableType tPropertyValueOld = (NWDLocalizableType)tInfo.GetValue(tObject, null);
+                                    NWDLocalizableType tPropertyValueOld = (NWDLocalizableType)tInfo.GetValue(tData, null);
                                     if (tPropertyValueOld.Value != tNextValue)
                                     {
                                         tPropertyValueOld.Value = tNextValue;
-                                        tObject.UpdateData(true, NWDWritingMode.ByEditorDefault);
+                                        tData.UpdateData(true, NWDWritingMode.ByEditorDefault);
                                     }
                                 }
                             }

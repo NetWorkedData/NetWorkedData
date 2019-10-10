@@ -60,12 +60,12 @@ namespace NetWorkedData
         public void RecalculateAllIntegrities()
         {
             //loop
-            foreach (NWDTypeClass tObject in Datas)
+            foreach (NWDTypeClass tData in Datas)
             {
                 // update integrity value
-                tObject.UpdateIntegrity();
+                tData.UpdateIntegrity();
                 // force to write object in database
-                tObject.UpdateData();
+                tData.UpdateData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

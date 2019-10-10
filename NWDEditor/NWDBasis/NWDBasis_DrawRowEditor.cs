@@ -78,7 +78,7 @@ namespace NetWorkedData
             CanBeEdit = true; // change to false in draw editor
             AnalyzeID = ID;
             AnalyzeModel = WebModel;
-            TestIntegrityResult = TestIntegrity();
+            TestIntegrityResult = IntegrityIsValid();
             TestWebserviceVersionIsValid = WebserviceVersionIsValid();
             AnalyzePrefab = 1;
             if (string.IsNullOrEmpty(Preview))
@@ -367,7 +367,7 @@ namespace NetWorkedData
                 BasisHelper().SetObjectInEdition(this);
                 if (sSelectAndClick == true)
                 {
-                    if (XX == 0 && TestIntegrity())
+                    if (XX == 0 && IntegrityIsValid())
                     {
                         //Datas().DatasInEditorSelectionList[tIndex] = !Datas().DatasInEditorSelectionList [tIndex];
                         BasisHelper().EditorTableDatasSelected[this] = !BasisHelper().EditorTableDatasSelected[this];

@@ -483,9 +483,9 @@ namespace NetWorkedData
                     ProdSync = 0;
                 }
             }
-            this.ServerHash = string.Empty;
-            this.ServerLog = string.Empty;
-            this.UpdateIntegrity();
+            ServerHash = string.Empty;
+            ServerLog = string.Empty;
+            UpdateIntegrity();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -589,6 +589,13 @@ namespace NetWorkedData
             UpdateData(true, sWritingMode, true);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void UpdateDataEditor()
+        {
+            DM = NWDToolbox.Timestamp();
+            UpdateIntegrity();
+            UpdateData(true, NWDWritingMode.ByEditorDefault);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
         {
             //NWEBenchmark.Start();
@@ -678,9 +685,9 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
             
 #if UNITY_EDITOR
+            RowAnalyze();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDNodeEditor.ReAnalyzeIfNecessary(this);
-            RowAnalyze();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -721,7 +728,7 @@ namespace NetWorkedData
                     this.WebModel = tWS;
                 }
             }
-            this.UpdateIntegrity();
+            UpdateIntegrity();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
