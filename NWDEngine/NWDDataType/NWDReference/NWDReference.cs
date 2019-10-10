@@ -115,6 +115,18 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDReferenceMultiple : NWDReference
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public int Count()
+        {
+            int tReturn = 0;
+            if (Value != null && Value != string.Empty)
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                tReturn = tValueArray.Count();
+            }
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
