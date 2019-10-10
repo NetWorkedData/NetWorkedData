@@ -610,6 +610,14 @@ namespace NetWorkedData
                         //tProperty.Name = "(" + tProperty.Order + ")" + tEntitled;
 
                         tProperty.Name = tEntitled;
+                        //foreach (NWDInspectorRename tReference in tProp.GetCustomAttributes(typeof(NWDInspectorRename), true))
+                        //{
+                        //    if (tReference.Entity == tProp.Name)
+                        //    {
+                        //        tProperty.Name = "dddd"+tReference.NewName;
+                        //    }
+                        //}
+
                         foreach (NWDSpace tReference in tProp.GetCustomAttributes(typeof(NWDSpace), true))
                         {
                             tProperty.SpaceBefore += NWDGUI.kFieldMarge;
@@ -618,6 +626,20 @@ namespace NetWorkedData
                         {
                             tProperty.Tooltips += tReference.ToolsTips;
                         }
+
+                        foreach (NWDPropertyRename tReference in ClassType.GetCustomAttributes(typeof(NWDPropertyRename), true))
+                        {
+                            if (tReference.Entity == tProp.Name)
+                            {
+                                tProperty.Name = tReference.NewName;
+                                if (string.IsNullOrEmpty(tReference.ToolsTips) == false)
+                                {
+                                    tProperty.Tooltips += "\n----\n" + tReference.ToolsTips;
+                                }
+                            }
+                        }
+
+
                         foreach (NWDNotEditable tReference in tProp.GetCustomAttributes(typeof(NWDNotEditable), true))
                         {
                             tProperty.NotEditable = true;

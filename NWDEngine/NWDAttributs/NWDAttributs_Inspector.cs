@@ -274,6 +274,38 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    //public class NWDInspectorRename : Attribute
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public string Entity = string.Empty;
+    //    public string NewName = string.Empty;
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public NWDInspectorRename(string sEntity, string sNewName)
+    //    {
+    //        this.Entity = sEntity;
+    //        this.NewName = sNewName;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    public class NWDPropertyRename : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string Entity = string.Empty;
+        public string NewName = string.Empty;
+        public string ToolsTips = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDPropertyRename(string sEntity, string sNewName, string sToolsTips = "")
+        {
+            this.Entity = sEntity;
+            this.NewName = sNewName;
+            this.ToolsTips = sToolsTips;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class NWDTooltips : Attribute
     {
