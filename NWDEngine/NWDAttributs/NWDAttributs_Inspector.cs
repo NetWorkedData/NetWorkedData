@@ -274,20 +274,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    //public class NWDInspectorRename : Attribute
-    //{
-    //    //-------------------------------------------------------------------------------------------------------------
-    //    public string Entity = string.Empty;
-    //    public string NewName = string.Empty;
-    //    //-------------------------------------------------------------------------------------------------------------
-    //    public NWDInspectorRename(string sEntity, string sNewName)
-    //    {
-    //        this.Entity = sEntity;
-    //        this.NewName = sNewName;
-    //    }
-    //    //-------------------------------------------------------------------------------------------------------------
-    //}
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class NWDInspectorInformations : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string Entity = string.Empty;
+        public string NewName = string.Empty;
+        public string ToolsTips = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDInspectorInformations(string sEntity, string sAddName, string sToolsTips = "")
+        {
+            this.Entity = sEntity;
+            this.NewName = sAddName;
+            this.ToolsTips = sToolsTips;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class NWDPropertyRename : Attribute

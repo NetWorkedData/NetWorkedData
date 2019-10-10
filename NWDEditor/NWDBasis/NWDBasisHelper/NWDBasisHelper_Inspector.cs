@@ -631,14 +631,26 @@ namespace NetWorkedData
                         {
                             if (tReference.Entity == tProp.Name)
                             {
-                                tProperty.Name = tReference.NewName;
+                                tProperty.Name = "<color=orange>" + tReference.NewName + "</color>";
                                 if (string.IsNullOrEmpty(tReference.ToolsTips) == false)
                                 {
                                     tProperty.Tooltips += "\n----\n" + tReference.ToolsTips;
                                 }
                             }
                         }
-
+                        foreach (MethodInfo tMethod in ClassType.GetMethods())
+                        {
+                            foreach (NWDInspectorInformations tReference in tMethod.GetCustomAttributes(typeof(NWDInspectorInformations), true))
+                            {
+                                //Debug.Log("tReference.Entity " + tReference.Entity + " " + tMethod.Name + "() check with "+tProp.Name+"");
+                                if (tReference.Entity == tProp.Name)
+                                {
+                                    //Debug.Log("tReference.Entity " + tReference.Entity + " OKAY");
+                                    tProperty.Name = "<color=orange>" + tProperty.Name + tReference.NewName + "</color>";
+                                    tProperty.Tooltips += "\n----\n - use " + tMethod.Name + "() \n" + tReference.ToolsTips;
+                                }
+                            }
+                        }
 
                         foreach (NWDNotEditable tReference in tProp.GetCustomAttributes(typeof(NWDNotEditable), true))
                         {
