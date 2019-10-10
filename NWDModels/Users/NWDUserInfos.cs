@@ -43,6 +43,7 @@ namespace NetWorkedData
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDReferenceType<NWDUserAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
+        public NWDDateTimeType LastSignIn { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Localization Options")]

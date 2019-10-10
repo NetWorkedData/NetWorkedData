@@ -12,19 +12,8 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-//using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 #if UNITY_IOS
 using NotificationServices = UnityEngine.iOS.NotificationServices;
@@ -38,47 +27,92 @@ namespace NetWorkedData
     public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos()
-        {
-        }
+        public NWDUserInfos() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-        }
+        public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
+        public override void Initialization() {}
         //-------------------------------------------------------------------------------------------------------------
         private static NWDUserInfos kCurrent = null;
+        private static NWDUserInfos ActiveUser => CheckUser();
+        //=============================================================================================================
+        // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos GetUserInfosOrCreate()
+        public static string GetNickname()
         {
-            if (kCurrent != null)
+            NWDUserNickname tNickname = ActiveUser.Nickname.GetRawData();
+            if (tNickname != null)
             {
-                if (kCurrent.Account.GetReference() != NWDAccount.CurrentReference())
+                return tNickname.Nickname;
+            }
+
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Sprite GetAvatar(bool isRenderTexture = false)
+        {
+            NWDUserAvatar tAvatar = ActiveUser.Avatar.GetRawData();
+            if (tAvatar != null)
+            {
+                NWDItem tItem = tAvatar.RenderItem.GetRawData();
+                if (tItem != null)
                 {
-                    kCurrent = null;
+                    if (isRenderTexture)
+                    {
+                        NWDImagePNGType tImage = tAvatar.RenderTexture;
+                        if (tImage != null)
+                        {
+                            return tImage.ToSprite();
+                        }
+                    }
+                    else
+                    {
+                        if (!tItem.SecondarySprite.ValueIsNullOrEmpty())
+                        {
+                            return tItem.SecondarySprite.ToSprite();
+                        }
+                        else
+                        {
+                            return tItem.PrimarySprite.ToSprite();
+                        }
+                    }
                 }
             }
-            
-            if (kCurrent == null)
+
+            return null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Sprite GetAvatarByUserReference(string sReference, bool isRenderTexture = false)
+        {
+            NWDUserAvatar tAvatar = NWDBasisHelper.GetCorporateFirstData<NWDUserAvatar>(sReference);
+            if (tAvatar != null)
             {
-                NWDUserInfos tUserInfos = NWDBasisHelper.GetCorporateFirstData<NWDUserInfos>(NWDAccount.CurrentReference());
-                if (tUserInfos == null)
+                NWDItem tItem = tAvatar.RenderItem.GetRawData();
+                if (tItem != null)
                 {
-                    tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
-                    #if UNITY_EDITOR
-                    tUserInfos.InternalKey = NWDAccount.CurrentReference();
-                    #endif
-                    tUserInfos.Account.SetReference(NWDAccount.CurrentReference());
-                    tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                    tUserInfos.SaveData();
+                    if (isRenderTexture)
+                    {
+                        NWDImagePNGType tImage = tAvatar.RenderTexture;
+                        if (tImage != null)
+                        {
+                            return tImage.ToSprite();
+                        }
+                    }
+                    else
+                    {
+                        if (!tItem.SecondarySprite.ValueIsNullOrEmpty())
+                        {
+                            return tItem.SecondarySprite.ToSprite();
+                        }
+                        else
+                        {
+                            return tItem.PrimarySprite.ToSprite();
+                        }
+                    }
                 }
-                kCurrent = tUserInfos;
             }
-            
-            return kCurrent;
+
+            return null;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
@@ -86,16 +120,102 @@ namespace NetWorkedData
             NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInfos CheckUser()
+        {
+            NWDUserInfos rUserInfos = CurrentData();
+            if (rUserInfos != null)
+            {
+                rUserInfos.SetLastSignIn();
+            }
+            return rUserInfos;
+        }
+        //=============================================================================================================
+        // PUBLIC METHOD
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetAvatar(NWDItem sAvatar)
+        {
+            NWDUserAvatar tAvatar = Avatar.GetRawData();
+            if (tAvatar == null)
+            {
+                tAvatar = NWDBasisHelper.NewData<NWDUserAvatar>();
+                tAvatar.InternalKey = NWDAccount.CurrentReference();
+                tAvatar.Tag = NWDBasisTag.TagUserCreated;
+            }
+            tAvatar.RenderItem.SetData(sAvatar);
+            tAvatar.SaveData();
+
+            Avatar.SetData(tAvatar);
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetAbsoluteNickname()
+        {
+            string rNickname = NWEConstants.K_MINUS;
+            NWDUserNickname tNickname = Nickname.GetRawData();
+            if (tNickname != null)
+            {
+                rNickname = tNickname.Nickname;
+            }
+            return rNickname;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite GetAbsoluteAvatar(bool isPrimarySprite = true)
+        {
+            Sprite rAvatar = null;
+            NWDUserAvatar tAvatar = Avatar.GetRawData();
+            if (tAvatar != null)
+            {
+                NWDItem tItem = tAvatar.RenderItem.GetRawData();
+                if (tItem != null)
+                {
+                    if (isPrimarySprite)
+                    {
+                        rAvatar = tItem.PrimarySprite.ToSprite();
+                    }
+                    else
+                    {
+                        rAvatar = tItem.SecondarySprite.ToSprite();
+                    }
+                }
+            }
+            return rAvatar;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetNickname(string sNickname)
+        {
+            NWDUserNickname tNickname = Nickname.GetRawData();
+            if (tNickname == null)
+            {
+                tNickname = NWDBasisHelper.NewData<NWDUserNickname>();
+                tNickname.InternalKey = NWDAccount.CurrentReference();
+                tNickname.InternalDescription = sNickname;
+                tNickname.Tag = NWDBasisTag.TagUserCreated;
+            }
+            tNickname.Nickname = sNickname;
+            tNickname.SaveData();
+
+            Nickname.SetData(tNickname);
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetSession()
+        {
+            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            tAppEnvironment.ResetSession();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetLastSignIn()
+        {
+            LastSignIn.SetCurrentDateTime();
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {
 #if UNITY_ANDROID
             OSLastSignIn = NWDOperatingSystem.Android;
-            // TODO register notification token
-
 #elif UNITY_IOS
             OSLastSignIn = NWDOperatingSystem.IOS;
-            // TODO register notification token
-
             NotificationServices.RegisterForNotifications( NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
 
             byte[] tToken = NotificationServices.deviceToken;
@@ -103,25 +223,18 @@ namespace NetWorkedData
             {
                 AppleNotificationToken = "%" + System.BitConverter.ToString(tToken).Replace('-', '%');
             }
-                
 #elif UNITY_STANDALONE_OSX  
             OSLastSignIn = NWDOperatingSystem.OSX;
-            // TODO register notification token
-
 #elif UNITY_STANDALONE_WIN
             OSLastSignIn = NWDOperatingSystem.WIN;
-
 #elif UNITY_WP8
             OSLastSignIn = NWDOperatingSystem.WIN;
-
 #elif UNITY_WINRT
             OSLastSignIn = NWDOperatingSystem.WINRT;
-
 #endif
 
             if (UpdateDataIfModified())
             {
-                // TODO send to server immediatly
                 NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDUserInfos)}, true);
             }
         }
