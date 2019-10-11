@@ -6,5 +6,5 @@ git rm -r '.DS_Store'
 ```
 ## Clean NetWorkedData
 ```
-git rm -r '.prp'
+git rm -r '*.prp'
 ```
