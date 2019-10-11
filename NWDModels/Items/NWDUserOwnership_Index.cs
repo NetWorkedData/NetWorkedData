@@ -87,12 +87,21 @@ namespace NetWorkedData
                     }
                 }
                 rReturn.InternalDescription = NWDUserNickname.GetNickname();
+
 #endif
                 rReturn.Item.SetReference(sReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.Quantity = 0;
                 rReturn.UpdateData();
             }
+#if UNITY_EDITOR
+            NWDItem tItemForPreview = NWDBasisHelper.GetRawDataByReference<NWDItem>(sReference);
+            if (tItemForPreview != null)
+            {
+                rReturn.Preview = tItemForPreview.Preview;
+                rReturn.UpdateDataIfModified();
+            }
+#endif
             return rReturn;
         }
         // OWNERSHIP AND ITEM FOR PLAYER
