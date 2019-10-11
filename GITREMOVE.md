@@ -12,6 +12,8 @@ git rm Assets/NWD000000000Account.prp
 
 ## For submodule
 ```
+git checkout --orphan empty
+
 git submodule update
 git submodule init --recursive
 git submodule update --recursive
