@@ -18,11 +18,14 @@ git submodule update
 git submodule init --recursive
 git submodule update --recursive
 
+git submodule foreach --recursive "git fetch origin || true"
+
 git submodule foreach --recursive "git checkout empty || true"
 git submodule foreach --recursive "git checkout development || true"
 git submodule foreach --recursive "git checkout master || true"
 
 
 git submodule foreach --recursive "git pull || true"
+
 
 ```
