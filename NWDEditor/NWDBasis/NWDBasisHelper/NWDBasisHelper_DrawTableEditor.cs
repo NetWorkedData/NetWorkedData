@@ -1021,7 +1021,7 @@ namespace NetWorkedData
             }
 
             bool tDeleteSelection = false; //prevent GUIlayout error
-            bool tLocalizeLocalTable = false; //prevent GUIlayout error
+            //bool tLocalizeLocalTable = false; //prevent GUIlayout error
             bool tTrashSelection = false;  //prevent GUIlayout error
             bool tUntrashSelection = false;  //prevent GUIlayout error
             bool tReintegrateSelection = false;  //prevent GUIlayout error
@@ -1195,10 +1195,10 @@ namespace NetWorkedData
                     NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
-                {
-                    tLocalizeLocalTable = true;
-                }
+                //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
+                //{
+                //    tLocalizeLocalTable = true;
+                //}
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionLeft.y;
@@ -1210,6 +1210,7 @@ namespace NetWorkedData
                 {
                     ReOrderAllLocalizations();
                     NWDDataInspector.Refresh();
+                    GUIUtility.ExitGUI();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
@@ -1217,12 +1218,14 @@ namespace NetWorkedData
                 if (GUI.Button(tRect, "Export localization", NWDGUI.KTableSearchButton))
                 {
                     ExportLocalization(true);
+                    GUIUtility.ExitGUI();
                 }
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, "Import localization", NWDGUI.KTableSearchButton))
                 {
                     NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
+                    GUIUtility.ExitGUI();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
@@ -1230,12 +1233,14 @@ namespace NetWorkedData
                 if (GUI.Button(tRect, "Export data", NWDGUI.KTableSearchButton))
                 {
                     ExportCSV(true);
+                    GUIUtility.ExitGUI();
                 }
                 EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, "Import data", NWDGUI.KTableSearchButton))
                 {
                     ImportCSV();
+                    GUIUtility.ExitGUI();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
@@ -1899,10 +1904,10 @@ namespace NetWorkedData
                     PurgeTable();
                 }
             }
-            if (tLocalizeLocalTable == true)
-            {
-                ExportLocalization();
-            }
+            //if (tLocalizeLocalTable == true)
+            //{
+            //    ExportLocalization();
+            //}
             if (tCreateAllPHPForOnlyThisClass == true)
             {
                 ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
