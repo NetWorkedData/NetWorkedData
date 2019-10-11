@@ -32,14 +32,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
         [NWDInspectorGroupStart("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        //public NWDAppEnvironmentPlayerStatut AccountType
-        //{
-        //    get; set;
-        //}
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
+        public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
+        public NWDReferenceFreeType<NWDGameSave> CurrentGameSave { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Stat")]
+        public NWDDateTimeType LastSignIn { get; set; }
+        public NWDDateTimeType LastAppOpen { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Push notification Options")]
+        public NWDOperatingSystem OSLastSignIn { get; set; }
+        public string AppleNotificationToken { get; set; }
+        public string GoogleNotificationToken { get; set; }
+        //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironmentPlayerStatut AccountType()
         {
             NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
@@ -64,52 +72,6 @@ namespace NetWorkedData
                 }
             }
             return rReturn;
-        }
-        public NWDReferenceType<NWDAccountAvatar> Avatar
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDAccountNickname> Nickname
-        {
-            get; set;
-        }
-        public NWDReferenceFreeType<NWDGameSave> CurrentGameSave
-        {
-            get; set;
-        }
-        //public string FirstName
-        //{
-        //    get; set;
-        //}
-        //public string LastName
-        //{
-        //    get; set;
-        //}
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Stat")]
-        public NWDDateTimeType LastSignIn
-        {
-            get; set;
-        }
-        public NWDDateTimeType LastAppOpen
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Push notification Options")]
-        public NWDOperatingSystem OSLastSignIn
-        {
-            get; set;
-        }
-        public string AppleNotificationToken
-        {
-            get; set;
-        }
-        public string GoogleNotificationToken
-        {
-            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

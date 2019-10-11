@@ -11,6 +11,7 @@
 //
 //=====================================================================================================================
 
+using System;
 using UnityEngine;
 
 #if UNITY_IOS
@@ -119,6 +120,50 @@ namespace NetWorkedData
             return rAvatar;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string GetAbsoluteLocalizedLastSignIn(NWDLocalizationConnection sConnectionDay, NWDLocalizationConnection sConnectionHour)
+        {
+            DateTime tCurrent = DateTime.Now;
+            DateTime tLastSignIn = LastSignIn.ToDateTime();
+            TimeSpan tDifference = tCurrent - tLastSignIn;
+
+            string rLastSignIn = "Last login: xxx";
+            if (tDifference.Days == 0)
+            {
+                string tHour = tDifference.Hours.ToString();
+                if (tDifference.Hours < 0)
+                {
+                    tHour = "0";
+                }
+
+                NWDLocalization tLocalization = sConnectionHour.GetReachableData();
+                if (tLocalization != null)
+                {
+                    rLastSignIn = tLocalization.TextValue.GetLocalString();
+                }
+                rLastSignIn = rLastSignIn.Replace("xxx", tHour);
+            }
+            else
+            {
+                NWDLocalization tLocalization = sConnectionDay.GetReachableData();
+                if (tLocalization != null)
+                {
+                    rLastSignIn = tLocalization.TextValue.GetLocalString();
+                }
+                rLastSignIn = rLastSignIn.Replace("xxx", tDifference.Days.ToString());
+            }
+
+            return rLastSignIn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetAbsoluteLastSignIn()
+        {
+            DateTime tCurrent = DateTime.Today;
+            DateTime tLastSignIn = LastSignIn.ToDateTime();
+            TimeSpan rDifference = tCurrent - tLastSignIn;
+
+            return rDifference.Days.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetLastSignIn()
         {
             LastSignIn.SetCurrentDateTime();
@@ -183,8 +228,6 @@ namespace NetWorkedData
 
             if (UpdateDataIfModified())
             {
-                // TODO Check this
-                //NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
                 NWDBasisHelper.SynchronizationFromWebService<NWDAccountInfos>();
             }
         }
