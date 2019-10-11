@@ -631,7 +631,7 @@ namespace NetWorkedData
                         {
                             if (tReference.Entity == tProp.Name)
                             {
-                                tProperty.Name = "<color=blue>" + tReference.NewName + "</color>";
+                                tProperty.Name = "" + tReference.NewName + " <color=red>*</color>";
                                 if (string.IsNullOrEmpty(tReference.ToolsTips) == false)
                                 {
                                     tProperty.Tooltips += "\n----\n" + tReference.ToolsTips;
@@ -646,7 +646,7 @@ namespace NetWorkedData
                                 if (tReference.Entity == tProp.Name)
                                 {
                                     //Debug.Log("tReference.Entity " + tReference.Entity + " OKAY");
-                                    tProperty.Name = "<color=blue>" + tProperty.Name + tReference.NewName + "</color>";
+                                    tProperty.Name = "" + tProperty.Name + tReference.NewName + " <color=red>*</color>";
                                     tProperty.Tooltips += "\n----\n - use " + tMethod.Name + "() \n" + tReference.ToolsTips;
                                 }
                             }
