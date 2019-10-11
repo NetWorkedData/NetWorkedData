@@ -81,6 +81,8 @@ namespace NetWorkedData
         public const string K_BUTTON_ROOT_NODAL = "Root";
         public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Tools/New Data/Create New NWDBasis Class";
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Tools/New Data/Create New Window NWD management";
+        
+        public const string K_MENU_EDITOR_FOOTER = K_MENU_BASE + "Tools/New Footer";
 
         public const string K_MENU_APP_EDIT = K_MENU_BASE + "App configurations";
         public const string K_MENU_MODEL_MANAGER = K_MENU_BASE + "Models manager";

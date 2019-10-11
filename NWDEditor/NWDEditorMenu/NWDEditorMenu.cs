@@ -40,20 +40,23 @@ namespace NetWorkedData
 #if UNITY_MENU_IDEMOBI
         // no menu 
 #else
-		/// <summary>
-		/// Idemobis the net worked data info show.
-		/// </summary>
-		[MenuItem (NWDConstants.K_MENU_IDEMOBI, false, 9)]
-		public static void IdemobiInfoShow()
-		{
-			if (EditorUtility.DisplayDialog (NWDConstants.K_ALERT_IDEMOBI_TITLE,
-				NWDConstants.K_ALERT_IDEMOBI_MESSAGE,
-				NWDConstants.K_ALERT_IDEMOBI_OK,
-				NWDConstants.K_ALERT_IDEMOBI_SEE_DOC)) {
-			} else {
-				Application.OpenURL (NWDConstants.K_ALERT_IDEMOBI_DOC_HTTP);
-			};
-		}
+        /// <summary>
+        /// Idemobis the net worked data info show.
+        /// </summary>
+        [MenuItem(NWDConstants.K_MENU_IDEMOBI, false, 9)]
+        public static void IdemobiInfoShow()
+        {
+            if (EditorUtility.DisplayDialog(NWDConstants.K_ALERT_IDEMOBI_TITLE,
+                NWDConstants.K_ALERT_IDEMOBI_MESSAGE,
+                NWDConstants.K_ALERT_IDEMOBI_OK,
+                NWDConstants.K_ALERT_IDEMOBI_SEE_DOC))
+            {
+            }
+            else
+            {
+                Application.OpenURL(NWDConstants.K_ALERT_IDEMOBI_DOC_HTTP);
+            };
+        }
 #endif
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -90,8 +93,17 @@ namespace NetWorkedData
             kNWDEditorNewClass.ShowUtility();
             kNWDEditorNewClass.Focus();
         }
-
-
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// TheNWD editor NewClass window.
+        /// </summary>
+        [MenuItem(NWDConstants.K_MENU_EDITOR_FOOTER, false, 10)]
+        public static void EditorNewFooter()
+        {
+            NWDEditorFooter tFooter = EditorWindow.CreateWindow<NWDEditorFooter>();
+            tFooter.ShowUtility();
+            tFooter.Focus();
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// TheNWD editor NWDPackage preferences window.
@@ -403,7 +415,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //LOCALS
-#region LOCAL
+        #region LOCAL
         //-------------------------------------------------------------------------------------------------------------
         //[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
         //-------------------------------------------------------------------------------------------------------------
@@ -501,17 +513,17 @@ namespace NetWorkedData
                 //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
                 //if (tMethodInfo != null)
                 //{
-                    //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
-                    if (tBasisHelper != null)
+                //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                if (tBasisHelper != null)
+                {
+                    foreach (NWDTypeClass tData in tBasisHelper.Datas)
                     {
-                        foreach (NWDTypeClass tData in tBasisHelper.Datas)
+                        if (tData.IntegrityIsValid() == false)
                         {
-                            if (tData.IntegrityIsValid() == false)
-                            {
-                                tData.TrashAction();
-                            }
+                            tData.TrashAction();
                         }
                     }
+                }
                 //}
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
@@ -529,14 +541,14 @@ namespace NetWorkedData
                 //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
                 //if (tMethodInfo != null)
                 //{
-                    //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
-                    if (tBasisHelper != null)
+                //NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                if (tBasisHelper != null)
+                {
+                    foreach (NWDTypeClass tObject in tBasisHelper.Datas)
                     {
-                        foreach (NWDTypeClass tObject in tBasisHelper.Datas)
-                        {
-                            tObject.UpdateData();
-                        }
+                        tObject.UpdateData();
                     }
+                }
                 //}
             }
             NWDDataManager.SharedInstance().DataQueueExecute();
