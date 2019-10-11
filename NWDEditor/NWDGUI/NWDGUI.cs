@@ -202,6 +202,7 @@ namespace NetWorkedData
 
 
         public static GUIStyle kLabelStyle;
+        public static GUIStyle kFooterLabelStyle;
         public static GUIStyle kBoldLabelStyle;
 
         public static GUIStyle kHelpBoxStyle;
@@ -611,6 +612,11 @@ namespace NetWorkedData
 
                 kLabelStyle = new GUIStyle(EditorStyles.label);
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
+
+                kFooterLabelStyle = new GUIStyle(EditorStyles.label);
+                kFooterLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
+                kFooterLabelStyle.richText = true;
+
 
                 kMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
                 kMiniLabelStyle.fixedHeight = kMiniLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);

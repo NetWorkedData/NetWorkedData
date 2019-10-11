@@ -32,12 +32,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnGUI()
         {
+            NWDGUI.LoadStyles();
             titleContent = new GUIContent(NWDAppConfiguration.SharedInstance().SelectedEnvironment().AppName);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Project" , NWDAppConfiguration.SharedInstance().DevEnvironment.AppName);
-            EditorGUILayout.LabelField("Environment", NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment);
-            EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
-            EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
+            GUILayout.Label(
+                "   Project : <b>" + NWDAppConfiguration.SharedInstance().DevEnvironment.AppName +
+                "</b>  Environment : <b> " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().Environment +
+                "</b>  Webservice version : <b>" + NWDAppConfiguration.SharedInstance().WebBuild.ToString() +
+                "</b>  Version Bundle : <b>" + PlayerSettings.bundleVersion +
+                "</b>",
+                NWDGUI.kFooterLabelStyle);
             EditorGUILayout.EndHorizontal();
         }
         //-------------------------------------------------------------------------------------------------------------
