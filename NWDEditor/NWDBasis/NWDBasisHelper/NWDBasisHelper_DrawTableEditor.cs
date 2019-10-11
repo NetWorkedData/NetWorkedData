@@ -1202,8 +1202,35 @@ namespace NetWorkedData
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionLeft.y;
-                // draw row Actions
-                GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
+
+
+
+
+                // draw row Datas
+                GUI.Label(tRect, "Datas", NWDGUI.KTableSearchTitle);
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+                if (GUI.Button(tRect, "Export data", NWDGUI.KTableSearchButton))
+                {
+                    ExportCSV(true);
+                    GUIUtility.ExitGUI();
+                }
+                EditorGUI.EndDisabledGroup();
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Import data", NWDGUI.KTableSearchButton))
+                {
+                    ImportCSV();
+                    GUIUtility.ExitGUI();
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                tRect.x += tRect.width + NWDGUI.kFieldMarge;
+                tRect.y = tRectActionLeft.y;
+
+
+
+                // draw row translate
+                GUI.Label(tRect, "Translates", NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // export import
                 if (GUI.Button(tRect, "Reorder localization", NWDGUI.KTableSearchButton))
@@ -1228,25 +1255,11 @@ namespace NetWorkedData
                     GUIUtility.ExitGUI();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-                if (GUI.Button(tRect, "Export data", NWDGUI.KTableSearchButton))
-                {
-                    ExportCSV(true);
-                    GUIUtility.ExitGUI();
-                }
-                EditorGUI.EndDisabledGroup();
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, "Import data", NWDGUI.KTableSearchButton))
-                {
-                    ImportCSV();
-                    GUIUtility.ExitGUI();
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-
-
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionLeft.y;
+
+                
+                // draw row warning
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 NWDGUI.BeginRedArea();
                 // DELETE SELECTION
