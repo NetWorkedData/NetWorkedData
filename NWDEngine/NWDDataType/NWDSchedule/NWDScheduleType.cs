@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:42
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -16,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,7 +37,7 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDScheduleType
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDScheduleType : BTBDataType
+    public class NWDScheduleType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string kDaysSchedulePrefix = "N";
@@ -49,14 +57,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDScheduleType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDScheduleType(string sValue = "")
+        public NWDScheduleType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
-                Value = "";
+                Value = string.Empty;
             }
             else
             {
@@ -66,12 +74,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string StringResultOfDate(DateTime sDateTime)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             DayOfWeek tDayOfWeek = sDateTime.DayOfWeek;
             switch (tDayOfWeek)
             {
@@ -133,17 +141,24 @@ namespace NetWorkedData
         {
             return false;
         }
+        public DateTime NextDateTime()
+        {
+            DateTime tReturn = DateTime.Now;
+            // TODO Find next date time!
+            /// 00-( ... ca va etre coton :-/ 
+            return tReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            float tHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            float tHeight = tPopupdStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDScheduleType tTemporary = new NWDScheduleType();
             //GUIContent tContent = new GUIContent(sEntitled, sTooltips);

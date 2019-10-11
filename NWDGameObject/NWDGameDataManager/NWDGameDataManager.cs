@@ -1,24 +1,27 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:45:48
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
-
-using BasicToolBox;
+using UnityEngine.SceneManagement;
+using System.Threading;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using System.Threading;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -33,15 +36,15 @@ namespace NetWorkedData
     /// App Configuration
     /// Notification Center
     /// </summary>
-    [ExecuteInEditMode] // We use this only in playmode so don't attribut ExecuteInEditMode
-    public partial class NWDGameDataManager : NWDCallBack //MonoBehaviour 
+    //[ExecuteInEditMode] // We use this only in playmode so don't attribut ExecuteInEditMode
+    public partial class NWDGameDataManager : NWDCallBackDataLoadOnly
     {
         //-------------------------------------------------------------------------------------------------------------
         //public NWDNetworkState NetworkStatut = NWDNetworkState.Unknow;
         //-------------------------------------------------------------------------------------------------------------
-        public BTBScreenGaugeComplex LoadingDatasGauge;
+        public NWEScreenGaugeComplex LoadingDatasGauge;
         //-------------------------------------------------------------------------------------------------------------
-        public BTBScreenGaugeComplex OperationGauge;
+        public NWEScreenGaugeComplex OperationGauge;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SharedInstanceAsSingleton. Class to create a ShareInstance use as Singleton by All NWDGameDataManager
@@ -84,7 +87,7 @@ namespace NetWorkedData
             ///// <summary>
             ///// The notification center.
             ///// </summary>
-            //public BTBNotificationManager NotificationCenter;
+            //public NWENotificationManager NotificationCenter;
             //-------------------------------------------------------------------------------------------------------------
             /// <summary>
             /// The initialization state.
@@ -107,7 +110,7 @@ namespace NetWorkedData
                     // memorize the shared instance
                     //DataManager = NWDDataManager.SharedInstance();
                     //AppConfiguration = NWDAppConfiguration.SharedInstance();
-                    //NotificationCenter = BTBNotificationManager.SharedInstance();
+                    //NotificationCenter = NWENotificationManager.SharedInstance();
                     //// ready to launch database
                     //DataManager.ConnectToDatabase();
                     // finish init
@@ -166,7 +169,7 @@ namespace NetWorkedData
         ///// Gets the notification center.
         ///// </summary>
         ///// <value>The notification center.</value>
-        //public BTBNotificationManager NotificationCenter
+        //public NWENotificationManager NotificationCenter
         //{
         //    get; private set;
         //}
@@ -204,15 +207,15 @@ namespace NetWorkedData
         //    return AppConfiguration.SelectedEnvironment().PlayerAccountReference;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDErrorBlock ErrorDelegate;
-        //-------------------------------------------------------------------------------------------------------------
-        public void ErrorManagement(NWDError sError)
-        {
-            if (ErrorDelegate != null)
-            {
-                ErrorDelegate(sError);
-            }
-        }
+        //public NWDErrorBlock ErrorDelegate;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void ErrorManagement(NWDError sError)
+        //{
+        //    if (ErrorDelegate != null)
+        //    {
+        //        ErrorDelegate(sError);
+        //    }
+        //}
         ////-------------------------------------------------------------------------------------------------------------
         //// Test network connection
         //public void NetworkStatutChange(NWDNetworkState sNewNetWorkStatut)
@@ -222,26 +225,26 @@ namespace NetWorkedData
         //        NetworkStatut = sNewNetWorkStatut;
         //        if (NetworkStatut == NWDNetworkState.OffLine)
         //        {
-        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
+        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
         //        }
         //        else if (NetworkStatut == NWDNetworkState.OnLine)
         //        {
-        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
+        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
         //        }
         //        else
         //        {
-        //            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
+        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
         //        }
         //    }
         //}
         //-------------------------------------------------------------------------------------------------------------
         public NWDNetworkCheck NetWorkCheck;
         //-------------------------------------------------------------------------------------------------------------
-        public void TestNetWork()
+        public void TestNetWork(NWDNetworkFinishDelegate sNetworkTestFinishedBlock = null)
         {
             if (NetWorkCheck != null)
             {
-                NetWorkCheck.TestNetwork();
+                NetWorkCheck.TestNetwork(sNetworkTestFinishedBlock);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -255,11 +258,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatasIsLoaded()
-		{
-			return NWDTypeLauncher.DataLoaded;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        public bool DatasLoaded()
+        {
+            return NWDDataManager.SharedInstance().DataLoaded();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The unity singleton. (destroy other instance)
         /// </summary>
@@ -317,16 +320,18 @@ namespace NetWorkedData
                     // Add component NWDGameDatManager to easly manage data from NWD
                     NWDGameDataManager tGameDataManager = tObjToSpawn.AddComponent<NWDGameDataManager>();
                     // Add thread utility
-                    /* NWDDataManagerMainThread tGameDataManagerMainThread = */tObjToSpawn.AddComponent<NWDDataManagerMainThread>();
+                    /* NWDDataManagerMainThread tGameDataManagerMainThread = */
+                    tObjToSpawn.AddComponent<NWDDataManagerMainThread>();
                     // Add component to check user online
-                    /*NWDUserNetWorkingScript tUserNetWorkingScript = */tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
+                    /*NWDUserNetWorkingScript tUserNetWorkingScript = */
+                    tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
                     // Add component to check the network state
                     NWDNetworkCheck tNetWorkCheckScript = tObjToSpawn.AddComponent<NWDNetworkCheck>();
                     tGameDataManager.NetWorkCheck = tNetWorkCheckScript;
                     // Add GUI component to draw some basic element : gauge, spinner, alert... not in canvas! For canvas element use prefab NWDCanvasDataManager
-                    BTBScreenGaugeComplex tHealthGaugeComplex = tObjToSpawn.AddComponent<BTBScreenGaugeComplex>();
+                    NWEScreenGaugeComplex tHealthGaugeComplex = tObjToSpawn.AddComponent<NWEScreenGaugeComplex>();
                     tHealthGaugeComplex.IsVisible = false;
-                    BTBScreenGaugeComplex tHealthGaugeComplexB = tObjToSpawn.AddComponent<BTBScreenGaugeComplex>();
+                    NWEScreenGaugeComplex tHealthGaugeComplexB = tObjToSpawn.AddComponent<NWEScreenGaugeComplex>();
                     tHealthGaugeComplexB.IsVisible = false;
                     tGameDataManager.LoadingDatasGauge = tHealthGaugeComplex;
                     tGameDataManager.OperationGauge = tHealthGaugeComplexB;
@@ -339,6 +344,21 @@ namespace NetWorkedData
                 else if (tOtherList.Count == 1)
                 {
                     kUnitySingleton = tOtherList[0];
+                    while (kUnitySingleton.transform.childCount > 0)
+                    {
+#if UNITY_EDITOR
+                        if (EditorApplication.isPlaying == true)
+                        {
+                            Destroy(kUnitySingleton.transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            DestroyImmediate(kUnitySingleton.transform.GetChild(0).gameObject);
+                        }
+#else
+                    Destroy (kUnitySingleton.transform.GetChild(0).gameObject);
+#endif
+                    }
                 }
                 else
                 {
@@ -374,6 +394,25 @@ namespace NetWorkedData
         void Awake()
         {
             //Debug.Log("NWDGameDataManager Awake ()");
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            //Debug.Log("<b>NWDGameDataManager Awake() </b>");
+            //if (Application.isEditor == true)
+            //{
+            //    if (Application.isPlaying == true)
+            //    {
+            //        Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+            //}
+
+            //NWDToolbox.EditorAndPlaying("NWDGameDataManager Awake()");
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)
@@ -401,30 +440,53 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On enable. call every times is necessary.
-        /// </summary>
-        //void OnEnable()
-        //{
-        //    base.OnEnable();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Start this instance. Called once.
-        /// </summary>
-        void Start()
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            //Debug.Log("NWDGameDataManager Start()");
-            if (NWDTypeLauncher.DataLoaded == false)
+            //Debug.Log("<b>NWDGameDataManager Scene Loaded() </b>");
+            if (Application.isEditor == true)
             {
-                //Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
-                ReloadAllDatas();
+                if (Application.isPlaying == true)
+                {
+                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                }
+                else
+                {
+                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                }
             }
             else
             {
-                // hello every body DATA ARE LOADED
-                //BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
-                //Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
+                Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+            }
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// On enable. call every times is necessary.
+            /// </summary>
+            //void OnEnable()
+            //{
+            //    base.OnEnable();
+            //}
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Start this instance. Called once.
+            /// </summary>
+            void Start()
+        {
+            //Debug.Log("NWDGameDataManager Start()");
+            if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
+            {
+                Debug.LogWarning("NWD => not finish ... need load async!");
+                if (LoadingDatasGauge != null)
+                {
+                    LoadingDatasGauge.IsVisible = true;
+                }
+                Debug.LogWarning("NWD => LaunchResume!");
+                NWDLauncher.LaunchResume();
+            }
+            else
+            {
+                //Debug.LogWarning("NWD => NWDStatut.NetWorkedDataReady!");
                 if (LoadingDatasGauge != null)
                 {
                     LoadingDatasGauge.IsVisible = false;
@@ -439,7 +501,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllDatas()
         {
-            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjects());
+            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ReloadAllDatasEditor()
+        {
+
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnGUI()
@@ -455,13 +522,6 @@ namespace NetWorkedData
         //    base.OnDisable();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        ///// <summary>
-        ///// Raises the destroy event.
-        ///// </summary>
-        //void OnDestroy()
-        //{
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Raises the application focus event.
         /// </summary>
@@ -471,11 +531,13 @@ namespace NetWorkedData
             ApplicationStandBy = !sHasFocus;
             if (ApplicationStandBy == false)
             {
-                //Debug.LogVerbose ("OnApplicationFocus Focus is ON");
+                //Debug.Log("OnApplicationFocus Focus is ON");
+                //NWDNews.InstallAllNotifications(false);
             }
             else
             {
-                //Debug.LogVerbose ("OnApplicationFocus Focus is OFF");
+                //Debug.Log("OnApplicationFocus Focus is OFF");
+                //NWDNews.InstallAllNotifications(true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -485,25 +547,94 @@ namespace NetWorkedData
         /// <param name="sPauseStatus">If set to <c>true</c> s pause status.</param>
         protected void OnApplicationPause(bool sPauseStatus)
         {
-            ApplicationStandBy = sPauseStatus;
-            if (ApplicationStandBy == false)
-            {
-                //Debug.LogVerbose ("OnApplicationPause Pause is OFF");
-            }
-            else
-            {
-                //Debug.LogVerbose ("OnApplicationPause Pause is ON");
-            }
+            NWDLauncher.OnApplicationPause(sPauseStatus);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationEngineLaunch(BTBNotification sNotification)
+        public override void EngineLaunch(NWENotification sNotification, bool sPreloadDatas)
         {
-            // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange> EngineLaunch</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public override void DBEditorConnected(NWENotification sNotification, bool sPreloadDatas)
         {
-               //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBEditorConnected</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBEditorStartAsyncLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataEditorStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorStartLoading</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataEditorPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorPartialLoaded</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataEditorLoaded(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorLoaded</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountPinCodeRequest(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeRequest</color>");
+           // PinCodeInsert("111","111");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountPinCodeSuccess(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeSuccess</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountPinCodeFail(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeFail</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountPinCodeStop(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeStop</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountPinCodeNeeded(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeNeeded</color>");
+           // PinCodeInsert("111","111");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountConnected(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountConnected</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DBAccountStartAsyncLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            LaunchNext();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataAccountStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountStartLoading</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataAccountPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountPartialLoaded</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataAccountLoaded(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountLoaded</color>");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataStartLoading</color>");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = true;
@@ -511,127 +642,51 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public override void DataPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataPartialLoaded : </color> <color=red>" + sPurcent + "</color>");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.SetHorizontalValue(sPurcent);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void DataLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
-            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataLoaded</color>");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = false;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationLanguageChanged(BTBNotification sNotification)
+        public override void DataIndexationStartAsync(NWENotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
+            LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDataLocalUpdate(BTBNotification sNotification)
+        public override void DataIndexationStart(NWENotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationStart</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDataLocalInsert(BTBNotification sNotification)
+        public override void DataIndexationStep(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationStep</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDataLocalDelete(BTBNotification sNotification)
+        public override void DataIndexationFinish(NWENotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationFinish</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasWebUpdate(BTBNotification sNotification)
+        public override void EngineReady(NWENotification sNotification, bool sPreloadDatas)
         {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationError(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationAccountChanged(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationAccountSessionExpired(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationAccountBanned(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkOffLine(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkOnLine(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkUnknow(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkCheck(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationError(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadError(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
-        {
-            // create your method by override
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationGeneric(BTBNotification sNotification)
-        {
-            // create your method by override
+            Debug.Log("<color=red>!!!!!</color><color=orange>DataStartLoading</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:29
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -16,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,18 +36,18 @@ namespace NetWorkedData
 	//TODO: FINISH THIS CLASS NWDDateType
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateType : BTBDataType
+	public class NWDDateType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDateType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateType (string sValue = "")
+		public NWDDateType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -49,20 +55,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            SetDateTime(NWEDateHelper.ConvertFromTimestamp(0));
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetDateTime (DateTime sDatetime)
-		{
-			Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
-				sDatetime.Month+NWDConstants.kFieldSeparatorA+
-				sDatetime.Day+NWDConstants.kFieldSeparatorA+
-				sDatetime.Hour+NWDConstants.kFieldSeparatorA+
-				sDatetime.Minute+NWDConstants.kFieldSeparatorA+
-				sDatetime.Second;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetDateTime(DateTime sDatetime)
+        {
+            sDatetime = sDatetime.ToLocalTime();
+            Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
+				    sDatetime.Month+NWDConstants.kFieldSeparatorA+
+				    sDatetime.Day+NWDConstants.kFieldSeparatorA;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public DateTime ToDateTime ()
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetCurrentDate()
+        {
+            SetDateTime(DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetTimestamp(double sTimestamp)
+        {
+            SetDateTime(NWEDateHelper.ConvertFromTimestamp(sTimestamp));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public DateTime ToDateTime ()
 		{
 			string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 			int tYear = 1970;
@@ -91,7 +114,7 @@ namespace NetWorkedData
 				tDay = tDaysTest;
 			}
 
-			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -99,10 +122,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-            return NWDConstants.kPopupdStyle.fixedHeight;
+            return NWDGUI.kPopupStyle.fixedHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDateType tTemporary = new NWDDateType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -135,48 +158,48 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 
-			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
-			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-//			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge*3;
+			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
+			float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
+//			float tTiersWidthC = tTiersWidth - NWDGUI.kFieldMarge*3;
 			float tHeightAdd = 0;
 
 			float tWidthYear = tTiersWidthB + 10;
 			float tWidthMonth = tTiersWidthB -5;
 			float tWidthDay = tTiersWidthB -5;
-            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight), tContent);
+            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
 
             // remove EditorGUI.indentLevel to draw next controller without indent 
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            tYear = NWDDateTimeType.kYearStart+ EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, NWDConstants.kPopupdStyle.fixedHeight),
-                                                                 tDateTime.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            tYear = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, NWDGUI.kPopupStyle.fixedHeight),
+                                                                 tDateTime.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
-            tMonth = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, NWDConstants.kPopupdStyle.fixedHeight),
+            tMonth = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, NWDGUI.kPopupStyle.fixedHeight),
 				tDateTime.Month-1, NWDDateTimeType.kMonths);
 
 			int tDayNumber = DateTime.DaysInMonth(tYear,tMonth);
 
 			if (tDayNumber == 31 )
 			{
-                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDConstants.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDGUI.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tDateTime.Day-1, NWDDateTimeType.kDays);
 			}
 			else if (tDayNumber == 30)
 			{
-                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDConstants.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDGUI.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tDateTime.Day-1, NWDDateTimeType.kDaysB);
 			}
 			else if (tDayNumber == 28)
 			{
-                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDConstants.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDGUI.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tDateTime.Day-1, NWDDateTimeType.kDaysC);
 			}
 			else if (tDayNumber == 29)
 			{
-                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDConstants.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDay = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +tWidthMonth+NWDGUI.kFieldMarge*2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tDateTime.Day-1, NWDDateTimeType.kDaysD);
 			}
 

@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:52
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -14,9 +22,9 @@ using System.IO;
 
 using UnityEngine;
 
-using SQLite4Unity3d;
+using UnityEngine.SceneManagement;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,20 +34,20 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
 	public class NWDSceneType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDSceneType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSceneType (string sValue = "")
+		public NWDSceneType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -47,12 +55,26 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
          public bool IsEmpty()
         {
-            return (Value == "");
+            return (Value == string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Scene GetScene()
+        {
+            return SceneManager.GetSceneByName(GetSceneName());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetSceneName()
+        {
+            if (string.IsNullOrEmpty(Value))
+            {
+                return string.Empty;
+            }
+            return Path.GetFileNameWithoutExtension(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             List<string> tScenesInBuildList = new List<string>();
             EditorBuildSettingsScene[] tBuildScenes = EditorBuildSettings.scenes;
@@ -63,7 +85,7 @@ namespace NetWorkedData
                     tScenesInBuildList.Add(tSettingScene.path);
                 }
             }
-            tScenesInBuildList.Insert(0, "");
+            tScenesInBuildList.Insert(0, string.Empty);
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
@@ -72,6 +94,7 @@ namespace NetWorkedData
                     rReturn = true;
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -84,12 +107,12 @@ namespace NetWorkedData
             GUIStyle tPopupFieldStyle = new GUIStyle (EditorStyles.popup);
             tPopupFieldStyle.fixedHeight = tPopupFieldStyle.CalcHeight (new GUIContent ("A"), 100.0f);
             GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
-            return tPopupFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+            return tPopupFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDSceneType tTemporary = new NWDSceneType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -116,40 +139,41 @@ namespace NetWorkedData
                     tScenesInBuildList.Add(tSettingScene.path);
                 }
             }
-            tScenesInBuildList.Sort((tA, tB) => tA.CompareTo(tB));
-            tScenesInBuildList.Insert(0, "");
+            tScenesInBuildList.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.Ordinal));
+            tScenesInBuildList.Insert(0, string.Empty);
             tScenesInBuildList.Insert(1, " ");
             foreach (string tSettingSceneName in tScenesInBuildList)
             {
-                tScenesInContentList.Add(new GUIContent(tSettingSceneName.Replace('/', '…')));
+                    tScenesInContentList.Add(new GUIContent(tSettingSceneName));
             }
             int tSceneIndex = tScenesInBuildList.IndexOf(Value);
             int tNextSceneIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupFieldStyle.fixedHeight), tContent,tSceneIndex,tScenesInContentList.ToArray(), tPopupFieldStyle);
+            if (tNextSceneIndex<0 || tNextSceneIndex>=tScenesInBuildList.Count())
             {
                 tNextSceneIndex = 0;
             }
-            if (tNextSceneIndex<0 || tNextSceneIndex>=tScenesInBuildList.Count())
             tTemporary.Value = tScenesInBuildList[tNextSceneIndex];
             if (tTemporary.Value == " ")
             {
-                tTemporary.Value = "";
+                tTemporary.Value = string.Empty;
             }
-            tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+            tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
             if (IsInError() == true) {
 				tTemporary.Value = Value;
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
-				}
-				GUI.backgroundColor = tOldColor;
-				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                NWDGUI.BeginRedArea();
+                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+					tTemporary.Value = string.Empty;
+                }
+                NWDGUI.EndRedArea();
+                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
+            //Debug.Log("tTemporary value =" +tTemporary.Value);
 			return tTemporary;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+        #endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

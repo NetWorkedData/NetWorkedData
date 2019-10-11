@@ -1,14 +1,20 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:24:43
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using BasicToolBox;
+//using BasicToolBox;
 using System;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -19,41 +25,41 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWD account panel. A script for NWDAccountPanel refab to show the informations about wiwh account is use in the 
-	/// game. 
-	/// </summary>
+    /// <summary>
+    /// NWD account panel. A script for NWDAccountPanel refab to show the informations about wiwh account is use in the 
+    /// game. 
+    /// </summary>
     public class NWDAccountPanel : NWDCallBack
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The name of environment.
-		/// </summary>
-		public Text TextEnvironment;
-		/// <summary>
-		/// The account's reference.
-		/// </summary>
-		public Text TextAccount;
-		/// <summary>
-		/// The token's value.
-		/// </summary>
-		public Text TextToken;
-		/// <summary>
-		/// The anonymous account's reference.
-		/// </summary>
-		public Text TextAnonymousAccount;
-		/// <summary>
-		/// The text anonymous token ? .
-		/// </summary>
-		public Text TextAnonymousToken;
-		/// <summary>
-		/// The text of web result.
-		/// </summary>
-		public Text TextWebResult;
-		/// <summary>
-		/// The text of network statut.
-		/// </summary>
-		public Text TextNetworkResult;
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The name of environment.
+        /// </summary>
+        public Text TextEnvironment;
+        /// <summary>
+        /// The account's reference.
+        /// </summary>
+        public Text TextAccount;
+        /// <summary>
+        /// The token's value.
+        /// </summary>
+        public Text TextToken;
+        /// <summary>
+        /// The anonymous account's reference.
+        /// </summary>
+        //public Text TextAnonymousAccount;
+        /// <summary>
+        /// The text anonymous token ? .
+        /// </summary>
+        //public Text TextAnonymousToken;
+        /// <summary>
+        /// The text of web result.
+        /// </summary>
+        public Text TextWebResult;
+        /// <summary>
+        /// The text of network statut.
+        /// </summary>
+        public Text TextNetworkResult;
         /// <summary>
         /// Dropdown menu with list of account
         /// </summary>
@@ -75,72 +81,76 @@ namespace NetWorkedData
         /// </summary>
         public Text TextSynchronize;
         //-------------------------------------------------------------------------------------------------------------
-        private List<NWDAccounTest> AccountList;
+        //private List<NWDAccounTest> AccountList;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Use to test Synchronization
         /// </summary>
         public void SynchronizeTest()
-		{
-            NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock (
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+        {
+            NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock(
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Success " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Error " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Cancel " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Synchronize Progress " + ShowError(sResult);
-				}
-			);
-		}
+                }
+            );
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Use to test Log-in
         /// </summary>
         public void FacebookTest()
         {
-            NWDDataManager.SharedInstance().AddWebRequestLogFacebookWithBlock("FACEBOOK",
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Sign Up/In Success " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Sign Up/In Error " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Sign Up/In Cancel " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Sign Up/In Progress " + ShowError(sResult);
-                    });
+            //NWDDataManager.SharedInstance().AddWebRequestLogFacebookWithBlock("FACEBOOK",
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Sign Up/In Success " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Sign Up/In Error " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Sign Up/In Cancel " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Sign Up/In Progress " + ShowError(sResult);
+            //});
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GoogleTest()
         {
-            NWDDataManager.SharedInstance().AddWebRequestLogGoogleWithBlock("GOOGLE",
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Sign Up/In Success " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Sign Up/In Error " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Sign Up/In Cancel " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Sign Up/In Progress " + ShowError(sResult);
-                    });
+            //NWDDataManager.SharedInstance().AddWebRequestLogGoogleWithBlock("GOOGLE",
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Sign Up/In Success " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Sign Up/In Error " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Sign Up/In Cancel " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Sign Up/In Progress " + ShowError(sResult);
+            //});
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -148,94 +158,98 @@ namespace NetWorkedData
         /// </summary>
         public void FacebookRemoveTest()
         {
-            NWDDataManager.SharedInstance().AddWebRequestRemoveFacebookWithBlock("FACEBOOK",
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Remove Success " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Remove Error " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Remove Cancel " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Facebook Remove Progress " + ShowError(sResult);
-                    });
+            //NWDDataManager.SharedInstance().AddWebRequestRemoveFacebookWithBlock("FACEBOOK",
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Remove Success " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Remove Error " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Remove Cancel " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Facebook Remove Progress " + ShowError(sResult);
+            //});
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GoogleRemoveTest()
         {
-            NWDDataManager.SharedInstance().AddWebRequestRemoveGoogleWithBlock("GOOGLE",
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                        TextWebResult.text = "Google Remove Success " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Remove Error " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Remove Cancel " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                TextWebResult.text = "Google Remove Progress " + ShowError(sResult);
-                    });
+            //NWDDataManager.SharedInstance().AddWebRequestRemoveGoogleWithBlock("GOOGLE",
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Remove Success " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Remove Error " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Remove Cancel " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = "Google Remove Progress " + ShowError(sResult);
+            //});
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void LogInTest()
-		{
+        public void LogInTest()
+        {
             // Get selected account
             int key = DropdownAccountList.value;
             if (key > 0)
             {
-                NWDAccounTest tAccount = AccountList[key];
-                string Login = tAccount.EmailHash;
-                string Password = tAccount.PasswordHash;
+                //NWDAccounTest tAccount = AccountList[key];
+                //string Login = tAccount.EmailHash;
+                //string Password = tAccount.PasswordHash;
 
-                NWDDataManager.SharedInstance().AddWebRequestSignTestWithBlock(Login, Password,
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                        TextWebResult.text = " Sign In Success " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                        TextWebResult.text = " Sign In Error " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                        TextWebResult.text = " Sign In Cancel " + ShowError(sResult);
-                    },
-                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
-                    {
-                        TextWebResult.text = " Sign In Progress " + ShowError(sResult);
-                    });
+                //NWDDataManager.SharedInstance().AddWebRequestSignTestWithBlock(Login, Password,
+                //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                //{
+                //    TextWebResult.text = " Sign In Success " + ShowError(sResult);
+                //},
+                //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                //{
+                //    TextWebResult.text = " Sign In Error " + ShowError(sResult);
+                //},
+                //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                //{
+                //    TextWebResult.text = " Sign In Cancel " + ShowError(sResult);
+                //},
+                //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                //{
+                //    TextWebResult.text = " Sign In Progress " + ShowError(sResult);
+                //});
             }
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Use to test Log-out
-		/// </summary>
-		public void LogOutTest()
-		{
-			NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock (
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to test Log-out
+        /// </summary>
+        public void LogOutTest()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock(
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Out Success " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Out Error " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                },
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
                     TextWebResult.text = " Sign Out Cancel " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                   TextWebResult.text = " Sign Out Progress " + ShowError(sResult);
-				});
+                },
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+                {
+                    TextWebResult.text = " Sign Out Progress " + ShowError(sResult);
+                });
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -243,22 +257,26 @@ namespace NetWorkedData
         /// </summary>
         public void SignUpTest()
         {
-            string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
+            string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
             string tPassword = "Pass" + UnityEngine.Random.Range(100000, 999999).ToString();
             //Debug.Log("Sign-up with " + tEmail + " and " + tPassword);
-            NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail,tPassword,tPassword,
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign Up Success " + ShowError(sResult);
-                },
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign Up Error " + ShowError(sResult);
-                },
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign Up Cancel " + ShowError(sResult);
-                },
-                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign Up Progress " + ShowError(sResult);
-                });
+            //NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail, tPassword, tPassword,
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = " Sign Up Success " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = " Sign Up Error " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = " Sign Up Cancel " + ShowError(sResult);
+            //},
+            //delegate (NWEOperation bOperation, float bProgress, NWEOperationResult sResult)
+            //{
+            //    TextWebResult.text = " Sign Up Progress " + ShowError(sResult);
+            //});
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -275,37 +293,37 @@ namespace NetWorkedData
             gameObject.SetActive(!gameObject.activeInHierarchy);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasLoaded(NWENotification sNotification)
         {
             InitLocalizationList();
             InitAccountList();
             SynchronizeTest();
         }
         //-------------------------------------------------------------------------------------------------------------
-		// Use this for initialization
-		void Start()
-		{
-            BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
-            {
-				if (TextNetworkResult!=null)
-				{
-                    TextNetworkResult.text = "<color=green><b>ON LINE</b></color>";
-				}
-			});
-            BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
-            {
-				if (TextNetworkResult!=null)
-				{
-				    TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
-				}
-			});
-            BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
-            {
-				if (TextNetworkResult!=null)
-				{
-					TextNetworkResult.text = "<color=orange><b>UNKNOW</b></color>";
-				}
-			});
+        // Use this for initialization
+        void Start()
+        {
+            NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (NWENotification sNotification)
+           {
+               if (TextNetworkResult != null)
+               {
+                   TextNetworkResult.text = "<color=green><b>ON LINE</b></color>";
+               }
+           });
+            NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (NWENotification sNotification)
+           {
+               if (TextNetworkResult != null)
+               {
+                   TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
+               }
+           });
+            NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (NWENotification sNotification)
+           {
+               if (TextNetworkResult != null)
+               {
+                   TextNetworkResult.text = "<color=orange><b>UNKNOW</b></color>";
+               }
+           });
             InitLocalizationList();
             InitAccountList();
             SynchronizeTest();
@@ -313,27 +331,30 @@ namespace NetWorkedData
             //NWDLocalization.AutoLocalize(TextLogin);
             //NWDLocalization.AutoLocalize(TextSynchronize);
             //NWDLocalization.AutoLocalize(TextLogout);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		// Use this for destroy
-		void OnDestroy ()
-		{
-			BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere (this);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		// Update is called once per frame
-		void Update ()
-		{
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Use this for destroy
+        void OnDestroy()
+        {
+            NWENotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Update is called once per frame
+        void Update()
+        {
+            //NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
+            //NWDAccountInfos tActiveUser = NWDAccountInfos.CurrentData();
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(tApp);
 
             TextEnvironment.text = tApp.Environment;
+            //TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            //TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            //TextAccount.text = tApp.PlayerAccountReference + "\n" + tActiveUser.AccountType + "\n";
+            TextAccount.text = tApp.PlayerAccountReference;
 
-            TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
             TextToken.text = tApp.RequesToken;
-
-            TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
-			TextAnonymousToken.text = "????";
+            //TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
+            //TextAnonymousToken.text = "????";
         }
         //-------------------------------------------------------------------------------------------------------------
         void InitLocalizationList()
@@ -384,8 +405,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void InitAccountList()
         {
-            NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-
             // Create List array
             List<string> tOptions = new List<string>();
 
@@ -394,19 +413,19 @@ namespace NetWorkedData
 
             // Active option
             int tActiveAccountIndex = 0;
-            int tCpt = 0;
+            //int tCpt = 0;
 
             // Init all options
-            AccountList = NWDAccount.GetTestsAccounts();
-            foreach (NWDAccounTest acc in AccountList)
-            {
-                tOptions.Add(acc.InternalKey);
-                if (acc.Reference.Equals(tApp.PlayerAccountReference))
-                {
-                    tActiveAccountIndex = tCpt;
-                }
-                tCpt++;
-            }
+            //AccountList = NWDAccount.SelectDatasForTests();
+            //foreach (NWDAccounTest acc in AccountList)
+            //{
+            //    tOptions.Add(acc.InternalKey);
+            //    if (acc.Reference.Equals(tApp.PlayerAccountReference))
+            //    {
+            //        tActiveAccountIndex = tCpt;
+            //    }
+            //    tCpt++;
+            //}
 
             // Add options to the menu
             DropdownAccountList.AddOptions(tOptions);
@@ -421,12 +440,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SelectAccountInEditorAction()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             EditorWindow tEditorWindow = EditorWindow.focusedWindow;
             string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             //Debug.Log("tAccountReference = " + tAccountReference);
-            NWDAccount tAccount = NWDAccount.GetDataByReference(tAccountReference);
-            NWDAccount.SetObjectInEdition(tAccount);
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(tAccountReference);
+            NWDBasisHelper.BasisHelper<NWDAccount>().SetObjectInEdition(tAccount);
             tEditorWindow.Focus();
 #endif
         }
@@ -451,23 +470,26 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestNoPageWithBlock();
         }
         //-------------------------------------------------------------------------------------------------------------
-        string ShowError(BTBOperationResult sResult)
+        string ShowError(NWEOperationResult sResult)
         {
             NWDOperationResult tResult = (NWDOperationResult)sResult;
-            string tDescription = "";
-            if (tResult.errorDesc != null)
+            string tDescription = string.Empty;
+            if (tResult != null)
             {
-                string tErrorDesc = "";
-                if( tResult.errorDesc.Description != null)
+                if (tResult.errorDesc != null)
                 {
-                    tErrorDesc = tResult.errorDesc.Description.GetLocalString();
+                    string tErrorDesc = string.Empty;
+                    if (tResult.errorDesc.Description != null)
+                    {
+                        tErrorDesc = tResult.errorDesc.Description.GetLocalString();
+                    }
+                    tDescription = ": (" + tResult.errorCode + ") " + tErrorDesc;
                 }
-                tDescription = ": (" + tResult.errorCode + ") " + tErrorDesc;
             }
-
             return tDescription;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

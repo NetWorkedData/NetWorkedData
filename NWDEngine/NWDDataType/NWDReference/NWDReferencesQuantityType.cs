@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:27
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -16,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,20 +39,20 @@ namespace NetWorkedData
     /// NWDReferencesQuantityType used to put a reference with float in value. Use properties with name, like 'ItemQuantity', 'SpotQuantity', 'BonusQuantity' , etc.
     /// </summary>
     [SerializeField]
-    public class NWDReferencesQuantityType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferencesQuantityType<K> : NWDReferenceMultiple where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesQuantityType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsObject(K sObject)
+        public bool ContainsData(K sObject)
         {
             return Value.Contains(sObject.Reference);
         }
@@ -57,7 +65,7 @@ namespace NetWorkedData
         public bool IsEmpty()
         {
             bool rReturn = true;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 rReturn = false;
             }
@@ -67,7 +75,7 @@ namespace NetWorkedData
         public bool IsNotEmpty()
         {
             bool rReturn = false;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 rReturn = true;
             }
@@ -77,7 +85,7 @@ namespace NetWorkedData
         public bool ContainedIn(NWDReferencesQuantityType<K> sReferencesQuantity, bool sExceptIfIsEmpty = true)
         {
             bool rReturn = true;
-            if (sExceptIfIsEmpty && Value == "")
+            if (sExceptIfIsEmpty && Value == string.Empty)
             {
                 return false;
             }
@@ -147,7 +155,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjectQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveDataQuantity(K sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
             if (tThis.ContainsKey(sObject.Reference) == false)
@@ -172,6 +180,62 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator +(NWDReferencesQuantityType<K> sLeft, NWDReferencesQuantityType<K> sRight)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            rReturn.AddReferencesQuantity(sLeft);
+            rReturn.AddReferencesQuantity(sRight);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator -(NWDReferencesQuantityType<K> sLeft, NWDReferencesQuantityType<K> sRight)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            rReturn.AddReferencesQuantity(sLeft);
+            rReturn.RemoveReferencesQuantity(sRight, true, false);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator *(NWDReferencesQuantityType<K> sLeft, int sCoefficient)
+        {
+            return sLeft.Multiply(sCoefficient);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator /(NWDReferencesQuantityType<K> sLeft, int sCoefficient)
+        {
+            return sLeft.Divise(sCoefficient);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesQuantityType<K> Multiply(int sCoefficient)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            Dictionary<string, int> tDico = GetReferenceAndQuantity();
+            foreach (KeyValuePair<string, int> tRefQ in tDico)
+            {
+                rReturn.AddReferenceQuantity(tRefQ.Key, tRefQ.Value * sCoefficient);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesQuantityType<K> Divise(int sCoefficient)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            Dictionary<string, int> tDico = GetReferenceAndQuantity();
+            foreach (KeyValuePair<string, int> tRefQ in tDico)
+            {
+                rReturn.AddReferenceQuantity(tRefQ.Key, tRefQ.Value / sCoefficient);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddDatasList(List<K> sDatasList)
+        {
+            foreach (K tObject in sDatasList)
+            {
+                AddDataQuantity(tObject, 1);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddReferencesQuantity(NWDReferencesQuantityType<K> sReferencesQuantity)
         {
             // I compare all element
@@ -191,17 +255,17 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectQuantity(NWDBasis<K> sObject, int sQuantity)
+        public void AddDataQuantity(K sData, int sQuantity)
         {
             // I compare all element
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            if (tThis.ContainsKey(sObject.Reference) == false)
+            if (tThis.ContainsKey(sData.Reference) == false)
             {
-                tThis.Add(sObject.Reference, sQuantity);
+                tThis.Add(sData.Reference, sQuantity);
             }
             else
             {
-                tThis[sObject.Reference] = tThis[sObject.Reference] + sQuantity;
+                tThis[sData.Reference] = tThis[sData.Reference] + sQuantity;
             }
             SetReferenceAndQuantity(tThis);
         }
@@ -221,24 +285,24 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObject(NWDBasis<K> sObject)
+        public void RemoveData(K sData)
         {
             // I compare all element
             Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            if (tThis.ContainsKey(sObject.Reference) == true)
+            if (tThis.ContainsKey(sData.Reference) == true)
             {
-                tThis.Remove(sObject.Reference);
+                tThis.Remove(sData.Reference);
             }
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects(string sAccountReference = null)
+        public K[] GetReachableDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.FindDataByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -247,13 +311,13 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjectsAbsolute()
+        public K[] GetRawDatas()
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetDataByReference(tRef) as K;
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -265,7 +329,7 @@ namespace NetWorkedData
         public string[] GetReferences()
         {
             List<string> tValueList = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -273,11 +337,18 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                            tValueList.Add(tLineValue[0]);
+                        tValueList.Add(tLineValue[0]);
                     }
                 }
             }
             return tValueList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string[] GetSortedReferences()
+        {
+            string[] tResult = GetReferences();
+            Array.Sort(tResult, StringComparer.InvariantCulture);
+            return tResult;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetReferenceAndQuantity(Dictionary<string, int> sDico)
@@ -285,7 +356,7 @@ namespace NetWorkedData
             List<string> tValueList = new List<string>();
             foreach (KeyValuePair<string, int> tKeyValue in sDico)
             {
-                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString());
+                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + NWDToolbox.IntToString(tKeyValue.Value));
             }
             string[] tNextValueArray = tValueList.Distinct().ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
@@ -296,7 +367,7 @@ namespace NetWorkedData
         public Dictionary<string, int> GetReferenceAndQuantity()
         {
             Dictionary<string, int> tValueDico = new Dictionary<string, int>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -304,8 +375,9 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
+                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
+                        //int tQ = 0;
+                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                         tValueDico.Add(tLineValue[0], tQ);
                     }
                 }
@@ -313,10 +385,10 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantity(string sAccountReference = null)
+        public Dictionary<K, int> GetReachableDatasAndQuantities()
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -324,9 +396,10 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.FindDataByReference(tLineValue[0], sAccountReference) as K;
+                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
+                        //int tQ = 0;
+                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
+                        K tObject = NWDBasisHelper.GetReachableDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             tValueDico.Add(tObject, tQ);
@@ -337,10 +410,10 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantityAbsolute()
+        public Dictionary<K, int> GetRawDatasAndQuantities()
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -348,9 +421,10 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetDataByReference(tLineValue[0]) as K;
+                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
+                        //int tQ = 0;
+                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             tValueDico.Add(tObject, tQ);
@@ -361,10 +435,35 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> ExploseInItemsList()
+        public K GetRawFirstDataByRandom()
+        {
+            List<K> tList = GetRawDatasList();
+
+            if (tList.Count == 0)
+            {
+                return null;
+            }
+
+            int tRandom = UnityEngine.Random.Range(0, tList.Count);
+            return tList[tRandom];
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<K> GetRawDatasByRandom(int sQuantity)
+        {
+            List<K> tList = GetRawDatasList();
+            while (tList.Count > sQuantity)
+            {
+                int tRandom = UnityEngine.Random.Range(0, tList.Count);
+                tList.RemoveAt(tRandom);
+            }
+            Debug.LogWarning("RETURN " + tList.Count.ToString() + "/" + sQuantity);
+            return tList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<K> GetRawDatasList()
         {
             List<K> rList = new List<K>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -372,9 +471,10 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.FindDataByReference(tLineValue[0]) as K;
+                        int tQ = NWDToolbox.IntFromString(tLineValue[1]);
+                        //int tQ = 0;
+                        //int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
+                        K tObject = NWDBasisHelper.GetRawDataByReference<K>(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)
@@ -390,11 +490,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
         {
-            string rDescription = "";
+            string rDescription = string.Empty;
             Dictionary<string, int> tDescDico = GetReferenceAndQuantity();
             foreach (KeyValuePair<string, int> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.FindDataByReference(tKeyValue.Key);
+                K tObject = NWDBasisHelper.GetRawDataByReference<K>(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;
@@ -407,9 +507,9 @@ namespace NetWorkedData
             return rDescription;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
@@ -420,15 +520,17 @@ namespace NetWorkedData
                     rReturn = true;
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] EditorGetObjects()
+        //[NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
+        public override object[] GetEditorDatas()
         {
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.GetDataByReference(tReference) as K;
+                K tObj = NWDBasisHelper.GetRawDataByReference<K>(tReference) as K;
                 //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
@@ -440,19 +542,19 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
-        {
-            K tNewObject = NWDBasis<K>.NewData();
-            this.AddObjectQuantity(tNewObject,1);
-            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
-        }
+        //public void EditorAddNewData()
+        //{
+        //    K tNewObject = NWDBasisHelper.NewData<K>();
+        //    this.AddDataQuantity(tNewObject, 1);
+        //    NWDBasisHelper.BasisHelper<K>().New_SetObjectInEdition(tNewObject, false, true);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.GetDataByReference(tReference) == null)
+                if (NWDBasisHelper.GetRawDataByReference<K>(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -460,202 +562,93 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float ControlFieldHeight()
-        {
-            int tRow = 1;
-            int tConnection = 0;
-            if (Value != null && Value != "")
-            {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                tRow += tValueArray.Count();
-                List<string> tValueListERROR = ReferenceInError(new List<string>(GetReferences()));
-                if (tValueListERROR.Count > 0)
-                {
-                    tConnection = 1;
-                }
-            }
-            if (tRow > 1)
-            {
-                tRow--;
-            }
-            float tHeight = (NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge +
-                tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
-                    //tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
-                               NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
-
-            // test if error in reference and add button height
-            if (Value != null && Value != "")
-            {
-                if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
-                {
-                    tHeight = tHeight + NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-                }
-            }
-
-            return tHeight;
-        }
+        //public override float ControlFieldHeight()
+        //{
+        //    int tRow = 1;
+        //    if (Value != null && Value != string.Empty)
+        //    {
+        //        string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //        tRow += tValueArray.Count();
+        //    }
+        //    float tHeight = (NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight) * tRow - NWDGUI.kFieldMarge;
+        //    return tHeight;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
-            //NWDConstants.LoadImages();
-            //NWDConstants.LoadStyles();
             NWDReferencesQuantityType<K> tTemporary = new NWDReferencesQuantityType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
-            //Type sFromType = typeof(K);
             float tWidth = sPosition.width;
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
 
-            float tIntWidth = NWDConstants.kIntWidth;
-            float tEditWidth = NWDConstants.kEditWidth;
-
-            bool tConnection = true;
-
-            List<string> tReferenceList = new List<string>();
-            List<string> tInternalNameList = new List<string>();
-
-            tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-            tInternalNameList.Add(NWDConstants.kFieldNone);
-
-            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i => i.Value))
-            {
-                tReferenceList.Add(tKeyValue.Key);
-                tInternalNameList.Add(tKeyValue.Value);
-            }
-
-            //tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-            //tInternalNameList.Add(" ");
-
-            //var tReferenceListInfo = sFromType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tReferenceListInfo != null)
-            //{
-            //    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
-            //}
-
-            //var tInternalNameListInfo = sFromType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            //if (tInternalNameListInfo != null)
-            //{
-            //    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
-            //}
-
-            List<GUIContent> tContentFuturList = new List<GUIContent>();
-            foreach (string tS in tInternalNameList.ToArray())
-            {
-                tContentFuturList.Add(new GUIContent(tS));
-            }
-
+            float tIntWidth = NWDGUI.kIntWidth;
+            float tEditWidth = NWDGUI.kEditWidth;
             List<string> tValueList = new List<string>();
             List<string> tValueListReferenceAllReady = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tValueList = new List<string>(tValueArray);
             }
-
-            List<string> tValueListERROR = ReferenceInError(new List<string>(GetReferences()));
-            if (tValueListERROR.Count > 0)
-            {
-                tConnection = false;
-            }
-
-            EditorGUI.BeginDisabledGroup(!tConnection);
-
             bool tUp = false;
             bool tDown = false;
             int tIndexToMove = -1;
 
-            tValueList.Add("");
-            string tNewReferenceQuantity = "";
+            tValueList.Add(string.Empty);
+            string tNewReferenceQuantity = string.Empty;
             for (int i = 0; i < tValueList.Count; i++)
             {
-                //string tFieldName = sEntitled;
                 if (i > 0)
                 {
-                    //tFieldName = "   ";
                     tContent = new GUIContent("   ");
                 }
-
-                int tIndex = 0;
                 int tQ = 1;
-                string tV = "";
+                string tV = string.Empty;
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                 if (tLineValue.Length == 2)
                 {
                     tV = tLineValue[0];
-                    tIndex = tReferenceList.IndexOf(tV);
-                    int.TryParse(tLineValue[1], out tQ);
+                    tQ = NWDToolbox.IntFromString(tLineValue[1]);
                 }
 
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge*3, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
-
-                if (tValueListERROR.Contains(tV))
+                tV = NWDDatasSelector.Field(NWDBasisHelper.FindTypeInfos(typeof(K)), new Rect(tX, tY, tWidth, NWDGUI.kDataSelectorFieldStyle.fixedHeight), tContent, tV,sDisabled, tIntWidth + NWDGUI.kFieldMarge * 2);
+                if (string.IsNullOrEmpty(tV) == false)
                 {
-                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - tIntWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, NWDConstants.kGrayLabelStyle.fixedHeight), "? <" + tV + ">", NWDConstants.kGrayLabelStyle);
-                }
-
-                if (tIndex > 0)
-                {
-
-             //remove EditorGUI.indentLevel to draw next controller without indent 
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
-                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge * 2, tY, tIntWidth + NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), tQ);
-                    
-                    EditorGUI.indentLevel = tIndentLevel;
-                    //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
-                    GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))
-                    {
-                        NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(tReferenceList.ElementAt(tIndex)), false);
-                    }
+                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDGUI.kFieldMarge * 2, tY + NWDGUI.kDatasSelectorYOffset, tIntWidth + NWDGUI.kFieldMarge, NWDGUI.kTextFieldStyle.fixedHeight), tQ);
+
                     if (i > 0)
                     {
-                        GUIContent tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDConstants.kFieldMarge) * 2, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tUpContent, NWDConstants.kPopupButtonStyle))
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge), tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kUpContentIcon, NWDGUI.kIconButtonStyle))
                         {
                             tUp = true;
                             tIndexToMove = i;
                         }
-                    }
-                    if (i < tValueList.Count - 2)
-                    {
-                        GUIContent tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
-                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDConstants.kFieldMarge), tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDownContent, NWDConstants.kPopupButtonStyle))
+                        if (i < tValueList.Count - 2)
                         {
-                            tDown = true;
-                            tIndexToMove = i;
+                            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (NWDGUI.kUpDownWidth + NWDGUI.kFieldMarge) * 2, tY + NWDGUI.kDatasSelectorYOffset, NWDGUI.kIconButtonStyle.fixedHeight, NWDGUI.kIconButtonStyle.fixedHeight - 2), NWDGUI.kDownContentIcon, NWDGUI.kIconButtonStyle))
+                            {
+                                tDown = true;
+                                tIndexToMove = i;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
-                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tNewContent, NWDConstants.kPopupButtonStyle))
+                    if (!tValueListReferenceAllReady.Contains(tV))
                     {
-                        NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
-                        tNewReferenceQuantity = NWDConstants.kFieldSeparatorA+ tNewObject.Reference + NWDConstants.kFieldSeparatorB + "1";
-                        NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
-                    }
-                }
-
-                tY += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                if (tIndex > 0 && tIndex < tReferenceList.Count)
-                {
-                    //if (tQ != 0) {
-                    if (!tValueListReferenceAllReady.Contains(tReferenceList.ElementAt(tIndex)))
-                    {
-                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString();
-                        tValueListReferenceAllReady.Add(tReferenceList.ElementAt(tIndex));
+                        tValueList[i] = tV + NWDConstants.kFieldSeparatorB + NWDToolbox.IntToString(tQ);
+                        tValueListReferenceAllReady.Add(tV);
                     }
                 }
                 else
                 {
-                    tValueList[i] = "";
+                    tValueList[i] = string.Empty;
                 }
+                tY = tY + NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
             }
             if (tDown == true)
             {
@@ -683,55 +676,56 @@ namespace NetWorkedData
                 }
                 tValueList.Insert(tNewIndex, tP);
             }
-            string[] tNextValueArray = tValueList.Distinct().ToArray();
+            tValueList.Distinct();
+            tValueList.Remove(NWDConstants.kFieldSeparatorA);
+            string[] tNextValueArray = tValueList.ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray) + tNewReferenceQuantity;
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
             tTemporary.Value = tNextValue;
-
-
-            EditorGUI.EndDisabledGroup();
-
-            if (tConnection == false)
-            {
-                tTemporary.Value = Value;
-
-                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, NWDConstants.kRedLabelStyle);
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
-                //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-                //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-                Color tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
-                {
-                    Dictionary<string, int> tDicoClean = GetReferenceAndQuantity();
-                    foreach (string tDeleteReference in tValueListERROR)
-                    {
-                        tDicoClean.Remove(tDeleteReference);
-                    }
-                    tTemporary.SetReferenceAndQuantity(tDicoClean);
-                }
-                GUI.backgroundColor = tOldColor;
-                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
-            }
             return tTemporary;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
+        {
+            int tCounter = 0;
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef,
+                    new Vector2(0,
+                    tHeight
+                   + (NWDGUI.kFieldMarge * tCounter) + NWDGUI.kDataSelectorFieldStyle.fixedHeight * (tCounter + 0.5f)
+                    )));
+                tCounter++;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void CreatePlotersInvisible(NWDNodeCard sNodalCard, float tHeight)
+        {
+            foreach (string tRef in GetSortedReferences())
+            {
+                sNodalCard.PloterList.Add(new NWDNodePloter(sNodalCard, tRef, new Vector2(0,
+                    tHeight
+                    + NWDGUI.kFieldMarge + NWDGUI.kBoldFoldoutStyle.fixedHeight * (0.5f)
+                    )));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-            string rReturn = "NO";
-            if (Value != null)
-            {
-                if (Value.Contains(sOldReference))
-                {
-                    //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
-                    Value = Value.Replace(sOldReference, sNewReference);
-                    rReturn = "YES";
-                }
-            }
-            return rReturn;
-        }
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

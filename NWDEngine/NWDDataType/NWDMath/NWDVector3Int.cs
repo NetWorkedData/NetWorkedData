@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:13
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -16,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,52 +37,68 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDVector3Int
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDVector3Int : BTBDataType
+    public class NWDVector3Int : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector3Int()
         {
-            Value = 0 + NWDConstants.kFieldSeparatorA + 0+ NWDConstants.kFieldSeparatorA + 0;
+            Value = NWDToolbox.Vector3IntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDVector3Int(string sValue = "")
+        //public NWDVector3Int(string sValue = NWEConstants.K_EMPTY_STRING)
+        //{
+        //    if (sValue == null)
+        //    {
+        //        Value = string.Empty;
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDVector3Int(Vector3Int sVector)
         {
-            if (sValue == null)
-            {
-                Value = "";
-            }
-            else
-            {
-                Value = sValue;
-            }
+            Value = NWDToolbox.Vector3IntToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = NWDToolbox.Vector3IntZero();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetVectorInt(Vector3Int sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y + NWDConstants.kFieldSeparatorA +
-                    sVector.z;
+            //Value = sVector.x + NWDConstants.kFieldSeparatorA +
+            //sVector.y + NWDConstants.kFieldSeparatorA +
+            //sVector.z;
+            Value = NWDToolbox.Vector3IntToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector3Int GetVectorInt()
         {
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            int tX = 0;
-            int tY = 0;
-            int tZ = 0;
-            if (tFloats.Count() == 3)
-            {
-                int.TryParse(tFloats[0], out tX);
-                int.TryParse(tFloats[1], out tY);
-                int.TryParse(tFloats[2], out tZ);
-            }
-            Vector3Int rReturn = new Vector3Int(tX, tY, tZ);
-            return rReturn;
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //int tX = 0;
+            //int tY = 0;
+            //int tZ = 0;
+            //if (tFloats.Count() == 3)
+            //{
+            //    int.TryParse(tFloats[0], out tX);
+            //    int.TryParse(tFloats[1], out tY);
+            //    int.TryParse(tFloats[2], out tZ);
+            //}
+            //Vector3Int rReturn = new Vector3Int(tX, tY, tZ);
+            //return rReturn;
+            return NWDToolbox.Vector3IntFromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -82,17 +106,17 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.textField);
-            float tHeight = tStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            float tHeight = tStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             return tHeight*2;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDVector3Int tTemporary = new NWDVector3Int();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             Vector3Int tVector = GetVectorInt();
-            Vector3Int tNexVector = EditorGUI.Vector3IntField(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
+            Vector3Int tNexVector = EditorGUI.Vector3IntField(new Rect(sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight),
                                    tContent,tVector);
 
             int tIndentLevel = EditorGUI.indentLevel;

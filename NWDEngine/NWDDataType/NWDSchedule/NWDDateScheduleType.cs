@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:33
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -16,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -36,13 +44,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDateScheduleType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateScheduleType (string sValue = "")
+		public NWDDateScheduleType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -102,7 +110,7 @@ namespace NetWorkedData
 			return tHeight * (tCount + tCountB  + tCountD) + tHeightTitle*5;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDateScheduleType tTemporary = new NWDDateScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

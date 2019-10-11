@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:0
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -14,7 +22,7 @@ using System.IO;
 
 using UnityEngine;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -24,9 +32,9 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    //-------------------------------------------------------------------------------------------------------------
-    public class NWDVersionType : BTBDataType
+    public class NWDVersionType : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVersionType()
@@ -36,7 +44,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDVersionType(string sValue = "0.00.00")
         {
-            if (sValue == null)
+            if (string.IsNullOrEmpty(sValue))
             {
                 Value = "0.00.00";
             }
@@ -48,13 +56,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public int ToInt()
         {
             int rVersionInteger = 0;
-            int.TryParse(ToString().Replace(".", ""), out rVersionInteger);
+            int.TryParse(ToString().Replace(".", string.Empty), out rVersionInteger);
             return rVersionInteger;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -62,30 +79,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
         {
-            return NWDConstants.kPopupdStyle.fixedHeight;
+            return NWDGUI.kPopupStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDVersionType tTemporary = new NWDVersionType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
-            //float tWidth = sPosition.width - EditorGUIUtility.labelWidth;
-           // int tNumberOfSubDivision = 3;
-            //float tWidthSubPos = Mathf.Ceil (tWidth / tNumberOfSubDivision);
-            //float tWidthSub = Mathf.Ceil((tWidth - NWDConstants.kFieldMarge - NWDConstants.kFieldMarge) / tNumberOfSubDivision);
             int tMajorIndex = 0;
             int tMinorIndex = 0;
             int tBuildIndex = 0;
-
-
             float tX = sPosition.x + EditorGUIUtility.labelWidth;
-
-            float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
-            float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-            //          float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge*3;
+            float tTiersWidth = Mathf.Ceil((sPosition.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
+            float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
             float tHeightAdd = 0;
-
-
             if (Value != null)
             {
                 string[] tValues = Value.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
@@ -102,46 +109,16 @@ namespace NetWorkedData
                     tBuildIndex = Array.IndexOf(NWDConstants.K_VERSION_BUILD_ARRAY, tValues[2]);
                 }
             }
-            //List<GUIContent> tContentFuturList = new List<GUIContent>();
-            //foreach (string tS in NWDConstants.K_VERSION_MAJOR_ARRAY)
-            //{
-            //    tContentFuturList.Add(new GUIContent(tS));
-            //}
-            //tMajorIndex = EditorGUI.Popup(new Rect(sPosition.x,
-            //                                         sPosition.y,
-            //                                         EditorGUIUtility.labelWidth + tWidthSub,
-            //                                         sPosition.height),
-            //tContent, tMajorIndex, tContentFuturList.ToArray());
-
-            //tMinorIndex = EditorGUI.Popup(new Rect(sPosition.x + tWidthSub * 1 + NWDConstants.kFieldMarge * 1,
-            //                                         sPosition.y,
-            //                                         EditorGUIUtility.labelWidth + tWidthSub,
-            //                                         sPosition.height),
-            //tMinorIndex, NWDConstants.K_VERSION_MINOR_ARRAY);
-
-            //tBuildIndex = EditorGUI.Popup(new Rect(sPosition.x + tWidthSub * 2 + NWDConstants.kFieldMarge * 2,
-            //                                         sPosition.y,
-            //                                         EditorGUIUtility.labelWidth + tWidthSub,
-            //                                         sPosition.height),
-            //tBuildIndex, NWDConstants.K_VERSION_BUILD_ARRAY);
-
-
-            EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDConstants.kLabelStyle.fixedHeight), tContent);
-
+            EditorGUI.LabelField(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
-
-            tMajorIndex = EditorGUI.Popup(new Rect(tX, sPosition.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            tMajorIndex = EditorGUI.Popup(new Rect(tX, sPosition.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
                                           tMajorIndex, NWDConstants.K_VERSION_MAJOR_ARRAY);
-            tMinorIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth, sPosition.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            tMinorIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth, sPosition.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
                                           tMinorIndex, NWDConstants.K_VERSION_MINOR_ARRAY);
-            tBuildIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth * 2, sPosition.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
+            tBuildIndex = EditorGUI.Popup(new Rect(tX + tTiersWidth * 2, sPosition.y + tHeightAdd, tTiersWidthB, NWDGUI.kPopupStyle.fixedHeight),
                                           tBuildIndex, NWDConstants.K_VERSION_BUILD_ARRAY);
-
             EditorGUI.indentLevel = tIndentLevel;
-
-
-
             tTemporary.Value = NWDConstants.K_VERSION_MAJOR_ARRAY[tMajorIndex] + "." + NWDConstants.K_VERSION_MINOR_ARRAY[tMinorIndex] + "." + NWDConstants.K_VERSION_BUILD_ARRAY[tBuildIndex];
             return tTemporary;
         }
@@ -149,5 +126,6 @@ namespace NetWorkedData
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

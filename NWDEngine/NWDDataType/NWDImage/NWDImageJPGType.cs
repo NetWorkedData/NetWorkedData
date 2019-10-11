@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:46
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -16,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,21 +32,20 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
 	public class NWDImageJPGType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDImageJPGType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDImageJPGType (string sValue = "")
+		public NWDImageJPGType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -59,7 +64,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Texture2D ToTexture ()
 		{
-			if (Value != null && Value != "") {
+			if (Value != null && Value != string.Empty) {
 				try {
 					byte[] tDecodedBytes = Convert.FromBase64String (Value);
 					if (tDecodedBytes != null) {
@@ -85,7 +90,7 @@ namespace NetWorkedData
 					Value = Convert.ToBase64String (tByteOfPicture);
 				}
 			} else {
-				Value = "";
+				Value = string.Empty;
 			}
 		}
         //-------------------------------------------------------------------------------------------------------------
@@ -109,7 +114,7 @@ namespace NetWorkedData
 		public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
-			if (Value != "") {
+			if (Value != string.Empty) {
 				tAdd = 1;
 			}
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
@@ -123,10 +128,10 @@ namespace NetWorkedData
 			tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			tLabelAssetStyle.normal.textColor = Color.gray;
 
-			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+			return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDImageJPGType tTemporary = new NWDImageJPGType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -159,30 +164,28 @@ namespace NetWorkedData
             //EditorGUI.indentLevel = 0;
 
 			Texture2D tTexture = tTemporary.ToTexture ();
-			if (Value != null && Value != "" && tTexture == null) {
+			if (Value != null && Value != string.Empty && tTexture == null) {
                 EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent);
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
-				}
-				GUI.backgroundColor = tOldColor;
-			} else if (Value != null && Value != "") {
+                NWDGUI.BeginRedArea();
+                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+					tTemporary.Value = string.Empty;
+                }
+                NWDGUI.EndRedArea();
+            } else if (Value != null && Value != string.Empty) {
 						
 				if (tTexture != null) {
-					EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
+					EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize)
 						, tTexture);
 				}
 				EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled);
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
-				}
-				GUI.backgroundColor = tOldColor;
-			} else {
+                NWDGUI.BeginRedArea();
+                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+					tTemporary.Value = string.Empty;
+                }
+                NWDGUI.EndRedArea();
+            } else {
 				UnityEngine.Object tObjSprite = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Texture2D), false);
-				tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
+				tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
 				if (tObjSprite != null) {
 					Texture2D tNewTexture = AssetPreview.GetAssetPreview (tObjSprite);
 					tTemporary.SetTexture (tNewTexture);
@@ -192,9 +195,10 @@ namespace NetWorkedData
 			}
 			return tTemporary;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

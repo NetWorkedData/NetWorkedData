@@ -1,9 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:43
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +18,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -23,8 +29,9 @@ namespace NetWorkedData
         public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
         //-------------------------------------------------------------------------------------------------------------
 		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
-		{
-			foreach (Type tType in sType) 
+        {
+            //NWEBenchmark.Start();
+            foreach (Type tType in sType) 
 			{
 				if (mTypeWindowDico.ContainsKey (tType))
 				{
@@ -41,43 +48,51 @@ namespace NetWorkedData
 					mTypeWindowDico.Add (tType, tList);
 						
 				}
-			}
+            }
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void RemoveWindowFromManager (NWDTypeWindow sWindow)
-		{
-			foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
+        public void RemoveWindowFromManager (NWDTypeWindow sWindow)
+        {
+            //NWEBenchmark.Start();
+            foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
 			{
 				List<NWDTypeWindow> tList = tKeyValue.Value;
 				if (tList.Contains (sWindow) == true) 
 				{
 					tList.Remove (sWindow);
-				}
-			}
+                }
+            }
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-		public void RepaintWindowsInManager (Type sType)
-		{
+        public void RepaintWindowsInManager (Type sType)
+        {
+            //NWEBenchmark.Start();
             //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
-			if (mTypeWindowDico.ContainsKey (sType))
+            if (mTypeWindowDico.ContainsKey (sType))
 			{
 				foreach (NWDTypeWindow tWindow in mTypeWindowDico [sType])
 				{
 					tWindow.Repaint ();
 				}
-			}
+            }
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RepaintWindowForData(Type sType)
+        public List<NWDTypeWindow> EditorWindowsInManager(Type sType)
         {
-            //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
+            //NWEBenchmark.Start();
+            List<NWDTypeWindow> tReturn = new List<NWDTypeWindow>();
             if (mTypeWindowDico.ContainsKey(sType))
             {
                 foreach (NWDTypeWindow tWindow in mTypeWindowDico[sType])
                 {
-                    tWindow.Repaint();
+                    tReturn.Add(tWindow);
                 }
             }
+            //NWEBenchmark.Finish();
+            return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

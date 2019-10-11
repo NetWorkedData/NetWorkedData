@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:46:0
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -12,7 +20,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -27,11 +35,11 @@ namespace NetWorkedData
         UnityLLAPI_Head,
         Ping,
         Net,
+        UnityReacha,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    ///
-    /// </summary>
+    public delegate void NWDNetworkFinishDelegate(NWDNetworkState sNetworkState);
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDNetworkCheck : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -39,10 +47,11 @@ namespace NetWorkedData
         public NWDNetworkState NetworkState = NWDNetworkState.Unknow;
         public bool DebugLog = false;
         public NWDNetworkCheckType RequestType = NWDNetworkCheckType.Ping;
-        string URL = "";
-        string AddressPing = "";
+        string URL = string.Empty;
+        string AddressPing = string.Empty;
         private bool IsPaused = false;
         UnityWebRequest Request;
+        public NWDNetworkFinishDelegate TestFinishedBlock;
         //-------------------------------------------------------------------------------------------------------------
         private IEnumerator CheckCoroutine;
         //-------------------------------------------------------------------------------------------------------------
@@ -93,6 +102,13 @@ namespace NetWorkedData
             //yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void TestNetwork(NWDNetworkFinishDelegate sNetworkTestFinishedBlock = null)
+        {
+            //Debug.Log("NWDNetworkCheck TestNetwork()");
+            TestFinishedBlock = sNetworkTestFinishedBlock;
+            NetworkTest();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void NetworkTest()
         {
             //Debug.Log("NWDNetworkCheck PingTest()");
@@ -124,38 +140,49 @@ namespace NetWorkedData
                         HttpRequestAsync();
                     }
                     break;
+                case NWDNetworkCheckType.UnityReacha:
+                    {
+                        Reach();
+                    }
+                    break;
             }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void TestNetwork()
-        {
-            //Debug.Log("NWDNetworkCheck TestNetwork()");
-            NetworkTest();
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator PingAsync()
         {
+            //Debug.Log("NWDNetworkCheck PingAsync()");
             double tStartTimestamp = 0;
             double tFinishTimestamp = 0;
             double tDelta = -1;
             if (DebugLog == true)
             {
-                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tStartTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
             }
-            const float timeout = 10f;
+            const float timeout = 0.50f;
             float startTime = Time.timeSinceLevelLoad;
             var ping = new Ping(AddressPing);
             while (true)
             {
                 if (ping.isDone)
                 {
-                    NetworkStatutChange(NWDNetworkState.OnLine);
-
+                    if (ping.time<0)
+                    {
+                        NetworkStatutChange(NWDNetworkState.OffLine);
+                    }
+                    else
+                    {
+                        NetworkStatutChange(NWDNetworkState.OnLine);
+                    }
                     if (DebugLog == true)
                     {
-                        tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                         tDelta = tFinishTimestamp - tStartTimestamp;
-                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") : " + tDelta.ToString("F3") + " seconds");
+                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") "+ ping.time + ": " + tDelta.ToString("F3") + " seconds");
+                    }
+                    if (TestFinishedBlock != null)
+                    {
+                        TestFinishedBlock(NetworkState);
+                        TestFinishedBlock = null;
                     }
                     yield break;
                 }
@@ -165,9 +192,14 @@ namespace NetWorkedData
 
                     if (DebugLog == true)
                     {
-                        tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                         tDelta = tFinishTimestamp - tStartTimestamp;
                         Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + AddressPing + ") : " + tDelta.ToString("F3") + " seconds");
+                    }
+                    if (TestFinishedBlock != null)
+                    {
+                        TestFinishedBlock(NetworkState);
+                        TestFinishedBlock = null;
                     }
                     yield break;
                 }
@@ -183,7 +215,7 @@ namespace NetWorkedData
             double tStartTimestamp = 0;
             if (DebugLog == true)
             {
-                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tStartTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
             }
             switch (RequestType)
             {
@@ -280,16 +312,46 @@ namespace NetWorkedData
             }
             if (DebugLog == true)
             {
-                double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                double tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                 double tDelta = tFinishTimestamp - tStartTimestamp;
                 Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
+            }
+            if (TestFinishedBlock != null)
+            {
+                TestFinishedBlock(NetworkState);
+                TestFinishedBlock = null;
             }
             yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
+        void Reach()
+        {
+            //Debug.Log("NWDNetworkCheck Reach()");
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(MakeRequest));
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                NetworkStatutChange(NWDNetworkState.OffLine);
+            }
+            //Check if the device can reach the internet via a carrier data network
+            else if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+            {
+                NetworkStatutChange(NWDNetworkState.OnLine);
+            }
+            //Check if the device can reach the internet via a LAN
+            else if (Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+            {
+                NetworkStatutChange(NWDNetworkState.OnLine);
+            }
+            if (TestFinishedBlock != null)
+            {
+                TestFinishedBlock(NetworkState);
+                TestFinishedBlock = null;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         void HttpRequestAsync()
         {
-            Debug.Log("NWDNetworkCheck HttpRequestAsync()");
+            //Debug.Log("NWDNetworkCheck HttpRequestAsync()");
             //ThreadPool.QueueUserWorkItem(new WaitCallback(MakeRequest));
             MakeRequest(this);
         }
@@ -301,7 +363,7 @@ namespace NetWorkedData
             double tDelta = -1;
             if (DebugLog == true)
             {
-                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tStartTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
             }
             var tRequest = (HttpWebRequest)WebRequest.Create(URL);
             tRequest.Method = "HEAD";
@@ -334,7 +396,7 @@ namespace NetWorkedData
             NetworkStatutChange(tNetworkState);
             if (DebugLog == true)
             {
-                tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tFinishTimestamp = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                 tDelta = tFinishTimestamp - tStartTimestamp;
                 Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
             }
@@ -351,23 +413,23 @@ namespace NetWorkedData
                 {
                     case NWDNetworkState.Check :
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_CHECK, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_CHECK, null));
                         }
                         break;
                     case NWDNetworkState.OnLine:
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
                         }
                         break;
                     case NWDNetworkState.OffLine:
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
                         }
                         break;
                     case NWDNetworkState.Unknow:
                     default :
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
+                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
                         }
                     break;
                 }

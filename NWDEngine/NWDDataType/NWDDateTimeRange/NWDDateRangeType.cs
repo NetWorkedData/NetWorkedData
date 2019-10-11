@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:36
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -16,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -32,7 +38,7 @@ namespace NetWorkedData
 	/// </summary>
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateRangeType : BTBDataType
+	public class NWDDateRangeType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -40,17 +46,17 @@ namespace NetWorkedData
 		/// </summary>
 		public NWDDateRangeType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDDateRangeType"/> class.
 		/// </summary>
 		/// <param name="sValue">S value.</param>
-		public NWDDateRangeType (string sValue = "")
+		public NWDDateRangeType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -58,13 +64,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Results if "now" is in range.
-		/// </summary>
-		/// <returns><c>true</c>, if now was resulted, <c>false</c> otherwise.</returns>
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Results if "now" is in range.
+        /// </summary>
+        /// <returns><c>true</c>, if now was resulted, <c>false</c> otherwise.</returns>
         public bool AvailableNow ()
 		{
             return AvailableDate (DateTime.Now);
@@ -189,7 +204,7 @@ namespace NetWorkedData
 			//float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			//GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			//float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-            return NWDConstants.kPopupdStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3 + NWDConstants.kLabelStyle.fixedHeight * 2;
+            return NWDGUI.kPopupStyle.fixedHeight * 2 + NWDGUI.kFieldMarge * 3 + NWDGUI.kLabelStyle.fixedHeight * 2;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -199,7 +214,7 @@ namespace NetWorkedData
 		/// <param name="sPosition">S position.</param>
 		/// <param name="sEntitled">S entitled.</param>
 		/// <param name="sPos">S position.</param>
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDDateRangeType tTemporary = new NWDDateRangeType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -207,10 +222,10 @@ namespace NetWorkedData
 
 			//GUIStyle tSeparatorStyle = new GUIStyle (EditorStyles.label);
 			//tSeparatorStyle.alignment = TextAnchor.MiddleCenter;
-            float tHeight = NWDConstants.kPopupdStyle.fixedHeight;
+            float tHeight = NWDGUI.kPopupStyle.fixedHeight;
 
 			//GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
-            float tHeightTitle = NWDConstants.kLabelStyle.fixedHeight;
+            float tHeightTitle = NWDGUI.kLabelStyle.fixedHeight;
 
 //			string[] tDateComponent = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -220,51 +235,51 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			float tTiersWidth = Mathf.Ceil ((sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
-			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-//			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge * 3;
+			float tTiersWidth = Mathf.Ceil ((sPos.width - EditorGUIUtility.labelWidth + NWDGUI.kFieldMarge) / 3.0F);
+			float tTiersWidthB = tTiersWidth - NWDGUI.kFieldMarge;
+//			float tTiersWidthC = tTiersWidth - NWDGUI.kFieldMarge * 3;
 			float tHeightAdd = 0;
 
 			float tWidthYear = tTiersWidthB + 10;
 			float tWidthMonth = tTiersWidthB - 5;
 			float tWidthDay = tTiersWidthB - 5;
-            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight), tContent);
+            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight), tContent);
 
             // remove EditorGUI.indentLevel to draw next controller without indent 
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "Start", NWDConstants.kLabelStyle);
+            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight), "Start", NWDGUI.kLabelStyle);
 			tHeightAdd += tHeightTitle;
 
 
-            int tYearStart = NWDDateTimeType.kYearStart + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
-                                                                           tStartDateTimes.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            int tYearStart = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
+                                                                           tStartDateTimes.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
-			int tMonthStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
+			int tMonthStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
 				                  tStartDateTimes.Month - 1, NWDDateTimeType.kMonths);
 
 			int tDayNumberStart = DateTime.DaysInMonth (tYearStart, tMonthStart);
 
 			int tDayStart = 1;
 			if (tDayNumberStart == 31) {
-                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tStartDateTimes.Day - 1, NWDDateTimeType.kDays);
 			} else if (tDayNumberStart == 30) {
-                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tStartDateTimes.Day - 1, NWDDateTimeType.kDaysB);
 			} else if (tDayNumberStart == 28) {
-                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tStartDateTimes.Day - 1, NWDDateTimeType.kDaysC);
 			} else if (tDayNumberStart == 29) {
-                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tStartDateTimes.Day - 1, NWDDateTimeType.kDaysD);
 			}
 
-			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+			tHeightAdd += tHeight + NWDGUI.kFieldMarge;
 
-			//GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
-			//GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX + tTiersWidthB + NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
 
 			//int tHourStart = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
 			//	                 tStartDateTimes.Hour, NWDDateTimeType.kHours);
@@ -273,43 +288,43 @@ namespace NetWorkedData
 			//int tSecondStart = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
 			//	                   tStartDateTimes.Second, NWDDateTimeType.kSeconds);
 
-			//tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+			//tHeightAdd += tHeight + NWDGUI.kFieldMarge;
 
 
             int tHourStart = 0;
             int tMinuteStart = 0;
             int tSecondStart = 0;
 
-            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y + tHeightAdd, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "End", NWDConstants.kLabelStyle);
+            GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y + tHeightAdd, sPos.width, NWDGUI.kLabelStyle.fixedHeight), "End", NWDGUI.kLabelStyle);
 			tHeightAdd += tHeightTitle;
 
-            int tYearNext = NWDDateTimeType.kYearStart + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
-                                                                          tEndDateTimes.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            int tYearNext = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
+                                                                          tEndDateTimes.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
-			int tMonthNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
+			int tMonthNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
 				                 tEndDateTimes.Month - 1, NWDDateTimeType.kMonths);
 
 			int tDayNumberNext = DateTime.DaysInMonth (tYearNext, tMonthNext);
 
 			int tDayNext = 1;
 			if (tDayNumberNext == 31) {
-                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tEndDateTimes.Day - 1, NWDDateTimeType.kDays);
 			} else if (tDayNumberNext == 30) {
-                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tEndDateTimes.Day - 1, NWDDateTimeType.kDaysB);
 			} else if (tDayNumberNext == 28) {
-                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tEndDateTimes.Day - 1, NWDDateTimeType.kDaysC);
 			} else if (tDayNumberNext == 29) {
-                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDConstants.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDConstants.kPopupdStyle.fixedHeight),
+                tDayNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + tWidthMonth + NWDGUI.kFieldMarge * 2, sPos.y + tHeightAdd, tWidthDay, NWDGUI.kPopupStyle.fixedHeight),
 					tEndDateTimes.Day - 1, NWDDateTimeType.kDaysD);
 			}
 
-			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+			tHeightAdd += tHeight + NWDGUI.kFieldMarge;
 
-			//GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
-			//GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX + tTiersWidthB + NWDGUI.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDGUI.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
 
 			//int tHourNext = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
 			//	                tEndDateTimes.Hour, NWDDateTimeType.kHours);
@@ -318,7 +333,7 @@ namespace NetWorkedData
 			//int tSecondNext = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
 				                  //tEndDateTimes.Second, NWDDateTimeType.kSeconds);
 
-            //tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+            //tHeightAdd += tHeight + NWDGUI.kFieldMarge;
 
             // move EditorGUI.indentLevel to draw next controller with indent 
             EditorGUI.indentLevel = tIndentLevel;
@@ -328,9 +343,9 @@ namespace NetWorkedData
             int tSecondNext = 0;
 
             if (AvailableNow () == false) {
-                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
+                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDGUI.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
 			} else {
-                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
+                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDGUI.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
 			}
 
 

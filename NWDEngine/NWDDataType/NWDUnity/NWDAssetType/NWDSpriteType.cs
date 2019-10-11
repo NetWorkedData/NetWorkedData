@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:54
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -16,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,36 +34,43 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
 	public class NWDSpriteType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDSpriteType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSpriteType (string sValue = "")
+		public NWDSpriteType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public Sprite ToSprite ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite ToSpriteAsync(Sprite sInterim, NWDOperationSpriteDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+            tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
+            NWDOperationSprite tOperation = NWDOperationSprite.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite ToSprite ()
 		{
             Sprite rSprite = null;
 			if (!string.IsNullOrEmpty(Value))
             {
-				string tPath = Value.Replace(kAssetDelimiter, "");
+				string tPath = Value.Replace(kAssetDelimiter, string.Empty);
 				#if UNITY_EDITOR
 				rSprite = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
                 #else
-                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
                 rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
                 #endif
                 if (rSprite == null)
@@ -68,18 +83,18 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override bool IsInError()
+        public override bool ErrorAnalyze()
         {
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (Value.Contains("Resources") == false)
+                if (Value.Contains(NWD.K_Resources) == false)
                 {
                     rReturn = true;
                 }
                 else
                 {
-                    string tPath = Value.Replace(kAssetDelimiter, "");
+                    string tPath = Value.Replace(kAssetDelimiter, string.Empty);
                     Sprite tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
                     if (tObject == null)
                     {
@@ -87,13 +102,14 @@ namespace NetWorkedData
                     }
                 }
             }
+            InError = rReturn;
             return rReturn;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
-			if (Value != "") 
+			if (Value != string.Empty) 
 			{
 				tAdd = 1;
 			}
@@ -108,10 +124,10 @@ namespace NetWorkedData
 			tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			tLabelAssetStyle.normal.textColor = Color.gray;
 
-			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
+			return tObjectFieldStyle.fixedHeight + tAdd * (NWDGUI.kPrefabSize + NWDGUI.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDSpriteType tTemporary = new NWDSpriteType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -139,31 +155,32 @@ namespace NetWorkedData
 
 			bool tRessource = true;
 
-			if (Value != null && Value != "") {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+			if (Value != null && Value != string.Empty) {
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty);
 				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
 				if (tObject == null) {
 					tRessource = false;
 				} else {
-
-					Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
-					if (tTexture2D != null) {
-						EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY+NWDConstants.kFieldMarge+tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
-							, tTexture2D);
-					}
-				}
-                if (Value.Contains("Resources") == false)
+					//Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
+					//if (tTexture2D != null) {
+					//	EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY+NWDGUI.kFieldMarge+tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize)
+					//		, tTexture2D);
+					//}
+                    GUI.DrawTexture(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDGUI.kPrefabSize, NWDGUI.kPrefabSize),
+                     tObject.texture, ScaleMode.ScaleToFit, true);
+                }
+                if (Value.Contains(NWD.K_Resources) == false)
                 {
                     EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
                 }
 			}
 			EditorGUI.BeginDisabledGroup (!tRessource);
             UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Sprite), false);
-			tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
+			tY = tY + NWDGUI.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
 				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;
 			} else {
-				tTemporary.Value = "";
+				tTemporary.Value = string.Empty;
 			}
 			EditorGUI.EndDisabledGroup ();
 			if (tRessource == true) {
@@ -171,22 +188,22 @@ namespace NetWorkedData
 				tTemporary.Value = Value;
 
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD, tLabelStyle);
-				tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+				tY = tY + NWDGUI.kFieldMarge + tLabelStyle.fixedHeight;
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
-				}
-				GUI.backgroundColor = tOldColor;
-				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+				tY = tY + NWDGUI.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                NWDGUI.BeginRedArea();
+                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+					tTemporary.Value = string.Empty;
+                }
+                NWDGUI.EndRedArea();
+                tY = tY + NWDGUI.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			}
 			return tTemporary;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

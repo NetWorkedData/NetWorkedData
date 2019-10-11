@@ -1,7 +1,13 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:39
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -11,111 +17,105 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEngine.Networking;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
-    //	TODO : finish implementation  : add notifications key and callback method : Must be test
-    //-------------------------------------------------------------------------------------------------------------
-    /// <summary>
-    /// NWD game call back.
-    /// Use in game object to connect the other gameobject to action in the NetWorkedData package 
-    /// Each scene can be connect independently
-    /// </summary>
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDCallBackWebSynchronizeOnly : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Installs the observer in the BTBNotification manager
+        /// Installs the observer in the NWENotification manager
         /// </summary>
         void InstallObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             // change from web data
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (NWENotification sNotification)
             {
                 NotificationDatasWebUpdate(sNotification);
             });
 
             // error
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ERROR, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ERROR, delegate (NWENotification sNotification)
             {
                 NotificationError(sNotification);
             });
 
             // player/user change
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_CHANGE, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_CHANGE, delegate (NWENotification sNotification)
             {
                 NotificationAccountChanged(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, delegate (NWENotification sNotification)
             {
                 NotificationAccountSessionExpired(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_BANNED, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_BANNED, delegate (NWENotification sNotification)
             {
                 NotificationAccountBanned(sNotification);
             });
 
             // Network statut
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (NWENotification sNotification)
             {
                 NotificationNetworkOffLine(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (NWENotification sNotification)
             {
                 NotificationNetworkOnLine(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (NWENotification sNotification)
             {
                 NotificationNetworkUnknow(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_CHECK, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORK_CHECK, delegate (NWENotification sNotification)
             {
                 NotificationNetworkCheck(sNotification);
             });
             // Operation Web
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_ERROR, delegate (NWENotification sNotification)
             {
                 NotificationWebOperationError(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, delegate (NWENotification sNotification)
             {
                 NotificationWebOperationUploadStart(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (NWENotification sNotification)
             {
                 NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
                 NotificationWebOperationUploadInProgress(sNotification,tSender.Request.uploadProgress);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (NWENotification sNotification)
             {
                 NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
                 NotificationWebOperationDownloadInProgress(sNotification, tSender.Request.downloadProgress);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (NWENotification sNotification)
             {
                 NotificationWebOperationDownloadIsDone(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, delegate (NWENotification sNotification)
             {
                 NotificationWebOperationDownloadFailed(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, delegate (NWENotification sNotification)
             {
                 NotificationWebOperationDownloadError(sNotification);
             });
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, delegate (NWENotification sNotification)
             {
                 NotificationWebOperationDownloadSuccessed(sNotification);
             });
 
             // generic
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NOTIFICATION_KEY, delegate (BTBNotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NOTIFICATION_KEY, delegate (NWENotification sNotification)
             {
                 NotificationGeneric(sNotification);
             });
@@ -123,10 +123,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
 
-			// remove this from BTBNotificationManager
+			// remove this from NWENotificationManager
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE);
@@ -134,7 +134,7 @@ namespace NetWorkedData
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_CHECK);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NOTIFICATION_KEY);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_ERROR);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR);
@@ -156,136 +156,137 @@ namespace NetWorkedData
 		//=============================================================================================================
         // VIRTUAL METHOD        
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationEngineLaunch(BTBNotification sNotification)
+        public virtual void NotificationEngineLaunch(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasStartLoading(NWENotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public virtual void NotificationDatasPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationLanguageChanged(BTBNotification sNotification)
+        public virtual void NotificationLanguageChanged(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDataLocalUpdate(BTBNotification sNotification)
+        public virtual void NotificationDataLocalUpdate(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDataLocalInsert(BTBNotification sNotification)
+        public virtual void NotificationDataLocalInsert(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDataLocalDelete(BTBNotification sNotification)
+        public virtual void NotificationDataLocalDelete(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasWebUpdate(BTBNotification sNotification)
+        public virtual void NotificationDatasWebUpdate(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationError(BTBNotification sNotification)
+        public virtual void NotificationError(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationAccountChanged(BTBNotification sNotification)
+        public virtual void NotificationAccountChanged(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationAccountSessionExpired(BTBNotification sNotification)
+        public virtual void NotificationAccountSessionExpired(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationAccountBanned(BTBNotification sNotification)
+        public virtual void NotificationAccountBanned(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationNetworkOffLine(BTBNotification sNotification)
+        public virtual void NotificationNetworkOffLine(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationNetworkOnLine(BTBNotification sNotification)
+        public virtual void NotificationNetworkOnLine(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationNetworkUnknow(BTBNotification sNotification)
+        public virtual void NotificationNetworkUnknow(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationNetworkCheck(BTBNotification sNotification)
+        public virtual void NotificationNetworkCheck(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationError(BTBNotification sNotification)
+        public virtual void NotificationWebOperationError(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadStart(BTBNotification sNotification)
+        public virtual void NotificationWebOperationUploadStart(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
+        public virtual void NotificationWebOperationUploadInProgress(NWENotification sNotification, float sPurcent)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
+        public virtual void NotificationWebOperationDownloadInProgress(NWENotification sNotification, float sPurcent)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadIsDone(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadFailed(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadError(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadError(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadSuccessed(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationGeneric(BTBNotification sNotification)
+        public virtual void NotificationGeneric(NWENotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

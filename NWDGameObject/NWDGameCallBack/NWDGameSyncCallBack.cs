@@ -1,10 +1,18 @@
-﻿
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:45:46
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
+
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +20,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -47,23 +55,23 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Installs the observer in the BTBNotification manager
+        /// Installs the observer in the NWENotification manager
         /// </summary>
         void InstallObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             // Operation Web
             if (TrackWebOperationUploadStart == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, delegate (NWENotification sNotification)
                 {
                     NotificationWebOperationUploadStart(sNotification);
                 });
             }
             if (TrackWebOperationUploadInProgress == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (NWENotification sNotification)
                 {
                     NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
                     NotificationWebOperationUploadInProgress(sNotification, tSender.Request.uploadProgress);
@@ -71,7 +79,7 @@ namespace NetWorkedData
             }
             if (TrackWebOperationDownloadInProgress == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (NWENotification sNotification)
                 {
                     NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
                     NotificationWebOperationDownloadInProgress(sNotification, tSender.Request.downloadProgress);
@@ -79,14 +87,14 @@ namespace NetWorkedData
             }
             if (TrackWebOperationDownloadIsDone == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (NWENotification sNotification)
                 {
                     NotificationWebOperationDownloadIsDone(sNotification);
                 });
             }
             if (TrackWebOperationDownloadSuccessed == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, delegate (NWENotification sNotification)
                 {
                     NotificationWebOperationDownloadSuccessed(sNotification);
                 });
@@ -96,14 +104,14 @@ namespace NetWorkedData
 
             if (TrackWebOperationDownloadFailed == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, delegate (NWENotification sNotification)
                 {
                     NotificationWebOperationDownloadFailed(sNotification);
                 });
             }
             if (TrackWebOperationDownloadError == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, delegate (NWENotification sNotification)
                 {
                     NotificationWebOperationDownloadError(sNotification);
                 });
@@ -111,7 +119,7 @@ namespace NetWorkedData
             if (TrackWebOperationError == true)
             {
 
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_ERROR, delegate (NWENotification sNotification)
                 {
                     NotificationWebOperationError(sNotification);
                 });
@@ -120,10 +128,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
 
-            // remove this from BTBNotificationManager
+            // remove this from NWENotificationManager
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS);
@@ -132,7 +140,7 @@ namespace NetWorkedData
 
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_ERROR);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TrackReset()
@@ -151,7 +159,7 @@ namespace NetWorkedData
             RemoveObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationError(BTBNotification sNotification)
+        public virtual void NotificationWebOperationError(NWENotification sNotification)
         {
             if (WebOperationErrorEvent != null)
             {
@@ -159,7 +167,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadStart(BTBNotification sNotification)
+        public virtual void NotificationWebOperationUploadStart(NWENotification sNotification)
         {
             if (WebOperationUploadStartEvent != null)
             {
@@ -167,7 +175,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
+        public virtual void NotificationWebOperationUploadInProgress(NWENotification sNotification, float sPurcent)
         {
             //Debug.Log("NotificationWebOperation   UploadInProgress sPurcent = " + sPurcent.ToString());
             if (WebOperationUploadInProgressEvent != null)
@@ -176,7 +184,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
+        public virtual void NotificationWebOperationDownloadInProgress(NWENotification sNotification, float sPurcent)
         {
             //Debug.Log("NotificationWebOperation   DownloadInProgress sPurcent = " + sPurcent.ToString());
             if (WebOperationDownloadInProgressEvent != null)
@@ -185,7 +193,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadIsDone(NWENotification sNotification)
         {
             if (WebOperationDownloadIsDoneEvent != null)
             {
@@ -193,7 +201,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadFailed(NWENotification sNotification)
         {
             if (WebOperationDownloadFailedEvent != null)
             {
@@ -201,7 +209,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadError(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadError(NWENotification sNotification)
         {
             if (WebOperationDownloadErrorEvent != null)
             {
@@ -209,7 +217,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadSuccessed(NWENotification sNotification)
         {
             if (WebOperationDownloadSuccessedEvent != null)
             {

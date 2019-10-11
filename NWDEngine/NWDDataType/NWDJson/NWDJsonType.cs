@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:49
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -16,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,57 +32,70 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//TODO: FINISH THIS CLASS NWDJsonType
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDJsonType : BTBDataType
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
+	public class NWDJsonType : NWDReferenceMultiple
     {
         //-------------------------------------------------------------------------------------------------------------
         const int kCONST_NUMBER_OF_LINE = 40;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDJsonType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDJsonType (string sValue = "")
+		public NWDJsonType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public object Unlinearize ()
-		{
-			return null;
+		public List<object> UnlinearizeList()
+        {
+            return (List<object>)NWEMiniJSON.Json.Deserialize(NWDToolbox.JsonFromString(Value));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Dictionary<string, object> UnlinearizeDictionary()
+        {
+            return (Dictionary<string, object>)NWEMiniJSON.Json.Deserialize(NWDToolbox.JsonFromString(Value));
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void Linearize(List<object> sList)
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void LinearizeList(List<object> sList)
 		{
-			Value = "???";
+			Value = NWDToolbox.JsonToString(NWEMiniJSON.Json.Serialize(sList));
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void Linearize(Dictionary<object,object> sDictionary)
+		public void LinearizeDictionary(Dictionary<string,object> sDictionary)
 		{
-			Value = "???";
-		}
+            Value = NWDToolbox.JsonToString(NWEMiniJSON.Json.Serialize(sDictionary));
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-            float rReturn = (NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge) + NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            float rReturn = (NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kFieldMarge) + NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
 		{
             NWDJsonType tTemporary = new NWDJsonType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -85,29 +104,41 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+            EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDGUI.kTextFieldStyle.fixedHeight), tContent);
 
             //remove EditorGUI.indentLevel to draw next controller without indent 
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            string tNextValue = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value, NWDConstants.kTextAreaStyle);
-            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
-            {
-                // test if valide
-            }
+            string tNextValue = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value.Replace("{","\n{").Replace("}", "}\n"), NWDGUI.kTextAreaStyle);
+            //if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDGUI.tTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDGUI.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDGUI.tTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
+            //{
+            //    // test if valide
+            //}
             EditorGUI.indentLevel = tIndentLevel;
 
-            tTemporary.Value = tNextValue; 
+            tTemporary.Value = tNextValue.Replace("\n{", "{").Replace("}\n", "}"); 
 			return tTemporary;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-//		public override bool ChangeAssetPath (string sOldPath, string sNewPath) {
-//			return false;
-//		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //[NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
+        //public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        //{
+        //    string rReturn = "NO";
+        //    if (Value != null)
+        //    {
+        //        if (Value.Contains(sOldReference))
+        //        {
+        //            Value = Value.Replace(sOldReference, sNewReference);
+        //            rReturn = "YES";
+        //        }
+        //    }
+        //    return rReturn;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

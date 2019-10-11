@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:51
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -15,7 +21,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,15 +33,15 @@ namespace NetWorkedData
 {
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-    public class NWDLanguageType : BTBDataType
+    public class NWDLanguageType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public NWDLanguageType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public NWDLanguageType (string sValue = "")
+        public NWDLanguageType (string sValue = NWEConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = "en";
@@ -49,15 +55,24 @@ namespace NetWorkedData
             Value = "en";
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
+        public override float ControlFieldHeight ()
 		{
-            float rReturn = NWDConstants.kFieldMarge+NWDConstants.kPopupdStyle.fixedHeight;
+            float rReturn = NWDGUI.kFieldMarge+NWDGUI.kPopupStyle.fixedHeight;
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDLanguageType tTemporary = new NWDLanguageType ();
             tTemporary.Value = Value;
@@ -68,10 +83,10 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 
-            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
 			List<string> tLocalizationList = new List<string> ();
-			tLocalizationList.Add ("-");
+			tLocalizationList.Add (NWEConstants.K_MINUS);
 
 			string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
 			string[] tLanguageArray = tLanguage.Split (new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -82,7 +97,7 @@ namespace NetWorkedData
                     tContentFuturList.Add(new GUIContent(tS));
                 }
             int tIndex = tLanguageList.IndexOf(tTemporary.Value);
-            tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+            tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDGUI.kPopupStyle);
             if (tIndex < 0 || tIndex >= tLanguageList.Count) {
 					tIndex = 0;
 				}

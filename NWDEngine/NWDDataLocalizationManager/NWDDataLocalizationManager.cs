@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:47
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -20,9 +26,25 @@ namespace NetWorkedData
         public string LanguagesString = kBaseDev + ";de;en;es;fr;it;ja;ko;pt;ru;th";
         public Dictionary<string, string> LanguageDico = new Dictionary<string, string>();
         //-------------------------------------------------------------------------------------------------------------
+        static public string CheckLocalization(string sLanguage)
+        {
+            //Debug.Log("NWDDataLocalizationManager CheckLocalization()");
+            string rReturn = sLanguage;
+            //Debug.Log("NWDDataLocalizationManager CheckLocalization() step 1 rReturn = " + rReturn);
+            //Debug.Log("NWDDataLocalizationManager CheckLocalization() step 2 list = " + NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString);
+            if (NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Contains(sLanguage) == false)
+            {
+                //Debug.Log("NWDDataLocalizationManager CheckLocalization() step 2 bis change for  = " + NWDAppConfiguration.SharedInstance().ProjetcLanguage);
+                rReturn = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
+            }
+            //Debug.Log("NWDDataLocalizationManager CheckLocalization() step 3 rReturn = " + rReturn);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static public string SystemLanguageString ()
         {
-            string tReturn = "";
+            //Debug.Log("NWDDataLocalizationManager SystemLanguageString()");
+            string tReturn = string.Empty;
             SystemLanguage tLocalLanguage = Application.systemLanguage;
             switch (tLocalLanguage)
             {

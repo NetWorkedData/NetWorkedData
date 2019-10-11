@@ -1,5 +1,18 @@
 ﻿//=====================================================================================================================
 //
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:49
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+//=====================================================================================================================
+//
 // ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
@@ -16,7 +29,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,18 +57,27 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
         /// <param name="sOldPath">S old path.</param>
         /// <param name="sNewPath">S new path.</param>
-		public bool ChangeAssetPath (string sOldPath, string sNewPath) 
+        //[NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
+        public bool ChangeAssetPath (string sOldPath, string sNewPath) 
         {
-			//Debug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
+			//Debug.Log ("NWEDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
 			bool rChange = false;
 			if (Value.Contains (sOldPath)) {
 				Value = Value.Replace (kAssetDelimiter+sOldPath+kAssetDelimiter, kAssetDelimiter+sNewPath+kAssetDelimiter);
 				rChange = true;
-				//Debug.Log ("BTBDataType ChangeAssetPath YES I DID", DebugResult.Success);
+				//Debug.Log ("NWEDataType ChangeAssetPath YES I DID", DebugResult.Success);
 			}
 			return rChange;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GameObject ToAssetAsync(GameObject sInterim, NWDOperationAssetDelegate sDelegate)
+        {
+            string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
+            tPath = NWEPathResources.PathAbsoluteToPathDB(tPath);
+            NWDOperationAsset tOperation = NWDOperationAsset.AddOperation(tPath, sInterim, false, sDelegate);
+            return tOperation.Interim;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:25:57
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 using System;
@@ -12,7 +18,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using System.Linq.Expressions;
-using BasicToolBox;
+//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -20,13 +26,13 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllDatas(string sAccountReference = null)
         //{
         //    List<K> rReturn = new List<K>();
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference))
         //        {
@@ -39,7 +45,7 @@ namespace NetWorkedData
         //public static K[] GetAllDatasInGameSave(string sAccountReference = null)
         //{
         //    List<K> rReturn = new List<K>();
-        //    foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
+        //    foreach (K tObject in NWDBasis.Datas().ObjectsList)
         //    {
         //        if (tObject.IsReacheableByAccount(sAccountReference))
         //        {
@@ -60,7 +66,7 @@ namespace NetWorkedData
         ///// <param name="sAccountReference">S account reference.</param>
         //public static K GetDataByReference(string sReference, string sAccountReference = null)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    K rReturn = null;
         //    int tIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
         //    if (tIndex >= 0)
@@ -71,7 +77,7 @@ namespace NetWorkedData
         //            rReturn = tObject;
         //        }
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //    return rReturn;
         //}
         ////-------------------------------------------------------------------------------------------------------------
@@ -86,12 +92,12 @@ namespace NetWorkedData
         ///// <param name="sFlushOlderDupplicate">If set to <c>true</c> s flush older dupplicate.</param>
         //public static K UniqueDataByInternalKey(string sInternalKey,
         //                                     bool sCreateIfNotExists = false,
-        //                                     NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
+        //                                     NWDWritingMode sWritingMode = NWDWritingMode.ByDefault,
         //                                     string sInternalDescription = "", 
         //                                     string sAccountReference = null,
         //                                     bool sFlushOlderDupplicate = false)
         //{
-        //    BTBBenchmark.Start();
+        //    NWEBenchmark.Start();
         //    K rReturn = null;
         //    // We cannot use ObjectsByKeyList to find Internal key because the objetc is pehaps lock fo this user
         //    // Must use the GetAllObjects(null) and chekc the good object
@@ -116,10 +122,10 @@ namespace NetWorkedData
         //            }
         //        }
         //        K[] rReturnArray = tAllList.ToArray();
-        //        //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
+        //        //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
         //        if (rReturnArray.Length > 0)
         //        {
-        //            //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have some return");
+        //            //Debug.Log("NWDBasis Workflow GetObjectByInternalKeyOrCreate() I have some return");
         //            rReturn = rReturnArray[0];
         //        }
         //        if (rReturnArray.Length > 1)
@@ -146,12 +152,12 @@ namespace NetWorkedData
         //    }
         //    if (rReturn == null && sCreateIfNotExists == true)
         //    {
-        //        rReturn = NWDBasis<K>.NewData(sWritingMode);
+        //        rReturn = NWDBasisHelper.NewData<K>(sWritingMode);
         //        rReturn.InternalKey = sInternalKey;
         //        rReturn.InternalDescription = sInternalDescription;
         //        rReturn.UpdateData(true, sWritingMode);
         //    }
-        //    BTBBenchmark.Finish();
+        //    NWEBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------

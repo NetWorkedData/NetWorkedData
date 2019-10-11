@@ -1,0 +1,45 @@
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	SceneTransitionSystem for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Reflection;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+//=====================================================================================================================
+namespace NetWorkedData
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [CustomEditor(typeof(NWDErrorController))]
+    public class NWDErrorControllerEditor : Editor
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnInspectorGUI()
+        {
+            NWDErrorController tTarget = (NWDErrorController)target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("test error"))
+            {
+                tTarget.TestError();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+//=====================================================================================================================
+
+#endif

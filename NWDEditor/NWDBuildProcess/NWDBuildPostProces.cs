@@ -1,10 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:26
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,13 +18,12 @@ using System.Reflection;
 using System.IO;
 using UnityEngine;
 using SQLite4Unity3d;
-
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 #if UNITY_IOS
-using UnityEditor.iOS.Xcode;
+//using UnityEditor.iOS.Xcode;
 #endif
 #if UNITY_STANDALONE_OSX
 //using UnityEditor.iOS.Xcode;
@@ -28,7 +33,7 @@ using UnityEditor.iOS.Xcode;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDBuildPostProcess : IPostprocessBuild
+    public class NWDBuildPostProcess : IPostprocessBuildWithReport
     {
         //-------------------------------------------------------------------------------------------------------------
         public int callbackOrder
@@ -39,8 +44,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnPostprocessBuild(BuildTarget target, string path)
+        public void OnPostprocessBuild(BuildReport report)
         {
+            //NWEBenchmark.Start();
             //Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
             BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
             switch (tBuildTarget)
@@ -125,6 +131,7 @@ namespace NetWorkedData
                 case BuildTarget.iOS:
                     {
 #if UNITY_IOS
+                        /*
                         // TODO : change project localization 
                         string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
                         // Get plist
@@ -199,6 +206,8 @@ namespace NetWorkedData
                                 }
                             }
                         }
+
+                        */
 #endif
                     }
                     break;
@@ -210,7 +219,7 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.StandaloneLinux:
+                case BuildTarget.StandaloneLinux64:
                     {
                     }
                     break;
@@ -226,22 +235,14 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.StandaloneLinux64:
-                    {
-                    }
-                    break;
-                case BuildTarget.StandaloneLinuxUniversal:
-                    {
-                    }
-                    break;
-                case BuildTarget.Tizen:
-                    {
-                    }
-                    break;
-                case BuildTarget.PSP2:
-                    {
-                    }
-                    break;
+                //case BuildTarget.Tizen:
+                    //{
+                    //}
+                    //break;
+                //case BuildTarget.PSP2:
+                    //{
+                    //}
+                    //break;
                 case BuildTarget.PS4:
                     {
                     }
@@ -250,14 +251,14 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.N3DS:
-                    {
-                    }
-                    break;
-                case BuildTarget.WiiU:
-                    {
-                    }
-                    break;
+                //case BuildTarget.N3DS:
+                    //{
+                    //}
+                    //break;
+                //case BuildTarget.WiiU:
+                    //{
+                    //}
+                    //break;
                 case BuildTarget.tvOS:
                     {
                     }
@@ -267,6 +268,7 @@ namespace NetWorkedData
                     }
                     break;
             }
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

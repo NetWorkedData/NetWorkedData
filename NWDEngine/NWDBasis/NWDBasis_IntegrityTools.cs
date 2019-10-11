@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:7
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -15,7 +21,7 @@ using System.Reflection;
 using SQLite4Unity3d;
 
 using UnityEngine;
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,59 +33,59 @@ namespace NetWorkedData
     /// <summary>
     /// NWD basis. Integrity tools
     /// </summary>
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Determines hash sum of specified strToEncrypt.
-        /// </summary>
-        /// <returns>Integrity value</returns>
-        /// <param name="strToEncrypt">String to encrypt.</param>
-        public static string HashSum(string strToEncrypt)
-        {
-            // force to utf-8
-            System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
-            byte[] bytes = ue.GetBytes(strToEncrypt);
-            // encrypt bytes
-            System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            byte[] hashBytes = md5.ComputeHash(bytes);
-            // Convert the encrypted bytes back to a string (base 16)
-            string hashString = "";
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
-            }
-            // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
-            hashString = hashString.Replace(NWDConstants.kStandardSeparator, "");
-            // return value
-            return hashString.PadLeft(24, '0');
-        }
+        ///// <summary>
+        ///// Determines hash sum of specified strToEncrypt.
+        ///// </summary>
+        ///// <returns>Integrity value</returns>
+        ///// <param name="strToEncrypt">String to encrypt.</param>
+        //public static string HashSum(string strToEncrypt)
+        //{
+        //    // force to utf-8
+        //    System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
+        //    byte[] bytes = ue.GetBytes(strToEncrypt);
+        //    // encrypt bytes
+        //    System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+        //    byte[] hashBytes = md5.ComputeHash(bytes);
+        //    // Convert the encrypted bytes back to a string (base 16)
+        //    string hashString = string.Empty;
+        //    for (int i = 0; i < hashBytes.Length; i++)
+        //    {
+        //        hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
+        //    }
+        //    // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
+        //    hashString = hashString.Replace(NWDConstants.kStandardSeparator, string.Empty);
+        //    // return value
+        //    return hashString.PadLeft(24, '0');
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Recalculates all integrities for all objects in ObjectsList.
         /// </summary>
-        public static void RecalculateAllIntegrities()
-        {
-            //loop
-            foreach (NWDBasis<K> tObject in Datas().Datas)
-            {
-                // update integrity value
-                tObject.UpdateIntegrity();
-                // force to write object in database
-                tObject.UpdateData();
-            }
-        }
+        //public static void RecalculateAllIntegrities()
+        //{
+        //    //loop
+        //    foreach (NWDBasis tObject in BasisHelper().Datas)
+        //    {
+        //        // update integrity value
+        //        tObject.UpdateIntegrity();
+        //        // force to write object in database
+        //        tObject.UpdateData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region Instance Methods
         //-------------------------------------------------------------------------------------------------------------
         public void NotNullChecker()
         {
-            //Debug.Log("NWDBasis<K> NotNullChecker()");
+            //Debug.Log("NWDBasis NotNullChecker()");
             Type tType = ClassType();
             //List<string> tPropertiesList = PropertiesOrderArray();
-            List<string> tPropertiesList = SLQIntegrityOrder();
+            List<string> tPropertiesList = BasisHelper().SLQIntegrityOrder();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -122,14 +128,46 @@ namespace NetWorkedData
                                  tProp.PropertyType == typeof(Guid) ||
                                  tProp.PropertyType == typeof(string))
                         {
-                            tProp.SetValue(this, "", null);
+                            tProp.SetValue(this, string.Empty, null);
                         }
-                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
-                            BTBDataType tValueBTBDataType = (BTBDataType)tValue;
-                            tValueBTBDataType.Default();
+                            NWEDataType tValueNWEDataType = (NWEDataType)tValue;
+                            tValueNWEDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            NWEDataTypeInt tValueNWEDataType = (NWEDataTypeInt)tValue;
+                            tValueNWEDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            NWEDataTypeFloat tValueNWEDataType = (NWEDataTypeFloat)tValue;
+                            tValueNWEDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            NWEDataTypeEnum tValueNWEDataType = (NWEDataTypeEnum)tValue;
+                            tValueNWEDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            NWEDataTypeMask tValueNWEDataType = (NWEDataTypeMask)tValue;
+                            tValueNWEDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
                         else
@@ -139,12 +177,18 @@ namespace NetWorkedData
                     else
                     {
                         // verif if value is conforme for localization
-                        if (tProp.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
+                        if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
                         {
-                            NWDLocalizableType tValueBTBDataType = (NWDLocalizableType)tValue;
-                            tValueBTBDataType.BaseVerif();
+                            NWEDataType tValueNWEDataType = (NWEDataType)tValue;
+                            tValueNWEDataType.BaseVerif();
                             tProp.SetValue(this, tValue, null);
                         }
+                        //if (tProp.PropertyType.IsSubclassOf(typeof(NWDMultiType)))
+                        //{
+                        //    NWDMultiType tValueNWEDataType = (NWDMultiType)tValue;
+                        //    tValueNWEDataType.BaseVerif();
+                        //    tProp.SetValue(this, tValue, null);
+                        //}
                     }
                 }
             }
@@ -153,35 +197,66 @@ namespace NetWorkedData
         /// <summary>
         /// Updates the integrity. Set the integrity value of object's data in the field Integrity.
         /// </summary>
-        public void UpdateIntegrity()
+        public override void UpdateIntegrity()
         {
-            //Debug.Log("NWDBasis<K> UpdateIntegrity()");
+            //Debug.Log("NWDBasis UpdateIntegrity()");
             NotNullChecker();
-            ServerLog = DataAssembly();
-            Integrity = IntegrityValue();
+
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+#if UNITY_EDITOR
+                //ServerLog = IntegrityAssembly();
+#endif
+                Integrity = IntegrityValue();
+            }
+            else
+            {
+#if UNITY_EDITOR
+                //ServerLog = string.Empty;
+#endif
+                Integrity = string.Empty;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IntegrityIsValid()
+        {
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+                return Integrity == IntegrityValue();
+            }
+            else
+            {
+                return true;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Tests the integrity.
         /// </summary>
         /// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
-        public bool TestIntegrity()
-        {
-            bool rReturn = false;
-            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
-            {
-                // test integrity
-                if (Integrity == IntegrityValue())
-                {
-                    rReturn = true;
-                }
-            }
-            else
-            {
-                rReturn = true;
-            }
-            return rReturn;
-        }
+        //public override bool TestIntegrity()
+        //{
+        //    bool rReturn = false;
+        //    if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+        //    {
+        //        // test integrity
+        //        if (Integrity == IntegrityValue())
+        //        {
+        //            rReturn = true;
+        //        }
+        //        else
+        //        {
+        //            //DisableData();
+        //            //DD = NWDToolbox.Timestamp();
+        //            //AC = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        rReturn = true;
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Integrity value for this object's data.
@@ -189,15 +264,17 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-#if UNITY_EDITOR
-            //return HashSum(Datas().SaltA + DynamiqueDataAssembly() + Datas().SaltB);
-            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
-#else
-            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
-#endif
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+                return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
     }
 }
 //=====================================================================================================================

@@ -1,13 +1,27 @@
-﻿
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:29:4
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Networking;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -15,23 +29,36 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The inearization.</returns>
         /// <param name="sAsssemblyAsCSV">If set to <c>true</c> s asssembly as csv.</param>
-        public string DGPRLinearization(bool sAsssemblyAsCSV = true)
+        public override string DGPRLinearization(string sTypeName, bool sAsssemblyAsCSV = true)
         {
-            Debug.Log("NWDBasis<K> DGPRLinearization()");
-            string rReturn = "";
+            //Debug.Log("DGPRLinearization()");
+            string rReturn = string.Empty;
             Type tType = ClassType();
-            List<string> tPropertiesList = DataAssemblyPropertiesList();
+            List<string> tPropertiesList = BasisHelper().PropertiesOrderArray();
+            NWDExample sExample = NWDExample.Fictive();
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.Integrity));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.Reference));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ID));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.DM));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.DS));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ServerHash));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ServerLog));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.DevSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.PreprodSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ProdSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.ProdSync));
+            tPropertiesList.Remove(NWDToolbox.PropertyName(() => sExample.InError));
 
             // todo get the good version of assembly 
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             int tLastWebService = -1;
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
             {
-                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+                if (tKeyValue.Key <= WebModel && tKeyValue.Key > tLastWebService)
                 {
-                    if (tKeyValue.Value.ContainsKey(ClassID()))
+                    if (tKeyValue.Value.ContainsKey(sTypeName))
                     {
-                        tPropertiesList = tKeyValue.Value[ClassID()];
+                        tPropertiesList = tKeyValue.Value[sTypeName];
                     }
                 }
             }
@@ -45,12 +72,12 @@ namespace NetWorkedData
 
                     // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
-                    string tValueString = "";
+                    string tValueString = string.Empty;
 
                     object tValue = tProp.GetValue(this, null);
                     if (tValue == null)
                     {
-                        tValue = "";
+                        tValue = string.Empty;
                     }
                     tValueString = tValue.ToString();
                     if (tTypeOfThis.IsEnum)
@@ -91,8 +118,8 @@ namespace NetWorkedData
                 //ProdSync + NWDConstants.kStandardSeparator +
                 // Todo Add WebServiceVersion ?
                 //WebServiceVersion + NWDConstants.kStandardSeparator +
-                rReturn 
-                // + Integrity
+                rReturn
+                                                  // + Integrity
                                                   ;
                 //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
             }
@@ -109,19 +136,19 @@ namespace NetWorkedData
         /// DGPR extraction in string.
         /// </summary>
         /// <returns>The xtract.</returns>
-        public static string DGPRExtract()
-        {
-            Debug.Log("NWDBasis<K> DGPRExtract()");
-            string rExtract = "{\"" + Datas().ClassNamePHP + "\"" + " : [\n\r";
-            List<string> tList = new List<string>();
-            foreach (K tObject in FindDatas())
-            {
-                tList.Add("{ \"csv\" : \""+tObject.DGPRLinearization()+"\"}");
-            }
-            rExtract+= string.Join(",\n\r",tList.ToArray());
-            rExtract += "\n\r]\n\r}";
-            return rExtract;
-        }
+        //public static string DGPRExtract()
+        //{
+        //    Debug.Log("NWDBasis DGPRExtract()");
+        //    string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
+        //    List<string> tList = new List<string>();
+        //    foreach (K tObject in GetReachableDatas())
+        //    {
+        //        tList.Add("{ \"csv\" : \"" + tObject.DGPRLinearization() + "\"}");
+        //    }
+        //    rExtract += string.Join(",\n\r", tList.ToArray());
+        //    rExtract += "\n\r]\n\r}";
+        //    return rExtract;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -175,19 +202,15 @@ namespace NetWorkedData
             // ok prepare extract
             string rExtract = "[\n\r";
             // TODO : Add account informations ?
-            tList.Add("{ \"PlayerAccountReference\" : \"" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference + "\"}\n\r}");
-            tList.Add("{ \"AnonymousPlayerAccountReference\" : \"" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().AnonymousPlayerAccountReference + "\"}\n\r}");
+            tList.Add("{ \"PlayerAccountReference\" : \"" + NWDAccount.CurrentReference() + "\"}\n\r}");
+            //tList.Add("{ \"AnonymousPlayerAccountReference\" : \"" + NWDAccount.CurrentAnonymousReference() + "\"}\n\r}");
             // TODO : Add email/password ?
             // TODO : Add account type ?
             foreach (Type tClassType in tListClasses)
             {
-                var tMethodInfo = tClassType.GetMethod("DGPRExtract", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                string rR = "{\"error\" : \"error\"}";
-                if (tMethodInfo != null)
-                {
-                    rR = tMethodInfo.Invoke(null, null) as string;
-                }
-                tList.Add(rR);
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tClassType);
+                tHelper.DGPRExtract();
+                tList.Add(tHelper.DGPRExtract());
             }
             rExtract += string.Join(",\n\r", tList.ToArray());
             rExtract += "\n\r]";
@@ -212,7 +235,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDGDPR ExtractAndSave()");
             string rReturn = Extract(tListAddon);
-            string tEmail = "mailto:?subject=DGPR%20Export&body=" + WWW.EscapeURL(rReturn.Replace(" ","%20")).Replace("%20", " ");
+            string tEmail = "mailto:?subject=DGPR%20Export&body=" + UnityWebRequest.EscapeURL(rReturn.Replace(" ", "%20")).Replace("%20", " ");
             Application.OpenURL(tEmail);
             return rReturn;
         }

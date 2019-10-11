@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:52
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -15,6 +21,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,16 +40,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalizableLongTextType()
         {
-            Value = "";
-            AddBaseString("");
+            Value = string.Empty;
+            AddBaseString(string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableLongTextType(string sValue = "")
+        public NWDLocalizableLongTextType(string sValue = NWEConstants.K_EMPTY_STRING)
         {
             if (string.IsNullOrEmpty(sValue))
             {
-                Value = "";
-                AddBaseString("");
+                Value = string.Empty;
+                AddBaseString(string.Empty);
             }
             else
             {
@@ -138,18 +145,18 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             int tRow = 0;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
             }
 
-            float rReturn = (NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge*2) * tRow + NWDConstants.kPopupdStyle.fixedHeight;
-            //          return (tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f) + NWDConstants.kFieldMarge) * tRow * kCONST_NUMBER_OF_LINE - NWDConstants.kFieldMarge;
+            float rReturn = (NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge*2) * tRow + NWDGUI.kPopupStyle.fixedHeight;
+            //          return (tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f) + NWDGUI.kFieldMarge) * tRow * kCONST_NUMBER_OF_LINE - NWDGUI.kFieldMarge;
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDLocalizableLongTextType tTemporary = new NWDLocalizableLongTextType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -158,10 +165,10 @@ namespace NetWorkedData
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
-            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDGUI.kLangWidth;
 
             List<string> tLocalizationList = new List<string>();
-            tLocalizationList.Add("-");
+            tLocalizationList.Add(NWEConstants.K_MINUS);
 
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -174,7 +181,7 @@ namespace NetWorkedData
 
             Dictionary<string, string> tResult = new Dictionary<string, string>();
 
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tValueList = new List<string>(tValueArray);
@@ -201,8 +208,8 @@ namespace NetWorkedData
                     //tFieldName = "   ";
                     tContent = new GUIContent("   ");
                 }
-                string tLangague = "";
-                string tText = "";
+                string tLangague = string.Empty;
+                string tText = string.Empty;
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                 if (tLineValue.Length == 2)
@@ -228,27 +235,27 @@ namespace NetWorkedData
 
                 int tIndex = tValueFuturList.IndexOf(tLangague);
                 //tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDGUI.kPopupStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDGUI.kPopupStyle);
                 if (tIndex < 0 || tIndex >= tValueFuturList.Count)
                 {
                     tIndex = 0;
                 }
                 tLangague = tValueFuturList[tIndex];
-                if (tLangague != "")
+                if (tLangague != string.Empty)
                 {
 
              //remove EditorGUI.indentLevel to draw next controller without indent 
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
 
-                    //tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
-                    //tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect (tText), NWDConstants.kTextAreaStyle);
-                    tText = EditorGUI.TextArea(new Rect(tX  +NWDConstants.kLangWidth, tY + NWDConstants.kFieldMarge +NWDConstants.kPopupdStyle.fixedHeight, tWidth - NWDConstants.kLangWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText), NWDConstants.kTextAreaStyle);
+                    //tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDGUI.kFieldMarge, tY, tWidth - tLangWidth - NWDGUI.kFieldMarge, tPopupdStyle.fixedHeight), tText);
+                    //tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDGUI.kFieldMarge, tY, tWidth - tLangWidth - NWDGUI.kFieldMarge, NWDGUI.tTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect (tText), NWDGUI.tTextAreaStyle);
+                    tText = EditorGUI.TextArea(new Rect(tX  +NWDGUI.kLangWidth, tY + NWDGUI.kFieldMarge +NWDGUI.kPopupStyle.fixedHeight, tWidth - NWDGUI.kLangWidth, NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText), NWDGUI.kTextAreaStyle);
                     tText = NWDToolbox.TextProtect(tText);
 
                     EditorGUI.indentLevel = tIndentLevel;
                 }
-                tY += NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge*2;
+                tY += NWDGUI.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDGUI.kPopupStyle.fixedHeight + NWDGUI.kFieldMarge*2;
                 if (tResult.ContainsKey(tLangague))
                 {
                     tResult[tLangague] = tText;
@@ -258,11 +265,11 @@ namespace NetWorkedData
                     tResult.Add(tLangague, tText);
                 }
             }
-            tResult.Remove("-"); // remove default value
-            tResult.Remove(""); // remove empty value
+            tResult.Remove(NWEConstants.K_MINUS); // remove default value
+            tResult.Remove(string.Empty); // remove empty value
             if (tResult.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
-                tResult.Add(NWDDataLocalizationManager.kBaseDev, "");
+                tResult.Add(NWDDataLocalizationManager.kBaseDev, string.Empty);
             }
             foreach (KeyValuePair<string, string> tKeyValue in tResult)
             {
@@ -274,7 +281,7 @@ namespace NetWorkedData
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
             if (tNextValue == NWDConstants.kFieldSeparatorB)
             {
-                tNextValue = "";
+                tNextValue = string.Empty;
             }
             tTemporary.Value = tNextValue;
             return tTemporary;

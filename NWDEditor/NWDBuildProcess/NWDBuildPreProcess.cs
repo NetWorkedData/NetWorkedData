@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:27
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+#if UNITY_EDITOR
 
 using System.Collections;
 using System.Collections.Generic;
@@ -11,27 +19,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-#if UNITY_EDITOR
-
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDBuildPreProcess : IPreprocessBuild
+    public class NWDBuildPreProcess : IPreprocessBuildWithReport
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public int callbackOrder { get { return 0; } }
-		//-------------------------------------------------------------------------------------------------------------
-		public void OnPreprocessBuild(BuildTarget target, string path)
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnPreprocessBuild(BuildReport report)
         {
-            //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
+            //NWEBenchmark.Start();
+            Debug.Log("NWDBuildPreProcess OnPreprocessBuild");
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
+
+            NWDAppConfiguration.SharedInstance().WebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
+
             //Get all infos
-			string tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
+            string tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
 			string tHisto = NWDAppConfiguration.SharedInstance().DevEnvironment.PreProdTimeFormat;
             DateTime tDateTime = DateTime.Now;
             int tTimeStamp = NWDToolbox.Timestamp();
@@ -141,9 +152,10 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

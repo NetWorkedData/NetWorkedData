@@ -1,0 +1,115 @@
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:31
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+//=====================================================================================================================
+namespace NetWorkedData
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWD
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        // SQL INDEXATION
+        public const string K_REFERENCE_INDEX = "ReferenceIndex";
+        public const string K_BASIS_INDEX = "BasisIndex";
+        public const string K_INTERNAL_INDEX = "InternalIndex";
+        public const string K_EDITOR_INDEX = "EditorIndex";
+        //-------------------------------------------------------------------------------------------------------------
+        // INSPECTOR GROUP
+        public const string K_INSPECTOR_BASIS = "Basis";
+        //-------------------------------------------------------------------------------------------------------------
+        // FOR PHP AUTO EDITION
+        public const string K_ENG = "ENG";
+        public const string K_DB = "DB";
+        public const string K_HTACCESS = ".htaccess";
+        public const string K_DOT_HTACCESS = "dot_htaccess.txt";
+        public const string K_PATH_BASE= "$PATH_BASE";
+        public const string K_CONSTANTS_FILE = "constants.php";
+        public const string K_MANAGEMENT_FILE = "management.php";
+        public const string K_WS_SYNCHRONISATION = "synchronization.php";
+        public const string K_WS_ENGINE = "engine.php";
+        public const string K_SQL_CON = "$SQL_CON";
+        public const string K_ENV = "$ENV";
+        public const string K_NWD_SLT_SRV = "$NWD_SLT_SRV";
+        public const string K_PHP_TIME_SYNC = "$TME_SYNC";
+        public const string K_JSON_SECURE_KEY = "securePost";
+        public const string K_WEB_ACTION_KEY = "action";
+        public const string K_WEB_ACTION_SIGNIN_KEY = "signin";
+        public const string K_WEB_ACTION_SIGNOUT_KEY = "signout";
+        public const string K_WEB_ACTION_RESCUE_KEY = "rescue";
+        public const string K_WEB_ACTION_RESTART_WEBSERVICE_KEY = "restartWebservice";
+        public const string K_WEB_ACTION_USER_TRANSFERT_KEY = "usertransfert";
+        public const string K_WEB_ACTION_NEW_USER_KEY = "newuser";
+        public const string K_WEB_ACTION_OLD_USER_KEY = "old_user";
+        public const string K_WEB_ACTION_REPLACE_USER_KEY = "new_user";
+        public const string K_WEB_EREG_ACTION = "'/^("+K_WEB_ACTION_SIGNIN_KEY+"|"+K_WEB_ACTION_SIGNOUT_KEY+"|"+K_WEB_ACTION_RESCUE_KEY+")$/'";
+        public const string K_WEB_EREG_SDKI = "'/^(.{24,64})$/'";
+        public const string K_WEB_EREG_EMAIL = "'/^(.{24,64})$/'";
+        public const string K_WEB_EREG_PASSWORD = "'/^(.{24,64})$/'";
+        public const string K_WEB_WEBSIGN_KEY = "Wign";
+        public const string K_WEB_ACTION_SYNC_KEY = "sync";
+        public const string K_WEB_SIGN_Key = "sdki";
+        public const string K_WEB_DATA_KEY = "data";
+        public const string K_WEB_DATA_ROW_COUNTER = "rowCount";
+        public const string K_WEB_HEADER_OS_KEY = "os";
+        public const string K_WEB_HEADER_LANG_KEY = "lang";
+        public const string K_WEB_HEADER_VERSION_KEY = "version";
+        public const string UUIDKey = "uuid";
+        public const string RequestTokenKey = "token";
+        public const string HashKey = "hash";
+        public const string AdminHashKey = "adminHash";
+        //-------------------------------------------------------------------------------------------------------------
+        //public const string K_STATIC_ACCOUNT_PHP = "account.php";
+        //public const string K_STATIC_ERROR_PHP = "error.php";
+        public const string K_STATIC_FINISH_PHP = "finish.php";
+        public const string K_STATIC_FUNCTIONS_PHP = "functions.php";
+        public const string K_STATIC_REQUEST_PHP = "request.php";
+        //public const string K_STATIC_REQUEST_TOKEN_PHP = "requesttoken.php";
+        public const string K_STATIC_RELATIONSHIP_PHP = "relationship.php";
+        public const string K_STATIC_RESCUE_PHP = "rescue.php";
+        public const string K_STATIC_RESPOND_PHP = "respond.php";
+        public const string K_STATIC_START_PHP = "start.php";
+        public const string K_STATIC_VALUES_PHP = "values.php";
+        public const string K_STATIC_FLASH_PHP = "https://www.show-my-app.com/r.php";
+        //public const string K_STATIC_FLASH_CSS = "FlashMyApp.css";
+        public const string K_PHP_WSBUILD = "$WSBUILD";
+        //public const string K_WIP = "WIP_";
+        //-------------------------------------------------------------------------------------------------------------
+        //public const string K_ENV = "Environment";
+        public const string K_WS_FILE = "webservices.php";
+        public const string K_WS_INSIDE_FILE = "webservices_inside.php";
+        public const string K_WS_FILE_ADDON = "webservices_addon.php";
+        public const string K_WS_ACCOUNT_ADDON = "accountservices.php";
+        public const string K_AUTHENTIFICATION_PHP = "authentification.php";
+        public const string K_BLANK_PHP = "blank.php";
+        public const string K_INDEX_PHP = "index.php";
+        public const string K_RESCUE_PHP = "rescue.php";
+        public const string K_MAINTENANCE_PHP = "maintenance.php";
+        public const string K_OBSOLETE_PHP = "obsolete.php";
+        public const string K_NO_PAGE_PHP = "NoPage.php";
+        public const string K_OBSOLETE_HEADER_KEY = "obsolete";
+        public const string K_MAINTENANCE_HEADER_KEY = "maintenance";
+        public const string K_OBSOLETE_ERROR = "OBSOLETE";
+        public const string K_MAINTENANCE_ERROR = "MAINTENANCE";
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_JSON_ERROR_KEY = "error";
+        public const string K_JSON_ERROR_CODE_KEY = "error_code";
+        public const string K_JSON_ERROR_INFOS_KEY= "error_infos";
+        public const string K_JSON_WEB_SERVICE_KEY= "wsbuild";
+        public const string K_JSON_PERFORM_KEY = "perform";
+        public const string K_JSON_PERFORM_REQUEST_KEY = "performRequest";
+        public const string K_JSON_TIMESTAMP_KEY = "timestamp";
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+}
+//=====================================================================================================================

@@ -1,52 +1,28 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:20:58
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
-using SQLite4Unity3d;
-using BasicToolBox;
+using System;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Change the asset path in all object of this class.
-        /// </summary>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
-        public static void ChangeAssetPath(string sOldPath, string sNewPath)
+        public override void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
-            //Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
-            if (AssetDependent() == true)
-            {
-                foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
-                {
-                    tObject.ChangeAssetPathMe(sOldPath, sNewPath);
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Change the asset path in this object.
-        /// </summary>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
-        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
-        {
-            //Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
-            if (TestIntegrity() == true)
+            //NWEBenchmark.Start();
+            if (IntegrityIsValid() == true)
             {
                 bool tUpdate = false;
                 if (Preview != null)
@@ -71,9 +47,10 @@ namespace NetWorkedData
                 }
                 if (tUpdate == true)
                 {
-                    UpdateData(true, NWDWritingMode.QueuedMainThread);
+                    UpdateData(true, NWDWritingMode.ByDefaultLocal);
                 }
             }
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

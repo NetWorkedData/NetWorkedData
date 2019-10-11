@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:42:44
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +20,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -50,7 +58,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationEngineLaunch(BTBNotification sNotification)
+        public override void NotificationEngineLaunch(NWENotification sNotification)
         {
             if(EngineLaunchEvent!=null)
             {
@@ -58,11 +66,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorStartLoading(NWENotification sNotification, bool sPreloadDatas)
         {
-            if ( DatasStartLoadingEvent!= null)
+            if (DatasEditorStartLoadingEvent != null)
             {
-                DatasStartLoadingEvent.Invoke(sNotification);
+                DatasEditorStartLoadingEvent.Invoke(sNotification);
             }
             if (DatasLoadGauge != null)
             {
@@ -71,11 +79,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public override void NotificationDatasEditorPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            if ( DatasPartialLoadedEvent!= null)
+            if (DatasEditorPartialLoadedEvent != null)
             {
-                DatasPartialLoadedEvent.Invoke(sNotification);
+                DatasEditorPartialLoadedEvent.Invoke(sNotification);
             }
             if (DatasLoadGauge != null)
             {
@@ -83,11 +91,50 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public override void NotificationDatasEditorLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
-            if ( DatasLoadedEvent!= null)
+            if (DatasEditorLoadedEvent != null)
             {
-                DatasLoadedEvent.Invoke(sNotification);
+                DatasEditorLoadedEvent.Invoke(sNotification);
+            }
+            if (DatasLoadGauge != null)
+            {
+                DatasLoadGauge.SetHidden(true);
+            }
+        }
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            if (DatasAccountStartLoadingEvent != null)
+            {
+                DatasAccountStartLoadingEvent.Invoke(sNotification);
+            }
+            if (DatasLoadGauge != null)
+            {
+                DatasLoadGauge.SetHidden(false);
+                DatasLoadGauge.SetHorizontalValue(0.0F);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            if (DatasAccountPartialLoadedEvent != null)
+            {
+                DatasAccountPartialLoadedEvent.Invoke(sNotification);
+            }
+            if (DatasLoadGauge != null)
+            {
+                DatasLoadGauge.SetHorizontalValue(sPurcent);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasAccountLoaded(NWENotification sNotification, bool sPreloadDatas)
+        {
+            if (DatasAccountLoadedEvent != null)
+            {
+                DatasAccountLoadedEvent.Invoke(sNotification);
             }
             if (DatasLoadGauge != null)
             {
@@ -95,7 +142,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationLanguageChanged(BTBNotification sNotification)
+        public override void NotificationLanguageChanged(NWENotification sNotification)
         {
             if ( LanguageChangedEvent!= null)
             {
@@ -103,7 +150,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDataLocalUpdate(BTBNotification sNotification)
+        public override void NotificationDataLocalUpdate(NWENotification sNotification)
         {
             if ( DataLocalUpdateEvent!= null)
             {
@@ -111,7 +158,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDataLocalInsert(BTBNotification sNotification)
+        public override void NotificationDataLocalInsert(NWENotification sNotification)
         {
             if ( DataLocalInsertEvent!= null)
             {
@@ -119,7 +166,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDataLocalDelete(BTBNotification sNotification)
+        public override void NotificationDataLocalDelete(NWENotification sNotification)
         {
             if ( DataLocalDeleteEvent!= null)
             {
@@ -127,7 +174,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasWebUpdate(BTBNotification sNotification)
+        public override void NotificationDatasWebUpdate(NWENotification sNotification)
         {
             if ( DatasWebUpdateEvent!= null)
             {
@@ -135,7 +182,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationError(BTBNotification sNotification)
+        public override void NotificationError(NWENotification sNotification)
         {
             if ( ErrorEvent!= null)
             {
@@ -143,7 +190,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationAccountChanged(BTBNotification sNotification)
+        public override void NotificationAccountChanged(NWENotification sNotification)
         {
             if ( AccountChangedEvent!= null)
             {
@@ -151,7 +198,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationAccountSessionExpired(BTBNotification sNotification)
+        public override void NotificationAccountSessionExpired(NWENotification sNotification)
         {
             if ( AccountSessionExpiredEvent!= null)
             {
@@ -159,7 +206,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationAccountBanned(BTBNotification sNotification)
+        public override void NotificationAccountBanned(NWENotification sNotification)
         {
             if ( AccountBannedEvent!= null)
             {
@@ -167,7 +214,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkOffLine(BTBNotification sNotification)
+        public override void NotificationNetworkOffLine(NWENotification sNotification)
         {
             //Debug.Log("NWDPanelDataManager NotificationNetworkOffLine()");
             if ( NetworkOffLineEvent!= null)
@@ -184,7 +231,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkOnLine(BTBNotification sNotification)
+        public override void NotificationNetworkOnLine(NWENotification sNotification)
         {
             //Debug.Log("NWDPanelDataManager NotificationNetworkOnLine()");
             if ( NetworkOnLineEvent!= null)
@@ -201,7 +248,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkUnknow(BTBNotification sNotification)
+        public override void NotificationNetworkUnknow(NWENotification sNotification)
         {
             //Debug.Log("NWDPanelDataManager NotificationNetworkUnknow()");
             if ( NetworkUnknowEvent!= null)
@@ -218,7 +265,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationNetworkCheck(BTBNotification sNotification)
+        public override void NotificationNetworkCheck(NWENotification sNotification)
         {
             //Debug.Log("NWDPanelDataManager NotificationNetworkCheck()");
             if (NetworkCheckEvent != null)
@@ -235,7 +282,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationError(BTBNotification sNotification)
+        public override void NotificationWebOperationError(NWENotification sNotification)
         {
             if ( WebOperationErrorEvent!= null)
             {
@@ -248,7 +295,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationUploadStart(BTBNotification sNotification)
+        public override void NotificationWebOperationUploadStart(NWENotification sNotification)
         {
             if (WebOperationUploadStartEvent != null)
             {
@@ -265,7 +312,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
+        public override void NotificationWebOperationUploadInProgress(NWENotification sNotification, float sPurcent)
         {
             if ( WebOperationUploadInProgressEvent!= null)
             {
@@ -281,7 +328,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
+        public override void NotificationWebOperationDownloadInProgress(NWENotification sNotification, float sPurcent)
         {
             if ( WebOperationDownloadInProgressEvent!= null)
             {
@@ -297,7 +344,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
+        public override void NotificationWebOperationDownloadIsDone(NWENotification sNotification)
         {
             if ( WebOperationDownloadIsDoneEvent!= null)
             {
@@ -315,7 +362,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
+        public override void NotificationWebOperationDownloadFailed(NWENotification sNotification)
         {
             if ( WebOperationDownloadFailedEvent!= null)
             {
@@ -333,7 +380,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadError(BTBNotification sNotification)
+        public override void NotificationWebOperationDownloadError(NWENotification sNotification)
         {
             if ( WebOperationDownloadErrorEvent!= null)
             {
@@ -351,7 +398,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
+        public override void NotificationWebOperationDownloadSuccessed(NWENotification sNotification)
         {
             if ( WebOperationDownloadSuccessedEvent!= null)
             {
@@ -369,7 +416,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationGeneric(BTBNotification sNotification)
+        public override void NotificationGeneric(NWENotification sNotification)
         {
             if ( GenericEvent!=null)
             {

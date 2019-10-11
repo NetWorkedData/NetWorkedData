@@ -1,13 +1,19 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:18
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
 using System;
@@ -17,7 +23,7 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBasisObjectInspector : ScriptableObject
 	{
-		public object mObjectInEdition;
+		public NWDTypeClass mObjectInEdition;
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[CustomEditor (typeof(NWDBasisObjectInspector))]
@@ -28,22 +34,17 @@ namespace NetWorkedData
         public static Type ObjectEditorLastType;
         //-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
-		{
-			NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
-			if (tTarget.mObjectInEdition == null)
+        {
+            //NWEBenchmark.Start();
+            NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
+			if (tTarget.mObjectInEdition != null)
 			{
-			} 
-			else 
-			{
-				Type tType = tTarget.mObjectInEdition.GetType ();
-				var tMethodInfo = tType.GetMethod ("DrawObjectEditor", BindingFlags.Public | BindingFlags.Instance);
-				if (tMethodInfo != null) 
-				{
-					tMethodInfo.Invoke (tTarget.mObjectInEdition, new object[]{Rect.zero,false});
-				}
-			}
-		}
-	}
+                tTarget.mObjectInEdition.DrawEditor(Rect.zero, false, null);
+            }
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

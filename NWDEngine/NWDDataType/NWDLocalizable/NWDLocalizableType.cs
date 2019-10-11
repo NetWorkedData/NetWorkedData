@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:59
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
@@ -16,7 +22,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,7 +33,7 @@ namespace NetWorkedData
 {
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDLocalizableType : BTBDataType
+	public class NWDLocalizableType : NWEDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
@@ -36,7 +42,7 @@ namespace NetWorkedData
 		{
 			bool rReturn = false;
 			Dictionary<string,string> tResultSplitDico = new Dictionary<string,string> ();
-			if (Value != null && Value != "") 
+			if (Value != null && Value != string.Empty) 
 			{
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string tValueArrayLine in tValueArray) {
@@ -50,7 +56,7 @@ namespace NetWorkedData
 					}
 					else if (tLineValue.Length == 1) {
 						string tLangague = tLineValue [0];
-						string tText = "";
+						string tText = string.Empty;
 						if (tResultSplitDico.ContainsKey (tLangague) == false) {
 							tResultSplitDico.Add (tLangague, tText);
 						}
@@ -59,7 +65,7 @@ namespace NetWorkedData
 			}
             if (tResultSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
-                tResultSplitDico.Add(NWDDataLocalizationManager.kBaseDev, "");
+                tResultSplitDico.Add(NWDDataLocalizationManager.kBaseDev, string.Empty);
             }
 
             // order list by language array
@@ -73,7 +79,7 @@ namespace NetWorkedData
 			string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
 			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 			if (tNextValue == NWDConstants.kFieldSeparatorB) {
-				tNextValue = "";
+				tNextValue = string.Empty;
 			}
 			if (Value != tNextValue) {
 				Value = tNextValue;
@@ -89,7 +95,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         protected void DicoPopulate()
         {
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tValueArrayLine in tValueArray)
@@ -107,7 +113,7 @@ namespace NetWorkedData
                     else if (tLineValue.Length == 1)
                     {
                         string tLangague = tLineValue[0];
-                        string tText = "";
+                        string tText = string.Empty;
                         if (kSplitDico.ContainsKey(tLangague) == false)
                         {
                             kSplitDico.Add(tLangague, tText);
@@ -119,7 +125,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         protected string SplitDico(string sKey)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (kSplitDico == null)
             {
                 kSplitDico = new Dictionary<string, string>();
@@ -145,7 +151,7 @@ namespace NetWorkedData
             Value = NWDDataLocalizationManager.kBaseDev+NWDConstants.kFieldSeparatorB;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void BaseVerif()
+        public override void BaseVerif()
         {
             // Need to check with a new dictionary each time
             kSplitDico = new Dictionary<string, string>();
@@ -153,8 +159,11 @@ namespace NetWorkedData
 
             if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
-                Debug.Log("no base in localizable string");
-                AddBaseString("");
+                Debug.LogWarning("no Base in localizable string");
+                AddBaseString(string.Empty);
+#if UNITY_EDITOR
+                    // mark object to save! ?
+#endif
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -187,7 +196,7 @@ namespace NetWorkedData
 		public Dictionary<string,string> GetDictionary ()
 		{
 			Dictionary<string,string> tResult = new Dictionary<string,string> ();
-			if (Value != null && Value != "") {
+			if (Value != null && Value != string.Empty) {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string tValue in tValueArray) {
 					string[] tLineValue = tValue.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
@@ -201,8 +210,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDictionary (Dictionary<string,string> sDictionary)
 		{
-			sDictionary.Remove ("-"); // remove default value
-			sDictionary.Remove (""); // remove empty value
+			sDictionary.Remove (NWEConstants.K_MINUS); // remove default value
+			sDictionary.Remove (string.Empty); // remove empty value
 			List<string> tValueNextList = new List<string> ();
 			foreach (KeyValuePair<string,string> tKeyValue in sDictionary) {
 				tValueNextList.Add (tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value);
@@ -211,7 +220,7 @@ namespace NetWorkedData
 			string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
 			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 			if (tNextValue == NWDConstants.kFieldSeparatorB) {
-				tNextValue = "";
+				tNextValue = string.Empty;
 			}
 			Value = tNextValue;
 		}
@@ -247,7 +256,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void RemoveAllValues ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:45:44
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +19,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -28,66 +36,100 @@ namespace NetWorkedData
         public bool TrackEngineLaunch = true;
         public UnityEvent EngineLaunchEvent;
         [Header("Track NetWorkedData Data load")]
-        public bool TrackDatasStartLoading = true;
-        public UnityEvent DatasStartLoadingEvent;
-        public bool TrackDatasPartialLoaded = true;
-        public NWDCallBackEventFloat DatasPartialLoadedEvent;
-        public bool TrackDatasLoaded = true;
-        public UnityEvent DatasLoadedEvent;
+        public bool TrackDatasEditorStartLoading = true;
+        public NWDCallBackEvent DatasEditorStartLoadingEvent;
+        public bool TrackDatasEditorPartialLoaded = true;
+        public NWDCallBackEvent DatasEditorPartialLoadedEvent;
+        public bool TrackDatasEditorLoaded = true;
+        public NWDCallBackEvent DatasEditorLoadedEvent;
+        public bool TrackDatasAccountStartLoading = true;
+        public NWDCallBackEvent DatasAccountStartLoadingEvent;
+        public bool TrackDatasAccountPartialLoaded = true;
+        public NWDCallBackEvent DatasAccountPartialLoadedEvent;
+        public bool TrackDatasAccountLoaded = true;
+        public NWDCallBackEvent DatasAccountLoadedEvent;
 
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Installs the observer in the BTBNotification manager
+        /// Installs the observer in the NWENotification manager
         /// </summary>
         void InstallObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
 
             // Launch engine
             if (TrackEngineLaunch == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (NWENotification sNotification)
                 {
                     NotificationEngineLaunch(sNotification);
                 });
             }
 
             // load datas
-            if (TrackDatasStartLoading == true)
+            if (TrackDatasEditorStartLoading == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_START_LOADING, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING, delegate (NWENotification sNotification)
                 {
-                    NotificationDatasStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                    NotificationDatasEditorStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
             }
-            if (TrackDatasPartialLoaded == true)
+            if (TrackDatasEditorPartialLoaded == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED, delegate (NWENotification sNotification)
                 {
-                    float tPurcent = (float)NWDTypeLauncher.ClassesDataLoaded / (float)NWDTypeLauncher.ClassesExpected;
-                    NotificationDatasPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+                    float tPurcent = NWDDataManager.SharedInstance().PurcentEditorLoaded();
+                    NotificationDatasEditorPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
                 });
             }
-            if (TrackDatasLoaded == true)
+            if (TrackDatasEditorLoaded == true)
             {
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
                 {
-                    NotificationDatasLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                    NotificationDatasEditorLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                });
+            }
+
+
+
+            if (TrackDatasAccountStartLoading == true)
+            {
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING, delegate (NWENotification sNotification)
+                {
+                    NotificationDatasAccountStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
+                });
+            }
+            if (TrackDatasAccountPartialLoaded == true)
+            {
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED, delegate (NWENotification sNotification)
+                {
+                    float tPurcent = NWDDataManager.SharedInstance().PurcentAccountLoaded();
+                    NotificationDatasAccountPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+                });
+            }
+            if (TrackDatasAccountLoaded == true)
+            {
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED, delegate (NWENotification sNotification)
+                {
+                    NotificationDatasAccountLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         void RemoveObserver()
         {
-            // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            // get NWENotificationManager shared instance from the NWDGameDataManager Singleton
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
 
-            // remove this from BTBNotificationManager
+            // remove this from NWENotificationManager
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_START_LOADING);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TrackReset()
@@ -107,7 +149,7 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationEngineLaunch(BTBNotification sNotification)
+        public virtual void NotificationEngineLaunch(NWENotification sNotification)
         {
             if (EngineLaunchEvent != null)
             {
@@ -115,27 +157,51 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasEditorStartLoading(NWENotification sNotification, bool sPreloadDatas)
         {
-            if (DatasStartLoadingEvent != null)
+            if (DatasEditorStartLoadingEvent != null)
             {
-                DatasStartLoadingEvent.Invoke();
+                DatasEditorStartLoadingEvent.Invoke(sNotification);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        public virtual void NotificationDatasEditorPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            if (DatasPartialLoadedEvent != null)
+            if (DatasEditorPartialLoadedEvent != null)
             {
-                DatasPartialLoadedEvent.Invoke(sPurcent);
+                DatasEditorPartialLoadedEvent.Invoke(sNotification);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public virtual void NotificationDatasEditorLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
-            if (DatasLoadedEvent != null)
+            if (DatasEditorLoadedEvent != null)
             {
-                DatasLoadedEvent.Invoke();
+                DatasEditorLoadedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationDatasAccountStartLoading(NWENotification sNotification, bool sPreloadDatas)
+        {
+            if (DatasAccountStartLoadingEvent != null)
+            {
+                DatasAccountStartLoadingEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationDatasAccountPartialLoaded(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            if (DatasAccountPartialLoadedEvent != null)
+            {
+                DatasAccountPartialLoadedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationDatasAccountLoaded(NWENotification sNotification, bool sPreloadDatas)
+        {
+            if (DatasAccountLoadedEvent != null)
+            {
+                DatasAccountLoadedEvent.Invoke(sNotification);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

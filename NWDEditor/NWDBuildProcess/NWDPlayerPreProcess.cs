@@ -1,15 +1,21 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:22:29
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using BasicToolBox;
+//using BasicToolBox;
 using UnityEditor;
 using UnityEditor.Build;
 //=====================================================================================================================
@@ -33,15 +39,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Quit()
         {
+            //NWEBenchmark.Start();
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
-            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            NWDVersion.UpdateVersionBundle();
+            NWDEditorWindow.GenerateCSharpFile();
+            //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            // NWDVersion.UpdateVersionBundle();
+            //NWEBenchmark.Finish();
         }
-		//-------------------------------------------------------------------------------------------------------------
-        public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
+        //-------------------------------------------------------------------------------------------------------------
+        public static void PlayModeStateChangedCallback(PlayModeStateChange sState)
         {
+            //NWEBenchmark.Start();
             //Debug.Log("Play Mode State Changed!");
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
@@ -49,13 +59,16 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 // must check the accounts for test
                 //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
-                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                NWDEditorWindow.GenerateCSharpFile();
+                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-			NWDVersion.UpdateVersionBundle ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            // update bundle before playing to test with the good version 
+            NWDVersion.UpdateVersionBundle();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

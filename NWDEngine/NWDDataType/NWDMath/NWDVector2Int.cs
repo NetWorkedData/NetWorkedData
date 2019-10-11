@@ -1,9 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:28:10
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+
 
 using System;
 using System.Collections;
@@ -16,7 +24,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
-using BasicToolBox;
+//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,49 +37,63 @@ namespace NetWorkedData
     //TODO: FINISH THIS CLASS NWDVector2Int
     [SerializeField]
     //-------------------------------------------------------------------------------------------------------------
-    public class NWDVector2Int : BTBDataType
+    public class NWDVector2Int : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector2Int()
         {
-            Value = 0 + NWDConstants.kFieldSeparatorA + 0;
+            Value = NWDToolbox.Vector2IntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDVector2Int(string sValue = "")
+        //public NWDVector2Int(string sValue = NWEConstants.K_EMPTY_STRING)
+        //{
+        //    if (sValue == null)
+        //    {
+        //        Value = NWDToolbox.Vector2IntZero();
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDVector2Int(Vector2Int sVector)
         {
-            if (sValue == null)
-            {
-                Value = "";
-            }
-            else
-            {
-                Value = sValue;
-            }
+            Value = NWDToolbox.Vector2IntToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = NWDToolbox.Vector2IntZero();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void BaseVerif()
+        {
+            // Need to check with a new dictionary each time
+            if (string.IsNullOrEmpty(Value))
+            {
+                Default();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetVectorInt(Vector2Int sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y;
+            Value = NWDToolbox.Vector2IntToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector2Int GetVectorInt()
         {
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            int tX = 0;
-            int tY = 0;
-            if (tFloats.Count() == 2)
-            {
-                int.TryParse(tFloats[0], out tX);
-                int.TryParse(tFloats[1], out tY);
-            }
-            Vector2Int rReturn = new Vector2Int(tX, tY);
-            return rReturn;
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //int tX = 0;
+            //int tY = 0;
+            //if (tFloats.Count() == 2)
+            //{
+            //    int.TryParse(tFloats[0], out tX);
+            //    int.TryParse(tFloats[1], out tY);
+            //}
+            //Vector2Int rReturn = new Vector2Int(tX, tY);
+            //return rReturn;
+            return NWDToolbox.Vector2IntFromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -79,17 +101,17 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.textField);
-            float tHeight = tStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            float tHeight = tStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0f);
             return tHeight*2;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPos, string sEntitled, bool sDisabled, string sTooltips = NWEConstants.K_EMPTY_STRING, object sAdditionnal = null)
         {
             NWDVector2Int tTemporary = new NWDVector2Int();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             Vector2Int tVector = GetVectorInt();
-            Vector2Int tNexVector = EditorGUI.Vector2IntField(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
+            Vector2Int tNexVector = EditorGUI.Vector2IntField(new Rect(sPos.x, sPos.y, sPos.width, NWDGUI.kLabelStyle.fixedHeight),
                                    tContent,tVector);
 
             int tIndentLevel = EditorGUI.indentLevel;

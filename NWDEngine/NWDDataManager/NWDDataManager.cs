@@ -1,194 +1,152 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:27:3
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
-using System.IO;
 using UnityEngine;
 using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
+//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public partial class NWDDataManager
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDDataManager  // TODO : put in static?
     {
-        //-------------------------------------------------------------------------------------------------------------
-        private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
-        private bool kConnectedToDatabase = false;
-        //-------------------------------------------------------------------------------------------------------------
-        public string PlayerLanguage = "en";
-        // Memebes properties for editor data
-        public SQLiteConnection SQLiteConnectionEditor;
-        public string DatabasePathEditor = "Assets/StreamingAssets";
-        public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
-        // Members properties for account dependant database (data from user)
-        public SQLiteConnection SQLiteConnectionAccount;
-        public string DatabasePathAccount = "Assets";
-        public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
-        //public BTBNotificationManager NotificationCenter;
-        public bool NeedCopy = false;
-        public bool IsLoaded = false;
-        //-------------------------------------------------------------------------------------------------------------
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool StartNetWorkedData()
-        {
-            //Debug.Log("NWDDataManager StartNetWorkedData()");
-            // just to init the class
-            return NWDTypeLauncher.IsLaunched;
-        }
         //-------------------------------------------------------------------------------------------------------------
         const string PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------
+        private static readonly NWDDataManager kSharedInstance = new NWDDataManager();
+        //-------------------------------------------------------------------------------------------------------------
+        public int ClassExpected = 0;
+        public int ClassEditorExpected = 0;
+        public int ClassAccountExpected = 0;
+        public int ClassDataLoaded = 0;
+        public int ClassEditorDataLoaded = 0;
+        public int ClassAccountDataLoaded = 0;
+        public int ClassIndexation = 0;
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DataAccountConnected = false;
+        public bool DataAccountConnectionInProgress = false;
+        public bool DataAccountLoaded = false;
+        public string DatabaseNameAccount = "Account.prp";  // TODO rename DataEditorBasename by  replace by DataEditorPath()
+        public SQLiteConnection SQLiteConnectionAccount;    // TODO rename SQLiteAccountConnection
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DataEditorConnected = false;
+        public bool DataEditorConnectionInProgress = false;
+        public bool DataEditorLoaded = false;
+        public string DatabasePathEditor = "StreamingAssets";       // TODO remove and use const!?
+        public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
+        public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
+        //-------------------------------------------------------------------------------------------------------------
+        public string PlayerLanguage = "en";
+        public bool IsLoaded = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public List<Type> mTypeLoadedList = new List<Type>();                   // TODO rename ClassLoadedList
+        public List<Type> mTypeList = new List<Type>();                         // TODO rename ClassList
+        public List<Type> mTypeSynchronizedList = new List<Type>();             // TODO rename ClassSynchronizedList
+        public List<Type> mTypeUnSynchronizedList = new List<Type>();           // TODO rename ClassUnsynchronizedList
+        public List<Type> mTypeAccountDependantList = new List<Type>();         // TODO rename ClassAccountDependentList
+        public List<Type> mTypeNotAccountDependantList = new List<Type>();      // TODO rename ClassEditorDependentList
+        public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type>();
+        //-------------------------------------------------------------------------------------------------------------
         public void PlayerLanguageSave(string sNewLanguage)
         {
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, "");
-            tUserLanguage.Value.SetString(sNewLanguage);
-            tUserLanguage.UpdateData();
+            if (DataAccountLoaded == true)
+            {
+                NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+                tUserLanguage.Value.SetStringValue(sNewLanguage);
+                tUserLanguage.UpdateData();
+            }
+            else
+            {
+                NWEPrefsManager.ShareInstance().set(PlayerLanguageKey, sNewLanguage);
+            }
             PlayerLanguage = sNewLanguage;
-            // notify the change
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
+            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
         {
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey,"");
-            if (tUserLanguage.Value.GetString() == "")
+            if (DataAccountLoaded == true)
             {
-                tUserLanguage.Value.SetString(NWDDataLocalizationManager.SystemLanguageString());
-                tUserLanguage.UpdateData();
+                NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+                if (tUserLanguage.Value.GetStringValue() == string.Empty)
+                {
+                    tUserLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
+                    tUserLanguage.UpdateData();
+                }
+                PlayerLanguage = tUserLanguage.Value.GetStringValue();
             }
-            PlayerLanguage = tUserLanguage.Value.GetString();
+            else
+            {
+                PlayerLanguage = NWEPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
+            }
+            PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private NWDDataManager ()
+        private NWDDataManager()
         {
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
-            //Debug.Log("NWDDataManager private Constructor");
-            //NotificationCenter = BTBNotificationManager.SharedInstance();
-            LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+            //LoadPreferences(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        ~NWDDataManager ()
+        ~NWDDataManager()
         {
-            //Debug.Log ("NWDDataManager Destructor");
-            // reccord all modifications because this instance will be destroyed
             SharedInstance().DataQueueExecute();
-            // remove notification center
-            //if (NotificationCenter != null) {
-                BTBNotificationManager.SharedInstance().RemoveAll ();
-            //    NotificationCenter = null;
-            //}
+            NWENotificationManager.SharedInstance().RemoveAll();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<Type> mTypeLoadedList = new List<Type> ();
-        public List<Type> mTypeList = new List<Type> ();
-        public List<Type> mTypeSynchronizedList = new List<Type> ();
-        public List<Type> mTypeUnSynchronizedList = new List<Type> ();
-
-        public List<Type> mTypeAccountDependantList = new List<Type> ();
-        public List<Type> mTypeNotAccountDependantList = new List<Type> ();
-
-        public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type> ();
-        //-------------------------------------------------------------------------------------------------------------
-        //public void AddClassToManage (Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
-        //{
-        //    if (mTypeList.Contains (sType) == false) {
-        //        mTypeList.Add (sType);
-        //    }
-        //    if (sServerSynchronize == true) {
-        //        if (mTypeSynchronizedList.Contains (sType) == false) {
-        //            mTypeSynchronizedList.Add (sType);
-        //        }
-        //        if (mTypeUnSynchronizedList.Contains (sType) == true) {
-        //            mTypeUnSynchronizedList.Remove (sType);
-        //        }
-        //    } else {
-        //        if (mTypeSynchronizedList.Contains (sType) == true) {
-        //            mTypeSynchronizedList.Remove (sType);
-        //        }
-        //        if (mTypeUnSynchronizedList.Contains (sType) == false) {
-        //            mTypeUnSynchronizedList.Add (sType);
-        //        }
-        //    }
-        //    if (mTypeLoadedList.Contains (sType) == false) {
-        //        var tMethodInfo = sType.GetMethod ("redefineClassToUse", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-        //        if (tMethodInfo != null) {
-        //            tMethodInfo.Invoke (null, new object[]{ sType,sServerSynchronize, sClassTrigramme, sMenuName, sDescription });
-        //        }
-
-        //        if (mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) {
-        //            Debug.Log ("ERROR this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + mTrigramTypeDictionary [sClassTrigramme] + ")");
-        //        } else {
-        //            mTrigramTypeDictionary.Add (sClassTrigramme, sType);
-        //        }
-
-        //        mTypeLoadedList.Add (sType);
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //void ReLoadAllClass ()
-        //{
-        //    foreach (Type tType in mTypeList) {
-        //        if (mTypeLoadedList.Contains (tType) == false) {
-        //            var tMethodInfo = tType.GetMethod ("ClassLoad", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-        //            if (tMethodInfo != null) {
-        //                tMethodInfo.Invoke (null, null);
-        //            }
-        //            mTypeLoadedList.Add (tType);
-        //        }
-        //    }
-  //          //IsLoaded = true;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public bool TestSaltMemorizationForAllClass ()
+        public bool TestSaltMemorizationForAllClass()
         {
-            //Debug.Log("NWDDataManager TestSaltMemorizationForAllClass()");
             bool rReturn = true;
-            foreach (Type tType in mTypeList) {
-
-                if (NWDDatas.FindTypeInfos(tType).SaltOk != "ok")
+            foreach (Type tType in mTypeList)
+            {
+                if (NWDBasisHelper.FindTypeInfos(tType).SaltValid == false)
                 {
+                    //Debug.LogWarning(" Erreur in salt for " + NWDBasisHelper.FindTypeInfos(tType).ClassName);
                     rReturn = false;
                     break;
                 }
-
-                //var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                //if (tMethodInfo != null) {
-                //    string tR = tMethodInfo.Invoke (null, null) as string;
-                //    if (tR != "ok") {
-                //        rReturn = false;
-                //    }
-                //}
             }
-            if (rReturn == false) {
-                // do reccord and recompile
-                #if UNITY_EDITOR
+            if (rReturn == false)
+            {
+#if UNITY_EDITOR
                 //NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
-                #else
+#else
                 // no... ALERT USER ERROR IN APP DISTRIBUTION
-                #endif
+#endif
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDataManager SharedInstance() {
+        public static NWDDataManager SharedInstance()
+        {
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool DataLoaded()
+        {
+            bool rReturn = true;
+            if (DataEditorLoaded == false || DataAccountLoaded == false)
+            {
+                rReturn = false;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

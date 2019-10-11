@@ -1,7 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
+//  ideMobi 2019©
+//
+//  Date		2019-4-12 18:26:25
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 using System;
@@ -14,7 +20,7 @@ using UnityEngine;
 using System.Threading;
 using System.Text.RegularExpressions;
 using SQLite4Unity3d;
-using BasicToolBox;
+//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,59 +28,59 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    public partial class NWDBasis : NWDTypeClass
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Lock Data
-        /// <summary>
-        /// The current state of the writing for this object.
-        /// </summary>
-        private NWDWritingState WritingState = NWDWritingState.Free;
-        /// <summary>
-        /// The writing lock counter. If lock is close the number is the number of lock!
-        /// </summary>
-        private int WritingLocksCounter = 0;
-        /// <summary>
-        /// The writing pending.
-        /// </summary>
-        private NWDWritingPending WritingPending = NWDWritingPending.Unknow;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDWritingPending DatabasePending()
-        {
-            return WritingPending;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Writing lock close once more.
-        /// </summary>
-        private void WritingLockAdd()
-        {
-            //BTBBenchmark.Start();
-            WritingLocksCounter++;
-            if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
-            {
-                NWDDataManager.SharedInstance().kDataInWriting.Add(this);
-            }
-            //BTBBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Writing lock open once. If lock =0 then the object can change writing mode.
-        /// </summary>
-        private void WritingLockRemove()
-        {
-            //BTBBenchmark.Start();
-            WritingLocksCounter--;
-            if (WritingLocksCounter == 0)
-            {
-                WritingState = NWDWritingState.Free;
-                if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
-                {
-                    NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
-                }
-            }
-            //BTBBenchmark.Finish();
-        }
+        ///// <summary>
+        ///// The current state of the writing for this object.
+        ///// </summary>
+        //private NWDWritingState WritingState = NWDWritingState.Free;
+        ///// <summary>
+        ///// The writing lock counter. If lock is close the number is the number of lock!
+        ///// </summary>
+        //private int WritingLocksCounter = 0;
+        ///// <summary>
+        ///// The writing pending.
+        ///// </summary>
+        //private NWDWritingPending WritingPending = NWDWritingPending.Unknow;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDWritingPending DatabasePending()
+        //{
+        //    return WritingPending;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// Writing lock close once more.
+        ///// </summary>
+        //private void WritingLockAdd()
+        //{
+        //    //NWEBenchmark.Start();
+        //    WritingLocksCounter++;
+        //    if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
+        //    {
+        //        NWDDataManager.SharedInstance().kDataInWriting.Add(this);
+        //    }
+        //    //NWEBenchmark.Finish();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// Writing lock open once. If lock =0 then the object can change writing mode.
+        ///// </summary>
+        //private void WritingLockRemove()
+        //{
+        //    //NWEBenchmark.Start();
+        //    WritingLocksCounter--;
+        //    if (WritingLocksCounter == 0)
+        //    {
+        //        WritingState = NWDWritingState.Free;
+        //        if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
+        //        {
+        //            NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
+        //        }
+        //    }
+        //    //NWEBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion Lock Data
         #region New Data
@@ -84,13 +90,21 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The data.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
-        {
-            //BTBBenchmark.Start();
-            K rReturnObject = NewDataWithReference(null, true, sWritingMode);
-            //BTBBenchmark.Finish();
-            return rReturnObject;
-        }
+        //static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //NWEBenchmark.Start();
+        //    K rReturnObject = NewDataWithReference(null, true, sWritingMode);
+        //    //NWEBenchmark.Finish();
+        //    return rReturnObject;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //static public T NewData<T>(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //NWEBenchmark.Start();
+        //    T rReturnObject = PropertiesAutofill as T;
+        //    //NWEBenchmark.Finish();
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// New data with reference.
@@ -99,48 +113,51 @@ namespace NetWorkedData
         /// <param name="sReference">S reference.</param>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.QueuedMainThread)
-        {
-            //BTBBenchmark.Start();
-            NWDBasis<K> rReturnObject = null;
-            if (ClassType() != null)
-            {
-                rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
-                rReturnObject.InstanceInit();
-                if (sReference == null || sReference == "")
-                {
-                    rReturnObject.Reference = rReturnObject.NewReference();
-                }
-                else
-                {
-                    rReturnObject.Reference = sReference;
-                }
-                rReturnObject.PropertiesAutofill();
-                rReturnObject.Initialization();
-                rReturnObject.InsertData(sAutoDate, sWritingMode);
-            }
-            else
-            {
-                Debug.LogWarning("ClassType() is null for " + Datas().ClassNamePHP);
-            }
-            //BTBBenchmark.Finish();
-            return rReturnObject as K;
-        }
+        //static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        //{
+        //    //NWEBenchmark.Start();
+        //    K rReturnObject = null;
+        //    if (ClassType() != null)
+        //    {
+        //        rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
+        //        rReturnObject.InstanceInit();
+        //        if (sReference == null || sReference == string.Empty)
+        //        {
+        //            rReturnObject.Reference = rReturnObject.NewReference();
+        //        }
+        //        else
+        //        {
+        //            rReturnObject.Reference = sReference;
+        //        }
+        //        rReturnObject.PropertiesAutofill();
+        //        rReturnObject.Initialization();
+        //        rReturnObject.InsertData(sAutoDate, sWritingMode);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
+        //    }
+        //    //NWEBenchmark.Finish();
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private void PropertiesAutofill()
+        public override void PropertiesAutofill()
         {
-            foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+            foreach (PropertyInfo tPropInfo in BasisHelper().kAccountDependentProperties)
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                tAtt.Value = NWDAccount.CurrentReference();
                 tPropInfo.SetValue(this, tAtt, null);
             }
-            if (Datas().ClassGameSaveDependent == true)
+            if (BasisHelper().ClassGameSaveDependent == true)
             {
                 NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
-                tAtt.SetReference(NWDGameSave.Current().Reference);
-                PropertyInfo tPropInfo = Datas().ClassGameDependentProperties;
+                if (NWDGameSave.CurrentData() != null)
+                {
+                    tAtt.SetReference(NWDGameSave.CurrentData().Reference);
+                }
+                PropertyInfo tPropInfo = BasisHelper().ClassGameDependentProperties;
                 tPropInfo.SetValue(this, tAtt, null);
             }
         }
@@ -154,60 +171,9 @@ namespace NetWorkedData
         /// <returns>The data.</returns>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public K DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
-            NWDBasis<K> rReturnObject = null;
-            if (TestIntegrity() == true)
-            {
-                if (ClassType() != null)
-                {
-                    rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
-                    rReturnObject.InstanceInit();
-                    rReturnObject.PropertiesAutofill();
-                    rReturnObject.Initialization();
-                    int tDC = rReturnObject.DC; // memorize date of dupplicate
-                    string tReference = rReturnObject.NewReference(); // create reference for dupplicate
-                    rReturnObject.CopyData(this); // copy data
-                    // restore the DC and Reference 
-                    rReturnObject.Reference = tReference;
-                    rReturnObject.DC = tDC;
-                    // WARNING ... copy generate an error in XX ? 
-                    // but copy the DD XX and AC from this
-                    rReturnObject.DD = DD;
-                    rReturnObject.XX = XX;
-                    rReturnObject.AC = AC;
-                    // Change internal key by addding  "copy xxx"
-                    string tOriginalKey = "" + InternalKey;
-                    string tPattern = "\\(COPY [0-9]*\\)";
-                    string tReplacement = "";
-                    Regex tRegex = new Regex(tPattern);
-                    tOriginalKey = tRegex.Replace(tOriginalKey, tReplacement);
-                    tOriginalKey = tOriginalKey.TrimEnd();
-                    // init search
-                    int tCounter = 1;
-                    string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
-                    // search available internal key
-                    while (Datas().DatasByInternalKey.ContainsKey(tCopy) == true)
-                    {
-                        tCounter++;
-                        tCopy = tOriginalKey + " (COPY " + tCounter + ")";
-                    }
-                    // set found internalkey
-                    rReturnObject.InternalKey = tCopy;
-                    // Update Data! become it's not a real insert but a copy!
-                    rReturnObject.UpdateDataOperation(sAutoDate);
-                    // Insert Data as new Data!
-                    rReturnObject.AddonDuplicateMe();
-                    rReturnObject.InsertData(sAutoDate, sWritingMode);
-                }
-                else
-                {
-                    Debug.LogWarning("ClassType() is null for " + Datas().ClassNamePHP);
-                }
-            }
-            //BTBBenchmark.Finish();
-            return rReturnObject as K;
+            return BasisHelper().DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -217,7 +183,7 @@ namespace NetWorkedData
         /// <param name="sInternalKey">S internal key.</param>
         //public static bool InternalKeyExists(string sInternalKey)
         //{
-        //    //BTBBenchmark.Start();
+        //    //NWEBenchmark.Start();
         //    bool rReturn = false;
         //    K[] tArray = GetAllObjects(null);
         //    foreach (K tObject in tArray)
@@ -228,7 +194,7 @@ namespace NetWorkedData
         //            break;
         //        }
         //    }
-        //    //BTBBenchmark.Finish();
+        //    //NWEBenchmark.Finish();
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
@@ -236,10 +202,10 @@ namespace NetWorkedData
         /// Copy the data.
         /// </summary>
         /// <param name="sOriginal">S original.</param>
-        public void CopyData(NWDBasis<K> sOriginal)
+        public override void CopyData(NWDTypeClass sOriginal)
         {
-            //BTBBenchmark.Start();
-            string[] tKey = SLQAssemblyOrderArray();
+            //NWEBenchmark.Start();
+            string[] tKey = BasisHelper().SLQAssemblyOrderArray();
             Type tType = ClassType();
             foreach (string tPropertyString in tKey)
             {
@@ -248,19 +214,56 @@ namespace NetWorkedData
                 object tValue = tPropertyInfo.GetValue(sOriginal, null);
                 if (tValue == null)
                 {
-                    tValue = "";
+                    tValue = string.Empty;
                 }
                 string tValueString = string.Copy(tValue.ToString()); // force to copy new object
                 if (tTypeOfThis.IsEnum)
                 {
-                    int tTemp = 0;
-                    int.TryParse(tValueString, out tTemp);
+                    //int tTemp = 0;
+                    //int.TryParse(tValueString, out tTemp);
+                    tPropertyInfo.SetValue(this, tValue, null);
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                {
+                    NWEDataType tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                    tTemp.Value = ((NWEDataType)tValue).Value;
+                    //tTemp.SetValue(tValueString);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
-                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
-                    BTBDataType tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
-                    tTemp.SetString(tValueString);
+                    NWEDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
+                    //long tTempInt = 0;
+                    //long.TryParse(tValueString, out tTempInt);
+                    //tTemp.SetLong(tTempInt);
+                    tTemp.Value = ((NWEDataTypeInt)tValue).Value;
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                {
+                    NWEDataTypeFloat tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
+                    //double tTempDouble = 0;
+                    //double.TryParse(tValueString, out tTempDouble);
+                    //tTemp.SetDouble(tTempDouble);
+                    tTemp.Value = ((NWEDataTypeFloat)tValue).Value;
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                {
+                    NWEDataTypeEnum tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
+                    //long tTempDouble = 0;
+                    //long.TryParse(tValueString, out tTempDouble);
+                    //tTemp.SetLong(tTempDouble);
+                    tTemp.Value = ((NWEDataTypeEnum)tValue).Value;
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                {
+                    NWEDataTypeMask tTemp = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
+                    //long tTempDouble = 0;
+                    //long.TryParse(tValueString, out tTempDouble);
+                    //tTemp.SetLong(tTempDouble);
+                    tTemp.Value = ((NWEDataTypeMask)tValue).Value;
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
@@ -282,6 +285,12 @@ namespace NetWorkedData
                 {
                     int tTemp = 0;
                     int.TryParse(tValueString, out tTemp);
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
+                else if (tTypeOfThis == typeof(long))
+                {
+                    long tTemp = 0;
+                    long.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(Int16))
@@ -336,15 +345,17 @@ namespace NetWorkedData
                 {
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Duplicate Data
         #region Insert Data
         //-------------------------------------------------------------------------------------------------------------
-        public bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
+            // Determine the default mode
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             bool rReturn = false;
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
@@ -386,7 +397,7 @@ namespace NetWorkedData
                         Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                         break;
                 }
-                if (Datas().DatasByReference.ContainsKey(this.Reference) == false)
+                if (BasisHelper().DatasByReference.ContainsKey(this.Reference) == false)
                 {
                     bool tDoInsert = true;
                     switch (sWritingMode)
@@ -413,7 +424,7 @@ namespace NetWorkedData
                         rReturn = true;
                         this.AddonInsertMe();
                         InsertDataOperation(sAutoDate);
-                        Datas().AddData(this);
+                        BasisHelper().AddData(this);
                         //AddObjectInListOfEdition(this);
                         WritingLockAdd();
                         WritingPending = NWDWritingPending.InsertInMemory;
@@ -426,26 +437,30 @@ namespace NetWorkedData
                     UpdateDataIfModified(sAutoDate, sWritingMode);
                 }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InsertDataOperation(bool sAutoDate = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             if (sAutoDate == true)
             {
                 this.DC = NWDToolbox.Timestamp();
                 this.DM = NWDToolbox.Timestamp();
             }
-            NWDVersionType tVersion = new NWDVersionType();
-            tVersion.SetString("0.00.00");
-            this.MinVersion = tVersion;
+            //NWDVersionType tVersion = new NWDVersionType();
+            //tVersion.SetValue("0.00.00");
+            //this.MinVersion = tVersion;
 
             //NWDVersionType tMaxVersion = new NWDVersionType();
             //tMaxVersion.SetString("99.99.99");
             //this.MaxVersion = tMaxVersion;
-            this.WebServiceVersion = WebServiceVersionToUse();
+
+            int tWebModelToUse = WebModelToUse();
+            //Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
+            WebModel = tWebModelToUse;
+
             this.DS = 0;
             if (AccountDependent() == true)
             {
@@ -468,53 +483,70 @@ namespace NetWorkedData
                     ProdSync = 0;
                 }
             }
-            this.ServerHash = "";
-            this.ServerLog = "";
-            this.UpdateIntegrity();
-            //BTBBenchmark.Finish();
+            ServerHash = string.Empty;
+            ServerLog = string.Empty;
+            UpdateIntegrity();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void InsertDataProceed()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> InsertDataProceed()");
+            //NWEBenchmark.Start();
+            // Debug.Log("NWDBasis InsertDataProceed()");
             if (AccountDependent())
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
+                }
             }
             else
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
+                {
+
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
+                }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void InsertDataProceedWithTransaction()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
+            //NWEBenchmark.Start();
+            Debug.Log("NWDBasis InsertDataProceedWithTransaction()");
             if (AccountDependent())
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                }
             }
             else
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
+                {
+
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void InsertDataFinish()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> InsertDataFinish()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis InsertDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
-            //BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            RowAnalyze();
+#endif 
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Insert Data
@@ -524,7 +556,7 @@ namespace NetWorkedData
         /// Save data.
         /// </summary>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             UpdateData(true, sWritingMode);
         }
@@ -534,7 +566,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns><c>true</c>, if data if modified : save, <c>false</c> otherwise.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
@@ -545,9 +577,30 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true)
+        [Obsolete("Use UpdateData()")]
+        public void UpdateDataLater()
         {
-            //BTBBenchmark.Start();
+            UpdateData(true, NWDWritingMode.QueuedMainThread, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //[Obsolete("Use UpdateData()")]
+        public void UpdateData(NWDWritingMode sWritingMode)
+        {
+            UpdateData(true, sWritingMode, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void UpdateDataEditor()
+        {
+            DM = NWDToolbox.Timestamp();
+            UpdateIntegrity();
+            UpdateData(true, NWDWritingMode.ByEditorDefault);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
+        {
+            //NWEBenchmark.Start();
+            // Determine the default mode
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
@@ -585,6 +638,23 @@ namespace NetWorkedData
                     Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                     break;
             }
+            if (sWithCallBack)
+            {
+                this.AddonUpdateMe(); // call override method
+            }
+            UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
+            if (sWithCallBack)
+            {
+                this.AddonUpdatedMe(); // call override method
+            }
+            //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
+            //UpdateObjectInListOfEdition(this);
+
+            this.ReIndex();
+
+            BasisHelper().UpdateData(this);
+
+
             bool tDoUpdate = true;
             switch (sWritingMode)
             {
@@ -607,22 +677,23 @@ namespace NetWorkedData
             }
             if (tDoUpdate == true)
             {
-                this.AddonUpdateMe(); // call override method
-                UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
-                this.AddonUpdatedMe(); // call override method
-
-                Datas().UpdateData(this);
                 //UpdateObjectInListOfEdition(this);
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.UpdateInMemory;
                 NWDDataManager.SharedInstance().UpdateData(this, sWritingMode);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
+            
+#if UNITY_EDITOR
+            RowAnalyze();
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+            NWDNodeEditor.ReAnalyzeIfNecessary(this);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
+        public override void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // so object is prepared to be update
             if (sAutoDate == true)
             {
@@ -645,124 +716,154 @@ namespace NetWorkedData
                 this.ProdSync = 1;
             }
             // reset Hash server
-            this.ServerHash = "";
+            this.ServerHash = string.Empty;
             // Update WebServiceVersion
             if (sWebServiceUpgrade == true)
             {
-                int tWS = WebServiceVersionToUse();
-                if (this.WebServiceVersion != tWS)
+                int tWS = WebModelToUse();
+                if (this.WebModel != tWS)
                 {
-                    this.AddonVersionMe(); // call override method
-                    this.WebServiceVersion = tWS;
+                    //this.AddonVersionMe(); // call override method
+                    //Debug.Log(" set from " + WebModel + " To " + tWS);
+                    this.WebModel = tWS;
                 }
             }
-            this.UpdateIntegrity();
-            //BTBBenchmark.Finish();
+            UpdateIntegrity();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataProceed()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataProceed()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis UpdateDataProceed()");
             if (AccountDependent())
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
+                }
             }
             else
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
+                {
+
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
+                }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataProceedWithTransaction()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                }
             }
             else
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void UpdateDataFinish()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataFinish()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis UpdateDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
-            //BTBBenchmark.Finish();
+#if UNITY_EDITOR
+            RowAnalyze();
+#endif 
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool UpdateDataIfModified(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public bool UpdateDataIfModifiedWithoutCallBack()
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
+            bool tReturn = false;
+            if (this.Integrity != this.IntegrityValue())
+            {
+                tReturn = true;
+                UpdateData(true, NWDWritingMode.ByDefaultLocal, false, false);
+            }
+            //NWEBenchmark.Finish();
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool UpdateDataIfModified(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            //NWEBenchmark.Start();
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
             {
                 tReturn = true;
                 UpdateData(sAutoDate, sWritingMode);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             this.AC = true;
             this.AddonEnableMe(); // call override method
             this.UpdateData(true, sWritingMode);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             this.DD = NWDToolbox.Timestamp();
             this.AC = false;
             this.AddonDisableMe(); // call override method
             this.UpdateData(true, sWritingMode);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             int tTimestamp = NWDToolbox.Timestamp();
             this.DD = tTimestamp;
             this.XX = tTimestamp;
             this.AC = false;
             this.AddonTrashMe(); // call override method
             this.UpdateData(true, sWritingMode);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             this.XX = 0;
             this.AC = false;
             this.AddonUnTrashMe(); // call override method
             this.UpdateData(true, sWritingMode);
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Update Data
         #region Delete Data
         //-------------------------------------------------------------------------------------------------------------
-        public void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public override void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            //BTBBenchmark.Start();
+            //NWEBenchmark.Start();
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
@@ -843,14 +944,15 @@ namespace NetWorkedData
                     WritingLockRemove();
                 }
                 this.AddonDeleteMe(); // call override method
+                this.Desindex(); // call override method
                 DeleteDataOperation();
-                Datas().RemoveData(this);
+                BasisHelper().RemoveData(this);
                 //RemoveObjectInListOfEdition(this);
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.DeleteInMemory;
                 NWDDataManager.SharedInstance().DeleteData(this, sWritingMode);
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDataOperation()
@@ -859,93 +961,93 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceed()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataProceed()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis DeleteDataProceed()");
             if (AccountDependent())
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
+                }
             }
             else
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
+                }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceedWithTransaction()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                }
             }
             else
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
+                {
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
+                    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+                }
             }
-            //BTBBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataFinish()
         {
-            //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataFinish()");
+            //NWEBenchmark.Start();
+            //Debug.Log("NWDBasis DeleteDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR
-            RepaintTableEditor();
-#endif
-            //BTBBenchmark.Finish();
+            RowAnalyze();
+#endif 
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Update Data
         #region Load Data
-        //-------------------------------------------------------------------------------------------------------------
-        public void LoadedFromDatabase()
+
+        public override void AnalyzeData()
         {
-            //BTBBenchmark.Start();
+
+#if UNITY_EDITOR
+            ErrorCheck();
+#endif
+            WebserviceVersionCheckMe();
+#if UNITY_EDITOR
+            RowAnalyze();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void LoadedFromDatabase()
+        {
+            //NWEBenchmark.Start();
             InDatabase = true;
             FromDatabase = true;
             WritingPending = NWDWritingPending.InDatabase;
-            AddonLoadedMe();
-            Datas().AddData(this);
-            //BTBBenchmark.Finish();
+            //AddonLoadedMe();
+#if UNITY_EDITOR
+
+#else
+            WebserviceVersionCheckMe();
+#endif
+            ReIndex();
+            BasisHelper().AddData(this);
+            //NWEBenchmark.Finish();
         }
-        //-------------------------------------------------------------------------------------------------------------
-//        public static void LoadAllDatas()
-//        {
-//            //BTBBenchmark.Start();
-//            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-//            if (AccountDependent())
-//            {
-//                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-//            }
-//            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-//            Datas().ObjectsList = new List<object>();
-//            Datas().ObjectsByReferenceList = new List<string>();
-//            Datas().ObjectsByKeyList = new List<string>();
-//#if UNITY_EDITOR
-//            Datas().DatasInEditorRowDescriptionList = new List<string>();
-//            Datas().DatasInEditorSelectionList = new List<bool>();
-//            Datas().DatasInEditorReferenceList = new List<string>();
-//#endif
-//            if (tEnumerable != null)
-//            {
-//                foreach (NWDBasis<K> tData in tEnumerable)
-//                {
-//                    tData.LoadedFromDatabase();
-//                }
-//            }
-//#if UNITY_EDITOR
-//            RepaintTableEditor();
-//#endif
-        //    //BTBBenchmark.Finish();
-        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion Load Data
         //-------------------------------------------------------------------------------------------------------------
