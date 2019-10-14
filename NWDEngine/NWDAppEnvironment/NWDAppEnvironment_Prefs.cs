@@ -62,13 +62,14 @@ namespace NetWorkedData
             // and ?....
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ResetSession()
+        public void ResetSession(bool withTemporaryAccount = true)
         {
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
-            PlayerAccountReference = NWDToolbox.GenerateUniqueID();
+            PlayerAccountReference = NWDToolbox.GenerateUniqueID(withTemporaryAccount);
             RequesToken = string.Empty;
             SavePreferences();
+            
             // add notification
             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
             NWDDataManager.SharedInstance().PlayerLanguageLoad();

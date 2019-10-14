@@ -452,12 +452,22 @@ namespace NetWorkedData
         /// <summary>
         /// Generate unique Temporary USER ID
         /// </summary>
-        public static string GenerateUniqueID()
+        public static string GenerateUniqueID(bool isTemporaryAccount = true)
         {
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = "ACC-" + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString() + "T";
+            rReturn = "ACC-" + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString();
+
+            if (isTemporaryAccount)
+            {
+                rReturn +=  "T";
+            }
+            else
+            {
+                rReturn +=  "Z";
+            }
+
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

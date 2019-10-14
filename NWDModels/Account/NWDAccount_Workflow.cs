@@ -20,13 +20,13 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAccounTest
+    /*public class NWDAccounTest
     {
         public string Reference;
         public string InternalKey;
         public string EmailHash;
         public string PasswordHash;
-    }
+    }*/
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDAccountEnvironment : int
     {
@@ -61,7 +61,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateNewAccount()
         {
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession(false);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountCanSignOut()

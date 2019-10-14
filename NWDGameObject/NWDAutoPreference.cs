@@ -40,7 +40,7 @@ namespace NetWorkedData
             {
                 if (ToogleBinding != null)
                 {
-                    ToogleBinding.isOn = PreferenceKeyConnexion.GetBool();
+                    ToogleBinding.isOn = PreferenceKeyConnexion.GetBoolValue();
                     ToogleBinding.onValueChanged.AddListener(delegate
                     {
                         this.OnChangedBool(ToogleBinding.isOn);
@@ -48,7 +48,7 @@ namespace NetWorkedData
                 }
                 if (SliderBinding != null)
                 {
-                    SliderBinding.value = PreferenceKeyConnexion.GetFloat();
+                    SliderBinding.value = PreferenceKeyConnexion.GetFloatValue();
                     SliderBinding.onValueChanged.AddListener(delegate
                     {
                         this.OnChangedFloat(SliderBinding.value);
@@ -56,7 +56,7 @@ namespace NetWorkedData
                 }
                 if (InputFieldBinding != null)
                 {
-                    InputFieldBinding.text = PreferenceKeyConnexion.GetString();
+                    InputFieldBinding.text = PreferenceKeyConnexion.GetStringValue();
                     InputFieldBinding.onEndEdit.AddListener(delegate
                     {
                         this.OnChangedString(InputFieldBinding.text);
@@ -71,15 +71,15 @@ namespace NetWorkedData
             {
                 if (ToogleBinding != null)
                 {
-                    PreferenceKeyConnexion.SetBool(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
                 if (SliderBinding != null)
                 {
-                    PreferenceKeyConnexion.SetBool(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
                 if (InputFieldBinding != null)
                 {
-                    PreferenceKeyConnexion.SetBool(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
             }
         }
@@ -90,15 +90,15 @@ namespace NetWorkedData
             {
                 if (ToogleBinding != null)
                 {
-                    PreferenceKeyConnexion.SetFloat(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
                 if (SliderBinding != null)
                 {
-                    PreferenceKeyConnexion.SetFloat(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
                 if (InputFieldBinding != null)
                 {
-                    PreferenceKeyConnexion.SetFloat(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
             }
         }
@@ -109,15 +109,15 @@ namespace NetWorkedData
             {
                 if (ToogleBinding != null)
                 {
-                    PreferenceKeyConnexion.SetString(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
                 if (SliderBinding != null)
                 {
-                    PreferenceKeyConnexion.SetString(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
                 if (InputFieldBinding != null)
                 {
-                    PreferenceKeyConnexion.SetString(sValue);
+                    PreferenceKeyConnexion.SetValue(sValue);
                 }
             }
         }

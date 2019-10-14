@@ -26,16 +26,7 @@ namespace NetWorkedData
     public class NWDPreferenceKeyConnection : NWDConnection<NWDPreferenceKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void SetString(string sValue)
-        {
-            NWDPreferenceKey tPref = GetReachableData();
-            if (tPref != null)
-            {
-                tPref.AddEnter(new NWDMultiType (sValue));
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetInt(int sValue)
+        public void SetValue(string sValue)
         {
             NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
@@ -44,7 +35,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetFloat(float sValue)
+        public void SetValue(int sValue)
         {
             NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
@@ -53,7 +44,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetBool(bool sValue)
+        public void SetValue(float sValue)
         {
             NWDPreferenceKey tPref = GetReachableData();
             if (tPref != null)
@@ -62,7 +53,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetString(string sNotExistValue = NWEConstants.K_EMPTY_STRING)
+        public void SetValue(bool sValue)
+        {
+            NWDPreferenceKey tPref = GetReachableData();
+            if (tPref != null)
+            {
+                tPref.AddEnter(new NWDMultiType(sValue));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetStringValue(string sNotExistValue = NWEConstants.K_EMPTY_STRING)
         {
             string rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetReachableData();
@@ -73,7 +73,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int GetInt(int sNotExistValue = 0)
+        public int GetIntValue(int sNotExistValue = 0)
         {
             int rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetReachableData();
@@ -84,7 +84,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float GetFloat(float sNotExistValue = 0.0F)
+        public float GetFloatValue(float sNotExistValue = 0.0F)
         {
             float rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetReachableData();
@@ -95,7 +95,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool GetBool(bool sNotExistValue = true)
+        public bool GetBoolValue(bool sNotExistValue = true)
         {
             bool rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetReachableData();
@@ -106,7 +106,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ToogleBool(bool sNotExistValue = true)
+        public bool ToggleBool(bool sNotExistValue = true)
         {
             bool rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetReachableData();

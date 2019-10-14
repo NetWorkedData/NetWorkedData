@@ -470,7 +470,7 @@ namespace NetWorkedData
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                     }
                 }
-                //if (ResultInfos.errorDesc != null)
+                
                 if (ResultInfos.isError)
                 {
                     // Notification of a Download success
