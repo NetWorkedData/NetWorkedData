@@ -55,6 +55,10 @@ namespace NetWorkedData
             {
                 rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
             }
+            else if (Account.GetReference().Contains("Z"))
+            {
+                rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+            }
             else
             {
                 rReturn = NWDAppEnvironmentPlayerStatut.Certified;
