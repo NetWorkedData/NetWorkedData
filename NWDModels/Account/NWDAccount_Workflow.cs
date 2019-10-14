@@ -53,6 +53,34 @@ namespace NetWorkedData
         public override void Initialization()
         {
             UseInEnvironment = NWDAccountEnvironment.InGame;
+#if UNITY_EDITOR
+#else
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void CreateNewAccount()
+        {
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AccountCanSignOut()
+        {
+            bool rReturn = true;
+            foreach (NWDAccountSign tSign in NWDBasisHelper.BasisHelper<NWDAccountSign>().Datas)
+            {
+                if (tSign.IsReacheableByAccount())
+                {
+                    if (tSign.SignType == NWDAccountSignType.DeviceID)
+                    {
+                        if (tSign.SignHash == NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer())
+                        {
+                            rReturn = false;
+                        }
+                    }
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
