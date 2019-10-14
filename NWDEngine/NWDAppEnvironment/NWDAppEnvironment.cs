@@ -152,16 +152,6 @@ namespace NetWorkedData
         #endregion
         #region instance methods
         //-------------------------------------------------------------------------------------------------------------
-        //public void AnonymousVerification ()
-        //{
-        //	if (AnonymousPlayerAccountReference == string.Empty) {
-        //		AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID ();
-        //	}
-        //	if (AnonymousResetPassword == string.Empty) {
-        //		AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
-        //	}
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevice()
         {
             string rReturn;

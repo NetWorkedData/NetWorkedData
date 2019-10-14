@@ -54,6 +54,7 @@ namespace NetWorkedData
         {
             UseInEnvironment = NWDAccountEnvironment.InGame;
 #if UNITY_EDITOR
+
 #else
             NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
 #endif
@@ -67,17 +68,11 @@ namespace NetWorkedData
         public static bool AccountCanSignOut()
         {
             bool rReturn = true;
-            foreach (NWDAccountSign tSign in NWDBasisHelper.BasisHelper<NWDAccountSign>().Datas)
+            foreach (NWDAccountSign tSign in NWDAccountSign.GetReachableDatasAssociated())
             {
-                if (tSign.IsReacheableByAccount())
+                if (tSign.SignHash == NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice())
                 {
-                    if (tSign.SignType == NWDAccountSignType.DeviceID)
-                    {
-                        if (tSign.SignHash == NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer())
-                        {
-                            rReturn = false;
-                        }
-                    }
+                    rReturn = false;
                 }
             }
             return rReturn;
