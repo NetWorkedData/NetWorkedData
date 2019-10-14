@@ -677,10 +677,6 @@ namespace NetWorkedData
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_ADD_ROW, NWDGUI.KTableSearchButton))
             {
                 NWDTypeClass tNewObject = NewData();
-                NWDBasisHelper.NewData<NWDExample>();
-                NWDBasisHelper.NewData<NWDAccount>();
-                NWDBasisHelper.NewData<NWDAccountAvatar>();
-
                 if (m_SearchTag != NWDBasisTag.NoTag)
                 {
                     tNewObject.Tag = m_SearchTag;

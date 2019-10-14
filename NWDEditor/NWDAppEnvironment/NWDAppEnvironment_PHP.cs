@@ -666,7 +666,8 @@ namespace NetWorkedData
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("$tOldUuid = $uuid;");
-            tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
+            //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
+            tFile.AppendLine("$tNewUuid = FindAccount(time().'T', $sdki, true);");
             tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");

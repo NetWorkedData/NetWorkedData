@@ -162,10 +162,6 @@ namespace NetWorkedData
             tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
             tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKI).'\\' ");
             tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
-            tFile.Append("AND (");
-            tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "` = \\'" + NWDAccountSignType.DeviceID.ToLong() + "\\' ");
-            tFile.Append("OR `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "` = \\'" + NWDAccountSignType.EditorID.ToLong() + "\\' ");
-            tFile.Append(" )");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().AC) + "` = 1;");
             tFile.AppendLine("';");
@@ -273,7 +269,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Preview) + "`, '; $tInsertSQLValue.= '\\'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().Tag) + "`, '; $tInsertSQLValue.= '\\'" + ((int)NWDBasisTag.TagServerCreated).ToString() + "\\', '; // " + NWDBasisTag.TagServerCreated.ToString() + "");
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().UseInEnvironment) + "`, ';$tInsertSQLValue.= '\\'0\\', ';");
-            tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().WebModel) + "`, '; $tInsertSQLValue.= '\\''.$SQL_" + NWDBasisHelper.BasisHelper<NWDAccount>().ClassNamePHP + "_WebService.'\\', ';");
+            tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().WebModel) + "`, '; $tInsertSQLValue.= '\\'" + NWDBasisHelper.BasisHelper<NWDAccount>().LastWebBuild + "\\', ';");
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().XX) + "` '; $tInsertSQLValue.= '\\'0\\'';");
             tFile.AppendLine("$tInsertSQL.=')';");
             tFile.AppendLine("$tInsertSQL.=' VALUES ('.$tInsertSQLValue.');';");
