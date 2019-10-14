@@ -53,6 +53,10 @@ namespace NetWorkedData
         public override void Initialization()
         {
             UseInEnvironment = NWDAccountEnvironment.InGame;
+#if UNITY_EDITOR
+#else
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateNewAccount()
