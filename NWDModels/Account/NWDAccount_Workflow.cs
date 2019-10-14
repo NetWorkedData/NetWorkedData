@@ -55,6 +55,30 @@ namespace NetWorkedData
             UseInEnvironment = NWDAccountEnvironment.InGame;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void CreateNewAccount()
+        {
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AccountCanSignOut()
+        {
+            bool rReturn = true;
+            foreach (NWDAccountSign tSign in NWDBasisHelper.BasisHelper<NWDAccountSign>().Datas)
+            {
+                if (tSign.IsReacheableByAccount())
+                {
+                    if (tSign.SignType == NWDAccountSignType.DeviceID)
+                    {
+                        if (tSign.SignHash == NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer())
+                        {
+                            rReturn = false;
+                        }
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
