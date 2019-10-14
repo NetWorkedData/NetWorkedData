@@ -145,7 +145,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (TestTemporaryAccount($sUUIDHash))");
             tFile.AppendLine("{");
             tFile.AppendLine("$ereg_password = '/^(.{24,64})$/';");
-            tFile.AppendLine("if (paramValue('sdki', 'sdki', $ereg_password, 'SHS01', 'SHS01'))");
+            tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "It is an account temporary"));
             tFile.AppendLine("$tNewUuid = FindAccount($sUUIDHash, $sdki, true);");
