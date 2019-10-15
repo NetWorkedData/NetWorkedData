@@ -634,6 +634,35 @@ namespace NetWorkedData
             tFile.AppendLine("// I ask rescue for my account");
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_RESCUE_KEY + "')");
             tFile.AppendLine("{");
+
+
+            tFile.AppendLine("}");
+            tFile.AppendLine("//---- SIGN UP ----");
+            tFile.AppendLine("// I sign up with the value");
+            tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_SIGNUP_KEY + "')");
+            tFile.AppendLine("{");
+                tFile.AppendLine("if (paramValue('sdkt', '" + NWD.K_WEB_SIGN_UP_TYPE_Key + "', " + NWD.K_WEB_EREG_SDKT + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+                    tFile.AppendLine("{");
+                        tFile.AppendLine("if (paramValue('sdkv', '" + NWD.K_WEB_SIGN_UP_VALUE_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+                            tFile.AppendLine("{");
+                                tFile.AppendLine("if (paramValue('sdkr', '" + NWD.K_WEB_SIGN_UP_RESCUE_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+                                    tFile.AppendLine("{");
+                                        tFile.AppendLine("FindSDKI($sdkt, $sdkv, $sdkr);");
+                                    tFile.AppendLine("}");
+                                tFile.AppendLine("else");
+                                    tFile.AppendLine("{");
+                                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+                                    tFile.AppendLine("}");
+                            tFile.AppendLine("}");
+                        tFile.AppendLine("else");
+                            tFile.AppendLine("{");
+                                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+                            tFile.AppendLine("}");
+                    tFile.AppendLine("}");
+                tFile.AppendLine("else");
+                    tFile.AppendLine("{");
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+                    tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("//---- SIGN IN ----");
             tFile.AppendLine("// I sign in with the good value");
@@ -647,7 +676,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("// respondUUID($tNewUuid);");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
-            tFile.AppendLine("respond_SignIn();");
+            //tFile.AppendLine("respond_SignIn();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -671,7 +700,7 @@ namespace NetWorkedData
             tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
-            tFile.AppendLine("respond_SignOut();");
+            //tFile.AppendLine("respond_SignOut();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -685,7 +714,8 @@ namespace NetWorkedData
             tFile.AppendLine("}");
 
 
-
+            tFile.AppendLine("if (!"+NWDError.FUNCTIONPHP_errorDetected+"())");
+            tFile.AppendLine("{");
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
             {
@@ -694,6 +724,8 @@ namespace NetWorkedData
                 tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
                 tFile.AppendLine("}");
             }
+            tFile.AppendLine("}");
+
             // I need to prevent Non synchronized class from editor
             if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {

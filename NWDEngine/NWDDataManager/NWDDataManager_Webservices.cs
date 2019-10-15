@@ -104,6 +104,12 @@ namespace NetWorkedData
             return AddWebRequestSynchronizationForceWithBlock(mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebAccount AddWebRequestSignUp(NWDAccountSignType sSignType, string sSignHash, string sRescueHash, bool sPriority = true, NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log ("NWDOperationWebAccount");
+            return AddWebRequestSignUpWithBlock(sSignType,sSignHash,sRescueHash, null, null, null, null, sPriority, sEnvironment);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignIn(string sPasswordToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("NWDOperationWebAccount");
@@ -247,25 +253,34 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignUpWithBlock(string sSign,
+        public NWDOperationWebAccount AddWebRequestSignUpWithBlock  (
+                                                                    NWDAccountSignType sSignType,
+                                                                    string sSignHash,
+                                                                    string sRescueHash,
                                                                     NWEOperationBlock sSuccessBlock = null,
                                                                     NWEOperationBlock sErrorBlock = null,
                                                                     NWEOperationBlock sCancelBlock = null,
                                                                     NWEOperationBlock sProgressBlock = null,
-                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null
+                                                                    )
         {
             //Debug.Log ("AddWebRequestSignUpWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-up with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = NWDOperationWebAccountAction.signup;
+            sOperation.SignType = sSignType;
+            sOperation.SignHash = sSignHash;
+            sOperation.RescueHash = sRescueHash;
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignOutWithBlock(NWEOperationBlock sSuccessBlock = null,
+        public NWDOperationWebAccount AddWebRequestSignOutWithBlock (
+                                                                     NWEOperationBlock sSuccessBlock = null,
                                                                      NWEOperationBlock sErrorBlock = null,
                                                                      NWEOperationBlock sCancelBlock = null,
                                                                      NWEOperationBlock sProgressBlock = null,
-                                                                     bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+                                                                     bool sPriority = false, NWDAppEnvironment sEnvironment = null
+                                                                     )
         {
             //Debug.Log ("AddWebRequestSignOutWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
@@ -274,12 +289,14 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestRescueWithBlock(string sEmailToken,
+        public NWDOperationWebAccount AddWebRequestRescueWithBlock  (
+                                                                    string sEmailToken,
                                                                     NWEOperationBlock sSuccessBlock = null,
                                                                     NWEOperationBlock sErrorBlock = null,
                                                                     NWEOperationBlock sCancelBlock = null,
                                                                     NWEOperationBlock sProgressBlock = null,
-                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null
+                                                                    )
         {
             //Debug.Log ("AddWebRequestRescueWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
@@ -415,6 +432,29 @@ namespace NetWorkedData
                 foreach (Type tType in sTypeList)
                 {
                     Dictionary<string, object> rSendPartial = NWDBasisHelper.FindTypeInfos(tType).SynchronizationPushData(sInfos, sEnvironment, sForceAll, sSpecial);
+                    foreach (string tKey in rSendPartial.Keys)
+                    {
+                        rSend.Add(tKey, rSendPartial[tKey]);
+                    }
+                }
+            }
+            return rSend;
+        }
+        
+        //-------------------------------------------------------------------------------------------------------------
+        public Dictionary<string, object> SynchronizationGetClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
+        {
+            sInfos.ClassPushCounter = 0;
+            sInfos.ClassPullCounter = 0;
+            sInfos.RowPullCounter = 0;
+            sInfos.RowPushCounter = 0;
+
+            Dictionary<string, object> rSend = new Dictionary<string, object>();
+            if (sTypeList != null)
+            {
+                foreach (Type tType in sTypeList)
+                {
+                    Dictionary<string, object> rSendPartial = NWDBasisHelper.FindTypeInfos(tType).SynchronizationGetNewData(sInfos, sEnvironment, sForceAll);
                     foreach (string tKey in rSendPartial.Keys)
                     {
                         rSend.Add(tKey, rSendPartial[tKey]);

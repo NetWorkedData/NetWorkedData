@@ -144,6 +144,56 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
 
+            tFile.AppendLine("function FindSDKI($sSDKt, $sSDKv, $sSDKr)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            tFile.AppendLine("global $SQL_CON;");
+            tFile.AppendLine("global $ENV, $WSBUILD;");
+            tFile.AppendLine("$tReference = $sReference;");
+            tFile.AppendLine("if (IPBanOk() == true)");
+            tFile.AppendLine("{");
+            tFile.Append("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "` ");
+            tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKv).'\\' ");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().AC) + "` = 1;");
+            tFile.AppendLine("';");
+            tFile.AppendLine("$tResultSign = $SQL_CON->query($tQuerySign);");
+            tFile.AppendLine("if (!$tResultSign)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuerySign"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN15));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+                tFile.AppendLine("if ($tResultSign->num_rows == 0)");
+                    tFile.AppendLine("{");
+                        tFile.AppendLine("CreateAccount($tReference, $sSDKI);");
+                        tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need creat an account sign valid!"));
+                    tFile.AppendLine("}");
+            tFile.AppendLine("else if ($tResultSign->num_rows == 1)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN07));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// to much users ...");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKI : '.$sSDKI.' Too Mush Row"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN18));
+            tFile.AppendLine("}");
+            tFile.AppendLine("mysqli_free_result($tResultSign);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("return $tReference;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+
+
+
+
             tFile.AppendLine("function FindAccount($sReference, $sSDKI, $sCanCreate = true)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));

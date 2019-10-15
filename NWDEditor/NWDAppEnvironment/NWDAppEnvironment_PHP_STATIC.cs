@@ -1669,34 +1669,34 @@ namespace NetWorkedData
 
 
 
-            tFile.AppendLine("function respond_SignOut()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_SignOut()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
-            tFile.AppendLine("function respond_SignIn()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNIN_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_SignIn()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNIN_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
-            tFile.AppendLine("function respond_RestartWebService()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_RESTART_WEBSERVICE_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_RestartWebService()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_RESTART_WEBSERVICE_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("function respond_UserTransfert($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_USER_TRANSFERT_KEY + "'] = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
@@ -1706,8 +1706,8 @@ namespace NetWorkedData
             tFile.AppendLine("global $CHANGE_USER;");
             tFile.AppendLine("$CHANGE_USER = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 

@@ -69,7 +69,6 @@ namespace NetWorkedData
             PlayerAccountReference = NWDToolbox.GenerateUniqueID(withTemporaryAccount);
             RequesToken = string.Empty;
             SavePreferences();
-
             if (withTemporaryAccount == false)
             {
                 // create new account
