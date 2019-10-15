@@ -139,12 +139,12 @@ namespace NetWorkedData
                     }
                 }
                 EditorGUI.BeginDisabledGroup(tActive);
-                if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString() +" "+string.Join(" ",tEnvironment), NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrix[0, tI], new GUIContent("Sign with " + tSign.SignType.ToString() +" "+string.Join(" ",tEnvironment), tSign.SignHash), NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
                 }
                 EditorGUI.EndDisabledGroup();
-                if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrix[1,tI], new GUIContent("Edit", tSign.SignHash) , NWDGUI.kMiniButtonStyle))
                 {
                     NWDBasisHelper.BasisHelper<NWDAccountSign>().SetObjectInEdition(tSign);
                 }
@@ -162,10 +162,13 @@ namespace NetWorkedData
             tI++;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
+
+            EditorGUI.BeginDisabledGroup(!NWDAccount.AccountCanSignOut());
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Log Out"))
             {
             NWDDataManager.SharedInstance().AddWebRequestSignOut();
             }
+            EditorGUI.EndDisabledGroup();
             tI++;
             /*
                 //Debug.Log ("AddonEditor");

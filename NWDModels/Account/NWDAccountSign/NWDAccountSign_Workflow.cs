@@ -81,7 +81,7 @@ namespace NetWorkedData
         public void RegisterDevicePlayer()
         {
             SignType = NWDAccountSignType.DeviceID;
-            SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
+            SignHash = SignDevicePlayer();
             RescueHash = string.Empty;
 #if UNITY_EDITOR
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
