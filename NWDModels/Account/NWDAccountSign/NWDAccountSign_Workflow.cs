@@ -170,7 +170,7 @@ namespace NetWorkedData
         {
             if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
             {
-                // not possible
+                // Not possible
             }
             else
             {
