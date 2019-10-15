@@ -62,14 +62,26 @@ namespace NetWorkedData
             // and ?....
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ResetSession(bool withTemporaryAccount = true)
+        public void ResetSession(bool withTemporaryAccount = true, string sWithSign = null)
         {
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();
             PlayerAccountReference = NWDToolbox.GenerateUniqueID(withTemporaryAccount);
             RequesToken = string.Empty;
             SavePreferences();
-            
+
+            if (withTemporaryAccount == false)
+            {
+                // create new account
+                if (string.IsNullOrEmpty(sWithSign) == false)
+                {
+                    WithSpecialSDKI = sWithSign;
+                }
+                else
+                {
+                    WithSpecialSDKI = string.Empty;
+                }
+            }
             // add notification
             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
             NWDDataManager.SharedInstance().PlayerLanguageLoad();

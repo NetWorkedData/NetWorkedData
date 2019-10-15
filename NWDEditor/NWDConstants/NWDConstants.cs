@@ -456,7 +456,7 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";
-        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, all sync not effective!";
+        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, sync only effective on player's data!";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
 
        //-------------------------------------------------------------------------------------------------------------

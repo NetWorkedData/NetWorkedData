@@ -121,6 +121,7 @@ namespace NetWorkedData
             {
                 Data.Add(NWD.K_WEB_SIGN_Key, Environment.SecretKeyDevice());
             }
+            Environment.CleanSecretKeyDevice();
             // force temporary account to be secure to transit the secretkey of device!
             SecureData = true;
         }

@@ -40,6 +40,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public string PreviewRequesToken = string.Empty;
         public string LastPreviewRequesToken = string.Empty;
+        private string WithSpecialSDKI;
 #endif
         //-------------------------------------------------------------------------------------------------------------
         //public string AnonymousPlayerAccountReference = string.Empty;
@@ -152,6 +153,11 @@ namespace NetWorkedData
         #endregion
         #region instance methods
         //-------------------------------------------------------------------------------------------------------------
+        public void CleanSecretKeyDevice()
+        {
+            WithSpecialSDKI = null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevice()
         {
             string rReturn;
@@ -166,6 +172,10 @@ namespace NetWorkedData
             else
             {
                 rReturn = "Hacker?";
+            }
+            if (string.IsNullOrEmpty(WithSpecialSDKI) == false)
+            {
+                rReturn = WithSpecialSDKI;
             }
             return rReturn;
         }
