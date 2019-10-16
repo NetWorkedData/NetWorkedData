@@ -28,7 +28,7 @@ namespace NetWorkedData
 
         public static NWDAccountSignType Facebook = Add(20, "FacebookID");
         public static NWDAccountSignType Google = Add(21, "GoogleID");
-        public static NWDAccountSignType Google = Add(22, "AppleID");
+        public static NWDAccountSignType Apple = Add(22, "AppleID");
 #if UNITY_EDITOR
         public static NWDAccountSignType Fake = Add(88, "FakeID");
         public static NWDAccountSignType EditorID = Add(99, "EditorID");
