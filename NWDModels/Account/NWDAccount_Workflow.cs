@@ -11,22 +11,9 @@
 //
 //=====================================================================================================================
 
-
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-//using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /*public class NWDAccounTest
-    {
-        public string Reference;
-        public string InternalKey;
-        public string EmailHash;
-        public string PasswordHash;
-    }*/
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDAccountEnvironment : int
     {
@@ -40,29 +27,13 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccount()
-        {
-            //Debug.Log("NWDAccount Constructor");
-        }
+        public NWDAccount() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccount(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDAccount Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
+        public NWDAccount(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
             UseInEnvironment = NWDAccountEnvironment.InGame;
-#if UNITY_EDITOR
-
-#else
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void CreateNewAccount(string sWithSign)
-        {
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession(false, sWithSign);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountCanSignOut()

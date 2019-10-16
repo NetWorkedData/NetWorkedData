@@ -179,7 +179,7 @@ namespace NetWorkedData
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp email password"))
             {
-                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.RescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail));
+                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.GetRescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail));
             }
             tI++;
             /*

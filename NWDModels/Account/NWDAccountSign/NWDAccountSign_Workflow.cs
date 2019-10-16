@@ -11,10 +11,7 @@
 //
 //=====================================================================================================================
 
-using System;
 using System.Collections.Generic;
-using UnityEngine;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -23,17 +20,13 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign()
-        {
-        }
+        public NWDAccountSign() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-        }
+        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
+        public override void Initialization() {}
+        //=============================================================================================================
+        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public void Register()
         {
@@ -45,6 +38,14 @@ namespace NetWorkedData
         {
             SignStatus = NWDAccountSignAction.TryToDissociate;
             UpdateData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterDelete()
+        {
+            SignType = NWDAccountSignType.None;
+            SignHash = string.Empty;
+            RescueHash = string.Empty;
+            Unregister();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDeviceEditor()
@@ -73,11 +74,6 @@ namespace NetWorkedData
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string SignDeviceEditor()
-        {
-            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDeviceEditor();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void RegisterDevicePlayer()
         {
             SignType = NWDAccountSignType.DeviceID;
@@ -92,11 +88,6 @@ namespace NetWorkedData
             InternalDescription = "Player Device ID : " + SignHash;
 #endif
             Register();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string SignDevicePlayer()
-        {
-            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterDevice()
@@ -115,15 +106,10 @@ namespace NetWorkedData
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string SignDevice()
+        public void RegisterSocialNetwork(string sSocialID, NWDAccountSignType sSocialType)
         {
-            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void RegisterSocialFacebook(string sSocialToken)
-        {
-            SignType = NWDAccountSignType.Facebook;
-            SignHash = SignSocialDevice(sSocialToken);
+            SignType = sSocialType;
+            SignHash = GetSignSocialHash(sSocialID);
             RescueHash = string.Empty;
 #if UNITY_EDITOR
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
@@ -131,69 +117,10 @@ namespace NetWorkedData
             {
                 InternalKey = tAccount.InternalKey;
             }
-            InternalDescription = "facebook ID : " + SignHash;
+            InternalDescription = "" + sSocialType + " ID : " + SignHash;
 #endif
+            Tag = NWDBasisTag.TagUserCreated;
             Register();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void RegisterSocialGoogle(string sSocialToken)
-        {
-            SignType = NWDAccountSignType.Google;
-            SignHash = SignSocialDevice(sSocialToken);
-            RescueHash = string.Empty;
-#if UNITY_EDITOR
-            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-            if (tAccount != null)
-            {
-                InternalKey = tAccount.InternalKey;
-            }
-            InternalDescription = "google ID : " + SignHash;
-#endif
-            Register();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string SignSocialDevice(string sSocialToken)
-        {
-            string rReturn = null;
-            if (string.IsNullOrEmpty(sSocialToken))
-            {
-                rReturn = string.Empty;
-            }
-            else
-            {
-                rReturn = NWESecurityTools.GenerateSha(sSocialToken + NWDAppEnvironment.SelectedEnvironment().SaltEnd);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void RegisterLoginPassword(string sLogin, string sPassword, string sEmail)
-        {
-            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
-            {
-                // Not possible
-            }
-            else
-            {
-                SignType = NWDAccountSignType.LoginPasswordEmail;
-                SignHash = SignLoginPassword(sLogin, sPassword);
-                RescueHash = RescueEmailHash(sEmail);
-#if UNITY_EDITOR
-                NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-                if (tAccount != null)
-                {
-                    InternalKey = tAccount.InternalKey;
-                }
-                InternalDescription = "Login Password Email : " + sLogin + " / " + sEmail + " / " + sPassword;
-#endif
-                Register();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void CreateAndRegisterLoginPassword(string sLogin, string sEmail, string sPassword, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
-        {
-            NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
-            tSign.RegisterLoginPassword(sLogin, sPassword, sEmail);
-           NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterEmailPassword(string sEmail, string sPassword)
@@ -204,29 +131,94 @@ namespace NetWorkedData
             }
             else
             {
-                SignType = NWDAccountSignType.EmailPassword;
-                SignHash = SignLoginPassword(sEmail, sPassword);
-                RescueHash = RescueEmailHash(sEmail);
+                SignType = NWDAccountSignType.LoginPasswordEmail;
+                SignHash = GetSignLoginPasswordHash(sEmail, sPassword);
+                RescueHash = GetRescueEmailHash(sEmail);
 #if UNITY_EDITOR
                 NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
                 if (tAccount != null)
                 {
                     InternalKey = tAccount.InternalKey;
                 }
-                InternalDescription = "Email Password : " + sEmail + " / " + sPassword;
+                InternalDescription = "Login Password / Email : " + sPassword + " / " + sEmail;
 #endif
+                Tag = NWDBasisTag.TagUserCreated;
                 Register();
             }
         }
+        //=============================================================================================================
+        // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public static void CreateAndRegisterEmail(string sEmail, string sPassword, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
+        public static string SignDeviceEditor()
         {
-            NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
-            tSign.RegisterEmailPassword(sEmail, sPassword);
-           NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
+            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDeviceEditor();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string SignLoginPassword(string sLogin, string sPassword)
+        public static string SignDevicePlayer()
+        {
+            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDevicePlayer();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SignDevice()
+        {
+            return NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void CreateAndRegisterSocialNetwork(string sSocialID, NWDAccountSignType sSocialType, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
+        {
+            // Generate Hash with email and password
+            string tSignHash = NWDAccountSign.GetSignSocialHash(sSocialID);
+            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, sSocialType);
+
+            if (!tResult)
+            {
+                NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
+                tSign.RegisterSocialNetwork(sSocialID, sSocialType);
+
+                // Sync NWDAccountSign
+                NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
+            }
+            else
+            {
+                sErrorBlock?.Invoke(null);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void CreateAndRegisterEmailPassword(string sEmail, string sPassword, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
+        {
+            // Generate Hash with email and password
+            string tSignHash = NWDAccountSign.GetSignLoginPasswordHash(sEmail.ToLower(), sPassword);
+            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
+
+            if (!tResult)
+            {
+                NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
+                tSign.RegisterEmailPassword(sEmail, sPassword);
+
+                // Sync NWDAccountSign
+                NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
+            }
+            else
+            {
+                sErrorBlock?.Invoke(null);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetSignSocialHash(string sSocialID)
+        {
+            string rReturn = null;
+            if (string.IsNullOrEmpty(sSocialID))
+            {
+                rReturn = string.Empty;
+            }
+            else
+            {
+                rReturn = NWESecurityTools.GenerateSha(sSocialID + NWDAppEnvironment.SelectedEnvironment().SaltEnd);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetSignLoginPasswordHash(string sLogin, string sPassword)
         {
             string rReturn = null;
             if (string.IsNullOrEmpty(sLogin) || string.IsNullOrEmpty(sPassword))
@@ -240,7 +232,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string RescueEmailHash(string sEmail)
+        public static string GetRescueEmailHash(string sEmail)
         {
             string rReturn = null;
             if (string.IsNullOrEmpty(sEmail))
@@ -252,14 +244,6 @@ namespace NetWorkedData
                 rReturn = NWESecurityTools.GenerateSha(sEmail + NWDAppEnvironment.SelectedEnvironment().SaltStart);
             }
             return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void RegisterDelete()
-        {
-            SignType = NWDAccountSignType.None;
-            SignHash = string.Empty;
-            RescueHash = string.Empty;
-            Unregister();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetCorporateDatasAssociated(string sAccountReference = null)
@@ -302,6 +286,39 @@ namespace NetWorkedData
                 }
             }
             return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ChechAccountSign(string sSignHash, NWDAccountSignType sAccountType)
+        {
+            bool rResult = false;
+            NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
+            foreach (NWDAccountSign k in tSigns)
+            {
+                if (k.SignType == sAccountType)
+                {
+                    if (k.SignHash.Equals(sSignHash) || sSignHash.Equals(""))
+                    {
+                        rResult = true;
+                        break;
+                    }
+                }
+            }
+
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountSign GetAccountSign(NWDAccountSignType sAccountType)
+        {
+            NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
+            foreach (NWDAccountSign k in tSigns)
+            {
+                if (k.SignType == sAccountType)
+                {
+                    return k;
+                }
+            }
+
+            return null;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

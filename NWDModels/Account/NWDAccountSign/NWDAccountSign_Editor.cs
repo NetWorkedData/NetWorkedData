@@ -129,11 +129,11 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Social));
                 if (GUI.Button(tMatrix[0, tI++], "Associate FacebookID", NWDGUI.kMiniButtonStyle))
                 {
-                    RegisterSocialFacebook(Social);
+                    RegisterSocialNetwork(Social, NWDAccountSignType.Facebook);
                 }
                 if (GUI.Button(tMatrix[0, tI++], "Associate GoogleID", NWDGUI.kMiniButtonStyle))
                 {
-                    RegisterSocialGoogle(Social);
+                    RegisterSocialNetwork(Social, NWDAccountSignType.Google);
                 }
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.Separator(tMatrix[0, tI++]);
