@@ -11,10 +11,7 @@
 //
 //=====================================================================================================================
 
-using System;
 using System.Collections.Generic;
-using UnityEngine;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -122,6 +119,7 @@ namespace NetWorkedData
             }
             InternalDescription = "" + sSocialType + " ID : " + SignHash;
 #endif
+            Tag = NWDBasisTag.TagUserCreated;
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -133,7 +131,7 @@ namespace NetWorkedData
             }
             else
             {
-                SignType = NWDAccountSignType.LoginPassword;
+                SignType = NWDAccountSignType.LoginPasswordEmail;
                 SignHash = GetSignLoginPasswordHash(sEmail, sPassword);
                 RescueHash = GetRescueEmailHash(sEmail);
 #if UNITY_EDITOR
@@ -142,8 +140,9 @@ namespace NetWorkedData
                 {
                     InternalKey = tAccount.InternalKey;
                 }
-                InternalDescription = "Login Password : " + sEmail + " / " + sPassword;
+                InternalDescription = "Login Password / Email : " + sPassword + " / " + sEmail;
 #endif
+                Tag = NWDBasisTag.TagUserCreated;
                 Register();
             }
         }
@@ -189,7 +188,7 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignLoginPasswordHash(sEmail.ToLower(), sPassword);
-            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.LoginPassword);
+            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
 
             if (!tResult)
             {
