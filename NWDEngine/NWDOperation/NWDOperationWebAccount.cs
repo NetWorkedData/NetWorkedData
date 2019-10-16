@@ -115,8 +115,7 @@ namespace NetWorkedData
         {
             //go in secure
             SecureData = true;
-
-            Dictionary<string, object> tDataNotAccount = NWDDataManager.SharedInstance().SynchronizationGetClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeNotAccountDependantList);
+            Dictionary<string, object> tDataNotAccount = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
             Data = Data.Concat(tDataNotAccount).ToDictionary(x => x.Key, x => x.Value);
             // insert action
             if (Data.ContainsKey(NWD.K_WEB_ACTION_KEY))
@@ -150,9 +149,12 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    Data.Add(NWD.K_WEB_SIGN_UP_RESCUE_Key, SignHash);
+                    Data.Add(NWD.K_WEB_SIGN_UP_VALUE_Key, SignHash);
                 }
-
+                if (string.IsNullOrEmpty(RescueHash))
+                {
+                    RescueHash = "-";
+                }
                 if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_RESCUE_Key))
                 {
                     Data[NWD.K_WEB_SIGN_UP_RESCUE_Key] = RescueHash;
@@ -165,8 +167,6 @@ namespace NetWorkedData
             else if (Action == NWDOperationWebAccountAction.signin)
             {
                 // insert sign
-                Dictionary<string, object> tDataAccount = NWDDataManager.SharedInstance().SynchronizationGetClassesDatas(ResultInfos, Environment, true, NWDDataManager.SharedInstance().mTypeAccountDependantList);
-                Data = Data.Concat(tDataAccount).ToDictionary(x => x.Key, x => x.Value);
                 if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
                 {
                     Data[NWD.K_WEB_SIGN_Key] = PasswordToken;

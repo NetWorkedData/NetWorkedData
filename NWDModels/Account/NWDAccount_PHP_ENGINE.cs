@@ -44,6 +44,7 @@ namespace NetWorkedData
             //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + BasisHelper().ClassNamePHP + "/" + NWD.K_CONSTANTS_FILE + "');");
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccount>().PHP_CONSTANTS_PATH(sEnvironment) + ");");
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDIPBan>().PHP_CONSTANTS_PATH(sEnvironment) + ");");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             //tFile.AppendLine("function IPBanOk()");
@@ -149,7 +150,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global $ENV, $WSBUILD;");
-            tFile.AppendLine("$tReference = $sReference;");
+            tFile.AppendLine("global $admin, $uuid;");
             tFile.AppendLine("if (IPBanOk() == true)");
             tFile.AppendLine("{");
             tFile.Append("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "` ");
@@ -169,8 +170,9 @@ namespace NetWorkedData
             tFile.AppendLine("{");
                 tFile.AppendLine("if ($tResultSign->num_rows == 0)");
                     tFile.AppendLine("{");
-                        tFile.AppendLine("CreateAccount($tReference, $sSDKI);");
+                        tFile.AppendLine("CreateAccount('454545T');");
                         tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need creat an account sign valid!"));
+                        tFile.AppendLine("CreateAccountSign($uuid, $sSDKt, $sSDKv, $sSDKr);");
                     tFile.AppendLine("}");
             tFile.AppendLine("else if ($tResultSign->num_rows == 1)");
             tFile.AppendLine("{");
@@ -185,7 +187,6 @@ namespace NetWorkedData
             tFile.AppendLine("mysqli_free_result($tResultSign);");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
-            tFile.AppendLine("return $tReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
@@ -204,7 +205,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (TestCreateAccount($sReference) == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount($tReference, $sSDKI);");
+            tFile.AppendLine("CreateAccount($tReference);");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -227,7 +228,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if ($sCanCreate == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount($tReference, $sSDKI);");
+            tFile.AppendLine("CreateAccount($tReference);");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -266,7 +267,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
 
-            tFile.AppendLine("function CreateAccount($sOldUUID, $sSDKI)");
+            tFile.AppendLine("function CreateAccount($sOldUUID)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("$rReturn = false;");
@@ -274,7 +275,6 @@ namespace NetWorkedData
             tFile.AppendLine("global $shs, $ereg_token;");
             tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global $ENV, $WSBUILD;");
-            tFile.AppendLine("global $SQL_NWDAccount_WebService;");
             tFile.AppendLine("if (TestTemporaryAccount($sOldUUID))");
             tFile.AppendLine("{");
             tFile.AppendLine("$tInternalKey = '';");
@@ -290,7 +290,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().DS) + "`, '; $tInsertSQLValue.= '\\''.$TIME_SYNC.'\\', ';");
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().InternalKey) + "`, '; $tInsertSQLValue.= '\\'Anonymous Certified\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().InternalKey) + "`, '; $tInsertSQLValue.= '\\'Anonymous Certified'.$TIME_SYNC.'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().InternalDescription) + "`, '; $tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string('Dev account').'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().DevSync) + "`, '; $tInsertSQLValue.= '\\''.$TIME_SYNC.'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().PreprodSync) + "`, '; $tInsertSQLValue.= '\\'-1\\', ';");
@@ -298,7 +298,7 @@ namespace NetWorkedData
             }
             if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
-                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().InternalKey) + "`, '; $tInsertSQLValue.= '\\'Anonymous Certified\\', ';");
+                tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().InternalKey) + "`, '; $tInsertSQLValue.= '\\'Anonymous Certified'.$TIME_SYNC.'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().InternalDescription) + "`, '; $tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string('Preprod account').'\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().DevSync) + "`, '; $tInsertSQLValue.= '\\'-1\\', ';");
                 tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().PreprodSync) + "`, '; $tInsertSQLValue.= '\\''.$TIME_SYNC.'\\', ';");
@@ -334,7 +334,6 @@ namespace NetWorkedData
             tFile.AppendLine(NWDBasisHelper.BasisHelper<NWDAccount>().PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tNewUUID);");
             tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
             tFile.AppendLine("respondUUID($tNewUUID);");
-            //tFile.AppendLine("NWDRequestTokenIsValid($tNewUUID,'');");
             tFile.AppendLine("NWDRequestTokenReset($tNewUUID);");
             tFile.AppendLine("$rReturn = true;");
             tFile.AppendLine("}");

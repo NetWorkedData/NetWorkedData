@@ -166,6 +166,36 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RegisterLoginPassword(string sLogin, string sPassword, string sEmail)
+        {
+            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
+            {
+                // Not possible
+            }
+            else
+            {
+                SignType = NWDAccountSignType.LoginPasswordEmail;
+                SignHash = SignLoginPassword(sLogin, sPassword);
+                RescueHash = RescueEmailHash(sEmail);
+#if UNITY_EDITOR
+                NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
+                if (tAccount != null)
+                {
+                    InternalKey = tAccount.InternalKey;
+                }
+                InternalDescription = "Login Password Email : " + sLogin + " / " + sEmail + " / " + sPassword;
+#endif
+                Register();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void CreateAndRegisterLoginPassword(string sLogin, string sEmail, string sPassword, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
+        {
+            NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
+            tSign.RegisterLoginPassword(sLogin, sPassword, sEmail);
+           NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void RegisterEmailPassword(string sEmail, string sPassword)
         {
             if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
@@ -174,7 +204,7 @@ namespace NetWorkedData
             }
             else
             {
-                SignType = NWDAccountSignType.LoginPassword;
+                SignType = NWDAccountSignType.EmailPassword;
                 SignHash = SignLoginPassword(sEmail, sPassword);
                 RescueHash = RescueEmailHash(sEmail);
 #if UNITY_EDITOR
@@ -183,7 +213,7 @@ namespace NetWorkedData
                 {
                     InternalKey = tAccount.InternalKey;
                 }
-                InternalDescription = "Login Password : " + sEmail + " / " + sPassword;
+                InternalDescription = "Email Password : " + sEmail + " / " + sPassword;
 #endif
                 Register();
             }
@@ -193,25 +223,6 @@ namespace NetWorkedData
         {
             NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
             tSign.RegisterEmailPassword(sEmail, sPassword);
-
-            /*NWEOperationBlock tSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                if (synchronizeBlockDelegate != null)
-                {
-                    NWDOperationResult tResult = bResult as NWDOperationResult;
-                    synchronizeBlockDelegate(false, tResult);
-                }
-            };
-            NWEOperationBlock tFailed = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                if (synchronizeBlockDelegate != null)
-                {
-                    NWDOperationResult tResult = bResult as NWDOperationResult;
-                    synchronizeBlockDelegate(true, tResult);
-                }
-            };*/
-
-            // Sync NWDAccountSign
            NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
         }
         //-------------------------------------------------------------------------------------------------------------

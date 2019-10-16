@@ -1457,11 +1457,17 @@ namespace NetWorkedData
             {
                 tFile.AppendLine("if ($CHANGE_USER == true)");
                 tFile.AppendLine("{");
+                tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']))");
+                tFile.AppendLine("{");
+                tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']))");
+                tFile.AppendLine("{");
                 tFile.AppendLine("foreach ($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "'] as $sCsvValue)");
                 tFile.AppendLine("{");
                 tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
                 tFile.AppendLine("{");
                 tFile.AppendLine("" + PHP_FUNCTION_ANTICHEAT_DATA() + " ($sCsvValue, $sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_ACTION_SYNC_KEY + "'], $sAccountReference, $sAdmin);");
+                tFile.AppendLine("}");
+                tFile.AppendLine("}");
                 tFile.AppendLine("}");
                 tFile.AppendLine("}");
                 tFile.AppendLine("unset($sJsonDico['" + ClassNamePHP + "']['" + NWD.K_WEB_DATA_KEY + "']);");

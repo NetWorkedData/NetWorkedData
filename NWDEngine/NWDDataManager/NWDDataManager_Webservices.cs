@@ -442,27 +442,27 @@ namespace NetWorkedData
         }
         
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> SynchronizationGetClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
-        {
-            sInfos.ClassPushCounter = 0;
-            sInfos.ClassPullCounter = 0;
-            sInfos.RowPullCounter = 0;
-            sInfos.RowPushCounter = 0;
+        //public Dictionary<string, object> SynchronizationGetClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
+        //{
+        //    sInfos.ClassPushCounter = 0;
+        //    sInfos.ClassPullCounter = 0;
+        //    sInfos.RowPullCounter = 0;
+        //    sInfos.RowPushCounter = 0;
 
-            Dictionary<string, object> rSend = new Dictionary<string, object>();
-            if (sTypeList != null)
-            {
-                foreach (Type tType in sTypeList)
-                {
-                    Dictionary<string, object> rSendPartial = NWDBasisHelper.FindTypeInfos(tType).SynchronizationGetNewData(sInfos, sEnvironment, sForceAll);
-                    foreach (string tKey in rSendPartial.Keys)
-                    {
-                        rSend.Add(tKey, rSendPartial[tKey]);
-                    }
-                }
-            }
-            return rSend;
-        }
+        //    Dictionary<string, object> rSend = new Dictionary<string, object>();
+        //    if (sTypeList != null)
+        //    {
+        //        foreach (Type tType in sTypeList)
+        //        {
+        //            Dictionary<string, object> rSendPartial = NWDBasisHelper.FindTypeInfos(tType).SynchronizationGetNewData(sInfos, sEnvironment, sForceAll);
+        //            foreach (string tKey in rSendPartial.Keys)
+        //            {
+        //                rSend.Add(tKey, rSendPartial[tKey]);
+        //            }
+        //        }
+        //    }
+        //    return rSend;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void TokenError(NWDAppEnvironment sEnvironment)
         {

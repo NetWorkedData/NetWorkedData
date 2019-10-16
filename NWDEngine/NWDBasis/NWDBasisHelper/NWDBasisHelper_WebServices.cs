@@ -93,26 +93,26 @@ namespace NetWorkedData
 
         
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> SynchronizationGetNewData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll)
-        {
-            //Debug.Log("NWDBasis SynchronizationSignActionData() " + ClassName);
-            // create respond object
-            Dictionary<string, object> rSend = new Dictionary<string, object>();
-            // create dictionnary for this tablename and insert in the respond
-            Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
-            rSend.Add(ClassTableName, rSendDatas);
-            // get last synchro
-            int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
-            if (sForceAll==true)
-            {
-                tLastSynchronization = 0;
-            }
-            // I get all objects 
-            rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
-            rSendDatas.Add(NWD.K_WEB_WEBSIGN_KEY, WebServiceSign(LastWebBuild));
-            // return the data
-            return rSend;
-        }
+        //public Dictionary<string, object> SynchronizationGetNewData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll)
+        //{
+        //    //Debug.Log("NWDBasis SynchronizationSignActionData() " + ClassName);
+        //    // create respond object
+        //    Dictionary<string, object> rSend = new Dictionary<string, object>();
+        //    // create dictionnary for this tablename and insert in the respond
+        //    Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
+        //    rSend.Add(ClassTableName, rSendDatas);
+        //    // get last synchro
+        //    int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
+        //    if (sForceAll==true)
+        //    {
+        //        tLastSynchronization = 0;
+        //    }
+        //    // I get all objects 
+        //    rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
+        //    rSendDatas.Add(NWD.K_WEB_WEBSIGN_KEY, WebServiceSign(LastWebBuild));
+        //    // return the data
+        //    return rSend;
+        //}
 
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial)

@@ -21,11 +21,16 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
     {
+        // 0 is reserved by None and invalidate the signup process
         public static NWDAccountSignType DeviceID = Add(1, "DeviceID");
-        public static NWDAccountSignType LoginPassword = Add(2, "LoginPassword");
-        public static NWDAccountSignType Facebook = Add(3, "Facebook");
-        public static NWDAccountSignType Google = Add(4, "Google");
+        public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword");
+        public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail");
+
+        public static NWDAccountSignType Facebook = Add(20, "FacebookID");
+        public static NWDAccountSignType Google = Add(21, "GoogleID");
+        public static NWDAccountSignType Google = Add(22, "AppleID");
 #if UNITY_EDITOR
+        public static NWDAccountSignType Fake = Add(88, "FakeID");
         public static NWDAccountSignType EditorID = Add(99, "EditorID");
 #endif
     }
@@ -40,7 +45,7 @@ namespace NetWorkedData
 
         TryToDissociate = 20,
         Dissociated = 21,
-        //ErrorDissociated = 22,
+        //ErrorDissociated = 22, // no possible case
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignHelper : NWDHelper<NWDAccountSign>
