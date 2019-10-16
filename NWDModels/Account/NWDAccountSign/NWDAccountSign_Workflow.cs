@@ -20,11 +20,11 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign() {}
+        public NWDAccountSign() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() {}
+        public override void Initialization() { }
         //=============================================================================================================
         // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ namespace NetWorkedData
             Register();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RegisterEmailPassword(string sEmail, string sPassword)
+        public void RegisterLoginPasswordEmail(string sLogin, string sPassword, string sEmail)
         {
             if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
             {
@@ -132,6 +132,30 @@ namespace NetWorkedData
             else
             {
                 SignType = NWDAccountSignType.LoginPasswordEmail;
+                SignHash = GetSignLoginPasswordHash(sLogin, sPassword);
+                RescueHash = GetRescueEmailHash(sEmail);
+#if UNITY_EDITOR
+                NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
+                if (tAccount != null)
+                {
+                    InternalKey = tAccount.InternalKey;
+                }
+                InternalDescription = "Login Password Email : " + sLogin + "/" + sPassword + " / " + sEmail;
+#endif
+                Tag = NWDBasisTag.TagUserCreated;
+                Register();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RegisterEmailPassword(string sEmail, string sPassword)
+        {
+            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
+            {
+                // Not possible
+            }
+            else
+            {
+                SignType = NWDAccountSignType.EmailPassword;
                 SignHash = GetSignLoginPasswordHash(sEmail, sPassword);
                 RescueHash = GetRescueEmailHash(sEmail);
 #if UNITY_EDITOR
@@ -140,7 +164,7 @@ namespace NetWorkedData
                 {
                     InternalKey = tAccount.InternalKey;
                 }
-                InternalDescription = "Login Password / Email : " + sPassword + " / " + sEmail;
+                InternalDescription = "Email / Password: " + sEmail + " / " + sPassword;
 #endif
                 Tag = NWDBasisTag.TagUserCreated;
                 Register();
@@ -184,11 +208,31 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void CreateAndRegisterLoginPasswordEmail(string sLogin, string sPassword, string sEmail, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
+        {
+            // Generate Hash with email and password
+            string tSignHash = NWDAccountSign.GetSignLoginPasswordHash(sLogin, sPassword);
+            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
+
+            if (!tResult)
+            {
+                NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
+                tSign.RegisterLoginPasswordEmail(sLogin, sPassword, sEmail);
+
+                // Sync NWDAccountSign
+                NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
+            }
+            else
+            {
+                sErrorBlock?.Invoke(null);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void CreateAndRegisterEmailPassword(string sEmail, string sPassword, NWEOperationBlock sSuccessBlock = null, NWEOperationBlock sErrorBlock = null)
         {
             // Generate Hash with email and password
-            string tSignHash = NWDAccountSign.GetSignLoginPasswordHash(sEmail.ToLower(), sPassword);
-            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
+            string tSignHash = NWDAccountSign.GetSignEmailPasswordHash(sEmail, sPassword);
+            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.EmailPassword);
 
             if (!tResult)
             {
@@ -232,6 +276,20 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetSignEmailPasswordHash(string sEmail, string sPassword)
+        {
+            string rReturn = null;
+            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
+            {
+                rReturn = string.Empty;
+            }
+            else
+            {
+                rReturn = NWESecurityTools.GenerateSha(sEmail.ToLower() + sPassword + NWDAppEnvironment.SelectedEnvironment().SaltEnd);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string GetRescueEmailHash(string sEmail)
         {
             string rReturn = null;
@@ -241,7 +299,7 @@ namespace NetWorkedData
             }
             else
             {
-                rReturn = NWESecurityTools.GenerateSha(sEmail + NWDAppEnvironment.SelectedEnvironment().SaltStart);
+                rReturn = NWESecurityTools.GenerateSha(sEmail.ToLower() + NWDAppEnvironment.SelectedEnvironment().SaltStart);
             }
             return rReturn;
         }

@@ -79,16 +79,16 @@ namespace NetWorkedData
         public NWDAccountSignAction SignStatus { get; set; }
 
 
-        //[NWDNotEditable]// TODO Delete
-        //public string RescueHashServer { get; set; } // TODO Delete
+        [NWDNotEditable]// TODO Delete
+        public string RescueHashServer { get; set; } // TODO Delete
 
 
-        //[NWDNotEditable]// TODO Delete
-        //public string SignHashServer { get; set; } // TODO Delete
-        //[NWDInspectorGroupEnd]
-        //[NWDInspectorGroupStart("Rescue")]// TODO Delete
-        //[NWDNotEditable]// TODO Delete
-        //public string RescuePinCode { get; set; } // TODO Delete
+        [NWDNotEditable]// TODO Delete
+        public string SignHashServer { get; set; } // TODO Delete
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Rescue")]// TODO Delete
+        [NWDNotEditable]// TODO Delete
+        public string RescuePinCode { get; set; } // TODO Delete
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

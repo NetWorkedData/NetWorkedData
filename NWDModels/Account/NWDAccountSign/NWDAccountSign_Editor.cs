@@ -116,7 +116,7 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Login));
                 if (GUI.Button(tMatrix[0, tI++], "Associate Login Password Email", NWDGUI.kMiniButtonStyle))
                 {
-                    CreateAndRegisterLoginPassword(Login, Email, Password);
+                    RegisterLoginPasswordEmail(Login, Email, Password);
                 }
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email));
                 if (GUI.Button(tMatrix[0, tI++], "Rescue by Email", NWDGUI.kMiniButtonStyle))
