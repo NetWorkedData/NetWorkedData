@@ -1669,19 +1669,19 @@ namespace NetWorkedData
 
 
 
-            tFile.AppendLine("function respond_SignOut()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_SignOut()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
-            tFile.AppendLine("function respond_SignIn()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNIN_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_SignIn()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNIN_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("function respond_RestartWebService()");
             tFile.AppendLine("{");

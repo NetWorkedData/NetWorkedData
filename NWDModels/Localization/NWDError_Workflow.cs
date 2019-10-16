@@ -126,7 +126,7 @@ namespace NetWorkedData
                 NWDError.NWDError_SGN04 = NWDError.CreateGenericError("account", "SGN04", "Account sign error", "sign-up error account allready linked with another email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN05 = NWDError.CreateGenericError("account", "SGN05", "Account sign error", "sign-up error multi-account by uuid", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN06 = NWDError.CreateGenericError("account", "SGN06", "Account sign error", "sign-up error account allready linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN07 = NWDError.CreateGenericError("account", "SGN07", "Account sign error", "sign-up error another account allready linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN07 = NWDError.CreateGenericError("account", "SGN07", "Account sign error", "sign-up error another account allready linked with signature", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN08 = NWDError.CreateGenericError("account", "SGN08", "Account sign error", "sign-up error multi-account allready linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN09 = NWDError.CreateGenericError("account", "SGN09", "Account sign error", "modify error in select valid account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN10 = NWDError.CreateGenericError("account", "SGN10", "Account sign error", "modify error unknow account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);

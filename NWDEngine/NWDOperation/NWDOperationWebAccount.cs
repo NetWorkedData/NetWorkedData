@@ -30,7 +30,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperationWebAccountAction : int
+    public enum NWDOperationWebAccountAction
     {
         signin = 0,
         signout = 1,
@@ -43,6 +43,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccountAction Action;
         public string PasswordToken;
+        public string SignHash;
+        public string RescueHash;
+        public NWDAccountSignType SignType;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebAccount AddOperation(string sName,
                                                            NWEOperationBlock sSuccessBlock = null,
@@ -112,6 +115,8 @@ namespace NetWorkedData
         {
             //go in secure
             SecureData = true;
+            Dictionary<string, object> tDataNotAccount = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
+            Data = Data.Concat(tDataNotAccount).ToDictionary(x => x.Key, x => x.Value);
             // insert action
             if (Data.ContainsKey(NWD.K_WEB_ACTION_KEY))
             {
@@ -127,7 +132,39 @@ namespace NetWorkedData
                 // insert device key in data and go in secure
                 DataAddSecetDevicekey();
             }
-            else
+            else if (Action == NWDOperationWebAccountAction.signup)
+            {
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_TYPE_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_TYPE_Key] = SignType.ToLong();
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_TYPE_Key, SignType.ToLong());
+                }
+
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_VALUE_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_VALUE_Key] = SignHash;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_VALUE_Key, SignHash);
+                }
+                if (string.IsNullOrEmpty(RescueHash))
+                {
+                    RescueHash = "-";
+                }
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_RESCUE_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_RESCUE_Key] = RescueHash;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_RESCUE_Key, RescueHash);
+                }
+            }
+            else if (Action == NWDOperationWebAccountAction.signin)
             {
                 // insert sign
                 if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))

@@ -60,9 +60,9 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void CreateNewAccount()
+        public static void CreateNewAccount(string sWithSign)
         {
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession(false);
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession(false, sWithSign);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountCanSignOut()
