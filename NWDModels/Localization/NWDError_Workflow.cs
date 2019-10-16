@@ -181,28 +181,28 @@ namespace NetWorkedData
 
                 NWDError.NWDError_SERVER = NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-                NWDError.NWDError_RESC01 = NWDError.CreateGenericError("RESCUE", "01", "{APP} : Forgotten password", "Hello,\r\n" +
-                                             "You forgot your password for the App {APP}'s account and ask to reset it." +
-                                             "If you didn't ask the reset, ignore it.\r\n" +
-                                             "Else, just click on this link to reset your password and receipt a new password by email: \r\n" +
-                                             "\r\n" +
-                                             "reset my password: {URL}\r\n" +
-                                             "\r\n" +
-                                             "Best regards,\r\n" +
-                                             "The {APP}'s team.", "OK");
+                //NWDError.NWDError_RESC01 = NWDError.CreateGenericError("RESCUE", "01", "{APP} : Forgotten password", "Hello,\r\n" +
+                //                             "You forgot your password for the App {APP}'s account and ask to reset it." +
+                //                             "If you didn't ask the reset, ignore it.\r\n" +
+                //                             "Else, just click on this link to reset your password and receipt a new password by email: \r\n" +
+                //                             "\r\n" +
+                //                             "reset my password: {URL}\r\n" +
+                //                             "\r\n" +
+                //                             "Best regards,\r\n" +
+                //                             "The {APP}'s team.", "OK");
 
-                NWDError.NWDError_RESC02 = NWDError.CreateGenericError("RESCUE", "02", "{APP} : Password rescue", "Hello,\r\n" +
-                                              "Your password was resetted!\r\n" +
-                                              "Best regards,\r\n" +
-                                              "The {APP}'s team.", "OK");
+                //NWDError.NWDError_RESC02 = NWDError.CreateGenericError("RESCUE", "02", "{APP} : Password rescue", "Hello,\r\n" +
+                //                              "Your password was resetted!\r\n" +
+                //                              "Best regards,\r\n" +
+                //                              "The {APP}'s team.", "OK");
 
-                NWDError.NWDError_RESC03 = NWDError.CreateGenericError("RESCUE", "03", "{APP} : Password Resetted", "Hello,\r\n" +
-                                             "Your password for the App {APP}'s account was resetted to : \r\n" +
-                                             "\r\n" +
-                                             "{PASSWORD}\r\n" +
-                                             "\r\n" +
-                                             "Best regards,\r\n" +
-                                             "The {APP}'s team.", "OK");
+                //NWDError.NWDError_RESC03 = NWDError.CreateGenericError("RESCUE", "03", "{APP} : Password Resetted", "Hello,\r\n" +
+                //                             "Your password for the App {APP}'s account was resetted to : \r\n" +
+                //                             "\r\n" +
+                //                             "{PASSWORD}\r\n" +
+                //                             "\r\n" +
+                //                             "Best regards,\r\n" +
+                //                             "The {APP}'s team.", "OK");
 
 
                 NWDError.NWDError_XXx01 = NWDError.CreateGenericError("XXX", "XXXx01", "Error in  model XXX", "error in request creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
@@ -228,6 +228,9 @@ namespace NetWorkedData
 
                 NWDError.NWDError_IPB01 = NWDError.CreateGenericError("IPBan", "IPB01", "IP Ban error", "IP is banned", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
+                NWDError.NWDError_RescueRequest = NWDError.CreateGenericError("RESC", "RescueRequest", "{APP} Rescue request", "{APP} rescue instruction : click here for rescue {URL} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_RescueAnswerLogin = NWDError.CreateGenericError("RESC", "RescueAnswerLogin", "{APP} Rescue Answer Login", "{APP} rescue informations new login is : {LOGIN} new password is : {PASSWORD}", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_RescueAnswerEmail = NWDError.CreateGenericError("RESC", "RescueAnswerEmail", "{APP} Rescue Answer Email", "{APP} rescue informations new password is : {PASSWORD} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

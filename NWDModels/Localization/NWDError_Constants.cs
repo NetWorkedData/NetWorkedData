@@ -247,9 +247,9 @@ namespace NetWorkedData
         static public NWDError NWDError_MAINTENANCE;
         static public NWDError NWDError_OBSOLETE;
         static public NWDError NWDError_SERVER;
-        static public NWDError NWDError_RESC01;
-        static public NWDError NWDError_RESC02;
-        static public NWDError NWDError_RESC03;           static public NWDError NWDError_IPB01; 
+        //static public NWDError NWDError_RESC01;
+        //static public NWDError NWDError_RESC02;
+        //static public NWDError NWDError_RESC03;          static public NWDError NWDError_IPB01;                  static public NWDError NWDError_RescueRequest;         static public NWDError NWDError_RescueAnswerLogin;         static public NWDError NWDError_RescueAnswerEmail; 
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

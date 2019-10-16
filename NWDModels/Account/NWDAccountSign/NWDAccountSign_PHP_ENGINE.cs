@@ -41,8 +41,95 @@ namespace NetWorkedData
             tFile.AppendLine("// ENGINE");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once (" + NWDBasisHelper.PHP_FILE_FUNCTION_PATH(sEnvironment) + ");");
-            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_CONSTANTS_PATH(sEnvironment) + ");");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_SYNCHRONISATION_PATH(sEnvironment) + ");");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDError>().PHP_CONSTANTS_PATH(sEnvironment) + ");");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+            tFile.AppendLine("function RescueSign($sEmail, $sLanguage)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            // on cherche une correspondance
+            // si on trouve on cherche le message a envoyer
+            // on va creer un token valid 60 minutes ... ensuite byebye (peut-etre le rajputer comme parametres dans l'environement?)
+            // NWDError.NWDError_RescueRequest
+            // on envoie le message via le compte de sercours prévu (dans l'environement)
+
+            tFile.AppendLine("global $SQL_CON;");
+            tFile.AppendLine("global $ENV, $WSBUILD, $HTTP_URL;");
+            tFile.AppendLine("global $admin, $uuid;");
+            tFile.AppendLine("if (IPBanOk() == true)");
+            tFile.AppendLine("{");
+            tFile.Append("$tQuerySign = 'SELECT * ");
+            tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string(sha1($sEmail.'" + NWDAppEnvironment.SelectedEnvironment().SaltStart + "').'\\' ");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().AC) + "` = 1;");
+            tFile.AppendLine("';");
+            tFile.AppendLine("$tResultSign = $SQL_CON->query($tQuerySign);");
+            tFile.AppendLine("if (!$tResultSign)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuerySign"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("RESC", "RESC01", "Rescue error", "Invalid reqest.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResultSign->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("RESC", "RESC02", "Rescue error", "No match.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else if ($tResultSign->num_rows == 1)");
+            tFile.AppendLine("{");
+
+            tFile.Append("$tQueryError = 'SELECT * ");
+            tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDError>(sEnvironment) + "` ");
+            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Reference) + "` = \\''.$SQL_CON->real_escape_string('" + NWDError.NWDError_RescueRequest.Reference + ".'\\' ");
+            tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().AC) + "` = 1;");
+            tFile.AppendLine("';");
+            tFile.AppendLine("$tResultError = $SQL_CON->query($tQueryError);");
+            tFile.AppendLine("if (!$tResultError)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQueryError"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("RESC", "RESC03", "Rescue error", "Invalid message.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResultError->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("RESC", "RESC04", "Rescue error", "No message match.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else if ($tResultError->num_rows >= 1)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tSign = $tResultSign->fetch_assoc");
+            // create a temporal token with secret of actual hash
+            tFile.AppendLine("$tSh = sha1(saltTemporal(3600,0).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
+            tFile.AppendLine("$tUrl = $HTTP_URL.'/"+NWD.K_STATIC_RESCUE_PHP+"?"+NWD.K_WEB_RESCUE_EMAIL_Key+"='.$sEmail.'&"+NWD.K_WEB_RESCUE_LANGUAGE_Key+"='.$sLanguage.'&"+NWD.K_WEB_RESCUE_PROOF_Key+"='.$tSh.'';");
+
+            tFile.AppendLine("$tError = $tResultError->fetch_assoc");
+            tFile.AppendLine("$tSubject = str_replace(\"{APP}\",$NWD_APP_NAM,GetLocalizableString($tError['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Title) + "'], $sLanguage));");
+            tFile.AppendLine("$tMessage = str_replace(\"{APP}\",$NWD_APP_NAM,GetLocalizableString($tError['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Description) + "'], $sLanguage));");
+            tFile.AppendLine("$tMessage = str_replace(\"{URL}\",$tUrl,$tMessage);");
+
+            tFile.AppendLine("$tMessage = str_replace(\"{APP}\",$NWD_APP_NAM,GetLocalizableString($tError['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDError>().Description) + "'], $sLanguage));");
+            tFile.AppendLine("SendEmail($tSubject, $tMessage, $sEmail)");
+
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+
+            tFile.AppendLine("}");
+            tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
+            tFile.AppendLine("{");
+            tFile.AppendLine("// to much users ...");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKI : '.$sSDKI.' Too Mush Row"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.CreateGenericError("RESC", "RESC03", "Rescue error", "Too much match.", "OK", NWDErrorType.Alert)));
+            tFile.AppendLine("}");
+            tFile.AppendLine("mysqli_free_result($tResultSign);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
 
             tFile.AppendLine("function CreateAccountSign($sAccountReference, $sSDKt, $sSDKv, $sSDKr)");
             tFile.AppendLine("{");
@@ -111,7 +198,7 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("$rReturn = true;");
-            tFile.AppendLine(""+NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_FUNCTION_INTEGRITY_REEVALUATE()+"($tReference);");
+            tFile.AppendLine("" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tReference);");
             tFile.AppendLine("}");
             tFile.AppendLine("return $rReturn;");
             tFile.AppendLine("}");

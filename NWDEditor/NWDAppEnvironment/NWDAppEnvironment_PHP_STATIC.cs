@@ -518,6 +518,25 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            
+            tFile.AppendLine("function SendEmail($sSubject, $sMessage, $sEmail)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_DOMAIN, $SMTP_FROM, SMTP_REPLY, $SMTP_USER, $SMTP_PSW, $SMTP_AUT, $SMTP_STARTTLS, $SMTP_OPENSSL;");
+            
+            tFile.AppendLine("include('Mail.php');");
+            tFile.AppendLine("$headers['From'] = $SMTP_REPLY;");
+            tFile.AppendLine("$headers['To'] = $sEmail;");
+            tFile.AppendLine("$headers['Subject'] =$sSubject;");
+            tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
+            tFile.AppendLine("// Create the mail object using the Mail::factory method");
+            tFile.AppendLine("$mail_object = Mail::factory('smtp', array ('host' => $SMTP_HOST, ");
+            tFile.AppendLine("'auth' => true, ");
+            tFile.AppendLine("'username' => $SMTP_USER, ");
+            tFile.AppendLine("'password' => $SMTP_PSW));");
+            tFile.AppendLine("$mail_object->send($sEmail, $headers, $sMessage);");
+
+            tFile.AppendLine("}");
+
             //tFile.AppendLine("function versionTest($sVersion)");
             //tFile.AppendLine("{");
             //tFile.AppendLine("global "+NWD.K_ENV+";");

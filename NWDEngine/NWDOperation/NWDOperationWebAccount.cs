@@ -45,6 +45,8 @@ namespace NetWorkedData
         public string PasswordToken;
         public string SignHash;
         public string RescueHash;
+        public string RescueEmail;
+        public string RescueLanguage;
         public NWDAccountSignType SignType;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebAccount AddOperation(string sName,
@@ -174,6 +176,25 @@ namespace NetWorkedData
                 else
                 {
                     Data.Add(NWD.K_WEB_SIGN_Key, PasswordToken);
+                }
+            }
+            else if (Action == NWDOperationWebAccountAction.rescue)
+            {
+                if (Data.ContainsKey(NWD.K_WEB_RESCUE_EMAIL_Key))
+                {
+                    Data[NWD.K_WEB_RESCUE_EMAIL_Key] = RescueEmail;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_RESCUE_EMAIL_Key, RescueEmail);
+                }
+                if (Data.ContainsKey(NWD.K_WEB_RESCUE_LANGUAGE_Key))
+                {
+                    Data[NWD.K_WEB_RESCUE_LANGUAGE_Key] = RescueLanguage;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_RESCUE_LANGUAGE_Key, RescueLanguage);
                 }
             }
         }

@@ -43,6 +43,7 @@ namespace NetWorkedData
             return sNeedBeUpdate;
         }
         //-------------------------------------------------------------------------------------------------------------
+        string Login;
         string Email;
         string Password;
         string Social;
@@ -105,11 +106,22 @@ namespace NetWorkedData
                 }
                 NWDGUI.Separator(tMatrix[0, tI++]);
                 Email = EditorGUI.TextField(tMatrix[0, tI++], "Email", Email);
+                Login = EditorGUI.TextField(tMatrix[0, tI++], "Login", Email);
                 Password = EditorGUI.TextField(tMatrix[0, tI++], "Password", Password);
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password));
-                if (GUI.Button(tMatrix[0, tI++], "Associate login Password", NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrix[0, tI++], "Associate Email Password", NWDGUI.kMiniButtonStyle))
                 {
                     RegisterEmailPassword(Email, Password);
+                }
+                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Login));
+                if (GUI.Button(tMatrix[0, tI++], "Associate Login Password Email", NWDGUI.kMiniButtonStyle))
+                {
+                    CreateAndRegisterLoginPassword(Login, Email, Password);
+                }
+                EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email));
+                if (GUI.Button(tMatrix[0, tI++], "Rescue by Email", NWDGUI.kMiniButtonStyle))
+                {
+                     NWDDataManager.SharedInstance().AddWebRequestRescue(Email);
                 }
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.Separator(tMatrix[0, tI++]);

@@ -656,6 +656,15 @@ namespace NetWorkedData
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_RESCUE_KEY + "')");
             tFile.AppendLine("{");
 
+            tFile.AppendLine("if (paramValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_HEADER_LANG_KEY + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
+            tFile.AppendLine("RescueSign($rescueemail, $rescuelang);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+
 
             tFile.AppendLine("}");
             tFile.AppendLine("//---- SIGN UP ----");

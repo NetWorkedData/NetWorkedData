@@ -77,14 +77,18 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Server Action")]
         [NWDNotEditable]
         public NWDAccountSignAction SignStatus { get; set; }
-        [NWDNotEditable]
-        public string SignHashServer { get; set; }
-        [NWDNotEditable]
-        public string RescueHashServer { get; set; }
-        [NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Rescue")]
-        [NWDNotEditable]
-        public string RescuePinCode { get; set; } // to recreate the password and send by email the url send to user containt the email and the rescue pincode 
+
+
+        //[NWDNotEditable]// TODO Delete
+        //public string RescueHashServer { get; set; } // TODO Delete
+
+
+        //[NWDNotEditable]// TODO Delete
+        //public string SignHashServer { get; set; } // TODO Delete
+        //[NWDInspectorGroupEnd]
+        //[NWDInspectorGroupStart("Rescue")]// TODO Delete
+        //[NWDNotEditable]// TODO Delete
+        //public string RescuePinCode { get; set; } // TODO Delete
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

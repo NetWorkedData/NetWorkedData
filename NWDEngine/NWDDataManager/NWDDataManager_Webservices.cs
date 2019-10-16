@@ -122,7 +122,7 @@ namespace NetWorkedData
             return AddWebRequestSignOutWithBlock(null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestRescue(string sEmail, string sAppName, string sAppMail, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebAccount AddWebRequestRescue(string sEmail, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSignModify");
             return AddWebRequestRescueWithBlock(sEmail, null, null, null, null, sPriority, sEnvironment);
@@ -290,7 +290,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestRescueWithBlock  (
-                                                                    string sEmailToken,
+                                                                    string sEmail,
                                                                     NWEOperationBlock sSuccessBlock = null,
                                                                     NWEOperationBlock sErrorBlock = null,
                                                                     NWEOperationBlock sCancelBlock = null,
@@ -301,7 +301,8 @@ namespace NetWorkedData
             //Debug.Log ("AddWebRequestRescueWithBlock");
             NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = NWDOperationWebAccountAction.rescue;
-            sOperation.PasswordToken = sEmailToken;
+            sOperation.RescueEmail = sEmail;
+            sOperation.RescueLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
