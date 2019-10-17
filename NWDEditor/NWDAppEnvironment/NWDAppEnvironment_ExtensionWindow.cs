@@ -82,6 +82,9 @@ namespace NetWorkedData
 
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
             RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);
+            RescueDelay = EditorGUILayout.IntField("Rescue delay", RescueDelay);
+            RescueLoginLength = EditorGUILayout.IntField("Rescue Login length", RescueLoginLength);
+            RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
             NWDGUILayout.SubSection("Mail Params for " + Environment);
             
             MailBySMTP = EditorGUILayout.Toggle("Mail By SMTP", MailBySMTP);

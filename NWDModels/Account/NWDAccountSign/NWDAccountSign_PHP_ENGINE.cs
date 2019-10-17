@@ -77,9 +77,9 @@ namespace NetWorkedData
             tFile.AppendLine("{");
 
             tFile.AppendLine("$tSign = $tResultSign->fetch_assoc();");
-            tFile.AppendLine("$tShA = sha1(saltTemporal(3600,0).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
-            tFile.AppendLine("$tShB = sha1(saltTemporal(3600,1).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
-            tFile.AppendLine("$tShC = sha1(saltTemporal(3600,-1).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
+            tFile.AppendLine("$tShA = sha1(saltTemporal("+sEnvironment.RescueDelay+",0).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
+            tFile.AppendLine("$tShB = sha1(saltTemporal("+sEnvironment.RescueDelay+",1).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
+            tFile.AppendLine("$tShC = sha1(saltTemporal("+sEnvironment.RescueDelay+",-1).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
 
             tFile.AppendLine("if ($tShA == $sFyr || $tShB == $sFyr || $tShC == $sFyr)");
             tFile.AppendLine("{");
@@ -92,7 +92,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = false;");
             tFile.AppendLine("while($tResult == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tPassword = RandomString(32);");
+            tFile.AppendLine("$tPassword = RandomString("+sEnvironment.RescuePasswordLength+");");
             tFile.AppendLine("$tSignHash = sha1($sEmail.$tPassword.$NWD_SLT_END);");
             tFile.AppendLine("// test if hash exists");
             tFile.Append("$tQueryTest = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "` ");
@@ -145,8 +145,8 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = false;");
             tFile.AppendLine("while($tResult == false)");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tLogin = RandomString(16);");
-            tFile.AppendLine("$tPassword = RandomString(32);");
+            tFile.AppendLine("$tLogin = RandomString("+sEnvironment.RescueLoginLength+");");
+            tFile.AppendLine("$tPassword = RandomString("+sEnvironment.RescuePasswordLength+");");
             tFile.AppendLine("$tSignHash = sha1($tLogin.$tPassword.$NWD_SLT_END);");
             tFile.AppendLine("// test if hash exists");
             tFile.Append("$tQueryTest = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "` ");
@@ -280,7 +280,7 @@ namespace NetWorkedData
 
                             tFile.AppendLine("$tSign = $tResultSign->fetch_assoc();");
                             // create a temporal token with secret of actual hash
-                            tFile.AppendLine("$tSh = sha1(saltTemporal(3600,0).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
+                            tFile.AppendLine("$tSh = sha1(saltTemporal("+sEnvironment.RescueDelay+",0).$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Reference) + "'].$tSign['" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "']);");
                             tFile.AppendLine("$tUrl = $HTTP_URL.'/'.$ENV.'/" + NWD.K_STATIC_RESCUE_PHP + "?" + NWD.K_WEB_RESCUE_EMAIL_Key + "='.$sEmail.'&" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "='.$sLanguage.'&" + NWD.K_WEB_RESCUE_PROOF_Key + "='.$tSh.'';");
 
                             tFile.AppendLine("$tError = "+NWDError.FUNCTIONPHP_ERROR_SELECT + "('" + NWDError.NWDError_RescueRequest.Reference + "', $sLanguage);");

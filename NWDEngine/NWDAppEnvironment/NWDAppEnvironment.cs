@@ -70,6 +70,9 @@ namespace NetWorkedData
         public string MailFrom = string.Empty;
         public string MailReplyTo = string.Empty;
         public string RescueEmail = "no-reply@my-web-site.com";
+        public int RescueDelay = 3600;
+        public int RescueLoginLength = 12;
+        public int RescuePasswordLength = 24;
         public string ServerHost = "localhost";
         public string ServerUser = "user";
         public string ServerPassword = string.Empty;
