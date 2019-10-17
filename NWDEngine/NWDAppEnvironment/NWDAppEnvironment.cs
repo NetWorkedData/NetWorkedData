@@ -58,6 +58,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public NWDServerLanguage ServerLanguage = NWDServerLanguage.PHP;
         public string SaltServer = string.Empty;
+        public bool MailBySMTP = false;
         public string MailHost = string.Empty;
         public int MailPort = 465;
         public string MailUserName = string.Empty;

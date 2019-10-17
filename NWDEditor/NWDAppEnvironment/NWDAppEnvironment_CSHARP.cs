@@ -126,6 +126,7 @@ namespace NetWorkedData
             }
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueEmail) + " = \"" + RescueEmail.Replace("\"", "\\\"").Trim() + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.TokenHistoric) + " = " + TokenHistoric.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailBySMTP) + " = " + MailBySMTP.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailHost) + " =  \"" + MailHost.Trim() + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailPort) + " = " + MailPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailUserName) + " =  \"" + MailUserName.Trim() + "\";");

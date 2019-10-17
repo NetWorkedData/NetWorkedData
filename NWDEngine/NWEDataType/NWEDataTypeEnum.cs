@@ -174,6 +174,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static readonly Dictionary<long, K> kList = new Dictionary<long, K>();
+        static readonly Dictionary<string, K> kStringList = new Dictionary<string, K>();
         public static K None = Add(0, "None", "None", false);
         //-------------------------------------------------------------------------------------------------------------
         public NWEDataTypeEnumGeneric()
@@ -231,6 +232,11 @@ namespace NetWorkedData
             return kList[sID];
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static K GetForValue(string sName)
+        {
+            return kStringList[sName];
+        }
+        //-------------------------------------------------------------------------------------------------------------
         protected static K Add(int sID, string sName)
         {
             return Add(sID, sName, null, true);
@@ -258,8 +264,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         protected static K Add(int sID, string sName, string sRepresentation, bool sOverridable)
         {
-            K rReturn;
-            if (kList.ContainsKey(sID) == false)
+            K rReturn = None;
+            if (kList.ContainsKey(sID) == false && kStringList.ContainsKey(sName) == false )
             {
                 rReturn = Activator.CreateInstance(typeof(K)) as K;
                 rReturn.Value = sID;
@@ -267,14 +273,25 @@ namespace NetWorkedData
                 rReturn.Representation = sRepresentation;
                 rReturn.Overridable = sOverridable;
                 kList.Add(sID, rReturn);
+                kStringList.Add(sName, rReturn);
             }
             else
             {
-                rReturn = kList[sID];
-                if (rReturn.Overridable == true)
+                K rReturnA = kList[sID];
+                K rReturnB = kStringList[sName];
+                if (rReturnA.Overridable == true)
                 {
-                    rReturn.Name = sName;
-                    rReturn.Representation = sRepresentation;
+                    kList.Remove(rReturn.Value);
+                    kStringList.Remove(rReturn.Name);
+                }
+                if (rReturnB.Overridable == true)
+                {
+                    kList.Remove(rReturnB.Value);
+                    kStringList.Remove(rReturnB.Name);
+                }
+                if (rReturnA.Overridable == true && rReturnB.Overridable == true)
+                {
+                    Add(sID, sName, sRepresentation, sOverridable);
                 }
             }
             return rReturn as K;

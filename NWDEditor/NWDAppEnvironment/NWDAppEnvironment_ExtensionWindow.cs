@@ -83,6 +83,9 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
             RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);
             NWDGUILayout.SubSection("Mail Params for " + Environment);
+            
+            MailBySMTP = EditorGUILayout.Toggle("Mail By SMTP", MailBySMTP);
+            EditorGUI.BeginDisabledGroup(!MailBySMTP);
             MailHost = EditorGUILayout.TextField("Mail Host", MailHost);
             MailPort = EditorGUILayout.IntField("Mail Port", MailPort);
             MailDomain = EditorGUILayout.TextField("Mail Domain", MailDomain);
@@ -93,7 +96,7 @@ namespace NetWorkedData
             MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
             MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
             MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
-
+            EditorGUI.EndDisabledGroup();
             //NWDGUILayout.SubSection("Social Params for " + Environment);
             //FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
             //FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);

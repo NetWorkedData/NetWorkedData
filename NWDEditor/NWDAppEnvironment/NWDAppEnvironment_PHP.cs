@@ -36,7 +36,7 @@ namespace NetWorkedData
             tCountClass = tCountClass + sTypeList.Count * 2;
             if (sCreateAll == true)
             {
-                tCountClass = tCountClass + 25;
+                tCountClass = tCountClass + 26;
             }
             else
             {
@@ -75,6 +75,8 @@ namespace NetWorkedData
                 //CreatePHPAccountServicesFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Account file generate", tOperation++ / tCountClass);
                 CreatePHPAuthentificationFile(tFilesAndDatas, sWriteOnDisk);
+                EditorUtility.DisplayProgressBar(tTitle, "rescue file generate", tOperation++ / tCountClass);
+                CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Blank file generate", tOperation++ / tCountClass);
                 CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Index file generate", tOperation++ / tCountClass);
@@ -604,6 +606,64 @@ namespace NetWorkedData
         //    //NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(Headlines());
+            if (LogMode == true)
+            {
+                tFile.AppendLine("error_reporting (E_ALL);");
+                tFile.AppendLine("ini_set ('display_errors', 1);");
+            }
+            tFile.AppendLine("// RESCUE");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// Determine the file tree path");
+            tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// include all necessary files");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
+            tFile.AppendLine("$TIME_MICRO = microtime(true); // perhaps use in instance of $TIME_STAMP in sync ");
+            tFile.AppendLine("settype($TIME_MICRO, \"float\");");
+            tFile.AppendLine("" + NWD.K_PHP_TIME_SYNC + " = intval($TIME_MICRO);");
+            tFile.AppendLine("settype(" + NWD.K_PHP_TIME_SYNC + ", \"integer\");");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// use functions library");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// connect MYSQL");
+            tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT,$SQL_USR,$SQL_PSW, $SQL_BSE);");
+            tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("echo('internal error');");
+            tFile.AppendLine("exit;");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDError>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDError>().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            tFile.AppendLine("if (getValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (getValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (getValue('fyr', '" + NWD.K_WEB_RESCUE_PROOF_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
+            tFile.AppendLine("RescueSignProceed($rescueemail, $rescuelang, $fyr);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_RESCUE_PHP, tFileFormatted);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPAuthentificationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
@@ -658,7 +718,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("if (paramValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_HEADER_LANG_KEY + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
             tFile.AppendLine("RescueSign($rescueemail, $rescuelang);");

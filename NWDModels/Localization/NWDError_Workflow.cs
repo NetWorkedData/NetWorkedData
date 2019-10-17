@@ -229,6 +229,8 @@ namespace NetWorkedData
                 NWDError.NWDError_IPB01 = NWDError.CreateGenericError("IPBan", "IPB01", "IP Ban error", "IP is banned", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_RescueRequest = NWDError.CreateGenericError("RESC", "RescueRequest", "{APP} Rescue request", "{APP} rescue instruction : click here for rescue {URL} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_RescuePage = NWDError.CreateGenericError("RESC", "NWDError_RescuePage", "{APP} Rescue request", "{APP} rescue an email with new credential was send!", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_RescuePageError = NWDError.CreateGenericError("RESC", "NWDError_RescuePageError", "{APP} Rescue request", "{APP} rescue error!", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RescueAnswerLogin = NWDError.CreateGenericError("RESC", "RescueAnswerLogin", "{APP} Rescue Answer Login", "{APP} rescue informations new login is : {LOGIN} new password is : {PASSWORD}", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RescueAnswerEmail = NWDError.CreateGenericError("RESC", "RescueAnswerEmail", "{APP} Rescue Answer Email", "{APP} rescue informations new password is : {PASSWORD} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             }

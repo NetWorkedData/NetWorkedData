@@ -471,7 +471,7 @@ namespace NetWorkedData
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                     }
                 }
-                
+
                 if (ResultInfos.isError)
                 {
                     // Notification of a Download success
@@ -480,7 +480,10 @@ namespace NetWorkedData
                     {
                         if (ResultInfos.errorInfos != null)
                         {
-                            ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
+                            if (ResultInfos.errorDesc != null)
+                            {
+                                ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
+                            }
                         }
                     }
                     // Notification of a Download success
