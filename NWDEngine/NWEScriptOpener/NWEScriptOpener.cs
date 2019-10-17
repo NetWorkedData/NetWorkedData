@@ -16,6 +16,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWEScriptOpener OpenScript to edit " + tType.Name);
             string[] assetPaths = AssetDatabase.GetAllAssetPaths();
+            string assetPathFinal = null;
             foreach (string assetPath in assetPaths)
             {
                 if (assetPath.Contains(tType.Name)) // or .js if you want
@@ -26,11 +27,30 @@ namespace NetWorkedData
                     //Debug.Log("filename extension = " + tExtension);
                     if (tExtension == ".cs")
                     {
-                        AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath(assetPath));
+                        if (tFileName == tType.Name + ".cs")
+                        {
+                            assetPathFinal = assetPath;
+                            break;
+                        }
+                        else if (tFileName == tType.Name + "_Workflow.cs")
+                        {
+                            assetPathFinal = assetPath;
+                        }
+                        else
+                        {
+                            // do nothing
+                        }
                     }
                 }
             }
 
+            if (string.IsNullOrEmpty(assetPathFinal)==false)
+            {
+                UnityEngine.Object tFile = AssetDatabase.LoadMainAssetAtPath(assetPathFinal);
+                AssetDatabase.OpenAsset(tFile);
+                EditorGUIUtility.PingObject(tFile);
+                Selection.activeGameObject = tFile as GameObject;
+            }
             //UnityEditorInternal.ScriptEditorUtility.
         }
         //-------------------------------------------------------------------------------------------------------------
