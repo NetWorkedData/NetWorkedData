@@ -277,22 +277,33 @@ namespace NetWorkedData
             }
             else
             {
-                K rReturnA = kList[sID];
-                K rReturnB = kStringList[sName];
-                if (rReturnA.Overridable == true)
-                {
-                    kList.Remove(rReturn.Value);
-                    kStringList.Remove(rReturn.Name);
-                }
-                if (rReturnB.Overridable == true)
-                {
-                    kList.Remove(rReturnB.Value);
-                    kStringList.Remove(rReturnB.Name);
-                }
-                if (rReturnA.Overridable == true && rReturnB.Overridable == true)
-                {
-                    Add(sID, sName, sRepresentation, sOverridable);
-                }
+                K rReturnA = null;
+                K rReturnB = null;
+                if (kList.ContainsKey(sID))
+                    {
+                        rReturnA = kList[sID];
+                        if (rReturnA.Overridable == true)
+                        {
+                            kList.Remove(rReturn.Value);
+                            kStringList.Remove(rReturn.Name);
+                        }
+                    }
+                if (kStringList.ContainsKey(sName))
+                    {
+                        rReturnB = kStringList[sName];
+                        if (rReturnB.Overridable == true)
+                        {
+                            kList.Remove(rReturnB.Value);
+                            kStringList.Remove(rReturnB.Name);
+                        }
+                    }
+                if (rReturnA!=null && rReturnB!=null)
+                    {
+                        if (rReturnA.Overridable == true && rReturnB.Overridable == true)
+                            {
+                                Add(sID, sName, sRepresentation, sOverridable);
+                            }
+                    }
             }
             return rReturn as K;
         }
