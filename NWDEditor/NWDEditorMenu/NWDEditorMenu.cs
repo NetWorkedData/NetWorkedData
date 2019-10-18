@@ -129,7 +129,7 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_MODEL_MANAGER, false, 61)]
+        [MenuItem(NWDConstants.K_MENU_MODEL_MANAGER, false, 63)]
         public static void ModelManagerWindowShow()
         {
             NWDModelManager.SharedInstanceFocus();
@@ -147,7 +147,7 @@ namespace NetWorkedData
         /// <summary>
         /// TheNWD app configuration window.
         /// </summary>
-        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT, false, 63)]
+        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT, false, 64)]
         public static void EnvironementChooserShow()
         {
             NWDAppEnvironmentChooser.SharedInstanceFocus();
@@ -156,7 +156,7 @@ namespace NetWorkedData
         /// <summary>
         /// TheNWD app configuration window.
         /// </summary>
-        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 64)]
+        [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 65)]
         public static void EnvironementSyncShow()
         {
             NWDAppEnvironmentSync.SharedInstanceFocus();

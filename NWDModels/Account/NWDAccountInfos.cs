@@ -38,6 +38,10 @@ namespace NetWorkedData
         public NWDReferenceFreeType<NWDGameSave> CurrentGameSave { get; set; }
         [NWDInspectorGroupEnd]
 
+        [NWDInspectorGroupStart("Host")]
+        public NWDReferenceType<NWDServerDNS> Server { get; set; }
+        [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Stat")]
         public NWDDateTimeType LastSignIn { get; set; }
         public NWDDateTimeType LastAppOpen { get; set; }

@@ -115,6 +115,28 @@ namespace NetWorkedData
         public NWDWritingMode WritingModeWebService = NWDWritingMode.QueuedMainThread;
         public NWDWritingMode WritingModeEditor = NWDWritingMode.QueuedMainThread;
         //-------------------------------------------------------------------------------------------------------------
+        public string GetServerHTTPS()
+        {
+            string rReturn = ServerHTTPS;
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            if (tAccountInfos.Server != null)
+            {
+                NWDServerDNS tServer = tAccountInfos.Server.GetReachableData();
+                if (tServer != null)
+                {
+                    rReturn = tServer.ServerHTTPS;
+                }
+            }
+            rReturn = NWDToolbox.CleanDNS(rReturn);
+            return "https://"+rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetConfigurationServerHTTPS()
+        {
+            string rReturn = NWDToolbox.CleanDNS(ServerHTTPS);
+            return "https://" + rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region constructor
         //-------------------------------------------------------------------------------------------------------------

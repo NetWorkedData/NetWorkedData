@@ -17,39 +17,48 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassSpecialAccountOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(false)]
-    [NWDClassTrigrammeAttribute("ACC")]
-    [NWDClassDescriptionAttribute("Account descriptions Class")]
-    [NWDClassMenuNameAttribute("Account")]
-    public partial class NWDAccount : NWDBasis
+    public partial class NWDServerDNS : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_LOGIN_INDEX = "LoginIndex";
-        const string K_SECRET_INDEX = "SecretIndex";
-        const string K_SOCIAL_INDEX = "SecretIndex";
+        public NWDServerDNS()
+        {
+            //Debug.Log("NWDServerConfig Constructor");
+        }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(K_LOGIN_INDEX, "AC")]
-        [NWDAddIndexed(K_SECRET_INDEX, "AC")]
-        [NWDAddIndexed(K_SOCIAL_INDEX, "AC")]
+        public NWDServerDNS(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(NWD.K_BASIS_INDEX, "AC")]
-        [NWDAddIndexed(NWD.K_BASIS_INDEX, "Reference")]
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
+            base.Initialization();
+            BalanceLoad = 90;
+            InternalKey = "Unused server";
+        }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Account statut")]
-        [NWDTooltips("The statut of this account in process of test (normal and default are 'InGame')")]
-        [NWDCertified]
-        public NWDAccountEnvironment UseInEnvironment { get; set; }
-        [NWDInspectorGroupEnd]
-
-        [NWDInspectorGroupStart("Account ban")]
-        /// <summary>
-        /// Gets or sets a value indicating whether this account <see cref="NWDEditor.NWDAccount"/> is banned.
-        /// </summary>
-        /// <value><c>true</c> if ban; otherwise, <c>false</c>.</value>
-        [NWDTooltips("If account is banned set the unix timestamp of ban's date")]
-        [NWDCertified]
-        public int Ban { get; set; }
+        public override void AddonUpdateMe()
+        {
+            base.AddonUpdateMe();
+            InternalKey = "Unused server";
+            if (string.IsNullOrEmpty(ServerHTTPS) == false)
+            {
+                InternalKey = ServerHTTPS;
+            }
+            InternalDescription = "";
+            if (string.IsNullOrEmpty(Name) == false)
+            {
+                InternalDescription = Name;
+            }
+            ServerHTTPS = NWDToolbox.TextProtect(NWDToolbox.CleanDNS(NWDToolbox.TextUnprotect(ServerHTTPS)));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static void ResetServerHTTPS(NWDAppEnvironment sEnvironment)
+        {
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            tAccountInfos.Server.SetData(null); ;
+            tAccountInfos.UpdateDataIfModified();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

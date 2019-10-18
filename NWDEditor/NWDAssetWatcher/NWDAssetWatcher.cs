@@ -12,6 +12,7 @@
 //=====================================================================================================================
 
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -19,10 +20,10 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[InitializeOnLoad]
-	public class NWDAssetWatcher : UnityEditor.AssetModificationProcessor
-	{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [InitializeOnLoad]
+    public class NWDAssetWatcher : UnityEditor.AssetModificationProcessor
+    {
         //-------------------------------------------------------------------------------------------------------------
         static List<string> kExtensionsWatchedList = new List<string>() {
             ".prefab",
@@ -36,47 +37,84 @@ namespace NetWorkedData
             ".aiff",
             ".aif",
             ".jpeg",
-            "", // for folder change
-		};
-		//-------------------------------------------------------------------------------------------------------------
-		static NWDAssetWatcher ()
-		{
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static AssetMoveResult OnWillMoveAsset (string sOldPath, string sNewPath)
+        };
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDAssetWatcher()
         {
-            //NWEBenchmark.Start();
-            AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
-            if (sOldPath.Contains(NWD.K_Resources))
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static bool ContaintsResource(string sOldPath)
+        {
+            bool tMove = false;
+            if (AssetDatabase.IsValidFolder(sOldPath))
+            {
+                // ok is a folder
+                if (sOldPath.Contains(NWD.K_Resources))
+                {
+                    tMove = true;
+                }
+                else
+                {
+                    foreach (string tFile in Directory.GetFiles(sOldPath))
+                    {
+                        string tExtension = Path.GetExtension(tFile);
+                        if (kExtensionsWatchedList.Contains(tExtension.ToLower()))
+                        {
+                            tMove = true;
+                            break;
+                        }
+                    }
+                    if (tMove == false)
+                    {
+                        foreach (string tFolder in Directory.GetDirectories(sOldPath))
+                        {
+                            if (ContaintsResource(tFolder))
+                            {
+                                tMove = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
             {
                 string tExtension = Path.GetExtension(sOldPath);
                 if (kExtensionsWatchedList.Contains(tExtension.ToLower()))
                 {
-                    NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
+                    tMove = true;
                 }
             }
-            //NWEBenchmark.Finish();
+            return tMove;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static AssetMoveResult OnWillMoveAsset(string sOldPath, string sNewPath)
+        {
+            NWEBenchmark.Start();
+            AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
+            if (ContaintsResource(sOldPath) == true)
+            {
+                NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
+            }
+            NWEBenchmark.Finish();
             return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions sUnused)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static AssetDeleteResult OnWillDeleteAsset(string sOldPath, RemoveAssetOptions sUnused)
         {
             //NWEBenchmark.Start();
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
-            if (sOldPath.Contains(NWD.K_Resources))
+            if (ContaintsResource(sOldPath) == true)
             {
-                string tExtension = Path.GetExtension(sOldPath);
-                if (kExtensionsWatchedList.Contains(tExtension.ToLower()))
-                {
-                    NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, "");
-                }
+                NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, string.Empty);
             }
             //NWEBenchmark.Finish();
             return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

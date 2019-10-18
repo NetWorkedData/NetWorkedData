@@ -79,6 +79,7 @@ namespace NetWorkedData
             SFTPFolder = EditorGUILayout.TextField("SFTP Folder", SFTPFolder);
             SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
             SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
+            SFTPBalanceLoad = EditorGUILayout.IntField("BalanceLoad", SFTPBalanceLoad);
 
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
             RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);

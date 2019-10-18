@@ -108,6 +108,14 @@ namespace NetWorkedData
             return NWD.K_AUTHENTIFICATION_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override string ServerBase()
+        {
+            //Debug.Log("NWDOperationWebUnity ServerBase()");
+            // use exceptionaly the default server
+            string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            return Environment.GetConfigurationServerHTTPS() + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override bool CanRestart()
         {
             return false;

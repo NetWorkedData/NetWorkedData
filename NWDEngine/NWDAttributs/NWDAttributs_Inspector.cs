@@ -491,6 +491,14 @@ namespace NetWorkedData
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDIf(string sPropertyName, string sValue, bool sVisible = true, NWDIfType sIfType = NWDIfType.Equal)
+        {
+            this.mPropertyName = sPropertyName;
+            this.mValues = new string[] { sValue.ToString() };
+            this.TypeOfCompare = NWDIfType.Equal;
+            this.mVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]

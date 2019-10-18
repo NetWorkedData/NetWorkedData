@@ -25,184 +25,60 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
-        //-------------------------------------------------------------------------------------------------------------
-        SftpClient SftpConnexion;
         public string SFTPHost = string.Empty;
         public int SFTPPort = 22;
         public string SFTPFolder = string.Empty;
         public string SFTPUser = string.Empty;
         public string SFTPPassword = string.Empty;
-        //-------------------------------------------------------------------------------------------------------------
-        public void ConnectSFTP()
-        {
-            //NWEBenchmark.Start();
-            if (SftpConnexion == null)
-            {
-                SftpConnexion = new SftpClient(SFTPHost, SFTPPort, SFTPUser, SFTPPassword);
-                SftpConnexion.Connect();
-                if (SftpConnexion.IsConnected)
-                {
-                    SftpConnexion.BufferSize = 4 * 1024; // bypass Payload error large files
-                }
-            }
-            //NWEBenchmark.Finish();
-        }
+        public int SFTPBalanceLoad = 50;
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
-            //NWEBenchmark.Start();
-            SetHTACCESS(sMaintenance, false);
-            //NWEBenchmark.Finish();
+            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            {
+                tConn.SetMaintenance(this, sMaintenance);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetObsolete(bool sObsolete)
         {
-            //NWEBenchmark.Start();
-            SetHTACCESS(false, sObsolete);
-            //NWEBenchmark.Finish();
+            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            {
+                tConn.SetObsolete(this, sObsolete);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetActivate()
         {
-            //NWEBenchmark.Start();
-            SetHTACCESS(false, false);
-            //NWEBenchmark.Finish();
+            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            {
+                tConn.SetActivate(this);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetHTACCESS(bool sMaintenance, bool sObsolete)
+        public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles)
         {
-            //NWEBenchmark.Start();
-            // connect SFTP
-            ConnectSFTP();
-            // prepare the destination
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string tDestinationFolder = tWebServiceFolder + "/" + Environment + "/";
-            string tDestination = SFTPFolder + tDestinationFolder + NWD.K_HTACCESS;
-            // delete existing file 
-            if (SftpConnexion.Exists(tDestination))
+            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
             {
-                SftpConnexion.DeleteFile(tDestination);
+                tConn.SendFiles(this, sAlternate, sFolder, sWSFiles);
             }
-            // rewrite one of new htaccess or nothing
-            if (sMaintenance)
-            {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_MAINTENANCE_PHP + "");
-                SftpConnexion.WriteAllBytes(tDestination, tBytes);
-            }
-            else if (sObsolete)
-            {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_OBSOLETE_PHP + "");
-                SftpConnexion.WriteAllBytes(tDestination, tBytes);
-            }
-            //SFTPHost will close
-            DeconnectSFTP();
-            //NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles, bool sAutoDeconnect = true)
-        {
-            //NWEBenchmark.Start();
-            ConnectSFTP();
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string tDestinationFolder = tWebServiceFolder + "/" + sFolder;
-            string[] tFolders = tDestinationFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-            string tAssfolder = string.Empty;
-            foreach (string tT in tFolders)
-            {
-                tAssfolder = tAssfolder + tT;
-                Debug.Log(SFTPFolder + "" + tAssfolder);
-                if (!SftpConnexion.Exists(SFTPFolder + tAssfolder))
-                {
-                    SftpConnexion.CreateDirectory(SFTPFolder + tAssfolder);
-                }
-                tAssfolder = tAssfolder + "/";
-            }
-            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sAlternate + "/";
-            string tUploadFile = (Application.dataPath + "..." + tServerRootFolder).Replace("Assets...Assets", "Assets");
-            foreach (string sWSFile in sWSFiles)
-            {
-                string tUploadFilePath = tUploadFile + sFolder + sWSFile;
-                string tDestination = SFTPFolder + tDestinationFolder + sWSFile;
-                if (SftpConnexion.Exists(tDestination))
-                {
-                    SftpConnexion.DeleteFile(tDestination);
-                }
-                string tText = File.ReadAllText(tUploadFilePath);
-                byte[] tBytes = Encoding.UTF8.GetBytes(tText);
-                SftpConnexion.WriteAllBytes(tDestination, tBytes);
-            }
-            if (sAutoDeconnect == true)
-            {
-                DeconnectSFTP();
-            }
-            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFile(string sAlternate, string sFolder, string sWSFile, bool sAutoDeconnect = true)
         {
-            //NWEBenchmark.Start();
-            SendFiles(sAlternate, sFolder, new string[] { sWSFile }, sAutoDeconnect);
-            //NWEBenchmark.Finish();
+            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            {
+                tConn.SendFiles(this, sAlternate, sFolder, new string[] { sWSFile });
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false, bool sAutoDeconnect = true)
+        public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false)
         {
-            //NWEBenchmark.Start();
-            ConnectSFTP();
-            foreach (string tFolder in sFolders)
+            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
             {
-                if (string.IsNullOrEmpty(tFolder) == false)
-                {
-                    if (sFolderRecurssive == true)
-                    {
-                        string[] tFolders = tFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                        string tAssfolder = string.Empty;
-                        foreach (string tT in tFolders)
-                        {
-                            tAssfolder = tAssfolder + tT;
-                            if (!SftpConnexion.Exists(SFTPFolder + tAssfolder))
-                            {
-                                SftpConnexion.CreateDirectory(SFTPFolder + tAssfolder);
-                            }
-                            tAssfolder = tAssfolder + "/";
-                        }
-                    }
-                    else
-                    {
-                        if (!SftpConnexion.Exists(SFTPFolder + tFolder))
-                        {
-                            SftpConnexion.CreateDirectory(SFTPFolder + tFolder);
-                        }
-                    }
-                }
+                Debug.Log("tConn : " + tConn.Host + " " + tConn.Folder);
+                tConn.SendFolderAndFiles(sFolders, sFilesAndDatas, sFolderRecurssive);
             }
-            foreach (KeyValuePair<string, string> tFileAndData in sFilesAndDatas)
-            {
-                if (SftpConnexion.Exists(SFTPFolder + tFileAndData.Key))
-                {
-                    SftpConnexion.DeleteFile(SFTPFolder + tFileAndData.Key);
-                }
-                byte[] tBytes = Encoding.UTF8.GetBytes(tFileAndData.Value);
-                SftpConnexion.WriteAllBytes(SFTPFolder + tFileAndData.Key, tBytes);
-            }
-            if (sAutoDeconnect == true)
-            {
-                DeconnectSFTP();
-            }
-            //NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void DeconnectSFTP()
-        {
-            //NWEBenchmark.Start();
-            if (SftpConnexion == null)
-            {
-                SftpConnexion.Disconnect();
-                SftpConnexion.Dispose();
-            }
-            SftpConnexion = null;
-            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

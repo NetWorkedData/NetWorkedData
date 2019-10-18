@@ -75,7 +75,7 @@ namespace NetWorkedData
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             //URL = tEnvironment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + tEnvironment.Environment + "/index.php";
-            URL = tEnvironment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/index.php";
+            URL = tEnvironment.GetServerHTTPS() + "/" + tFolderWebService + "/index.php";
             AddressPing = tEnvironment.AddressPing;
             if (string.IsNullOrEmpty(URL))
             {

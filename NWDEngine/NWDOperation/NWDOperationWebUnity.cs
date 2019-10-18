@@ -141,7 +141,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebUnity ServerBase()");
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
+            return Environment.GetServerHTTPS() + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool CanRestart()

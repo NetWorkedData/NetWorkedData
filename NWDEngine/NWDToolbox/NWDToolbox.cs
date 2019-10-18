@@ -40,7 +40,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region class method
         //-------------------------------------------------------------------------------------------------------------
-        public static void EditorAndPlaying(string sWhere = "")
+        public static string CleanDNS(string sServerDNS)
+        {
+            string rServerHTTPS = sServerDNS.TrimEnd('/');
+            if (rServerHTTPS.StartsWith("https://", StringComparison.Ordinal))
+            {
+                rServerHTTPS = rServerHTTPS.Substring("https://".Length);
+            }
+            if (rServerHTTPS.StartsWith("http://", StringComparison.Ordinal))
+            {
+                rServerHTTPS = rServerHTTPS.Substring("http://".Length);
+            }
+            if (rServerHTTPS.StartsWith("http://", StringComparison.Ordinal))
+            {
+                rServerHTTPS = rServerHTTPS.Substring("http://".Length);
+            }
+            return rServerHTTPS;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+            public static void EditorAndPlaying(string sWhere = "")
         {
 
 #if UNITY_EDITOR

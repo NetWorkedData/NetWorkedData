@@ -26,19 +26,35 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataManager
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public void ChangeAssetPath (string sOldPath, string sNewPath)
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        private void LoadAllDatas()
+        {
+            foreach (Type tType in mTypeLoadedList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper.kAssetDependent == true)
+                {
+                    if (tHelper.DatasAreLoaded() == false)
+                    {
+                        tHelper.LoadFromDatabase();
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ChangeAssetPath (string sOldPath, string sNewPath)
         {
             //NWEBenchmark.Start();
             string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
-			float tCountClass = mTypeList.Count + 1;
+			float tCountClass = mTypeList.Count + 2;
 			float tOperation = 1;
-			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation/tCountClass);
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Load all datas", tOperation++ / tCountClass);
+            LoadAllDatas();
+			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation++/tCountClass);
 			foreach( Type tType in mTypeList)
 			{
-                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
-				tOperation++;
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation++/tCountClass);
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.ChangeAssetPath(sOldPath,sNewPath);
 			}

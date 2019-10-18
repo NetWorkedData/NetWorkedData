@@ -2,7 +2,7 @@
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:29:32
+//  Date		2019-4-12 18:29:11
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -12,18 +12,6 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
-using SQLite.Attribute;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -31,30 +19,23 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassSpecialAccountOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
-    [NWDClassTrigrammeAttribute("RQT")]
-    [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
-    [NWDClassMenuNameAttribute("RequestToken")]
-    public partial class NWDRequestToken : NWDBasis
+    [NWDClassTrigrammeAttribute("SSS")]
+    [NWDClassDescriptionAttribute("Server SFTP descriptions Class")]
+    [NWDClassMenuNameAttribute("Server SFTP")]
+    public partial class NWDServerSFTP : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_TOKEN_INDEX = "TokenIndex";
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(K_TOKEN_INDEX,"AC")]
-        [NWDAddIndexed(K_TOKEN_INDEX, "DM")]
-        [NWDAddIndexed(K_TOKEN_INDEX, "DD")]
-        //-------------------------------------------------------------------------------------------------------------
-        [Indexed(K_TOKEN_INDEX, 0)]
-        [NWDCertified]
-        public NWDReferenceType<NWDAccount> UUIDHash
-        {
-            get; set;
-        }
-        [Indexed(K_TOKEN_INDEX, 1)]
-        [NWDCertified]
-        public string Token
-        {
-            get; set;
-        }
+        [NWDInspectorGroupStart("Account Administrator")]
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Server DNS")]
+        public NWDReferenceType<NWDServerDNS> Server { get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Authentification SFTP")]
+        public int Port { get; set; }
+        public string Folder { get; set; }
+        public string User { get; set; }
+        public string Password { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

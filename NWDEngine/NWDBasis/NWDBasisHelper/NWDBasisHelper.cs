@@ -356,7 +356,9 @@ namespace NetWorkedData
                 tTypeInfos.ClassGameDependentProperties = null;
                 tTypeInfos.GameSaveMethod = null;
                 // exception for NWDAccount table
-                if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken))
+                //if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken) || sType == typeof(NWDServerSFTP))
+                NWDClassSpecialAccountOnlyAttribute tServerOnlyAttribut = (NWDClassSpecialAccountOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassSpecialAccountOnlyAttribute), true);
+                if (tServerOnlyAttribut!=null)
                 {
                     rAccountConnected = true;
                 }

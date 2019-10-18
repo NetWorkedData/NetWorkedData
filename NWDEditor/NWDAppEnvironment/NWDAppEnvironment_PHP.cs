@@ -31,127 +31,64 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
-            float tCountClass = 4;
-            float tOperation = 0;
-            tCountClass = tCountClass + sTypeList.Count * 2;
-            if (sCreateAll == true)
-            {
-                tCountClass = tCountClass + 26;
-            }
-            else
-            {
-                tCountClass = tCountClass + 5;
-            }
-            if (sWriteOnDisk == false)
-            {
-                tCountClass = tCountClass + 1;
-            }
-            else
-            {
-                tCountClass = tCountClass + 3;
-            }
-            string tTitle = Environment + " PHP Creation";
-            EditorUtility.DisplayProgressBar(tTitle, "Start", tOperation++ / tCountClass);
-            if (sWriteOnDisk == false)
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Connect SFTP", tOperation++ / tCountClass);
-                ConnectSFTP();
-            }
-            EditorUtility.DisplayProgressBar(tTitle, "Management file generate", tOperation++ / tCountClass);
             CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
-            EditorUtility.DisplayProgressBar(tTitle, "Webservices file generate", tOperation++ / tCountClass);
             CreatePHPWebservicesFile(tFilesAndDatas, sWriteOnDisk);
-            EditorUtility.DisplayProgressBar(tTitle, "Webservices inside file generate", tOperation++ / tCountClass);
             //CreatePHPWebservicesInsideFile(tFilesAndDatas, sWriteOnDisk);
-            EditorUtility.DisplayProgressBar(tTitle, "Webservices addon file generate", tOperation++ / tCountClass);
             //CreatePHPWebservicesAddonFile(tFilesAndDatas, sWriteOnDisk);
             if (sCreateAll == true)
             {
-                EditorUtility.DisplayProgressBar(tTitle, "Error generate", tOperation++ / tCountClass);
                 CreatePHPErrorGenerate();
-                EditorUtility.DisplayProgressBar(tTitle, "Constant file generate", tOperation++ / tCountClass);
                 CreatePHPConstantsFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Account services file generate", tOperation++ / tCountClass);
                 //CreatePHPAccountServicesFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Account file generate", tOperation++ / tCountClass);
                 CreatePHPAuthentificationFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "rescue file generate", tOperation++ / tCountClass);
                 CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Blank file generate", tOperation++ / tCountClass);
                 CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Index file generate", tOperation++ / tCountClass);
                 CreatePHPIndexFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Rescue file generate", tOperation++ / tCountClass);
                 //CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "htaccess file generate", tOperation++ / tCountClass);
                 CreatePHPDotHTAccessFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Maintenance file generate", tOperation++ / tCountClass);
                 CreatePHPMaintenanceFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Obsolete file generate", tOperation++ / tCountClass);
                 CreatePHPObsoleteFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static account file generate", tOperation++ / tCountClass);
                 //CreatePHP_StaticAccountFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Error file generate", tOperation++ / tCountClass);
                 //CreatePHP_StaticErrorFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Finish file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Functions file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Request file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static RequestToken file generate", tOperation++ / tCountClass);
                 //CreatePHP_StaticRequestTokenFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Rescue file generate", tOperation++ / tCountClass);
                 //CreatePHP_StaticRescueFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Respond file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRespondFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Start file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Values file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
             }
-            if (sWriteOnDisk == true)
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Writing files on disk", tOperation++ / tCountClass);
-                WriteFolderAndFiles(tFolders, tFilesAndDatas);
-            }
-            else
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Send files on server", tOperation++ / tCountClass);
-                SendFolderAndFiles(tFolders, tFilesAndDatas, false, false);
-            }
-            EditorUtility.DisplayProgressBar(tTitle, "Generate class models", tOperation++ / tCountClass);
-            // generate models' files
+            //if (sWriteOnDisk == true)
+            //{
+            //    WriteFolderAndFiles(tFolders, tFilesAndDatas);
+            //}
+            //else
+            //{
+            //    SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+            //}
+            //// generate models' files
+            //tFolders.Clear();
+            //tFilesAndDatas.Clear();
             foreach (Type tType in sTypeList)
             {
-                tFolders.Clear();
-                tFilesAndDatas.Clear();
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
-                EditorUtility.DisplayProgressBar(tTitle, "Create " + tType.Name + " files", tOperation++ / tCountClass);
 
                 Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
                 foreach (KeyValuePair<string, string> tKeyValue in tResult)
                 {
                     tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
                 }
-                if (sWriteOnDisk == true)
-                {
-                    EditorUtility.DisplayProgressBar(tTitle, "Writing " + tType.Name + " files on disk", tOperation++ / tCountClass);
-                    WriteFolderAndFiles(tFolders, tFilesAndDatas);
-                }
-                else
-                {
-                    EditorUtility.DisplayProgressBar(tTitle, "Send " + tType.Name + " files on server", tOperation++ / tCountClass);
-                    SendFolderAndFiles(tFolders, tFilesAndDatas, false, false);
-                }
             }
-            if (sWriteOnDisk == false)
+            if (sWriteOnDisk == true)
             {
-                EditorUtility.DisplayProgressBar(tTitle, "Close SFTP", tOperation++ / tCountClass);
-                DeconnectSFTP();
+                WriteFolderAndFiles(tFolders, tFilesAndDatas);
             }
-            EditorUtility.ClearProgressBar();
+            else
+            {
+                SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+            }
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -268,7 +205,7 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("// CONSTANT FOR WEB");
             tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
             tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");
-            tConstantsFile.AppendLine("$HTTP_URL = '" + ServerHTTPS.TrimEnd('/') + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
+            tConstantsFile.AppendLine("$HTTP_URL = 'https://" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
             tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR SHA512");
