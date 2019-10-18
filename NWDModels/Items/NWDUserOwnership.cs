@@ -11,12 +11,9 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-//using BasicToolBox;
 using SQLite.Attribute;
 
 #if UNITY_EDITOR

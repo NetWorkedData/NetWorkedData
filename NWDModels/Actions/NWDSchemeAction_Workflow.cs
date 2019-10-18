@@ -11,11 +11,8 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using UnityEngine;
-//using BasicToolBox;
 using ZXing;
 using ZXing.QrCode;
 using UnityEngine.Networking;
