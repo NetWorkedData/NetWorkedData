@@ -35,7 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static NWDAccountInfos ActiveAccount => CheckAccount();
         //-------------------------------------------------------------------------------------------------------------
-        public static void LoadBalacing(float sAvg)
+        public static void LoadBalacing(int sAvg)
         {
             bool tChangeServer = true;
             NWDAccountInfos rAccountInfos = CurrentData();
@@ -47,7 +47,7 @@ namespace NetWorkedData
                     tServer = rAccountInfos.Server.GetReachableData();
                     if (tServer != null)
                     {
-                        if (tServer.BalanceLoad < sAvg * 100.0F)
+                        if (tServer.BalanceLoad < sAvg)
                         {
                             tChangeServer = false;
                         }

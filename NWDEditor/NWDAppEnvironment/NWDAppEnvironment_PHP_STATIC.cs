@@ -425,7 +425,7 @@ namespace NetWorkedData
             tFile.AppendLine("" + NWDError.FUNCTIONPHP_errorResult + "();");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// server benchmark");
-            tFile.AppendLine("respondAdd('" + NWD.K_JSON_AVG_KEY + "', sys_getloadavg()); ");
+            tFile.AppendLine("respondAdd('" + NWD.K_JSON_AVG_KEY + "', intval(sys_getloadavg()[0]*100); ");
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_KEY + "',microtime(true)-$NWD_TMA);");
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_REQUEST_KEY + "',microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']);");
             tFile.AppendLine(NWD.K_CommentSeparator);

@@ -29,6 +29,7 @@ namespace NetWorkedData
         public string Name { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Environment Actif")]
+        [NWDIntSlider(0,100)]
         public int BalanceLoad { get; set; }
         [NWDIf("DevSync", new string[] { "0", "-1" }, true)]
         public bool Dev { get; set; }
