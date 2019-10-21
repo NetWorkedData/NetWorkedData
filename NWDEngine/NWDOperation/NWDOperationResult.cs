@@ -148,7 +148,7 @@ namespace NetWorkedData
         private void Init()
         {
             timestamp = 0;
-            Avg = 0.0f;
+            Avg = -1;
             perform = 0.0f;
             isError = false;
             errorCode = string.Empty;
