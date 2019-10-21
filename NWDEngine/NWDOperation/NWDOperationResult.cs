@@ -21,6 +21,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public int timestamp { get; private set; }
+        public float Avg { get; private set; }
         public float perform { get; private set; }
         public float performRequest { get; private set; }
         public bool isError { get; private set; }
@@ -62,6 +63,11 @@ namespace NetWorkedData
             if (sData.ContainsKey(NWD.K_JSON_TIMESTAMP_KEY))
             {
                 timestamp = int.Parse(sData[NWD.K_JSON_TIMESTAMP_KEY].ToString());
+            }
+            if (sData.ContainsKey(NWD.K_JSON_AVG_KEY))
+            {
+                Avg = float.Parse(sData[NWD.K_JSON_AVG_KEY].ToString());
+                NWDAccountInfos.LoadBalacing(Avg);
             }
             if (sData.ContainsKey(NWD.K_JSON_PERFORM_KEY))
             {
@@ -142,6 +148,7 @@ namespace NetWorkedData
         private void Init()
         {
             timestamp = 0;
+            Avg = 0.0f;
             perform = 0.0f;
             isError = false;
             errorCode = string.Empty;

@@ -12,6 +12,7 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #if UNITY_IOS
@@ -26,13 +27,55 @@ namespace NetWorkedData
     public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountInfos() {}
+        public NWDAccountInfos() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() {}
+        public override void Initialization() { }
         //-------------------------------------------------------------------------------------------------------------
         private static NWDAccountInfos ActiveAccount => CheckAccount();
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LoadBalacing(float sAvg)
+        {
+            bool tChangeServer = true;
+            NWDAccountInfos rAccountInfos = CurrentData();
+            if (rAccountInfos != null)
+            {
+                NWDServerDNS tServer = null;
+                if (rAccountInfos.Server != null)
+                {
+                    tServer = rAccountInfos.Server.GetReachableData();
+                    if (tServer != null)
+                    {
+                        if (tServer.BalanceLoad < sAvg * 100.0F)
+                        {
+                            tChangeServer = false;
+                        }
+                    }
+                }
+                if (tChangeServer == true)
+                {
+                    List<NWDServerDNS> tServerList = new List<NWDServerDNS>();
+                    foreach (NWDServerDNS tServerInList in NWDBasisHelper.GetReachableDatas<NWDServerDNS>())
+                    {
+                        if (tServerInList != tServer && tServerInList.ValidInSelectedEnvironment())
+                        {
+                            tServerList.Add(tServerInList);
+                        }
+                    }
+                    if (tServerList.Count > 0)
+                    {
+                        if (tServerList.Count > 1)
+                        {
+                            tServerList.ShuffleList();
+                        }
+                        tServer = tServerList[0];
+                    }
+                    rAccountInfos.Server.SetData(tServer);
+                    rAccountInfos.UpdateDataIfModified();
+                }
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountInfos CheckAccount()
         {
@@ -55,7 +98,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Sprite GetAvatar(bool isRenderTexture = false)
-        {            
+        {
             Sprite rSprite = null;
             NWDAccountAvatar tAvatar = CurrentData().Avatar.GetReachableData();
             if (tAvatar != null)
@@ -181,7 +224,7 @@ namespace NetWorkedData
             }
             tAvatar.RenderItem.SetData(sAvatar);
             tAvatar.SaveData();
-            
+
             Avatar.SetData(tAvatar);
             SaveData();
         }

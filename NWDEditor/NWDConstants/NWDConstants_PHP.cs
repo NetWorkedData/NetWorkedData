@@ -119,6 +119,7 @@ namespace NetWorkedData
         public const string K_JSON_ERROR_INFOS_KEY= "error_infos";
         public const string K_JSON_WEB_SERVICE_KEY= "wsbuild";
         public const string K_JSON_PERFORM_KEY = "perform";
+        public const string K_JSON_AVG_KEY = "avg";
         public const string K_JSON_PERFORM_REQUEST_KEY = "performRequest";
         public const string K_JSON_TIMESTAMP_KEY = "timestamp";
         //-------------------------------------------------------------------------------------------------------------

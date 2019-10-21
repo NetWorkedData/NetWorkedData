@@ -53,6 +53,23 @@ namespace NetWorkedData
             ServerHTTPS = NWDToolbox.TextProtect(NWDToolbox.CleanDNS(NWDToolbox.TextUnprotect(ServerHTTPS)));
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool ValidInSelectedEnvironment()
+        {
+            return ValidInEnvironment(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ValidInEnvironment(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
+            if ((sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && Dev == true) ||
+                        (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && Preprod == true) ||
+                        (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && Prod == true))
+            {
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static void ResetServerHTTPS(NWDAppEnvironment sEnvironment)
         {
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
