@@ -46,6 +46,7 @@ namespace NetWorkedData
         public void ChangeAssetPath (string sOldPath, string sNewPath)
         {
             //NWEBenchmark.Start();
+            //NWDDebug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = mTypeList.Count + 2;
 			float tOperation = 1;

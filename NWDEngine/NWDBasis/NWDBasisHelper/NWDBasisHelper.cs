@@ -59,6 +59,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeAssetPath(string sOldPath, string sNewPath)
         {
+            //Debug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             if (kAssetDependent == true)
             {
                 foreach (NWDTypeClass tObject in Datas)

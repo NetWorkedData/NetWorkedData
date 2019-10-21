@@ -91,19 +91,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static AssetMoveResult OnWillMoveAsset(string sOldPath, string sNewPath)
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
+            //Debug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
             if (ContaintsResource(sOldPath) == true)
             {
                 NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
             }
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static AssetDeleteResult OnWillDeleteAsset(string sOldPath, RemoveAssetOptions sUnused)
         {
             //NWEBenchmark.Start();
+            //Debug.Log("sOldPath = " + sOldPath + " deleted");
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
             if (ContaintsResource(sOldPath) == true)
             {

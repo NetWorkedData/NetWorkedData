@@ -291,6 +291,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
+            //Debug.Log("BASE sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
         }
         //-------------------------------------------------------------------------------------------------------------
         //public virtual string ClassNameUsedValue()
