@@ -37,6 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadBalacing(int sAvg)
         {
+            Debug.Log("LoadBalacing() " + sAvg);
             bool tChangeServer = true;
             NWDAccountInfos rAccountInfos = CurrentData();
             if (rAccountInfos != null)
@@ -45,12 +46,29 @@ namespace NetWorkedData
                 if (rAccountInfos.Server != null)
                 {
                     tServer = rAccountInfos.Server.GetReachableData();
-                    if (tServer != null)
+                }
+                if (tServer != null)
+                {
+                    if (tServer.BalanceLoad > sAvg)
                     {
-                        if (tServer.BalanceLoad < sAvg)
-                        {
-                            tChangeServer = false;
-                        }
+                        tChangeServer = false;
+                        Debug.Log("NOT CHANGE SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " > " + sAvg);
+                    }
+                    else
+                    {
+                        Debug.Log("CHANGE SERVER " + tServer.BalanceLoad + " < " + sAvg);
+                    }
+                }
+                else
+                {
+                    if (NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad > sAvg)
+                    {
+                        tChangeServer = false;
+                        Debug.Log("NOT CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " > " + sAvg);
+                    }
+                    else
+                    {
+                        Debug.Log("CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " < " + sAvg);
                     }
                 }
                 if (tChangeServer == true)
