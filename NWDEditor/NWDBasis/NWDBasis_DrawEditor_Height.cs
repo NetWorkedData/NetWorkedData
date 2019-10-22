@@ -123,7 +123,7 @@ namespace NetWorkedData
                 // Toogle Dev Prepprod Prod and operation associated
                 tH += NWDGUI.kTextFieldStyle.fixedHeight;
 
-                if (XX > 0 || IsEnable() == false || WebserviceVersionIsValid() == false)
+                if (XX > 0 || IsEnable() == false || WebserviceVersionIsValid() == false || IntegrityIsValid() == false)
                 {
                     tH += NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
                     tH += NWDGUI.kHelpBoxStyle.fixedHeight + NWDGUI.kFieldMarge;

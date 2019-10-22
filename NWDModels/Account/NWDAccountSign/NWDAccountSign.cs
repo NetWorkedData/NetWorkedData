@@ -22,30 +22,33 @@ namespace NetWorkedData
     public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
     {
         // 0 is reserved by None and invalidate the signup process
-        public static NWDAccountSignType DeviceID = Add(1, "DeviceID");
-        public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword");
-        public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail");
+        public static NWDAccountSignType DeviceID = Add(1, "DeviceID"); // NEVER CHANGE INT VALUE !!!
 
-        public static NWDAccountSignType Facebook = Add(20, "FacebookID");
-        public static NWDAccountSignType Google = Add(21, "GoogleID");
-        public static NWDAccountSignType Apple = Add(22, "AppleID");
+        public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword"); // NEVER CHANGE INT VALUE !!!
+        public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail"); // NEVER CHANGE INT VALUE !!!
+         // NEVER CHANGE INT VALUE !!!
+        public static NWDAccountSignType Facebook = Add(20, "FacebookID"); // NEVER CHANGE INT VALUE !!!
+        public static NWDAccountSignType Google = Add(21, "GoogleID"); // NEVER CHANGE INT VALUE !!!
+        public static NWDAccountSignType Apple = Add(22, "AppleID"); // NEVER CHANGE INT VALUE !!!
+
+
 #if UNITY_EDITOR
-        public static NWDAccountSignType Fake = Add(88, "FakeID");
-        public static NWDAccountSignType EditorID = Add(99, "EditorID");
+        public static NWDAccountSignType Fake = Add(88, "FakeID"); // NEVER CHANGE INT VALUE !!!
+        public static NWDAccountSignType EditorID = Add(99, "EditorID"); // NEVER CHANGE INT VALUE !!!
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDAccountSignAction : int
+    public enum NWDAccountSignAction
     {
-        None = 0,
+        None = 0, // NEVER CHANGE INT VALUE !!!
 
-        TryToAssociate = 10,
-        Associated = 11,
-        ErrorAssociated = 12,
+        TryToAssociate = 10, // NEVER CHANGE INT VALUE !!!
+        Associated = 11, // NEVER CHANGE INT VALUE !!!
+        ErrorAssociated = 12, // NEVER CHANGE INT VALUE !!!
 
-        TryToDissociate = 20,
-        Dissociated = 21,
-        //ErrorDissociated = 22, // no possible case
+        TryToDissociate = 20, // NEVER CHANGE INT VALUE !!!
+        Dissociated = 21, // NEVER CHANGE INT VALUE !!!
+        //ErrorDissociated = 22, // no possible case  // NEVER CHANGE INT VALUE !!!
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignHelper : NWDHelper<NWDAccountSign>
@@ -77,18 +80,6 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Server Action")]
         [NWDNotEditable]
         public NWDAccountSignAction SignStatus { get; set; }
-
-
-        // [NWDNotEditable]// TODO Delete
-        // public string RescueHashServer { get; set; } // TODO Delete
-
-
-        // [NWDNotEditable]// TODO Delete
-        // public string SignHashServer { get; set; } // TODO Delete
-        // [NWDInspectorGroupEnd]
-        // [NWDInspectorGroupStart("Rescue")]// TODO Delete
-        // [NWDNotEditable]// TODO Delete
-        // public string RescuePinCode { get; set; } // TODO Delete
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
