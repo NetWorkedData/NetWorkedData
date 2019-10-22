@@ -802,6 +802,19 @@ namespace NetWorkedData
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static Rect Line(Rect sRect, Color sColor)
+        {
+            Texture2D tOldLineTexture = kLineStyle.normal.background;
+            Texture2D tLineTexture = new Texture2D(1, 1);
+            tLineTexture.SetPixel(0, 0, sColor);
+            tLineTexture.Apply();
+            kLineStyle.normal.background = tLineTexture;
+            GUI.Label(sRect, string.Empty, kLineStyle);
+            sRect.y += kLineStyle.fixedHeight;
+            kLineStyle.normal.background = tOldLineTexture;
+            return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static Rect Separator(Rect sRect)
         {
             sRect.y += kFieldMarge;

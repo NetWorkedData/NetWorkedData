@@ -233,7 +233,7 @@ namespace NetWorkedData
             {
                 tR.y += NWDGUI.kFieldMarge;
                 tR.y += sNodalCard.ParentDocument.DrawAnalyzer(tR, sNodalCard, GetType().Name);
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tR));
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tR)); //, Color.blue);
             }
             // DARW MODEL ALERT DEBUG 
             if (BasisHelper().TablePrefix != BasisHelper().TablePrefixOld)
@@ -782,7 +782,8 @@ namespace NetWorkedData
                 EditorGUI.HelpBox(sNodalCard.NodalRect, string.Empty, MessageType.None);
                 AddOnNodeDraw(NWDGUI.MargeAll(sNodalCard.NodalRect));
 
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y+ sNodalCard.NodalRect.height + NWDGUI.kFieldMarge, sNodalCard.NodalRect.width,1)));
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(sNodalCard.NodalRect.x, sNodalCard.NodalRect.y + sNodalCard.NodalRect.height + NWDGUI.kFieldMarge, sNodalCard.NodalRect.width, 1))
+                    );//, Color.red);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -793,7 +794,7 @@ namespace NetWorkedData
             // Start scrollview
             if (WithScrollview == true)
             {
-                NWDGUI.Line(new Rect(ScrollRect.x, ScrollRect.y-1, ScrollRect.width, 1));
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(new Rect(ScrollRect.x, ScrollRect.y - 1, ScrollRect.width, 1)));//, Color.green);
                 BasisHelper().ObjectEditorScrollPosition = GUI.BeginScrollView(ScrollRect, BasisHelper().ObjectEditorScrollPosition, ContentRect);
             }
             EditorGUI.BeginDisabledGroup(CanBeEdit == false);
@@ -888,7 +889,7 @@ namespace NetWorkedData
                 {
                     tActionRectO = sNodalCard.ActionRect;
                 }
-                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));
+                NWDGUI.Line(NWDGUI.UnMargeLeftRight(tActionRectO));//, Color.yellow);
                 Rect tActionRect = new Rect(tActionRectO.x, tActionRectO.y + NWDGUI.kFieldMarge, tActionRectO.width, tActionRectO.height - NWDGUI.kFieldMarge);
                 Rect[,] tMatrixRect = NWDGUI.DiviseArea(tActionRect, 4, 4, true);
                 GUI.Label(NWDGUI.AssemblyArea(tMatrixRect[0, 0], tMatrixRect[3, 0]), NWDConstants.K_APP_BASIS_ACTION_ZONE, NWDGUI.kBoldLabelStyle);
@@ -1029,11 +1030,13 @@ namespace NetWorkedData
         public virtual void AddOnNodeDraw(Rect sRect)
         {
             Rect tRect = new Rect(sRect);
+
             tRect.height = NWDGUI.kBoldLabelStyle.fixedHeight;
-            GUI.Label(tRect, InternalKey, NWDGUI.kBoldLabelStyle);
-            tRect.y+= NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            GUI.Label(tRect, InternalDescription);
-            tRect.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+
+            //GUI.Label(tRect, InternalKey, NWDGUI.kBoldLabelStyle);
+            //tRect.y+= NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            //GUI.Label(tRect, InternalDescription);
+            //tRect.y += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void ErrorCheck()

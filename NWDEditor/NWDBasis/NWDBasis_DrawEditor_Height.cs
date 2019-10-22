@@ -144,6 +144,10 @@ namespace NetWorkedData
             if (sNodalCard != null)
             {
                 tH = AddOnNodeDrawHeight(sInRect.width - 4 * NWDGUI.kFieldMarge) + NWDGUI.kFieldMarge * 3;
+
+                //tH += NWDGUI.kBoldLabelStyle.CalcHeight(new GUIContent(InternalKey), sInRect.width);
+                //tH += NWDGUI.kBoldLabelStyle.CalcHeight(new GUIContent(InternalDescription), sInRect.width);
+
                 if (InformationsRect.height > 0)
                 {
                     NodalRect = new Rect(sInRect.x, InformationsRect.y + InformationsRect.height + NWDGUI.kFieldMarge, sInRect.width, tH);
