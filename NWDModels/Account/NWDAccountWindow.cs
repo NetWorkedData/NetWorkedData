@@ -11,39 +11,63 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Account",
-                                 "Account",
+    [NWDTypeWindowParamAttribute(
+        "Account",
+        "Account",
         new Type[] {
-        typeof(NWDAccount),
-        typeof(NWDAccountInfos),
-        typeof(NWDAccountSign),
-        typeof(NWDAccountNickname),
-        typeof(NWDAccountAvatar),
-        typeof(NWDAccountPreference),
-        typeof(NWDRequestToken),
-        typeof(NWDBasisPreferences),
-        typeof(NWDIPBan),
+            typeof(NWDAccount),
+            typeof(NWDAccountInfos),
+            typeof(NWDAccountSign),
+            typeof(NWDAccountNickname),
+            typeof(NWDAccountAvatar),
+            typeof(NWDAccountPreference),
         }
     )]
     public class NWDAccountWindow : NWDBasisWindow<NWDAccountWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Accounts", false, 300)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/All", false, 300)]
         public static void MenuMethod()
         {
             ShowWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Information", false, 301)]
+        public static void MenuMethodInformation()
+        {
+            ShowWindow(typeof(NWDAccountInfos));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Sign Type", false, 302)]
+        public static void MenuMethodSignType()
+        {
+            ShowWindow(typeof(NWDAccountSign));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Nickname", false, 303)]
+        public static void MenuMethodNickname()
+        {
+            ShowWindow(typeof(NWDAccountNickname));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Avatar", false, 304)]
+        public static void MenuMethodAvatar()
+        {
+            ShowWindow(typeof(NWDAccountAvatar));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Preference", false, 305)]
+        public static void MenuMethodPreference()
+        {
+            ShowWindow(typeof(NWDAccountPreference));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

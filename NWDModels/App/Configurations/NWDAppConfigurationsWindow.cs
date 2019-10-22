@@ -10,33 +10,59 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System;
+
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("App Config",
+    [NWDTypeWindowParamAttribute(
+        "App Configuration",
         "Project Edition, You can add, change, remove the item of your game here. " +
         "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
         "NWDAppConfigurationsWindow",
         new Type[] {
             typeof(NWDVersion),
-            typeof(NWDParameter),
             typeof(NWDPreferenceKey),
+            typeof(NWDParameter),
             typeof(NWDError),
             typeof(NWDAssetBundle),
-			/* Add NWDBasis here*/
 		}
     )]
     public class NWDAppWindow : NWDBasisWindow<NWDAppWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Configurations", false, 200)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/Version", false, 200)]
         public static void MenuMethod()
         {
             ShowWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/Preference Key", false, 201)]
+        public static void MenuMethodPreferenceKey()
+        {
+            ShowWindow(typeof(NWDPreferenceKey));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/Parameter", false, 202)]
+        public static void MenuMethodParameter()
+        {
+            ShowWindow(typeof(NWDParameter));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/Error", false, 203)]
+        public static void MenuMethodError()
+        {
+            ShowWindow(typeof(NWDError));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/Asset Bundle", false, 220)]
+        public static void MenuMethodAssetBundle()
+        {
+            ShowWindow(typeof(NWDAssetBundle));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -19,19 +19,22 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("InApp",
-                                 "NWDInAppPurchaseWindow window description",
+    [NWDTypeWindowParamAttribute(
+        "InApp",
+        "NWDInAppPurchaseWindow window description",
         new Type[] {
+            typeof(NWDInAppPack),
+            typeof(NWDShop),
+            typeof(NWDRack),
             typeof(NWDPack),
             typeof(NWDItemPack),
             typeof(NWDItem),
-            typeof(NWDInAppPack),
         })]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDInAppPurchaseWindow : NWDBasisWindow<NWDInAppPurchaseWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/In App Purchase", false, 570)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "In App", false, 535)]
         public static void MenuMethod()
         {
             ShowWindow();

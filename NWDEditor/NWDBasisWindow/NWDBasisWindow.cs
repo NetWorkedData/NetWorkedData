@@ -366,7 +366,7 @@ namespace NetWorkedData
         {
             if (mTabTypeList.Contains(tType))
             {
-                mTabSelected = Array.IndexOf(mTabTypeList, tType);
+                mTabSelected = mTabTypeList.IndexOf(tType);
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadEditorPrefererences();
             }
