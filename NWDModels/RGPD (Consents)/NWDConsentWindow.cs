@@ -11,34 +11,27 @@
 //
 //=====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("RGPD",
-        "Consent Managment",
-        "NWDConsentWindow", // NWDConsentWindow_ICON
+    [NWDTypeWindowParamAttribute(
+            "RGPD",
+            "Consent Managment",
+            "NWDConsentWindow",
         new Type[] {
-        typeof(NWDConsent),
-        typeof(NWDAccountConsent),
-		/* Add NWDBasis here*/
+            typeof(NWDConsent),
+            typeof(NWDAccountConsent),
 		}
     )]
     public class NWDConsentWindow : NWDBasisWindow<NWDConsentWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/RGPD Consent", false, 250)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/RGPD", false, 250)]
         public static void MenuMethod()
         {
             ShowWindow();

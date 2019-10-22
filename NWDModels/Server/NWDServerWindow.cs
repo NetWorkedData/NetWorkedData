@@ -11,34 +11,66 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Servers",
-                                 "Servers",
+    /// <summary>
+    /// 
+    /// </summary>
+    [NWDTypeWindowParamAttribute(
+        "Servers",
+        "Servers",
         new Type[] {
-        typeof(NWDServerDNS),
-        typeof(NWDServerSFTP),
-        typeof(NWDRequestToken),
-        typeof(NWDIPBan),
+            typeof(NWDServerDNS),
+            typeof(NWDServerSFTP),
+            typeof(NWDBasisPreferences),
+            typeof(NWDUserNetWorking),
+            typeof(NWDRequestToken),
+            typeof(NWDIPBan),
         }
     )]
     public class NWDServerWindow : NWDBasisWindow<NWDServerWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Servers Cluster Configuration", false, 61)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/DNS", false, 60)]
         public static void MenuMethod()
         {
             ShowWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/SFTP", false, 61)]
+        public static void MenuMethodSFTP()
+        {
+            ShowWindow(typeof(NWDServerSFTP));
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Basis Preference", false, 80)]
+        public static void MenuMethodBasicPreference()
+        {
+            ShowWindow(typeof(NWDBasisPreferences));
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/NetWorking", false, 81)]
+        public static void MenuMethodNetWorking()
+        {
+            ShowWindow(typeof(NWDUserNetWorking));
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Token", false, 82)]
+        public static void MenuMethodToken()
+        {
+            ShowWindow(typeof(NWDRequestToken));
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/IP BAN", false, 83)]
+        public static void MenuMethodIPBAN()
+        {
+            ShowWindow(typeof(NWDIPBan));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

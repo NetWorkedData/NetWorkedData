@@ -84,11 +84,11 @@ namespace NetWorkedData
         
         public const string K_MENU_EDITOR_FOOTER = K_MENU_BASE + "Tools/New Footer";
 
-        public const string K_MENU_APP_EDIT = K_MENU_BASE + "App configurations";
-        public const string K_MENU_MODEL_MANAGER = K_MENU_BASE + "Models manager";
-        public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments configurations";
-        public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments player chooser";
-        public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments synchronize";
+        public const string K_MENU_APP_EDIT = K_MENU_BASE + "Application/Configurations";
+        public const string K_MENU_MODEL_MANAGER = K_MENU_BASE + "Application/Models Manager";
+        public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments/Configurations";
+        public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments/Player";
+        public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments/Synchronize";
 
         public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis)";
 

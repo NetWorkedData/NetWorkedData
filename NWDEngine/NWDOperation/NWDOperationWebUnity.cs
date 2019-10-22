@@ -440,13 +440,16 @@ namespace NetWorkedData
                                                     }
                                                 }
                                             }
+
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
                                                 Environment.PlayerAccountReference = ResultInfos.uuid;
                                             }
                                             DataDownloadedCompute(ResultInfos);
+
                                             // Notification of a Download success
                                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
+                                            
                                             // Request Success, send Invoke
                                             SuccessInvoke(Request.downloadProgress, ResultInfos);
                                         }
@@ -465,6 +468,7 @@ namespace NetWorkedData
                     }
                     // Save preference localy
                     Environment.SavePreferences();
+
                     // Notification of current Account have change
                     if (tUserChange == true)
                     {
@@ -474,27 +478,33 @@ namespace NetWorkedData
 
                 if (ResultInfos.isError)
                 {
-                    // Notification of a Download success
-                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
-                    if (ResultInfos != null)
+                    if (ResultInfos.errorDesc != null)
                     {
+                        #if UNITY_EDITOR
+                        //EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title + "\n" + ResultInfos.errorDesc.Description, "OK");
+                        #endif
+
                         if (ResultInfos.errorInfos != null)
                         {
-                            if (ResultInfos.errorDesc != null)
-                            {
-                                ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
-                            }
+                            ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
                         }
                     }
-                    // Notification of a Download success
+
+                    // Notification of an web operation error
+                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
+
+                    // Notification of a download failed
                     NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, ResultInfos));
+
+                    // Invoke fail callback methode
                     FailInvoke(Request.downloadProgress, ResultInfos);
                 }
                 Finish();
             }
-#if UNITY_EDITOR
+
+            #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
-#endif
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()
