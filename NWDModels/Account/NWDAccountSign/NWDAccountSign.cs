@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Generic;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -26,12 +25,14 @@ namespace NetWorkedData
 
         public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword"); // NEVER CHANGE INT VALUE !!!
         public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail"); // NEVER CHANGE INT VALUE !!!
-         // NEVER CHANGE INT VALUE !!!
+                                                                                             // NEVER CHANGE INT VALUE !!!
         public static NWDAccountSignType Facebook = Add(20, "FacebookID"); // NEVER CHANGE INT VALUE !!!
         public static NWDAccountSignType Google = Add(21, "GoogleID"); // NEVER CHANGE INT VALUE !!!
         public static NWDAccountSignType Apple = Add(22, "AppleID"); // NEVER CHANGE INT VALUE !!!
-
-
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
+    {
 #if UNITY_EDITOR
         public static NWDAccountSignType Fake = Add(88, "FakeID"); // NEVER CHANGE INT VALUE !!!
         public static NWDAccountSignType EditorID = Add(99, "EditorID"); // NEVER CHANGE INT VALUE !!!
@@ -67,15 +68,15 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations")]
-		public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDAccount> Account { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Sign Send")]
         [NWDNotEditable]
-		public NWDAccountSignType SignType {get; set; }
+        public NWDAccountSignType SignType { get; set; }
         [NWDNotEditable]
-        public string SignHash {get; set; }
+        public string SignHash { get; set; }
         [NWDNotEditable]
-        public string RescueHash {get; set; }
+        public string RescueHash { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Action")]
         [NWDNotEditable]
