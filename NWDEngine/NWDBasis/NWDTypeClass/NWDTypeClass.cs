@@ -672,6 +672,22 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class NWDWindowOwnerAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public Type WindowType;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDWindowOwnerAttribute(Type sWindowType)
+        {
+            if (sWindowType.IsSubclassOf(typeof(NWDTypeWindow)))
+            {
+                this.WindowType = sWindowType;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class NWDClassServerSynchronizeAttribute : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
