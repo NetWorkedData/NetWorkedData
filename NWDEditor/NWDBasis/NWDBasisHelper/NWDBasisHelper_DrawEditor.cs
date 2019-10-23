@@ -137,6 +137,7 @@ namespace NetWorkedData
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
 
+                //NWDGUI.BeginRedArea();
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton))
                 {
                     ResetTable();
@@ -179,6 +180,48 @@ namespace NetWorkedData
                     GUI.FocusControl(null);
                     RecalculateAllIntegrities();
                 }
+
+                if (GUILayout.Button("Reset Icon", EditorStyles.miniButton))
+                {
+                    ResetIconByDefaultIcon();
+                }
+
+                EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
+                if (GUILayout.Button( "Purge accounts", EditorStyles.miniButton))
+                {
+                    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+                            NWDConstants.K_PURGE_ALERT_MESSAGE,
+                            NWDConstants.K_PURGE_ALERT_OK,
+                            NWDConstants.K_PURGE_ALERT_CANCEL))
+                    {
+                        PurgeTable();
+                    }
+                }
+                EditorGUI.EndDisabledGroup();
+
+
+                if (GUILayout.Button( NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+                {
+                    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDEditorWindow.GenerateCSharpFile();
+                }
+                // draw delete old model
+                if (GUILayout.Button( NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+                {
+                    DeleteOldsModels();
+                    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDEditorWindow.GenerateCSharpFile();
+                }
+
+                if (GUILayout.Button( NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                {
+                    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    NWDEditorWindow.GenerateCSharpFile();
+                }
+                //NWDGUI.EndRedArea();
             }
             //NWEBenchmark.Finish();
         }
