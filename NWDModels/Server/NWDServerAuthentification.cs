@@ -34,11 +34,10 @@ namespace NetWorkedData
         public string Folder;
         public string User;
         public string Password;
-        public int BalanceLoad;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerAuthentification(string sHost, int sPort, string sFolder, string sUser, string sPassword, int BalanceLoad)
+        public NWDServerAuthentification(string sHost, int sPort, string sFolder, string sUser, string sPassword)
         {
             Host = NWDToolbox.CleanDNS(sHost);
             Port = sPort;
@@ -177,8 +176,8 @@ namespace NetWorkedData
             float tCountClass = sFolders.Count + sFilesAndDatas.Count + 1.0F;
             float tOperation = 1.0F;
             string tTitle = "Send file on server " + Host;
-            EditorUtility.DisplayProgressBar(tTitle, "Open connection", tOperation++ / tCountClass);
             ConnectSFTP();
+            EditorUtility.DisplayProgressBar(tTitle, "Open connection", tOperation++ / tCountClass);
             foreach (string tFolder in sFolders)
             {
                 EditorUtility.DisplayProgressBar(tTitle, "Create folder " + tFolder, tOperation++ / tCountClass);

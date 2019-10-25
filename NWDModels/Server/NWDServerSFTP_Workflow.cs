@@ -35,6 +35,11 @@ namespace NetWorkedData
         {
             base.Initialization();
             InternalKey = "Unused config";
+            Port = 22;
+            User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
+            Folder = "public_webservice";
+            IP.SetValue("192.168.0.1");
+            ServerName = "MyServer";
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
@@ -44,18 +49,9 @@ namespace NetWorkedData
             NWDServerDNS tServerDNS = Server.GetRawData();
             if (tServerDNS != null)
             {
-
                 if (string.IsNullOrEmpty(tServerDNS.ServerHTTPS) == false)
                 {
-                    InternalKey = tServerDNS.ServerHTTPS;
-                }
-            }
-            InternalDescription = "";
-            if (tServerDNS != null)
-            {
-                if (string.IsNullOrEmpty(tServerDNS.Name) == false)
-                {
-                    InternalDescription = tServerDNS.Name;
+                    InternalKey = tServerDNS.InternalKey + " config";
                 }
             }
         }
@@ -73,7 +69,7 @@ namespace NetWorkedData
                         (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tServerDNS.Preprod == true) ||
                         (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tServerDNS.Prod == true))
                     {
-                        rReturn = new NWDServerAuthentification(NWDToolbox.TextUnprotect(tServerDNS.ServerHTTPS), Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password), tServerDNS.BalanceLoad);
+                        rReturn = new NWDServerAuthentification(NWDToolbox.TextUnprotect(tServerDNS.ServerHTTPS), Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password.ToString()));
                     }
                 }
             }
@@ -82,7 +78,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDServerAuthentification GetConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            NWDServerAuthentification rReturn = new NWDServerAuthentification(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword, sEnvironment.SFTPBalanceLoad);
+            NWDServerAuthentification rReturn = new NWDServerAuthentification(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

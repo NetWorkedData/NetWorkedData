@@ -44,11 +44,19 @@ namespace NetWorkedData
             if (string.IsNullOrEmpty(ServerHTTPS) == false)
             {
                 InternalKey = ServerHTTPS;
-            }
-            InternalDescription = "";
-            if (string.IsNullOrEmpty(Name) == false)
-            {
-                InternalDescription = Name;
+
+                if (Dev == true)
+                {
+                    InternalKey = InternalKey + " dev";
+                }
+                if (Preprod == true)
+                {
+                    InternalKey = InternalKey + " prepord";
+                }
+                if (Prod == true)
+                {
+                    InternalKey = InternalKey + " prod";
+                }
             }
             ServerHTTPS = NWDToolbox.TextProtect(NWDToolbox.CleanDNS(NWDToolbox.TextUnprotect(ServerHTTPS)));
         }
@@ -73,7 +81,7 @@ namespace NetWorkedData
         static void ResetServerHTTPS(NWDAppEnvironment sEnvironment)
         {
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
-            tAccountInfos.Server.SetData(null); ;
+            tAccountInfos.Server.SetData(null);
             tAccountInfos.UpdateDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------

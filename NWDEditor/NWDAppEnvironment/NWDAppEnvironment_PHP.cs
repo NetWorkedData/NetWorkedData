@@ -26,50 +26,31 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true)
+        public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentification sConn = null)
         {
             NWEBenchmark.Start();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
             CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
             CreatePHPWebservicesFile(tFilesAndDatas, sWriteOnDisk);
-            //CreatePHPWebservicesInsideFile(tFilesAndDatas, sWriteOnDisk);
-            //CreatePHPWebservicesAddonFile(tFilesAndDatas, sWriteOnDisk);
             if (sCreateAll == true)
             {
                 CreatePHPErrorGenerate();
                 CreatePHPConstantsFile(tFilesAndDatas, sWriteOnDisk);
-                //CreatePHPAccountServicesFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPAuthentificationFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPIndexFile(tFilesAndDatas, sWriteOnDisk);
-                //CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPDotHTAccessFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPMaintenanceFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPObsoleteFile(tFilesAndDatas, sWriteOnDisk);
-                //CreatePHP_StaticAccountFile(tFilesAndDatas, sWriteOnDisk);
-                //CreatePHP_StaticErrorFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
-                //CreatePHP_StaticRequestTokenFile(tFilesAndDatas, sWriteOnDisk);
-                //CreatePHP_StaticRescueFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHP_StaticRespondFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
             }
-            //if (sWriteOnDisk == true)
-            //{
-            //    WriteFolderAndFiles(tFolders, tFilesAndDatas);
-            //}
-            //else
-            //{
-            //    SendFolderAndFiles(tFolders, tFilesAndDatas, false);
-            //}
-            //// generate models' files
-            //tFolders.Clear();
-            //tFilesAndDatas.Clear();
             foreach (Type tType in sTypeList)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
@@ -87,7 +68,14 @@ namespace NetWorkedData
             }
             else
             {
-                SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                if (sConn == null)
+                {
+                    SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                }
+                else
+                {
+                    sConn.SendFolderAndFiles(tFolders, tFilesAndDatas, false);
+                }
             }
             NWEBenchmark.Finish();
         }

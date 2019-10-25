@@ -17,6 +17,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDInternalKeyNotEditable]
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SSD")]
     [NWDClassDescriptionAttribute("Server descriptions Class")]
@@ -26,7 +27,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server DNS")]
         public string ServerHTTPS { get; set; }
-        public string Name { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Environment Actif")]
         [NWDIntSlider(0,100)]

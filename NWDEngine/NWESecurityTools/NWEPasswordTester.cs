@@ -136,6 +136,7 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("SHA512 Charset", tShaCharset512.Name);
             EditorGUILayout.LabelField("Force attack SHA512", NWEPassCharset.ForceAttack(tSha512, tShaCharset512, tCycle));
             EditorGUI.indentLevel--;
+            EditorGUILayout.Space();
 
             Rect tLastRect = GUILayoutUtility.GetLastRect();
             minSize = new Vector2(400, tLastRect.y + tLastRect.height);

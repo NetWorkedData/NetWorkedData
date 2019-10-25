@@ -17,6 +17,13 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDServerDistribution
+    {
+        debian9,
+        debian10,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDInternalKeyNotEditable]
     [NWDClassSpecialAccountOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("SSS")]
@@ -30,12 +37,19 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server DNS")]
         public NWDReferenceType<NWDServerDNS> Server { get; set; }
+        public string Email { get; set; }
         [NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Authentification SFTP")]
+        [NWDInspectorGroupStart("Authentification SSH / SFTP")]
+        public NWDIPType IP { get; set; }
         public int Port { get; set; }
-        public string Folder { get; set; }
         public string User { get; set; }
-        public string Password { get; set; }
+        public NWDPasswordType Password { get; set; }
+        public string Folder { get; set; }
+        [NWDInspectorGroupEnd]
+        [NWDInspectorGroupStart("Install Server Options")]
+        public NWDServerDistribution Distribution { get; set; }
+        public string ServerName { get; set; }
+        public NWDPasswordType RootPassword { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
