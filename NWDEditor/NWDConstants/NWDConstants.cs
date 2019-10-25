@@ -29,6 +29,7 @@ namespace NetWorkedData
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "NWD Chooser";
         public static string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
+        public static string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
         public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
