@@ -88,8 +88,8 @@ namespace NetWorkedData
             TypeAccountedAndSize.Clear();
             TypeAndQuantity.Clear();
             TypeEditorAndSize.Clear();
-        TypeEditorList.Clear();
-        TypeAccountList.Clear();
+            TypeEditorList.Clear();
+            TypeAccountList.Clear();
             //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
@@ -184,7 +184,7 @@ namespace NetWorkedData
                 GUILayout.BeginHorizontal();
                 //TypeAndQuantity[tHelper] = EditorGUILayout.IntField(tHelper.ClassNamePHP, TypeAndQuantity[tHelper]);
                 GUILayout.Label(tHelper.ClassNamePHP, GUILayout.Width(160));
-                int tValue = EditorGUILayout.IntSlider("("+TypeEditorAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], 1, 1024);
+                int tValue = EditorGUILayout.IntSlider("(" + TypeEditorAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], 0, 2048);
                 if (tValue != TypeAndQuantity[tHelper])
                 {
                     TypeAndQuantity[tHelper] = tValue;
@@ -200,7 +200,7 @@ namespace NetWorkedData
                 GUILayout.BeginHorizontal();
                 //TypeAndQuantity[tHelper] = EditorGUILayout.IntField(tHelper.ClassNamePHP, TypeAndQuantity[tHelper]);
                 GUILayout.Label(tHelper.ClassNamePHP, GUILayout.Width(160));
-                int tValue = EditorGUILayout.IntSlider("("+TypeAccountedAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], 1, 1024);
+                int tValue = EditorGUILayout.IntSlider("(" + TypeAccountedAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], 0, 2048);
                 if (tValue != TypeAndQuantity[tHelper])
                 {
                     TypeAndQuantity[tHelper] = tValue;
@@ -211,8 +211,8 @@ namespace NetWorkedData
             }
 
             GUILayout.EndScrollView();
-            EditorGUIUtility.labelWidth = tLabelWidth;
 
+            string tFormatData = "N2";
             string tFormat = "N0";
 
             double tOctetEditor = tTotalEditor;
@@ -226,26 +226,36 @@ namespace NetWorkedData
             NWDGUILayout.Title("Results");
 
             NWDGUILayout.Section("Editor result");
-            EditorGUILayout.LabelField("o", tOctetEditor.ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("Ko", tKiloOctetEditor.ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("Mo", tMegaOctetEditor.ToString(tFormat).Replace(",", " "));
+            //EditorGUILayout.LabelField("o", tOctetEditor.ToString(tFormatData).Replace(",", " ") + " octects");
+            EditorGUILayout.LabelField("Size ", tKiloOctetEditor.ToString(tFormatData).Replace(",", " ") + " Ko" + " or " + tMegaOctetEditor.ToString(tFormatData).Replace(",", " ") + " Mo");
 
             NWDGUILayout.Section("Player result");
-            EditorGUILayout.LabelField("o",tOctetAccount.ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("Ko", tKiloOctetAccount.ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("Mo", tMegaOctetAccount.ToString(tFormat).Replace(",", " "));
+            //EditorGUILayout.LabelField("o", tOctetAccount.ToString(tFormat).Replace(",", " ") + " octects");
+            EditorGUILayout.LabelField("Size ", tKiloOctetAccount.ToString(tFormatData).Replace(",", " ") + " Ko" + " or " + tMegaOctetAccount.ToString(tFormatData).Replace(",", " ") + " Mo");
 
             NWDGUILayout.Section("Cluster disk and users expected");
 
-            EditorGUILayout.LabelField("40G : users =", Mathf.FloorToInt(((40F * Giga) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("80G : users =", Mathf.FloorToInt(((80F * Giga) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("1T : users =", Mathf.FloorToInt(((1F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("2T : users =", Mathf.FloorToInt(((2F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("4T : users =", Mathf.FloorToInt(((4F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("8T : users =", Mathf.FloorToInt(((8F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
-            EditorGUILayout.LabelField("12T : users =", Mathf.FloorToInt(((12F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " "));
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+            EditorGUILayout.LabelField("40Go", Mathf.FloorToInt(((40F * Giga) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("80Go", Mathf.FloorToInt(((80F * Giga) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("500Go", Mathf.FloorToInt(((500 * Giga) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("1To", Mathf.FloorToInt(((1F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("2To", Mathf.FloorToInt(((2F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
 
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("4To", Mathf.FloorToInt(((4F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("8To", Mathf.FloorToInt(((8F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("12To", Mathf.FloorToInt(((12F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("32To", Mathf.FloorToInt(((32F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+            EditorGUILayout.LabelField("64To", Mathf.FloorToInt(((64F * Tetra) - tSystem * Giga - (float)tOctetEditor) / (float)tOctetAccount).ToString(tFormat).Replace(",", " ") + " users");
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
             //NWEBenchmark.Finish();
+            EditorGUIUtility.labelWidth = tLabelWidth;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
