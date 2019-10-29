@@ -24,6 +24,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
+    [NWDClassClusterAttribute(1, 32)]
     public partial class NWDUserNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

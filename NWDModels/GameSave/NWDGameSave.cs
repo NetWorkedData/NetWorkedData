@@ -27,6 +27,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("GSV")]
     [NWDClassDescriptionAttribute("Game Save")]
     [NWDClassMenuNameAttribute("Game Save")]
+    [NWDClassClusterAttribute(1, 32)]
     public partial class NWDGameSave : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

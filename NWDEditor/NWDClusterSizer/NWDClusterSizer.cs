@@ -23,6 +23,21 @@ using System.Linq;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class NWDClassClusterAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public int Min;
+        public int Max;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDClassClusterAttribute(int sMin, int sMax)
+        {
+            Min = sMin;
+            Max = sMax;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDClusterSizer : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -36,6 +51,9 @@ namespace NetWorkedData
         public Dictionary<NWDBasisHelper, double> TypeEditorAndSize = new Dictionary<NWDBasisHelper, double>();
         public Dictionary<NWDBasisHelper, double> TypeAccountedAndSize = new Dictionary<NWDBasisHelper, double>();
         public Dictionary<NWDBasisHelper, int> TypeAndQuantity = new Dictionary<NWDBasisHelper, int>();
+
+        public Dictionary<NWDBasisHelper, int> TypeAndMin = new Dictionary<NWDBasisHelper, int>();
+        public Dictionary<NWDBasisHelper, int> TypeAndMax = new Dictionary<NWDBasisHelper, int>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The Shared Instance.
@@ -90,6 +108,8 @@ namespace NetWorkedData
             TypeEditorAndSize.Clear();
             TypeEditorList.Clear();
             TypeAccountList.Clear();
+            TypeAndMin.Clear();
+            TypeAndMax.Clear();
             //NWEBenchmark.Start();
             if (IconAndTitle == null)
             {
@@ -118,7 +138,9 @@ namespace NetWorkedData
                     double tSize = tHelper.SizerCalculate();
                     TypeEditorAndSize.Add(tHelper, tSize);
                     TypeEditorList.Add(tHelper);
-                    TypeAndQuantity.Add(tHelper, EditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, 0));
+                    TypeAndMin.Add(tHelper, tHelper.ClusterMin);
+                    TypeAndMax.Add(tHelper, tHelper.ClusterMax);
+                    TypeAndQuantity.Add(tHelper, EditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
                 }
             }
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
@@ -129,14 +151,33 @@ namespace NetWorkedData
                     double tSize = tHelper.SizerCalculate();
                     TypeAccountedAndSize.Add(tHelper, tSize);
                     TypeAccountList.Add(tHelper);
-                    TypeAndQuantity.Add(tHelper, EditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, 0));
+                    TypeAndMin.Add(tHelper, tHelper.ClusterMin);
+                    TypeAndMax.Add(tHelper, tHelper.ClusterMax);
+                    TypeAndQuantity.Add(tHelper, EditorPrefs.GetInt("cluster_test_" + tHelper.ClassNamePHP, TypeAndMin[tHelper]));
                 }
             }
 
-
             TypeEditorList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
             TypeAccountList.Sort((tA, tB) => string.Compare(tA.ClassNamePHP, tB.ClassNamePHP, StringComparison.Ordinal));
+
+            ByPassMinMaxValue();
             //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void SetMinMax(Type sType, int sMin, int sMax)
+        {
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+            if (tHelper != null)
+            {
+                TypeAndMin[tHelper] = sMin;
+                TypeAndMax[tHelper] = sMax;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void ByPassMinMaxValue()
+        {
+            SetMinMax(typeof(NWDRequestToken), NWDAppConfiguration.SharedInstance().SelectedEnvironment().TokenHistoric, NWDAppConfiguration.SharedInstance().SelectedEnvironment().TokenHistoric * 2);
+            //SetMinMax(typeof(NWDAccountPreference), NWDDataManager.SharedInstance().ClassDataLoaded, NWDDataManager.SharedInstance().ClassDataLoaded+2048);
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DrawType(Type sType)
@@ -169,7 +210,7 @@ namespace NetWorkedData
 
 
             int tSystem = EditorPrefs.GetInt("cluster_test_System");
-            int tSystemValue = EditorGUILayout.IntSlider("Giga", tSystem, 1, 50);
+            int tSystemValue = EditorGUILayout.IntSlider("Giga", tSystem, 10, 50);
             if (tSystemValue != EditorPrefs.GetInt("cluster_test_System"))
             {
                 EditorPrefs.SetInt("cluster_test_System", tSystemValue);
@@ -184,7 +225,7 @@ namespace NetWorkedData
                 GUILayout.BeginHorizontal();
                 //TypeAndQuantity[tHelper] = EditorGUILayout.IntField(tHelper.ClassNamePHP, TypeAndQuantity[tHelper]);
                 GUILayout.Label(tHelper.ClassNamePHP, GUILayout.Width(160));
-                int tValue = EditorGUILayout.IntSlider("(" + TypeEditorAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], 0, 2048);
+                int tValue = EditorGUILayout.IntSlider("(" + TypeEditorAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], TypeAndMin[tHelper], TypeAndMax[tHelper]);
                 if (tValue != TypeAndQuantity[tHelper])
                 {
                     TypeAndQuantity[tHelper] = tValue;
@@ -200,7 +241,7 @@ namespace NetWorkedData
                 GUILayout.BeginHorizontal();
                 //TypeAndQuantity[tHelper] = EditorGUILayout.IntField(tHelper.ClassNamePHP, TypeAndQuantity[tHelper]);
                 GUILayout.Label(tHelper.ClassNamePHP, GUILayout.Width(160));
-                int tValue = EditorGUILayout.IntSlider("(" + TypeAccountedAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], 0, 2048);
+                int tValue = EditorGUILayout.IntSlider("(" + TypeAccountedAndSize[tHelper] + " octets)", TypeAndQuantity[tHelper], TypeAndMin[tHelper], TypeAndMax[tHelper]);
                 if (tValue != TypeAndQuantity[tHelper])
                 {
                     TypeAndQuantity[tHelper] = tValue;
@@ -258,26 +299,6 @@ namespace NetWorkedData
             EditorGUIUtility.labelWidth = tLabelWidth;
 
 
-            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassNamePHP)<1)
-            {
-                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassNamePHP,1);
-            }
-            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).ClassNamePHP) < 1)
-            {
-                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).ClassNamePHP, 1);
-            }
-            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).ClassNamePHP) < 1)
-            {
-                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).ClassNamePHP, 1);
-            }
-            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos)).ClassNamePHP) < 1)
-            {
-                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos)).ClassNamePHP, 1);
-            }
-            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountPreference)).ClassNamePHP) < NWDDataManager.SharedInstance().ClassDataLoaded * 6)
-            {
-                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountPreference)).ClassNamePHP, NWDDataManager.SharedInstance().ClassDataLoaded * 6);
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

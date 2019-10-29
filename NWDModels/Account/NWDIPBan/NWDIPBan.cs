@@ -29,6 +29,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("IPB")]
     [NWDClassDescriptionAttribute("IP banned")]
     [NWDClassMenuNameAttribute("IP Ban")]
+    [NWDClassClusterAttribute(1, 2048)]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDIPBan : NWDBasis
     {
