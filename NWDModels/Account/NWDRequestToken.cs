@@ -34,6 +34,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
     [NWDClassMenuNameAttribute("RequestToken")]
+    [NWDClassClusterAttribute(1, 6)]
     public partial class NWDRequestToken : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

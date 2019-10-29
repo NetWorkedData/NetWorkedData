@@ -27,6 +27,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
+    [NWDClassClusterAttribute(1, 2)]
     public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

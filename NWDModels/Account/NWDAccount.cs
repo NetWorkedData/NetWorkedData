@@ -22,6 +22,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ACC")]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
     [NWDClassMenuNameAttribute("Account")]
+    [NWDClassClusterAttribute(1, 2)]
     public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

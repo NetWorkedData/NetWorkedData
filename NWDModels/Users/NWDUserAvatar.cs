@@ -22,6 +22,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UAV")]
     [NWDClassDescriptionAttribute("Avatar composer for user")]
     [NWDClassMenuNameAttribute("User Avatar")]
+    [NWDClassClusterAttribute(1, 32)]
     public partial class NWDUserAvatar : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

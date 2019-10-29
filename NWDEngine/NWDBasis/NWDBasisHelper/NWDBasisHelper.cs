@@ -174,6 +174,9 @@ namespace NetWorkedData
         public List<MethodInfo> IndexInsertMethodList = new List<MethodInfo>();
         public List<MethodInfo> IndexRemoveMethodList = new List<MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
+        public int ClusterMin;
+        public int ClusterMax;
+        //-------------------------------------------------------------------------------------------------------------
         //#if UNITY_EDITOR
         //public List<string> ObjectsInEditorTableKeyList = new List<string>();
         //public List<string> ObjectsInEditorTableList = new List<string>();
@@ -360,7 +363,7 @@ namespace NetWorkedData
                 // exception for NWDAccount table
                 //if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken) || sType == typeof(NWDServerSFTP))
                 NWDClassSpecialAccountOnlyAttribute tServerOnlyAttribut = (NWDClassSpecialAccountOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassSpecialAccountOnlyAttribute), true);
-                if (tServerOnlyAttribut!=null)
+                if (tServerOnlyAttribut != null)
                 {
                     rAccountConnected = true;
                 }
@@ -511,6 +514,23 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
                 tTypeInfos.ClassInitialization();
+
+
+                NWDClassClusterAttribute tClusterAttribute = null;
+                if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
+                {
+                    tClusterAttribute = (NWDClassClusterAttribute)sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true)[0];
+                }
+                if (tClusterAttribute != null)
+                {
+                    tTypeInfos.ClusterMin = tClusterAttribute.Min;
+                    tTypeInfos.ClusterMax = tClusterAttribute.Max;
+                }
+                else
+                {
+                    tTypeInfos.ClusterMin = 0;
+                    tTypeInfos.ClusterMax = 2048;
+                }
 
 #if UNITY_EDITOR
                 tTypeInfos.LoadEditorPrefererences();

@@ -28,6 +28,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("Account Nickname")]
     [NWDClassMenuNameAttribute("Account Nickname")]
+    [NWDClassClusterAttribute(1, 10)]
     public partial class NWDAccountNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
