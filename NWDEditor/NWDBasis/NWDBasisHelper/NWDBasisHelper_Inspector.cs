@@ -626,6 +626,10 @@ namespace NetWorkedData
                         {
                             tProperty.Tooltips += tReference.ToolsTips;
                         }
+                        foreach (NWDEntitled tReference in tProp.GetCustomAttributes(typeof(NWDEntitled), true))
+                        {
+                            tProperty.Name = tReference.Entitled;
+                        }
 
                         foreach (NWDPropertyRename tReference in ClassType.GetCustomAttributes(typeof(NWDPropertyRename), true))
                         {

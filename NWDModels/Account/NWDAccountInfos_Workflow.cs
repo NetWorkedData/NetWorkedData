@@ -42,7 +42,7 @@ namespace NetWorkedData
             NWDAccountInfos rAccountInfos = CurrentData();
             if (rAccountInfos != null)
             {
-                NWDServerDNS tServer = null;
+                NWDServerDomain tServer = null;
                 if (rAccountInfos.Server != null)
                 {
                     tServer = rAccountInfos.Server.GetReachableData();
@@ -73,8 +73,8 @@ namespace NetWorkedData
                 }
                 if (tChangeServer == true)
                 {
-                    List<NWDServerDNS> tServerList = new List<NWDServerDNS>();
-                    foreach (NWDServerDNS tServerInList in NWDBasisHelper.GetReachableDatas<NWDServerDNS>())
+                    List<NWDServerDomain> tServerList = new List<NWDServerDomain>();
+                    foreach (NWDServerDomain tServerInList in NWDBasisHelper.GetReachableDatas<NWDServerDomain>())
                     {
                         if (tServerInList != tServer && tServerInList.ValidInSelectedEnvironment())
                         {

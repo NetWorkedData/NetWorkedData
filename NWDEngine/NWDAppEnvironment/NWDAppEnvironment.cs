@@ -121,14 +121,14 @@ namespace NetWorkedData
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos.Server != null)
             {
-                NWDServerDNS tServer = tAccountInfos.Server.GetReachableData();
+                NWDServerDomain tServer = tAccountInfos.Server.GetReachableData();
                 if (tServer != null)
                 {
-                    rReturn = tServer.ServerHTTPS;
+                    rReturn = tServer.ServerDNS;
                 }
             }
             rReturn = NWDToolbox.CleanDNS(rReturn);
-            return "https://"+rReturn;
+            return "https://" + rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetConfigurationServerHTTPS()

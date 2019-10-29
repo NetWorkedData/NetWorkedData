@@ -18,15 +18,15 @@ using System.Collections.Generic;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerSFTP : NWDBasis
+    public partial class NWDServerServices : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerSFTP()
+        public NWDServerServices()
         {
             //Debug.Log("NWDServerConfig Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerSFTP(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDServerServices(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
@@ -46,10 +46,10 @@ namespace NetWorkedData
         {
             base.AddonUpdateMe();
             InternalKey = "Unused config";
-            NWDServerDNS tServerDNS = Server.GetRawData();
+            NWDServerDomain tServerDNS = Server.GetRawData();
             if (tServerDNS != null)
             {
-                if (string.IsNullOrEmpty(tServerDNS.ServerHTTPS) == false)
+                if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
                 {
                     InternalKey = tServerDNS.InternalKey + " config";
                 }
@@ -59,17 +59,17 @@ namespace NetWorkedData
         public NWDServerAuthentification GetServerSFTP(NWDAppEnvironment sEnvironment)
         {
             NWDServerAuthentification rReturn = null;
-            NWDServerDNS tServerDNS = Server.GetRawData();
+            NWDServerDomain tServerDNS = Server.GetRawData();
             if (tServerDNS != null)
             {
 
-                if (string.IsNullOrEmpty(tServerDNS.ServerHTTPS) == false)
+                if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
                 {
                     if ((sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tServerDNS.Dev == true) ||
                         (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tServerDNS.Preprod == true) ||
                         (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tServerDNS.Prod == true))
                     {
-                        rReturn = new NWDServerAuthentification(NWDToolbox.TextUnprotect(tServerDNS.ServerHTTPS), Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password.ToString()));
+                        rReturn = new NWDServerAuthentification(NWDToolbox.TextUnprotect(tServerDNS.ServerDNS), Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password.ToString()));
                     }
                 }
             }
@@ -86,7 +86,7 @@ namespace NetWorkedData
         {
             List<NWDServerAuthentification> rReturn = new List<NWDServerAuthentification>();
             rReturn.Add(GetConfigurationServerSFTP(sEnvironment));
-            foreach (NWDServerSFTP tSFTP in NWDBasisHelper.GetRawDatas<NWDServerSFTP>())
+            foreach (NWDServerServices tSFTP in NWDBasisHelper.GetRawDatas<NWDServerServices>())
             {
                 NWDServerAuthentification tConn = tSFTP.GetServerSFTP(sEnvironment);
                 if (tConn != null)

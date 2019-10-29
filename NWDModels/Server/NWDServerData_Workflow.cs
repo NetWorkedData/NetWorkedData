@@ -11,25 +11,42 @@
 //
 //=====================================================================================================================
 
-#if UNITY_EDITOR
 using System;
-using UnityEngine;
-using UnityEditor;
+using System.Collections.Generic;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDNS : NWDBasis
+    public partial class NWDServerDatas : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEditor(Rect sRect)
+        public NWDServerDatas()
         {
-
+            //Debug.Log("NWDServerConfig Constructor");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDServerDatas(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
+            base.Initialization();
+            InternalKey = "Unused config";
+            Port = 22;
+            User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
+            IP.SetValue("192.168.0.1");
+            ServerName = "MyServer";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            base.AddonUpdateMe();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif

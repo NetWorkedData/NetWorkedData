@@ -34,7 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
-            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            foreach (NWDServerAuthentification tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SetMaintenance(this, sMaintenance);
             }
@@ -42,7 +42,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetObsolete(bool sObsolete)
         {
-            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            foreach (NWDServerAuthentification tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SetObsolete(this, sObsolete);
             }
@@ -50,7 +50,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetActivate()
         {
-            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            foreach (NWDServerAuthentification tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SetActivate(this);
             }
@@ -58,7 +58,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles)
         {
-            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            foreach (NWDServerAuthentification tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SendFiles(this, sAlternate, sFolder, sWSFiles);
             }
@@ -66,7 +66,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SendFile(string sAlternate, string sFolder, string sWSFile, bool sAutoDeconnect = true)
         {
-            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            foreach (NWDServerAuthentification tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 tConn.SendFiles(this, sAlternate, sFolder, new string[] { sWSFile });
             }
@@ -74,7 +74,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false)
         {
-            foreach (NWDServerAuthentification tConn in NWDServerSFTP.GetAllConfigurationServerSFTP(this))
+            foreach (NWDServerAuthentification tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
                 Debug.Log("tConn : " + tConn.Host + " " + tConn.Folder);
                 tConn.SendFolderAndFiles(sFolders, sFilesAndDatas, sFolderRecurssive);

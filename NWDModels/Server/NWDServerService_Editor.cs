@@ -24,7 +24,7 @@ namespace NetWorkedData
     // doc to read to finish script : https://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerSFTP : NWDBasis
+    public partial class NWDServerServices : NWDBasis
     {
         const string K_GITLAB_URL_MASTER = "gitlab.hephaiscode.com/Server/AutoSaveInstallSH/raw/master/";
         const string K_OUTPUT_FOLDER = "/etc/hephaiscode/";
@@ -152,29 +152,29 @@ namespace NetWorkedData
             GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), CommandInstallServer(Distribution, IP.GetValue(), Port, ServerName, RootPassword.GetValue(), false, false, false));
             tI += 11;
 
-            NWDServerDNS tServerDNS = Server.GetRawData();
+            NWDServerDomain tServerDNS = Server.GetRawData();
             if (tServerDNS != null)
             {
-                if (string.IsNullOrEmpty(tServerDNS.ServerHTTPS) == false)
+                if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
                 {
 
-                    if (GUI.Button(tMatrix[0, tI], "http://" + tServerDNS.ServerHTTPS))
+                    if (GUI.Button(tMatrix[0, tI], "http://" + tServerDNS.ServerDNS))
                     {
-                        Application.OpenURL("http://" + tServerDNS.ServerHTTPS);
+                        Application.OpenURL("http://" + tServerDNS.ServerDNS);
                     }
-                    if (GUI.Button(tMatrix[1, tI], "https://" + tServerDNS.ServerHTTPS))
+                    if (GUI.Button(tMatrix[1, tI], "https://" + tServerDNS.ServerDNS))
                     {
-                        Application.OpenURL("https://" + tServerDNS.ServerHTTPS);
+                        Application.OpenURL("https://" + tServerDNS.ServerDNS);
                     }
                     tI++;
 
                     GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Zone DNS");
                     tI++;
-                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), CommandDNS(tServerDNS.ServerHTTPS, IP.GetValue()));
+                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), CommandDNS(tServerDNS.ServerDNS, IP.GetValue()));
                     tI++;
                     GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install WebService command");
                     tI++;
-                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), CommandWebserviceSFTP(Distribution, IP.GetValue(), Port, tServerDNS.ServerHTTPS, User, Password.GetValue(), Folder, Email));
+                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), CommandWebserviceSFTP(Distribution, IP.GetValue(), Port, tServerDNS.ServerDNS, User, Password.GetValue(), Folder, Email));
                     tI += 11;
                     if (tServerDNS.Dev == true)
                     {

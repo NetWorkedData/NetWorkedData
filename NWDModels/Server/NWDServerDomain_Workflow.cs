@@ -17,15 +17,15 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDNS : NWDBasis
+    public partial class NWDServerDomain : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDNS()
+        public NWDServerDomain()
         {
             //Debug.Log("NWDServerConfig Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDNS(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDServerDomain(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
@@ -41,9 +41,9 @@ namespace NetWorkedData
         {
             base.AddonUpdateMe();
             InternalKey = "Unused server";
-            if (string.IsNullOrEmpty(ServerHTTPS) == false)
+            if (string.IsNullOrEmpty(ServerDNS) == false)
             {
-                InternalKey = ServerHTTPS;
+                InternalKey = ServerDNS;
 
                 if (Dev == true)
                 {
@@ -58,7 +58,7 @@ namespace NetWorkedData
                     InternalKey = InternalKey + " prod";
                 }
             }
-            ServerHTTPS = NWDToolbox.TextProtect(NWDToolbox.CleanDNS(NWDToolbox.TextUnprotect(ServerHTTPS)));
+            ServerDNS = NWDToolbox.TextProtect(NWDToolbox.CleanDNS(NWDToolbox.TextUnprotect(ServerDNS)));
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ValidInSelectedEnvironment()

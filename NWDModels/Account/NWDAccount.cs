@@ -51,6 +51,8 @@ namespace NetWorkedData
         [NWDTooltips("If account is banned set the unix timestamp of ban's date")]
         [NWDCertified]
         public int Ban { get; set; }
+        //[NWDTooltips("If account is froozen in iceberg")]
+        //public bool Archived { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

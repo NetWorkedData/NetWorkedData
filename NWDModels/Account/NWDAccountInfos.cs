@@ -40,7 +40,7 @@ namespace NetWorkedData
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Host")]
-        public NWDReferenceType<NWDServerDNS> Server { get; set; }
+        public NWDReferenceType<NWDServerDomain> Server { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Stat")]

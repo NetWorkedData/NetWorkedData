@@ -26,11 +26,12 @@ namespace NetWorkedData
         "Servers",
         "Servers",
         new Type[] {
-            typeof(NWDServerDNS),
-            typeof(NWDServerSFTP),
+            typeof(NWDServerDomain),
+            typeof(NWDServerServices),
+            typeof(NWDServerDatas),
             typeof(NWDBasisPreferences),
-            typeof(NWDUserNetWorking),
-            typeof(NWDRequestToken),
+            //typeof(NWDUserNetWorking),
+            //typeof(NWDRequestToken),
             typeof(NWDIPBan),
         }
     )]
@@ -39,34 +40,40 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Cluster sizer", false, 60)]
-        public static void MenuMethod()
+        public static void ClusterSizerMenuMethod()
         {
             NWDClusterSizer.SharedInstanceFocus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/DNS", false, 80)]
-        public static void ClusterSizerMenuMethod()
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Servers Domain (DNS)", false, 80)]
+        public static void MenuMethod()
         {
-            ShowWindow();
+            ShowWindow(typeof(NWDServerDomain));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/SFTP", false, 81)]
-        public static void MenuMethodSFTP()
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Servers Services (WS)", false, 81)]
+        public static void MenuMethodServices()
         {
-            ShowWindow(typeof(NWDServerSFTP));
+            ShowWindow(typeof(NWDServerServices));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Basis Preference", false, 100)]
-        public static void MenuMethodBasicPreference()
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Servers Datas (MySQL)", false, 81)]
+        public static void MenuMethodDatas()
         {
-            ShowWindow(typeof(NWDBasisPreferences));
+            ShowWindow(typeof(NWDServerDatas));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/NetWorking", false, 101)]
-        public static void MenuMethodNetWorking()
-        {
-            ShowWindow(typeof(NWDUserNetWorking));
-        }
+        //[MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Basis Preference", false, 100)]
+        //public static void MenuMethodBasicPreference()
+        //{
+        //    ShowWindow(typeof(NWDBasisPreferences));
+        //}
+        //-------------------------------------------------------------------------------------------------------------        
+        //[MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/NetWorking", false, 101)]
+        //public static void MenuMethodNetWorking()
+        //{
+        //    ShowWindow(typeof(NWDUserNetWorking));
+        //}
         //-------------------------------------------------------------------------------------------------------------        
         [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Token", false, 182)]
         public static void MenuMethodToken()

@@ -11,32 +11,25 @@
 //
 //=====================================================================================================================
 
+#if UNITY_EDITOR
 using System;
+using UnityEngine;
+using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDInternalKeyNotEditable]
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("SSD")]
-    [NWDClassDescriptionAttribute("Server descriptions Class")]
-    [NWDClassMenuNameAttribute("Server DNS")]
-    public partial class NWDServerDNS : NWDBasis
+    public partial class NWDServerDomain : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Server DNS")]
-        public string ServerHTTPS { get; set; }
-        [NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Server Environment Actif")]
-        [NWDIntSlider(0,100)]
-        public int BalanceLoad { get; set; }
-        [NWDIf("DevSync", new string[] { "0", "-1" }, true)]
-        public bool Dev { get; set; }
-        public bool Preprod { get; set; }
-        public bool Prod { get; set; }
+        public override void AddonEditor(Rect sRect)
+        {
+
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

@@ -27,24 +27,25 @@ namespace NetWorkedData
     [NWDClassSpecialAccountOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("SSS")]
-    [NWDClassDescriptionAttribute("Server SFTP descriptions Class")]
-    [NWDClassMenuNameAttribute("Server SFTP")]
-    public partial class NWDServerSFTP : NWDBasis
+    [NWDClassDescriptionAttribute("Server Services descriptions Class")]
+    [NWDClassMenuNameAttribute("Server Services")]
+    public partial class NWDServerServices : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDInspectorGroupStart("Account Administrator")]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        [NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Server DNS")]
-        public NWDReferenceType<NWDServerDNS> Server { get; set; }
+        [NWDInspectorGroupStart("Server Services")]
+        public NWDReferenceType<NWDServerDomain> Server { get; set; }
         public string Email { get; set; }
+        public string Folder { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Authentification SSH / SFTP")]
+        [NWDEntitled("SSH IP")]
         public NWDIPType IP { get; set; }
+        [NWDEntitled("SSH Port")]
         public int Port { get; set; }
+        [NWDEntitled("SSH User")]
         public string User { get; set; }
+        [NWDEntitled("SSH Password")]
         public NWDPasswordType Password { get; set; }
-        public string Folder { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }

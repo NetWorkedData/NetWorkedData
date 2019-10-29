@@ -42,23 +42,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string CleanDNS(string sServerDNS)
         {
-            string rServerHTTPS = sServerDNS.TrimEnd('/');
-            if (rServerHTTPS.StartsWith("https://", StringComparison.Ordinal))
+            string rServerDNS = sServerDNS;
+
+            if (string.IsNullOrEmpty(sServerDNS) == false)
             {
-                rServerHTTPS = rServerHTTPS.Substring("https://".Length);
+                rServerDNS = rServerDNS.TrimEnd('/');
+                if (rServerDNS.StartsWith("https://", StringComparison.Ordinal))
+                {
+                    rServerDNS = rServerDNS.Substring("https://".Length);
+                }
+                if (rServerDNS.StartsWith("http://", StringComparison.Ordinal))
+                {
+                    rServerDNS = rServerDNS.Substring("http://".Length);
+                }
+                if (rServerDNS.StartsWith("http://", StringComparison.Ordinal))
+                {
+                    rServerDNS = rServerDNS.Substring("http://".Length);
+                }
             }
-            if (rServerHTTPS.StartsWith("http://", StringComparison.Ordinal))
-            {
-                rServerHTTPS = rServerHTTPS.Substring("http://".Length);
-            }
-            if (rServerHTTPS.StartsWith("http://", StringComparison.Ordinal))
-            {
-                rServerHTTPS = rServerHTTPS.Substring("http://".Length);
-            }
-            return rServerHTTPS;
+            return rServerDNS;
         }
         //-------------------------------------------------------------------------------------------------------------
-            public static void EditorAndPlaying(string sWhere = "")
+        public static void EditorAndPlaying(string sWhere = "")
         {
 
 #if UNITY_EDITOR
@@ -71,6 +76,18 @@ namespace NetWorkedData
                 Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT AND NOT SWITCH TO IT PLAYING</color> ");
             }
             if (EditorApplication.isPlaying == true)
+            {
+                Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+            }
+            else
+            {
+                Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+            }
+#endif
+
+            if (Application.isEditor == true)
+            {
+                if (Application.isPlaying == true)
                 {
                     Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
                 }
@@ -78,22 +95,10 @@ namespace NetWorkedData
                 {
                     Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
                 }
-#endif
-
-            if (Application.isEditor == true)
-            {
-                if (Application.isPlaying == true)
-                {
-                    Debug.Log("<b>"+ sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
-                }
-                else
-                {
-                    Debug.Log("<b>"+ sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
-                }
             }
             else
             {
-                Debug.Log("<b>"+ sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
+                Debug.Log("<b>" + sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
 
         }
@@ -108,7 +113,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Color MixColor(Color sColorA, Color sColorB)
         {
-            Color rResult = new Color(sColorA.r + sColorB.r* sColorB.a,
+            Color rResult = new Color(sColorA.r + sColorB.r * sColorB.a,
              sColorA.g + sColorB.g * sColorB.a,
                  sColorA.b + sColorB.b * sColorB.a,
               sColorA.a);
@@ -123,13 +128,15 @@ namespace NetWorkedData
         public static string TextProtect(string sText)
         {
             string rText = sText;
-            rText = rText.Replace(NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorASubstitute);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorBSubstitute);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorC, NWDConstants.kFieldSeparatorCSubstitute);
-            // new adds
-            rText = rText.Replace(NWDConstants.kFieldSeparatorD, NWDConstants.kFieldSeparatorDSubstitute);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorE, NWDConstants.kFieldSeparatorESubstitute);
-
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                rText = rText.Replace(NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorASubstitute);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorBSubstitute);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorC, NWDConstants.kFieldSeparatorCSubstitute);
+                // new adds
+                rText = rText.Replace(NWDConstants.kFieldSeparatorD, NWDConstants.kFieldSeparatorDSubstitute);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorE, NWDConstants.kFieldSeparatorESubstitute);
+            }
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -141,12 +148,15 @@ namespace NetWorkedData
         public static string TextUnprotect(string sText)
         {
             string rText = sText;
-            rText = rText.Replace(NWDConstants.kFieldSeparatorASubstitute, NWDConstants.kFieldSeparatorA);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorBSubstitute, NWDConstants.kFieldSeparatorB);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorCSubstitute, NWDConstants.kFieldSeparatorC);
-            // new adds
-            rText = rText.Replace(NWDConstants.kFieldSeparatorDSubstitute, NWDConstants.kFieldSeparatorD);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorESubstitute, NWDConstants.kFieldSeparatorE);
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                rText = rText.Replace(NWDConstants.kFieldSeparatorASubstitute, NWDConstants.kFieldSeparatorA);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorBSubstitute, NWDConstants.kFieldSeparatorB);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorCSubstitute, NWDConstants.kFieldSeparatorC);
+                // new adds
+                rText = rText.Replace(NWDConstants.kFieldSeparatorDSubstitute, NWDConstants.kFieldSeparatorD);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorESubstitute, NWDConstants.kFieldSeparatorE);
+            }
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -479,11 +489,11 @@ namespace NetWorkedData
 
             if (isTemporaryAccount)
             {
-                rReturn +=  "T";
+                rReturn += "T";
             }
             else
             {
-                rReturn +=  "Z";
+                rReturn += "Z";
             }
 
             return rReturn;
