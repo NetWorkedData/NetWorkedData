@@ -787,6 +787,17 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool HasPreview(string sReference)
+        {
+            bool rReturn = false;
+            if (DatasByReference.ContainsKey(sReference))
+            {
+                NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
+                rReturn = tObject.PreviewTexture2D()!=null;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
