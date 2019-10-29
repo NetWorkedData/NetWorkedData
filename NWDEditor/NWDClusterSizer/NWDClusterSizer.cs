@@ -256,6 +256,28 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
             //NWEBenchmark.Finish();
             EditorGUIUtility.labelWidth = tLabelWidth;
+
+
+            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassNamePHP)<1)
+            {
+                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassNamePHP,1);
+            }
+            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).ClassNamePHP) < 1)
+            {
+                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos)).ClassNamePHP, 1);
+            }
+            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).ClassNamePHP) < 1)
+            {
+                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDGameSave)).ClassNamePHP, 1);
+            }
+            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos)).ClassNamePHP) < 1)
+            {
+                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos)).ClassNamePHP, 1);
+            }
+            if (EditorPrefs.GetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountPreference)).ClassNamePHP) < NWDDataManager.SharedInstance().ClassDataLoaded * 6)
+            {
+                EditorPrefs.SetInt("cluster_test_" + NWDBasisHelper.FindTypeInfos(typeof(NWDAccountPreference)).ClassNamePHP, NWDDataManager.SharedInstance().ClassDataLoaded * 6);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }
