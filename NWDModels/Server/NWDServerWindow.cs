@@ -36,38 +36,45 @@ namespace NetWorkedData
     )]
     public class NWDServerWindow : NWDBasisWindow<NWDServerWindow>
     {
+
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/DNS", false, 60)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Cluster sizer", false, 60)]
         public static void MenuMethod()
+        {
+            NWDClusterSizer.SharedInstanceFocus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/DNS", false, 80)]
+        public static void ClusterSizerMenuMethod()
         {
             ShowWindow();
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/SFTP", false, 61)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/SFTP", false, 81)]
         public static void MenuMethodSFTP()
         {
             ShowWindow(typeof(NWDServerSFTP));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Basis Preference", false, 80)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Basis Preference", false, 100)]
         public static void MenuMethodBasicPreference()
         {
             ShowWindow(typeof(NWDBasisPreferences));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/NetWorking", false, 81)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/NetWorking", false, 101)]
         public static void MenuMethodNetWorking()
         {
             ShowWindow(typeof(NWDUserNetWorking));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Token", false, 82)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/Token", false, 182)]
         public static void MenuMethodToken()
         {
             ShowWindow(typeof(NWDRequestToken));
         }
         //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/IP BAN", false, 83)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Cluster Configuration/IP BAN", false, 183)]
         public static void MenuMethodIPBAN()
         {
             ShowWindow(typeof(NWDIPBan));
