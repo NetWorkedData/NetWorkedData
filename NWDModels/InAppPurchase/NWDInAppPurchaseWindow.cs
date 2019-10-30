@@ -24,8 +24,10 @@ namespace NetWorkedData
         "NWDInAppPurchaseWindow window description",
         new Type[] {
             typeof(NWDInAppPack),
+#if NWD_MODULE_MARKETPLACES
             typeof(NWDShop),
             typeof(NWDRack),
+#endif
             typeof(NWDPack),
             typeof(NWDItemPack),
             typeof(NWDItem),

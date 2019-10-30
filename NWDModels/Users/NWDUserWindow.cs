@@ -28,7 +28,9 @@ namespace NetWorkedData
             typeof(NWDUserAvatar),
             typeof(NWDUserPreference),
             typeof(NWDUserOwnership),
+#if NWD_MODULE_MARKETPLACES
             typeof(NWDUserTransaction),
+#endif
             typeof(NWDUserInterMessage),
             typeof(NWDGameSave),
             typeof(NWDUserItemSlot),
@@ -67,11 +69,13 @@ namespace NetWorkedData
             ShowWindow(typeof(NWDUserOwnership));
         }
         //-------------------------------------------------------------------------------------------------------------
+#if NWD_MODULE_MARKETPLACES
         [MenuItem(NWDConstants.K_MENU_BASE + "User/Transaction", false, 305)]
         public static void MenuMethodTransaction()
         {
             ShowWindow(typeof(NWDUserTransaction));
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "User/Inter Message", false, 306)]
         public static void MenuMethodInterMessage()
