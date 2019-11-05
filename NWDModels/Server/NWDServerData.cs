@@ -27,8 +27,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Authentification MySQL")]
-        [NWDEntitled("MySQL Port")]
-        public int MySQLPort { get; set; }
+        //[NWDEntitled("MySQL Port")]
+        //public int MySQLPort { get; set; }
         [NWDEntitled("MySQL User")]
         public string MySQLUser { get; set; }
         [NWDEntitled("MySQL Password")]

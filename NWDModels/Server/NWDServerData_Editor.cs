@@ -33,23 +33,68 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerNySQL(NWDServerDistribution sDistribution, string sIP, int sPort, string sServerName, string sNewRootPassword, bool sMySQL, bool sPhpMyAdmin, bool sPostfix)
-        {
-            StringBuilder tScriptServer = new StringBuilder();
-            tScriptServer.AppendLine("ssh -l root " + sIP + " -p22");
-            if (sPort != 22)
-            {
-                tScriptServer.AppendLine("# or ssh -l root " + sIP + " -p" + sPort);
-            }
-            return tScriptServer.ToString();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 40);
             int tI = 0;
+
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
+
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Open Terminal"))
+            {
+                // /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+                FileInfo tFileInfo = new FileInfo("/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal");
+                System.Diagnostics.Process.Start(tFileInfo.FullName);
+            }
+            tI++;
+
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server MySQL command");
+            tI++;
+            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerMySQL(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), External, PhpMyAdmin));
+            tI += 11;
+
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+            
+            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Database command");
+            tI++;
+            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallDatabase(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), MySQLUser, MySQLPassword.GetValue(), MySQLBase));
+            tI += 11;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force dev editor data"))
+            {
+                //TODO : push data ...
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force preprod editor data"))
+            {
+                //TODO : push data ...
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force prod editor data"))
+            {
+                //TODO : push data ...
+            }
+            tI++;
+
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            if (PhpMyAdmin == true)
+            {
+
+                if (GUI.Button(tMatrix[0, tI], "http://" + IP + "/PhpMyAmdin/"))
+                {
+                    Application.OpenURL("http://" + IP + "/PhpMyAmdin/");
+                }
+                if (GUI.Button(tMatrix[1, tI], "https://" + IP + "/PhpMyAmdin/"))
+                {
+                    Application.OpenURL("https://" + IP + "/PhpMyAmdin/");
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -27,20 +27,41 @@ namespace NetWorkedData
     public class NWDServerInstall
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServer(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword)
+        public static string CommandInstallServerApache(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword)
         {
             StringBuilder tScriptServer = new StringBuilder();
-#if UnityEditor
+#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        return NWDServerDebian9.CommandInstallServer(sIP, sPort, sRoot, sRootPassword);
+                        tScriptServer.Append( NWDServerDebian9.CommandInstallServerApache(sIP, sPort, sRoot, sRootPassword));
                     }
                     break;
                 case NWDServerDistribution.debian10:
                     {
-                        return NWDServerDebian10.CommandInstallServer(sIP, sPort, sRoot, sRootPassword);
+                        tScriptServer.Append(NWDServerDebian10.CommandInstallServerApache(sIP, sPort, sRoot, sRootPassword));
+                    }
+                    break;
+            }
+#endif
+            return tScriptServer.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string CommandInstallServerMySQL(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
+        {
+            StringBuilder tScriptServer = new StringBuilder();
+#if UNITY_EDITOR
+            switch (sDistribution)
+            {
+                case NWDServerDistribution.debian9:
+                    {
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerMySQL(sIP, sPort, sRoot, sRootPassword,  sMySQLExternal,  sMySQLPhpMyAdmin));
+                    }
+                    break;
+                case NWDServerDistribution.debian10:
+                    {
+                        tScriptServer.Append(NWDServerDebian10.CommandInstallServerMySQL(sIP, sPort, sRoot, sRootPassword,  sMySQLExternal,  sMySQLPhpMyAdmin));
                     }
                     break;
             }
@@ -50,44 +71,51 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string CommandInstallWebService(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sDNS, string sUser, string sPassword, string sFolder, string sEmail)
         {
-            StringBuilder tScriptAppache = new StringBuilder();
-#if UnityEditor
+            StringBuilder tScriptServer = new StringBuilder();
+#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        return NWDServerDebian9.CommandInstallWebService(sIP, sPort, sRoot, sRootPassword, sDNS, sUser, sPassword, sFolder, sEmail);
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallWebService(sIP, sPort, sRoot, sRootPassword, sDNS, sUser, sPassword, sFolder, sEmail));
                     }
                     break;
                 case NWDServerDistribution.debian10:
                     {
-                        return NWDServerDebian10.CommandInstallWebService(sIP, sPort, sRoot, sRootPassword, sDNS, sUser, sPassword, sFolder, sEmail);
+                        tScriptServer.Append(NWDServerDebian10.CommandInstallWebService(sIP, sPort, sRoot, sRootPassword, sDNS, sUser, sPassword, sFolder, sEmail));
                     }
                     break;
             }
 #endif
-            return tScriptAppache.ToString();
+            return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallMysql(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase, int sMySQLPort, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
+        public static string CommandInstallDatabase(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase)
         {
-            StringBuilder tScriptAppache = new StringBuilder();
-#if UnityEditor
+            StringBuilder tScriptServer = new StringBuilder();
+#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                       return NWDServerDebian9.CommandInstallMysql(sIP, sPort, sRoot, sRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase, sMySQLPort, sMySQLExternal, sMySQLPhpMyAdmin);
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallDatabase(sIP, sPort, sRoot, sRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase));
                     }
                     break;
                 case NWDServerDistribution.debian10:
                     {
-                       return NWDServerDebian10.CommandInstallMysql(sIP, sPort, sRoot, sRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase, sMySQLPort, sMySQLExternal, sMySQLPhpMyAdmin);
+                        tScriptServer.Append(NWDServerDebian10.CommandInstallDatabase(sIP, sPort, sRoot, sRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase));
                     }
                     break;
             }
 #endif
-            return tScriptAppache.ToString();
+            return tScriptServer.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string CommandDNS(string sServerHTTPS, string sIP)
+        {
+            StringBuilder tScriptDNS = new StringBuilder();
+            tScriptDNS.AppendLine(sServerHTTPS + " 10800 A " + sIP);
+            return tScriptDNS.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
