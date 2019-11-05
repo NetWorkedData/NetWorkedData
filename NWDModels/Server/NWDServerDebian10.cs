@@ -10,42 +10,40 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+#if UnityEditor
 using System;
-using System.Collections.Generic;
+using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDServerDatas : NWDBasis
+    public class NWDServerDebian10
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDatas()
+        public static string CommandInstallServer(string sIP, int sPort, string sRoot, string sRootPassword)
         {
-            //Debug.Log("NWDServerConfig Constructor");
+
+            StringBuilder tScriptServer = new StringBuilder();
+            return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerDatas(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public static string CommandInstallWebService(string sIP, int sPort, string sRoot, string sRootPassword, string sDNS, string sUser, string sPassword, string sFolder, string sEmail)
         {
-            //Debug.Log("NWDServerConfig Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
+            StringBuilder tScriptServer = new StringBuilder();
+            return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        public static string CommandInstallMysql(string sIP, int sPort, string sRoot, string sRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase, int sMySQLPort, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
         {
-            base.Initialization();
-            InternalKey = "Unused config";
-            Port = 22;
-            User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
-            IP.SetValue("192.168.0.1");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            base.AddonUpdateMe();
+
+            StringBuilder tScriptServer = new StringBuilder();
+            return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

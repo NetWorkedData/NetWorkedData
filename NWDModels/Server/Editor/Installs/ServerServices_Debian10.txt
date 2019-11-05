@@ -1,0 +1,118 @@
+ssh -l root 164.132.170.51 p22
+# tape your password
+
+sudo apt update
+sudo apt -y upgrade
+sudo apt -y dist-upgrade
+
+# install tools
+
+sudo apt -y install vim
+sudo apt -y install whois
+sudo apt install debconf-utils
+
+# install SFTP
+
+sudo addgroup sftp_chroot
+sudo sed -i '$ a \ ' /etc/ssh/sshd_config
+sudo sed -i '$ a \ ' /etc/ssh/sshd_config
+sudo sed -i '$ a # add for sftp-server' /etc/ssh/sshd_config
+sudo sed -i '$ a \ ' /etc/ssh/sshd_config
+sudo sed -i '$ a Match Group sftp_chroot' /etc/ssh/sshd_config
+sudo sed -i '$ a ChrootDirectory /home/%u' /etc/ssh/sshd_config
+sudo sed -i '$ a ForceCommand internal-sftp' /etc/ssh/sshd_config
+sudo sed -i '$ a AllowTcpForwarding no' /etc/ssh/sshd_config
+sudo sed -i '$ a \ ' /etc/ssh/sshd_config
+sudo service sshd restart
+
+# install apache
+
+sudo apt -y install apache2
+sudo apt -y install apache2-doc
+sudo apt-get -y install apache2-suexec-custom
+
+sudo a2enmod ssl
+sudo a2enmod userdir
+sudo a2enmod suexec
+
+# apache configuration
+
+sudo sed -i 's/\/var\/www/\/home/g' /etc/apache2/suexec/www-data
+sudo sed -i 's/public_html\/cgi-bin/public_html/g' /etc/apache2/suexec/www-data
+sudo sed -i '$ a \ ' /etc/apache2/apache2.conf
+sudo sed -i '$ a # add no signature in error page' /etc/apache2/apache2.conf
+sudo sed -i '$ a \ ' /etc/apache2/apache2.conf
+sudo sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf
+sudo sed -i '$ a \ ' /etc/apache2/apache2.conf
+
+sudo systemctl restart apache2
+
+# php install
+
+sudo apt -y install php7.0
+sudo apt- y install php7.0-mysql
+sudo apt -y install php7.0-curl
+sudo apt -y install php7.0-json
+sudo apt -y install php7.0-xml
+sudo apt -y install php7.0-mcrypt
+sudo apt -y install php7.0-gd
+sudo apt -y install php7.0-mbstring
+sudo apt -y install php7.0-zip
+sudo apt -y install php7.0-mail
+sudo apt -y install php7.0-ssh2
+sudo apt -y install php-pear		
+sudo apt -y install libapache2-mod-php7.0
+
+sudo systemctl restart apache2 
+
+# php configure
+
+sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini
+sudo sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g' /etc/php/7.0/apache2/php.ini
+sudo sed -i 's/zlib.outpout_compression = Off/zlib.outpout_compression = On/g' /etc/php/7.0/apache2/php.ini
+sudo sed -i 's/php_admin_flag engine Off/php_admin_flag engine On/g' /etc/apache2/mods-enabled/php7.0.conf
+
+sudo echo $"<?php echo phpinfo(); ?>" > /var/www/html/phpinfo.php
+sudo echo $"Are-you lost? ok, I will help you, you are here!" > /var/www/html/index.html
+
+sudo systemctl restart apache2 
+
+# install Let's Encrypt Certbot
+
+sudo echo $"deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/backports.list
+sudo apt update
+sudo apt-y install python-certbot-apache -t stretch-backports
+sudo systemctl restart apache2 
+
+
+sudo sed -i 's/^Port .*$/Port '${tmp_port_value}'/g' /etc/ssh/sshd_config
+sudo service sshd restart
+
+
+
+# mysql install
+		debconf-set-selections <<< "mysql-server mysql-server/root_password password ${tmp_mysql_root_password}"
+		debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${tmp_mysql_root_password}"
+		apt -y install mysql-server
+		apt -y install mysql-client
+		sudo /etc/init.d/mysql start
+
+		#phpmyadmin
+		echo $" > phpmyadmin install"
+		debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
+		debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password ${tmp_mysql_root_password}"
+		debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password ${tmp_mysql_root_password}"
+		debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password ${tmp_mysql_root_password}"
+		debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none"
+		apt-get -y -q install phpmyadmin > /dev/null 2>&1
+
+
+
+
+
+
+
+
+
+
+

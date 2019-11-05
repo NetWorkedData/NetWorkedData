@@ -25,8 +25,8 @@ namespace NetWorkedData
         new Type[] {
             typeof(NWDInAppPack),
 #if NWD_MODULE_MARKETPLACES
-            typeof(NWDShop),
-            typeof(NWDRack),
+            //typeof(NWDShop),
+            //typeof(NWDRack),
 #endif
             typeof(NWDPack),
             typeof(NWDItemPack),

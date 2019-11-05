@@ -38,7 +38,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServer(NWDServerDistribution sDistribution, string sIP, int sPort, string sServerName, string sNewRootPassword, bool sMySQL, bool sPhpMyAdmin, bool sPostfix)
+        public static string CommandInstallServer(NWDServerDistribution sDistribution, string sIP, int sPort, bool sMySQL, bool sPhpMyAdmin, bool sPostfix)
         {
             StringBuilder tScriptServer = new StringBuilder();
             tScriptServer.AppendLine("ssh -l root " + sIP + " -p22");
@@ -53,18 +53,11 @@ namespace NetWorkedData
             tScriptServer.AppendLine("");
             tScriptServer.AppendLine("sudo chmod +x " + K_OUTPUT_FOLDER + K_SERVER_INSTALL + sDistribution.ToString() + ".sh");
             tScriptServer.AppendLine("");
-            string tServerName = sServerName;
-            if (string.IsNullOrEmpty(tServerName) == true)
-            {
-                tServerName = "NoServerName";
-            }
             tScriptServer.AppendLine("sudo " + K_OUTPUT_FOLDER + K_SERVER_INSTALL + sDistribution.ToString() + ".sh"
                 + " no@contact.me"
-                + " " + tServerName
                 + " " + sMySQL.ToString().ToLower()
                 + " " + sPhpMyAdmin.ToString().ToLower()
                 + " " + sPostfix.ToString().ToLower()
-                + " " + sNewRootPassword.ToString()
                 + " " + sPort.ToString()
                 );
             tScriptServer.AppendLine("");
@@ -149,7 +142,7 @@ namespace NetWorkedData
             tI++;
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server command");
             tI++;
-            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), CommandInstallServer(Distribution, IP.GetValue(), Port, ServerName, RootPassword.GetValue(), false, false, false));
+            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), CommandInstallServer(Distribution, IP.GetValue(), Port, false, false, false));
             tI += 11;
 
             NWDServerDomain tServerDNS = Server.GetRawData();

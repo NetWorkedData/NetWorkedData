@@ -39,7 +39,6 @@ namespace NetWorkedData
             User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
             Folder = "public_webservice";
             IP.SetValue("192.168.0.1");
-            ServerName = "MyServer";
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()

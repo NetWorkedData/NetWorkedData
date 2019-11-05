@@ -42,6 +42,7 @@ namespace NetWorkedDataMacroDefine
 		//-------------------------------------------------------------------------------------------------------------
 		public void InstallMacro (BuildTargetGroup sBuildTarget)
 		{
+            Debug.Log("InstallMacro "+ Install.ToString() + " macro " + Macro);
             List<string> tMacroList = new List<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(sBuildTarget).Split(new char[] { ';' }));
             if (Install == true)
             {

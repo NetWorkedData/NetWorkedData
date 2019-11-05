@@ -36,6 +36,13 @@ namespace NetWorkedData
         [NWDEntitled("MySQL Base")]
         public string MySQLBase { get; set; }
         [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Acces MySQL")]
+        public bool External { get; set; }
+        [NWDEntitled("PHP My Admin")]
+        public bool PhpMyAdmin { get; set; }
+        [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Authentification SSH")]
         [NWDEntitled("SSH IP")]
         public NWDIPType IP { get; set; }
@@ -45,11 +52,14 @@ namespace NetWorkedData
         public string User { get; set; }
         [NWDEntitled("SSH Password")]
         public NWDPasswordType Password { get; set; }
+        [NWDEntitled("SSH Root User")]
+        public string Root_User { get; set; }
+        [NWDEntitled("SSH Root Password")]
+        public NWDPasswordType Root_Password { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }
-        public string ServerName { get; set; }
-        public NWDPasswordType RootPassword { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

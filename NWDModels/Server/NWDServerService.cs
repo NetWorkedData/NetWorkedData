@@ -17,12 +17,6 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDServerDistribution
-    {
-        debian9,
-        debian10,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
     [NWDClassSpecialAccountOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
@@ -34,6 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server Services")]
         public NWDReferenceType<NWDServerDomain> Server { get; set; }
+        [NWDEntitled("Email for SSL certification")]
         public string Email { get; set; }
         public string Folder { get; set; }
         [NWDInspectorGroupEnd]
@@ -46,11 +41,13 @@ namespace NetWorkedData
         public string User { get; set; }
         [NWDEntitled("SSH Password")]
         public NWDPasswordType Password { get; set; }
+        [NWDEntitled("SSH Root User")]
+        public string Root_User { get; set; }
+        [NWDEntitled("SSH Root Password")]
+        public NWDPasswordType Root_Password { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }
-        public string ServerName { get; set; }
-        public NWDPasswordType RootPassword { get; set; }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -29,7 +29,7 @@ namespace NetWorkedData
             typeof(NWDUserPreference),
             typeof(NWDUserOwnership),
 #if NWD_MODULE_MARKETPLACES
-            typeof(NWDUserTransaction),
+            //typeof(NWDUserTransaction),
 #endif
             typeof(NWDUserInterMessage),
             typeof(NWDGameSave),
@@ -73,7 +73,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "User/Transaction", false, 305)]
         public static void MenuMethodTransaction()
         {
-            ShowWindow(typeof(NWDUserTransaction));
+            //ShowWindow(typeof(NWDUserTransaction));
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
