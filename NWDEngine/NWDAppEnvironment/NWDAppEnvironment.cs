@@ -55,7 +55,7 @@ namespace NetWorkedData
         public int IPBanTimer = 3600;
         public int IPBanMaxTentative = 3;
         public bool IPBanActive = true;
-        public int SFTPBalanceLoad = 50;
+        public int SFTPBalanceLoad = 50; // TODO : Rename LoadBalancingLimit
 #if UNITY_EDITOR
         public NWDServerLanguage ServerLanguage = NWDServerLanguage.PHP;
         public string SaltServer = string.Empty;

@@ -50,7 +50,7 @@ sudo systemctl restart apache2
 # php install
 
 sudo apt -y install php7.0
-sudo apt- y install php7.0-mysql
+sudo apt -y install php7.0-mysql
 sudo apt -y install php7.0-curl
 sudo apt -y install php7.0-json
 sudo apt -y install php7.0-xml

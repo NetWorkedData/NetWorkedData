@@ -11,6 +11,7 @@
 //
 //=====================================================================================================================
 
+#if UNITY_EDITOR
 using System;
 using System.Text;
 
@@ -30,7 +31,6 @@ namespace NetWorkedData
         public static string CommandInstallServerApache(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword)
         {
             StringBuilder tScriptServer = new StringBuilder();
-#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
@@ -44,14 +44,12 @@ namespace NetWorkedData
                     }
                     break;
             }
-#endif
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string CommandInstallServerMySQL(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
         {
             StringBuilder tScriptServer = new StringBuilder();
-#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
@@ -65,14 +63,12 @@ namespace NetWorkedData
                     }
                     break;
             }
-#endif
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string CommandInstallWebService(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sDNS, string sUser, string sPassword, string sFolder, string sEmail)
         {
             StringBuilder tScriptServer = new StringBuilder();
-#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
@@ -86,14 +82,12 @@ namespace NetWorkedData
                     }
                     break;
             }
-#endif
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string CommandInstallDatabase(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase)
         {
             StringBuilder tScriptServer = new StringBuilder();
-#if UNITY_EDITOR
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
@@ -107,7 +101,6 @@ namespace NetWorkedData
                     }
                     break;
             }
-#endif
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -122,3 +115,5 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+
+#endif
