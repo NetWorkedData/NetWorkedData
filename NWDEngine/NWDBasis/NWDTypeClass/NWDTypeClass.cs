@@ -670,6 +670,7 @@ namespace NetWorkedData
     public class NWDClassSpecialAccountOnlyAttribute : Attribute
     {
     }
+#if UNITY_EDITOR
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class NWDWindowOwnerAttribute : Attribute
@@ -686,6 +687,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class NWDClassServerSynchronizeAttribute : Attribute

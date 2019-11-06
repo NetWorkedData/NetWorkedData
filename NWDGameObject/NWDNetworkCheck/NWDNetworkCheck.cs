@@ -373,9 +373,10 @@ namespace NetWorkedData
             {
                 tResponse = (HttpWebResponse)tRequest.GetResponse();
             }
-            catch (WebException tWebException)
+            catch (WebException e)
             {
-                Debug.Log(URL + " doesn't exist: " + tWebException.Message);
+                Debug.LogException(e);
+                //Debug.Log(URL + " doesn't exist: " + e.Message);
                 tNetworkState = NWDNetworkState.OffLine;
             }
             finally

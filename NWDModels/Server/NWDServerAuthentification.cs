@@ -13,12 +13,12 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 using System.Text;
-using Renci.SshNet;
+using UnityEngine;
 
 #if UNITY_EDITOR
+using Renci.SshNet;
 using UnityEditor;
 #endif
 

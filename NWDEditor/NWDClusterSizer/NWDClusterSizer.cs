@@ -17,26 +17,10 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Linq;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class NWDClassClusterAttribute : Attribute
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public int Min;
-        public int Max;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDClassClusterAttribute(int sMin, int sMax)
-        {
-            Min = sMin;
-            Max = sMax;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDClusterSizer : NWDEditorWindow
     {
