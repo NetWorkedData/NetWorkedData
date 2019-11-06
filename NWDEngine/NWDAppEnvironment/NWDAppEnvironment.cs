@@ -40,8 +40,8 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public string PreviewRequesToken = string.Empty;
         public string LastPreviewRequesToken = string.Empty;
-        private string WithSpecialSDKI;
 #endif
+        private string WithSpecialSDKI;
         //-------------------------------------------------------------------------------------------------------------
         //public string AnonymousPlayerAccountReference = string.Empty;
         // reccord the first anonymous value to restaure old original account

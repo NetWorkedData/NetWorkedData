@@ -25,7 +25,6 @@ namespace NetWorkedData
     /// <summary>
     /// NWDExample class. This class is use for (complete description here).
     /// </summary>
-    [NWDWindowOwnerAttribute(typeof(NWDAccountWindow))]
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("NWDExample_Tri")]
     [NWDClassDescriptionAttribute("NWDExample_Description")]

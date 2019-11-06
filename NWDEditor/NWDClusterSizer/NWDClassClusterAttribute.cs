@@ -2,7 +2,7 @@
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:29:32
+//  Date		2019-4-12 18:20:16
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -11,38 +11,23 @@
 //
 //=====================================================================================================================
 
-using SQLite.Attribute;
+using System;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassSpecialAccountOnlyAttribute]
-    [NWDClassServerSynchronizeAttribute(false)]
-    [NWDClassTrigrammeAttribute("RQT")]
-    [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
-    [NWDClassMenuNameAttribute("RequestToken")]
-    [NWDClassClusterAttribute(1, 6)]
-    public partial class NWDRequestToken : NWDBasis
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class NWDClassClusterAttribute : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string K_TOKEN_INDEX = "TokenIndex";
+        public int Min;
+        public int Max;
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAddIndexed(K_TOKEN_INDEX,"AC")]
-        [NWDAddIndexed(K_TOKEN_INDEX, "DM")]
-        [NWDAddIndexed(K_TOKEN_INDEX, "DD")]
-        //-------------------------------------------------------------------------------------------------------------
-        [Indexed(K_TOKEN_INDEX, 0)]
-        [NWDCertified]
-        public NWDReferenceType<NWDAccount> UUIDHash
+        public NWDClassClusterAttribute(int sMin, int sMax)
         {
-            get; set;
-        }
-        [Indexed(K_TOKEN_INDEX, 1)]
-        [NWDCertified]
-        public string Token
-        {
-            get; set;
+            Min = sMin;
+            Max = sMax;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

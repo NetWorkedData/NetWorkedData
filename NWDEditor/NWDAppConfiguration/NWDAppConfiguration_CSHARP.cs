@@ -18,7 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -184,12 +183,13 @@ namespace NetWorkedData
                 AssetDatabase.ImportAsset(tPath, ImportAssetOptions.ForceUpdate);
                 //AssetDatabase.Refresh();
             }
-            catch (IOException sException)
+            catch (IOException e)
             {
-                if (sException.Source != null)
+                Debug.LogException(e);
+                /*if (e.Source != null)
                 {
-                    Console.WriteLine("IOException source: {0}", sException.Source);
-                }
+                    Console.WriteLine("IOException source: {0}", e.Source);
+                }*/
                 throw;
             }
             //NWEBenchmark.Finish();
