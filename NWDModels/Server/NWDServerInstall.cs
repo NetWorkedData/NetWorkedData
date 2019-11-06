@@ -47,19 +47,19 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerMySQL(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
+        public static string CommandInstallServerMySQL(NWDServerDistribution sDistribution, string sIP, int sPort, string sRoot, string sRootPassword, string sRootMySQLPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
         {
             StringBuilder tScriptServer = new StringBuilder();
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerMySQL(sIP, sPort, sRoot, sRootPassword,  sMySQLExternal,  sMySQLPhpMyAdmin));
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallServerMySQL(sIP, sPort, sRoot, sRootPassword, sRootMySQLPassword, sMySQLExternal,  sMySQLPhpMyAdmin));
                     }
                     break;
                 case NWDServerDistribution.debian10:
                     {
-                        tScriptServer.Append(NWDServerDebian10.CommandInstallServerMySQL(sIP, sPort, sRoot, sRootPassword,  sMySQLExternal,  sMySQLPhpMyAdmin));
+                        tScriptServer.Append(NWDServerDebian10.CommandInstallServerMySQL(sIP, sPort, sRoot, sRootPassword, sRootMySQLPassword,  sMySQLExternal,  sMySQLPhpMyAdmin));
                     }
                     break;
             }

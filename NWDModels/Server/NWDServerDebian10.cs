@@ -22,6 +22,66 @@ namespace NetWorkedData
     public class NWDServerDebian10
     {
         //-------------------------------------------------------------------------------------------------------------
+        public static string CommandInstallApachePHP()
+        {
+            StringBuilder tScriptServer = new StringBuilder();
+
+            // Install Apache
+            tScriptServer.AppendLine("# install apache");
+            tScriptServer.AppendLine("");
+            tScriptServer.AppendLine("sudo apt -y install apache2");
+            tScriptServer.AppendLine("sudo apt -y install apache2-doc");
+            tScriptServer.AppendLine("sudo apt -y install apache2-suexec-custom");
+            tScriptServer.AppendLine("# active apache mod");
+            tScriptServer.AppendLine("sudo a2enmod ssl");
+            tScriptServer.AppendLine("sudo a2enmod userdir");
+            tScriptServer.AppendLine("sudo a2enmod suexec");
+            tScriptServer.AppendLine("# apache configure");
+            tScriptServer.AppendLine("sudo sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
+            tScriptServer.AppendLine("sudo sed -i 's/public_html\\/cgi-bin/public_html/g'/etc/apache2/suexec/www-data");
+            tScriptServer.AppendLine("sudo sed -i '$ a \\ ' /etc/apache2/apache2.conf");
+            tScriptServer.AppendLine("sudo sed -i '$ a # add no signature in error page' /etc/apache2/apache2.conf");
+            tScriptServer.AppendLine("sudo sed -i '$ a \\ ' /etc/apache2/apache2.conf");
+            tScriptServer.AppendLine("sudo sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
+            tScriptServer.AppendLine("sudo sed -i '$ a \\ ' /etc/apache2/apache2.conf");
+            tScriptServer.AppendLine("# apache restart");
+            tScriptServer.AppendLine("sudo systemctl restart apache2");
+            tScriptServer.AppendLine("");
+
+            // Install PHP
+            tScriptServer.AppendLine("# php install");
+            tScriptServer.AppendLine("sudo apt -y install php7.0");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-mysql");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-curl");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-json");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-xml");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-mcrypt");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-gd");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-mbstring");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-gettext");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-zip");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-mail");
+            tScriptServer.AppendLine("sudo apt -y install php7.0-ssh2");
+            tScriptServer.AppendLine("sudo apt -y install php-pear");
+            tScriptServer.AppendLine("sudo apt -y install libapache2-mod-php");
+            tScriptServer.AppendLine("# php configure");
+            tScriptServer.AppendLine("sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini");
+            tScriptServer.AppendLine("sudo sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g'/etc/php/7.0/apache2/ php.ini");
+            tScriptServer.AppendLine("sudo sed -i 's/zlib.outpout_compression = Off/zlib.outpout_compression = On/g' /etc/php/7.0/apache2/php.ini");
+            tScriptServer.AppendLine("sudo sed -i 's/php_admin_flag engine Off/php_admin_flag engine On/g' /etc/apache2/mods-enabled/php7.0.conf");
+            tScriptServer.AppendLine("# php folder default");
+            tScriptServer.AppendLine("sudo chgrp -R adm /var/www/html/");
+            tScriptServer.AppendLine("sudo chmod 775 /var/www/html/");
+            tScriptServer.AppendLine("sudo echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
+            tScriptServer.AppendLine("sudo chmod 775 /var/www/html/index.html");
+            tScriptServer.AppendLine("sudo echo $\"Are-you lost ? ok, I will help you, you are here!\" >/var/www/html/index.html");
+            tScriptServer.AppendLine("# apache restart");
+            tScriptServer.AppendLine("sudo systemctl restart apache2");
+            tScriptServer.AppendLine("");
+
+            return tScriptServer.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string CommandInstallServerApache(string sIP, int sPort, string sRoot, string sRootPassword)
         {
             StringBuilder tScriptServer = new StringBuilder();
@@ -57,6 +117,9 @@ namespace NetWorkedData
                 tScriptServer.AppendLine("sudo apt -y dist-upgrade");
                 tScriptServer.AppendLine("");
 
+                // Install Apache PHP
+                tScriptServer.AppendLine(CommandInstallApachePHP());
+
                 // Install Tools
                 tScriptServer.AppendLine("# install tools");
                 tScriptServer.AppendLine("sudo apt -y install vim");
@@ -79,58 +142,6 @@ namespace NetWorkedData
                 tScriptServer.AppendLine("sudo service sshd restart");
                 tScriptServer.AppendLine("");
 
-                // Install Apache
-                tScriptServer.AppendLine("# install apache");
-                tScriptServer.AppendLine("");
-                tScriptServer.AppendLine("sudo apt -y install apache2");
-                tScriptServer.AppendLine("sudo apt -y install apache2-doc");
-                tScriptServer.AppendLine("sudo apt -y install apache2-suexec-custom");
-                tScriptServer.AppendLine("# active apache mod");
-                tScriptServer.AppendLine("sudo a2enmod ssl");
-                tScriptServer.AppendLine("sudo a2enmod userdir");
-                tScriptServer.AppendLine("sudo a2enmod suexec");
-                tScriptServer.AppendLine("# apache configure");
-                tScriptServer.AppendLine("sudo sed -i 's/\\/var\\/www/\\/home/g' /etc/apache2/suexec/www-data");
-                tScriptServer.AppendLine("sudo sed -i 's/public_html\\/cgi-bin/public_html/g'/etc/apache2/suexec/www-data");
-                tScriptServer.AppendLine("sudo sed -i '$ a \\ ' /etc/apache2/apache2.conf");
-                tScriptServer.AppendLine("sudo sed -i '$ a # add no signature in error page' /etc/apache2/apache2.conf");
-                tScriptServer.AppendLine("sudo sed -i '$ a \\ ' /etc/apache2/apache2.conf");
-                tScriptServer.AppendLine("sudo sed -i '$ a ServerSignature Off' /etc/apache2/apache2.conf");
-                tScriptServer.AppendLine("sudo sed -i '$ a \\ ' /etc/apache2/apache2.conf");
-                tScriptServer.AppendLine("# apache restart");
-                tScriptServer.AppendLine("sudo systemctl restart apache2");
-                tScriptServer.AppendLine("");
-
-                // Install PHP
-                tScriptServer.AppendLine("# php install");
-                tScriptServer.AppendLine("sudo apt -y install php7.0");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-mysql");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-curl");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-json");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-xml");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-mcrypt");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-gd");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-mbstring");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-zip");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-mail");
-                tScriptServer.AppendLine("sudo apt -y install php7.0-ssh2");
-                tScriptServer.AppendLine("sudo apt -y install php-pear");
-                tScriptServer.AppendLine("sudo apt -y install libapache2-mod-php");
-                tScriptServer.AppendLine("# php configure");
-                tScriptServer.AppendLine("sudo sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini");
-                tScriptServer.AppendLine("sudo sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g'/etc/php/7.0/apache2/ php.ini");
-                tScriptServer.AppendLine("sudo sed -i 's/zlib.outpout_compression = Off/zlib.outpout_compression = On/g' /etc/php/7.0/apache2/php.ini");
-                tScriptServer.AppendLine("sudo sed -i 's/php_admin_flag engine Off/php_admin_flag engine On/g' /etc/apache2/mods-enabled/php7.0.conf");
-                tScriptServer.AppendLine("# php folder default");
-                tScriptServer.AppendLine("sudo chgrp -R adm /var/www/html/");
-                tScriptServer.AppendLine("sudo chmod 775 /var/www/html/");
-                tScriptServer.AppendLine("sudo echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
-                tScriptServer.AppendLine("sudo chmod 775 /var/www/html/index.html");
-                tScriptServer.AppendLine("sudo echo $\"Are-you lost ? ok, I will help you, you are here!\" >/var/www/html/index.html");
-                tScriptServer.AppendLine("# apache restart");
-                tScriptServer.AppendLine("sudo systemctl restart apache2");
-                tScriptServer.AppendLine("");
-
                 // Install Certbot
                 tScriptServer.AppendLine("# install Let's Encrypt Certbot");
                 tScriptServer.AppendLine("sudo echo $\"deb http://ftp.debian.org/debian buster-backports main\" >> /etc/apt/sources.list.d/backports.list");
@@ -148,7 +159,7 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerMySQL(string sIP, int sPort, string sRoot, string sRootPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
+        public static string CommandInstallServerMySQL(string sIP, int sPort, string sRoot, string sRootPassword, string sRootMySQLPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
         {
             StringBuilder tScriptServer = new StringBuilder();
             tScriptServer.AppendLine("#Debian 10");
@@ -184,25 +195,38 @@ namespace NetWorkedData
                 tScriptServer.AppendLine("");
 
                 // Install MySQL
+                //tScriptServer.AppendLine("# mysql install");
+                //tScriptServer.AppendLine("sudo debconf-set-selections <<< \"mysql-server mysql-server/root_password password " + sRootMySQLPassword + "\"");
+                //tScriptServer.AppendLine("sudo debconf-set-selections <<< \"mysql-server mysql-server/root_password_again password " + sRootMySQLPassword + "\"");
+                //tScriptServer.AppendLine("sudo apt -y install mysql-server");
+                //tScriptServer.AppendLine("sudo apt -y install mysql-client");
+                //tScriptServer.AppendLine("# mysql start");
+                //tScriptServer.AppendLine("sudo /etc/init.d/mysql start");
+                //tScriptServer.AppendLine("");
+
                 tScriptServer.AppendLine("# mysql install");
-                tScriptServer.AppendLine("debconf -set -selections <<< \"mysql -server mysql-server/root_password password ${tmp_mysql_root_password}\"");
-                tScriptServer.AppendLine("debconf -set -selections <<< \"mysql -server mysql-server/root_password_again password ${tmp_mysql_root_password}\"");
-                tScriptServer.AppendLine("apt -y install mysql-server");
-                tScriptServer.AppendLine("apt -y install mysql-client");
+                tScriptServer.AppendLine("sudo debconf-set-selections <<< \"mariadb-server mariadb-server/root_password password " + sRootMySQLPassword + "\"");
+                tScriptServer.AppendLine("sudo debconf-set-selections <<< \"mariadb-server mariadb-server/root_password_again password " + sRootMySQLPassword + "\"");
+                tScriptServer.AppendLine("sudo apt -y install mariadb-server");
+                tScriptServer.AppendLine("sudo apt -y install mariadb-client");
                 tScriptServer.AppendLine("# mysql start");
                 tScriptServer.AppendLine("sudo /etc/init.d/mysql start");
                 tScriptServer.AppendLine("");
 
                 if (sMySQLPhpMyAdmin == true)
                 {
+                    // Install Apache PHP
+                    tScriptServer.AppendLine(CommandInstallApachePHP());
+
                     // Install PhpMyAdmin
                     tScriptServer.AppendLine("# phpmyadmin");
-                    tScriptServer.AppendLine("debconf -set -selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
-                    tScriptServer.AppendLine("debconf -set -selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password ${tmp_mysql_root_password}\"");
-                    tScriptServer.AppendLine("debconf -set -selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password ${tmp_mysql_root_password}\"");
-                    tScriptServer.AppendLine("debconf -set -selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password ${tmp_mysql_root_password}\"");
-                    tScriptServer.AppendLine("debconf -set -selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
-                    tScriptServer.AppendLine("apt -y -q install phpmyadmin;");
+                    tScriptServer.AppendLine("sudo debconf-set-selections <<< \"phpmyadmin phpmyadmin/dbconfig-install boolean true\"");
+                    tScriptServer.AppendLine("sudo debconf-set-selections <<< \"phpmyadmin phpmyadmin/app-password-confirm password " + sRootMySQLPassword + "\"");
+                    tScriptServer.AppendLine("sudo debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/admin-pass password " + sRootMySQLPassword + "\"");
+                    tScriptServer.AppendLine("sudo debconf-set-selections <<< \"phpmyadmin phpmyadmin/mysql/app-pass password " + sRootMySQLPassword + "\"");
+                    tScriptServer.AppendLine("sudo debconf-set-selections <<< \"phpmyadmin phpmyadmin/reconfigure-webserver multiselect none\"");
+                    tScriptServer.AppendLine("sudo apt -y -q install phpmyadmin");
+                    tScriptServer.AppendLine("sudo systemctl restart apache2");
                     tScriptServer.AppendLine("");
                 }
             }

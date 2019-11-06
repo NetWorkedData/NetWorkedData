@@ -35,6 +35,8 @@ namespace NetWorkedData
         public NWDPasswordType MySQLPassword { get; set; }
         [NWDEntitled("MySQL Base")]
         public string MySQLBase { get; set; }
+        [NWDEntitled("MySQL Root Password")]
+        public NWDPasswordType Root_MysqlPassword { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Acces MySQL")]

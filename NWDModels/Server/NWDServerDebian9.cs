@@ -28,7 +28,7 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallServerMySQL( string sIP, int sPort, string sRoot, string sRootPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
+        public static string CommandInstallServerMySQL( string sIP, int sPort, string sRoot, string sRootPassword, string sRootMySQLPassword, bool sMySQLExternal, bool sMySQLPhpMyAdmin)
         {
             StringBuilder tScriptServer = new StringBuilder();
             tScriptServer.AppendLine("#Debian 9");
