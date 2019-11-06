@@ -34,6 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
+
             float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 40);
             return tYadd;
         }

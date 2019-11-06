@@ -30,7 +30,6 @@ namespace NetWorkedData
         public string SFTPFolder = string.Empty;
         public string SFTPUser = string.Empty;
         public string SFTPPassword = string.Empty;
-        public int SFTPBalanceLoad = 50;
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
