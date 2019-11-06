@@ -37,7 +37,9 @@ namespace NetWorkedData
             base.Initialization();
             InternalKey = "Unused config";
             Port = 22;
-            User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
+            User = NWDAppEnvironment.SelectedEnvironment().SFTPUser + NWDToolbox.RandomStringAlpha(3).ToLower();
+            Admin_User = "admin" + NWDToolbox.RandomStringAlpha(3).ToLower();
+            Root_User = "root";
             Folder = "public_webservice";
             IP.SetValue("192.168.0.1");
         }

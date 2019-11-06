@@ -35,13 +35,13 @@ namespace NetWorkedData
         public override float AddonEditorHeight(float sWidth)
         {
 
-            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 40);
+            float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEditor(Rect sRect)
         {
-            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 40);
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
             int tI = 0;
 
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
@@ -54,9 +54,15 @@ namespace NetWorkedData
                 System.Diagnostics.Process.Start(tFileInfo.FullName);
             }
             tI++;
+
+            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server SSH");
+            tI++;
+            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerSSH(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), Admin_User, Admin_Password.GetValue()));
+            tI += 11;
+
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server Apache command");
             tI++;
-            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerApache(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue()));
+            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerApache(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue()));
             tI += 11;
             if (GUI.Button(tMatrix[0, tI], "http://" + IP))
             {
@@ -105,7 +111,7 @@ namespace NetWorkedData
 
                     GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install WebService command");
                     tI++;
-                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallWebService(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), tServerDNS.ServerDNS, User, Password.GetValue(), Folder, Email));
+                    GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallWebService(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue(), tServerDNS.ServerDNS, User, Password.GetValue(), Folder, Email));
                     tI += 11;
                     if (tServerDNS.Dev == true)
                     {

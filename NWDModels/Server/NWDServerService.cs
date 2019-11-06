@@ -42,6 +42,10 @@ namespace NetWorkedData
         public string User { get; set; }
         [NWDEntitled("SSH Password")]
         public NWDPasswordType Password { get; set; }
+        [NWDEntitled("SSH Admin User")]
+        public string Admin_User { get; set; }
+        [NWDEntitled("SSH Admin Password")]
+        public NWDPasswordType Admin_Password { get; set; }
         [NWDEntitled("SSH Root User")]
         public string Root_User { get; set; }
         [NWDEntitled("SSH Root Password")]
