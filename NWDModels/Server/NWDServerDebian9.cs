@@ -49,10 +49,10 @@ namespace NetWorkedData
                 tScriptServer.AppendLine("");
 
                 tScriptServer.AppendLine("echo \" -> install tools and sftp\"");
-                tScriptServer.AppendLine(SUDO + "apt-get install vim  debconf-utils whois");// + OutputNull);
-                //tScriptServer.AppendLine(SUDO + "apt-get install vim");// + OutputNull);
-                //tScriptServer.AppendLine(SUDO + "apt-get install whois");// + OutputNull);
-                //tScriptServer.AppendLine(SUDO + "apt-get install debconf-utils");// + OutputNull);
+                //tScriptServer.AppendLine(SUDO + "apt-get install vim  debconf-utils whois");// + OutputNull);
+                tScriptServer.AppendLine(SUDO + "apt-get install vim");// + OutputNull);
+                tScriptServer.AppendLine(SUDO + "apt-get install whois");// + OutputNull);
+                tScriptServer.AppendLine(SUDO + "apt-get install debconf-utils");// + OutputNull);
                 tScriptServer.AppendLine("");
 
                 // Install Locales
@@ -139,10 +139,10 @@ namespace NetWorkedData
 
             // Install Apache
             tScriptServer.AppendLine("echo \" -> install apache\"");
-            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2 apache2-doc apache2-suexec-custom");// + OutputNull);
-            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2");// + OutputNull);
-            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-doc");// + OutputNull);
-            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-suexec-custom");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2 apache2-doc apache2-suexec-custom");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-doc");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-suexec-custom");// + OutputNull);
             tScriptServer.AppendLine("echo \" -> active apache mod\"");
             tScriptServer.AppendLine(SUDO + "a2enmod ssl");// + OutputNull);
             tScriptServer.AppendLine(SUDO + "a2enmod userdir");// + OutputNull);
@@ -161,7 +161,7 @@ namespace NetWorkedData
 
             // Install PHP
             tScriptServer.AppendLine("echo \" -> install php\"");
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php php-mysql php-curl php-json php-mcrypt php-mbstring php-gettext php-zip php-mail php-pear");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php php-mysql php-curl php-json php-mcrypt php-mbstring php-gettext php-zip php-mail php-pear");// + OutputNull);
             //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0");// + OutputNull);
             //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mysql");// + OutputNull);
             //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-curl");// + OutputNull);
@@ -175,8 +175,24 @@ namespace NetWorkedData
             //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mail");// + OutputNull);
             ////tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-ssh2");// + OutputNull);
             //tScriptServer.AppendLine(SUDO + "apt-get -y install php-pear");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install libapache2-mod-php");// + OutputNull);
+
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-mysql");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-curl");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-json");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php-xml");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-mcrypt");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php-gd");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-mbstring");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-gettext");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-zip");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-mail");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php-ssh2");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php-pear");// + OutputNull);
+
             //tScriptServer.AppendLine(SUDO + "apt-get -y install libapache2-mod-php7.0");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install libapache2-mod-php");// + OutputNull);
+
             //tScriptServer.AppendLine("echo \" -> php configure\"");
             //tScriptServer.AppendLine(SUDO + "sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini");
             //tScriptServer.AppendLine(SUDO + "sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g'/etc/php/7.0/apache2/ php.ini");
@@ -371,7 +387,14 @@ namespace NetWorkedData
             tScriptServer.AppendLine(SUDO + "/etc/init.d/apache2 reload");
             tScriptServer.AppendLine(SUDO + "/etc/init.d/apache2 start");
             tScriptServer.AppendLine("echo \" -> add user webservices certbot\"");
-            tScriptServer.AppendLine("certbot --agree-tos --no-eff-email --apache --redirect --email " + sEmail + " -d " + sDNS + "");
+            if (string.IsNullOrEmpty(sEmail) == false)
+            {
+                tScriptServer.AppendLine("certbot --agree-tos --no-eff-email --apache --redirect --email " + sEmail + " -d " + sDNS + "");
+            }
+            else
+            {
+                tScriptServer.AppendLine("certbot --agree-tos --no-eff-email --apache --redirect --email contact@" + sDNS + " -d " + sDNS + "");
+            }
             tScriptServer.AppendLine(SUDO + "cat /dev/null > ~/.bash_history");
             return tScriptServer.ToString();
         }
