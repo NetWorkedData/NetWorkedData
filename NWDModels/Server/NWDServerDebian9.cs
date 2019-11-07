@@ -39,13 +39,6 @@ namespace NetWorkedData
                     tScriptServer.AppendLine("# enter root password (" + sRootPassword + ")");
                 }
                 tScriptServer.AppendLine("");
-                if (sPort != 22)
-                {
-                    // Change Port of SSH
-                    tScriptServer.AppendLine("# change port");
-                    tScriptServer.AppendLine("sed - i 's/^Port .*$/Port " + sPort + "/g' /etc/ssh/sshd_config");
-                    tScriptServer.AppendLine("");
-                }
                 // Change root user
                 tScriptServer.AppendLine("# server update");
                 tScriptServer.AppendLine(SUDO + "apt-get update" + OutputNull);
@@ -59,6 +52,15 @@ namespace NetWorkedData
                 tScriptServer.AppendLine(SUDO + "apt-get install debconf-utils" + OutputNull);
                 tScriptServer.AppendLine("");
 
+                if (sPort != 22)
+                {
+                    // Change Port of SSH
+                    tScriptServer.AppendLine("# change port");
+                    tScriptServer.AppendLine("sed -i 's/^#Port .*$/Port " + sPort + "/g' /etc/ssh/sshd_config");
+                    tScriptServer.AppendLine("sed -i 's/^Port .*$/Port " + sPort + "/g' /etc/ssh/sshd_config");
+                    tScriptServer.AppendLine(SUDO + "service sshd restart");
+                    tScriptServer.AppendLine("");
+                }
                 if (string.IsNullOrEmpty(sAdmin_User) == false)
                 {
                     tScriptServer.AppendLine("# change root access");
@@ -187,15 +189,15 @@ namespace NetWorkedData
                 tScriptServer.AppendLine("");
 
                 // Install SFTP
-                tScriptServer.AppendLine("# install SFTP");
-                tScriptServer.AppendLine(SUDO + "addgroup sftp_chroot");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a # add for sftp-server' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a Match Group sftp_chroot' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a ChrootDirectory /home/%u' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a ForceCommand internal-sftp' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a AllowTcpForwarding no' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "service sshd restart");
-                tScriptServer.AppendLine("");
+                //tScriptServer.AppendLine("# install SFTP");
+                //tScriptServer.AppendLine(SUDO + "addgroup sftp_chroot");
+                //tScriptServer.AppendLine(SUDO + "sed -i '$ a # add for sftp-server' /etc/ssh/sshd_config");
+                //tScriptServer.AppendLine(SUDO + "sed -i '$ a Match Group sftp_chroot' /etc/ssh/sshd_config");
+                //tScriptServer.AppendLine(SUDO + "sed -i '$ a ChrootDirectory /home/%u' /etc/ssh/sshd_config");
+                //tScriptServer.AppendLine(SUDO + "sed -i '$ a ForceCommand internal-sftp' /etc/ssh/sshd_config");
+                //tScriptServer.AppendLine(SUDO + "sed -i '$ a AllowTcpForwarding no' /etc/ssh/sshd_config");
+                //tScriptServer.AppendLine(SUDO + "service sshd restart");
+                //tScriptServer.AppendLine("");
 
                 // Install Apache PHP
                 tScriptServer.AppendLine(CommandInstallApachePHP());
