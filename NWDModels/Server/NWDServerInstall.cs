@@ -105,14 +105,14 @@ namespace NetWorkedData
             return tScriptServer.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string CommandInstallDatabase(NWDServerDistribution sDistribution, string sIP, int sPort, string sAdmin_User, string sAdmin_Password, string sRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase)
+        public static string CommandInstallDatabase(NWDServerDistribution sDistribution, string sIP, int sPort, string sAdmin_User, string sAdmin_Password, string sRootPassword, string sMySQLRootPassword, string sMySQLUser, string sMySQLPassword, string sMySQLBase)
         {
             StringBuilder tScriptServer = new StringBuilder();
             switch (sDistribution)
             {
                 case NWDServerDistribution.debian9:
                     {
-                        tScriptServer.Append(NWDServerDebian9.CommandInstallDatabase(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase));
+                        tScriptServer.Append(NWDServerDebian9.CommandInstallDatabase(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword, sMySQLRootPassword, sMySQLUser, sMySQLPassword, sMySQLBase));
                     }
                     break;
                 case NWDServerDistribution.debian10:

@@ -50,10 +50,10 @@ namespace NetWorkedData
         public NWDIPType IP { get; set; }
         [NWDEntitled("SSH Port")]
         public int Port { get; set; }
-        [NWDEntitled("SSH User")]
-        public string User { get; set; }
-        [NWDEntitled("SSH Password")]
-        public NWDPasswordType Password { get; set; }
+        //[NWDEntitled("SSH User")]
+        //public string User { get; set; }
+        //[NWDEntitled("SSH Password")]
+        //public NWDPasswordType Password { get; set; }
         [NWDEntitled("SSH Admin User")]
         public string Admin_User { get; set; }
         [NWDEntitled("SSH Admin Password")]

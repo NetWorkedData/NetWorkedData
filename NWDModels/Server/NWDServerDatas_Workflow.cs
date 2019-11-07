@@ -37,7 +37,7 @@ namespace NetWorkedData
             base.Initialization();
             InternalKey = "Unused config";
             Port = 22;
-            User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
+            //User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
             IP.SetValue("192.168.0.1");
         }
         //-------------------------------------------------------------------------------------------------------------

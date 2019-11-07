@@ -102,11 +102,11 @@ namespace NetWorkedData
             tScriptServer.AppendLine(SUDO + "sed -i 's/zlib.outpout_compression = Off/zlib.outpout_compression = On/g' /etc/php/7.0/apache2/php.ini");
             tScriptServer.AppendLine(SUDO + "sed -i 's/php_admin_flag engine Off/php_admin_flag engine On/g' /etc/apache2/mods-enabled/php7.0.conf");
             tScriptServer.AppendLine("# php folder default");
-            tScriptServer.AppendLine(SUDO + "chgrp -R adm /var/www/html/");
-            tScriptServer.AppendLine(SUDO + "chmod 775 /var/www/html/");
+            tScriptServer.AppendLine(SUDO + "chgrp -R www-data /var/www/html/");
+            tScriptServer.AppendLine(SUDO + "chmod 750 /var/www/html/");
             tScriptServer.AppendLine(SUDO + "echo $\"<?php echo phpinfo();?>\" > /var/www/html/phpinfo.php");
-            tScriptServer.AppendLine(SUDO + "chmod 775 /var/www/html/index.html");
-            tScriptServer.AppendLine(SUDO + "echo $\"Are-you lost ? ok, I will help you, you are here!\" >/var/www/html/index.html");
+            tScriptServer.AppendLine(SUDO + "chmod 750 /var/www/html/index.html");
+            tScriptServer.AppendLine(SUDO + "echo $\"Are-you lost? ok, I will help you, you are here!\" >/var/www/html/index.html");
             tScriptServer.AppendLine("# apache restart");
             tScriptServer.AppendLine(SUDO + "systemctl restart apache2");
             tScriptServer.AppendLine("");

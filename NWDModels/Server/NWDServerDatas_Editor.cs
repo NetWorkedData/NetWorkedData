@@ -67,12 +67,26 @@ namespace NetWorkedData
             GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerMySQL(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue(), Root_MysqlPassword.GetValue(), External, PhpMyAdmin));
             tI += 11;
 
+            if (PhpMyAdmin == true)
+            {
+
+                if (GUI.Button(tMatrix[0, tI], "http://" + IP + "/phpmyadmin/"))
+                {
+                    Application.OpenURL("http://" + IP + "/phpmyadmin/");
+                }
+                if (GUI.Button(tMatrix[1, tI], "https://" + IP + "/phpmyadmin/"))
+                {
+                    Application.OpenURL("https://" + IP + "/phpmyadmin/");
+                }
+                tI++;
+            }
+
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
             
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Database command");
             tI++;
-            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallDatabase(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue(), MySQLUser, MySQLPassword.GetValue(), MySQLBase));
+            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallDatabase(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue(), Root_MysqlPassword.GetValue(), MySQLUser, MySQLPassword.GetValue(), MySQLBase));
             tI += 11;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Push force dev editor data"))
             {
@@ -92,19 +106,6 @@ namespace NetWorkedData
 
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
-
-            if (PhpMyAdmin == true)
-            {
-
-                if (GUI.Button(tMatrix[0, tI], "http://" + IP + "/phpmyadmin/"))
-                {
-                    Application.OpenURL("http://" + IP + "/phpmyadmin/");
-                }
-                if (GUI.Button(tMatrix[1, tI], "https://" + IP + "/phpmyadmin/"))
-                {
-                    Application.OpenURL("https://" + IP + "/phpmyadmin/");
-                }
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }
