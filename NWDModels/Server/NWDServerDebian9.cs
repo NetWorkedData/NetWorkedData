@@ -49,9 +49,10 @@ namespace NetWorkedData
                 tScriptServer.AppendLine("");
 
                 tScriptServer.AppendLine("echo \" -> install tools and sftp\"");
-                tScriptServer.AppendLine(SUDO + "apt-get install vim");// + OutputNull);
-                tScriptServer.AppendLine(SUDO + "apt-get install whois");// + OutputNull);
-                tScriptServer.AppendLine(SUDO + "apt-get install debconf-utils");// + OutputNull);
+                tScriptServer.AppendLine(SUDO + "apt-get install vim  debconf-utils whois");// + OutputNull);
+                //tScriptServer.AppendLine(SUDO + "apt-get install vim");// + OutputNull);
+                //tScriptServer.AppendLine(SUDO + "apt-get install whois");// + OutputNull);
+                //tScriptServer.AppendLine(SUDO + "apt-get install debconf-utils");// + OutputNull);
                 tScriptServer.AppendLine("");
 
                 // Install Locales
@@ -76,7 +77,6 @@ namespace NetWorkedData
                 }
                 if (string.IsNullOrEmpty(sAdmin_User) == false)
                 {
-
                     // Add admin user
                     tScriptServer.AppendLine("echo \" -> add admin access\"");
                     tScriptServer.AppendLine("tmp_admin_password_crypt=$(mkpasswd " + sAdmin_Password + ")");
@@ -96,10 +96,10 @@ namespace NetWorkedData
                 tScriptServer.AppendLine(SUDO + "addgroup sftp_chroot");
                 tScriptServer.AppendLine(SUDO + "sed -i '$ a # sftp_chroot start' /etc/ssh/sshd_config");
                 tScriptServer.AppendLine(SUDO + "sed -i '$ a Match Group sftp_chroot' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a ChrootDirectory /home/%u' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a ForceCommand internal-sftp' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a AllowTcpForwarding no' /etc/ssh/sshd_config");
-                tScriptServer.AppendLine(SUDO + "sed -i '$ a X11Forwarding no' /etc/ssh/sshd_config");
+                tScriptServer.AppendLine(SUDO + "sed -i '$ a    ChrootDirectory /home/%u' /etc/ssh/sshd_config");
+                tScriptServer.AppendLine(SUDO + "sed -i '$ a    ForceCommand internal-sftp' /etc/ssh/sshd_config");
+                tScriptServer.AppendLine(SUDO + "sed -i '$ a    AllowTcpForwarding no' /etc/ssh/sshd_config");
+                //tScriptServer.AppendLine(SUDO + "sed -i '$ a X11Forwarding no' /etc/ssh/sshd_config");
                 tScriptServer.AppendLine(SUDO + "sed -i '$ a # sftp_chroot end' /etc/ssh/sshd_config");
                 tScriptServer.AppendLine(SUDO + "service sshd restart");
                 tScriptServer.AppendLine("");
@@ -139,9 +139,10 @@ namespace NetWorkedData
 
             // Install Apache
             tScriptServer.AppendLine("echo \" -> install apache\"");
-            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-doc");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-suexec-custom");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install apache2 apache2-doc apache2-suexec-custom");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-doc");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-suexec-custom");// + OutputNull);
             tScriptServer.AppendLine("echo \" -> active apache mod\"");
             tScriptServer.AppendLine(SUDO + "a2enmod ssl");// + OutputNull);
             tScriptServer.AppendLine(SUDO + "a2enmod userdir");// + OutputNull);
@@ -160,25 +161,27 @@ namespace NetWorkedData
 
             // Install PHP
             tScriptServer.AppendLine("echo \" -> install php\"");
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mysql");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-curl");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-json");// + OutputNull);
-            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-xml");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mcrypt");// + OutputNull);
-            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-gd");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mbstring");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-gettext");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-zip");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mail");// + OutputNull);
-            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-ssh2");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install php-pear");// + OutputNull);
-            tScriptServer.AppendLine(SUDO + "apt-get -y install libapache2-mod-php7.0");// + OutputNull);
-            tScriptServer.AppendLine("echo \" -> php configure\"");
-            tScriptServer.AppendLine(SUDO + "sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini");
-            tScriptServer.AppendLine(SUDO + "sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g'/etc/php/7.0/apache2/ php.ini");
-            tScriptServer.AppendLine(SUDO + "sed -i 's/zlib.outpout_compression = Off/zlib.outpout_compression = On/g' /etc/php/7.0/apache2/php.ini");
-            tScriptServer.AppendLine(SUDO + "sed -i 's/php_admin_flag engine Off/php_admin_flag engine On/g' /etc/apache2/mods-enabled/php7.0.conf");
+            tScriptServer.AppendLine(SUDO + "apt-get -y install php php-mysql php-curl php-json php-mcrypt php-mbstring php-gettext php-zip php-mail php-pear");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mysql");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-curl");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-json");// + OutputNull);
+            ////tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-xml");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mcrypt");// + OutputNull);
+            ////tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-gd");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mbstring");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-gettext");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-zip");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-mail");// + OutputNull);
+            ////tScriptServer.AppendLine(SUDO + "apt-get -y install php7.0-ssh2");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install php-pear");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install libapache2-mod-php");// + OutputNull);
+            //tScriptServer.AppendLine(SUDO + "apt-get -y install libapache2-mod-php7.0");// + OutputNull);
+            //tScriptServer.AppendLine("echo \" -> php configure\"");
+            //tScriptServer.AppendLine(SUDO + "sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php/7.0/apache2/php.ini");
+            //tScriptServer.AppendLine(SUDO + "sed -i 's/max_file_uploads = 20/max_file_uploads = 200/g'/etc/php/7.0/apache2/ php.ini");
+            //tScriptServer.AppendLine(SUDO + "sed -i 's/zlib.outpout_compression = Off/zlib.outpout_compression = On/g' /etc/php/7.0/apache2/php.ini");
+            //tScriptServer.AppendLine(SUDO + "sed -i 's/php_admin_flag engine Off/php_admin_flag engine On/g' /etc/apache2/mods-enabled/php7.0.conf");
             tScriptServer.AppendLine("echo \" -> php folder default\"");
             tScriptServer.AppendLine(SUDO + "chgrp -R www-data /var/www/html/");
             tScriptServer.AppendLine(SUDO + "chmod 750 /var/www/html/");
@@ -298,6 +301,7 @@ namespace NetWorkedData
             tScriptServer.AppendLine("# " + Distribution);
 
             // https://debian-facile.org/viewtopic.php?id=9607
+            // http://www.kitpages.fr/fr/cms/193/installer-un-sftp-avec-chroot-sur-debian
             // Install Connect
             tScriptServer.AppendLine(CommandSSH(sIP, sPort, sAdmin_User, sAdmin_Password, sRootPassword));
 
@@ -312,8 +316,8 @@ namespace NetWorkedData
             tScriptServer.AppendLine("echo \" -> add user directories\"");
             tScriptServer.AppendLine(SUDO + "mkdir /home/" + sUser + "");
             //tScriptServer.AppendLine(SUDO + "chown -R " + sUser + ":www-data /home/" + sUser + "");
-            tScriptServer.AppendLine(SUDO + "chown -R root:sftp_chroot /home/" + sUser + ""); // root for ChrootDirectory
-            tScriptServer.AppendLine(SUDO + "chmod -R 775 /home/" + sUser + ""); // acces
+            tScriptServer.AppendLine(SUDO + "chown root /home/" + sUser + ""); // root for ChrootDirectory
+            tScriptServer.AppendLine(SUDO + "chmod go-w  /home/" + sUser + ""); // acces
 
             tScriptServer.AppendLine(SUDO + "mkdir /home/" + sUser + "/" + sFolder + "");
             tScriptServer.AppendLine(SUDO + "chown -R " + sUser + ":www-data /home/" + sUser + "/" + sFolder + "");
@@ -328,10 +332,19 @@ namespace NetWorkedData
             tScriptServer.AppendLine("echo \" -> add user webservices in apache\"");
 
             tScriptServer.AppendLine(SUDO + "/etc/init.d/apache2 stop");
+
             tScriptServer.AppendLine(SUDO + "openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout /home/" + sUser + "/ssl/" + sDNS + ".key -out /home/" + sUser + "/ssl/" + sDNS + ".crt -subj \"/C=FR/ST=LILLE/L=LILLE/O=Global Security/OU=IT Department/CN=" + sDNS + "\"");
             tScriptServer.AppendLine(SUDO + "rm /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
+
             tScriptServer.AppendLine(SUDO + "echo \"<VirtualHost *:443>\" > /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
-            tScriptServer.AppendLine(SUDO + "sed -i '$ a ServerAdmin " + sEmail + "' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
+            if (string.IsNullOrEmpty(sEmail) == false)
+            {
+                tScriptServer.AppendLine(SUDO + "sed -i '$ a ServerAdmin " + sEmail + "' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
+            }
+            else
+            {
+                tScriptServer.AppendLine(SUDO + "sed -i '$ a ServerAdmin contact@" + sDNS + "' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
+            }
             tScriptServer.AppendLine(SUDO + "sed -i '$ a ServerName " + sDNS + "' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
             tScriptServer.AppendLine(SUDO + "sed -i '$ a ServerAlias " + sDNS + "' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
             tScriptServer.AppendLine(SUDO + "sed -i '$ a DocumentRoot /home/" + sUser + "/" + sFolder + "' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
@@ -352,6 +365,8 @@ namespace NetWorkedData
             tScriptServer.AppendLine(SUDO + "sed -i '$ a SSLCertificateKeyFile /home/" + sUser + "/ssl/" + sDNS + ".key' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
             tScriptServer.AppendLine(SUDO + "sed -i '$ a CustomLog /var/log/apache2/" + sDNS + "-ssl-access.log combined' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
             tScriptServer.AppendLine(SUDO + "sed -i '$ a </VirtualHost>' /etc/apache2/sites-available/" + sDNS + "_ssl_ws.conf");
+
+            tScriptServer.AppendLine("echo \" -> add user webservices in apache finish\"");
             tScriptServer.AppendLine(SUDO + "a2ensite " + sDNS + "_ssl_ws.conf");
             tScriptServer.AppendLine(SUDO + "/etc/init.d/apache2 reload");
             tScriptServer.AppendLine(SUDO + "/etc/init.d/apache2 start");
