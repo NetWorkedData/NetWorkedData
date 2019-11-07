@@ -39,11 +39,25 @@ namespace NetWorkedData
             Port = 22;
             //User = NWDAppEnvironment.SelectedEnvironment().SFTPUser;
             IP.SetValue("192.168.0.1");
+
+            // no sync please
+            DevSync = -1;
+            PreprodSync = -1;
+            ProdSync = -1;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
+            MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
+            MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
+            Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_MysqlPassword.GetValue()));
+
+            Admin_User = NWDToolbox.UnixCleaner(Admin_User);
+            Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+
+            Root_User = NWDToolbox.UnixCleaner(Root_User);
+            Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

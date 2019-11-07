@@ -106,6 +106,40 @@ namespace NetWorkedData
 
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
+
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
+            {
+                NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                tDev.ServerHost = "localhost";
+                tDev.ServerUser = MySQLUser;
+                tDev.ServerPassword = MySQLPassword.GetValue();
+                tDev.ServerBase = MySQLBase;
+                NWDAppEnvironmentConfigurationManager.Refresh();
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for preprod"))
+            {
+                NWDAppEnvironment tPreprod= NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                tPreprod.ServerHost = "localhost";
+                tPreprod.ServerUser = MySQLUser;
+                tPreprod.ServerPassword = MySQLPassword.GetValue();
+                tPreprod.ServerBase = MySQLBase;
+                NWDAppEnvironmentConfigurationManager.Refresh();
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for prod"))
+            {
+                NWDAppEnvironment tProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                tProd.ServerHost = "localhost";
+                tProd.ServerUser = MySQLUser;
+                tProd.ServerPassword = MySQLPassword.GetValue();
+                tProd.ServerBase = MySQLBase;
+                NWDAppEnvironmentConfigurationManager.Refresh();
+            }
+            tI++;
+
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

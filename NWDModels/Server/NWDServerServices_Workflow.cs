@@ -42,6 +42,11 @@ namespace NetWorkedData
             Root_User = "root";
             Folder = "public_webservice";
             IP.SetValue("192.168.0.1");
+
+            // no sync please
+            DevSync = -1;
+            PreprodSync = -1;
+            ProdSync = -1;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
@@ -56,6 +61,17 @@ namespace NetWorkedData
                     InternalKey = tServerDNS.InternalKey + " config";
                 }
             }
+
+            Folder = NWDToolbox.UnixCleaner(Folder);
+
+            User = NWDToolbox.UnixCleaner(User);
+            Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
+
+            Admin_User = NWDToolbox.UnixCleaner(Admin_User);
+            Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+
+            Root_User = NWDToolbox.UnixCleaner(Root_User);
+            Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerAuthentification GetServerSFTP(NWDAppEnvironment sEnvironment)

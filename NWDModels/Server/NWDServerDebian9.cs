@@ -305,12 +305,14 @@ namespace NetWorkedData
             //tScriptServer.AppendLine(SUDO + "useradd --password \"${tmp_user_password_crypt}\" --gid sftp_chroot --groups sftp_chroot -m --shell /bin/false " + sUser + "");
             //tScriptServer.AppendLine(SUDO + "useradd --password \"${tmp_user_password_crypt}\" --shell /bin/bash-static " + sUser + "");
             //tScriptServer.AppendLine(SUDO + "useradd --password \"${tmp_user_password_crypt}\" --shell /sbin/nologin " + sUser + "");
-            tScriptServer.AppendLine(SUDO + "useradd --password \"${tmp_user_password_crypt}\" --shell /bin/bash" + sUser + "");
+            //tScriptServer.AppendLine(SUDO + "useradd --password \"${tmp_user_password_crypt}\" --shell /bin/bash" + sUser + "");
+            tScriptServer.AppendLine(SUDO + "useradd --password \"${tmp_user_password_crypt}\" --shell /bin/false" + sUser + "");
             tScriptServer.AppendLine(SUDO + "usermod -a -G sftp_chroot " + sUser + "");
             tScriptServer.AppendLine("echo \" -> add user directories\"");
             tScriptServer.AppendLine(SUDO + "mkdir /home/" + sUser + "");
-            tScriptServer.AppendLine(SUDO + "chown -R " + sUser + ":www-data /home/" + sUser + "");
-            tScriptServer.AppendLine(SUDO + "chmod -R 750 /home/" + sUser + "");
+            //tScriptServer.AppendLine(SUDO + "chown -R " + sUser + ":www-data /home/" + sUser + "");
+            tScriptServer.AppendLine(SUDO + "chown -R root:sftp_chroot /home/" + sUser + ""); // root for ChrootDirectory
+            tScriptServer.AppendLine(SUDO + "chmod -R 775 /home/" + sUser + ""); // acces
 
             tScriptServer.AppendLine(SUDO + "mkdir /home/" + sUser + "/" + sFolder + "");
             tScriptServer.AppendLine(SUDO + "chown -R " + sUser + ":www-data /home/" + sUser + "/" + sFolder + "");

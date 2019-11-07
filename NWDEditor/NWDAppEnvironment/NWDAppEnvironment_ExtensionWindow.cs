@@ -66,12 +66,15 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(true);
             ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server Language", ServerLanguage);
             EditorGUI.EndDisabledGroup();
+            WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
+            EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
+            SFTPBalanceLoad = EditorGUILayout.IntField("BalanceLoad", SFTPBalanceLoad);
+
+            NWDGUILayout.SubSection("MySQL for " + Environment);
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
-            WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
-            EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
 
             NWDGUILayout.SubSection("SFTP for " + Environment);
             SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
@@ -79,7 +82,6 @@ namespace NetWorkedData
             SFTPFolder = EditorGUILayout.TextField("SFTP Folder", SFTPFolder);
             SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
             SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
-            SFTPBalanceLoad = EditorGUILayout.IntField("BalanceLoad", SFTPBalanceLoad);
 
             NWDGUILayout.SubSection("Email to send forgotten code " + Environment);
             RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);
