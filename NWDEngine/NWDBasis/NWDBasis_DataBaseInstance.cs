@@ -50,7 +50,7 @@ namespace NetWorkedData
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
+                // perhaps the data came from database and is already in NetWorkedData;
             }
             else
             {

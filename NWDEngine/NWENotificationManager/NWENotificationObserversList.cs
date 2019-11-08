@@ -33,7 +33,7 @@ namespace NetWorkedData
 			} 
 //			else 
 //			{
-//				//				Debug.Log ("AddObserver " +  sNotificationKey + " allready exists");
+//				//				Debug.Log ("AddObserver " +  sNotificationKey + " already exists");
 //			}
 
 		}

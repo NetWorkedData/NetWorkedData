@@ -13,21 +13,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
 using System.IO;
 using UnityEngine;
-using System.Threading;
+using SQLite4Unity3d;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-using SQLite4Unity3d;
-
-//using BasicToolBox;
-//using ColoredAdvancedDebug;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -50,7 +43,6 @@ namespace NetWorkedData
                 string tAccessPath = Application.dataPath;
                 if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor) == false)
                 {
-                    //Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor);
                     AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
                     AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor);
                     AssetDatabase.Refresh();
@@ -61,11 +53,13 @@ namespace NetWorkedData
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
                 string tPathEditor = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
                     File.Delete(tPathEditor);
                 }
+
                 // Write editor database
                 if (!File.Exists(tPathEditor))
                 {
@@ -73,59 +67,66 @@ namespace NetWorkedData
                     // open StreamingAssets directory and load the db ->
                     Debug.Log("#DATABASE# Application will copy database : " + tPathEditor);
 #if UNITY_ANDROID
-                    var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
-                    while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
+                    var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
+                    while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                     // then save to Application.persistentDataPath
-                    File.WriteAllBytes(tPathEditor, loadDb.bytes);
-#elif UNITY_IOS
-                    var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
-                    // then save to Application.persistentDataPath
-                    File.Copy (loadDb, tPathEditor);
-#elif UNITY_TVOS
-                    var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
-                    // then save to Application.persistentDataPath
-                    File.Copy (loadDb, tPathEditor);
-#elif UNITY_STANDALONE_OSX
-                    var loadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
-#elif UNITY_WP8
-                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
+                    File.WriteAllBytes(tPathEditor, tLoadDb.bytes);
+#elif (UNITY_IOS || UNITY_TVOS)
+                    var tLoadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
+                    File.Copy(tLoadDb, tPathEditor);
+/*#elif UNITY_TVOS
+                    var tLoadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
+                    File.Copy(tLoadDb, tPathEditor);
+                    */
+#elif (UNITY_STANDALONE_OSX || UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
+                    var tLoadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
+/*#elif UNITY_WP8
+                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
 #elif UNITY_WINRT
-                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
+                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
 #elif UNITY_WSA_10_0
-                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
+                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
 #elif UNITY_STANDALONE_WIN
-                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
+                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
 #elif UNITY_STANDALONE_LINUX
-                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
+                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
+                    */
 #else
-                    var loadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseNameEditor;
-                    // then save to Application.persistentDataPath
-                    File.Copy(loadDb, tPathEditor);
+                    var tLoadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseNameEditor;
+                    File.Copy(tLoadDb, tPathEditor);
 #endif
                 }
-
                 string tDatabasePathEditor = tPathEditor;
 #endif
+
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
+#if UNITY_EDITOR
+                // Show SQL password database in console
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
                     NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
                 }
+#endif
 
-                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                try
+                {
+                    SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                }
+                catch (SQLiteException e)
+                {
+                    Debug.LogException(e);
+                }
+                catch (DllNotFoundException d)
+                {
+                    Debug.LogException(d);
+                }
 
                 double tSeconds = SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
                 DateTime t = DateTime.Now;
@@ -134,18 +135,18 @@ namespace NetWorkedData
                 {
                     t = DateTime.Now;
                 }
-                //waiting the tables and file will be open...
+
+                // Waiting the tables and file will be open...
                 while (SQLiteConnectionEditor.IsOpen() == false)
                 {
                     //Debug.LogWarning("SQLiteConnectionEditor is not opened!");
                 }
                 
-                // finish test opened database
+                // Finish test opened database
                 rReturn = SQLiteConnectionEditor.IsValid();
                 if (rReturn == true)
                 {
                     DataEditorConnected = true;
-                    //Debug.LogWarning("SQLiteConnectionEditor is valid!");
                 }
                 else
                 {
@@ -158,7 +159,7 @@ namespace NetWorkedData
             {
                 if (DataEditorConnected == true)
                 {
-                    Debug.LogWarning("SQLiteConnectionEditor allready connected");
+                    Debug.LogWarning("SQLiteConnectionEditor already connected");
                 }
                 if (DataEditorConnectionInProgress == true)
                 {
@@ -252,7 +253,7 @@ namespace NetWorkedData
             {
                 if (DataAccountConnected == true)
                 {
-                    Debug.LogWarning("SQLiteConnectionAccount allready connected");
+                    Debug.LogWarning("SQLiteConnectionAccount already connected");
                 }
                 if (DataAccountConnectionInProgress == true)
                 {

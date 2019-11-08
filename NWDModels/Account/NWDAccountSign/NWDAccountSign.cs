@@ -59,6 +59,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDAccountSign class. This class is use for (complete description here).
     /// </summary>
+    [NWDInternalKeyNotEditable]
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SKD")]
     [NWDClassDescriptionAttribute("Account Sign to connect by hash of sign")]

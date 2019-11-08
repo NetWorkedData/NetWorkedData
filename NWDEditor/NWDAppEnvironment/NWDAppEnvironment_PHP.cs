@@ -415,14 +415,16 @@ namespace NetWorkedData
         //private void CreatePHPWebservicesAddonFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         //{
         //    //NWEBenchmark.Start();
-        //    StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);         //    tWebServicesAddon.AppendLine("<?php");
+        //    StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);
+        //    tWebServicesAddon.AppendLine("<?php");
         //    tWebServicesAddon.AppendLine(Headlines());
         //    tWebServicesAddon.AppendLine("// WEBSERVICES ADDON");
         //    tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
         //    tWebServicesAddon.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
         //    tWebServicesAddon.AppendLine("{");
         //    // I need include ALL tables management files to manage ALL tables
-        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)         //    {
+        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+        //    {
         //        bool tCanBeAddoned = false;
         //        foreach (Type tSecondType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
         //        {
@@ -478,7 +480,8 @@ namespace NetWorkedData
         //                tWebServicesAddon.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS_BY_ACCOUNT() + "(0, array_keys($ACC_NEEDED['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']));");
         //                tWebServicesAddon.AppendLine("}");
         //            }
-        //        }         //    }
+        //        }
+        //    }
         //    tWebServicesAddon.AppendLine("}");
         //    tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
         //    tWebServicesAddon.AppendLine("?>");

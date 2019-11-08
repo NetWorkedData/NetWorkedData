@@ -150,6 +150,51 @@ namespace NetWorkedData
                         tI++;
                     }
                 }
+
+
+
+                NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+                tI++;
+
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
+                {
+                    NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                    tDev.ServerHTTPS = "https://" + tServerDNS.ServerDNS;
+                    tDev.SFTPHost = tServerDNS.ServerDNS;
+                    tDev.SFTPBalanceLoad = tServerDNS.BalanceLoad;
+                    tDev.SFTPPort = Port;
+                    tDev.SFTPFolder = Folder;
+                    tDev.SFTPUser = User;
+                    tDev.SFTPPassword = Password.GetValue();
+                    NWDAppEnvironmentConfigurationManager.Refresh();
+                }
+                tI++;
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for preprod"))
+                {
+                    NWDAppEnvironment tPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                    tPreprod.ServerHTTPS = "https://" + tServerDNS.ServerDNS;
+                    tPreprod.SFTPHost = tServerDNS.ServerDNS;
+                    tPreprod.SFTPBalanceLoad = tServerDNS.BalanceLoad;
+                    tPreprod.SFTPPort = Port;
+                    tPreprod.SFTPFolder = Folder;
+                    tPreprod.SFTPUser = User;
+                    tPreprod.SFTPPassword = Password.GetValue();
+                    NWDAppEnvironmentConfigurationManager.Refresh();
+                }
+                tI++;
+                if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for prod"))
+                {
+                    NWDAppEnvironment tProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                    tProd.ServerHTTPS = "https://"+tServerDNS.ServerDNS;
+                    tProd.SFTPHost = tServerDNS.ServerDNS;
+                    tProd.SFTPBalanceLoad = tServerDNS.BalanceLoad;
+                    tProd.SFTPPort = Port;
+                    tProd.SFTPFolder = Folder;
+                    tProd.SFTPUser = User;
+                    tProd.SFTPPassword = Password.GetValue();
+                    NWDAppEnvironmentConfigurationManager.Refresh();
+                }
+                tI++;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
