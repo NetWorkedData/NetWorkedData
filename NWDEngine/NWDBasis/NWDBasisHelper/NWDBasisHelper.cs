@@ -242,7 +242,7 @@ namespace NetWorkedData
                 // find infos object if exists or create 
                 if (TypesDictionary.ContainsKey(sType))
                 {
-                    Debug.LogWarning(sType.Name + " allready in TypesDictionary");
+                    Debug.LogWarning(sType.Name + " already in TypesDictionary");
                     tTypeInfos = TypesDictionary[sType];
                 }
                 else
@@ -291,7 +291,7 @@ namespace NetWorkedData
                 tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassNamePHP + "_";
                 if (StringsDictionary.ContainsKey(rClassName))
                 {
-                    Debug.LogWarning(rClassName + " allready in StringsDictionary!");
+                    Debug.LogWarning(rClassName + " already in StringsDictionary!");
                 }
                 else
                 {
@@ -940,7 +940,7 @@ namespace NetWorkedData
         //    if (sData.ReachableState() == true)
         //    {
         //        string tReference = sData.ReferenceUsedValue();
-        //        // Anyway I check if Data is allready in datalist
+        //        // Anyway I check if Data is already in datalist
         //        if (DatasReachableByReference.ContainsKey(tReference) == false)
         //        {
         //            // get internal key
@@ -970,7 +970,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
-            // Anyway I check if Data is allready in datalist
+            // Anyway I check if Data is already in datalist
             if (DatasByReference.ContainsKey(tReference) == false)
             {
                 //Debug.Log("NWDDatas AddData() add data");
@@ -1047,7 +1047,7 @@ namespace NetWorkedData
         //{
         //    NWEBenchmark.Start();
         //    string tReference = sData.ReferenceUsedValue();
-        //    // Anyway I check if Data is allready in datalist
+        //    // Anyway I check if Data is already in datalist
         //    if (DatasReachableByReference.ContainsKey(tReference) == true)
         //    {
         //        // get internal key
@@ -1074,7 +1074,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
-            // Anyway I check if Data is allready in datalist
+            // Anyway I check if Data is already in datalist
             if (DatasByReference.ContainsKey(tReference) == true)
             {
                 // get internal key

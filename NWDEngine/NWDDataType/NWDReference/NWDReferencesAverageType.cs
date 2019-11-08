@@ -557,7 +557,7 @@ namespace NetWorkedData
             float tY = sPosition.position.y;
             float tIntWidth = NWDGUI.kIntWidth;
             List<string> tValueList = new List<string>();
-            List<string> tValueListReferenceAllReady = new List<string>();
+            List<string> tValueListReferenceAlReady = new List<string>();
             if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -618,10 +618,10 @@ namespace NetWorkedData
                             }
                         }
                     }
-                    if (!tValueListReferenceAllReady.Contains(tV))
+                    if (!tValueListReferenceAlReady.Contains(tV))
                     {
                         tValueList[i] = tV + NWDConstants.kFieldSeparatorB + tQ.ToString();
-                        tValueListReferenceAllReady.Add(tV);
+                        tValueListReferenceAlReady.Add(tV);
                     }
                 }
                 else

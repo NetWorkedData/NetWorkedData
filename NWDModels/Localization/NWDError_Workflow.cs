@@ -107,7 +107,7 @@ namespace NetWorkedData
                 NWDError.NWDError_ACC75 = NWDError.CreateGenericError("account", "ACC75", "Account error", "Google sql select error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC76 = NWDError.CreateGenericError("account", "ACC76", "Account error", "Google sql update error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC77 = NWDError.CreateGenericError("account", "ACC77", "Account error", "Google multi-account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_ACC78 = NWDError.CreateGenericError("account", "ACC78", "Account error", "Google singin error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_ACC78 = NWDError.CreateGenericError("account", "ACC78", "Account error", "Google singin error already log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC81 = NWDError.CreateGenericError("account", "ACC81", "Account error", "FacebookID is empty", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC82 = NWDError.CreateGenericError("account", "ACC82", "Account error", "FacebookID is invalid format", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC83 = NWDError.CreateGenericError("account", "ACC83", "Account error", "Facebook Graph error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -115,7 +115,7 @@ namespace NetWorkedData
                 NWDError.NWDError_ACC85 = NWDError.CreateGenericError("account", "ACC85", "Account error", "Facebook sql select error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC86 = NWDError.CreateGenericError("account", "ACC86", "Account error", "Facebook sql update error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC87 = NWDError.CreateGenericError("account", "ACC87", "Account error", "Facebook multi-account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_ACC88 = NWDError.CreateGenericError("account", "ACC88", "Account error", "Facebook singin error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_ACC88 = NWDError.CreateGenericError("account", "ACC88", "Account error", "Facebook singin error already log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC90 = NWDError.CreateGenericError("account", "ACC90", "Account error", "error in request select in Account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC91 = NWDError.CreateGenericError("account", "ACC91", "Account error", "error in request insert anonymous Account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_ACC92 = NWDError.CreateGenericError("account", "ACC92", "Account error", "unknow account but not temporary … it's not possible … maybe destroyed account", "OK", NWDErrorType.Alert);
@@ -126,28 +126,28 @@ namespace NetWorkedData
                 NWDError.NWDError_SGN01 = NWDError.CreateGenericError("account", "SGN01", "Account sign error", "sign-up error in select valid account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN20 = NWDError.CreateGenericError("account", "SGN02", "Account sign error", "sign-up error in select account by uuid", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN03 = NWDError.CreateGenericError("account", "SGN03", "Account sign error", "sign-up error in update account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN04 = NWDError.CreateGenericError("account", "SGN04", "Account sign error", "sign-up error account allready linked with another email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN04 = NWDError.CreateGenericError("account", "SGN04", "Account sign error", "sign-up error account already linked with another email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN05 = NWDError.CreateGenericError("account", "SGN05", "Account sign error", "sign-up error multi-account by uuid", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN06 = NWDError.CreateGenericError("account", "SGN06", "Account sign error", "sign-up error account allready linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN07 = NWDError.CreateGenericError("account", "SGN07", "Account sign error", "sign-up error another account allready linked with signature", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN08 = NWDError.CreateGenericError("account", "SGN08", "Account sign error", "sign-up error multi-account allready linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN06 = NWDError.CreateGenericError("account", "SGN06", "Account sign error", "sign-up error account already linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN07 = NWDError.CreateGenericError("account", "SGN07", "Account sign error", "sign-up error another account already linked with signature", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN08 = NWDError.CreateGenericError("account", "SGN08", "Account sign error", "sign-up error multi-account already linked with this email", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN09 = NWDError.CreateGenericError("account", "SGN09", "Account sign error", "modify error in select valid account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN10 = NWDError.CreateGenericError("account", "SGN10", "Account sign error", "modify error unknow account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN11 = NWDError.CreateGenericError("account", "SGN11", "Account sign error", "sign-up error in update account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN12 = NWDError.CreateGenericError("account", "SGN12", "Account sign error", "modify error multi-account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN13 = NWDError.CreateGenericError("account", "SGN13", "Account sign error", "modify error in select valid account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN14 = NWDError.CreateGenericError("account", "SGN14", "Account sign error", "modify error email allready use in another account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN14 = NWDError.CreateGenericError("account", "SGN14", "Account sign error", "modify error email already use in another account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN15 = NWDError.CreateGenericError("account", "SGN15", "Account sign error", "singin error in request account ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN16 = NWDError.CreateGenericError("account", "SGN16", "Account sign error", "singin error no account ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                NWDError.NWDError_SGN17 = NWDError.CreateGenericError("account", "SGN17", "Account sign error", "singin error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN17 = NWDError.CreateGenericError("account", "SGN17", "Account sign error", "singin error already log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN18 = NWDError.CreateGenericError("account", "SGN18", "Account sign error", "singin error multi-account ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 NWDError.NWDError_SGN19 = NWDError.CreateGenericError("account", "SGN19", "Account sign error", "delete error in update account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-                NWDError.NWDError_SGN20 = NWDError.CreateGenericError("account", "SGN20", "Account sign error", "allready sign with default account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                NWDError.NWDError_SGN20 = NWDError.CreateGenericError("account", "SGN20", "Account sign error", "already sign with default account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 //NWDError.CreateGenericError("account", "SGN25", "Account sign error", "signanonymous error in request account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 //NWDError.CreateGenericError("account", "SGN26", "Account sign error", "signanonymous error no account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-                //NWDError.CreateGenericError("account", "SGN27", "Account sign error", "signanonymous error allready log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+                //NWDError.CreateGenericError("account", "SGN27", "Account sign error", "signanonymous error already log with this account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
                 //NWDError.CreateGenericError("account", "SGN28", "Account sign error", "signanonymous error multi-account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
                 NWDError.NWDError_SGN33 = NWDError.CreateGenericError("account", "SGN33", "Account sign error", "signout impossible with anonymous account equal to restaured account", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
@@ -173,7 +173,7 @@ namespace NetWorkedData
                 NWDError.NWDError_RQT92 = NWDError.CreateGenericError("token", "RQT92", "Token error", "token not in base", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT93 = NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT94 = NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
-                NWDError.NWDError_RQT95 = NWDError.CreateGenericError("token", "RQT95", "Token error", "token allready used...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+                NWDError.NWDError_RQT95 = NWDError.CreateGenericError("token", "RQT95", "Token error", "token already used...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT96 = NWDError.CreateGenericError("token", "RQT96", "Token error", "token integrity error...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT97 = NWDError.CreateGenericError("token", "RQT97", "Token error", "token != token error...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
                 NWDError.NWDError_RQT98 = NWDError.CreateGenericError("token", "RQT98", "Security error", "Security error one...", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);

@@ -298,7 +298,7 @@ namespace NetWorkedData
                 }
                 if (tCanCreate == false)
                 {
-                    EditorGUILayout.LabelField(" ", "this class allready exists");
+                    EditorGUILayout.LabelField(" ", "this class already exists");
                 }
                 else
                 {
@@ -330,7 +330,7 @@ namespace NetWorkedData
                 if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(ClassNameTrigramme))
                 {
                     tCanCreate = false;
-                    EditorGUILayout.LabelField(" ", "trigramme allready used by '" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[ClassNameTrigramme].Name + "'!");
+                    EditorGUILayout.LabelField(" ", "trigramme already used by '" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[ClassNameTrigramme].Name + "'!");
                 }
                 else
                 {
