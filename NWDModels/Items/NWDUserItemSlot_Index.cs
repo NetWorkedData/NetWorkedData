@@ -37,7 +37,7 @@ namespace NetWorkedData
                 string tKey = ItemSlot.GetReference();
                 if (kIndexList != null)
                 {
-                    // I have allready index
+                    // I have already index
                     if (kIndex.ContainsKey(tKey))
                     {
                         if (kIndex[tKey] == kIndexList)

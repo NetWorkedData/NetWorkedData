@@ -342,7 +342,7 @@ namespace NetWorkedData
                     break;
                 case NWDBasisEditorDatasSortType.ByIDAscendant:
                     {
-                        //Allready did! at first line!
+                        //Already did! at first line!
                         //EditorTableDatas.Sort((x, y) => x.AnalyzeID.CompareTo(y.AnalyzeID));
                     }
                     break;

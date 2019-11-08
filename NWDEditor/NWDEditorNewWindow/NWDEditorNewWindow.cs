@@ -144,7 +144,7 @@ namespace NetWorkedData
                 //			}
                 if (tCanCreate == false)
                 {
-                    EditorGUILayout.LabelField(" ", "this class allready exists");
+                    EditorGUILayout.LabelField(" ", "this class already exists");
                 }
                 else
                 {

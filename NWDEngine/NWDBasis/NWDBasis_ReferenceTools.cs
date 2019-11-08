@@ -136,7 +136,7 @@ namespace NetWorkedData
         //		}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Test the reference allready exists.
+        /// Test the reference already exists.
         /// </summary>
         /// <returns><c>true</c>, if reference was tested, <c>false</c> otherwise.</returns>
         /// <param name="sReference">reference.</param>

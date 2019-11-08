@@ -433,7 +433,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    // error this reference allready exist
+                    // error this reference already exist
                     UpdateDataIfModified(sAutoDate, sWritingMode);
                 }
             }
