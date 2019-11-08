@@ -95,6 +95,21 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// TheNWD editor New extension window.
+        /// </summary>
+        static NWDEditorNewExtension kNWDEditorNewExtension;
+        [MenuItem(NWDConstants.K_MENU_EDITOR_NEWEXTENSION, false, 80)]
+        public static void EditorNewExtensionShow()
+        {
+            if (kNWDEditorNewExtension == null)
+            {
+                kNWDEditorNewExtension = EditorWindow.GetWindow(typeof(NWDEditorNewExtension)) as NWDEditorNewExtension;
+            }
+            kNWDEditorNewExtension.ShowUtility();
+            kNWDEditorNewExtension.Focus();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// TheNWD editor NewClass window.
         /// </summary>
         [MenuItem(NWDConstants.K_MENU_EDITOR_FOOTER, false, 10)]

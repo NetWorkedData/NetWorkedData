@@ -421,6 +421,11 @@ namespace NetWorkedData
                 TagIntList.Add(tTag.Key);
                 TagStringList.Add(tTag.Value);
             }
+            if (TagIntList.Contains(-1) ==false)
+            {
+                TagIntList.Add(-1);
+                TagStringList.Add("No Tag");
+            }
 
             //NWEBenchmark.Finish();
         }

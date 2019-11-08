@@ -105,7 +105,8 @@ namespace NetWorkedData
                 }
             }
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + " = new Dictionary<int, string>();");
-            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(-1,\"No Tag\");"); // -1
+            for (int tI = 0; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
             {
                 if (TagList.ContainsKey(tI) == true)
                 {

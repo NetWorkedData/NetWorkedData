@@ -524,12 +524,21 @@ namespace NetWorkedData
                 else
                 {
                     EditorGUI.BeginDisabledGroup(true);
-                    EditorGUI.LabelField(tR, NWDConstants.K_APP_BASIS_INTERNAL_KEY, InternalKey, NWDGUI.kTextFieldStyle);
+                    EditorGUI.LabelField(tR, NWDConstants.K_APP_BASIS_INTERNAL_KEY, NWDToolbox.TextUnprotect(InternalKey), NWDGUI.kTextFieldStyle);
                     tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.EndDisabledGroup();
                 }
 
-                string tInternalDescriptionActual = NWDToolbox.TextUnprotect(InternalDescription);
+
+                bool tInternalDescriptionEditable = true;
+
+                if (GetType().GetCustomAttributes(typeof(NWDInternalDescriptionNotEditableAttribute), true).Length > 0)
+                {
+                    tInternalDescriptionEditable = false;
+                }
+                if (tInternalDescriptionEditable == true)
+                {
+                    string tInternalDescriptionActual = NWDToolbox.TextUnprotect(InternalDescription);
                 string tInternalDescription = EditorGUI.TextField(tR, NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, tInternalDescriptionActual, NWDGUI.kTextFieldStyle);
                 tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
                 if (tInternalDescription != InternalDescription)
@@ -537,6 +546,14 @@ namespace NetWorkedData
                     tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
                     InternalDescription = tInternalDescription;
                         UpdateDataEditor();
+                    }
+                }
+                else
+                {
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUI.LabelField(tR, NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, NWDToolbox.TextUnprotect(InternalDescription), NWDGUI.kTextFieldStyle);
+                    tR.y += NWDGUI.kTextFieldStyle.fixedHeight + NWDGUI.kFieldMarge;
+                    EditorGUI.EndDisabledGroup();
                 }
 
                 if (CanBeEdit == true)
