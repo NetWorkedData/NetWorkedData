@@ -11,21 +11,14 @@
 //
 //=====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-//using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -58,7 +51,7 @@ namespace NetWorkedData
         public bool TextBinding = true;
         public Text TextTarget;
         public bool TextMeshBinding = true;
-        public TextMesh TextMeshTarget;
+        public TMP_Text TextMeshTarget;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         private void OnDrawGizmos()
@@ -139,13 +132,13 @@ namespace NetWorkedData
                         if (TextMeshTarget == null)
                         {
                             // get root text
-                            TextMeshTarget = GetComponent<TextMesh>();
+                            TextMeshTarget = GetComponent<TMP_Text>();
                         }
                         // if not find in root object
                         if (TextMeshTarget == null)
                         {
                             // get first children text
-                            TextMeshTarget = GetComponentInChildren<TextMesh>();
+                            TextMeshTarget = GetComponentInChildren<TMP_Text>();
                         }
                         if (TextMeshTarget != null)
                         {
@@ -250,13 +243,13 @@ namespace NetWorkedData
                 if (TextMeshTarget == null)
                 {
                     // get root text
-                    TextMeshTarget = GetComponent<TextMesh>();
+                    TextMeshTarget = GetComponent<TMP_Text>();
                 }
                 // if not find in root object
                 if (TextMeshTarget == null)
                 {
                     // get first children text
-                    TextMeshTarget = GetComponentInChildren<TextMesh>();
+                    TextMeshTarget = GetComponentInChildren<TMP_Text>();
                 }
                 // TextMesh found
                 if (TextMeshTarget != null)
@@ -321,13 +314,13 @@ namespace NetWorkedData
                 if (TextMeshTarget == null)
                 {
                     // get root text
-                    TextMeshTarget = GetComponent<TextMesh>();
+                    TextMeshTarget = GetComponent<TMP_Text>();
                 }
                 // if not find in root object
                 if (TextMeshTarget == null)
                 {
                     // get first children text
-                    TextMeshTarget = GetComponentInChildren<TextMesh>();
+                    TextMeshTarget = GetComponentInChildren<TMP_Text>();
                 }
                 // TextMesh found
                 if (TextMeshTarget != null)
