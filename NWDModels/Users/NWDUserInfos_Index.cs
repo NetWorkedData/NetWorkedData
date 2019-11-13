@@ -21,7 +21,9 @@ namespace NetWorkedData
     public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDGameSave, NWDUserInfos> kIndex = new NWDIndex<NWDGameSave, NWDUserInfos>();
+        private static protected NWDIndex<NWDGameSave, NWDUserInfos> kIndex = new NWDIndex<NWDGameSave, NWDUserInfos>();
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDUserInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
         public void InsertInTipKeyIndex()
