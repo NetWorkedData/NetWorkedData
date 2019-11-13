@@ -45,6 +45,7 @@ namespace NetWorkedData
         public string PasswordToken;
         public string SignHash;
         public string RescueHash;
+        public string LoginHash;
         public string RescueEmail;
         public string RescueLanguage;
         public NWDAccountSignType SignType;
@@ -163,7 +164,7 @@ namespace NetWorkedData
                 }
                 if (string.IsNullOrEmpty(RescueHash))
                 {
-                    RescueHash = "-";
+                    RescueHash = NWDAccountSign.K_NO_HASH;
                 }
                 if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_RESCUE_Key))
                 {
@@ -172,6 +173,18 @@ namespace NetWorkedData
                 else
                 {
                     Data.Add(NWD.K_WEB_SIGN_UP_RESCUE_Key, RescueHash);
+                }
+                if (string.IsNullOrEmpty(LoginHash))
+                {
+                    LoginHash = NWDAccountSign.K_NO_HASH;
+                }
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_LOGIN_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_LOGIN_Key] = LoginHash;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_LOGIN_Key, LoginHash);
                 }
             }
             else if (Action == NWDOperationWebAccountAction.signin)

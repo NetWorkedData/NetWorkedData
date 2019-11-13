@@ -104,10 +104,10 @@ namespace NetWorkedData
             return AddWebRequestSynchronizationForceWithBlock(mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignUp(NWDAccountSignType sSignType, string sSignHash, string sRescueHash, bool sPriority = true, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebAccount AddWebRequestSignUp(NWDAccountSignType sSignType, string sSignHash, string sRescueHash, string sLoginHash, bool sPriority = true, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("NWDOperationWebAccount");
-            return AddWebRequestSignUpWithBlock(sSignType,sSignHash,sRescueHash, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSignUpWithBlock(sSignType,sSignHash,sRescueHash, sLoginHash, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignIn(string sPasswordToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
@@ -257,6 +257,7 @@ namespace NetWorkedData
                                                                     NWDAccountSignType sSignType,
                                                                     string sSignHash,
                                                                     string sRescueHash,
+                                                                    string sLoginHash,
                                                                     NWEOperationBlock sSuccessBlock = null,
                                                                     NWEOperationBlock sErrorBlock = null,
                                                                     NWEOperationBlock sCancelBlock = null,
@@ -270,6 +271,7 @@ namespace NetWorkedData
             sOperation.SignType = sSignType;
             sOperation.SignHash = sSignHash;
             sOperation.RescueHash = sRescueHash;
+            sOperation.LoginHash = sLoginHash;
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }

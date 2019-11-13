@@ -318,7 +318,7 @@ namespace NetWorkedData
 
 
 
-            tFile.AppendLine("function CreateAccountSign($sAccountReference, $sSDKt, $sSDKv, $sSDKr)");
+            tFile.AppendLine("function CreateAccountSign($sAccountReference, $sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("$rReturn = false;");
@@ -342,6 +342,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignType) + "`, '; $tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($sSDKt).'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "`, ';$tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($sSDKv).'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "`, ';$tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($sSDKr).'\\', ';");
+            tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "`, ';$tInsertSQLValue.= '\\''.$SQL_CON->real_escape_string($sSDKl).'\\', ';");
             tFile.AppendLine("$tInsertSQL.='`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "`, ';$tInsertSQLValue.= '\\'" + (int)NWDAccountSignAction.Associated + "\\', ';");
 
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)

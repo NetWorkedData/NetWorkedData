@@ -21,14 +21,18 @@ namespace NetWorkedData
     public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
     {
         // 0 is reserved by None and invalidate the signup process
-        public static NWDAccountSignType DeviceID = Add(1, "DeviceID"); // NEVER CHANGE INT VALUE !!!
 
-        public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword"); // NEVER CHANGE INT VALUE !!!
-        public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail"); // NEVER CHANGE INT VALUE !!!
-                                                                                             // NEVER CHANGE INT VALUE !!!
-        public static NWDAccountSignType Facebook = Add(20, "FacebookID"); // NEVER CHANGE INT VALUE !!!
-        public static NWDAccountSignType Google = Add(21, "GoogleID"); // NEVER CHANGE INT VALUE !!!
-        public static NWDAccountSignType Apple = Add(22, "AppleID"); // NEVER CHANGE INT VALUE !!!
+        public static NWDAccountSignType DeviceID = Add(1, "DeviceID");                         // NEVER CHANGE INT VALUE !
+
+        public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword");              // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail");    // NEVER CHANGE INT VALUE ! //TODO Perhaps forbidden this sign (login is soo hasbeen)
+                                                                                                // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType Facebook = Add(20, "FacebookID");                      // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType Google = Add(21, "GoogleID");                          // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType Apple = Add(22, "AppleID");                            // NEVER CHANGE INT VALUE !
+
+
+        //public static NWDAccountSignType Biometric = Add(66, "Biometric");                      // NEVER CHANGE INT VALUE !
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
@@ -69,6 +73,8 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_NO_HASH = "-";
+        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations")]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         [NWDInspectorGroupEnd]
@@ -79,6 +85,8 @@ namespace NetWorkedData
         public string SignHash { get; set; }
         [NWDNotEditable]
         public string RescueHash { get; set; }
+        [NWDNotEditable]
+        public string LoginHash { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Action")]
         [NWDNotEditable]

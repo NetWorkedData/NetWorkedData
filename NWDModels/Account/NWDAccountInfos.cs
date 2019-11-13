@@ -56,11 +56,11 @@ namespace NetWorkedData
         public NWDAppEnvironmentPlayerStatut AccountType()
         {
             NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
-            if (Account.GetReference().Contains("T"))
+            if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE))
             {
                 rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
             }
-            else if (Account.GetReference().Contains("Z"))
+            else if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_NEW_SUFFIXE))
             {
                 rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
             }

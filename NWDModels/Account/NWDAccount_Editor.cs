@@ -171,14 +171,14 @@ namespace NetWorkedData
             tI++;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
-            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp Fake Radom"))
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp Fake Random"))
             {
-                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.Fake, NWDToolbox.RandomStringUnix(32), null);
+                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.Fake, NWDToolbox.RandomStringUnix(32), null, null);
             }
             tI++;
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp email password"))
             {
-                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.GetRescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail));
+                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.GetRescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail), null);
             }
             tI++;
             /*

@@ -46,17 +46,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Addons editor interface.
-        /// </summary>
-        /// <returns>The editor height addon.</returns>
-        /// <param name="sRect">S in rect.</param>
-        public override void AddonEditor(Rect sRect)
-        {
-            base.AddonEditor(sRect);
-            // Draw the interface addon for editor
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
         /// Addons editor intreface expected height.
         /// </summary>
         /// <returns>The editor expected height.</returns>
@@ -64,7 +53,20 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tYadd = base.AddonEditorHeight(sWidth);
+            tYadd += NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 20);
             return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addons editor interface.
+        /// </summary>
+        /// <returns>The editor height addon.</returns>
+        /// <param name="sRect">S in rect.</param>
+        public override void AddonEditor(Rect sRect)
+        {
+            base.AddonEditor(sRect);
+            Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 20);
+            // Draw the interface addon for editor
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

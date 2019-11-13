@@ -1214,8 +1214,8 @@ namespace NetWorkedData
             //tFile.AppendLine("{");
             //tFile.AppendLine("if ($tResult->num_rows == 0)");
             //tFile.AppendLine("{");
-            //tFile.AppendLine("// if user is temporary user I must find the last letter equal to 'T'");
-            //tFile.AppendLine("if (substr($uuid, -1) == 'T')");
+            //tFile.AppendLine("// if user is temporary user I must find the last letter equal to '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "'");
+            //tFile.AppendLine("if (substr($uuid, -1) == '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "')");
             //tFile.AppendLine("{");
             //tFile.AppendLine("// I put order to create anonymous account if account is not resolve before action (sync, etc)");
             //tFile.AppendLine("AccountAnonymousNeeded(true);");

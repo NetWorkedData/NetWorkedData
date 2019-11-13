@@ -64,11 +64,11 @@ namespace NetWorkedData
             tFile.AppendLine("function TestTemporaryAccount($sReference)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.AppendLine("if (substr($sReference, -1) == 'T')");
+            tFile.AppendLine("if (substr($sReference, -1) == '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "')");
             tFile.AppendLine("{");
             tFile.AppendLine("return true;");
             tFile.AppendLine("}");
-            tFile.AppendLine("else if (substr($sReference, -1) == 'Z')");
+            tFile.AppendLine("else if (substr($sReference, -1) == '" + NWDAccount.K_ACCOUNT_NEW_SUFFIXE + "')");
             tFile.AppendLine("{");
             tFile.AppendLine("return true;");
             tFile.AppendLine("}");
@@ -78,11 +78,11 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            
+
             tFile.AppendLine("function TestCreateAccount($sReference)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
-            tFile.AppendLine("if (substr($sReference, -1) == 'Z')");
+            tFile.AppendLine("if (substr($sReference, -1) == '" + NWDAccount.K_ACCOUNT_NEW_SUFFIXE + "')");
             tFile.AppendLine("{");
             tFile.AppendLine("return true;");
             tFile.AppendLine("}");
@@ -110,7 +110,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if ($tResult->num_rows == 0)");
             tFile.AppendLine("{");
-            tFile.AppendLine("// if user is temporary user I must find the last letter equal to 'T'");
+            tFile.AppendLine("// if user is temporary user I must find the last letter equal to '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "'");
             tFile.AppendLine("if (TestTemporaryAccount($sReference))");
             tFile.AppendLine("{");
             tFile.AppendLine("// normal ... unknow user!");
@@ -146,7 +146,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
 
-            tFile.AppendLine("function FindSDKI($sSDKt, $sSDKv, $sSDKr)");
+            tFile.AppendLine("function FindSDKI($sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON;");
@@ -156,8 +156,23 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.Append("$tQuerySign = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().Account) + "` ");
             tFile.Append("FROM `" + NWDBasisHelper.TableNamePHP<NWDAccountSign>(sEnvironment) + "` ");
-            tFile.Append("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKv).'\\' ");
-            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' ");
+            tFile.Append("WHERE ");
+            tFile.Append("");
+            tFile.Append("(`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKv).'\\' ");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash) + "` != \\'\\' )");
+            tFile.Append("");
+            tFile.Append("OR ");
+            tFile.Append("");
+            tFile.Append("( `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKr).'\\' ");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` != \\'\\' )");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash) + "` != \\'" + NWDAccountSign.K_NO_HASH + "\\' )");
+            tFile.Append("");
+            tFile.Append("OR ");
+            tFile.Append("");
+            tFile.Append("( `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "` = \\''.$SQL_CON->real_escape_string($sSDKl).'\\' ");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "` != \\'\\' )");
+            tFile.Append("AND  `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash) + "` != \\'" + NWDAccountSign.K_NO_HASH + "\\' )");
+            tFile.Append("");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus) + "` = \\'" + ((int)NWDAccountSignAction.Associated).ToString() + "\\' ");
             tFile.Append("AND `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().AC) + "` = 1;");
             tFile.AppendLine("';");
@@ -169,12 +184,12 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
-                tFile.AppendLine("if ($tResultSign->num_rows == 0)");
-                    tFile.AppendLine("{");
-                        tFile.AppendLine("CreateAccount('454545T');");
-                        tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need creat an account sign valid!"));
-                        tFile.AppendLine("CreateAccountSign($uuid, $sSDKt, $sSDKv, $sSDKr);");
-                    tFile.AppendLine("}");
+            tFile.AppendLine("if ($tResultSign->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("CreateAccount('454545T');");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need creat an account sign valid!"));
+            tFile.AppendLine("CreateAccountSign($uuid, $sSDKt, $sSDKv, $sSDKr, $sSDKl);");
+            tFile.AppendLine("}");
             tFile.AppendLine("else if ($tResultSign->num_rows == 1)");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN07));
@@ -182,7 +197,8 @@ namespace NetWorkedData
             tFile.AppendLine("else //or more than one user with this email … strange… I push an error, user must be unique");
             tFile.AppendLine("{");
             tFile.AppendLine("// to much users ...");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKI : '.$sSDKI.' Too Mush Row"));
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKv : '.$sSDKv.' Too Mush Row"));
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKr : '.$sSDKr.' Too Mush Row"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SGN18));
             tFile.AppendLine("}");
             tFile.AppendLine("mysqli_free_result($tResultSign);");

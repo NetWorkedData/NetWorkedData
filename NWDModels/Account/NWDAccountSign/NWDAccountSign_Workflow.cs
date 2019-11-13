@@ -45,6 +45,7 @@ namespace NetWorkedData
             SignType = NWDAccountSignType.None;
             SignHash = string.Empty;
             RescueHash = string.Empty;
+            LoginHash = string.Empty;
             Unregister();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -53,6 +54,7 @@ namespace NetWorkedData
             SignType = NWDAccountSignType.DeviceID;
             SignHash = SignDeviceEditor();
             RescueHash = string.Empty;
+            LoginHash = string.Empty;
 #if UNITY_EDITOR
             NWDAppEnvironment tEnv = null;
             if (DevSync < 0)
@@ -79,6 +81,7 @@ namespace NetWorkedData
             SignType = NWDAccountSignType.DeviceID;
             SignHash = SignDevicePlayer();
             RescueHash = string.Empty;
+            LoginHash = string.Empty;
 #if UNITY_EDITOR
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
@@ -95,6 +98,7 @@ namespace NetWorkedData
             SignType = NWDAccountSignType.DeviceID;
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
             RescueHash = string.Empty;
+            LoginHash = string.Empty;
 #if UNITY_EDITOR
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
@@ -111,6 +115,7 @@ namespace NetWorkedData
             SignType = sSocialType;
             SignHash = GetSignSocialHash(sSocialID);
             RescueHash = string.Empty;
+            LoginHash = string.Empty;
 #if UNITY_EDITOR
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
             if (tAccount != null)
@@ -125,7 +130,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterLoginPasswordEmail(string sLogin, string sPassword, string sEmail)
         {
-            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword))
+            if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword) || string.IsNullOrEmpty(sLogin))
             {
                 // Not possible
             }
@@ -134,6 +139,7 @@ namespace NetWorkedData
                 SignType = NWDAccountSignType.LoginPasswordEmail;
                 SignHash = GetSignLoginPasswordHash(sLogin, sPassword);
                 RescueHash = GetRescueEmailHash(sEmail);
+                LoginHash = GetLoginHash(sLogin);
 #if UNITY_EDITOR
                 NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
                 if (tAccount != null)
@@ -158,6 +164,7 @@ namespace NetWorkedData
                 SignType = NWDAccountSignType.EmailPassword;
                 SignHash = GetSignLoginPasswordHash(sEmail, sPassword);
                 RescueHash = GetRescueEmailHash(sEmail);
+                LoginHash = string.Empty;
 #if UNITY_EDITOR
                 NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
                 if (tAccount != null)
@@ -192,7 +199,7 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignSocialHash(sSocialID);
-            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, sSocialType);
+            bool tResult = NWDAccountSign.CheckAccountSign(tSignHash, sSocialType);
 
             if (!tResult)
             {
@@ -212,7 +219,7 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignLoginPasswordHash(sLogin, sPassword);
-            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
+            bool tResult = NWDAccountSign.CheckAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
 
             if (!tResult)
             {
@@ -232,7 +239,7 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignEmailPasswordHash(sEmail, sPassword);
-            bool tResult = NWDAccountSign.ChechAccountSign(tSignHash, NWDAccountSignType.EmailPassword);
+            bool tResult = NWDAccountSign.CheckAccountSign(tSignHash, NWDAccountSignType.EmailPassword);
 
             if (!tResult)
             {
@@ -304,6 +311,20 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetLoginHash(string sLogin)
+        {
+            string rReturn = null;
+            if (string.IsNullOrEmpty(sLogin))
+            {
+                rReturn = string.Empty;
+            }
+            else
+            {
+                rReturn = NWESecurityTools.GenerateSha(sLogin.ToUpper() + NWDAppEnvironment.SelectedEnvironment().SaltStart);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign[] GetCorporateDatasAssociated(string sAccountReference = null)
         {
             List<NWDAccountSign> tSignList = NWDBasisHelper.GetCorporateDatasList<NWDAccountSign>(sAccountReference);
@@ -346,7 +367,7 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool ChechAccountSign(string sSignHash, NWDAccountSignType sAccountType)
+        public static bool CheckAccountSign(string sSignHash, NWDAccountSignType sAccountType) //TODO : rename with "Reacheable" 
         {
             bool rResult = false;
             NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
@@ -361,11 +382,10 @@ namespace NetWorkedData
                     }
                 }
             }
-
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountSign GetAccountSign(NWDAccountSignType sAccountType)
+        public static NWDAccountSign GetAccountSign(NWDAccountSignType sAccountType) //TODO : rename with "First" and "Reacheable" 
         {
             NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
             foreach (NWDAccountSign k in tSigns)

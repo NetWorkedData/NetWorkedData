@@ -665,7 +665,14 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdkr', '" + NWD.K_WEB_SIGN_UP_RESCUE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("FindSDKI($sdkt, $sdkv, $sdkr);");
+            tFile.AppendLine("if (paramValue('sdkl', '" + NWD.K_WEB_SIGN_UP_LOGIN_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("FindSDKI($sdkt, $sdkv, $sdkr, $sdkl);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+            tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -714,7 +721,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("$tOldUuid = $uuid;");
             //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
-            tFile.AppendLine("$tNewUuid = FindAccount(time().'T', $sdki, true);");
+            tFile.AppendLine("$tNewUuid = FindAccount(time().'" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "', $sdki, true);");
             tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
@@ -767,6 +774,7 @@ namespace NetWorkedData
             {
                 tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))");
                 tFile.AppendLine("{");
+                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                 tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
                 tFile.AppendLine("}");
             }

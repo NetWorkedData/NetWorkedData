@@ -26,6 +26,11 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_ACCOUNT_TEMPORARY_SUFFIXE = "T";
+        public const string K_ACCOUNT_CERTIFIED_SUFFIXE = "C";
+        public const string K_ACCOUNT_NEW_SUFFIXE = "Z";
+        //public const string K_ACCOUNT_SIGNED_SUFFIXE = "S";
+        //-------------------------------------------------------------------------------------------------------------
         const string K_LOGIN_INDEX = "LoginIndex";
         const string K_SECRET_INDEX = "SecretIndex";
         const string K_SOCIAL_INDEX = "SecretIndex";

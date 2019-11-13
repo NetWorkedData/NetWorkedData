@@ -485,15 +485,15 @@ namespace NetWorkedData
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = "ACC-" + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString();
+            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString();
 
             if (isTemporaryAccount)
             {
-                rReturn += "T";
+                rReturn += NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE;
             }
             else
             {
-                rReturn += "Z";
+                rReturn += NWDAccount.K_ACCOUNT_NEW_SUFFIXE;
             }
 
             return rReturn;

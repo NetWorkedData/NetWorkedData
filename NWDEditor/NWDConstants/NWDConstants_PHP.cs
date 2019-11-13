@@ -40,7 +40,7 @@ namespace NetWorkedData
         public const string K_SQL_CON = "$SQL_CON";
         public const string K_ENV = "$ENV";
         public const string K_NWD_SLT_SRV = "$NWD_SLT_SRV";
-        public const string K_PHP_TIME_SYNC = "$TME_SYNC";
+        public const string K_PHP_TIME_SYNC = "$TIME_SYNC";
         public const string K_JSON_SECURE_KEY = "securePost";
         public const string K_WEB_ACTION_KEY = "action";
         public const string K_WEB_ACTION_SIGNUP_KEY = "signup";
@@ -64,6 +64,7 @@ namespace NetWorkedData
         public const string K_WEB_SIGN_UP_TYPE_Key = "sdkt";
         public const string K_WEB_SIGN_UP_VALUE_Key = "sdkv";
         public const string K_WEB_SIGN_UP_RESCUE_Key = "sdkr";
+        public const string K_WEB_SIGN_UP_LOGIN_Key = "sdkl";
 
         // if rescue
         public const string K_WEB_RESCUE_EMAIL_Key = "email";
