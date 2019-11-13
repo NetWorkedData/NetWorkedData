@@ -38,9 +38,6 @@ namespace NetWorkedData
     public class NWDAutolocalized : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The localization reference.
-        /// </summary>
         [Header("Connect the localizable Text")]
         public NWDLocalizationConnection LocalizationReference;
         public NWDAutolocalizedTag AutoTag = NWDAutolocalizedTag.MarkedBaseString;
@@ -52,21 +49,225 @@ namespace NetWorkedData
         public Text TextTarget;
         public bool TextMeshBinding = true;
         public TMP_Text TextMeshTarget;
+        //=============================================================================================================
+        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
+        public void Localize(bool sUseBaseString = false)
         {
-            //Debug.Log("NWDAutolocalized OnDrawGizmos()");
+            if (LocalizationReference != null)
+            {
+                NWDLocalization tLocalization = LocalizationReference.GetReachableData();
+            }
+            
+            //Text
+            if (TextBinding == true)
+            {
+                // if not pluging
+                if (TextTarget == null)
+                {
+                    // get root text
+                    TextTarget = GetComponent<Text>();
+                }
+                // if not find in root object
+                if (TextTarget == null)
+                {
+                    // get first children text
+                    TextTarget = GetComponentInChildren<Text>();
+                }
+                // if Text found
+                if (TextTarget != null)
+                {
+                    // set the localizable text
+                    if (LocalizationReference != null)
+                    {
+                        NWDLocalization tLocalization = LocalizationReference.GetReachableData();
+                        if (tLocalization != null)
+                        {
+                            string tTextString = string.Empty;
+                            if (sUseBaseString == true)
+                            {
+                                tTextString = tLocalization.TextValue.GetBaseString();
+                            }
+                            else
+                            {
+                                tTextString = tLocalization.GetLocalString();
+                            }
+
+                            // Enrich text
+                            if (EnrichmentByReference == true)
+                            {
+                                TextTarget.text = Enrichment(tTextString);
+                            }
+                            else
+                            {
+                                TextTarget.text = tTextString;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //TextMesh 
+            if (TextMeshBinding == true)
+            {
+                // if not pluging
+                if (TextMeshTarget == null)
+                {
+                    // get root text
+                    TextMeshTarget = GetComponent<TMP_Text>();
+                }
+                // if not find in root object
+                if (TextMeshTarget == null)
+                {
+                    // get first children text
+                    TextMeshTarget = GetComponentInChildren<TMP_Text>();
+                }
+                // TextMesh found
+                if (TextMeshTarget != null)
+                {
+                    // set the localizable text
+                    if (LocalizationReference != null)
+                    {
+                        NWDLocalization tLocalization = LocalizationReference.GetReachableData();
+                        if (tLocalization != null)
+                        {
+                            string tTextString = string.Empty;
+                            if (sUseBaseString == true)
+                            {
+                                tTextString = tLocalization.TextValue.GetBaseString();
+                            }
+                            else
+                            {
+                                tTextString = tLocalization.GetLocalString();
+                            }
+                            if (EnrichmentByReference == true)
+                            {
+                                TextMeshTarget.text = Enrichment(tTextString);
+                            }
+                            else
+                            {
+                                TextMeshTarget.text = tTextString;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Empty()
+        {
+            //Text
+            if (TextBinding == true)
+            {
+                // if not pluging
+                if (TextTarget == null)
+                {
+                    // get root text
+                    TextTarget = GetComponent<Text>();
+                }
+                // if not find in root object
+                if (TextTarget == null)
+                {
+                    // get first children text
+                    TextTarget = GetComponentInChildren<Text>();
+                }
+                // if Text found
+                if (TextTarget != null)
+                {
+                    TextTarget.text = string.Empty;
+                }
+            }
+
+            //TextMesh 
+            if (TextMeshBinding == true)
+            {
+                // if not pluging
+                if (TextMeshTarget == null)
+                {
+                    // get root text
+                    TextMeshTarget = GetComponent<TMP_Text>();
+                }
+                // if not find in root object
+                if (TextMeshTarget == null)
+                {
+                    // get first children text
+                    TextMeshTarget = GetComponentInChildren<TMP_Text>();
+                }
+                // TextMesh found
+                if (TextMeshTarget != null)
+                {
+                    // set the localizable text
+                    TextMeshTarget.text = string.Empty;
+                }
+            }
+        }
+        //=============================================================================================================
+        // PRIVATE METHOD
+        //-------------------------------------------------------------------------------------------------------------
+        void DataIsLoaded()
+        {
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+            Localize(false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void LanguageChnaged()
+        {
+            Localize(false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnEnable()
+        {
+            LocalizationReference.Log();
+
+            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            {
+                if (EmptyIfNotLoaded == true)
+                {
+                    Empty();
+                }
+                NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
+                 {
+                     DataIsLoaded();
+                 });
+            }
+            else
+            {
+                Localize(false);
+            }
+            NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_LANGUAGE_CHANGED, delegate (NWENotification sNotification)
+            {
+                Localize(false);
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnDisable()
+        {
+            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
+            tNotificationManager.RemoveObserverEveryWhere(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        string Enrichment(string sText)
+        {
+            string rText = NWDLocalization.Enrichment(sText);
+            rText = NWDUserNickname.Enrichment(rText);
+            rText = NWDAccountNickname.Enrichment(rText);
+            return rText;
+        }
+#if UNITY_EDITOR
+        //=============================================================================================================
+        // EDITOR METHOD
+        //-------------------------------------------------------------------------------------------------------------
+        void OnDrawGizmos()
+        {
             LocalizeEditor();
         }
-#endif
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         public void LocalizeEditor()
         {
-            //Debug.Log("NWDAutolocalized LocalizeEditor()");
             if (EditorApplication.isPlaying)
             {
+                // Do nothing !
             }
             else
             {
@@ -180,210 +381,6 @@ namespace NetWorkedData
             }
         }
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        public void Localize(bool sUseBaseString = false)
-        {
-            if (LocalizationReference != null)
-            {
-                //Debug.Log("LocalizationReference not null = " + LocalizationReference.Reference);
-                NWDLocalization tLocalization = LocalizationReference.GetReachableData();
-            }
-            //Debug.Log("NWDAutolocalized Localize()");
-            //Text
-            if (TextBinding == true)
-            {
-                // if not pluging
-                if (TextTarget == null)
-                {
-                    // get root text
-                    TextTarget = GetComponent<Text>();
-                }
-                // if not find in root object
-                if (TextTarget == null)
-                {
-                    // get first children text
-                    TextTarget = GetComponentInChildren<Text>();
-                }
-                // if Text found
-                if (TextTarget != null)
-                {
-                    // set the localizable text
-                    if (LocalizationReference != null)
-                    {
-                        NWDLocalization tLocalization = LocalizationReference.GetReachableData();
-                        if (tLocalization != null)
-                        {
-                            string tTextString = string.Empty;
-                            if (sUseBaseString == true)
-                            {
-                                tTextString = tLocalization.TextValue.GetBaseString();
-                            }
-                            else
-                            {
-                                tTextString = tLocalization.GetLocalString();
-                            }
-
-                            // Enrich text
-                            if (EnrichmentByReference == true)
-                            {
-                                TextTarget.text = Enrichment(tTextString);
-                            }
-                            else
-                            {
-                                TextTarget.text = tTextString;
-                            }
-                        }
-                    }
-                }
-            }
-            //TextMesh 
-            if (TextMeshBinding == true)
-            {
-                // if not pluging
-                if (TextMeshTarget == null)
-                {
-                    // get root text
-                    TextMeshTarget = GetComponent<TMP_Text>();
-                }
-                // if not find in root object
-                if (TextMeshTarget == null)
-                {
-                    // get first children text
-                    TextMeshTarget = GetComponentInChildren<TMP_Text>();
-                }
-                // TextMesh found
-                if (TextMeshTarget != null)
-                {
-                    // set the localizable text
-                    if (LocalizationReference != null)
-                    {
-                        NWDLocalization tLocalization = LocalizationReference.GetReachableData();
-                        if (tLocalization != null)
-                        {
-                            string tTextString = string.Empty;
-                            if (sUseBaseString == true)
-                            {
-                                tTextString = tLocalization.TextValue.GetBaseString();
-                            }
-                            else
-                            {
-                                tTextString = tLocalization.GetLocalString();
-                            }
-                            if (EnrichmentByReference == true)
-                            {
-                                TextMeshTarget.text = Enrichment(tTextString);
-                            }
-                            else
-                            {
-                                TextMeshTarget.text = tTextString;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Empty()
-        {
-            //Debug.Log("NWDAutolocalized Empty()");
-            //Text
-            if (TextBinding == true)
-            {
-                // if not pluging
-                if (TextTarget == null)
-                {
-                    // get root text
-                    TextTarget = GetComponent<Text>();
-                }
-                // if not find in root object
-                if (TextTarget == null)
-                {
-                    // get first children text
-                    TextTarget = GetComponentInChildren<Text>();
-                }
-                // if Text found
-                if (TextTarget != null)
-                {
-                    TextTarget.text = string.Empty;
-                }
-            }
-            //TextMesh 
-            if (TextMeshBinding == true)
-            {
-                // if not pluging
-                if (TextMeshTarget == null)
-                {
-                    // get root text
-                    TextMeshTarget = GetComponent<TMP_Text>();
-                }
-                // if not find in root object
-                if (TextMeshTarget == null)
-                {
-                    // get first children text
-                    TextMeshTarget = GetComponentInChildren<TMP_Text>();
-                }
-                // TextMesh found
-                if (TextMeshTarget != null)
-                {
-                    // set the localizable text
-                    TextMeshTarget.text = string.Empty;
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void DataIsLoaded()
-        {
-            //Debug.Log("NWDAutolocalized DataIsLoaded()");
-            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
-            Localize(false);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void LanguageChnaged()
-        {
-            Localize(false);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        void OnEnable()
-        {
-            //Debug.Log("NWDAutolocalized Awake()");
-            LocalizationReference.Log();
-
-            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
-            {
-                if (EmptyIfNotLoaded == true)
-                {
-                    Empty();
-                }
-                NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
-                 {
-                     DataIsLoaded();
-                 });
-            }
-            else
-            {
-                Localize(false);
-            }
-            NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_LANGUAGE_CHANGED, delegate (NWENotification sNotification)
-            {
-                Localize(false);
-            });
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void OnDisable()
-        {
-            //Debug.Log("NWDAutolocalized OnDestroy()");
-            NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverEveryWhere(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        string Enrichment(string sText)
-        {
-            string rText = NWDLocalization.Enrichment(sText);
-            rText = NWDUserNickname.Enrichment(rText);
-            rText = NWDAccountNickname.Enrichment(rText);
-            return rText;
-        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
