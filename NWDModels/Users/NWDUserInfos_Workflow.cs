@@ -33,13 +33,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() {}
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDUserInfos ActiveUser => CheckUser();
+        //private static NWDUserInfos ActiveUser => CheckUser();
         //=============================================================================================================
         // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetNickname()
+        public static string GetNickname() // TODO Rename GetCurrentNickname
         {
-            NWDUserNickname tNickname = ActiveUser.Nickname.GetRawData();
+            NWDUserNickname tNickname = CheckUser().Nickname.GetRawData();
             if (tNickname != null)
             {
                 return tNickname.Nickname;
@@ -48,9 +48,9 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatar(bool isRenderTexture = false)
+        public static Sprite GetAvatar(bool isRenderTexture = false) // TODO Rename GetCurrentAvatar
         {
-            NWDUserAvatar tAvatar = ActiveUser.Avatar.GetRawData();
+            NWDUserAvatar tAvatar = CheckUser().Avatar.GetRawData();
             if (tAvatar != null)
             {
                 NWDItem tItem = tAvatar.RenderItem.GetRawData();
@@ -119,7 +119,7 @@ namespace NetWorkedData
             NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos CheckUser()
+        public static NWDUserInfos CheckUser() // TODO Rename CheckCurrentUser
         {
             NWDUserInfos rUserInfos = CurrentData();
             if (rUserInfos != null)

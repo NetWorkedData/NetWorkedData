@@ -33,8 +33,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() { }
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDAccountInfos ActiveAccount => CheckAccount();
-        //-------------------------------------------------------------------------------------------------------------
         public static void LoadBalacing(int sAvg)
         {
             Debug.Log("LoadBalacing() " + sAvg);
