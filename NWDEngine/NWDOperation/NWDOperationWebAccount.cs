@@ -87,7 +87,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
-            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+                tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebAccount>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
@@ -106,7 +106,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string ServerFile()
         {
-            return NWD.K_AUTHENTIFICATION_PHP;
+            return NWD.K_AUTHENTICATION_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string ServerBase()

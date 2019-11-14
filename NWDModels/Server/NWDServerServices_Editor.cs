@@ -117,7 +117,7 @@ namespace NetWorkedData
                     {
                         if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload dev files"))
                         {
-                            NWDServerAuthentification tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                            NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().DevEnvironment);
                             if (tCon != null)
                             {
                                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
@@ -129,7 +129,7 @@ namespace NetWorkedData
                     {
                         if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload preprod files"))
                         {
-                            NWDServerAuthentification tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                            NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                             if (tCon != null)
                             {
                                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
@@ -141,7 +141,7 @@ namespace NetWorkedData
                     {
                         if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload prod files"))
                         {
-                            NWDServerAuthentification tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                            NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().ProdEnvironment);
                             if (tCon != null)
                             {
                                 NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);

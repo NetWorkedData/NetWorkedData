@@ -103,7 +103,7 @@ namespace NetWorkedData
         //public const string K_WS_INSIDE_FILE = "webservices_inside.php";
         //public const string K_WS_FILE_ADDON = "webservices_addon.php";
         //public const string K_WS_ACCOUNT_ADDON = "accountservices.php";
-        public const string K_AUTHENTIFICATION_PHP = "authentification.php";
+        public const string K_AUTHENTICATION_PHP = "authentication.php";
         public const string K_BLANK_PHP = "blank.php";
         public const string K_INDEX_PHP = "index.php";
         public const string K_RESCUE_PHP = "rescue.php";

@@ -74,9 +74,9 @@ namespace NetWorkedData
             Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerAuthentification GetServerSFTP(NWDAppEnvironment sEnvironment)
+        public NWDServerAuthentication GetServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            NWDServerAuthentification rReturn = null;
+            NWDServerAuthentication rReturn = null;
             NWDServerDomain tServerDNS = Server.GetRawData();
             if (tServerDNS != null)
             {
@@ -87,26 +87,26 @@ namespace NetWorkedData
                         (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tServerDNS.Preprod == true) ||
                         (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tServerDNS.Prod == true))
                     {
-                        rReturn = new NWDServerAuthentification(NWDToolbox.TextUnprotect(tServerDNS.ServerDNS), Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password.ToString()));
+                        rReturn = new NWDServerAuthentication(NWDToolbox.TextUnprotect(tServerDNS.ServerDNS), Port, NWDToolbox.TextUnprotect(Folder), NWDToolbox.TextUnprotect(User), NWDToolbox.TextUnprotect(Password.ToString()));
                     }
                 }
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDServerAuthentification GetConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
+        public static NWDServerAuthentication GetConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            NWDServerAuthentification rReturn = new NWDServerAuthentification(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword);
+            NWDServerAuthentication rReturn = new NWDServerAuthentication(sEnvironment.SFTPHost, sEnvironment.SFTPPort, sEnvironment.SFTPFolder, sEnvironment.SFTPUser, sEnvironment.SFTPPassword);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDServerAuthentification[] GetAllConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
+        public static NWDServerAuthentication[] GetAllConfigurationServerSFTP(NWDAppEnvironment sEnvironment)
         {
-            List<NWDServerAuthentification> rReturn = new List<NWDServerAuthentification>();
+            List<NWDServerAuthentication> rReturn = new List<NWDServerAuthentication>();
             rReturn.Add(GetConfigurationServerSFTP(sEnvironment));
             foreach (NWDServerServices tSFTP in NWDBasisHelper.GetRawDatas<NWDServerServices>())
             {
-                NWDServerAuthentification tConn = tSFTP.GetServerSFTP(sEnvironment);
+                NWDServerAuthentication tConn = tSFTP.GetServerSFTP(sEnvironment);
                 if (tConn != null)
                 {
                     rReturn.Add(tConn);

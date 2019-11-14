@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentification sConn = null)
+        public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
             NWEBenchmark.Start();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
@@ -37,7 +37,7 @@ namespace NetWorkedData
             {
                 CreatePHPErrorGenerate();
                 CreatePHPConstantsFile(tFilesAndDatas, sWriteOnDisk);
-                CreatePHPAuthentificationFile(tFilesAndDatas, sWriteOnDisk);
+                CreatePHPAuthenticationFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPIndexFile(tFilesAndDatas, sWriteOnDisk);
@@ -592,7 +592,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHPAuthentificationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        private void CreatePHPAuthenticationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
@@ -792,7 +792,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_AUTHENTIFICATION_PHP, tFileFormatted);
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_AUTHENTICATION_PHP, tFileFormatted);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

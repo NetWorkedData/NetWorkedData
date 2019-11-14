@@ -26,7 +26,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDServerAuthentification
+    public class NWDServerAuthentication
     {
         //-------------------------------------------------------------------------------------------------------------
         public string Host;
@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public NWDServerAuthentification(string sHost, int sPort, string sFolder, string sUser, string sPassword)
+        public NWDServerAuthentication(string sHost, int sPort, string sFolder, string sUser, string sPassword)
         {
             Host = NWDToolbox.CleanDNS(sHost);
             Port = sPort;
