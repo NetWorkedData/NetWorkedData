@@ -46,8 +46,8 @@ namespace NetWorkedData
             ShowWindow(typeof(NWDAccountInfos));
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Sign Type", false, 302)]
-        public static void MenuMethodSignType()
+        [MenuItem(NWDConstants.K_MENU_BASE + "Account/Sign", false, 302)]
+        public static void MenuMethodSign()
         {
             ShowWindow(typeof(NWDAccountSign));
         }

@@ -105,7 +105,7 @@ namespace NetWorkedData
             // to bypass the global limitation of PHP in internal include : use function :-) 
             tFile.AppendLine("function " + PHP_FUNCTION_CONSTANTS() + "()");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + "," + PHP_CONSTANT_SIGN() + ";");
             tFile.AppendLine("" + PHP_CONSTANT_SALT_A() + " = '" + SaltStart + "';");
             tFile.AppendLine("" + PHP_CONSTANT_SALT_B() + " = '" + SaltEnd + "';");
@@ -174,7 +174,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("function " + PHP_FUNCTION_CREATE_TABLE() + "()");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             var tQuery = "CREATE TABLE IF NOT EXISTS `" + PHP_TABLENAME(sEnvironment) + "` (";
             var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
@@ -503,7 +503,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_DEFRAGMENT_TABLE() + " ()");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ENGINE=InnoDB;';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
@@ -517,7 +517,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_DROP_TABLE() + " ()");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             tFile.AppendLine("$tQuery = 'DROP TABLE `" + PHP_TABLENAME(sEnvironment) + "`;';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
@@ -531,7 +531,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_FLUSH_TABLE() + " ()");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             tFile.AppendLine("$tQuery = 'FLUSH TABLE `" + PHP_TABLENAME(sEnvironment) + "`;';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
@@ -920,7 +920,7 @@ namespace NetWorkedData
                 tIndex++;
             }
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT, $ACC_NEEDED, " + NWD.K_PATH_BASE + ", $REF_NEEDED, $REP;");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $admin, $uuid;");
@@ -1042,7 +1042,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_FLUSH_TRASH_DATAS() + " ()");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             tFile.AppendLine("$tQuery = 'DELETE FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE " + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX) + ">0';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
@@ -1055,7 +1055,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function " + PHP_FUNCTION_GET_DATA_BY_REFERENCE() + " ($sReference)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", $REF_NEEDED, $ACC_NEEDED, $uuid;");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $REP;");
@@ -1159,7 +1159,7 @@ namespace NetWorkedData
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + "," + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             //"$tPage = $sPage*$sLimit;" );
             tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `" + PHP_TABLENAME(sEnvironment) + "` WHERE ");
             //"(`'."+NWD.K_ENV+".'Sync` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''."+NWD.K_SQL_CON+"->real_escape_string($sTimeStamp).'\\')";
@@ -1224,7 +1224,7 @@ namespace NetWorkedData
                 tIndex++;
             }
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT, $ACC_NEEDED, " + NWD.K_PATH_BASE + ", $REF_NEEDED, $REP;");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $admin, $uuid;");
@@ -1373,7 +1373,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("function " + PHP_FUNCTION_SPECIAL() + " ($sTimeStamp, $sAccountReferences)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", $WSBUILD, " + NWD.K_ENV + ", " + NWD.K_NWD_SLT_SRV + ", " + NWD.K_PHP_TIME_SYNC + ", $NWD_FLOAT_FORMAT, $ACC_NEEDED, " + NWD.K_PATH_BASE + ", $REF_NEEDED, $REP;");
             tFile.AppendLine("global " + PHP_CONSTANT_SALT_A() + ", " + PHP_CONSTANT_SALT_B() + ", " + PHP_CONSTANT_WEBSERVICE() + ";");
             tFile.AppendLine("global $admin, $uuid;");
