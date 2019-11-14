@@ -32,6 +32,8 @@ namespace NetWorkedData
         public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() { }
+        //=============================================================================================================
+        // STATIC PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadBalacing(int sAvg)
         {
@@ -145,6 +147,13 @@ namespace NetWorkedData
             }
             return rSprite;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetCurrentLastSignIn()
+        {
+            CurrentData().SetLastSignIn();
+        }
+        //=============================================================================================================
+        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public string GetAbsoluteNickname()
         {
