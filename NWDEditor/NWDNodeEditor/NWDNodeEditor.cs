@@ -10,19 +10,11 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
-
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
 using UnityEngine;
-using System;
-using System.Reflection;
 using System.IO;
-
 using UnityEditor;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -83,8 +75,11 @@ namespace NetWorkedData
             if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeEdited);
-                NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
-                SetObjectInNodeWindow(tData);
+                if (tHelper != null)
+                {
+                    NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
+                    SetObjectInNodeWindow(tData);
+                }
             }
             //NWEBenchmark.Finish();
         }
