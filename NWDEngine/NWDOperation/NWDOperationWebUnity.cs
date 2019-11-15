@@ -404,7 +404,7 @@ namespace NetWorkedData
                                                 // Notification of a Session expired
                                                 NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
                                                 // Restore for anonymous account
-                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
                                             }
                                             else
                                             {

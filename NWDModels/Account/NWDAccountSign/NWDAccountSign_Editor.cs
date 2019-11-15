@@ -160,7 +160,7 @@ namespace NetWorkedData
                 }
                 if (GUI.Button(tMatrix[0, tI++], "ResetSession", NWDGUI.kMiniButtonStyle))
                 {
-                    NWDAppEnvironment.SelectedEnvironment().ResetSession();
+                    NWDAppEnvironment.SelectedEnvironment().ResetPreferences();
                 }
                 //if (GUI.Button(tMatrix[0, tI++], "Rescue", NWDGUI.kMiniButtonStyle))
                 //{

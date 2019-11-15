@@ -95,15 +95,15 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos CheckCurrentAccount()
+        /*public static NWDAccountInfos GetCurrentAccount()
         {
             NWDAccountInfos rAccountInfos = CurrentData();
             if (rAccountInfos != null)
             {
-                rAccountInfos.SetLastSignIn();
+                SetCurrentLastSignIn();
             }
             return rAccountInfos;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         public static string GetCurrentNickname()
         {
@@ -150,7 +150,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SetCurrentLastSignIn()
         {
-            CurrentData().SetLastSignIn();
+            CurrentData().LastSignIn.SetCurrentDateTime();
+            CurrentData().SaveData();
         }
         //=============================================================================================================
         // PUBLIC METHOD
@@ -230,12 +231,6 @@ namespace NetWorkedData
             TimeSpan rDifference = tCurrent - tLastSignIn;
 
             return rDifference.Days.ToString();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetLastSignIn()
-        {
-            LastSignIn.SetCurrentDateTime();
-            SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetAvatar(NWDItem sAvatar)
