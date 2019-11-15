@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using System;
 //using BasicToolBox;
 
 //=====================================================================================================================
@@ -190,8 +191,18 @@ namespace NetWorkedData
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
+                bool tUnused = false;
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                {
+                   if (NWDBasisHelper.FindTypeInfos(tType).WebModelSQLOrder.ContainsKey(tWS.Key) == true)
+                    {
+                        tUnused = true;
+                        break;
+                    }
+                }
                 NWDBasisHelper tDatasToTest = NWDBasisHelper.FindTypeInfos(typeof(NWDParameter));
-                if (tDatasToTest.WebModelSQLOrder.ContainsKey(tWS.Key) == false)
+
+                if (tUnused == false)
                 {
                     bool tV = EditorGUILayout.Toggle("(" + NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " unused)", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;

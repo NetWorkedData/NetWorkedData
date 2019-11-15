@@ -295,6 +295,12 @@ namespace NetWorkedData
             return rgx.Replace(sString, string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string AplhaNumericCleaner(string sString)
+        {
+            Regex rgx = new Regex("[^a-zA-Z0-9]");
+            return rgx.Replace(sString, string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string SaltCleaner(string sString)
         {
             //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
