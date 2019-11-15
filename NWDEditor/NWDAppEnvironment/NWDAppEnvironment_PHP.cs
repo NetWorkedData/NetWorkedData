@@ -61,6 +61,11 @@ namespace NetWorkedData
                 {
                     tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
                 }
+                Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this,  sWriteOnDisk);
+                foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
+                {
+                    tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
+                }
             }
             if (sWriteOnDisk == true)
             {
@@ -100,7 +105,7 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string EnvFolder(bool sWriteOnDisk = true)
+        public string EnvFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             string rReturn = string.Empty;
@@ -118,7 +123,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string EngFolder(bool sWriteOnDisk = true)
+        public string EngFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_ENG + "/";
@@ -126,7 +131,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string DBFolder(bool sWriteOnDisk = true)
+        public string DBFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_DB + "/";

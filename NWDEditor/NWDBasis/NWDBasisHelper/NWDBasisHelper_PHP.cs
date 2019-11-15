@@ -550,6 +550,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual Dictionary<string, string> CreatePHPAddonFiles(NWDAppEnvironment sEnvironment, bool sWriteOnDisk = true)
+        {
+            Dictionary<string, string> rReturn = new Dictionary<string, string>();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
         {
             //NWEBenchmark.Start();

@@ -91,6 +91,18 @@ namespace NetWorkedData
             return tHelper.PHP_TABLENAME(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_ClassNameFor<T>() where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.ClassNamePHP;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_TrigrammeFor<T>() where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.ClassTrigramme;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper BasisHelper<T>() where T : NWDTypeClass, new()
         {
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(T));
