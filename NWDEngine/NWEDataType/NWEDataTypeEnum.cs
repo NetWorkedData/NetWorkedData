@@ -66,7 +66,7 @@ namespace NetWorkedData
             return EditorStyles.popup.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
+        public virtual NWEDataTypeEnum ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
             NWEDataTypeEnum tTemporary = new NWEDataTypeEnum();
             tTemporary.Value = Value;
@@ -188,7 +188,7 @@ namespace NetWorkedData
         //}
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
+        public override NWEDataTypeEnum ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
             NWEDataTypeEnum tTemporary = new NWEDataTypeEnum();
             tTemporary.Value = Value;

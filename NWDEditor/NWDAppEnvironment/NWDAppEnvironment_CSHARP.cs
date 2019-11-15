@@ -12,6 +12,7 @@
 //=====================================================================================================================
 
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Text;
 //using BasicToolBox;
 
@@ -104,7 +105,19 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + LogMode.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPBalanceLoad) + " = " + SFTPBalanceLoad.ToString() + ";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + " = new Dictionary<long, string>();");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");
+            foreach (KeyValuePair<long, string> tKeyValue in RuntimeDefineDictionary)
+            {
+                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+            }
             rReturn.AppendLine("#if UNITY_EDITOR");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + " = new Dictionary<long, string>();");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Clear();");
+            foreach (KeyValuePair<long, string> tKeyValue in EditorDefineDictionary)
+            {
+                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Add("+ tKeyValue.Key+", \""+ tKeyValue.Value.Replace("\"","\\\"")+ "\");");
+            }
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanMaxTentative) + " = " + IPBanMaxTentative.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanActive) + " = " + IPBanActive.ToString().ToLower() + ";");

@@ -16,6 +16,7 @@ using UnityEngine;
 //using BasicToolBox;
 using System;
 using UnityEditor;
+using System.Collections.Generic;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -38,7 +39,7 @@ namespace NetWorkedData
             AppName = EditorGUILayout.TextField("AppName", AppName);
             PreProdTimeFormat = EditorGUILayout.TextField("Preprod Time Format", PreProdTimeFormat);
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
-            
+
             NWDGUILayout.SubSection("IP Ban " + Environment);
             IPBanActive = EditorGUILayout.Toggle("IP Ban Active", IPBanActive);
             EditorGUI.BeginDisabledGroup(!IPBanActive);
@@ -89,7 +90,7 @@ namespace NetWorkedData
             RescueLoginLength = EditorGUILayout.IntField("Rescue Login length", RescueLoginLength);
             RescuePasswordLength = EditorGUILayout.IntField("Rescue Password length", RescuePasswordLength);
             NWDGUILayout.SubSection("Mail Params for " + Environment);
-            
+
             MailBySMTP = EditorGUILayout.Toggle("Mail By SMTP", MailBySMTP);
             EditorGUI.BeginDisabledGroup(!MailBySMTP);
             MailHost = EditorGUILayout.TextField("Mail Host", MailHost);
@@ -137,7 +138,70 @@ namespace NetWorkedData
             {
                 BuildTimestamp = 0;
             }
+
+            NWDGUILayout.SubSection("Editor Define " + Environment);
+            Dictionary<long, string> tEditorExtensionDictionary = new Dictionary<long, string>(EditorDefineDictionary);
+            Dictionary<long, string> tEditorExtensionDictionaryNext = new Dictionary<long, string>();
+            if (tEditorExtensionDictionary.ContainsKey(0) == false)
+            {
+                tEditorExtensionDictionary.Add(0, string.Empty);
+            }
+            foreach (KeyValuePair<long, string> tKeyValue in tEditorExtensionDictionary)
+            {
+                GUILayout.BeginHorizontal();
+                NWDAppEnvironmentEditorDefineEnum tKey = NWDAppEnvironmentEditorDefineEnum.GetForValue(tKeyValue.Key);
+                EditorGUILayout.LabelField(string.Empty, string.Empty);
+                Rect tRect = GUILayoutUtility.GetLastRect();
+                NWEDataTypeEnum tNext = tKey.ControlField(tRect, "Key", false) as NWEDataTypeEnum;
+                EditorGUI.BeginDisabledGroup(tKeyValue.Key == 0);
+                string tNextText = EditorGUILayout.TextField("Value", tKeyValue.Value);
+                EditorGUI.EndDisabledGroup();
+                if (tEditorExtensionDictionaryNext.ContainsKey(tNext.ToLong()) == false)
+                {
+                    tEditorExtensionDictionaryNext.Add(tNext.ToLong(), tNextText);
+                }
+                GUILayout.EndHorizontal();
+            }
+            if (tEditorExtensionDictionaryNext.ContainsKey(0) == true)
+            {
+                tEditorExtensionDictionaryNext.Remove(0);
+            }
+
+            EditorDefineDictionary = tEditorExtensionDictionaryNext;
+
+            NWDGUILayout.SubSection("Runtime Define " + Environment);
+
+            Dictionary<long, string> tRuntimeExtensionDictionary = new Dictionary<long, string>(RuntimeDefineDictionary);
+            Dictionary<long, string> tRuntimeExtensionDictionaryNext = new Dictionary<long, string>();
+            if (tRuntimeExtensionDictionary.ContainsKey(0) == false)
+            {
+                tRuntimeExtensionDictionary.Add(0, string.Empty);
+            }
+            foreach (KeyValuePair<long, string> tKeyValue in tRuntimeExtensionDictionary)
+            {
+                GUILayout.BeginHorizontal();
+                NWDAppEnvironmentRuntimeDefineEnum tKey = NWDAppEnvironmentRuntimeDefineEnum.GetForValue(tKeyValue.Key);
+                EditorGUILayout.LabelField(string.Empty, string.Empty);
+                Rect tRect = GUILayoutUtility.GetLastRect();
+                NWEDataTypeEnum tNext = tKey.ControlField(tRect, "Key", false) as NWEDataTypeEnum;
+                EditorGUI.BeginDisabledGroup(tKeyValue.Key == 0);
+                string tNextText = EditorGUILayout.TextField("Value", tKeyValue.Value);
+                EditorGUI.EndDisabledGroup();
+                if (tRuntimeExtensionDictionaryNext.ContainsKey(tNext.ToLong()) == false)
+                {
+                    tRuntimeExtensionDictionaryNext.Add(tNext.ToLong(), tNextText);
+                }
+                GUILayout.EndHorizontal();
+            }
+            if (tRuntimeExtensionDictionaryNext.ContainsKey(0) == true)
+            {
+                tRuntimeExtensionDictionaryNext.Remove(0);
+            }
+
+            RuntimeDefineDictionary = tRuntimeExtensionDictionaryNext;
+
             FormatVerification();
+
             NWDGUILayout.LittleSpace();
             //NWEBenchmark.Finish();
         }

@@ -12,11 +12,30 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public partial class NWDAppEnvironmentRuntimeDefineEnum : NWEDataTypeEnumGeneric<NWDAppEnvironmentRuntimeDefineEnum>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentRuntimeDefineEnum DefaultKey = Add(1, "DefaultKey");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public partial class NWDAppEnvironmentEditorDefineEnum : NWEDataTypeEnumGeneric<NWDAppEnvironmentEditorDefineEnum>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentEditorDefineEnum DefaultKey = Add(1, "DefaultKey");
+        public static NWDAppEnvironmentEditorDefineEnum DefaultKey2 = Add(2, "2");
+        public static NWDAppEnvironmentEditorDefineEnum DefaultKey3 = Add(3, "3");
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
@@ -28,10 +47,12 @@ namespace NetWorkedData
         //public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
         public string PlayerAccountReference = string.Empty;
         public string RequesToken = string.Empty;
+        public Dictionary<long, string> RuntimeDefineDictionary = new Dictionary<long, string>();
         // for debug anti-crack
 #if UNITY_EDITOR
         public string PreviewRequesToken = string.Empty;
         public string LastPreviewRequesToken = string.Empty;
+        public Dictionary<long, string> EditorDefineDictionary = new Dictionary<long, string>();
 #endif
         private string WithSpecialSDKI;
         //-------------------------------------------------------------------------------------------------------------
