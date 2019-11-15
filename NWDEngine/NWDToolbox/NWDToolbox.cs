@@ -125,6 +125,26 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The protect text.</returns>
         /// <param name="sText">text.</param>
+        public static string TextRemoveSeparator(string sText)
+        {
+            string rText = sText;
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                rText = rText.Replace(NWDConstants.kFieldSeparatorA, string.Empty);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorB, string.Empty);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorC, string.Empty);
+                // new adds
+                rText = rText.Replace(NWDConstants.kFieldSeparatorD, string.Empty);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorE, string.Empty);
+            }
+            return rText;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Protect the text for the separator usage.
+        /// </summary>
+        /// <returns>The protect text.</returns>
+        /// <param name="sText">text.</param>
         public static string TextProtect(string sText)
         {
             string rText = sText;
