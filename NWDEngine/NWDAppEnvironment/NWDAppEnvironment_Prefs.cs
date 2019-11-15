@@ -56,13 +56,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ResetPreferences()
-        {
-            ResetSession();
-            // and ?....
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ResetSession(bool withTemporaryAccount = true, string sWithSign = null)
+        public void ResetPreferences(bool withTemporaryAccount = true, string sWithSign = null)
         {
             SavePreferences();
             NWDDataManager.SharedInstance().DataQueueExecute();

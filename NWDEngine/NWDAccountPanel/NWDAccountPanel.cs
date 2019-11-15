@@ -285,7 +285,7 @@ namespace NetWorkedData
         public void TemporaryAccount()
         {
             NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            tAppEnvironment.ResetSession();
+            tAppEnvironment.ResetPreferences();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ShowAccount()
