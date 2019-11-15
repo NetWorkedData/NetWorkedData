@@ -32,14 +32,12 @@ namespace NetWorkedData
         public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() {}
-        //-------------------------------------------------------------------------------------------------------------
-        //private static NWDUserInfos ActiveUser => CheckUser();
         //=============================================================================================================
         // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetNickname() // TODO Rename GetCurrentNickname
+        public static string GetCurrentNickname()
         {
-            NWDUserNickname tNickname = CheckUser().Nickname.GetRawData();
+            NWDUserNickname tNickname = CheckCurrentUser().Nickname.GetRawData();
             if (tNickname != null)
             {
                 return tNickname.Nickname;
@@ -48,9 +46,9 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatar(bool isRenderTexture = false) // TODO Rename GetCurrentAvatar
+        public static Sprite GetCurrentAvatar(bool isRenderTexture = false)
         {
-            NWDUserAvatar tAvatar = CheckUser().Avatar.GetRawData();
+            NWDUserAvatar tAvatar = CheckCurrentUser().Avatar.GetRawData();
             if (tAvatar != null)
             {
                 NWDItem tItem = tAvatar.RenderItem.GetRawData();
@@ -81,7 +79,7 @@ namespace NetWorkedData
             return null;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatarByUserReference(string sReference, bool isRenderTexture = false)
+        public static Sprite GetCurrentAvatarByUserReference(string sReference, bool isRenderTexture = false)
         {
             NWDUserAvatar tAvatar = NWDBasisHelper.GetCorporateFirstData<NWDUserAvatar>(sReference);
             if (tAvatar != null)
@@ -119,7 +117,7 @@ namespace NetWorkedData
             NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos CheckUser() // TODO Rename CheckCurrentUser
+        public static NWDUserInfos CheckCurrentUser()
         {
             NWDUserInfos rUserInfos = CurrentData();
             if (rUserInfos != null)

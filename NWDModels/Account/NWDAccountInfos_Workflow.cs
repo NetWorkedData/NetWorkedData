@@ -33,7 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() { }
         //=============================================================================================================
-        // STATIC PUBLIC METHOD
+        // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadBalacing(int sAvg)
         {
@@ -95,7 +95,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos CheckAccount()
+        public static NWDAccountInfos CheckCurrentAccount()
         {
             NWDAccountInfos rAccountInfos = CurrentData();
             if (rAccountInfos != null)
@@ -105,7 +105,7 @@ namespace NetWorkedData
             return rAccountInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetNickname()
+        public static string GetCurrentNickname()
         {
             NWDAccountNickname tNickname = CurrentData().Nickname.GetReachableData();
             if (tNickname != null)
@@ -115,7 +115,7 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatar(bool isRenderTexture = false)
+        public static Sprite GetCurrentAvatar(bool isRenderTexture = false)
         {
             Sprite rSprite = null;
             NWDAccountAvatar tAvatar = CurrentData().Avatar.GetReachableData();
