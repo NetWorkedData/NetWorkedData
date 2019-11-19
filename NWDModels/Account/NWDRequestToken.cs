@@ -17,7 +17,7 @@ using SQLite.Attribute;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassSpecialAccountOnlyAttribute]
+    [NWDClassUnityEditorOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]

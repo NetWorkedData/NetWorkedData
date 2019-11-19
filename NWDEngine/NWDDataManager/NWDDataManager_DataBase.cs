@@ -106,14 +106,14 @@ namespace NetWorkedData
 #endif
 
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
                 // Show SQL password database in console
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
                     NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
                 }
-#endif
+//#endif
 
                 try
                 {

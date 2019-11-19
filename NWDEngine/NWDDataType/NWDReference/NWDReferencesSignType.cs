@@ -36,7 +36,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDReferencesSignType used to put a reference with float in value. Use properties with name, like 'ItemSign', 'SpotSign', 'BonusSign' , etc.
+    /// NWDReferencesSignType used to put a reference with string in value.
     /// </summary>
     [SerializeField]
     public class NWDReferencesSignType<K> : NWDReferenceMultiple where K : NWDBasis, new()

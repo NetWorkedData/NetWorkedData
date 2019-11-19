@@ -25,6 +25,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDExample class. This class is use for (complete description here).
     /// </summary>
+    //[NWDClassUnityEditorOnlyAttribute()]
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("NWDExample_Tri")]
     [NWDClassDescriptionAttribute("NWDExample_Description")]

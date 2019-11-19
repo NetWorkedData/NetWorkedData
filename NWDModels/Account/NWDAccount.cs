@@ -17,7 +17,7 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassSpecialAccountOnlyAttribute]
+    [NWDClassUnityEditorOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("ACC")]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
