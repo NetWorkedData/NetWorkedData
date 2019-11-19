@@ -667,7 +667,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class NWDClassSpecialAccountOnlyAttribute : Attribute
+    public class NWDClassUnityEditorOnlyAttribute : Attribute
     {
     }
 #if UNITY_EDITOR

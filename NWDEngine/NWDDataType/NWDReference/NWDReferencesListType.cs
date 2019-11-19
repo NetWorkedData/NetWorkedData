@@ -88,6 +88,19 @@ namespace NetWorkedData
             Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AddReference(string sReference)
+        {
+            List<string> tList = new List<string>();
+            if (Value != null && Value != string.Empty)
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                tList = new List<string>(tValueArray);
+            }
+            tList.Add(sReference);
+            string[] tNextValueArray = tList.Distinct().ToArray();
+            Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void RemoveReferences(string[] sReferences)
         {
             List<string> tList = new List<string>();

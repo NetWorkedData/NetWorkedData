@@ -18,7 +18,7 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
-    [NWDClassSpecialAccountOnlyAttribute]
+    [NWDClassUnityEditorOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("SSD")]
     [NWDClassDescriptionAttribute("Server Datas descriptions Class")]

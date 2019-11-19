@@ -31,10 +31,16 @@ namespace NetWorkedData
     public class NWDEditorNewClass : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
+        const int K_TRIGRAM_MIN = 2;
+        const int K_TRIGRAM_MAX = 6;
+        const int K_MENU_MIN = 3;
+        const int K_MENU_MAX = 24;
+        //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         Vector2 ScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
 
+        bool ClassUnityEditorOnly = false;
         bool ClassSynchronize = true;
         bool ClassUnityConnection = true;
 
@@ -80,9 +86,13 @@ namespace NetWorkedData
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample.cs";
             string tClassExample = File.ReadAllText(tClassExamplePath);
             // replace template by this params
+            if (ClassUnityEditorOnly == false)
+            {
+                tClassExample = tClassExample.Replace("//["+typeof(NWDClassUnityEditorOnlyAttribute).Name+"]", "[" + typeof(NWDClassUnityEditorOnlyAttribute).Name + "]");
+            }
             if (ClassSynchronize == false)
             {
-                tClassExample = tClassExample.Replace("[NWDClassServerSynchronizeAttribute(true)]", "[NWDClassServerSynchronizeAttribute(false)]");
+                tClassExample = tClassExample.Replace("[" +typeof(NWDClassServerSynchronizeAttribute).Name+"(true)]", "["+typeof(NWDClassServerSynchronizeAttribute).Name+"(false)]");
             }
             tClassExample = tClassExample.Replace("NWDExample_Tri", ClassNameTrigramme);
             tClassExample = tClassExample.Replace("NWDExample_Description", ClassNameDescription);
@@ -278,6 +288,7 @@ namespace NetWorkedData
             NWDGUILayout.HelpBox("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.");
             // futur class infos
             NWDGUILayout.SubSection("Class informations");
+            ClassUnityEditorOnly = EditorGUILayout.Toggle("Only for unity Editor", ClassUnityEditorOnly);
             ClassSynchronize = EditorGUILayout.Toggle("Synchronize on servers", ClassSynchronize);
             ClassUnityConnection = EditorGUILayout.Toggle("Connection in GameObject", ClassUnityConnection);
             ClassName = EditorGUILayout.TextField("Name ", ClassName);
@@ -314,14 +325,14 @@ namespace NetWorkedData
             ClassNameTrigramme = EditorGUILayout.TextField("Trigramme", ClassNameTrigramme);
             ClassNameTrigramme = tRegExpression.Replace(ClassNameTrigramme, string.Empty);
             ClassNameTrigramme = ClassNameTrigramme.ToUpper();
-            if (ClassNameTrigramme.Length < 2)
+            if (ClassNameTrigramme.Length < K_TRIGRAM_MIN)
             {
-                EditorGUILayout.LabelField(" ", "trigramme must be longer than 1 characters");
+                EditorGUILayout.LabelField(" ", "trigramme must be longer than "+ K_TRIGRAM_MIN + " characters");
                 tCanCreate = false;
             }
-            else if (ClassNameTrigramme.Length > 5)
+            else if (ClassNameTrigramme.Length > K_TRIGRAM_MAX)
             {
-                EditorGUILayout.LabelField(" ", "trigramme must be shorter than 5 characters");
+                EditorGUILayout.LabelField(" ", "trigramme must be shorter than "+ K_TRIGRAM_MAX+ " characters");
                 tCanCreate = false;
             }
             else
@@ -344,14 +355,14 @@ namespace NetWorkedData
             // futur class menu name
             ClassNameMenuName = EditorGUILayout.TextField("Menu name", ClassNameMenuName);
             ClassNameMenuName = ClassNameMenuName.Replace("\\", string.Empty);
-            if (ClassNameMenuName.Length < 3)
+            if (ClassNameMenuName.Length < K_MENU_MIN)
             {
-                EditorGUILayout.LabelField(" ", "menu name must be longer than 2 characters");
+                EditorGUILayout.LabelField(" ", "menu name must be longer than "+K_MENU_MIN+" characters");
                 tCanCreate = false;
             }
-            else if (ClassNameMenuName.Length > 16)
+            else if (ClassNameMenuName.Length > K_MENU_MAX)
             {
-                EditorGUILayout.LabelField(" ", "menu name must be shorter than 16 characters");
+                EditorGUILayout.LabelField(" ", "menu name must be shorter than "+ K_MENU_MAX + " characters");
                 tCanCreate = false;
             }
             else
