@@ -481,6 +481,10 @@ namespace NetWorkedData
                             foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in AccountMethodDico)
                             {
                                 var tValue = tInfos.Key.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
                                 string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
                                 if (tAccountValue.Contains(sAccountReference))
                                 {
@@ -539,6 +543,10 @@ namespace NetWorkedData
                             foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
                             {
                                 var tValue = tInfos.Key.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
                                 string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
                                 if (tAccountValue.Contains(sAccountReference))
                                 {
