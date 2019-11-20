@@ -315,7 +315,10 @@ namespace NetWorkedData
                             if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
                             {
                                 NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
-                                tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+                                if (tTestChange != null)
+                                {
+                                    tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+                                }
                                 tProp.SetValue(this, tTestChange, null);
                             }
 
