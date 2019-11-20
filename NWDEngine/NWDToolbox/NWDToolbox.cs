@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using System.Text;
 using System.Security.Cryptography;
+using System.Globalization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -39,6 +40,23 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         #region class method
+        //-------------------------------------------------------------------------------------------------------------
+        public static string RemoveDiacritics(string sText)
+        {
+            string rReturn = string.Empty;
+            if (string.IsNullOrWhiteSpace(sText))
+            {
+                rReturn = sText;
+            }
+            else
+            {
+                sText = sText.Normalize(NormalizationForm.FormD);
+                var chars = sText.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
+                rReturn = new string(chars).Normalize(NormalizationForm.FormC);
+                rReturn = NWDToolbox.AplhaNumericCleaner(rReturn);
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static string CleanDNS(string sServerDNS)
         {
