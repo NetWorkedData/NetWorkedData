@@ -2,21 +2,27 @@
 //
 //  ideMobi 2019©
 //
+//  Date		2019-4-12 18:45:41
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
-//  Project 	SceneTransitionSystem for Unity3D
+//  Project 	NetWorkedData for Unity3D
 //
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWESingletonExample : NWESingletonUnity<NWESingletonExample>
+    /// <summary>
+    /// Class Exemple for create an Unity Singleton
+    /// 
+    /* public class NWESingletonExample : NWESingletonUnity<NWESingletonExample>
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -28,21 +34,21 @@ namespace NetWorkedData
             Singleton();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //protected override void Awake()
-        //{
-        //    //Is reserved by singleton, if you need to use it, add the instance method base.Awake();
-        //    base.Awake();
-        //}
+        protected override void Awake()
+        {
+            //Is reserved by singleton, if you need to use it, add the instance method base.Awake();
+            base.Awake();
+        }
         //-------------------------------------------------------------------------------------------------------------
-        //public override void InitInstance()
-        //{
-        //    // do something by override
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public override void OnSceneLoaded(Scene sScene, LoadSceneMode sMode)
-        //{
-        //    // do something by override
-        //}
+        public override void InitInstance()
+        {
+            // do something by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnSceneLoaded(Scene sScene, LoadSceneMode sMode)
+        {
+            // do something by override
+        }
         //-------------------------------------------------------------------------------------------------------------
         private void Start()
         {
@@ -65,7 +71,8 @@ namespace NetWorkedData
             return NWESingletonRoot.Component;
         }
         //-------------------------------------------------------------------------------------------------------------
-    }
+    } */
+    /// </summary>
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWESingletonRoot
     {
