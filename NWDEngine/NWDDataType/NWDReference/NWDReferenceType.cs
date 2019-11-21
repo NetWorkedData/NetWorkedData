@@ -60,15 +60,6 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            if (sReference == null)
-            {
-                return false;
-            }
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public bool ContainsData(K sData)
         {
             if (sData == null)

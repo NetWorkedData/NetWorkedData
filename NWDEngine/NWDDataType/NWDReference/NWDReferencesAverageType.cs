@@ -145,11 +145,6 @@ namespace NetWorkedData
             return Value.Contains(sObject.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void DistinctReference()
         {
             SetReferenceAndAverage(GetReferenceAndAverage());

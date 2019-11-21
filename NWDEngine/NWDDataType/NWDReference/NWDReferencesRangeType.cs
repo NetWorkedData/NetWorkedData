@@ -139,11 +139,6 @@ namespace NetWorkedData
             return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void DistinctReference()
         {
             SetReferenceAndRange(GetReferenceAndRange());

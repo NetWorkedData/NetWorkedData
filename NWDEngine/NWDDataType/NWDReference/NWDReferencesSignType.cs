@@ -57,11 +57,6 @@ namespace NetWorkedData
             return Value.Contains(sObject.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public bool ContainedIn(NWDReferencesSignType<K> sReferencesSign, bool sExceptIfIsEmpty = true)
         {
             bool rReturn = true;

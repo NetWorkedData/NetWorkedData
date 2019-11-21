@@ -64,12 +64,20 @@ namespace NetWorkedData
         public static string kFieldNone = "none";
         public static string kFieldEmpty = "empty";
         public static string kFieldNotEmpty = "not empty";
-        public static string kFieldSeparatorA = "•";
-        public static string kFieldSeparatorB = ":";
-        public static string kFieldSeparatorC = "_";
-        public static string kFieldSeparatorD = "∆";
-        public static string kFieldSeparatorE = "∂";
-        public static string kFieldSeparatorF = ";";
+        public static char kFieldSeparatorA_char = '•';
+        public static char kFieldSeparatorB_char = ':';
+        public static char kFieldSeparatorC_char = '_';
+        public static char kFieldSeparatorD_char = '∆';
+        public static char kFieldSeparatorE_char = '∂';
+        public static char kFieldSeparatorF_char = ';';
+
+        public static string kFieldSeparatorA = string.Empty + kFieldSeparatorA_char;
+        public static string kFieldSeparatorB = string.Empty + kFieldSeparatorB_char;
+        public static string kFieldSeparatorC = string.Empty + kFieldSeparatorC_char;
+        public static string kFieldSeparatorD = string.Empty + kFieldSeparatorD_char;
+        public static string kFieldSeparatorE = string.Empty + kFieldSeparatorE_char;
+        public static string kFieldSeparatorF = string.Empty + kFieldSeparatorF_char;   
+
         public static string kFieldSeparatorASubstitute = "@1#";
         public static string kFieldSeparatorBSubstitute = "@2#";
         public static string kFieldSeparatorCSubstitute = "@3#";

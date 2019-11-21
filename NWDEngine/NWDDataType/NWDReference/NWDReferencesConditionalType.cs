@@ -227,11 +227,6 @@ namespace NetWorkedData
             return Value.Contains(sData.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public bool IsValid(NWDReferencesQuantityType<K> sReferencesQuantity, bool sExceptIfIsEmpty = false)
         {
             bool rReturn = true;

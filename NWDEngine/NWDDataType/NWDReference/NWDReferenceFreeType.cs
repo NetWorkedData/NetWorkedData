@@ -52,15 +52,6 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            if (sReference == null)
-            {
-                return false;
-            }
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void SetReference(string sReference)
         {
             if (sReference == null)

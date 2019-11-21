@@ -46,20 +46,29 @@ namespace NetWorkedData
     public class NWDReference : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeReferenceForAnother(string sOldReference, string sNewReference) // TODO rename Change Reference
+        public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference) // TODO rename Change Reference
         {
-            if (Value != null)
+            if (string.IsNullOrEmpty(Value) == false)
             {
-                if (Value.Contains(sOldReference))
+                if (Value == sOldReference)
                 {
-                    Value = Value.Replace(sOldReference, sNewReference);
+                    Value = sNewReference;
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual bool ContainsReference(string sReference)
+        {
+            if (string.IsNullOrEmpty(sReference) == true)
+            {
+                return false;
+            }
+            return Value == sReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool IsEmpty()
         {
-            bool rReturn = !string.IsNullOrEmpty(Value);
+            bool rReturn = string.IsNullOrEmpty(Value);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -113,7 +122,7 @@ namespace NetWorkedData
             //TODO : create analyze for nodal view and relative position of field/reference
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void CreatePloters(NWDNodeCard sNodalCard, float tHeight) 
+        public virtual void CreatePloters(NWDNodeCard sNodalCard, float tHeight)
         {
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -126,6 +135,42 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDReferenceMultiple : NWDReference
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void ChangeReferenceForAnother(string sOldReference, string sNewReference) // TODO rename Change Reference
+        {
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                if (Value.Contains(sOldReference))
+                {
+                    //Value = Value.Replace(sOldReference, sNewReference);
+                    string tValue = NWDConstants.kFieldSeparatorA + Value + NWDConstants.kFieldSeparatorA;
+                    tValue = tValue.Replace(NWDConstants.kFieldSeparatorA + sOldReference + NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA + sNewReference + NWDConstants.kFieldSeparatorA);
+                    tValue = tValue.Replace(NWDConstants.kFieldSeparatorA + sOldReference + NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorA + sNewReference + NWDConstants.kFieldSeparatorB);
+                    tValue = tValue.TrimEnd(new char[] { NWDConstants.kFieldSeparatorA_char });
+                    tValue = tValue.TrimStart(new char[] { NWDConstants.kFieldSeparatorA_char });
+                    Value = tValue;
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool ContainsReference(string sReference)
+        {
+            if (string.IsNullOrEmpty(sReference) == true)
+            {
+                return false;
+            }
+            string tValueA = NWDConstants.kFieldSeparatorA + Value + NWDConstants.kFieldSeparatorA;
+            if (tValueA.Contains(NWDConstants.kFieldSeparatorA + sReference + NWDConstants.kFieldSeparatorA))
+            {
+                return true;
+            }
+            string tValueB = NWDConstants.kFieldSeparatorA + Value + NWDConstants.kFieldSeparatorB;
+            if (tValueB.Contains(NWDConstants.kFieldSeparatorA + sReference + NWDConstants.kFieldSeparatorB))
+            {
+                return true;
+            }
+            return false;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public int Count()
         {
