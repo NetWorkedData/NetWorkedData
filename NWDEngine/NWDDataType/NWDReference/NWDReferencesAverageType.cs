@@ -150,26 +150,6 @@ namespace NetWorkedData
             return Value.Contains(sReference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            bool rReturn = true;
-            if (Value != string.Empty)
-            {
-                rReturn = false;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool IsNotEmpty()
-        {
-            bool rReturn = false;
-            if (Value != string.Empty)
-            {
-                rReturn = true;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void DistinctReference()
         {
             SetReferenceAndAverage(GetReferenceAndAverage());
