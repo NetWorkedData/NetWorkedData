@@ -32,8 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
-            // waiting ... do nothing
-            bool rReturn = true;
+            bool rReturn = false;
             NWEBenchmark.Start();
             if (DataEditorConnected == false && DataEditorConnectionInProgress == false)
             {
@@ -106,18 +105,33 @@ namespace NetWorkedData
 #endif
 
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
                 // Show SQL password database in console
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
                     NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
                 }
-//#endif
-
+#endif
                 try
                 {
                     SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                    double tSeconds = SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
+                    DateTime t = DateTime.Now;
+                    DateTime tf = DateTime.Now.AddSeconds(tSeconds);
+                    while (t < tf)
+                    {
+                        t = DateTime.Now;
+                    }
+
+                    // Waiting the tables and file will be open...
+                    while (SQLiteConnectionEditor.IsOpen() == false)
+                    {
+                        //Debug.LogWarning("SQLiteConnectionEditor is not opened!");
+                    }
+
+                    // Finish test opened database
+                    rReturn = SQLiteConnectionEditor.IsValid();
                 }
                 catch (SQLiteException e)
                 {
@@ -128,22 +142,6 @@ namespace NetWorkedData
                     Debug.LogException(d);
                 }
 
-                double tSeconds = SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
-                DateTime t = DateTime.Now;
-                DateTime tf = DateTime.Now.AddSeconds(tSeconds);
-                while (t < tf)
-                {
-                    t = DateTime.Now;
-                }
-
-                // Waiting the tables and file will be open...
-                while (SQLiteConnectionEditor.IsOpen() == false)
-                {
-                    //Debug.LogWarning("SQLiteConnectionEditor is not opened!");
-                }
-                
-                // Finish test opened database
-                rReturn = SQLiteConnectionEditor.IsValid();
                 if (rReturn == true)
                 {
                     DataEditorConnected = true;
