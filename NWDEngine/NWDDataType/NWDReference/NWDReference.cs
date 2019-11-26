@@ -10,17 +10,6 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-//=====================================================================================================================
-//
-//  ideMobi copyright 2019
-//  All rights reserved by ideMobi
-//
-//  Author Kortex (Jean-François CONTART) jfcontart@idemobi.com
-//  Date 2019 4 12 18:2:36
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +32,7 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDReference : NWEDataType
+    public partial class NWDReference : NWEDataType
     {
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference) // TODO rename Change Reference
@@ -54,6 +43,10 @@ namespace NetWorkedData
                 {
                     Value = sNewReference;
                 }
+            }
+            if (string.IsNullOrEmpty(Value) == true)
+            {
+                Value = string.Empty;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -140,15 +133,18 @@ namespace NetWorkedData
         {
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (Value.Contains(sOldReference))
+                if (string.IsNullOrEmpty(sOldReference) == false)
                 {
-                    //Value = Value.Replace(sOldReference, sNewReference);
-                    string tValue = NWDConstants.kFieldSeparatorA + Value + NWDConstants.kFieldSeparatorA;
-                    tValue = tValue.Replace(NWDConstants.kFieldSeparatorA + sOldReference + NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA + sNewReference + NWDConstants.kFieldSeparatorA);
-                    tValue = tValue.Replace(NWDConstants.kFieldSeparatorA + sOldReference + NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorA + sNewReference + NWDConstants.kFieldSeparatorB);
-                    tValue = tValue.TrimEnd(new char[] { NWDConstants.kFieldSeparatorA_char });
-                    tValue = tValue.TrimStart(new char[] { NWDConstants.kFieldSeparatorA_char });
-                    Value = tValue;
+                    if (Value.Contains(sOldReference))
+                    {
+                        //Value = Value.Replace(sOldReference, sNewReference);
+                        string tValue = NWDConstants.kFieldSeparatorA + Value + NWDConstants.kFieldSeparatorA;
+                        tValue = tValue.Replace(NWDConstants.kFieldSeparatorA + sOldReference + NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA + sNewReference + NWDConstants.kFieldSeparatorA);
+                        tValue = tValue.Replace(NWDConstants.kFieldSeparatorA + sOldReference + NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorA + sNewReference + NWDConstants.kFieldSeparatorB);
+                        tValue = tValue.TrimEnd(new char[] { NWDConstants.kFieldSeparatorA_char });
+                        tValue = tValue.TrimStart(new char[] { NWDConstants.kFieldSeparatorA_char });
+                        Value = tValue;
+                    }
                 }
             }
         }
