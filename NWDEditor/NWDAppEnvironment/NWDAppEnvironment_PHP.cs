@@ -773,22 +773,34 @@ namespace NetWorkedData
 
             tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
             tFile.AppendLine("{");
+
             tFile.AppendLine("if(TestBanAccount($uuid) == false)");
             tFile.AppendLine("{");
+
+            tFile.AppendLine("// get all datas for this account with reset sync... as force pull all!");
+
+            //foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            //{
+            //tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+            //tFile.AppendLine("}");
+            //}
+
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
-                tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))");
-                tFile.AppendLine("{");
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tType))
+                {
                 tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                //tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
                 tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS() + " (0, $uuid);");
-                tFile.AppendLine("}");
+                }
             }
+
+
             tFile.AppendLine("}");
+
             tFile.AppendLine("}");
-
-
-
 
             tFile.AppendLine("}");
             tFile.AppendLine("}");
