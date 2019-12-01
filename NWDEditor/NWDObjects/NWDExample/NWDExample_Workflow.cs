@@ -93,6 +93,16 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// Addon method when inserted.
+        /// </summary>
+        public override void AddonInsertedMe()
+        {
+            base.AddonInsertedMe();
+            // do something when object will be inserted
+            // TODO verif if method is call in good place in good timing
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// Addon method just before update.
         /// </summary>
         public override void AddonUpdateMe()
@@ -128,6 +138,16 @@ namespace NetWorkedData
         public override void AddonDuplicateMe()
         {
             base.AddonDuplicateMe();
+            // do something when object will be dupplicate
+            // TODO verif if method is call in good place in good timing
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addon method when dupplicate.
+        /// </summary>
+        public override void AddonDuplicatedMe()
+        {
+            base.AddonDuplicatedMe();
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
         }

@@ -461,7 +461,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true) {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddonDuplicateMe() {}
+        public virtual void AddonDuplicateMe() { }
+        public virtual void AddonDuplicatedMe() { }
         //-------------------------------------------------------------------------------------------------------------
         //public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
         //{

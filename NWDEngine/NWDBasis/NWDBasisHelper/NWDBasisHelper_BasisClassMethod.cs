@@ -743,7 +743,7 @@ namespace NetWorkedData
             BasisHelper<T>().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public T DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        public static T DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
         {
             //NWEBenchmark.Start();
             T rReturnObject = null;
@@ -751,7 +751,8 @@ namespace NetWorkedData
             {
                 if (sData.IntegrityIsValid() == true)
                 {
-                    rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sData.GetType());
+                    rReturnObject = (T)Activator.CreateInstance(tHelper.ClassType, new object[] { false });
                     rReturnObject.InstanceInit();
                     //rReturnObject.PropertiesAutofill();
                     rReturnObject.Initialization();
@@ -777,7 +778,8 @@ namespace NetWorkedData
                     int tCounter = 1;
                     string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
                     // search available internal key
-                    while (DatasByInternalKey.ContainsKey(tCopy) == true)
+
+                    while (tHelper.DatasByInternalKey.ContainsKey(tCopy) == true)
                     {
                         tCounter++;
                         tCopy = tOriginalKey + " (COPY " + tCounter + ")";
@@ -785,10 +787,11 @@ namespace NetWorkedData
                     // set found internalkey
                     rReturnObject.InternalKey = tCopy;
                     // Update Data! become it's not a real insert but a copy!
+                    rReturnObject.AddonDuplicatedMe();
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
-                    rReturnObject.AddonDuplicateMe();
                     rReturnObject.ReIndex();
+                    rReturnObject.AddonDuplicatedMe();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }
             }

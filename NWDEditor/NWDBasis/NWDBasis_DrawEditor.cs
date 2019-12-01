@@ -924,7 +924,7 @@ namespace NetWorkedData
                 if (GUI.Button(tMatrixRect[2, 1], NWDConstants.K_APP_BASIS_DUPPLICATE, NWDGUI.kMiniButtonStyle))
                 {
                     UpdateDataIfModified(true, NWDWritingMode.ByEditorDefault);
-                    NWDTypeClass tNexObject = BasisHelper().DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
+                    NWDTypeClass tNexObject = NWDBasisHelper.DuplicateData(this, true, NWDWritingMode.ByEditorDefault);
                     if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                     {
                         tNexObject.Tag = BasisHelper().m_SearchTag;

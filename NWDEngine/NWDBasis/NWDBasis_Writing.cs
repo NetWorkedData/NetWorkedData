@@ -173,7 +173,7 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public override NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            return BasisHelper().DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
+            return NWDBasisHelper.DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -425,6 +425,8 @@ namespace NetWorkedData
                         this.AddonInsertMe();
                         InsertDataOperation(sAutoDate);
                         BasisHelper().AddData(this);
+
+                        this.AddonInsertedMe();
                         //AddObjectInListOfEdition(this);
                         WritingLockAdd();
                         WritingPending = NWDWritingPending.InsertInMemory;
@@ -1044,7 +1046,7 @@ namespace NetWorkedData
 #else
             WebserviceVersionCheckMe();
 #endif
-            ReIndex();
+            //ReIndex();
             BasisHelper().AddData(this);
             //NWEBenchmark.Finish();
         }

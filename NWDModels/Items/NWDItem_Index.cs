@@ -29,6 +29,7 @@ namespace NetWorkedData
         [NWDIndexInsert]
         public void InsertInCategoryIndex()
         {
+            Debug.Log("InsertInCategoryIndex("+InternalKey+")");
             // Re-add to the actual indexation ?
             if (IsUsable())
                 {
@@ -56,10 +57,9 @@ namespace NetWorkedData
             kCategoryIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        // NWDItem.kCategoryIndex.FindByKey(sCategory); => NWDItem.FindByCategory(NWDCategory sCategory)
         public static List<NWDItem> FindByCategory(NWDCategory sCategory)
         {
-            return kCategoryIndex.RawDatasByKey(sCategory); 
+            return kCategoryIndex.RawDatasByKey(sCategory);
         }
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
@@ -86,9 +86,9 @@ namespace NetWorkedData
             kFamilyIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindByFamily(NWDCategory sCategory)
+        public static List<NWDItem> FindByFamily(NWDFamily sFamily)
         {
-            return kCategoryIndex.RawDatasByKey(sCategory);
+            return kFamilyIndex.RawDatasByKey(sFamily);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
