@@ -794,6 +794,10 @@ namespace NetWorkedData
                     rReturnObject.AddonDuplicatedMe();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }
+                else
+                {
+                    Debug.LogWarning("Data no integrity, no dupplicate possibility");
+                }
             }
             else
             {
