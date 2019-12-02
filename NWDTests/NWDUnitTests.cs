@@ -37,6 +37,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         const int kUnitTestDC = 123456789;
         const string kDescriptionMark = "For UnitTest only";
+        const string kDescriptionMarkNew  = "For UnitTest only -- new --";
+        //-------------------------------------------------------------------------------------------------------------
+        public static T PermanentData<T>(string sAddInternalKey, string sReference) where T : NWDTypeClass, new()
+        {
+            T rObject = NWDBasisHelper.GetRawDataByReference<T>(sReference, true);
+            if (rObject == null)
+            {
+                rObject = NWDBasisHelper.NewDataWithReference<T>(sReference);
+                rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
+                rObject.InternalDescription = kDescriptionMarkNew;
+                rObject.DevSync = -1;
+                rObject.PreprodSync = -1;
+                rObject.ProdSync = -1;
+            }
+            return rObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsNewPermanentData<T>(T sData) where T : NWDTypeClass, new()
+        {
+            bool rReturn = false;
+            if (sData != null)
+            {
+                if (sData.InternalDescription == kDescriptionMarkNew)
+                {
+                    sData.InternalDescription = kDescriptionMark;
+                    sData.UpdateData();
+                    rReturn = true;
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static T NewData<T>(string sAddInternalKey = "") where T : NWDTypeClass, new()
         {
