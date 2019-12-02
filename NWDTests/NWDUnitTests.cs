@@ -38,10 +38,10 @@ namespace NetWorkedData
         const int kUnitTestDC = 123456789;
         const string kDescriptionMark = "For UnitTest only";
         //-------------------------------------------------------------------------------------------------------------
-        public static T NewData<T>() where T : NWDTypeClass, new()
+        public static T NewData<T>(string sAddInternalKey = "") where T : NWDTypeClass, new()
         {
             T rObject = NWDBasisHelper.NewData<T>();
-            rObject.InternalKey = "UnitTest " + NWDToolbox.RandomStringCypher(8);
+            rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
             rObject.InternalDescription = kDescriptionMark;
             rObject.DevSync = -1;
             rObject.PreprodSync = -1;
