@@ -230,17 +230,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
+            int tRow = 0;
             NWEBenchmark.Start();
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tRow += tHelper.Datas.Count;
                 tHelper.IndexAll();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             NWEBenchmark.Finish();
+            Debug.Log("row indexed : "+ tRow + " rows.");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects()

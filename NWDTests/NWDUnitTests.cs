@@ -73,12 +73,23 @@ namespace NetWorkedData
         {
             T rObject = NWDBasisHelper.NewData<T>();
             rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
-            rObject.InternalDescription = kDescriptionMark;
-            rObject.DevSync = -1;
-            rObject.PreprodSync = -1;
-            rObject.ProdSync = -1;
-            rObject.DC = kUnitTestDC;
+            UnitTestData(rObject);
             return rObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static void UnitTestData(NWDTypeClass sData)
+        {
+            sData.InternalDescription = kDescriptionMark;
+            sData.DevSync = -1;
+            sData.PreprodSync = -1;
+            sData.ProdSync = -1;
+            sData.DC = kUnitTestDC;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetUnitTestData(NWDTypeClass sData)
+        {
+            UnitTestData(sData);
+            sData.UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CleanUnitTests()
