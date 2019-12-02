@@ -41,15 +41,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static T PermanentData<T>(string sAddInternalKey, string sReference) where T : NWDTypeClass, new()
         {
-            T rObject = NWDBasisHelper.GetRawDataByReference<T>(sReference, true);
+            T rObject = NWDBasisHelper.GetRawDataByReference<T>(NWDToolbox.AplhaNumericCleaner(sReference), true);
             if (rObject == null)
             {
-                rObject = NWDBasisHelper.NewDataWithReference<T>(sReference);
+                rObject = NWDBasisHelper.NewDataWithReference<T>(NWDToolbox.AplhaNumericCleaner(sReference));
                 rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
                 rObject.InternalDescription = kDescriptionMarkNew;
                 rObject.DevSync = -1;
                 rObject.PreprodSync = -1;
                 rObject.ProdSync = -1;
+                //rObject.DC = kUnitTestDC; // because is permanent
             }
             return rObject;
         }

@@ -29,7 +29,46 @@ namespace NetWorkedData
         [NWDIndexInsert]
         public void InsertInCategoryIndex()
         {
-            Debug.Log("InsertInCategoryIndex("+InternalKey+")");
+            //Debug.Log("InsertInCategoryIndex(" + InternalKey + ")");
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add ! but for wichn categories?
+                List<NWDCategory> tCategoriesList = new List<NWDCategory>();
+                foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
+                {
+                   if (tCategoriesList.Contains(tCategories) == false)
+                        {
+                            tCategoriesList.Add(tCategories);
+                        }
+                }
+                kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexRemove]
+        public void RemoveFromCategoryIndex()
+        {
+            // Remove from the actual indexation
+            kCategoryIndex.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> FindByCategory(NWDCategory sCategory)
+        {
+            List<NWDItem> rReturn = new List<NWDItem>();
+            foreach (NWDCategory tCategories in sCategory.CascadeCategoryList.GetRawDatas())
+            {
+                rReturn.AddRange(kCategoryIndex.RawDatasByKey(tCategories));
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDCategory, NWDItem> kCategoryInverseIndex = new NWDIndex<NWDCategory, NWDItem>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInsert]
+        public void InsertInCategoryInverseIndex()
+        {
+            //Debug.Log("InsertInCategoryIndex("+InternalKey+")");
             // Re-add to the actual indexation ?
             if (IsUsable())
                 {
@@ -46,20 +85,20 @@ namespace NetWorkedData
                     }
                 }
                 // Re-add !
-                kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
+                kCategoryInverseIndex.InsertData(this, tCategoriesList.ToArray());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexRemove]
-        public void RemoveFromCategoryIndex()
+        public void RemoveFromCategoryInverseIndex()
         {
             // Remove from the actual indexation
-            kCategoryIndex.RemoveData(this);
+            kCategoryInverseIndex.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindByCategory(NWDCategory sCategory)
+        public static List<NWDItem> FindByCategoryInverse(NWDCategory sCategory)
         {
-            return kCategoryIndex.RawDatasByKey(sCategory);
+            return kCategoryInverseIndex.RawDatasByKey(sCategory);
         }
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
