@@ -19,7 +19,6 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis
     {
@@ -99,35 +98,6 @@ namespace NetWorkedData
         public static List<NWDItem> FindByCategoryInverse(NWDCategory sCategory)
         {
             return kCategoryInverseIndex.RawDatasByKey(sCategory);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
-        public void InsertInFamilyIndex()
-        {
-            // Re-add to the actual indexation ?
-            if (IsUsable())
-            {
-                // Re-add ! but for wichn Family?
-                foreach (NWDFamily tFamily in FamilyList.GetRawDatas())
-                {
-                    // Re-add !
-                    kFamilyIndex.InsertData(this, tFamily);
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
-        public void RemoveFromFamilyIndex()
-        {
-            // Remove from the actual indexation
-            kFamilyIndex.RemoveData(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindByFamily(NWDFamily sFamily)
-        {
-            return kFamilyIndex.RawDatasByKey(sFamily);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
