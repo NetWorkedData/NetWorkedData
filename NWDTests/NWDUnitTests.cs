@@ -78,6 +78,13 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static T DuplicateData<T>(T sData) where T : NWDTypeClass, new()
+        {
+            T rObject = NWDBasisHelper.DuplicateData<T>(sData);
+            UnitTestData(rObject);
+            return rObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private static void UnitTestData(NWDTypeClass sData)
         {
             sData.InternalDescription = kDescriptionMark;

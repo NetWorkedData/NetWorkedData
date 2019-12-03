@@ -222,6 +222,13 @@ namespace NetWorkedData
                     NWDEditorWindow.GenerateCSharpFile();
                 }
                 //NWDGUI.EndRedArea();
+
+
+
+                if (GUILayout.Button("Add UnitTest File", NWDGUI.KTableSearchButton))
+                {
+                    AddUnitTestFile();
+                }
             }
             //NWEBenchmark.Finish();
         }
