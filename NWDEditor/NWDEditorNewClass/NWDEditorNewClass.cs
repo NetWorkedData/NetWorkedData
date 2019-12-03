@@ -28,7 +28,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
     /// </summary>
-    public class NWDEditorNewClass : NWDEditorWindow
+    public partial class NWDEditorNewClass : NWDEditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         const int K_TRIGRAM_MIN = 2;
@@ -135,62 +135,30 @@ namespace NetWorkedData
             // write file connection with unity
             if (ClassUnityConnection == true)
             {
-                string tClassExamplePath_Connection = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Connection.cs";
-                string tClassExample_Connection = File.ReadAllText(tClassExamplePath_Connection);
-                tClassExample_Connection = tClassExample_Connection.Replace("NWDExample", ClassName);
-                tClassExample_Connection = tClassExample_Connection.Replace("NWDBasis", ClassBase);
-                string tFilePath_Connection = tOwnerClassesFolderPath + "/" + ClassName + "_Connection.cs";
-                File.WriteAllText(tFilePath_Connection, tClassExample_Connection);
-                AssetDatabase.ImportAsset(tFilePath_Connection);
+                GenerateFileConnection(ClassName, ClassBase);
             }
             // write file workflow
-            string tClassExamplePath_Workflow = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Workflow.cs";
-            string tClassExample_Workflow = File.ReadAllText(tClassExamplePath_Workflow);
-            tClassExample_Workflow = tClassExample_Workflow.Replace("NWDExample", ClassName);
-            tClassExample_Workflow = tClassExample_Workflow.Replace("NWDBasis", ClassBase);
-            string tFilePath_Workflow = tOwnerClassesFolderPath + "/" + ClassName + "_Workflow.cs";
-            File.WriteAllText(tFilePath_Workflow, tClassExample_Workflow);
+            GenerateFileWorkflow(ClassName, ClassBase);
+            // write file helper
+            GenerateFileHelper(ClassName, ClassBase);
+            // write file override
+            GenerateFileOverride(ClassName, ClassBase);
             // write file editor
-            string tClassExamplePath_Editor = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Editor.cs";
-            string tClassExample_Editor = File.ReadAllText(tClassExamplePath_Editor);
-            tClassExample_Editor = tClassExample_Editor.Replace("NWDExample", ClassName);
-            tClassExample_Editor = tClassExample_Editor.Replace("NWDBasis", ClassBase);
-            string tFilePath_Editor = tOwnerClassesFolderPath + "/" + ClassName + "_Editor.cs";
-            File.WriteAllText(tFilePath_Editor, tClassExample_Editor);
+            GenerateFileEditor(ClassName, ClassBase);
             // write file index example
-            string tClassExamplePath_Index = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Index.cs";
-            string tClassExample_Index = File.ReadAllText(tClassExamplePath_Index);
-            tClassExample_Index = tClassExample_Index.Replace("NWDExample", ClassName);
-            tClassExample_Index = tClassExample_Index.Replace("NWDBasis", ClassBase);
-            string tFilePath_Index = tOwnerClassesFolderPath + "/" + ClassName + "_Index.cs";
-            File.WriteAllText(tFilePath_Index, tClassExample_Index);
+            GenerateFileIndex(ClassName, ClassBase);
             // write file PHP extension
-            string tClassExamplePath_PHP = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_PHP.cs";
-            string tClassExample_PHP = File.ReadAllText(tClassExamplePath_PHP);
-            tClassExample_PHP = tClassExample_PHP.Replace("NWDExample", ClassName);
-            tClassExample_PHP = tClassExample_PHP.Replace("NWDBasis", ClassBase);
-            string tFilePath_PHP = tOwnerClassesFolderPath + "/" + ClassName + "_PHP.cs";
-            File.WriteAllText(tFilePath_PHP, tClassExample_PHP);
+            GenerateFilePHP(ClassName, ClassBase);
             // write icon to modify
-            string tIconPath = NWDFindPackage.PathOfPackage() + "/NWDEditor/Editor/Textures/NWDExample.psd";
-            string tIconPathNew = tOwnerClassesFolderPath + "/Editor/" + ClassName + ".psd";
-            File.Copy(tIconPath, tIconPathNew);
-
+            GenerateFileIcon(ClassName);
+            // write file UnitTests
+            GenerateFileUnitTest(ClassName);
             // flush params
             ClassName = string.Empty;
             ClassNameTrigramme = string.Empty;
             ClassNameDescription = string.Empty;
             ClassNameMenuName = string.Empty;
             ClassNameProperties = new List<KeyValuePair<string, string>>();
-
-            // import new script
-            AssetDatabase.ImportAsset(tFilePath);
-            AssetDatabase.ImportAsset(tFilePath_Workflow);
-            AssetDatabase.ImportAsset(tFilePath_Editor);
-            AssetDatabase.ImportAsset(tFilePath_Index);
-            AssetDatabase.ImportAsset(tFilePath_PHP);
-            AssetDatabase.ImportAsset(tIconPathNew);
-
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(tFilePath);
             EditorGUIUtility.PingObject(Selection.activeObject);
             //NWEBenchmark.Finish();

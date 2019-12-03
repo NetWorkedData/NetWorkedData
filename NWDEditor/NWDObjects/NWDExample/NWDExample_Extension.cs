@@ -26,7 +26,7 @@ namespace NetWorkedData
         // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
         // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
+        // Your properties extension
         
         //PROPERTIES
 

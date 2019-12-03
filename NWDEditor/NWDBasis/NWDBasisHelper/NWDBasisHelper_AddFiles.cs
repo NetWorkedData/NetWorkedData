@@ -2,7 +2,7 @@
 //
 //  ideMobi 2019©
 //
-//  Date		2019-4-12 18:42:10
+//  Date		2019-4-12 18:20:44
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
 //  Project 	NetWorkedData for Unity3D
@@ -10,63 +10,79 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+#if UNITY_EDITOR
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Reflection;
+using UnityEngine;
+using SQLite4Unity3d;
+//using BasicToolBox;
+using UnityEditor;
+using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExampleHelper : NWDHelper<NWDExample>
+    public partial class NWDBasisHelper
     {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDExample class. This class is use for (complete description here).
-    /// </summary>
-    //[NWDClassUnityEditorOnlyAttribute()]
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("NWDExample_Tri")]
-    [NWDClassDescriptionAttribute("NWDExample_Description")]
-    [NWDClassMenuNameAttribute("NWDExample_MenuName")]
-    //[NWDInternalKeyNotEditableAttribute]
-    //[NWDInternalDescriptionNotEditable]
-    public partial class NWDExample : NWDBasis
-    {
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
         //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
-        #region Properties
-        //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //-------------------------------------------------------------------------------------------------------------
-
-        //PROPERTIES
-
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
-        //-------------------------------------------------------------------------------------------------------------
-        // never change the constructors! they are used by the NetWorkedData Writing System
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDExample()
+        public void GenerateFileUnitTest()
         {
-            //Debug.Log("NWDExample Constructor");
+            NWDEditorNewClass.GenerateFileUnitTest(ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDExample(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public void GenerateFileConnection()
         {
-            //Debug.Log("NWDExample Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            Debug.Log("Basis class is " + ClassType.BaseType.Name);
+            NWDEditorNewClass.GenerateFileConnection(ClassNamePHP, ClassType.BaseType.Name);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+        public void GenerateFileWorkflow()
+        {
+            NWDEditorNewClass.GenerateFileWorkflow(ClassNamePHP, ClassType.BaseType.Name);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileHelper()
+        {
+            NWDEditorNewClass.GenerateFileHelper(ClassNamePHP, ClassType.BaseType.Name);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileEditor()
+        {
+            NWDEditorNewClass.GenerateFileEditor(ClassNamePHP, ClassType.BaseType.Name);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileIndex()
+        {
+            NWDEditorNewClass.GenerateFileIndex(ClassNamePHP, ClassType.BaseType.Name);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFilePHP()
+        {
+            NWDEditorNewClass.GenerateFilePHP(ClassNamePHP, ClassType.BaseType.Name);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileIcon()
+        {
+            NWDEditorNewClass.GenerateFileIcon(ClassNamePHP);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileExtension()
+        {
+            NWDEditorNewClass.GenerateFileExtension(ClassNamePHP, ClassType.BaseType.Name);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GenerateFileOverride()
+        {
+            NWDEditorNewClass.GenerateFileOverride(ClassNamePHP, ClassType.BaseType.Name);
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
