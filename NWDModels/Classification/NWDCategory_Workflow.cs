@@ -49,6 +49,7 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {
@@ -79,7 +80,20 @@ namespace NetWorkedData
             UpdateAll();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void ChildrenAssembly(List<NWDCategory> sList, NWDCategory sCat)
+        public override void AddonEditor(Rect sRect)
+        {
+            float tWidth = sRect.width;
+            float tX = sRect.x;
+            float tY = sRect.y;
+            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
+            foreach (NWDItem tItem in NWDItem.FindByCategory(this))
+            {
+                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), tItem.InternalKey+" "+ tItem.Reference, NWDGUI.kLabelStyle);
+                tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static void ChildrenAssembly(List<NWDCategory> sList, NWDCategory sCat)
         {
             if (sList.Contains(sCat) == false)
             {
@@ -94,7 +108,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static void UpdateAll()
+        static void UpdateAll()
         {
             foreach (NWDCategory tData in NWDBasisHelper.BasisHelper<NWDCategory>().Datas)
             {
@@ -130,22 +144,6 @@ namespace NetWorkedData
                 tData.UpdateDataIfModified();
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEditor(Rect sRect)
-        {
-            float tWidth = sRect.width;
-            float tX = sRect.x;
-            float tY = sRect.y;
-            tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
-            foreach (NWDItem tItem in NWDItem.FindByCategory(this))
-            {
-                GUI.Label(new Rect(tX, tY, tWidth, NWDGUI.kLabelStyle.fixedHeight), tItem.InternalKey+" "+ tItem.Reference, NWDGUI.kLabelStyle);
-                tY += NWDGUI.kLabelStyle.fixedHeight + NWDGUI.kFieldMarge;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }
