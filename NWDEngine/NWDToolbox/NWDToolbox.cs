@@ -312,6 +312,18 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string RandomStringNumeric(int sLength)
+        {
+            string rReturn = string.Empty;
+            const string tChars = "0123456789";
+            int tCharLenght = tChars.Length;
+            while (rReturn.Length < sLength)
+            {
+                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string URLCleaner(string sString)
         {
             //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
