@@ -151,6 +151,62 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
             return rReturn;
         }
+
+        private string PropertyInfoToSQLType(PropertyInfo sPropertyInfo)
+        {
+            string rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+            Type tTypeOfThis = sPropertyInfo.PropertyType;
+
+            if (tTypeOfThis == typeof(int) ||
+                tTypeOfThis == typeof(long) ||
+                tTypeOfThis == typeof(Int16) ||
+                tTypeOfThis == typeof(Int32) ||
+                tTypeOfThis == typeof(Int64) ||
+                tTypeOfThis.IsEnum
+                )
+            {
+                rReturn = " INT(11) NOT NULL default 0";
+            }
+            else if (tTypeOfThis == typeof(float) ||
+                tTypeOfThis == typeof(double) ||
+                tTypeOfThis == typeof(Double))
+            {
+                rReturn = "DOUBLE NOT NULL default 0";
+            }
+            else if (tTypeOfThis == typeof(bool))
+            {
+                rReturn = "INT(1) NOT NULL default 0";
+            }
+            else if (tTypeOfThis == typeof(string) || tTypeOfThis == typeof(String))
+            {
+                rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+            }
+            else
+            {
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                {
+                    rReturn = "TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                {
+                    rReturn = " INT(11) NOT NULL default 0";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                {
+                    rReturn = "DOUBLE NOT NULL default 0";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                {
+                    rReturn = " INT(11) NOT NULL default 0";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                {
+                    rReturn = " INT(11) NOT NULL default 0";
+                }
+            }
+            return rReturn;
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
         {
@@ -177,29 +233,37 @@ namespace NetWorkedData
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             var tQuery = "CREATE TABLE IF NOT EXISTS `" + PHP_TABLENAME(sEnvironment) + "` (";
-            var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
-            var tDeclarationsJoined = string.Join(",", tDeclarations.ToArray());
-            tDeclarationsJoined = tDeclarationsJoined.Replace('"', '`');
-            tDeclarationsJoined = tDeclarationsJoined.Replace("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) + "` integer", "`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) + "`   int(11) NOT NULL");
-            //tDeclarationsJoined = tDeclarationsJoined.Replace("`DC` integer", "`DC` int(11) NOT NULL DEFAULT 0");
-            tDeclarationsJoined = tDeclarationsJoined.Replace("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) + "` integer", "`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) + "`   int(11) NOT NULL DEFAULT 1");
-            //tDeclarationsJoined = tDeclarationsJoined.Replace("`DM` integer", "`DM` int(11) NOT NULL DEFAULT 0");
-            //tDeclarationsJoined = tDeclarationsJoined.Replace("`DD` integer", "`DD` int(11) NOT NULL DEFAULT 0");
-            //tDeclarationsJoined = tDeclarationsJoined.Replace("`DS` integer", "`DS` int(11) NOT NULL DEFAULT 0");
-            //tDeclarationsJoined = tDeclarationsJoined.Replace("`XX` integer", "`XX` int(11) NOT NULL DEFAULT 0");
-
-            foreach (TableMapping.Column tColumn in tTableMapping.Columns)
+            //var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
+            //var tDeclarationsJoined = string.Join(",", tDeclarations.ToArray());
+            //tDeclarationsJoined = tDeclarationsJoined.Replace('"', '`');
+            //tDeclarationsJoined = tDeclarationsJoined.Replace("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) + "` integer", "`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) + "`   int(11) NOT NULL");
+            ////tDeclarationsJoined = tDeclarationsJoined.Replace("`DC` integer", "`DC` int(11) NOT NULL DEFAULT 0");
+            //tDeclarationsJoined = tDeclarationsJoined.Replace("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) + "` integer", "`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) + "`   int(11) NOT NULL DEFAULT 1");
+            ////tDeclarationsJoined = tDeclarationsJoined.Replace("`DM` integer", "`DM` int(11) NOT NULL DEFAULT 0");
+            ////tDeclarationsJoined = tDeclarationsJoined.Replace("`DD` integer", "`DD` int(11) NOT NULL DEFAULT 0");
+            ////tDeclarationsJoined = tDeclarationsJoined.Replace("`DS` integer", "`DS` int(11) NOT NULL DEFAULT 0");
+            ////tDeclarationsJoined = tDeclarationsJoined.Replace("`XX` integer", "`XX` int(11) NOT NULL DEFAULT 0");
+            //foreach (TableMapping.Column tColumn in tTableMapping.Columns)
+            //{
+            //    if (tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC))
+            //    {
+            //        tDeclarationsJoined = tDeclarationsJoined.Replace("`" + tColumn.Name + "` integer", "`" + tColumn.Name + "` int");
+            //        tDeclarationsJoined = tDeclarationsJoined.Replace("`" + tColumn.Name + "` int", "`" + tColumn.Name + "` int(11) NOT NULL DEFAULT 0");
+            //    }
+            //}
+            //tDeclarationsJoined = tDeclarationsJoined.Replace("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL");
+            //tDeclarationsJoined = tDeclarationsJoined.Replace("primary key autoincrement not null", string.Empty);
+            //tQuery += tDeclarationsJoined;
+            List<string> PropertiesSQL = new List<string>();
+            foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC))
+                if (tPropertyInfo != null)
                 {
-                    tDeclarationsJoined = tDeclarationsJoined.Replace("`" + tColumn.Name + "` integer", "`" + tColumn.Name + "` int");
-                    tDeclarationsJoined = tDeclarationsJoined.Replace("`" + tColumn.Name + "` int", "`" + tColumn.Name + "` int(11) NOT NULL DEFAULT 0");
+                    PropertiesSQL.Add("`" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo));
                 }
             }
-            tDeclarationsJoined = tDeclarationsJoined.Replace("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL");
-            tDeclarationsJoined = tDeclarationsJoined.Replace("primary key autoincrement not null", string.Empty);
-            tQuery += tDeclarationsJoined;
+            tQuery += string.Join(",", PropertiesSQL.ToArray());
             tQuery += ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             tFile.AppendLine("$tQuery = '" + tQuery + "';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
@@ -224,37 +288,71 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("");
             tFile.AppendLine("// Alter all existing table with new columns or change type columns");
-            foreach (TableMapping.Column tColumn in tTableMapping.Columns)
+            foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC) &&
-                    //tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DD) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS) &&
-                    tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX))
+                if (tPropertyInfo != null)
                 {
-                    tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD COLUMN IF NOT EXISTS " +
-                        Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
-                        ";';");
-                    tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-                    tFile.AppendLine("if (!$tResult)");
-                    tFile.AppendLine("{");
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
-                    tFile.AppendLine("}");
-                    tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS " +
-                        Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
-                        ";';");
-                    tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-                    tFile.AppendLine("if (!$tResult)");
-                    tFile.AppendLine("{");
-                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
-                    tFile.AppendLine("}");
+                    {
+                        if (tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
+                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) &&
+                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) &&
+                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC) &&
+                            //tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) &&
+                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DD) &&
+                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS) &&
+                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX))
+                        {
+                            tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD COLUMN IF NOT EXISTS `" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo) + ";';");
+                            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+                            tFile.AppendLine("if (!$tResult)");
+                            tFile.AppendLine("{");
+                            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+                            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
+                            tFile.AppendLine("}");
+                            tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS `" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo) + ";';");
+                            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+                            tFile.AppendLine("if (!$tResult)");
+                            tFile.AppendLine("{");
+                            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+                            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
+                            tFile.AppendLine("}");
+                        }
+                    }
                 }
             }
+            //foreach (TableMapping.Column tColumn in tTableMapping.Columns)
+            //{
+            //    if (tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC) &&
+            //        //tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DD) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS) &&
+            //        tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX))
+            //    {
+            //        tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD COLUMN IF NOT EXISTS " +
+            //            Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
+            //            ";';");
+            //        tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            //        tFile.AppendLine("if (!$tResult)");
+            //        tFile.AppendLine("{");
+            //        tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
+            //        tFile.AppendLine("}");
+            //        tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS " +
+            //            Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") +
+            //            ";';");
+            //        tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            //        tFile.AppendLine("if (!$tResult)");
+            //        tFile.AppendLine("{");
+            //        tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
+            //        tFile.AppendLine("}");
+            //    }
+            //}
+
+
             var indexes = new Dictionary<string, SQLite4Unity3d.SQLiteConnection.IndexInfo>();
             foreach (var c in tTableMapping.Columns)
             {
@@ -429,7 +527,7 @@ namespace NetWorkedData
                 {
                     if (tTypeOfThis.IsGenericType)
                     {
-                        if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                        if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
                         {
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
@@ -437,14 +535,23 @@ namespace NetWorkedData
                                 tAccountReference.Add("`" + tProp.Name + "`(24) ");
                             }
                         }
-                        else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
-                        {
-                            Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                            if (tSubType == typeof(NWDAccount))
-                            {
-                                tAccountReference.Add("`" + tProp.Name + "`(24) ");
-                            }
-                        }
+
+                        //if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                        //{
+                        //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                        //    if (tSubType == typeof(NWDAccount))
+                        //    {
+                        //        tAccountReference.Add("`" + tProp.Name + "`(24) ");
+                        //    }
+                        //}
+                        //else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
+                        //{
+                        //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                        //    if (tSubType == typeof(NWDAccount))
+                        //    {
+                        //        tAccountReference.Add("`" + tProp.Name + "`(24) ");
+                        //    }
+                        //}
                     }
                 }
             }
@@ -796,7 +903,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));   
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx31, ClassNamePHP));
             tFile.AppendLine("}");
             tFile.AppendLine("else");
