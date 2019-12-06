@@ -17,6 +17,9 @@ using System.Text;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Net;
+using System.Linq;
+using System.Net.Sockets;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -43,6 +46,46 @@ namespace NetWorkedData
         {
             Rect[,] tMatrix = NWDGUI.DiviseArea(sRect, 2, 100);
             int tI = 0;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
+            {
+                string tLocalIP = "0.0.0.0";
+                NWDServerDomain tDomain = Server.GetRawData();
+                if (tDomain != null)
+                {
+                    foreach (IPAddress tIP in Dns.GetHostAddresses(tDomain.ServerDNS))
+                    {
+                        if (tIP.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            tLocalIP = tIP.ToString();
+                        }
+                    }
+                    IP.SetValue(tLocalIP);
+                }
+                else
+                {
+                    IP.SetValue("0.0.0.0");
+                }
+
+            }
+            tI++;
+
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SFTP"))
+            {
+                NWEBenchmark.Start("test benchmark");
+                NWDServerAuthentication tServerAuthentication = GetServerSFTP(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                if (tServerAuthentication.ConnectSFTP())
+                {
+                    NWEBenchmark.Start("test benchmark test");
+                    tServerAuthentication.TestSFTPWrite();
+                    NWEBenchmark.Finish("test benchmark test");
+                    tServerAuthentication.DeconnectSFTP();
+                }
+                NWEBenchmark.Finish("test benchmark");
+            }
+            tI++;
 
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
@@ -57,13 +100,16 @@ namespace NetWorkedData
 
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server SSH");
             tI++;
+
             GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerSSH(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), Admin_User, Admin_Password.GetValue()));
             tI += 11;
 
             GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server Apache command");
             tI++;
+
             GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerApache(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue()));
             tI += 11;
+
             if (GUI.Button(tMatrix[0, tI], "http://" + IP))
             {
                 Application.OpenURL("http://" + IP);
@@ -73,6 +119,7 @@ namespace NetWorkedData
                 Application.OpenURL("https://" + IP);
             }
             tI++;
+
             if (GUI.Button(tMatrix[0, tI], "http://" + "… phpinfo"))
             {
                 Application.OpenURL("http://" + IP + "/phpinfo.php");
@@ -111,8 +158,10 @@ namespace NetWorkedData
 
                     GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install WebService command");
                     tI++;
+
                     GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallWebService(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue(), tServerDNS.ServerDNS, User, Password.GetValue(), Folder, Email));
                     tI += 11;
+
                     if (tServerDNS.Dev == true)
                     {
                         if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Upload dev files"))
@@ -151,8 +200,6 @@ namespace NetWorkedData
                     }
                 }
 
-
-
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
 
@@ -169,6 +216,7 @@ namespace NetWorkedData
                     NWDAppEnvironmentConfigurationManager.Refresh();
                 }
                 tI++;
+
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for preprod"))
                 {
                     NWDAppEnvironment tPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
@@ -182,10 +230,11 @@ namespace NetWorkedData
                     NWDAppEnvironmentConfigurationManager.Refresh();
                 }
                 tI++;
+
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for prod"))
                 {
                     NWDAppEnvironment tProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
-                    tProd.ServerHTTPS = "https://"+tServerDNS.ServerDNS;
+                    tProd.ServerHTTPS = "https://" + tServerDNS.ServerDNS;
                     tProd.SFTPHost = tServerDNS.ServerDNS;
                     tProd.SFTPBalanceLoad = tServerDNS.BalanceLoad;
                     tProd.SFTPPort = Port;
