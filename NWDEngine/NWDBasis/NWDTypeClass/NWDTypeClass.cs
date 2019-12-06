@@ -46,7 +46,8 @@ namespace NetWorkedData
             get; set;
         }
         //[SQLite.Attribute.IndexedAttribute(NWD.K_REFERENCE_INDEX, 0)]
-        [Indexed(NWD.K_BASIS_INDEX, 0)]
+        //[Indexed(NWD.K_BASIS_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public string Reference
@@ -62,12 +63,12 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 4)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int WebModel
         {
             get; set;
         }
-        [Indexed(NWD.K_INTERNAL_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public string InternalKey
@@ -76,7 +77,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_INTERNAL_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         public string InternalDescription
         {
             get; set;
@@ -87,21 +88,21 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public bool AC
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 1)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int DC
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 2)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int DM
@@ -114,7 +115,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 3)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int XX
@@ -135,21 +136,21 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 3)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int DevSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 2)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int PreprodSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 1)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int ProdSync
         {
             get; set;

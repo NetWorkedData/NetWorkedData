@@ -206,6 +206,60 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+        private string PropertyInfoToSQLIndex(PropertyInfo sPropertyInfo)
+        {
+            string rReturn = " (24)";
+            Type tTypeOfThis = sPropertyInfo.PropertyType;
+
+            if (tTypeOfThis == typeof(int) ||
+                tTypeOfThis == typeof(long) ||
+                tTypeOfThis == typeof(Int16) ||
+                tTypeOfThis == typeof(Int32) ||
+                tTypeOfThis == typeof(Int64) ||
+                tTypeOfThis.IsEnum
+                )
+            {
+                rReturn = "";
+            }
+            else if (tTypeOfThis == typeof(float) ||
+                tTypeOfThis == typeof(double) ||
+                tTypeOfThis == typeof(Double))
+            {
+                rReturn = "";
+            }
+            else if (tTypeOfThis == typeof(bool))
+            {
+                rReturn = "";
+            }
+            else if (tTypeOfThis == typeof(string) || tTypeOfThis == typeof(String))
+            {
+                rReturn = " (24)";
+            }
+            else
+            {
+                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                {
+                    rReturn = " (24)";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                {
+                    rReturn = "";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                {
+                    rReturn = "";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                {
+                    rReturn = "";
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                {
+                    rReturn = "";
+                }
+            }
+            return rReturn;
+        }
 
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
@@ -215,7 +269,7 @@ namespace NetWorkedData
             //string tClassName = ClassNamePHP;
             //string tTrigramme = ClassTrigramme;
             //Type tType = ClassType;
-            TableMapping tTableMapping = new TableMapping(ClassType);
+            //TableMapping tTableMapping = new TableMapping(ClassType);
             //string tTableName = tTableMapping.TableName;
             //========= MANAGEMENT TABLE FUNCTIONS FILE
             StringBuilder tFile = new StringBuilder(string.Empty);
@@ -288,38 +342,100 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("");
             tFile.AppendLine("// Alter all existing table with new columns or change type columns");
+
+
+
+            Dictionary<string, List<PropertyInfo>> tIndexesDico = new Dictionary<string, List<PropertyInfo>>();
+            tIndexesDico.Add(NWD.K_BASIS_INDEX, new List<PropertyInfo>());
+            tIndexesDico.Add(NWD.K_ACCOUNT_INDEX, new List<PropertyInfo>());
+
+
             foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (tPropertyInfo != null)
                 {
+                    foreach (NWDIndexedAttribut tAttribut in tPropertyInfo.GetCustomAttributes<NWDIndexedAttribut>())
                     {
-                        if (tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
-                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) &&
-                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) &&
-                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC) &&
-                            //tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC) &&
-                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DD) &&
-                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS) &&
-                            tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX))
+                        if (tIndexesDico.ContainsKey(tAttribut.IndexName) == false)
                         {
-                            tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD COLUMN IF NOT EXISTS `" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo) + ";';");
-                            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-                            tFile.AppendLine("if (!$tResult)");
-                            tFile.AppendLine("{");
-                            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
-                            tFile.AppendLine("}");
-                            tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS `" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo) + ";';");
-                            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-                            tFile.AppendLine("if (!$tResult)");
-                            tFile.AppendLine("{");
-                            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
-                            tFile.AppendLine("}");
+                            tIndexesDico.Add(tAttribut.IndexName, new List<PropertyInfo>());
                         }
+                        if (tIndexesDico[tAttribut.IndexName].Contains(tPropertyInfo) == false)
+                        {
+                            tIndexesDico[tAttribut.IndexName].Add(tPropertyInfo);
+                        }
+                    }
+                    Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
+                    {
+                        Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                        if (tSubType == typeof(NWDAccount) || tSubType == typeof(NWDGameSave))
+                        {
+                            if (tIndexesDico[NWD.K_BASIS_INDEX].Contains(tPropertyInfo) == false)
+                            {
+                                tIndexesDico[NWD.K_BASIS_INDEX].Add(tPropertyInfo);
+                            }
+                        }
+                        if (tSubType == typeof(NWDAccount))
+                        {
+                            if (tIndexesDico[NWD.K_ACCOUNT_INDEX].Contains(tPropertyInfo) == false)
+                            {
+                                tIndexesDico[NWD.K_ACCOUNT_INDEX].Add(tPropertyInfo);
+                            }
+                        }
+                    }
+
+                    if (tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID)
+                        && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference)
+                       && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM)
+                       && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DC)
+                       && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().AC)
+                       && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DD)
+                       && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DS)
+                       && tPropertyInfo.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX)
+                       )
+                    {
+                        tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ADD COLUMN IF NOT EXISTS `" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo) + ";';");
+                        tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+                        tFile.AppendLine("if (!$tResult)");
+                        tFile.AppendLine("{");
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx11, ClassNamePHP));
+                        tFile.AppendLine("}");
+                        tFile.AppendLine("$tQuery ='ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` MODIFY IF EXISTS `" + tPropertyInfo.Name + "` " + PropertyInfoToSQLType(tPropertyInfo) + ";';");
+                        tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+                        tFile.AppendLine("if (!$tResult)");
+                        tFile.AppendLine("{");
+                        tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+                        tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx12, ClassNamePHP));
+                        tFile.AppendLine("}");
                     }
                 }
             }
+            //Dictionary<string, List<PropertyInfo>> tIndexesDico
+            foreach (KeyValuePair<string, List<PropertyInfo>> tIndex in tIndexesDico)
+            {
+                tFile.AppendLine("$tRemove"+ tIndex.Key + "Query = 'DROP INDEX `" + tIndex.Key + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
+                tFile.AppendLine("$tRemove" + tIndex.Key + "Result = " + NWD.K_SQL_CON + "->query($tRemove" + tIndex.Key + "Query);");
+                tFile.AppendLine("if (!$tRemove" + tIndex.Key + "Result)");
+                tFile.AppendLine("{");
+                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tRemove" + tIndex.Key + "Query"));
+                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
+                tFile.AppendLine("}");
+                List<string> tColumnNamesFinalList = new List<string>();
+                foreach (PropertyInfo PropertyInfo in tIndex.Value)
+                {
+                    tColumnNamesFinalList.Add("`" + PropertyInfo.Name + "`" + PropertyInfoToSQLIndex(PropertyInfo));
+                }
+                tFile.AppendLine("$tCreate" + tIndex.Key + "Query = 'CREATE INDEX `" + tIndex.Key + "`ON `" + PHP_TABLENAME(sEnvironment) + "` " + string.Join(", ", tColumnNamesFinalList) + "';");
+                tFile.AppendLine("$tCreateI" + tIndex.Key + "Result = " + NWD.K_SQL_CON + "->query($tCreate" + tIndex.Key + "Query);");
+                tFile.AppendLine("if (!$tCreate" + tIndex.Key + "Result)");
+                tFile.AppendLine("{");
+                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tCreate" + tIndex.Key + "Query"));
+                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
+                tFile.AppendLine("}");
+            }
+
             //foreach (TableMapping.Column tColumn in tTableMapping.Columns)
             //{
             //    if (tColumn.Name != NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID) &&
@@ -353,252 +469,264 @@ namespace NetWorkedData
             //}
 
 
-            var indexes = new Dictionary<string, SQLite4Unity3d.SQLiteConnection.IndexInfo>();
-            foreach (var c in tTableMapping.Columns)
-            {
-                foreach (var i in c.Indices)
-                {
-                    var iname = i.Name ?? ClassTableName + "_" + c.Name;
-                    SQLite4Unity3d.SQLiteConnection.IndexInfo iinfo;
-                    if (!indexes.TryGetValue(iname, out iinfo))
-                    {
-                        iinfo = new SQLite4Unity3d.SQLiteConnection.IndexInfo
-                        {
-                            IndexName = iname,
-                            TableName = ClassTableName,
-                            Unique = i.Unique,
-                            Columns = new List<SQLite4Unity3d.SQLiteConnection.IndexedColumn>()
-                        };
-                        indexes.Add(iname, iinfo);
-                    }
-                    if (i.Unique != iinfo.Unique)
-                        throw new Exception("All the columns in an index must have the same value for their Unique property");
-                    iinfo.Columns.Add(new SQLite4Unity3d.SQLiteConnection.IndexedColumn
-                    {
-                        Order = i.Order,
-                        ColumnName = c.Name
-                    });
-                }
-            }
-            foreach (var indexName in indexes.Keys)
-            {
-                var index = indexes[indexName];
-                string[] columnNamesRought = new string[index.Columns.Count];
-                if (index.Columns.Count == 1)
-                {
-                    columnNamesRought[0] = index.Columns[0].ColumnName;
-                }
-                else
-                {
-                    index.Columns.Sort((lhs, rhs) =>
-                    {
-                        return lhs.Order - rhs.Order;
-                    });
-                    for (int i = 0, end = index.Columns.Count; i < end; ++i)
-                    {
-                        columnNamesRought[i] = index.Columns[i].ColumnName;
-                    }
-                }
+            //var indexes = new Dictionary<string, SQLite4Unity3d.SQLiteConnection.IndexInfo>();
+            //foreach (var c in tTableMapping.Columns)
+            //{
+            //    foreach (var i in c.Indices)
+            //    {
+            //        var iname = i.Name ?? ClassTableName + "_" + c.Name;
+            //        SQLite4Unity3d.SQLiteConnection.IndexInfo iinfo;
+            //        if (!indexes.TryGetValue(iname, out iinfo))
+            //        {
+            //            iinfo = new SQLite4Unity3d.SQLiteConnection.IndexInfo
+            //            {
+            //                IndexName = iname,
+            //                TableName = ClassTableName,
+            //                Unique = i.Unique,
+            //                Columns = new List<SQLite4Unity3d.SQLiteConnection.IndexedColumn>()
+            //            };
+            //            indexes.Add(iname, iinfo);
+            //        }
+            //        if (i.Unique != iinfo.Unique)
+            //            throw new Exception("All the columns in an index must have the same value for their Unique property");
+            //        iinfo.Columns.Add(new SQLite4Unity3d.SQLiteConnection.IndexedColumn
+            //        {
+            //            Order = i.Order,
+            //            ColumnName = c.Name
+            //        });
+            //    }
+            //}
+            //foreach (var indexName in indexes.Keys)
+            //{
+            //    var index = indexes[indexName];
+            //    string[] columnNamesRought = new string[index.Columns.Count];
+            //    if (index.Columns.Count == 1)
+            //    {
+            //        columnNamesRought[0] = index.Columns[0].ColumnName;
+            //    }
+            //    else
+            //    {
+            //        index.Columns.Sort((lhs, rhs) =>
+            //        {
+            //            return lhs.Order - rhs.Order;
+            //        });
+            //        for (int i = 0, end = index.Columns.Count; i < end; ++i)
+            //        {
+            //            columnNamesRought[i] = index.Columns[i].ColumnName;
+            //        }
+            //    }
 
-                List<string> columnNames = new List<string>(columnNamesRought);
+            //    List<string> columnNames = new List<string>(columnNamesRought);
 
-                // Add special index
-                foreach (var tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                {
-                    foreach (NWDAddIndexed tIndex in tProp.GetCustomAttributes(typeof(NWDAddIndexed), true))
-                    {
-                        if (indexName == tIndex.IndexName)
-                        {
-                            if (columnNames.Contains(tIndex.IndexColumn) == false)
-                            {
-                                columnNames.Add(tIndex.IndexColumn);
-                            }
-                        }
-                    }
-                }
+            //    // Add special index
+            //    foreach (var tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            //    {
+            //        foreach (NWDAddIndexed tIndex in tProp.GetCustomAttributes(typeof(NWDAddIndexed), true))
+            //        {
+            //            if (indexName == tIndex.IndexName)
+            //            {
+            //                if (columnNames.Contains(tIndex.IndexColumn) == false)
+            //                {
+            //                    columnNames.Add(tIndex.IndexColumn);
+            //                }
+            //            }
+            //        }
+            //    }
 
-                // Add account columnnames in K_BASIS_INDEX
-                List<string> columnNamesFinalList = new List<string>();
-                foreach (string tName in columnNames)
-                {
-                    PropertyInfo tColumnInfos = ClassType.GetProperty(tName);
-                    Type tColumnType = tColumnInfos.PropertyType;
-                    if (tColumnType.IsSubclassOf(typeof(NWEDataType)))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`(24)");
-                    }
-                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeInt)))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`");
-                    }
-                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`");
-                    }
-                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeEnum)))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`");
-                    }
-                    else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeMask)))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`");
-                    }
-                    else if (tColumnType == typeof(string))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`(24)");
-                    }
-                    else if (tColumnType == typeof(string))
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`(32)");
-                    }
-                    else
-                    {
-                        columnNamesFinalList.Add("`" + tName + "`");
-                    }
-                }
-
-
-                if (indexName == NWD.K_BASIS_INDEX)
-                {
-                    foreach (var tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                    {
-
-                        Type tTypeOfThis = tProp.PropertyType;
-                        if (tTypeOfThis != null)
-                        {
-                            if (tTypeOfThis.IsGenericType)
-                            {
-                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
-                                {
-                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                    if (tSubType == typeof(NWDAccount))
-                                    {
-                                        if (columnNames.Contains(tProp.Name) == false)
-                                        {
-                                            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
-                                        }
-                                    }
-                                    if (tSubType == typeof(NWDGameSave))
-                                    {
-                                        if (columnNames.Contains(tProp.Name) == false)
-                                        {
-                                            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
-                                        }
-                                    }
-                                }
-                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
-                                {
-                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                    if (tSubType == typeof(NWDAccount))
-                                    {
-                                        if (columnNames.Contains(tProp.Name) == false)
-                                        {
-                                            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                string[] columnNamesFinal = columnNamesFinalList.ToArray<string>();
-                tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + indexName + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
-                tFile.AppendLine("$tRemoveIndexResult = " + NWD.K_SQL_CON + "->query($tRemoveIndexQuery);");
-                string sqlFormat = "CREATE {2}INDEX `{3}` ON `{0}` ({1});";
-                var sql = String.Format(sqlFormat, PHP_TABLENAME(sEnvironment), string.Join(", ", columnNamesFinal), index.Unique ? "UNIQUE " : "", indexName);
-                tFile.AppendLine("$tQuery = '" + sql + "';");
-                tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-                tFile.AppendLine("if (!$tResult)");
-                tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
-                tFile.AppendLine("}");
-            }
+            //    // Add account columnnames in K_BASIS_INDEX
+            //    List<string> columnNamesFinalList = new List<string>();
+            //    foreach (string tName in columnNames)
+            //    {
+            //        PropertyInfo tColumnInfos = ClassType.GetProperty(tName);
+            //        Type tColumnType = tColumnInfos.PropertyType;
+            //        if (tColumnType.IsSubclassOf(typeof(NWEDataType)))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`(24)");
+            //        }
+            //        else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeInt)))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`");
+            //        }
+            //        else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`");
+            //        }
+            //        else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`");
+            //        }
+            //        else if (tColumnType.IsSubclassOf(typeof(NWEDataTypeMask)))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`");
+            //        }
+            //        else if (tColumnType == typeof(string))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`(24)");
+            //        }
+            //        else if (tColumnType == typeof(string))
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`(32)");
+            //        }
+            //        else
+            //        {
+            //            columnNamesFinalList.Add("`" + tName + "`");
+            //        }
+            //    }
 
 
 
-            // List account properties for Special generic index
-            List<string> tAccountReference = new List<string>();
-            foreach (var tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                Type tTypeOfThis = tProp.PropertyType;
-                if (tTypeOfThis != null)
-                {
-                    if (tTypeOfThis.IsGenericType)
-                    {
-                        if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
-                        {
-                            Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                            if (tSubType == typeof(NWDAccount))
-                            {
-                                tAccountReference.Add("`" + tProp.Name + "`(24) ");
-                            }
-                        }
-
-                        //if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
-                        //{
-                        //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                        //    if (tSubType == typeof(NWDAccount))
-                        //    {
-                        //        tAccountReference.Add("`" + tProp.Name + "`(24) ");
-                        //    }
-                        //}
-                        //else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
-                        //{
-                        //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                        //    if (tSubType == typeof(NWDAccount))
-                        //    {
-                        //        tAccountReference.Add("`" + tProp.Name + "`(24) ");
-                        //    }
-                        //}
-                    }
-                }
-            }
-
-            // create generic index
-            // TODO : improve this index
-            List<string> tNWDIndexIndex = new List<string>(tAccountReference);
-            string tGenericIndex = "GenericIndex";
-            tNWDIndexIndex.Add("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "`(24)");
-            tNWDIndexIndex.Add("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().WebModel) + "`");
-            tNWDIndexIndex.Add("`" + PHP_ENV_SYNC(sEnvironment) + "`");
-            tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + tGenericIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
-            tFile.AppendLine("$tRemoveIndexResult = " + NWD.K_SQL_CON + "->query($tRemoveIndexQuery);");
-            tFile.AppendLine("$tQuery = 'CREATE INDEX `" + tGenericIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "` ("
-                + string.Join(", ", tNWDIndexIndex) +
-                ");';");
-            //tFile.AppendLine(NWDError.PHP_log(sEnvironment,"----"+ string.Join(", ", tNWDIndexIndex) + "----"));
-            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-            tFile.AppendLine("if (!$tResult)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
-            tFile.AppendLine("}");
-            //
 
 
-            // create other generic index
-            // TODO : improve this index
-            List<string> tNWTrashIndex = new List<string>();
-            string tTrashIndex = "TrashIndex";
-            tNWTrashIndex.Add("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX) + "`");
-            tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + tTrashIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
-            tFile.AppendLine("$tRemoveIndexResult = " + NWD.K_SQL_CON + "->query($tRemoveIndexQuery);");
-            tFile.AppendLine("$tQuery = 'CREATE INDEX `" + tTrashIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "` ("
-                + string.Join(", ", tNWTrashIndex) +
-                ");';");
-            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
-            tFile.AppendLine("if (!$tResult)");
-            tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
-            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
-            tFile.AppendLine("}");
-            //
+            //    if (indexName == NWD.K_BASIS_INDEX)
+            //    {
+            //        foreach (var tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            //        {
+
+            //            Type tTypeOfThis = tProp.PropertyType;
+            //            if (tTypeOfThis != null)
+            //            {
+            //                if (tTypeOfThis.IsGenericType)
+            //                {
+
+            //                    if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
+            //                    {
+            //                        Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+            //                        if (tSubType == typeof(NWDAccount) || tSubType == typeof(NWDGameSave))
+            //                        {
+            //                            columnNamesFinalList.Add("`" + tProp.Name + "`(24) ");
+            //                        }
+            //                    }
+            //                    //    if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+            //                    //{
+            //                    //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+            //                    //    if (tSubType == typeof(NWDAccount))
+            //                    //    {
+            //                    //        if (columnNames.Contains(tProp.Name) == false)
+            //                    //        {
+            //                    //            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
+            //                    //        }
+            //                    //    }
+            //                    //    if (tSubType == typeof(NWDGameSave))
+            //                    //    {
+            //                    //        if (columnNames.Contains(tProp.Name) == false)
+            //                    //        {
+            //                    //            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
+            //                    //        }
+            //                    //    }
+            //                    //}
+            //                    //else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
+            //                    //{
+            //                    //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+            //                    //    if (tSubType == typeof(NWDAccount))
+            //                    //    {
+            //                    //        if (columnNames.Contains(tProp.Name) == false)
+            //                    //        {
+            //                    //            columnNamesFinalList.Add("`" + tProp.Name + "`(24)");
+            //                    //        }
+            //                    //    }
+            //                    //}
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //    string[] columnNamesFinal = columnNamesFinalList.ToArray<string>();
+            //    tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + indexName + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
+            //    tFile.AppendLine("$tRemoveIndexResult = " + NWD.K_SQL_CON + "->query($tRemoveIndexQuery);");
+            //    string sqlFormat = "CREATE {2}INDEX `{3}` ON `{0}` ({1});";
+            //    var sql = String.Format(sqlFormat, PHP_TABLENAME(sEnvironment), string.Join(", ", columnNamesFinal), index.Unique ? "UNIQUE " : "", indexName);
+            //    tFile.AppendLine("$tQuery = '" + sql + "';");
+            //    tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            //    tFile.AppendLine("if (!$tResult)");
+            //    tFile.AppendLine("{");
+            //    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
+            //    tFile.AppendLine("}");
+            //}
 
 
 
-            // create other generic index
+            //// List account properties for Special generic index
+            //List<string> tAccountReference = new List<string>();
+            //foreach (var tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            //{
+            //    Type tTypeOfThis = tProp.PropertyType;
+            //    if (tTypeOfThis != null)
+            //    {
+            //        if (tTypeOfThis.IsGenericType)
+            //        {
+            //            if (tTypeOfThis.IsSubclassOf(typeof(NWDReference)) && tTypeOfThis.IsGenericType)
+            //            {
+            //                Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+            //                if (tSubType == typeof(NWDAccount))
+            //                {
+            //                    tAccountReference.Add("`" + tProp.Name + "`(24) ");
+            //                }
+            //            }
+
+            //            //if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+            //            //{
+            //            //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+            //            //    if (tSubType == typeof(NWDAccount))
+            //            //    {
+            //            //        tAccountReference.Add("`" + tProp.Name + "`(24) ");
+            //            //    }
+            //            //}
+            //            //else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
+            //            //{
+            //            //    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+            //            //    if (tSubType == typeof(NWDAccount))
+            //            //    {
+            //            //        tAccountReference.Add("`" + tProp.Name + "`(24) ");
+            //            //    }
+            //            //}
+            //        }
+            //    }
+            //}
+
+            //// create generic index
+            //// TODO : improve this index
+            //List<string> tNWDIndexIndex = new List<string>(tAccountReference);
+            //string tGenericIndex = "GenericIndex";
+            //tNWDIndexIndex.Add("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference) + "`(24)");
+            //tNWDIndexIndex.Add("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().WebModel) + "`");
+            //tNWDIndexIndex.Add("`" + PHP_ENV_SYNC(sEnvironment) + "`");
+            //tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + tGenericIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
+            //tFile.AppendLine("$tRemoveIndexResult = " + NWD.K_SQL_CON + "->query($tRemoveIndexQuery);");
+            //tFile.AppendLine("$tQuery = 'CREATE INDEX `" + tGenericIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "` ("
+            //    + string.Join(", ", tNWDIndexIndex) +
+            //    ");';");
+            ////tFile.AppendLine(NWDError.PHP_log(sEnvironment,"----"+ string.Join(", ", tNWDIndexIndex) + "----"));
+            //tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            //tFile.AppendLine("if (!$tResult)");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
+            //tFile.AppendLine("}");
+            ////
+
+
+            //// create other generic index
+            //// TODO : improve this index
+            //List<string> tNWTrashIndex = new List<string>();
+            //string tTrashIndex = "TrashIndex";
+            //tNWTrashIndex.Add("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().XX) + "`");
+            //tFile.AppendLine("$tRemoveIndexQuery = 'DROP INDEX `" + tTrashIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
+            //tFile.AppendLine("$tRemoveIndexResult = " + NWD.K_SQL_CON + "->query($tRemoveIndexQuery);");
+            //tFile.AppendLine("$tQuery = 'CREATE INDEX `" + tTrashIndex + "` ON `" + PHP_TABLENAME(sEnvironment) + "` ("
+            //    + string.Join(", ", tNWTrashIndex) +
+            //    ");';");
+            //tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            //tFile.AppendLine("if (!$tResult)");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            //tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
+            //tFile.AppendLine("}");
+            ////
+
+
+
+            //// create other generic index
 
 
 
