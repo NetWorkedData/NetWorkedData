@@ -29,6 +29,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDServerServices : NWDBasis
     {
+        //-------------------------------------------------------------------------------------------------------------
         const string K_GITLAB_URL_MASTER = "gitlab.hephaiscode.com/Server/AutoSaveInstallSH/raw/master/";
         const string K_OUTPUT_FOLDER = "/etc/hephaiscode/";
         const string K_SERVER_INSTALL = "server_installer_";
@@ -37,7 +38,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight(float sWidth)
         {
-
             float tYadd = NWDGUI.AreaHeight(NWDGUI.kMiniButtonStyle.fixedHeight, 100);
             return tYadd;
         }
