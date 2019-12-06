@@ -285,8 +285,9 @@ namespace NetWorkedData
                 //NWEBenchmark.Finish("Declare() step A");
                 //NWEBenchmark.Start("Declare() step B");
 
-                TableMapping tTableMapping = new TableMapping(sType);
-                string rClassName = tTableMapping.TableName;
+                //TableMapping tTableMapping = new TableMapping(sType);
+                //string rClassName = tTableMapping.TableName;
+                string rClassName = sType.Name;
                 tTypeInfos.ClassNamePHP = rClassName;
                 tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassNamePHP + "_";
                 if (StringsDictionary.ContainsKey(rClassName))
