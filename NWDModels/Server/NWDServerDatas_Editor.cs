@@ -17,6 +17,9 @@ using System.Text;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Net;
+using System.Linq;
+using System.Net.Sockets;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -39,6 +42,29 @@ namespace NetWorkedData
             int tI = 0;
             GUIStyle tSyleTextArea = new GUIStyle(GUI.skin.textArea);
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Find IP from Server (NWDServerDomain)"))
+            {
+                string tLocalIP = "0.0.0.0";
+                NWDServerDomain tDomain = Server.GetRawData();
+                if (tDomain != null)
+                {
+                    foreach (IPAddress tIP in Dns.GetHostAddresses(tDomain.ServerDNS))
+                    {
+                        if (tIP.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            tLocalIP = tIP.ToString();
+                        }
+                    }
+                    IP.SetValue(tLocalIP);
+                }
+                else
+                {
+                    IP.SetValue("0.0.0.0");
+                }
+
+            }
             tI++;
 
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Open Terminal"))
@@ -107,6 +133,7 @@ namespace NetWorkedData
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
 
+            /*
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
             {
                 NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -140,6 +167,7 @@ namespace NetWorkedData
 
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
+            */
         }
         //-------------------------------------------------------------------------------------------------------------
     }

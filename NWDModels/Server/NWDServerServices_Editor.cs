@@ -203,6 +203,7 @@ namespace NetWorkedData
                 NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
                 tI++;
 
+                /*
                 if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "copy for dev"))
                 {
                     NWDAppEnvironment tDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -244,6 +245,7 @@ namespace NetWorkedData
                     NWDAppEnvironmentConfigurationManager.Refresh();
                 }
                 tI++;
+                */
             }
         }
         //-------------------------------------------------------------------------------------------------------------

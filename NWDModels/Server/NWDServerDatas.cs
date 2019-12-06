@@ -26,6 +26,9 @@ namespace NetWorkedData
     public partial class NWDServerDatas : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDInspectorGroupStart("Server Services")]
+        public NWDReferenceType<NWDServerDomain> Server { get; set; }
+        [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Authentification MySQL")]
         //[NWDEntitled("MySQL Port")]
         //public int MySQLPort { get; set; }
