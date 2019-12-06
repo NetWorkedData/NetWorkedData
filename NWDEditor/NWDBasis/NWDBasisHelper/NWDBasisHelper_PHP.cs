@@ -415,7 +415,7 @@ namespace NetWorkedData
             //Dictionary<string, List<PropertyInfo>> tIndexesDico
             foreach (KeyValuePair<string, List<PropertyInfo>> tIndex in tIndexesDico)
             {
-                tFile.AppendLine("$tRemove"+ tIndex.Key + "Query = 'DROP INDEX `" + tIndex.Key + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
+                tFile.AppendLine("$tRemove" + tIndex.Key + "Query = 'DROP INDEX IF EXISTS `" + tIndex.Key + "` ON `" + PHP_TABLENAME(sEnvironment) + "`;';");
                 tFile.AppendLine("$tRemove" + tIndex.Key + "Result = " + NWD.K_SQL_CON + "->query($tRemove" + tIndex.Key + "Query);");
                 tFile.AppendLine("if (!$tRemove" + tIndex.Key + "Result)");
                 tFile.AppendLine("{");
@@ -427,13 +427,16 @@ namespace NetWorkedData
                 {
                     tColumnNamesFinalList.Add("`" + PropertyInfo.Name + "`" + PropertyInfoToSQLIndex(PropertyInfo));
                 }
-                tFile.AppendLine("$tCreate" + tIndex.Key + "Query = 'CREATE INDEX `" + tIndex.Key + "`ON `" + PHP_TABLENAME(sEnvironment) + "` " + string.Join(", ", tColumnNamesFinalList) + "';");
-                tFile.AppendLine("$tCreateI" + tIndex.Key + "Result = " + NWD.K_SQL_CON + "->query($tCreate" + tIndex.Key + "Query);");
-                tFile.AppendLine("if (!$tCreate" + tIndex.Key + "Result)");
-                tFile.AppendLine("{");
-                tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tCreate" + tIndex.Key + "Query"));
-                tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
-                tFile.AppendLine("}");
+                if (tColumnNamesFinalList.Count > 0)
+                {
+                    tFile.AppendLine("$tCreate" + tIndex.Key + "Query = 'CREATE INDEX `" + tIndex.Key + "`ON `" + PHP_TABLENAME(sEnvironment) + "` (" + string.Join(", ", tColumnNamesFinalList) + ");';");
+                    tFile.AppendLine("$tCreate" + tIndex.Key + "Result = " + NWD.K_SQL_CON + "->query($tCreate" + tIndex.Key + "Query);");
+                    tFile.AppendLine("if (!$tCreate" + tIndex.Key + "Result)");
+                    tFile.AppendLine("{");
+                    tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tCreate" + tIndex.Key + "Query"));
+                    tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx05, ClassNamePHP));
+                    tFile.AppendLine("}");
+                }
             }
 
             //foreach (TableMapping.Column tColumn in tTableMapping.Columns)
