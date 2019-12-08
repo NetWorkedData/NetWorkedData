@@ -133,50 +133,52 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             // connect SFTP
-            ConnectSFTP();
-            // prepare the destination
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string tDestinationFolder = tWebServiceFolder + "/" + sEnvironment.Environment + "/";
-            string tDestination = Folder + tDestinationFolder + NWD.K_HTACCESS;
-            // delete existing file 
-            if (SftpConnexion.Exists(tDestination))
+            if (ConnectSFTP())
             {
-                try
+                // prepare the destination
+                string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                string tDestinationFolder = tWebServiceFolder + "/" + sEnvironment.Environment + "/";
+                string tDestination = Folder + tDestinationFolder + NWD.K_HTACCESS;
+                // delete existing file 
+                if (SftpConnexion.Exists(tDestination))
                 {
-                    SftpConnexion.DeleteFile(tDestination);
+                    try
+                    {
+                        SftpConnexion.DeleteFile(tDestination);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log("An exception has been caught " + e.ToString());
+                    }
                 }
-                catch (Exception e)
+                // rewrite one of new htaccess or nothing
+                if (sMaintenance)
                 {
-                    Debug.Log("An exception has been caught " + e.ToString());
+                    byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_MAINTENANCE_PHP + "");
+                    try
+                    {
+                        SftpConnexion.WriteAllBytes(tDestination, tBytes);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log("An exception has been caught " + e.ToString());
+                    }
                 }
+                else if (sObsolete)
+                {
+                    byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_OBSOLETE_PHP + "");
+                    try
+                    {
+                        SftpConnexion.WriteAllBytes(tDestination, tBytes);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log("An exception has been caught " + e.ToString());
+                    }
+                }
+                //SFTPHost will close
+                DeconnectSFTP();
             }
-            // rewrite one of new htaccess or nothing
-            if (sMaintenance)
-            {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_MAINTENANCE_PHP + "");
-                try
-                {
-                    SftpConnexion.WriteAllBytes(tDestination, tBytes);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("An exception has been caught " + e.ToString());
-                }
-            }
-            else if (sObsolete)
-            {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_OBSOLETE_PHP + "");
-                try
-                {
-                    SftpConnexion.WriteAllBytes(tDestination, tBytes);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("An exception has been caught " + e.ToString());
-                }
-            }
-            //SFTPHost will close
-            DeconnectSFTP();
             //NWEBenchmark.Finish();
         }
 
@@ -218,58 +220,60 @@ namespace NetWorkedData
         public void SendFiles(NWDAppEnvironment sEnvironment, string sFolder, string sAlternate, string[] sWSFiles)
         {
             //NWEBenchmark.Start();
-            ConnectSFTP();
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string tDestinationFolder = tWebServiceFolder + "/" + sFolder;
-            string[] tFolders = tDestinationFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-            string tAssfolder = string.Empty;
-            foreach (string tT in tFolders)
+            if (ConnectSFTP())
             {
-                tAssfolder = tAssfolder + tT;
-                Debug.Log(Folder + "" + tAssfolder);
-                if (!SftpConnexion.Exists(Folder + tAssfolder))
+                string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                string tDestinationFolder = tWebServiceFolder + "/" + sFolder;
+                string[] tFolders = tDestinationFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                string tAssfolder = string.Empty;
+                foreach (string tT in tFolders)
                 {
+                    tAssfolder = tAssfolder + tT;
+                    Debug.Log(Folder + "" + tAssfolder);
+                    if (!SftpConnexion.Exists(Folder + tAssfolder))
+                    {
+                        try
+                        {
+                            SftpConnexion.CreateDirectory(Folder + tAssfolder);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log("An exception has been caught " + e.ToString());
+                        }
+                    }
+                    tAssfolder = tAssfolder + "/";
+                }
+                string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
+                string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sAlternate + "/";
+                string tUploadFile = (Application.dataPath + "..." + tServerRootFolder).Replace("Assets...Assets", "Assets");
+                foreach (string sWSFile in sWSFiles)
+                {
+                    string tUploadFilePath = tUploadFile + sFolder + sWSFile;
+                    string tDestination = Folder + tDestinationFolder + sWSFile;
+                    if (SftpConnexion.Exists(tDestination))
+                    {
+                        try
+                        {
+                            SftpConnexion.DeleteFile(tDestination);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log("An exception has been caught " + e.ToString());
+                        }
+                    }
+                    string tText = File.ReadAllText(tUploadFilePath);
+                    byte[] tBytes = Encoding.UTF8.GetBytes(tText);
                     try
                     {
-                        SftpConnexion.CreateDirectory(Folder + tAssfolder);
+                        SftpConnexion.WriteAllBytes(tDestination, tBytes);
                     }
                     catch (Exception e)
                     {
                         Debug.Log("An exception has been caught " + e.ToString());
                     }
                 }
-                tAssfolder = tAssfolder + "/";
+                DeconnectSFTP();
             }
-            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sAlternate + "/";
-            string tUploadFile = (Application.dataPath + "..." + tServerRootFolder).Replace("Assets...Assets", "Assets");
-            foreach (string sWSFile in sWSFiles)
-            {
-                string tUploadFilePath = tUploadFile + sFolder + sWSFile;
-                string tDestination = Folder + tDestinationFolder + sWSFile;
-                if (SftpConnexion.Exists(tDestination))
-                {
-                    try
-                    {
-                        SftpConnexion.DeleteFile(tDestination);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log("An exception has been caught " + e.ToString());
-                    }
-                }
-                string tText = File.ReadAllText(tUploadFilePath);
-                byte[] tBytes = Encoding.UTF8.GetBytes(tText);
-                try
-                {
-                    SftpConnexion.WriteAllBytes(tDestination, tBytes);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("An exception has been caught " + e.ToString());
-                }
-            }
-            DeconnectSFTP();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -286,84 +290,86 @@ namespace NetWorkedData
             float tCountClass = sFolders.Count + sFilesAndDatas.Count + 1.0F;
             float tOperation = 1.0F;
             string tTitle = "Send file on server " + Host;
-            ConnectSFTP();
-            EditorUtility.DisplayProgressBar(tTitle, "Open connection", tOperation++ / tCountClass);
-            foreach (string tFolder in sFolders)
+            if (ConnectSFTP())
             {
-                EditorUtility.DisplayProgressBar(tTitle, "Create folder " + tFolder, tOperation++ / tCountClass);
-                if (string.IsNullOrEmpty(tFolder) == false)
+                EditorUtility.DisplayProgressBar(tTitle, "Open connection", tOperation++ / tCountClass);
+                foreach (string tFolder in sFolders)
                 {
-                    if (sFolderRecurssive == true)
+                    EditorUtility.DisplayProgressBar(tTitle, "Create folder " + tFolder, tOperation++ / tCountClass);
+                    if (string.IsNullOrEmpty(tFolder) == false)
                     {
-                        string[] tFolders = tFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                        string tAssfolder = string.Empty;
-                        foreach (string tT in tFolders)
+                        if (sFolderRecurssive == true)
                         {
-                            tAssfolder = tAssfolder + tT;
-                            if (!SftpConnexion.Exists(Folder + tAssfolder))
+                            string[] tFolders = tFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                            string tAssfolder = string.Empty;
+                            foreach (string tT in tFolders)
+                            {
+                                tAssfolder = tAssfolder + tT;
+                                if (!SftpConnexion.Exists(Folder + tAssfolder))
+                                {
+                                    try
+                                    {
+                                        SftpConnexion.CreateDirectory(Folder + tAssfolder);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Debug.Log("An exception has been caught " + e.ToString());
+                                    }
+                                }
+                                tAssfolder = tAssfolder + "/";
+                            }
+                        }
+                        else
+                        {
+                            if (!SftpConnexion.Exists(Folder + tFolder))
                             {
                                 try
                                 {
-                                    SftpConnexion.CreateDirectory(Folder + tAssfolder);
+                                    SftpConnexion.CreateDirectory(Folder + tFolder);
                                 }
                                 catch (Exception e)
                                 {
                                     Debug.Log("An exception has been caught " + e.ToString());
                                 }
                             }
-                            tAssfolder = tAssfolder + "/";
-                        }
-                    }
-                    else
-                    {
-                        if (!SftpConnexion.Exists(Folder + tFolder))
-                        {
-                            try
-                            {
-                                SftpConnexion.CreateDirectory(Folder + tFolder);
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.Log("An exception has been caught " + e.ToString());
-                            }
                         }
                     }
                 }
-            }
-            foreach (KeyValuePair<string, string> tFileAndData in sFilesAndDatas)
-            {
-                if (SftpConnexion.Exists(Folder + tFileAndData.Key))
+                foreach (KeyValuePair<string, string> tFileAndData in sFilesAndDatas)
                 {
+                    if (SftpConnexion.Exists(Folder + tFileAndData.Key))
+                    {
+                        try
+                        {
+                            SftpConnexion.DeleteFile(Folder + tFileAndData.Key);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log("An exception has been caught " + e.ToString());
+                        }
+                    }
+                    byte[] tBytes = Encoding.UTF8.GetBytes(tFileAndData.Value);
                     try
                     {
-                        SftpConnexion.DeleteFile(Folder + tFileAndData.Key);
+                        SftpConnexion.WriteAllBytes(Folder + tFileAndData.Key, tBytes);
                     }
                     catch (Exception e)
                     {
                         Debug.Log("An exception has been caught " + e.ToString());
                     }
+                    EditorUtility.DisplayProgressBar(tTitle, "write file " + tFileAndData.Key, tOperation++ / tCountClass);
                 }
-                byte[] tBytes = Encoding.UTF8.GetBytes(tFileAndData.Value);
+                EditorUtility.DisplayProgressBar(tTitle, "Close connection", 1.0F);
                 try
                 {
-                    SftpConnexion.WriteAllBytes(Folder + tFileAndData.Key, tBytes);
+                    DeconnectSFTP();
                 }
                 catch (Exception e)
                 {
                     Debug.Log("An exception has been caught " + e.ToString());
                 }
-                EditorUtility.DisplayProgressBar(tTitle, "write file " + tFileAndData.Key, tOperation++ / tCountClass);
+                EditorUtility.ClearProgressBar();
             }
-            EditorUtility.DisplayProgressBar(tTitle, "Close connection", 1.0F);
-            try
-            {
-                DeconnectSFTP();
-            }
-            catch (Exception e)
-            {
-                Debug.Log("An exception has been caught " + e.ToString());
-            }
-            EditorUtility.ClearProgressBar();
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

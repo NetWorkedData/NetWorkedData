@@ -228,6 +228,15 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';");
+            foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
+            {
+                tConstantsFile.AppendLine("$SQL_ARRAY_HOT[] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_PRT[] = '" + tServerDatabase.Port.ToString()+"';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_USR[] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_PSW[] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_BSE[] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
+            }
+
             tConstantsFile.AppendLine("//connection to mysql socket");
             tConstantsFile.AppendLine("" + NWD.K_SQL_CON + " = '';");
             tConstantsFile.AppendLine("" + NWD.K_SQL_CON + "DB = '';");
