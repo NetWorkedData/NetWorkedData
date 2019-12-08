@@ -44,7 +44,9 @@ namespace NetWorkedData
             DevSync = -1;
             PreprodSync = -1;
             ProdSync = -1;
-        }
+            AccountRangeStart = 000;
+            AccountRangeEnd = 999;
+    }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {

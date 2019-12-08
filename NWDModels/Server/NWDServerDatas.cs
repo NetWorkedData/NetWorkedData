@@ -28,7 +28,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server Services")]
         public NWDReferenceType<NWDServerDomain> Server { get; set; }
+        [NWDEntitled("Account Range Start")]
+        [NWDIntSlider(0,999)]
+        public int AccountRangeStart { get; set; }
+        [NWDEntitled("Account Range Finish")]
+        [NWDIntSlider(0, 999)]
+        public int AccountRangeEnd { get; set; }
         [NWDInspectorGroupEnd]
+
         [NWDInspectorGroupStart("Authentification MySQL")]
         //[NWDEntitled("MySQL Port")]
         //public int MySQLPort { get; set; }

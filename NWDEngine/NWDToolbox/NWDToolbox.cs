@@ -541,7 +541,7 @@ namespace NetWorkedData
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString();
+            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + UnityEngine.Random.Range(000, 999).ToString("000") + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString();
 
             if (isTemporaryAccount)
             {
