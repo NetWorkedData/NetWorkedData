@@ -600,7 +600,8 @@ namespace NetWorkedData
         {
             StringBuilder rReturn = new StringBuilder();
             int tIndentCount = 0;
-            string[] tLines = sString.Split(new string[] { "\n", "\r" }, StringSplitOptions.None);
+            string tString = sString.Replace("\r\n", "\r"); // anti window bug
+            string[] tLines = tString.Split(new string[] { "\n", "\r" }, StringSplitOptions.None);
             foreach (string tLine in tLines)
             {
                 if (tLine.Contains("{"))
