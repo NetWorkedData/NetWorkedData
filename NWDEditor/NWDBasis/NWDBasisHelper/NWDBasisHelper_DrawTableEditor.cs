@@ -981,7 +981,7 @@ namespace NetWorkedData
             }
             if (TableActions == true)
             {
-                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 5;
+                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
             }
             rRect.height = tHeightAction + tHeightTable;
             rRect.y = sRect.height - rRect.height;
@@ -1585,6 +1585,15 @@ namespace NetWorkedData
                     SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                {
+                    if (Application.isPlaying == true && kAccountDependent == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
@@ -1629,6 +1638,15 @@ namespace NetWorkedData
                     SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                {
+                    if (Application.isPlaying == true && kAccountDependent == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
@@ -1671,6 +1689,15 @@ namespace NetWorkedData
                         EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                     }
                     SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                {
+                    if (Application.isPlaying == true && kAccountDependent == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();

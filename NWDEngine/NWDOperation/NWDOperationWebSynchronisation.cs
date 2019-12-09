@@ -39,6 +39,8 @@ namespace NetWorkedData
         Clean = 4,
 
         Pull = 5,
+
+        Indexes = 8,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDOperationWebSynchronisation : NWDOperationWebUnity
