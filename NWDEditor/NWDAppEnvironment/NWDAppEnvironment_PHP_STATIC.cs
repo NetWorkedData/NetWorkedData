@@ -539,8 +539,8 @@ namespace NetWorkedData
             else
             {
                 tFile.AppendLine("global $NWD_APP_NAM;");
-		        tFile.AppendLine("$headers = 'Reply-to: '.$sEmailFrom.''.\"\\n\";");
-		        tFile.AppendLine("$headers .= 'From: \"'.$NWD_APP_NAM.'\" <'.$sEmailFrom.'>'.\"\\n\";");
+                tFile.AppendLine("$headers = 'Reply-to: '.$sEmailFrom.''.\"\\n\";");
+                tFile.AppendLine("$headers .= 'From: \"'.$NWD_APP_NAM.'\" <'.$sEmailFrom.'>'.\"\\n\";");
                 tFile.AppendLine("$headers .= 'Return-path: '.$sEmailFrom.\"\\n\";");
                 tFile.AppendLine("$headers .= 'X-Mailer: PHP '.phpversion().\"\\n\";");
                 tFile.AppendLine("$headers .= 'X-Priority: 1 '.\"\\n\";");
@@ -720,6 +720,45 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("$tReference = referenceRandom();");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("return $tReference;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+            tFile.AppendLine("function referenceSecondRandom ($sPrefix)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
+            tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
+            tFile.AppendLine("return $sPrefix.'-'.str_pad(rand(000, 999), 3, '0').'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            tFile.AppendLine("function referenceSecondGenerate ($sPrefix, $sTable, $sColumn)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
+            tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
+            tFile.AppendLine("$tTested = false;");
+            tFile.AppendLine("while ($tTested == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
+            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            tFile.AppendLine("if (!$tResult)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResult->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tTested = true;");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tReference = referenceSecondRandom();");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
