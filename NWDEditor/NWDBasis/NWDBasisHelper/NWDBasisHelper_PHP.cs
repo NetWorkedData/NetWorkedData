@@ -24,8 +24,16 @@ using System.Text;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDBasisHelperTableEngine
+    {
+        InnoDB = 0,
+        MyISAM = 1,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
+        //-------------------------------------------------------------------------------------------------------------
+        NWDBasisHelperTableEngine TableEngine = NWDBasisHelperTableEngine.InnoDB;
         //-------------------------------------------------------------------------------------------------------------
         public string PHP_FUNCTION_CONSTANTS() { return ClassNamePHP + "Constants"; }
         public string PHP_FUNCTION_INTERGRITY_TEST() { return ClassNamePHP + "IntegrityTest"; }
@@ -52,6 +60,8 @@ namespace NetWorkedData
         public string PHP_FUNCTION_SYNCHRONIZE() { return ClassNamePHP + "Synchronize"; }
 
         public string PHP_FUNCTION_CREATE_TABLE() { return ClassNamePHP + "CreateTable"; }
+        public string PHP_FUNCTION_CREATE_INDEX() { return ClassNamePHP + "CreateIndex"; }
+        public string PHP_FUNCTION_CHANGE_TABLE_ENGINE() { return ClassNamePHP + "AlterTableEngine"; }
         public string PHP_FUNCTION_DEFRAGMENT_TABLE() { return ClassNamePHP + "DefragmentTable"; }
         public string PHP_FUNCTION_DROP_TABLE() { return ClassNamePHP + "DropTable"; }
         public string PHP_FUNCTION_FLUSH_TABLE() { return ClassNamePHP + "FlushTable"; }
@@ -284,7 +294,6 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("function " + PHP_FUNCTION_CREATE_TABLE() + "()");
             tFile.AppendLine("{");
-            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             var tQuery = "CREATE TABLE IF NOT EXISTS `" + PHP_TABLENAME(sEnvironment) + "` (";
             //var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
@@ -318,7 +327,7 @@ namespace NetWorkedData
                 }
             }
             tQuery += string.Join(",", PropertiesSQL.ToArray());
-            tQuery += ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+            tQuery += ") ENGINE="+ TableEngine.ToString()+" DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             tFile.AppendLine("$tQuery = '" + tQuery + "';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
@@ -412,6 +421,12 @@ namespace NetWorkedData
                     }
                 }
             }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("function " + PHP_FUNCTION_CREATE_INDEX() + "()");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
+
             //Dictionary<string, List<PropertyInfo>> tIndexesDico
             foreach (KeyValuePair<string, List<PropertyInfo>> tIndex in tIndexesDico)
             {
@@ -739,11 +754,25 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            tFile.AppendLine("function " + PHP_FUNCTION_CHANGE_TABLE_ENGINE() + " ()");
+            tFile.AppendLine("{");
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
+            tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ENGINE=" + TableEngine.ToString() + ";';");
+            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            tFile.AppendLine("if (!$tResult)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(sEnvironment, "$tQuery"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_XXx07, ClassNamePHP));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function " + PHP_FUNCTION_DEFRAGMENT_TABLE() + " ()");
             tFile.AppendLine("{");
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
-            tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ENGINE=InnoDB;';");
+            tFile.AppendLine("$tQuery = 'ALTER TABLE `" + PHP_TABLENAME(sEnvironment) + "` ENGINE=" + TableEngine.ToString() + ";';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -1684,6 +1713,18 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine("}");
 
+            //Indexes?
+            tOperation = NWDOperationSpecial.Indexes;
+            tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + tOperation.ToString().ToLower() + "']))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_MANAGEMENT_FILE + "');");
+            tFile.AppendLine("" + PHP_FUNCTION_CREATE_INDEX() + " ();");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "SPECIAL : INDEXES"));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+
             //Optimize?
             tOperation = NWDOperationSpecial.Optimize;
             tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + tOperation.ToString().ToLower() + "']))");
@@ -1692,6 +1733,8 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_MANAGEMENT_FILE + "');");
             tFile.AppendLine("" + PHP_FUNCTION_DEFRAGMENT_TABLE() + " ();");
+            tFile.AppendLine("" + PHP_FUNCTION_CHANGE_TABLE_ENGINE() + " ();");
+            tFile.AppendLine("" + PHP_FUNCTION_CREATE_INDEX() + " ();");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "SPECIAL : OPTIMIZE"));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
