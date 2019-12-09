@@ -52,6 +52,7 @@ namespace NetWorkedData
         public string PHP_FUNCTION_SYNCHRONIZE() { return ClassNamePHP + "Synchronize"; }
 
         public string PHP_FUNCTION_CREATE_TABLE() { return ClassNamePHP + "CreateTable"; }
+        public string PHP_FUNCTION_CREATE_INDEX() { return ClassNamePHP + "CreateIndex"; }
         public string PHP_FUNCTION_DEFRAGMENT_TABLE() { return ClassNamePHP + "DefragmentTable"; }
         public string PHP_FUNCTION_DROP_TABLE() { return ClassNamePHP + "DropTable"; }
         public string PHP_FUNCTION_FLUSH_TABLE() { return ClassNamePHP + "FlushTable"; }
@@ -174,7 +175,6 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("function " + PHP_FUNCTION_CREATE_TABLE() + "()");
             tFile.AppendLine("{");
-            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             var tQuery = "CREATE TABLE IF NOT EXISTS `" + PHP_TABLENAME(sEnvironment) + "` (";
             var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
@@ -255,6 +255,11 @@ namespace NetWorkedData
                     tFile.AppendLine("}");
                 }
             }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("function " + PHP_FUNCTION_CREATE_INDEX() + "()");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ", " + NWD.K_ENV + ";");
             var indexes = new Dictionary<string, SQLite4Unity3d.SQLiteConnection.IndexInfo>();
             foreach (var c in tTableMapping.Columns)
             {
@@ -1455,6 +1460,18 @@ namespace NetWorkedData
             tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_MANAGEMENT_FILE + "');");
             tFile.AppendLine("" + PHP_FUNCTION_DEFRAGMENT_TABLE() + " ();");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "SPECIAL : OPTIMIZE"));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+
+            //Indexes?
+            tOperation = NWDOperationSpecial.Indexes;
+            tFile.AppendLine("if (isset($sJsonDico['" + ClassNamePHP + "']['" + tOperation.ToString().ToLower() + "']))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + sEnvironment.Environment + "/" + NWD.K_DB + "/" + ClassNamePHP + "/" + NWD.K_MANAGEMENT_FILE + "');");
+            tFile.AppendLine("" + PHP_FUNCTION_CREATE_INDEX() + " ();");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "SPECIAL : INDEXES"));
             tFile.AppendLine("}");
             tFile.AppendLine("}");
 

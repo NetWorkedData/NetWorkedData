@@ -317,6 +317,7 @@ namespace NetWorkedData
             bool tOperationSpecial = false;
             bool tOperationUpgrade = false;
             bool tOperationOptimize = false;
+            bool tOperationIndexes = false;
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
             GUILayout.Label("Dev Database", NWDGUI.KTableSearchTitle);
@@ -363,6 +364,11 @@ namespace NetWorkedData
             if (GUILayout.Button("Optimize all", NWDGUI.KTableSearchButton))
             {
                 tOperationOptimize = true;
+                tEnvironment = tDevEnvironment;
+            }
+            if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
+            {
+                tOperationIndexes = true;
                 tEnvironment = tDevEnvironment;
             }
             NWDGUI.EndRedArea();
@@ -425,6 +431,11 @@ namespace NetWorkedData
                 tOperationOptimize = true;
                 tEnvironment = tPreprodEnvironment;
             }
+            if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
+            {
+                tOperationIndexes = true;
+                tEnvironment = tPreprodEnvironment;
+            }
             NWDGUI.EndRedArea();
             GUILayout.Label("Preprod Database", NWDGUI.KTableSearchTitle);
             GUILayout.Label(PreprodIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
@@ -485,6 +496,11 @@ namespace NetWorkedData
                 tOperationOptimize = true;
                 tEnvironment = tProdEnvironment;
             }
+            if (GUILayout.Button("Index all", NWDGUI.KTableSearchButton))
+            {
+                tOperationIndexes = true;
+                tEnvironment = tProdEnvironment;
+            }
             NWDGUI.EndRedArea();
             GUILayout.Label("Prod Database", NWDGUI.KTableSearchTitle);
             GUILayout.Label(ProdIcon, NWDGUI.KTableSearchIcon, GUILayout.Height(20));
@@ -536,6 +552,11 @@ namespace NetWorkedData
             if (tOperationOptimize == true)
             {
                 OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Optimize);
+                GUIUtility.ExitGUI();
+            }
+            if (tOperationIndexes == true)
+            {
+                OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Indexes);
                 GUIUtility.ExitGUI();
             }
             if (tOperationSpecial == true)
@@ -783,9 +804,10 @@ namespace NetWorkedData
                                            bool sPriority = false,
                                            NWDOperationSpecial sOperation = NWDOperationSpecial.None)
         {
-            //NWEBenchmark.Start();
+            Debug.Log("OperationSynchroAllClasses () with Operation " + sOperation.ToString());
+            //NWEBenchmark.Start(sOperation.ToString());
             OperationSynchro(sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, sForceSync, sPriority, sOperation);
-            //NWEBenchmark.Finish();       
+            //NWEBenchmark.Finish(sOperation.ToString());       
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OperationSynchro(NWDAppEnvironment sEnvironment,

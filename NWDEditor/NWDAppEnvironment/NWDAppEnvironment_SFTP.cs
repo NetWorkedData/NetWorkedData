@@ -75,9 +75,10 @@ namespace NetWorkedData
         {
             foreach (NWDServerAuthentication tConn in NWDServerServices.GetAllConfigurationServerSFTP(this))
             {
-                Debug.Log("tConn : " + tConn.Host + " " + tConn.Folder);
+                Debug.Log("tConn : " + tConn.Host + " to foler root : " + tConn.Folder);
                 tConn.SendFolderAndFiles(sFolders, sFilesAndDatas, sFolderRecurssive);
             }
+            NWDAppEnvironmentSync.SharedInstance().OperationSynchroAllClasses(this, false, true, NWDOperationSpecial.Upgrade);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
