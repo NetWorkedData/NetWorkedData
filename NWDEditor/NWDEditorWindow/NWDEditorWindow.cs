@@ -93,7 +93,7 @@ namespace NetWorkedData
                 GUILayout.EndHorizontal();
                 GUILayout.FlexibleSpace();
             }
-            if (EditorGUIUtility.isProSkin == true)
+           // if (EditorGUIUtility.isProSkin == true)
             {
                 float LogoSize = NWDGUI.kTitleStyle.fixedHeight;
                 GUI.Label(new Rect(position.width - LogoSize, 0, LogoSize, LogoSize), NWDGUI.kNetWorkedDataLogoContent);

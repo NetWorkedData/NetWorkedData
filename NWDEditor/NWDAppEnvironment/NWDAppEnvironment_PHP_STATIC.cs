@@ -1771,6 +1771,15 @@ namespace NetWorkedData
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
+            tFile.AppendLine("function respond_NewUser($sOldReference, $sNewReference)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global $REP;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
             tFile.AppendLine("function respond_ChangeUser($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP;");

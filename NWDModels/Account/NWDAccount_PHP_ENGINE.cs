@@ -355,6 +355,10 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
             tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("respond_NewUser($sOldUUID, $tNewUUID);");
+            tFile.AppendLine("}");
             tFile.AppendLine("respondUUID($tNewUUID);");
             tFile.AppendLine("NWDRequestTokenReset($tNewUUID);");
             tFile.AppendLine("$rReturn = true;");
