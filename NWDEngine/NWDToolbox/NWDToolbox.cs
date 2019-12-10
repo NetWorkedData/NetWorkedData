@@ -595,12 +595,17 @@ namespace NetWorkedData
             return NWESecurityTools.GenerateSha(sAdminKey + GenerateSALT(sFrequence), NWESecurityShaTypeEnum.Sha1);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string NewLineUnixFix(string sString)
+        {
+            return sString.Replace("\r\n", "\n"); // anti window bug
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        public static string CSharpFormat(string sString)
+            public static string CSharpFormat(string sString)
         {
             StringBuilder rReturn = new StringBuilder();
             int tIndentCount = 0;
-            string tString = sString.Replace("\r\n", "\r"); // anti window bug
+            string tString = NewLineUnixFix(sString);
             string[] tLines = tString.Split(new string[] { "\n", "\r" }, StringSplitOptions.None);
             foreach (string tLine in tLines)
             {
