@@ -108,6 +108,12 @@ namespace NetWorkedData
                 Email = EditorGUI.TextField(tMatrix[0, tI++], "Email", Email);
                 Login = EditorGUI.TextField(tMatrix[0, tI++], "Login", Login);
                 Password = EditorGUI.TextField(tMatrix[0, tI++], "Password", Password);
+
+                EditorGUI.LabelField(tMatrix[0, tI++], "futur SignHash l/p", GetSignLoginPasswordHash(Login, Password));
+                EditorGUI.LabelField(tMatrix[0, tI++], "futur SignHash e/p", GetSignEmailPasswordHash(Email, Password));
+                EditorGUI.LabelField(tMatrix[0, tI++], "futur RescueHash", GetRescueEmailHash(Email));
+                EditorGUI.LabelField(tMatrix[0, tI++], "futur LoginHash", GetLoginHash(Login));
+
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password));
                 if (GUI.Button(tMatrix[0, tI++], "Associate Email Password", NWDGUI.kMiniButtonStyle))
                 {
@@ -124,7 +130,7 @@ namespace NetWorkedData
                 if (GUI.Button(tMatrix[0, tI++], "Rescue by Email", NWDGUI.kMiniButtonStyle))
                 {
                     Debug.Log("email rescue hash = " + NWDAccountSign.GetRescueEmailHash(Email));
-                     NWDDataManager.SharedInstance().AddWebRequestRescue(Email);
+                    NWDDataManager.SharedInstance().AddWebRequestRescue(Email);
                 }
                 EditorGUI.EndDisabledGroup();
                 NWDGUI.Separator(tMatrix[0, tI++]);

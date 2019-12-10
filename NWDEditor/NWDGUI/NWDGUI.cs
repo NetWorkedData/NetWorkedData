@@ -101,7 +101,7 @@ namespace NetWorkedData
         public static GUIStyle kTitleStyle;
         static Texture2D kTitleTexture;
         static Color kTitleColor;
-        //-----------------------------------------------------------k-----------------k-------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kSectionStyle;
         static Texture2D kSectionTexture;
         static Color kSectionColor;
@@ -394,6 +394,7 @@ namespace NetWorkedData
                 KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
 
                 kRedElementColor = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+
                 kGreenElementColor = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
                 kYellowElementColor = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
                 kBlueElementColor = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
@@ -405,10 +406,22 @@ namespace NetWorkedData
                 kLineColor = new Color(0, 0, 0, 0.5F);
 
                 kTitleColor = new Color(0, 0, 0, 0.3F);
+                //kTitleColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.3F);
 
                 kSectionColor = new Color(0, 0, 0, 0.2F);
+                //kSectionColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.2F);
 
                 kSubSectionColor = new Color(0, 0, 0, 0.1F);
+                //kSubSectionColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.1F);
+
+                if (EditorGUIUtility.isProSkin == true)
+                {
+                    kRedElementColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 1.0F); // invert color from white to fusion over button
+
+                    kTitleColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.8F);
+                    kSectionColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.6F);
+                    kSubSectionColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.4F);
+                }
 
                 kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
                 kRowColorSelectedDark = new Color(0.55f, 0.55f, 1.00f, 0.75f);
@@ -491,7 +504,8 @@ namespace NetWorkedData
                 kTitleStyle.normal.background = kTitleTexture;
                 kTitleStyle.padding = new RectOffset(6, 2, 16, 2);
                 kTitleStyle.margin = new RectOffset(0, 0, 1, 1);
-                kTitleStyle.fixedHeight = kTitleStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+                //kTitleStyle.fixedHeight = kTitleStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+                kTitleStyle.fixedHeight = 48F;
                 kTitleStyle.richText = true;
                 //kTitleStyle.normal.textColor = Color.red;
 

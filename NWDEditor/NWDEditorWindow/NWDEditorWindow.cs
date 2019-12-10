@@ -22,7 +22,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
-        const int LogoSize = 48;
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
@@ -87,10 +86,18 @@ namespace NetWorkedData
             else
             {
                 GUILayout.FlexibleSpace();
-                EditorGUILayout.HelpBox("...compile in progress...", MessageType.Warning, true);
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.HelpBox("...compile in progress...", MessageType.Warning, false);
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
                 GUILayout.FlexibleSpace();
             }
-            GUI.Label(new Rect(position.width - LogoSize, 0, LogoSize, LogoSize), NWDGUI.kNetWorkedDataLogoContent);
+            if (EditorGUIUtility.isProSkin == true)
+            {
+                float LogoSize = NWDGUI.kTitleStyle.fixedHeight;
+                GUI.Label(new Rect(position.width - LogoSize, 0, LogoSize, LogoSize), NWDGUI.kNetWorkedDataLogoContent);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void OnPreventGUI()
