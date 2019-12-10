@@ -34,6 +34,8 @@ namespace NetWorkedData
     public partial class NWDAccount : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        const string ServerFakeAccount = "ACC-999-123456789-123456789" + K_ACCOUNT_TEMPORARY_SUFFIXE;
+        //-------------------------------------------------------------------------------------------------------------
         public static string PhpEngine(NWDAppEnvironment sEnvironment)
         {
             StringBuilder tFile = new StringBuilder();
@@ -185,8 +187,8 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if ($tResultSign->num_rows == 0)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount('454545T');");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need creat an account sign valid!"));
+            tFile.AppendLine("CreateAccount('" + ServerFakeAccount + "');");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need create an account sign valid!"));
             tFile.AppendLine("CreateAccountSign($uuid, $sSDKt, $sSDKv, $sSDKr, $sSDKl);");
             tFile.AppendLine("}");
             tFile.AppendLine("else if ($tResultSign->num_rows == 1)");
@@ -349,7 +351,14 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDBasisHelper.BasisHelper<NWDAccount>().PHP_FUNCTION_INTEGRITY_REEVALUATE() + "($tNewUUID);");
+            tFile.AppendLine("if ($sOldUUID !='" + ServerFakeAccount + "')");
+            tFile.AppendLine("{");
             tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("respond_NewUser($sOldUUID, $tNewUUID);");
+            tFile.AppendLine("}");
             tFile.AppendLine("respondUUID($tNewUUID);");
             tFile.AppendLine("NWDRequestTokenReset($tNewUUID);");
             tFile.AppendLine("$rReturn = true;");

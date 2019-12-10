@@ -55,7 +55,7 @@ namespace NetWorkedData
             else
             {
                 Application.OpenURL(NWDConstants.K_ALERT_IDEMOBI_DOC_HTTP);
-            };
+            }
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
