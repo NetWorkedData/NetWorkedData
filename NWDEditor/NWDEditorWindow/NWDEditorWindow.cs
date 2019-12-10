@@ -22,6 +22,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static List<NWDEditorWindow> AllWindowsList = new List<NWDEditorWindow>();
+        const int LogoSize = 48;
         //-------------------------------------------------------------------------------------------------------------
         public static void GenerateCSharpFile()
         {
@@ -78,6 +79,7 @@ namespace NetWorkedData
         public void OnGUI()
         {
             //Debug.Log("NWDEditorWindow OnGUI()");
+            NWDGUI.LoadStyles();
             if (Recompile == false || EditorApplication.isCompiling == false)
             {
                 OnPreventGUI();
@@ -88,6 +90,7 @@ namespace NetWorkedData
                 EditorGUILayout.HelpBox("...compile in progress...", MessageType.Warning, true);
                 GUILayout.FlexibleSpace();
             }
+            GUI.Label(new Rect(position.width - LogoSize, 0, LogoSize, LogoSize), NWDGUI.kNetWorkedDataLogoContent);
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void OnPreventGUI()

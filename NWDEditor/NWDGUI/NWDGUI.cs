@@ -71,6 +71,10 @@ namespace NetWorkedData
 
         public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
         public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditorTexture("NWDWindowLogo.psd");
+        public static GUIContent kNetWorkedDataLogoContent;
         //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element
         static Color kOldColor;
@@ -283,7 +287,7 @@ namespace NetWorkedData
         public static Rect AssemblyArea(Rect sA, Rect sB)
         {
             float tXo = Math.Min(sA.x, sB.x);
-            float tXf = Math.Max(sA.x+sA.width, sB.x+sB.width);
+            float tXf = Math.Max(sA.x + sA.width, sB.x + sB.width);
             float tYo = Math.Min(sA.y, sB.y);
             float tYf = Math.Max(sA.y + sA.height, sB.y + sB.height);
             return new Rect(tXo, tYo, tXf - tXo, tYf - tYo);
@@ -321,7 +325,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Rect[,] DiviseArea(Rect sRect, int sX, int sY, bool sAlreadyMarged = true)
         {
-            Rect[,] rReturn = new Rect[sX,sY];
+            Rect[,] rReturn = new Rect[sX, sY];
             if (sX < 1)
             {
                 sX = 1;
@@ -344,7 +348,7 @@ namespace NetWorkedData
                 {
                     for (int tJ = 0; tJ < sY; tJ++)
                     {
-                        rReturn[tI,tJ] = new Rect(sRect.x + tI * tWL, sRect.y + tJ * tHL, tWW, tHH);
+                        rReturn[tI, tJ] = new Rect(sRect.x + tI * tWL, sRect.y + tJ * tHL, tWW, tHH);
                     }
                 }
             }
@@ -362,7 +366,7 @@ namespace NetWorkedData
                 {
                     for (int tJ = 0; tJ < sY; tJ++)
                     {
-                        rReturn[tI,tJ] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y + kFieldMarge + tJ * tHL, tWW, tHH);
+                        rReturn[tI, tJ] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y + kFieldMarge + tJ * tHL, tWW, tHH);
                     }
                 }
             }
@@ -381,6 +385,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("LoadStyles()");
                 StyleLoaded = true;
+                kNetWorkedDataLogoContent = new GUIContent(kNetWorkedDataLogo);
 
                 // color force 
 
