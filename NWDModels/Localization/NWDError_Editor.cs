@@ -11,7 +11,6 @@
 //
 //=====================================================================================================================
 
-using UnityEditor;
 using UnityEngine;
 
 //=====================================================================================================================
@@ -26,7 +25,6 @@ namespace NetWorkedData
             NWDError tError = null;
             if (NWDBasisHelper.BasisHelper<NWDError>() != null)
             {
-                //NWEBenchmark.Start();
                 string tReference = NWDBasisHelper.BasisHelper<NWDError>().ClassTrigramme + "-" + sDomain + NWEConstants.K_MINUS + sCode;
                 // TODO: alert if reference is too long for ereg / or substring if too long
                 tError = NWDBasisHelper.GetRawDataByReference<NWDError>(tReference);
@@ -66,12 +64,9 @@ namespace NetWorkedData
 #endif
 
                     // reccord
-                    //tError.NotNullChecker();
                     tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
-                    //AddObjectInListOfEdition(tError);
                 }
             }
-            //NWEBenchmark.Finish();
             return tError;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -99,11 +94,9 @@ namespace NetWorkedData
             tY += NWDGUI.Separator(NWDGUI.MargeLeftRight(sRect)).height;
             if (GUI.Button(new Rect(tX, tY, tWidth, NWDGUI.kMiniButtonStyle.fixedHeight), "Test error", NWDGUI.kMiniButtonStyle))
             {
-                ShowAlert("TEST", delegate (NWDUserNotification sUserNotification)
-                {
+                ShowAlert("TEST", delegate (NWDUserNotification sUserNotification) {
                     Debug.Log("Completed! block is running!");
-                }
-                   );
+                });
             }
         }
         //-------------------------------------------------------------------------------------------------------------

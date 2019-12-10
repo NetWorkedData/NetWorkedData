@@ -436,7 +436,7 @@ namespace NetWorkedData
                                                         NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
                                                         tSign.Account.SetReference(ResultInfos.uuid);
                                                         tSign.RegisterDevice();
-                                                        NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.uuid /*, ResultInfos.signkey*/);
+                                                        NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
                                                     }
                                                 }
                                             }

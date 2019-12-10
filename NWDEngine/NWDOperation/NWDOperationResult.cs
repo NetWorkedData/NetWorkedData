@@ -30,6 +30,8 @@ namespace NetWorkedData
         public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
         public string uuid { get; private set; }
+        public string preview_user { get; private set; }
+        public string next_user { get; private set; }
         //public bool isSignIn { get; private set; }
         //public bool isSignOut { get; private set; }
         //public bool isRescue { get; private set; }
@@ -97,6 +99,14 @@ namespace NetWorkedData
             {
                 errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
             }
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_OLD_USER_KEY))
+            {
+                preview_user = sData[NWD.K_WEB_ACTION_OLD_USER_KEY] as string;
+            }
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_REPLACE_USER_KEY))
+            {
+                next_user = sData[NWD.K_WEB_ACTION_REPLACE_USER_KEY] as string;
+            }
             if (sData.ContainsKey(NWD.K_JSON_ERROR_KEY))
             {
                 isError = (bool)sData[NWD.K_JSON_ERROR_KEY];
@@ -153,6 +163,8 @@ namespace NetWorkedData
             isError = false;
             errorCode = string.Empty;
             token = string.Empty;
+            preview_user = string.Empty;
+            next_user = string.Empty;
             //isSignIn = false;
             //isSignOut = false;
             isNewUser = false;

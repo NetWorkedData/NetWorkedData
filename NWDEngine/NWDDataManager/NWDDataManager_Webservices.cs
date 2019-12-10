@@ -372,12 +372,12 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeAllDatasForUserToAnotherUser(NWDAppEnvironment sEnvironment, string sNewAccountReference /*, string sAnonymousResetPassword*/)
+        public void ChangeAllDatasForUserToAnotherUser(NWDAppEnvironment sEnvironment, string sOldAccountReference, string sNewAccountReference /*, string sAnonymousResetPassword*/)
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
             foreach (Type tType in mTypeList)
             {
-                NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sEnvironment.PlayerAccountReference, sNewAccountReference);
+                NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sOldAccountReference, sNewAccountReference);
             }
             sEnvironment.PlayerAccountReference = sNewAccountReference;
             SavePreferences(sEnvironment);
