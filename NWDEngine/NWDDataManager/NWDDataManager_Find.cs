@@ -194,7 +194,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncIndexAllObjects()
         {
-            DataAccountLoaded = false;
+            DataIndexed = false;
             while (DataAccountConnected == false)
             {
                 yield return null;
@@ -203,12 +203,12 @@ namespace NetWorkedData
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
             {
-                IndexAllObjectsByClass(ClassAccountDataLoaded);
+                IndexAllObjectsByClass(ClassIndexation);
                 ClassIndexation++;
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
                 yield return null;
             }
-            DataAccountLoaded = true;
+            DataIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
@@ -230,8 +230,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
-            int tRow = 0;
             NWEBenchmark.Start();
+            int tRow = 0;
+            DataIndexed = false;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
@@ -241,6 +242,7 @@ namespace NetWorkedData
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }
+            DataIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             NWEBenchmark.Finish();
             Debug.Log("row indexed : "+ tRow + " rows.");

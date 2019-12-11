@@ -34,10 +34,10 @@ namespace NetWorkedData
         public void GenerateBasisError()
         {
             //Debug.Log("<color=red>NWDErrorHelper GenerateBasisError()</color>");
-            if (DatabaseIsLoaded())
+            if (AllDatabaseIsLoaded())
             {
             }
-            if (DatasAreLoaded() == true)
+            if (IsLoaded() == true)
             {
                 //Debug.Log("<color=green>NWDErrorHelper GenerateBasisError() OK DATA ARE LOADING</color>");
                 NWDError.NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);

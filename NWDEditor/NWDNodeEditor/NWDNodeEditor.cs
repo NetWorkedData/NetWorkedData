@@ -109,7 +109,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (sSelection != null)
             {
-                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
                 {
                     kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
                     kNodeEditorSharedInstance.Show();
@@ -198,7 +198,7 @@ namespace NetWorkedData
         public void SetSelection(NWDTypeClass sSelection)
         {
             //NWEBenchmark.Start();
-            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
             {
                 Document.EditorWindow = this;
                 Document.SetData(sSelection);

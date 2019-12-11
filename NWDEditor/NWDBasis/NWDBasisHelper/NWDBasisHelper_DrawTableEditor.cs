@@ -1989,7 +1989,7 @@ namespace NetWorkedData
         public void DrawTableEditor(EditorWindow sEditorWindow)
         {
             //NWEBenchmark.Start();
-            bool rLoaded = DatabaseIsLoaded();
+            bool rLoaded = AllDatabaseIsLoaded();
 
             EditorGUI.BeginDisabledGroup(!rLoaded);
 

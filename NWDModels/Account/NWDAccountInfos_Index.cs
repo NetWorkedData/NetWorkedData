@@ -44,18 +44,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountInfos FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
-            NWDAccountInfos rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
-            if (rReturn == null && sOrCreate == true)
+            NWDAccountInfos rReturn = null;
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDAccountInfos));
+            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = NWDBasisHelper.NewData<NWDAccountInfos>();
-                
-                #if UNITY_EDITOR
-                rReturn.InternalKey = sAccountReference;
-                #endif
+                rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
+                if (rReturn == null && sOrCreate == true)
+                {
+                    rReturn = NWDBasisHelper.NewData<NWDAccountInfos>();
 
-                rReturn.Account.SetReference(sAccountReference);
-                rReturn.Tag = NWDBasisTag.TagUserCreated;
-                rReturn.UpdateData();
+#if UNITY_EDITOR
+                    rReturn.InternalKey = sAccountReference;
+#endif
+
+                    rReturn.Account.SetReference(sAccountReference);
+                    rReturn.Tag = NWDBasisTag.TagUserCreated;
+                    rReturn.UpdateData();
+                }
             }
             return rReturn;
         }

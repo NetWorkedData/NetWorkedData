@@ -44,13 +44,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountNickname FindFirstDataByAccount(string sAccountReference, bool sOrCreate = true)
         {
-            NWDAccountNickname rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
-            if (rReturn == null && sOrCreate == true)
+            NWDAccountNickname rReturn = null;
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDAccountNickname));
+            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = NWDBasisHelper.NewData<NWDAccountNickname>();
-                rReturn.Account.SetReference(sAccountReference);
-                rReturn.Tag = NWDBasisTag.TagUserCreated;
-                rReturn.UpdateData();
+                rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
+                if (rReturn == null && sOrCreate == true)
+                {
+                    rReturn = NWDBasisHelper.NewData<NWDAccountNickname>();
+                    rReturn.Account.SetReference(sAccountReference);
+                    rReturn.Tag = NWDBasisTag.TagUserCreated;
+                    rReturn.UpdateData();
+                }
             }
             return rReturn;
         }
@@ -59,8 +64,8 @@ namespace NetWorkedData
         {
             return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
         }
-            //-------------------------------------------------------------------------------------------------------------
-        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

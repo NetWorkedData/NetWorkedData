@@ -43,12 +43,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserAvatar CurrentData(bool sOrCreate = true)
         {
-            NWDUserAvatar rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
-            if (rReturn == null && sOrCreate == true)
+            //NWDUserAvatar rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+            //if (rReturn == null && sOrCreate == true)
+            //{
+            //    rReturn = NWDBasisHelper.NewData<NWDUserAvatar>();
+            //    rReturn.GameSave.SetData(NWDGameSave.CurrentData());
+            //    rReturn.UpdateData();
+            //}
+            //return rReturn;
+
+            NWDUserAvatar rReturn = null;
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserAvatar));
+            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = NWDBasisHelper.NewData<NWDUserAvatar>();
-                rReturn.GameSave.SetData(NWDGameSave.CurrentData());
-                rReturn.UpdateData();
+                rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+                if (rReturn == null && sOrCreate == true)
+                {
+                    rReturn = NWDBasisHelper.NewData<NWDUserAvatar>();
+                    rReturn.GameSave.SetData(NWDGameSave.CurrentData());
+                    rReturn.UpdateData();
+                }
             }
             return rReturn;
         }

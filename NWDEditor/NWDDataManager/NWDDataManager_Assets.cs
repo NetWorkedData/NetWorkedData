@@ -28,21 +28,6 @@ namespace NetWorkedData
 	public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
-        private void LoadAllDatas()
-        {
-            foreach (Type tType in mTypeLoadedList)
-            {
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                if (tHelper.kAssetDependent == true)
-                {
-                    if (tHelper.DatasAreLoaded() == false)
-                    {
-                        tHelper.LoadFromDatabase();
-                    }
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void ChangeAssetPath (string sOldPath, string sNewPath)
         {
             //NWEBenchmark.Start();
@@ -51,8 +36,18 @@ namespace NetWorkedData
 			float tCountClass = mTypeList.Count + 2;
 			float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Load all datas", tOperation++ / tCountClass);
-            LoadAllDatas();
-			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation++/tCountClass);
+            foreach (Type tType in mTypeLoadedList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                if (tHelper.kAssetDependent == true)
+                {
+                    if (tHelper.IsLoaded() == false)
+                    {
+                        tHelper.LoadFromDatabase();
+                    }
+                }
+            }
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare", tOperation++/tCountClass);
 			foreach( Type tType in mTypeList)
 			{
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation++/tCountClass);

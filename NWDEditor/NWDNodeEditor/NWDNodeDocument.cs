@@ -539,7 +539,7 @@ namespace NetWorkedData
         public void SetData(NWDTypeClass sObject, bool tReset = true)
         {
             //NWEBenchmark.Start();
-            if (NWDBasisHelper.FindTypeInfos(sObject.GetType()).DatabaseIsLoaded())
+            if (NWDBasisHelper.FindTypeInfos(sObject.GetType()).AllDatabaseIsLoaded())
             {
                 if (tReset == true)
                 {

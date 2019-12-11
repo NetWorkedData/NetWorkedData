@@ -58,7 +58,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(NWDTypeClass sData)
         {
-            if (NWDBasisHelper.FindTypeInfos(sData.GetType()).DatabaseIsLoaded())
+            if (NWDBasisHelper.FindTypeInfos(sData.GetType()).AllDatabaseIsLoaded())
             {
                 DataObject = sData;
             }

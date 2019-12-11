@@ -47,6 +47,8 @@ namespace NetWorkedData
         public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
         public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
         //-------------------------------------------------------------------------------------------------------------
+        public bool DataIndexed = false;
+        //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguage = "en";
         public bool IsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------

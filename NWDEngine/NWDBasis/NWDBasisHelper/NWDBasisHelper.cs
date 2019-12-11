@@ -36,15 +36,38 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         bool DatasLoaded = false;
+        bool DataIndexed = false;
         double Sizer; // the max size of instance
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAll()
         {
+            DataIndexed = false;
+            int tRow = 0;
+            Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll()");
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.Index();
+                    tRow++;
             }
+            DataIndexed = true;
+            Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsIndexed()
+        {
+            return DataIndexed;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsLoaded()
+        {
+            return DatasLoaded;
+        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool DatasAreLoaded()
+        //{
+        //    return DatasLoaded;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void RepaintTableEditor()
@@ -867,6 +890,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
+            DatasLoaded = false;
             //Debug.Log("ResetDatas()");
             //NWEBenchmark.Start();
             // all datas prepare handler
@@ -895,23 +919,25 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatabaseIsLoaded()
+        public bool AllDatabaseIsIndexed()
         {
-            bool rLoaded = true;
-            if (kAccountDependent == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
-            {
-                rLoaded = false;
-            }
-            else if (kAccountDependent == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
-            {
-                rLoaded = false;
-            }
-            return rLoaded;
+            return NWDDataManager.SharedInstance().DataIndexed;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatasAreLoaded()
+        public bool AllDatabaseIsLoaded()
         {
-            return DatasLoaded;
+            return (NWDDataManager.SharedInstance().DataAccountLoaded == true && NWDDataManager.SharedInstance().DataEditorLoaded == true);
+
+            //bool rLoaded = true;
+            //if (kAccountDependent == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
+            //{
+            //    rLoaded = false;
+            //}
+            //else if (kAccountDependent == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            //{
+            //    rLoaded = false;
+            //}
+            //return rLoaded;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()

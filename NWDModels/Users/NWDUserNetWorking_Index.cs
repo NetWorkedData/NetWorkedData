@@ -43,12 +43,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserNetWorking CurrentData(bool sOrCreate = true)
         {
-            NWDUserNetWorking rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
-            if (rReturn == null && sOrCreate == true)
+            NWDUserNetWorking rReturn = null;
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserNetWorking));
+            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = NWDBasisHelper.NewData<NWDUserNetWorking>();
-                rReturn.GameSave.SetData(NWDGameSave.CurrentData());
-                rReturn.UpdateData();
+                 rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+                if (rReturn == null && sOrCreate == true)
+                {
+                    rReturn = NWDBasisHelper.NewData<NWDUserNetWorking>();
+                    rReturn.GameSave.SetData(NWDGameSave.CurrentData());
+                    rReturn.UpdateData();
+                }
             }
             return rReturn;
         }
