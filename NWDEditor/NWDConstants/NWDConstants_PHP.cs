@@ -51,8 +51,8 @@ namespace NetWorkedData
         public const string K_WEB_ACTION_RESTART_WEBSERVICE_KEY = "restartWebservice";
         public const string K_WEB_ACTION_USER_TRANSFERT_KEY = "usertransfert"; // used
         public const string K_WEB_ACTION_NEW_USER_KEY = "newuser";
-        public const string K_WEB_ACTION_OLD_USER_KEY = "preview_user";
-        public const string K_WEB_ACTION_REPLACE_USER_KEY = "next_user";
+        public const string K_WEB_ACTION_PREVIEW_USER_KEY = "preview_user";
+        public const string K_WEB_ACTION_NEXT_USER_KEY = "next_user";
         public const string K_WEB_EREG_ACTION = "'/^("+K_WEB_ACTION_SIGNIN_KEY+"|"+K_WEB_ACTION_SIGNOUT_KEY+"|"+K_WEB_ACTION_RESCUE_KEY+"|"+K_WEB_ACTION_SIGNUP_KEY+")$/'";
         public const string K_WEB_EREG_SDKI = "'/^(.{1,64})$/'";
         public const string K_WEB_EREG_SDKT = "'/^(.{1,32})$/'";

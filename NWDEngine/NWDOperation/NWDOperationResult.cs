@@ -99,13 +99,13 @@ namespace NetWorkedData
             {
                 errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
             }
-            if (sData.ContainsKey(NWD.K_WEB_ACTION_OLD_USER_KEY))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_PREVIEW_USER_KEY))
             {
-                preview_user = sData[NWD.K_WEB_ACTION_OLD_USER_KEY] as string;
+                preview_user = sData[NWD.K_WEB_ACTION_PREVIEW_USER_KEY] as string;
             }
-            if (sData.ContainsKey(NWD.K_WEB_ACTION_REPLACE_USER_KEY))
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_NEXT_USER_KEY))
             {
-                next_user = sData[NWD.K_WEB_ACTION_REPLACE_USER_KEY] as string;
+                next_user = sData[NWD.K_WEB_ACTION_NEXT_USER_KEY] as string;
             }
             if (sData.ContainsKey(NWD.K_JSON_ERROR_KEY))
             {
