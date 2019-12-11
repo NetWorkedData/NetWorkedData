@@ -112,20 +112,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterSocialNetwork(string sSocialID, NWDAccountSignType sSocialType)
         {
-            SignType = sSocialType;
-            SignHash = GetSignSocialHash(sSocialID);
-            RescueHash = string.Empty;
-            LoginHash = string.Empty;
-#if UNITY_EDITOR
-            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-            if (tAccount != null)
+            if (string.IsNullOrEmpty(sSocialID))
             {
-                InternalKey = tAccount.InternalKey;
+                // Not possible
             }
-            InternalDescription = "" + sSocialType + " ID : " + SignHash;
+            else
+            {
+                SignType = sSocialType;
+                SignHash = GetSignSocialHash(sSocialID);
+                RescueHash = string.Empty;
+                LoginHash = string.Empty;
+#if UNITY_EDITOR
+                InternalKey = "SignUp Assosiate";
+                InternalDescription = "" + sSocialType + " ID : " + SignHash;
 #endif
-            Tag = NWDBasisTag.TagUserCreated;
-            Register();
+                Tag = NWDBasisTag.TagUserCreated;
+                Register();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RegisterLoginPasswordEmail(string sLogin, string sPassword, string sEmail)
@@ -141,11 +144,7 @@ namespace NetWorkedData
                 RescueHash = GetRescueEmailHash(sEmail);
                 LoginHash = GetLoginHash(sLogin);
 #if UNITY_EDITOR
-                NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-                if (tAccount != null)
-                {
-                    InternalKey = tAccount.InternalKey;
-                }
+                InternalKey = "SignUp Assosiate";
                 InternalDescription = "Login Password Email : " + sLogin + "/" + sPassword + " / " + sEmail;
 #endif
                 Tag = NWDBasisTag.TagUserCreated;
@@ -166,11 +165,7 @@ namespace NetWorkedData
                 RescueHash = GetRescueEmailHash(sEmail);
                 LoginHash = string.Empty;
 #if UNITY_EDITOR
-                NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-                if (tAccount != null)
-                {
-                    InternalKey = tAccount.InternalKey;
-                }
+                InternalKey = "SignUp Assosiate";
                 InternalDescription = "Email / Password: " + sEmail + " / " + sPassword;
 #endif
                 Tag = NWDBasisTag.TagUserCreated;
