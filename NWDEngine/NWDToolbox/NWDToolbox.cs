@@ -138,11 +138,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Color Color255(int sR, int sG, int sB, int sA)
         {
-            float tR = (float)Math.Max(Mathf.Min(sR, 255), 0) / 255F;
-            float tG = (float)Math.Max(Mathf.Min(sG, 255), 0) / 255F;
-            float tB = (float)Math.Max(Mathf.Min(sB, 255), 0) / 255F;
-            float tA = (float)Math.Max(Mathf.Min(sA, 255), 0) / 255F;
-            Color rResult = new Color(tR, tG, sB, sA);
+            float tR = (float)Mathf.Max(Mathf.Min((float)sR, 255), 0) / 255F;
+            float tG = (float)Mathf.Max(Mathf.Min((float)sG, 255), 0) / 255F;
+            float tB = (float)Mathf.Max(Mathf.Min((float)sB, 255), 0) / 255F;
+            float tA = (float)Mathf.Max(Mathf.Min((float)sA, 255), 0) / 255F;
+            Color rResult = new Color(tR, tG, tB, tA);
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -164,6 +164,17 @@ namespace NetWorkedData
             Mathf.Max(sColor.b * tPercent, 1F),
             tAlpha
         );
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorPercent(Color sColor, float sPercentR, float sPercentG, float sPercentB)
+        {
+
+            float tR = (float)Mathf.Max(Mathf.Min(sColor.r * sPercentR, 1F), 0F);
+            float tG = (float)Mathf.Max(Mathf.Min(sColor.g * sPercentG, 1F), 0F);
+            float tB = (float)Mathf.Max(Mathf.Min(sColor.b * sPercentB, 1F), 0F);
+            float tA = (float)Mathf.Max(Mathf.Min(sColor.a, 1F), 0F);
+            Color rResult = new Color(tR, tG, tB, tA);
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------

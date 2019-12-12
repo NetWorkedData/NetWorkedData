@@ -19,6 +19,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 //using BasicToolBox;
 using NWEMiniJSON;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -449,7 +450,7 @@ namespace NetWorkedData
 
                                             // Notification of a Download success
                                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
-                                            
+
                                             // Request Success, send Invoke
                                             SuccessInvoke(Request.downloadProgress, ResultInfos);
                                         }
@@ -480,9 +481,9 @@ namespace NetWorkedData
                 {
                     if (ResultInfos.errorDesc != null)
                     {
-                        #if UNITY_EDITOR
+#if UNITY_EDITOR
                         //EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title + "\n" + ResultInfos.errorDesc.Description, "OK");
-                        #endif
+#endif
 
                         if (ResultInfos.errorInfos != null)
                         {
@@ -502,9 +503,9 @@ namespace NetWorkedData
                 Finish();
             }
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
-            #endif
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()
@@ -729,7 +730,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderTotal(string sData)
         {
-#if UNITY_EDITOR
             string tDebugRequestHeader = string.Empty;
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
@@ -740,13 +740,18 @@ namespace NetWorkedData
             {
                 tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
+            string tFileDebug = "NWDOperationWebUnity UPLOAD VS DOWNLOADED \n" +
                          "-------------------\n" +
                          "<b>Request URl :</b> " + Request.url + "\n" +
                          "-------------------\n" +
                          "<b>Headers UPLOAD :</b> \n" +
                          "-------------------\n" +
                          tDebugRequestHeader + "\n" +
+                         "-------------------\n" +
+                         "<b>Datas UPLOAD : </b> \n" +
+                         "-------------------\n" +
+                         Json.Serialize(Data) + "\n" +
+                         "-------------------\n\n\n" +
                          "-------------------\n" +
                          "<b>Headers DOWNLOAD :</b> \n" +
                          "-------------------\n" +
@@ -755,14 +760,24 @@ namespace NetWorkedData
                          "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +
                          sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n"
-            );
+                         "-------------------\n";
+            if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogInFileMode == true)
+            {
+                tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
+                tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
+                string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
+                File.WriteAllText(tPath, tFileDebug);
+#if UNITY_EDITOR
+                EditorUtility.RevealInFinder(tPath);
+#endif
+            }
+#if UNITY_EDITOR
+            NWDDebug.Log(tFileDebug);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderTotalDecoded(string sData)
         {
-#if UNITY_EDITOR
             string tDebugRequestHeader = string.Empty;
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
@@ -773,7 +788,7 @@ namespace NetWorkedData
             {
                 tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED DECODED \n" +
+            string tFileDebug = "NWDOperationWebUnity UPLOAD VS DOWNLOADED DECODED \n" +
                          "-------------------\n" +
                          "<b>Request URl : </b> " + Request.url + "\n" +
                          "-------------------\n" +
@@ -783,7 +798,7 @@ namespace NetWorkedData
                          "-------------------\n" +
                          "<b>Datas UPLOAD : </b> \n" +
                          "-------------------\n" +
-                         Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
+                         Json.Serialize(Data) + "\n" +
                          "-------------------\n\n\n" +
                          "-------------------\n" +
                          "<b>Headers DOWNLOAD : </b> \n" +
@@ -793,8 +808,19 @@ namespace NetWorkedData
                          "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +
                          sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n"
-            );
+                         "-------------------\n";
+            if (NWDAppConfiguration.SharedInstance().SelectedEnvironment().LogInFileMode == true)
+            {
+                tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
+                tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
+                string tPath = Application.persistentDataPath + "/WEBLOG-secure-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
+                File.WriteAllText(tPath, tFileDebug);
+#if UNITY_EDITOR
+                EditorUtility.RevealInFinder(tPath);
+#endif
+            }
+#if UNITY_EDITOR
+            NWDDebug.Log(tFileDebug);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

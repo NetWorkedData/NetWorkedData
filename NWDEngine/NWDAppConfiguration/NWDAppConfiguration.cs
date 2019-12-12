@@ -86,6 +86,7 @@ namespace NetWorkedData
 
         public bool EditorTableCommun = true; //TODO param in config editor extension...
         public bool ShowCompile = true; //TODO param in config editor extension...
+        public Color TintColor;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
@@ -109,6 +110,11 @@ namespace NetWorkedData
             Install();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void ResetTintColor()
+        {
+            TintColor = NWDToolbox.Color255(25, 20, 34, 255);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void Install()
         {
             DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
@@ -120,7 +126,7 @@ namespace NetWorkedData
             AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
             AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
             AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-
+            ResetTintColor();
             // REMOVED : Change to remove invoke!
             Type tType = this.GetType();
             //var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
