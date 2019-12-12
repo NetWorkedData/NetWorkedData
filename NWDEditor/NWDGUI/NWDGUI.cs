@@ -414,14 +414,6 @@ namespace NetWorkedData
                 kSubSectionColor = new Color(0, 0, 0, 0.1F);
                 //kSubSectionColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.1F);
 
-                if (EditorGUIUtility.isProSkin == true)
-                {
-                    kRedElementColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 1.0F); // invert color from white to fusion over button
-
-                    kTitleColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.8F);
-                    kSectionColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.6F);
-                    kSubSectionColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.4F);
-                }
 
                 kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
                 kRowColorSelectedDark = new Color(0.55f, 0.55f, 1.00f, 0.75f);
@@ -436,11 +428,6 @@ namespace NetWorkedData
                 kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
                 kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
 
-
-                //kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-
-                //kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-
                 kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
                 kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
 
@@ -448,6 +435,29 @@ namespace NetWorkedData
 
                 kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
                 kNodeOverLineColor = new Color(0.50F, 0.50F, 0.50F, 0.70F);
+
+                // Inspector 
+
+                kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
+                kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
+
+                if (EditorGUIUtility.isProSkin)
+                {
+                    kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                    kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+
+
+                    kRedElementColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 1.0F); // invert color from white to fusion over button
+                    kTitleColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.8F);
+                    kSectionColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.6F);
+                    kSubSectionColor = new Color(28 / 255F, 20 / 255F, 34 / 255F, 0.4F);
+                }
+
+
+                //kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+
+                //kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+
 
                 // texture apply
 
@@ -605,14 +615,14 @@ namespace NetWorkedData
 
                 // Inspector 
 
-                kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
-                kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
+                //kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
+                //kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
 
-                if (EditorGUIUtility.isProSkin)
-                {
-                    kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
-                    kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
-                }
+                //if (EditorGUIUtility.isProSkin)
+                //{
+                //    kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                //    kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+                //}
 
                 kInspectorInternalTitle = new GUIStyle(EditorStyles.boldLabel);
                 kInspectorInternalTitle.alignment = TextAnchor.MiddleCenter;
