@@ -133,7 +133,7 @@ namespace NetWorkedData
         {
             string rReturn = ServerHTTPS;
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
-            if (tAccountInfos.Server != null)
+            if (tAccountInfos != null)
             {
                 NWDServerDomain tServer = tAccountInfos.Server.GetReachableData();
                 if (tServer != null)
@@ -141,14 +141,12 @@ namespace NetWorkedData
                     rReturn = tServer.ServerDNS;
                 }
             }
-            rReturn = NWDToolbox.CleanDNS(rReturn);
-            return "https://" + rReturn;
+            return "https://" + NWDToolbox.CleanDNS(rReturn);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetConfigurationServerHTTPS()
         {
-            string rReturn = NWDToolbox.CleanDNS(ServerHTTPS);
-            return "https://" + rReturn;
+            return "https://" + NWDToolbox.CleanDNS(ServerHTTPS);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
