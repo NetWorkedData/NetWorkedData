@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 
 using NetWorkedData;
 
-namespace Tests
+namespace NWDPlayModeSyncTests
 {
     public class NWDSyncData
 	{

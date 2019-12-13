@@ -187,7 +187,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if ($tResultSign->num_rows == 0)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount('" + ServerFakeAccount + "');");
+            tFile.AppendLine("CreateAccount('" + ServerFakeAccount + "', $sSDKt, $sSDKv, $sSDKr, $sSDKl);");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "Need create an account sign valid!"));
             tFile.AppendLine("CreateAccountSign($uuid, $sSDKt, $sSDKv, $sSDKr, $sSDKl);");
             tFile.AppendLine("}");
@@ -223,7 +223,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (TestCreateAccount($sReference) == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount($tReference);");
+            tFile.AppendLine("CreateAccount($tReference, " + NWDAccountSignType.DeviceID.ToLong() + ", $sSDKI, '-', '-');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -247,7 +247,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if ($sCanCreate == true)");
             tFile.AppendLine("{");
-            tFile.AppendLine("CreateAccount($tReference);");
+            tFile.AppendLine("CreateAccount($tReference, " + NWDAccountSignType.DeviceID.ToLong() + ", $sSDKI, '-', '-');");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -286,7 +286,7 @@ namespace NetWorkedData
             tFile.AppendLine(NWD.K_CommentSeparator);
 
 
-            tFile.AppendLine("function CreateAccount($sOldUUID)");
+            tFile.AppendLine("function CreateAccount($sOldUUID, $sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
             //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("$rReturn = false;");
@@ -354,6 +354,8 @@ namespace NetWorkedData
             tFile.AppendLine("if ($sOldUUID !='" + ServerFakeAccount + "')");
             tFile.AppendLine("{");
             tFile.AppendLine("respond_UserTransfert($sOldUUID, $tNewUUID);");
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "sSDKv : '.$sSDKv.' NO Row"));
+            tFile.AppendLine("CreateAccountSign($tNewUUID, $sSDKt, $sSDKv, $sSDKr, $sSDKl);");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");

@@ -46,7 +46,7 @@ namespace NetWorkedData
         static bool LogInFileMode = false;
         //-------------------------------------------------------------------------------------------------------------
         static bool OverrideLogMode = true;
-        static bool OverrideLogInFileMode = false;
+        static bool OverrideLogInFileMode = true;
         //-------------------------------------------------------------------------------------------------------------
         public static NWEOperationBlock kSuccess;
         public static NWEOperationBlock kFailBlock;
