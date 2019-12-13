@@ -12,21 +12,9 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
-using NetWorkedData;
 using UnityEngine;
-
-using SQLite4Unity3d;
-//using BasicToolBox;
-
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using NetWorkedData;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -46,7 +34,7 @@ namespace NetWorkedData
         static bool LogInFileMode = false;
         //-------------------------------------------------------------------------------------------------------------
         static bool OverrideLogMode = true;
-        static bool OverrideLogInFileMode = true;
+        static bool OverrideLogInFileMode = false;
         //-------------------------------------------------------------------------------------------------------------
         public static NWEOperationBlock kSuccess;
         public static NWEOperationBlock kFailBlock;
