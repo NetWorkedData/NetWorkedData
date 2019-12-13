@@ -104,6 +104,7 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + LogMode.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogInFileMode) + " = " + LogInFileMode.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPBalanceLoad) + " = " + SFTPBalanceLoad.ToString() + ";");
             //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + " = new Dictionary<long, string>();");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");

@@ -63,7 +63,8 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Server Params for " + Environment);
             ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             AllwaysSecureData = EditorGUILayout.Toggle("Allways Secure Data", AllwaysSecureData);
-            LogMode = EditorGUILayout.Toggle("LogMode", LogMode);
+            LogMode = EditorGUILayout.Toggle("Log Mode", LogMode);
+            LogInFileMode = EditorGUILayout.Toggle("Log in File Mode", LogInFileMode);
             EditorGUI.BeginDisabledGroup(true);
             ServerLanguage = (NWDServerLanguage)EditorGUILayout.EnumPopup("Server Language", ServerLanguage);
             EditorGUI.EndDisabledGroup();

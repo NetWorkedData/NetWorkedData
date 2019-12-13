@@ -11,8 +11,6 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,8 +18,6 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
-//using BasicToolBox;
 
 using UnityEngine;
 using System.Text;
@@ -131,10 +127,65 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Color MixColor(Color sColorA, Color sColorB)
         {
-            Color rResult = new Color(sColorA.r + sColorB.r * sColorB.a,
-             sColorA.g + sColorB.g * sColorB.a,
-                 sColorA.b + sColorB.b * sColorB.a,
-              sColorA.a);
+            Color rResult = new Color(
+                Mathf.Max(sColorA.r + sColorB.r * sColorB.a, 1F),
+                Mathf.Max(sColorA.g + sColorB.g * sColorB.a, 1F),
+                Mathf.Max(sColorA.b + sColorB.b * sColorB.a, 1F),
+                sColorA.a
+            );
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color Color255(int sR, int sG, int sB, int sA)
+        {
+            float tR = (float)Mathf.Max(Mathf.Min((float)sR, 255), 0) / 255F;
+            float tG = (float)Mathf.Max(Mathf.Min((float)sG, 255), 0) / 255F;
+            float tB = (float)Mathf.Max(Mathf.Min((float)sB, 255), 0) / 255F;
+            float tA = (float)Mathf.Max(Mathf.Min((float)sA, 255), 0) / 255F;
+            Color rResult = new Color(tR, tG, tB, tA);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorWithAlpha(Color sColor, float sAlpha)
+        {
+            sAlpha = Mathf.Max(sAlpha, 0F);
+            sAlpha = Mathf.Min(sAlpha, 1F);
+            Color rResult = new Color(sColor.r, sColor.g, sColor.b, sAlpha);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorPastelAlpha(Color sColor, float sPercent, float sAlpha)
+        {
+            float tPercent = Mathf.Abs(sPercent);
+            float tAlpha = Mathf.Max(Mathf.Min(sAlpha, 1F), 0F);
+            Color rResult = new Color(
+            Mathf.Max(sColor.r * tPercent, 1F),
+            Mathf.Max(sColor.g * tPercent, 1F),
+            Mathf.Max(sColor.b * tPercent, 1F),
+            tAlpha
+        );
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorPercent(Color sColor, float sPercentR, float sPercentG, float sPercentB)
+        {
+
+            float tR = (float)Mathf.Max(Mathf.Min(sColor.r * sPercentR, 1F), 0F);
+            float tG = (float)Mathf.Max(Mathf.Min(sColor.g * sPercentG, 1F), 0F);
+            float tB = (float)Mathf.Max(Mathf.Min(sColor.b * sPercentB, 1F), 0F);
+            float tA = (float)Mathf.Max(Mathf.Min(sColor.a, 1F), 0F);
+            Color rResult = new Color(tR, tG, tB, tA);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorInverse(Color sColor)
+        {
+            Color rResult = new Color(
+            1F - sColor.r,
+            1F - sColor.g,
+            1F - sColor.b,
+            sColor.a
+        );
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -601,7 +652,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-            public static string CSharpFormat(string sString)
+        public static string CSharpFormat(string sString)
         {
             StringBuilder rReturn = new StringBuilder();
             int tIndentCount = 0;

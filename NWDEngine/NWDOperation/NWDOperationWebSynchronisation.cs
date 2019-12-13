@@ -137,12 +137,15 @@ namespace NetWorkedData
                 rReturn.Special = sSpecial;
                 rReturn.SecureData = sEnvironment.AllwaysSecureData;
                 // TODO : Mettre dans le helper!!!!
-                foreach (Type tType in sTypeList)
+                if (sTypeList != null)
                 {
-                    if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                    foreach (Type tType in sTypeList)
                     {
-                        rReturn.SecureData = true;
-                        break;
+                        if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                        {
+                            rReturn.SecureData = true;
+                            break;
+                        }
                     }
                 }
                 rReturn.InitBlock(sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);

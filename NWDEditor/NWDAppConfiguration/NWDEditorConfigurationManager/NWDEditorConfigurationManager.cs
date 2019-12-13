@@ -129,6 +129,11 @@ namespace NetWorkedData
             //NWDGUILayout.Informations("Some informations!");
             NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
             NWDAppConfiguration.SharedInstance().ShowCompile = EditorGUILayout.Toggle("Show re-compile ", NWDAppConfiguration.SharedInstance().ShowCompile);
+            NWDAppConfiguration.SharedInstance().TintColor = EditorGUILayout.ColorField("Tint color ", NWDAppConfiguration.SharedInstance().TintColor);
+            if (GUILayout.Button("Reset Tint color"))
+            {
+                NWDAppConfiguration.SharedInstance().ResetTintColor();
+            }
             NWDGUILayout.Line();
             float tMinWidht = 270.0F;
             int tColum = 1;

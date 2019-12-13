@@ -93,6 +93,7 @@ namespace NetWorkedData
         public string ServerBase = "myDatabase";
 #endif
         public bool LogMode = true;
+        public bool LogInFileMode = true;
         public string AdminKey = string.Empty;
         public string AdminKeyHash = string.Empty;
         public bool AdminInPlayer = false;

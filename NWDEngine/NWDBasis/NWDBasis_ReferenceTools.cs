@@ -301,6 +301,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ChangeUser(string sOldUser, string sNewUser)
         {
+            //Debug.Log("##### ChangeUser" + Reference + " sOldUser " + sOldUser + " sNewUser " + sNewUser);
             if (IntegrityIsValid() == true)
             {
                 if (AccountDependent() == true)

@@ -32,6 +32,7 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
@@ -41,10 +42,11 @@ namespace NetWorkedData
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
             }
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-             LoadFromDatabase();
+            Debug.Log("##### TryToChangeUserForAllObjects");
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
