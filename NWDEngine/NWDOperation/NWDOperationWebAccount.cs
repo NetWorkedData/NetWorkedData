@@ -141,7 +141,7 @@ namespace NetWorkedData
             if (Action == NWDOperationWebAccountAction.signout)
             {
                 // insert device key in data and go in secure
-                DataAddSecetDevicekey();
+                DataAddSecretDevicekey();
             }
             else if (Action == NWDOperationWebAccountAction.signup)
             {

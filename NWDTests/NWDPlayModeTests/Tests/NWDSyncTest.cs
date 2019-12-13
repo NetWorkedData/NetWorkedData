@@ -6,158 +6,164 @@ using UnityEngine.TestTools;
 
 using NetWorkedData;
 
-namespace Tests
+//=====================================================================================================================
+namespace NWDPlayModeTests
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDSyncTest
     {
+        //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator Sync()
         {
-            Debug.Log("TestSync() Start");
-            bool tFinish = false;
-            NWEOperationBlock tSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                Debug.Log("TestSync() tSuccess");
-                tFinish = true;
-            };
-            NWEOperationBlock tFailBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                Debug.Log("TestSync() tFailBlock");
-                tFinish = true;
-            };
-            NWEOperationBlock tCancelBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                Debug.Log("TestSync() tCancelBlock");
-                tFinish = true;
-            };
-            NWEOperationBlock tProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                Debug.Log("TestSync() tProgressBlock");
-            };
-            NWDOperationWebSynchronisation.AddOperation("Test Sync", tSuccess, tFailBlock, tCancelBlock, tProgressBlock, null, null, true, true, NWDOperationSpecial.None);
-            while (tFinish == false)
+            string tOperationName = NWDToolbox.RandomStringUnix(16);
+            NWDUnitTests.NewWebService(tOperationName);
+            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
+            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
             {
                 yield return null;
             }
             Debug.Log("TestSync() Finish");
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporarySync()
         {
-            Debug.Log("TestTemporarySync() Reset account");
+            Debug.Log("TemporarySync() Reset account");
+            NWDUnitTests.ResetDevice();
+            NWDUnitTests.TemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            tEnvironment.ResetPreferences();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
-            Debug.Log("TestTemporarySync() account " + tEnvironment.PlayerAccountReference);
-
-            Debug.Log("TestTemporarySync() Start");
-            bool tFinish = false;
-            NWEOperationBlock tSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                Debug.Log("TestTemporarySync() tSuccess");
-                tFinish = true;
-            };
-            NWDOperationWebSynchronisation.AddOperation("TestTemporarySync()", tSuccess, null, null, null, null, null, true, true, NWDOperationSpecial.None);
-            while (tFinish == false)
+            Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
+            // Sync
+            string tOperationName = NWDToolbox.RandomStringUnix(16);
+            NWDUnitTests.NewWebService(tOperationName);
+            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
+            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
             {
                 yield return null;
             }
-            Debug.Log("TestTemporarySync() Finish");
-            Debug.Log("TestTemporarySync() account " + tEnvironment.PlayerAccountReference);
+            Debug.Log("@@@@@@@@ account after" + tEnvironment.PlayerAccountReference);
             string tAccountC = tEnvironment.PlayerAccountReference + string.Empty;
+            // test result
             Assert.AreNotEqual(tAccountC, tAccountT);
-
             string tT = tAccountT.Substring(tAccountT.Length - 1);
             Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
-
             string tC = tAccountC.Substring(tAccountC.Length - 1);
             Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        [UnityTest]
+        public IEnumerator TemporarySync_Reset_ReSync()
+        {
+            Debug.Log("TemporarySync() Reset account");
+            NWDUnitTests.ResetDevice();
+            NWDUnitTests.TemporaryAccount();
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
+            Debug.Log("@@@@@@@@ account before " + tEnvironment.PlayerAccountReference);
+            // Sync
+            string tOperationName = NWDToolbox.RandomStringUnix(16);
+            NWDUnitTests.NewWebService(tOperationName);
+            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
+            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
+            {
+                yield return null;
+            }
+            Debug.Log("@@@@@@@@ account after " + tEnvironment.PlayerAccountReference);
+            string tAccountC = tEnvironment.PlayerAccountReference + string.Empty;
+            // test result
+            Assert.AreNotEqual(tAccountC, tAccountT);
+            string tT = tAccountT.Substring(tAccountT.Length - 1);
+            Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
+            string tC = tAccountC.Substring(tAccountC.Length - 1);
+            Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
 
+            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.ShowDevice();
+            Debug.Log("@@@@@@@@ account before second " + tEnvironment.PlayerAccountReference);
+            // Sync
+            string tOperationNameB = NWDToolbox.RandomStringUnix(16);
+            NWDUnitTests.NewWebService(tOperationNameB);
+            NWDOperationWebSynchronisation.AddOperation(tOperationNameB, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
+            while (NWDUnitTests.WebServiceIsRunning(tOperationNameB))
+            {
+                yield return null;
+            }
+            Debug.Log("@@@@@@@@ account after second " + tEnvironment.PlayerAccountReference);
+            string tAccountB = tEnvironment.PlayerAccountReference + string.Empty;
+            Assert.AreEqual(tAccountC, tAccountB);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporaryUserTransfertSync()
         {
+            Debug.Log("TemporaryUserTransfertSync() Reset account");
+            NWDUnitTests.ResetDevice();
+            NWDUnitTests.TemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            bool tLog = tEnvironment.LogInFileMode;
-            tEnvironment.LogInFileMode = false;
-            tEnvironment.LogMode = true;
-
-            Debug.Log("TestTemporaryUserTransfertSync() Reset account");
-            tEnvironment.ResetPreferences();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
+            Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
             NWDAccountAvatar tAvatar = new NWDAccountAvatar();
+            // first test assignation
             Assert.AreEqual(tAccountT, tAvatar.Account.GetReference());
-            Debug.Log("TestTemporaryUserTransfertSync() Start");
-            bool tFinish = false;
-            NWEOperation tOperation = null;
-            NWEOperationBlock tSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                tFinish = true;
-                tOperation = bOperation;
-            };
-            NWDOperationWebSynchronisation.AddOperation("TestTemporaryUserTransfertSync()", tSuccess, null, null, null, null, null, true, true, NWDOperationSpecial.None);
-            while (tFinish == false)
+            // Sync
+            string tOperationName = NWDToolbox.RandomStringUnix(16);
+            NWDUnitTests.NewWebService(tOperationName);
+            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
+            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
             {
                 yield return null;
             }
-            Debug.Log("TestTemporaryUserTransfertSync() Finish");
+            Debug.Log("@@@@@@@@ account after" + tEnvironment.PlayerAccountReference);
             string tAccountC = tEnvironment.PlayerAccountReference + string.Empty;
+            string tT = tAccountT.Substring(tAccountT.Length - 1);
+            string tC = tAccountC.Substring(tAccountC.Length - 1);
+            // test result
+            Assert.AreNotEqual(tAccountC, tAccountT);
+            Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
+            Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
             Assert.AreEqual(tAccountC, tAvatar.Account.GetReference());
-            tEnvironment.LogInFileMode = tLog;
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporaryUserTransfertSyncMoreComplexe()
         {
-            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            bool tLog = tEnvironment.LogInFileMode;
-            tEnvironment.LogInFileMode = false;
-            tEnvironment.LogMode = true;
-
             Debug.Log("TemporaryUserTransfertSyncMoreComplexe() Reset account");
-            tEnvironment.ResetPreferences();
+            NWDUnitTests.ResetDevice();
+            NWDUnitTests.TemporaryAccount();
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
+            Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
             NWDAccountAvatar tAvatar = new NWDAccountAvatar();
             NWDGameSave tGameSave = NWDGameSave.CurrentData();
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
-
+            // test assignation
             Assert.AreEqual(tAccountT, tGameSave.Account.GetReference());
             Assert.AreEqual(tAccountT, tAccountInfos.Account.GetReference());
             Assert.AreEqual(tAccountT, tAvatar.Account.GetReference());
-            Debug.Log("TemporaryUserTransfertSyncMoreComplexe() Start");
-            bool tFinish = false;
-            NWEOperation tOperation = null;
-            NWEOperationBlock tSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-            {
-                tFinish = true;
-                tOperation = bOperation;
-            };
-            NWDOperationWebSynchronisation.AddOperation("TemporaryUserTransfertSyncMoreComplexe()", tSuccess, null, null, null, null, null, true, true, NWDOperationSpecial.None);
-            while (tFinish == false)
+
+            string tOperationName = NWDToolbox.RandomStringUnix(16);
+            NWDUnitTests.NewWebService(tOperationName);
+            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
+            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
             {
                 yield return null;
             }
-            Debug.Log("TemporaryUserTransfertSyncMoreComplexe() Finish");
+            Debug.Log("@@@@@@@@ account after" + tEnvironment.PlayerAccountReference);
             string tAccountC = tEnvironment.PlayerAccountReference + string.Empty;
-
             string tT = tAccountT.Substring(tAccountT.Length - 1);
             string tC = tAccountC.Substring(tAccountC.Length - 1);
-
-            // test assert final
+            // test result
             Assert.AreNotEqual(tAccountC, tAccountT);
             Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
             Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
             Assert.AreEqual(tAccountC, tAvatar.Account.GetReference());
             Assert.AreEqual(tAccountC, tGameSave.Account.GetReference());
             Assert.AreEqual(tAccountC, tAccountInfos.Account.GetReference());
-
-            tEnvironment.LogInFileMode = tLog;
         }
-
-
-
-        
+        //-------------------------------------------------------------------------------------------------------------
+        /*
         [UnityTest]
         public IEnumerator TemporaryUserToCertifiedAddSignAndUsedIt()
         {
@@ -224,11 +230,12 @@ namespace Tests
             // fourth sync
             tFinish = false;
 
-
-
             tEnvironment.LogInFileMode = tLogFile;
             tEnvironment.LogMode = tLogMode;
         }
-
+        */
+        //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
+//=====================================================================================================================

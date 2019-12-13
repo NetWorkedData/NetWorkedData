@@ -225,11 +225,14 @@ namespace NetWorkedData
         {
             string rReturn;
             rReturn = NWESecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
+#if UNITY_INCLUDE_TESTS
+            rReturn = NWDUnitTests.GetDeviceEditor();
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         const string kSecretKeyDevicePlayerKey = "kSecretKeyDevicePlayerKey_dad42928";
-        const int kSecretKeyDevicePlayerLength = 36;
+        public const int kSecretKeyDevicePlayerLength = 36;
         //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevicePlayer()
         {
@@ -242,12 +245,18 @@ namespace NetWorkedData
             {
                 rReturn = NWEPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
             }
+#if UNITY_INCLUDE_TESTS
+            rReturn = NWDUnitTests.GetDevicePlayer();
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SecretKeyDevicePlayerReset()
         {
             NWEPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+#if NWD_TESTS
+            NWDUnitTests.DevicePlayerReset();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AdminKeyHashGenerate()
@@ -357,7 +366,7 @@ namespace NetWorkedData
             return kSunRotationPerSeconds * tSeconds * SpeedOfGameTime;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

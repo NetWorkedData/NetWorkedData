@@ -46,7 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            Debug.Log("##### TryToChangeUserForAllObjects");
+            //Debug.Log("##### TryToChangeUserForAllObjects");
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);

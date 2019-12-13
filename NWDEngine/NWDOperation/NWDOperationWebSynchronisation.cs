@@ -198,7 +198,7 @@ namespace NetWorkedData
             }
             else
             {
-                DataAddSecetDevicekey();
+                DataAddSecretDevicekey();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

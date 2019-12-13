@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -107,7 +108,7 @@ namespace NetWorkedData
         public NWDOperationWebAccount AddWebRequestSignUp(NWDAccountSignType sSignType, string sSignHash, string sRescueHash, string sLoginHash, bool sPriority = true, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("NWDOperationWebAccount");
-            return AddWebRequestSignUpWithBlock(sSignType,sSignHash,sRescueHash, sLoginHash, null, null, null, null, sPriority, sEnvironment);
+            return AddWebRequestSignUpWithBlock(sSignType, sSignHash, sRescueHash, sLoginHash, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestSignIn(string sPasswordToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
@@ -253,7 +254,7 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignUpWithBlock  (
+        public NWDOperationWebAccount AddWebRequestSignUpWithBlock(
                                                                     NWDAccountSignType sSignType,
                                                                     string sSignHash,
                                                                     string sRescueHash,
@@ -276,7 +277,7 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestSignOutWithBlock (
+        public NWDOperationWebAccount AddWebRequestSignOutWithBlock(
                                                                      NWEOperationBlock sSuccessBlock = null,
                                                                      NWEOperationBlock sErrorBlock = null,
                                                                      NWEOperationBlock sCancelBlock = null,
@@ -291,7 +292,7 @@ namespace NetWorkedData
             return sOperation;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebAccount AddWebRequestRescueWithBlock  (
+        public NWDOperationWebAccount AddWebRequestRescueWithBlock(
                                                                     string sEmail,
                                                                     NWEOperationBlock sSuccessBlock = null,
                                                                     NWEOperationBlock sErrorBlock = null,
@@ -374,6 +375,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeAllDatasForUserToAnotherUser(NWDAppEnvironment sEnvironment, string sOldAccountReference, string sNewAccountReference /*, string sAnonymousResetPassword*/)
         {
+            Debug.Log("##### ChangeAllDatasForUserToAnotherUser " + sOldAccountReference + " to " + sNewAccountReference);
             NWDDataManager.SharedInstance().DataQueueExecute();
             foreach (Type tType in mTypeList)
             {
@@ -443,7 +445,7 @@ namespace NetWorkedData
             }
             return rSend;
         }
-        
+
         //-------------------------------------------------------------------------------------------------------------
         //public Dictionary<string, object> SynchronizationGetClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
         //{
