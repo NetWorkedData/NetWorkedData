@@ -651,7 +651,6 @@ namespace NetWorkedData
             return sString.Replace("\r\n", "\n"); // anti window bug
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         public static string CSharpFormat(string sString)
         {
             StringBuilder rReturn = new StringBuilder();
@@ -686,6 +685,7 @@ namespace NetWorkedData
             }
             return rReturn.ToString().TrimEnd(new char[] { '\n', '\r' });
         }
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public static string FindOwnerServerFolder()
         {
