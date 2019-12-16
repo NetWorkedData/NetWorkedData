@@ -43,14 +43,15 @@ namespace NetWorkedData
         {
             DataIndexed = false;
             int tRow = 0;
-            Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll()");
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.Index();
-                    tRow++;
+                tRow++;
             }
             DataIndexed = true;
+#if UNITY_EDITOR
             Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsIndexed()

@@ -123,7 +123,7 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Login));
                 if (GUI.Button(tMatrix[0, tI++], "Associate Login Password Email", NWDGUI.kMiniButtonStyle))
                 {
-                    RegisterLoginPasswordEmail(Login, Password, Email);
+                    RegisterEmailLoginPassword(Email, Login, Password);
                 }
                 EditorGUI.EndDisabledGroup();
                 EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(Email));

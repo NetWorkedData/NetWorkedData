@@ -11,17 +11,7 @@
 //
 //=====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2018 
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,12 +20,13 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Preferences",
+    [NWDTypeWindowParamAttribute(
+        "Preferences",
         "Preferences",
         new Type[] {
-        typeof(NWDPreferenceKey),
-        typeof(NWDAccountPreference),
-        typeof(NWDUserPreference),
+            typeof(NWDPreferenceKey),
+            typeof(NWDAccountPreference),
+            typeof(NWDUserPreference),
 		}
     )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

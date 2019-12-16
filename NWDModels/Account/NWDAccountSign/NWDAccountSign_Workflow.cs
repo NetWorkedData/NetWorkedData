@@ -55,6 +55,7 @@ namespace NetWorkedData
             SignHash = SignDeviceEditor();
             RescueHash = string.Empty;
             LoginHash = string.Empty;
+            Tag = NWDBasisTag.TagDeviceCreated;
 #if UNITY_EDITOR
             NWDAppEnvironment tEnv = null;
             if (DevSync < 0)
@@ -66,11 +67,7 @@ namespace NetWorkedData
                 tEnv = NWDAppConfiguration.SharedInstance().DevEnvironment;
             }
             SignHash = tEnv.SecretKeyDeviceEditor();
-            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-            if (tAccount != null)
-            {
-                InternalKey = tAccount.InternalKey;
-            }
+            SetInternalKey();
             InternalDescription = "Editor Device ID <" + tEnv.Environment + "> " + SignHash;
 #endif
             Register();
@@ -82,12 +79,9 @@ namespace NetWorkedData
             SignHash = SignDevicePlayer();
             RescueHash = string.Empty;
             LoginHash = string.Empty;
+            Tag = NWDBasisTag.TagDeviceCreated;
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-            if (tAccount != null)
-            {
-                InternalKey = tAccount.InternalKey;
-            }
+            SetInternalKey();
             InternalDescription = "Player Device ID : " + SignHash;
 #endif
             Register();
@@ -99,12 +93,9 @@ namespace NetWorkedData
             SignHash = NWDAppEnvironment.SelectedEnvironment().SecretKeyDevice();
             RescueHash = string.Empty;
             LoginHash = string.Empty;
+            Tag = NWDBasisTag.TagDeviceCreated;
 #if UNITY_EDITOR
-            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-            if (tAccount != null)
-            {
-                InternalKey = tAccount.InternalKey;
-            }
+            SetInternalKey();
             InternalDescription = "Device ID : " + SignHash;
 #endif
             Register();
@@ -122,16 +113,16 @@ namespace NetWorkedData
                 SignHash = GetSignSocialHash(sSocialID);
                 RescueHash = string.Empty;
                 LoginHash = string.Empty;
+                Tag = NWDBasisTag.TagUserCreated;
 #if UNITY_EDITOR
-                InternalKey = "SignUp Assosiate";
+                SetInternalKey();
                 InternalDescription = "" + sSocialType + " ID : " + SignHash;
 #endif
-                Tag = NWDBasisTag.TagUserCreated;
                 Register();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RegisterLoginPasswordEmail(string sLogin, string sPassword, string sEmail)
+        public void RegisterEmailLoginPassword(string sEmail, string sLogin, string sPassword)
         {
             if (string.IsNullOrEmpty(sEmail) || string.IsNullOrEmpty(sPassword) || string.IsNullOrEmpty(sLogin))
             {
@@ -143,11 +134,11 @@ namespace NetWorkedData
                 SignHash = GetSignLoginPasswordHash(sLogin, sPassword);
                 RescueHash = GetRescueEmailHash(sEmail);
                 LoginHash = GetLoginHash(sLogin);
+                Tag = NWDBasisTag.TagUserCreated;
 #if UNITY_EDITOR
-                InternalKey = "SignUp Assosiate";
+                SetInternalKey();
                 InternalDescription = "Login Password Email : " + sLogin + "/" + sPassword + " / " + sEmail;
 #endif
-                Tag = NWDBasisTag.TagUserCreated;
                 Register();
             }
         }
@@ -161,14 +152,14 @@ namespace NetWorkedData
             else
             {
                 SignType = NWDAccountSignType.EmailPassword;
-                SignHash = GetSignLoginPasswordHash(sEmail, sPassword);
+                SignHash = GetSignEmailPasswordHash(sEmail, sPassword);
                 RescueHash = GetRescueEmailHash(sEmail);
                 LoginHash = string.Empty;
+                Tag = NWDBasisTag.TagUserCreated;
 #if UNITY_EDITOR
-                InternalKey = "SignUp Assosiate";
+                SetInternalKey();
                 InternalDescription = "Email / Password: " + sEmail + " / " + sPassword;
 #endif
-                Tag = NWDBasisTag.TagUserCreated;
                 Register();
             }
         }
@@ -194,7 +185,7 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignSocialHash(sSocialID);
-            bool tResult = NWDAccountSign.CheckAccountSign(tSignHash, sSocialType);
+            bool tResult = NWDAccountSign.CheckReacheableAccountSign(tSignHash, sSocialType);
 
             if (!tResult)
             {
@@ -214,12 +205,12 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignLoginPasswordHash(sLogin, sPassword);
-            bool tResult = NWDAccountSign.CheckAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
+            bool tResult = NWDAccountSign.CheckReacheableAccountSign(tSignHash, NWDAccountSignType.LoginPasswordEmail);
 
             if (!tResult)
             {
                 NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
-                tSign.RegisterLoginPasswordEmail(sLogin, sPassword, sEmail);
+                tSign.RegisterEmailLoginPassword(sEmail, sLogin, sPassword);
 
                 // Sync NWDAccountSign
                 NWDBasisHelper.SynchronizationFromWebService<NWDAccountSign>(sSuccessBlock, sErrorBlock);
@@ -234,7 +225,7 @@ namespace NetWorkedData
         {
             // Generate Hash with email and password
             string tSignHash = NWDAccountSign.GetSignEmailPasswordHash(sEmail, sPassword);
-            bool tResult = NWDAccountSign.CheckAccountSign(tSignHash, NWDAccountSignType.EmailPassword);
+            bool tResult = NWDAccountSign.CheckReacheableAccountSign(tSignHash, NWDAccountSignType.EmailPassword);
 
             if (!tResult)
             {
@@ -362,7 +353,7 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool CheckAccountSign(string sSignHash, NWDAccountSignType sAccountType) //TODO : rename with "Reacheable" 
+        public static bool CheckReacheableAccountSign(string sSignHash, NWDAccountSignType sAccountType)
         {
             bool rResult = false;
             NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
@@ -380,7 +371,7 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountSign GetAccountSign(NWDAccountSignType sAccountType) //TODO : rename with "First" and "Reacheable" 
+        public static NWDAccountSign GetFirstReacheableAccountSign(NWDAccountSignType sAccountType)
         {
             NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
             foreach (NWDAccountSign k in tSigns)
@@ -392,6 +383,20 @@ namespace NetWorkedData
             }
 
             return null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void SetInternalKey()
+        {
+            NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
+            if (tAccount != null && !tAccount.InternalKey.Equals(""))
+            {
+                InternalKey = tAccount.InternalKey;
+            }
+            else
+            {
+                InternalKey = "SignUp Assosiate";
+            }
+            Tag = NWDBasisTag.TagAdminCreated;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
