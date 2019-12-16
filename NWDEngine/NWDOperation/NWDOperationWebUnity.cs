@@ -673,28 +673,28 @@ namespace NetWorkedData
             if (Environment.LogMode == true)
             {
 #if UNITY_EDITOR
-                string tDebugRequestHeader = string.Empty;
-                foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-                {
-                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                }
-                NWDDebug.Log("*******************************************************************\n" +
-                            "NWDOperationWebUnity UPLOADED \n" +
-                             "-------------------\n" +
-                             "<b>Request URl :</b> " + Request.url + "\n" +
-                             "-------------------\n" +
-                             "<b>Headers :</b> \n" +
-                             "-------------------\n" +
-                             tDebugRequestHeader + "\n" +
-                             "-------------------\n" +
-                             "<b>Datas :</b> \n" +
-                             "-------------------\n" +
-                             Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
-                             "-------------------\n" +
-                             Encoding.UTF8.GetString(sData) + "\n" +
-                             "-------------------\n" +
-                             "*******************************************************************\n"
-                );
+                //string tDebugRequestHeader = string.Empty;
+                //foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                //{
+                //    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                //}
+                //NWDDebug.Log("*******************************************************************\n" +
+                //            "NWDOperationWebUnity UPLOADED " + name + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Request URl :</b> " + Request.url + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Headers :</b> \n" +
+                //             "-------------------\n" +
+                //             tDebugRequestHeader + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Datas :</b> \n" +
+                //             "-------------------\n" +
+                //             Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
+                //             "-------------------\n" +
+                //             Encoding.UTF8.GetString(sData) + "\n" +
+                //             "-------------------\n" +
+                //             "*******************************************************************\n"
+                //);
 #endif
             }
         }
@@ -704,26 +704,26 @@ namespace NetWorkedData
             if (Environment.LogMode == true)
             {
 #if UNITY_EDITOR
-                string tDebugResponseHeader = string.Empty;
-                foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
-                {
-                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                }
-                NWDDebug.Log("*******************************************************************\n" +
-                    "NWDOperationWebUnity DOWNLOADED \n" +
-                             "-------------------\n" +
-                             "<b>Request URl :</b> " + Request.url + "\n" +
-                             "-------------------\n" +
-                             "<b>Headers :</b> \n" +
-                             "-------------------\n" +
-                             tDebugResponseHeader + "\n" +
-                             "-------------------\n" +
-                             "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
-                             "-------------------\n" +
-                             sData.Replace("\\\\r", "\r\n") + "\n" +
-                             "-------------------\n" +
-                             "*******************************************************************\n"
-                );
+                //string tDebugResponseHeader = string.Empty;
+                //foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+                //{
+                //    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                //}
+                //NWDDebug.Log("*******************************************************************\n" +
+                //    "NWDOperationWebUnity DOWNLOADED " + name + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Request URl :</b> " + Request.url + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Headers :</b> \n" +
+                //             "-------------------\n" +
+                //             tDebugResponseHeader + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                //             "-------------------\n" +
+                //             sData.Replace("\\\\r", "\r\n") + "\n" +
+                //             "-------------------\n" +
+                //             "*******************************************************************\n"
+                //);
 #endif
             }
         }
@@ -743,7 +743,7 @@ namespace NetWorkedData
                     tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
                 }
                 string tFileDebug = "*******************************************************************\n" +
-                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED \n" +
+                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED " + name + "\n" +
                              "-------------------\n" +
                              "<b>Request URl :</b> " + Request.url + "\n" +
                              "-------------------\n" +
@@ -798,7 +798,7 @@ namespace NetWorkedData
                     tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
                 }
                 string tFileDebug = "*******************************************************************\n" +
-                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED DECODED \n" +
+                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED DECODED " + name + "\n" +
                              "-------------------\n" +
                              "<b>Request URl : </b> " + Request.url + "\n" +
                              "-------------------\n" +

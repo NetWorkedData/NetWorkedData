@@ -33,9 +33,6 @@ namespace NetWorkedData
         static bool LogMode = false;
         static bool LogInFileMode = false;
         //-------------------------------------------------------------------------------------------------------------
-        static bool OverrideLogMode = true;
-        static bool OverrideLogInFileMode = false;
-        //-------------------------------------------------------------------------------------------------------------
         public static NWEOperationBlock kSuccess;
         public static NWEOperationBlock kFailBlock;
         public static NWEOperationBlock kCancelBlock;
@@ -75,9 +72,6 @@ namespace NetWorkedData
                 LogMode = tEnvironment.LogMode;
                 LogInFileMode = tEnvironment.LogInFileMode;
 
-                tEnvironment.LogMode = OverrideLogMode;
-                tEnvironment.LogInFileMode = OverrideLogInFileMode;
-
                 kSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
                 {
                     Debug.Log("NWDSyncTest Success");
@@ -98,13 +92,17 @@ namespace NetWorkedData
                 };
                 kProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
                 {
-                    Debug.Log("TNWDSyncTest ProgressBlock " + bProgress.ToString() + "");
+                    //Debug.Log("TNWDSyncTest ProgressBlock " + bProgress.ToString() + "");
                 };
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool NewWebService(string tOperationName)
+        public static bool NewWebService(string tOperationName, bool sLog = true, bool sLogInFile = false)
         {
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            tEnvironment.LogMode = sLog;
+            tEnvironment.LogInFileMode = sLogInFile;
+
             bool rReturn = false;
             if (kSyncFinished.ContainsKey(tOperationName) == false)
             {
