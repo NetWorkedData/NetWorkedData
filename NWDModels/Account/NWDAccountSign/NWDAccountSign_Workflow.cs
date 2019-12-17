@@ -12,6 +12,7 @@
 //=====================================================================================================================
 
 using System.Collections.Generic;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -20,9 +21,19 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign() { }
+        public NWDAccountSign()
+        {
+#if UNITY_EDITOR
+            Debug.Log("<color=red>NWDAccountSign()</color>");
+#endif
+        }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
+        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+#if UNITY_EDITOR
+            Debug.Log("<color=red>NWDAccountSign(sInsertInNetWorkedData = " + sInsertInNetWorkedData.ToString() + ")</color>");
+#endif
+        }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() { }
         //=============================================================================================================

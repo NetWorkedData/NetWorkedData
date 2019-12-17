@@ -143,7 +143,10 @@ namespace NetWorkedData
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
                 if (sSpecial != NWDOperationSpecial.Pull)
                 {
-                    LoadFromDatabase();
+                    if (IsLoaded() == false)
+                    {
+                        LoadFromDatabase();
+                    }
                     foreach (NWDTypeClass tO in Datas)
                     {
                         bool tAddEnv = true;
