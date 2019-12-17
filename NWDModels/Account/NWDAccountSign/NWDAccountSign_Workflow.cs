@@ -388,13 +388,14 @@ namespace NetWorkedData
         void SetInternalKey()
         {
             NWDAccount tAccount = NWDBasisHelper.GetRawDataByReference<NWDAccount>(Account.GetReference());
-            if (tAccount != null && !tAccount.InternalKey.Equals(""))
+            if (tAccount != null && !string.IsNullOrEmpty(tAccount.InternalKey))
             {
-                InternalKey = tAccount.InternalKey;
+                InternalKey = tAccount.InternalKey + " (" + SignStatus.ToString() + ")";
             }
             else
             {
-                InternalKey = "SignUp Assosiate";
+                //InternalKey = "Sign Assosiate";
+                InternalKey = "(" + SignStatus.ToString() + ")";
             }
             Tag = NWDBasisTag.TagAdminCreated;
         }

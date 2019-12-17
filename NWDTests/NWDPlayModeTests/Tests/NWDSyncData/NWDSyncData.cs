@@ -16,9 +16,9 @@ namespace NWDPlayModeSyncTests
             bool tFinish = false;
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
-            bool tLog = tEnvironment.LogInFileMode;
-            tEnvironment.LogInFileMode = false;
-            tEnvironment.LogMode = true;
+            //bool tLog = tEnvironment.LogInFileMode;
+            //tEnvironment.LogInFileMode = false;
+            //tEnvironment.LogMode = true;
 
             //NWDDataManager.SharedInstance().WebOperationQueue.Flush(tEnvironment.Environment);
            // tEnvironment.ResetPreferences();
@@ -82,7 +82,7 @@ namespace NWDPlayModeSyncTests
             Assert.AreNotEqual(tSyncSerevr, tSync);
             */
 
-            tEnvironment.LogInFileMode = tLog;
+            //tEnvironment.LogInFileMode = tLog;
         }
 
     }

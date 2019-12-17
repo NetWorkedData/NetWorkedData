@@ -55,8 +55,8 @@ namespace NetWorkedData
             {
                 Debug.Log("NWDUnitTests Uninstall");
                 NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                tEnvironment.LogMode = LogMode;
-                tEnvironment.LogInFileMode = LogInFileMode;
+                //tEnvironment.LogMode = LogMode;
+                //tEnvironment.LogInFileMode = LogInFileMode;
                 Installed = false;
             }
         }
@@ -69,8 +69,8 @@ namespace NetWorkedData
                 Installed = true;
 
                 NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                LogMode = tEnvironment.LogMode;
-                LogInFileMode = tEnvironment.LogInFileMode;
+                //LogMode = tEnvironment.LogMode;
+                //LogInFileMode = tEnvironment.LogInFileMode;
 
                 kSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
                 {
@@ -100,8 +100,8 @@ namespace NetWorkedData
         public static bool NewWebService(string tOperationName, bool sLog = true, bool sLogInFile = false)
         {
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            tEnvironment.LogMode = sLog;
-            tEnvironment.LogInFileMode = sLogInFile;
+            //tEnvironment.LogMode = sLog;
+            //tEnvironment.LogInFileMode = sLogInFile;
 
             bool rReturn = false;
             if (kSyncFinished.ContainsKey(tOperationName) == false)
