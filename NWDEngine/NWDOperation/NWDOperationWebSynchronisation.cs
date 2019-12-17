@@ -111,11 +111,14 @@ namespace NetWorkedData
                     foreach (Type tType in sTypeList)
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        foreach (Type tR in tHelper.ClasseInThisSync())
+                        if (tHelper != null)
                         {
-                            if (tReturn.Contains(tR) == false)
+                            foreach (Type tR in tHelper.ClasseInThisSync())
                             {
-                                tReturn.Add(tR);
+                                if (tReturn.Contains(tR) == false)
+                                {
+                                    tReturn.Add(tR);
+                                }
                             }
                         }
                         //MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);

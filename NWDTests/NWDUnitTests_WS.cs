@@ -12,21 +12,9 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
-using NetWorkedData;
 using UnityEngine;
-
-using SQLite4Unity3d;
-//using BasicToolBox;
-
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using NetWorkedData;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -44,9 +32,6 @@ namespace NetWorkedData
         static Dictionary<string, bool> kSyncError = new Dictionary<string, bool>();
         static bool LogMode = false;
         static bool LogInFileMode = false;
-        //-------------------------------------------------------------------------------------------------------------
-        static bool OverrideLogMode = true;
-        static bool OverrideLogInFileMode = true;
         //-------------------------------------------------------------------------------------------------------------
         public static NWEOperationBlock kSuccess;
         public static NWEOperationBlock kFailBlock;
@@ -87,9 +72,6 @@ namespace NetWorkedData
                 LogMode = tEnvironment.LogMode;
                 LogInFileMode = tEnvironment.LogInFileMode;
 
-                tEnvironment.LogMode = OverrideLogMode;
-                tEnvironment.LogInFileMode = OverrideLogInFileMode;
-
                 kSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
                 {
                     Debug.Log("NWDSyncTest Success");
@@ -110,13 +92,17 @@ namespace NetWorkedData
                 };
                 kProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
                 {
-                    Debug.Log("TNWDSyncTest ProgressBlock " + bProgress.ToString() + "");
+                    //Debug.Log("TNWDSyncTest ProgressBlock " + bProgress.ToString() + "");
                 };
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool NewWebService(string tOperationName)
+        public static bool NewWebService(string tOperationName, bool sLog = true, bool sLogInFile = false)
         {
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            tEnvironment.LogMode = sLog;
+            tEnvironment.LogInFileMode = sLogInFile;
+
             bool rReturn = false;
             if (kSyncFinished.ContainsKey(tOperationName) == false)
             {
