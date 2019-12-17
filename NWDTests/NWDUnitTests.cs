@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -25,7 +26,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         const int kUnitTestDC = 123456789;
         const string kDescriptionMark = "For UnitTest only";
-        const string kDescriptionMarkNew  = "For UnitTest only -- new --";
+        const string kDescriptionMarkNew = "For UnitTest only -- new --";
         //-------------------------------------------------------------------------------------------------------------
         public static T PermanentData<T>(string sAddInternalKey, string sReference) where T : NWDTypeClass, new()
         {
@@ -112,7 +113,31 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        static int Step;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LogNewTest()
+        {
+            Step = 0;
+            Debug.Log("==================== START NEW TEST ====================");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LogStep(string sString = null)
+        {
+            Step++;
+            if (string.IsNullOrEmpty(sString))
+            {
+                sString = string.Empty;
+            }
+            Debug.Log("==================== STEP N°" + Step + " (" + sString + ") ====================");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void Log(string sString)
+        {
+            Debug.Log("=== " + sString);
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

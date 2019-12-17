@@ -735,12 +735,12 @@ namespace NetWorkedData
                 string tDebugRequestHeader = string.Empty;
                 foreach (KeyValuePair<string, object> tEntry in HeaderParams)
                 {
-                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
                 }
                 string tDebugResponseHeader = string.Empty;
                 foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
                 {
-                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
                 }
                 string tFileDebug = "*******************************************************************\n" +
                     "NWDOperationWebUnity UPLOAD VS DOWNLOADED " + name + "\n" +
@@ -790,12 +790,12 @@ namespace NetWorkedData
                 string tDebugRequestHeader = string.Empty;
                 foreach (KeyValuePair<string, object> tEntry in HeaderParams)
                 {
-                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , ";//, \n";
                 }
                 string tDebugResponseHeader = string.Empty;
                 foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
                 {
-                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , ";//, \n";
                 }
                 string tFileDebug = "*******************************************************************\n" +
                     "NWDOperationWebUnity UPLOAD VS DOWNLOADED DECODED " + name + "\n" +

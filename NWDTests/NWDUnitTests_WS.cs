@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -23,109 +24,106 @@ namespace NetWorkedData
     public partial class NWDUnitTests
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_INCLUDE_TESTS
-        //-------------------------------------------------------------------------------------------------------------
-        static bool Installed = false;
-        static private NWDUnitTests kSharedInstance;
-        //-------------------------------------------------------------------------------------------------------------
-        static Dictionary<string, bool> kSyncFinished = new Dictionary<string, bool>();
-        static Dictionary<string, bool> kSyncError = new Dictionary<string, bool>();
-        static bool LogMode = false;
-        static bool LogInFileMode = false;
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWEOperationBlock kSuccess;
-        public static NWEOperationBlock kFailBlock;
-        public static NWEOperationBlock kCancelBlock;
-        public static NWEOperationBlock kProgressBlock;
-        //-------------------------------------------------------------------------------------------------------------
-        static NWDUnitTests()
-        {
-            Install();
-            kSharedInstance = new NWDUnitTests();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        ~NWDUnitTests()
-        {
-            Uninstall();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void Uninstall()
-        {
-            if (Installed == true)
-            {
-                Debug.Log("NWDUnitTests Uninstall");
-                NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                //tEnvironment.LogMode = LogMode;
-                //tEnvironment.LogInFileMode = LogInFileMode;
-                Installed = false;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void Install()
-        {
-            if (Installed == false)
-            {
-                Debug.Log("NWDUnitTests Install");
-                Installed = true;
+        //static bool Installed = false;
+        //static private NWDUnitTests kSharedInstance;
+        ////-------------------------------------------------------------------------------------------------------------
+        //static Dictionary<string, bool> kSyncFinished = new Dictionary<string, bool>();
+        //static Dictionary<string, bool> kSyncError = new Dictionary<string, bool>();
+        //static bool LogMode = false;
+        //static bool LogInFileMode = false;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWEOperationBlock kSuccess;
+        //public static NWEOperationBlock kFailBlock;
+        //public static NWEOperationBlock kCancelBlock;
+        //public static NWEOperationBlock kProgressBlock;
+        ////-------------------------------------------------------------------------------------------------------------
+        //static NWDUnitTests()
+        //{
+        //    Install();
+        //    kSharedInstance = new NWDUnitTests();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //~NWDUnitTests()
+        //{
+        //    Uninstall();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void Uninstall()
+        //{
+        //    if (Installed == true)
+        //    {
+        //        Debug.Log("NWDUnitTests Uninstall");
+        //        NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        //        //tEnvironment.LogMode = LogMode;
+        //        //tEnvironment.LogInFileMode = LogInFileMode;
+        //        Installed = false;
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void Install()
+        //{
+        //    if (Installed == false)
+        //    {
+        //        Debug.Log("NWDUnitTests Install");
+        //        Installed = true;
 
-                NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-                //LogMode = tEnvironment.LogMode;
-                //LogInFileMode = tEnvironment.LogInFileMode;
+        //        NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        //        //LogMode = tEnvironment.LogMode;
+        //        //LogInFileMode = tEnvironment.LogInFileMode;
 
-                kSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-                {
-                    Debug.Log("NWDSyncTest Success");
-                    kSyncFinished[bOperation.name] = true;
-                };
-                kFailBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-                {
-                    NWDOperationResult tResult = (NWDOperationResult)bResult;
+        //        kSuccess = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
+        //        {
+        //            Debug.Log("NWDSyncTest Success");
+        //            kSyncFinished[bOperation.name] = true;
+        //        };
+        //        kFailBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
+        //        {
+        //            NWDOperationResult tResult = (NWDOperationResult)bResult;
 
-                    Debug.LogWarning("TNWDSyncTest FailBlock error :" + tResult.errorCode);
-                    kSyncFinished[bOperation.name] = true;
-                    kSyncError[bOperation.name] = true;
-                };
-                kCancelBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-                {
-                    Debug.Log("TNWDSyncTest CancelBlock");
-                    kSyncFinished[bOperation.name] = true;
-                };
-                kProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
-                {
-                    //Debug.Log("TNWDSyncTest ProgressBlock " + bProgress.ToString() + "");
-                };
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool NewWebService(string tOperationName, bool sLog = true, bool sLogInFile = false)
-        {
-            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            //tEnvironment.LogMode = sLog;
-            //tEnvironment.LogInFileMode = sLogInFile;
+        //            Debug.LogWarning("TNWDSyncTest FailBlock error :" + tResult.errorCode);
+        //            kSyncFinished[bOperation.name] = true;
+        //            kSyncError[bOperation.name] = true;
+        //        };
+        //        kCancelBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
+        //        {
+        //            Debug.Log("TNWDSyncTest CancelBlock");
+        //            kSyncFinished[bOperation.name] = true;
+        //        };
+        //        kProgressBlock = delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
+        //        {
+        //            //Debug.Log("TNWDSyncTest ProgressBlock " + bProgress.ToString() + "");
+        //        };
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static bool NewWebService(string tOperationName, bool sLog = true, bool sLogInFile = false)
+        //{
+        //    NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        //    //tEnvironment.LogMode = sLog;
+        //    //tEnvironment.LogInFileMode = sLogInFile;
 
-            bool rReturn = false;
-            if (kSyncFinished.ContainsKey(tOperationName) == false)
-            {
-                rReturn = true;
-                kSyncFinished.Add(tOperationName, false);
-                kSyncError.Add(tOperationName, false);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool WebServiceIsFinished(string tOperationName)
-        {
-            return kSyncFinished[tOperationName];
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool WebServiceIsRunning(string tOperationName)
-        {
-            return !kSyncFinished[tOperationName];
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
+        //    bool rReturn = false;
+        //    if (kSyncFinished.ContainsKey(tOperationName) == false)
+        //    {
+        //        rReturn = true;
+        //        kSyncFinished.Add(tOperationName, false);
+        //        kSyncError.Add(tOperationName, false);
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static bool WebServiceIsFinished(string tOperationName)
+        //{
+        //    return kSyncFinished[tOperationName];
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static bool WebServiceIsRunning(string tOperationName)
+        //{
+        //    return !kSyncFinished[tOperationName];
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

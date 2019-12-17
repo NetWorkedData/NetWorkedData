@@ -8,6 +8,7 @@ using UnityEngine.TestTools;
 
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NWDPlayModeTests
 {
@@ -18,21 +19,20 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporaryDataSync()
         {
-            Debug.Log("TemporarySync() Reset account");
+            NWDUnitTests.ActiveDevice();
+            NWDUnitTests.LogNewTest();
             NWDUnitTests.ResetDevice();
             NWDUnitTests.TemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
-            Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
+            NWDUnitTests.Log("account before" + tEnvironment.PlayerAccountReference);
             // Sync
-            string tOperationName = "Temporary to cert_" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationName, false);
-            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, false, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
+            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            while (!tOperation.IsFinish)
             {
                 yield return null;
             }
-            Debug.Log("@@@@@@@@ account after" + tEnvironment.PlayerAccountReference);
+            NWDUnitTests.Log("account after" + tEnvironment.PlayerAccountReference);
             string tAccountC = tEnvironment.PlayerAccountReference + string.Empty;
             // test result
             Assert.AreNotEqual(tAccountC, tAccountT);
@@ -40,23 +40,28 @@ namespace NWDPlayModeTests
             Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
             string tC = tAccountC.Substring(tAccountC.Length - 1);
             Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
+
+
+            NWDUnitTests.LogStep("add avatar and sync");
             // Ok create Data And Sync it
-            NWDAccountAvatar tAvatar = new NWDAccountAvatar();
+            //NWDAccountAvatar tAvatar = new NWDAccountAvatar();
+            NWDAccountAvatar tAvatar = NWDBasisHelper.NewData<NWDAccountAvatar>();
             // Save Data !
-            //tAvatar.UpdateData();
+            tAvatar.UpdateData();
             // Memorise Reference of Data
             string tReference = tAvatar.Reference + string.Empty;
             // Sync
-            string tOperationNameB = "upload avatar data" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameB, true);
-            NWDOperationWebSynchronisation.AddOperation(tOperationNameB, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, new List<Type>() { typeof(NWDAccountAvatar) }, false, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameB))
+            NWDOperationWebSynchronisation tOperationB = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>(){typeof(NWDAccountAvatar)}, true, false, NWDOperationSpecial.None);
+            while (!tOperationB.IsFinish)
             {
                 yield return null;
             }
-            Debug.Log("@@@@@@@@ Data is Sync");
+
+            NWDUnitTests.LogStep("delete avatar and reload");
             // delete Data
             tAvatar.DeleteData();
+            // force apply modification in database
+            NWDDataManager.SharedInstance().DataQueueExecute();
             // reload data from base
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
             while (NWDDataManager.SharedInstance().DataIndexed == false)
@@ -65,34 +70,36 @@ namespace NWDPlayModeTests
             }
             // try get data with no success
             NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
-            Assert.AreEqual(null,tAvatarTest);
+            Assert.AreEqual(null, tAvatarTest);
+
+
+            NWDUnitTests.LogStep("Force reload all data");
             // Sync Force
-            string tOperationNameC = "download avatar data" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameC, true);
-            NWDOperationWebSynchronisation.AddOperation(tOperationNameC, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, new List<Type>() { typeof(NWDAccountAvatar) }, true, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameC))
+            NWDOperationWebSynchronisation tOperationC = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>() { typeof(NWDAccountAvatar) }, true, false, NWDOperationSpecial.None);
+            while (!tOperationC.IsFinish)
             {
                 yield return null;
             }
             // try get data with success
             NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
-            Assert.AreNotEqual(tAvatarTestB, null);
+            Assert.AreNotEqual(null, tAvatarTestB);
+
+            NWDUnitTests.DisableDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporaryNewDataSync()
         {
             Debug.Log("TemporarySync() Reset account");
+            NWDUnitTests.ActiveDevice();
             NWDUnitTests.ResetDevice();
             NWDUnitTests.TemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
             // Sync
-            string tOperationName = "Temporary to cert_" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationName, false);
-            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, false, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
+            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            while (!tOperation.IsFinish)
             {
                 yield return null;
             }
@@ -111,16 +118,16 @@ namespace NWDPlayModeTests
             // Memorise Reference of Data
             string tReference = tAvatar.Reference + string.Empty;
             // Sync
-            string tOperationNameB = "upload avatar data" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameB, true);
-            NWDOperationWebSynchronisation.AddOperation(tOperationNameB, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, new List<Type>() { typeof(NWDAccountAvatar) }, false, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameB))
+            NWDOperationWebSynchronisation tOperationB = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>() { typeof(NWDAccountAvatar) }, true, false, NWDOperationSpecial.None);
+            while (!tOperationB.IsFinish)
             {
                 yield return null;
             }
             Debug.Log("@@@@@@@@ Data is Sync");
             // delete Data
             tAvatar.DeleteData();
+            // force apply modification in database
+            NWDDataManager.SharedInstance().DataQueueExecute();
             // reload data from base
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
             while (NWDDataManager.SharedInstance().DataIndexed == false)
@@ -131,20 +138,19 @@ namespace NWDPlayModeTests
             NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreEqual(null, tAvatarTest);
             // Sync Force
-            string tOperationNameC = "download avatar data" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameC, true);
-            NWDOperationWebSynchronisation.AddOperation(tOperationNameC, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, new List<Type>() { typeof(NWDAccountAvatar) }, true, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameC))
+            NWDOperationWebSynchronisation tOperationC = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>() { typeof(NWDAccountAvatar) }, true, false, NWDOperationSpecial.None);
+            while (!tOperationC.IsFinish)
             {
                 yield return null;
             }
             // try get data with success
             NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(tAvatarTestB, null);
+            NWDUnitTests.DisableDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-
+#endif

@@ -7,6 +7,7 @@ using UnityEngine.TestTools;
 
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NWDPlayModeTests
 {
@@ -17,6 +18,7 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporarySyncAddSign()
         {
+            NWDUnitTests.ActiveDevice();
             // create account
             Debug.Log("TemporarySync() Reset account");
             NWDUnitTests.ResetDevice();
@@ -25,10 +27,8 @@ namespace NWDPlayModeTests
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
             // Sync
-            string tOperationName = "Account temporary to certified "+NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationName);
-            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
+            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            while (!tOperation.IsFinish)
             {
                 yield return null;
             }
@@ -46,21 +46,21 @@ namespace NWDPlayModeTests
             string tSign = NWDToolbox.RandomStringCypher(32);
             tAccountSign.RegisterSocialNetwork(tSign, NWDAccountSignType.Fake);
             // Sync
-            string tOperationNameB = "upload sign data" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameB, true);
-            NWDOperationWebSynchronisation.AddOperation(tOperationNameB, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, new List<Type>() { typeof(NWDAccountSign) }, false, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameB))
+            NWDOperationWebSynchronisation tOperationB = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>() { typeof(NWDAccountSign) }, true, false, NWDOperationSpecial.None);
+            while (!tOperationB.IsFinish)
             {
                 yield return null;
             }
             Debug.Log("@@@@@@@@ Data is Sync");
             // data associated with success
             Assert.AreEqual(NWDAccountSignAction.Associated, tAccountSign.SignStatus);
+            NWDUnitTests.DisableDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporarySyncAndAddSignSignIn()
         {
+            NWDUnitTests.ActiveDevice();
             // create account
             Debug.Log("TemporarySync() Reset account");
             NWDUnitTests.ResetDevice();
@@ -69,10 +69,8 @@ namespace NWDPlayModeTests
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
             // Sync
-            string tOperationName = NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationName, false);
-            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
+            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            while (!tOperation.IsFinish)
             {
                 yield return null;
             }
@@ -90,10 +88,8 @@ namespace NWDPlayModeTests
             string tSign = NWDToolbox.RandomStringCypher(32);
             tAccountSign.RegisterSocialNetwork(tSign, NWDAccountSignType.Fake);
             // Sync
-            string tOperationNameB = "upload sign data" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameB, false);
-            NWDOperationWebSynchronisation.AddOperation(tOperationNameB, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, new List<Type>() { typeof(NWDAccountSign) }, false, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameB))
+            NWDOperationWebSynchronisation tOperationB = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>() { typeof(NWDAccountSign) }, true, false, NWDOperationSpecial.None);
+            while (!tOperationB.IsFinish)
             {
                 yield return null;
             }
@@ -111,27 +107,15 @@ namespace NWDPlayModeTests
             Assert.AreNotEqual(tAccountC, tAccountTB);
 
             string tOperationNameC = "test sign in" + NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationNameC, true);
             NWDOperationWebAccount tOperationWebAccount = NWDDataManager.SharedInstance().AddWebRequestSignInWithBlock(
                                                                     tSign,
-                                                                    NWDUnitTests.kSuccess,
-                                                                    NWDUnitTests.kFailBlock,
-                                                                    NWDUnitTests.kCancelBlock,
-                                                                    NWDUnitTests.kProgressBlock,
-                                                                    true,
+                                                                    null,
+                                                                    null,
+                                                                    null,
+                                                                    null,
+                                                                    false,
                                                                     null);
-            tOperationWebAccount.name = tOperationNameC;
-            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create(tOperationNameC,
-                                                                    NWDUnitTests.kSuccess,
-                                                                    NWDUnitTests.kFailBlock,
-                                                                    NWDUnitTests.kCancelBlock,
-                                                                    NWDUnitTests.kProgressBlock,
-                                                                    null);
-            sOperation.Action = NWDOperationWebAccountAction.signin;
-            sOperation.PasswordToken = tSign;
-            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, true);
-
-            while (NWDUnitTests.WebServiceIsRunning(tOperationNameC))
+            while (!tOperationWebAccount.IsFinish)
             {
                 yield return null;
             }
@@ -139,6 +123,8 @@ namespace NWDPlayModeTests
             Debug.Log("@@@@@@@@ account after" + tEnvironment.PlayerAccountReference);
             string tAccountCB = tEnvironment.PlayerAccountReference + string.Empty;
             Assert.AreEqual(tAccountC, tAccountCB);
+
+            NWDUnitTests.DisableDevice();
         }
 
         // TODO Reset device signup, deco, signin
@@ -156,3 +142,4 @@ namespace NWDPlayModeTests
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

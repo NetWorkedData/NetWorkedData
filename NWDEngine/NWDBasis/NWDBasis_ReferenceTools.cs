@@ -339,9 +339,20 @@ namespace NetWorkedData
                             //}
                         }
                     }
-                    UpdateDataIfModified();
+                    if (UpdateDataIfModified())
+                    {
+                        Debug.Log("##### ChangeUser success : " + BasisHelper().ClassNamePHP + " Reference = " + Reference);
+                    }
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
                 }
+                else
+                {
+                    Debug.Log("##### ChangeUser not account dependant");
+                }
+            }
+            else
+            {
+                Debug.Log("##### ChangeUser integrity false : " +BasisHelper().ClassNamePHP + " Reference = "+ Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

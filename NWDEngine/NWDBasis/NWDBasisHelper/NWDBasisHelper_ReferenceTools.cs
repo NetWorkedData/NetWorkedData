@@ -36,7 +36,7 @@ namespace NetWorkedData
         public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-             LoadFromDatabase();
+            LoadFromDatabase();
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
@@ -47,9 +47,12 @@ namespace NetWorkedData
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
             //Debug.Log("##### TryToChangeUserForAllObjects");
-            foreach (NWDTypeClass tObject in Datas)
+            if (kAccountDependent == true)
             {
-                tObject.ChangeUser(sOldUser, sNewUser);
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    tObject.ChangeUser(sOldUser, sNewUser);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

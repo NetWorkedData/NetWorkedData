@@ -15,6 +15,7 @@ using System;
 using UnityEngine;
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -22,21 +23,17 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_INCLUDE_TESTS
-        //-------------------------------------------------------------------------------------------------------------
         public string GetWithSpecialSDKI()
         {
             return WithSpecialSDKI;
         }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUnitTests
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_INCLUDE_TESTS
+        static bool TestDevice = false;
         //-------------------------------------------------------------------------------------------------------------
         static string DevicePlayerHash;
         static string DeviceEditorHash;
@@ -69,9 +66,24 @@ namespace NetWorkedData
             return DeviceEditorHash;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool FakeDevice()
+        {
+            return TestDevice;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ActiveDevice()
+        {
+            TestDevice = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DisableDevice()
+        {
+            TestDevice = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void ResetDevice()
         {
-            Debug.Log("@@@@@@@@@@@@@@@@@ ResetDevice() @@@@@@@@@@@");
+            LogStep("ResetDevice()");
             DevicePlayerReset();
             DeviceEditorReset();
             ShowDevice();
@@ -79,27 +91,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ShowDevice()
         {
-            Debug.Log("@@@@@@@@@@@@@@@@@ ShowDevice() @@@@@@@@@@@@");
-            Debug.Log("@@@ Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-            Debug.Log("@@@ WithSpecialSDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetWithSpecialSDKI());
-            Debug.Log("@@@ SecretKeyDevice SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice());
-            Debug.Log("@@@ SecretKeyDeviceEditor SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor());
-            Debug.Log("@@@ SecretKeyDevicePlayer SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer());
-            Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            LogStep("ShowDevice()");
+            Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+            Log("WithSpecialSDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().GetWithSpecialSDKI());
+            Log("SecretKeyDevice SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevice());
+            Log("SecretKeyDeviceEditor SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor());
+            Log("SecretKeyDevicePlayer SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void TemporaryAccount()
         {
             NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
-            Debug.Log("@@@@@@@@@@@@@@@@@ TemporaryAccount() @@@@@@");
-            Debug.Log("@@@ Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-            Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            LogStep("TemporaryAccount()");
+            Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
             ShowDevice();
         }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

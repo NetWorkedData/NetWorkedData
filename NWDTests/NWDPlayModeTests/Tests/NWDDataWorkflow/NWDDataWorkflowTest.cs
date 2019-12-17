@@ -8,6 +8,7 @@ using UnityEngine.TestTools;
 
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NWDPlayModeTests
 {
@@ -48,8 +49,6 @@ namespace NWDPlayModeTests
                 yield return null;
             }
             NWDAccountAvatar tAvatar = new NWDAccountAvatar();
-            // Save Data !
-            //tAvatar.UpdateData();
             // force to wrtie in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             // Memorise Reference of Data
@@ -219,4 +218,4 @@ namespace NWDPlayModeTests
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-
+#endif

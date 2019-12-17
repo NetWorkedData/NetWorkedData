@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 
 using NetWorkedData;
 
+#if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
 namespace NWDPlayModeTests
 {
@@ -16,17 +17,18 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator Sync()
         {
-            string tOperationName = NWDToolbox.RandomStringUnix(16);
-            NWDUnitTests.NewWebService(tOperationName);
-            NWDOperationWebSynchronisation.AddOperation(tOperationName, NWDUnitTests.kSuccess, NWDUnitTests.kFailBlock, NWDUnitTests.kCancelBlock, NWDUnitTests.kProgressBlock, null, null, true, true, NWDOperationSpecial.None);
-            while (NWDUnitTests.WebServiceIsRunning(tOperationName))
+            NWDUnitTests.ActiveDevice();
+            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            while (!tOperation.IsFinish)
             {
                 yield return null;
             }
             Debug.Log("TestSync() Finish");
+            NWDUnitTests.DisableDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

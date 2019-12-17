@@ -95,7 +95,7 @@ namespace NetWorkedData
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
 
-                GameObject tGameObjectToSpawn = new GameObject(sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
@@ -106,7 +106,11 @@ namespace NetWorkedData
                 rReturn.Environment = sEnvironment;
                 rReturn.QueueName = sEnvironment.Environment;
                 List<Type> tReturn = new List<Type>();
-                if (sTypeList != null)
+                //if (sTypeList == null)
+                //{
+                //    sTypeList = NWDDataManager.SharedInstance().mTypeSynchronizedList;
+                //}
+                    if (sTypeList != null)
                 {
                     foreach (Type tType in sTypeList)
                     {

@@ -224,7 +224,10 @@ namespace NetWorkedData
             string rReturn;
             rReturn = NWESecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
 #if UNITY_INCLUDE_TESTS
-            rReturn = NWDUnitTests.GetDeviceEditor();
+            if (NWDUnitTests.FakeDevice())
+            {
+                rReturn = NWDUnitTests.GetDeviceEditor();
+            }
 #endif
             return rReturn;
         }
@@ -244,7 +247,10 @@ namespace NetWorkedData
                 rReturn = NWEPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
             }
 #if UNITY_INCLUDE_TESTS
-            rReturn = NWDUnitTests.GetDevicePlayer();
+            if (NWDUnitTests.FakeDevice())
+            {
+                rReturn = NWDUnitTests.GetDevicePlayer();
+            }
 #endif
             return rReturn;
         }
@@ -252,8 +258,11 @@ namespace NetWorkedData
         public void SecretKeyDevicePlayerReset()
         {
             NWEPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
-#if NWD_TESTS
-            NWDUnitTests.DevicePlayerReset();
+#if UNITY_INCLUDE_TESTS
+            if (NWDUnitTests.FakeDevice())
+            {
+                NWDUnitTests.DevicePlayerReset();
+            }
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -364,7 +373,7 @@ namespace NetWorkedData
             return kSunRotationPerSeconds * tSeconds * SpeedOfGameTime;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
