@@ -387,6 +387,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList, NWDOperationSpecial sSpecial)
         {
+            Debug.Log("SynchronizationPullClassesDatas()");
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
             {

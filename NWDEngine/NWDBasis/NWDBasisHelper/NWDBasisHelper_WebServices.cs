@@ -40,14 +40,14 @@ namespace NetWorkedData
             NWDTypeClass tObject = GetDataByReference(tReference);
             if (tObject == null)
             {
-                //Debug.Log("SynchronizationTryToUse () NEW DATA");
+                Debug.Log("SynchronizationTryToUse () NEW DATA Reference " + tReference);
                 sInfos.RowAddedCounter++;
                 tObject = NewDataFromWeb(sEnvironment, sDataArray, tReference);
                 //AddObjectInListOfEdition(tObject);
             }
             else
             {
-                //Debug.Log("SynchronizationTryToUse () OLD DATA");
+                Debug.Log("SynchronizationTryToUse () OLD DATA Reference " + tReference);
                 string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
@@ -277,7 +277,7 @@ namespace NetWorkedData
         /// <param name="sData">S data.</param>
         public string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
         {
-            //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
+            Debug.Log("NWDBasis SynchronizationPullData() " + ClassTableName);
             //NWEBenchmark.Start();
             //NWEBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";

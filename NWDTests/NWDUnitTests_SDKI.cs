@@ -33,63 +33,73 @@ namespace NetWorkedData
     public partial class NWDUnitTests
     {
         //-------------------------------------------------------------------------------------------------------------
-        static bool TestDevice = false;
+        static bool UseFakeDevice = false;
         //-------------------------------------------------------------------------------------------------------------
-        static string DevicePlayerHash;
-        static string DeviceEditorHash;
+        static string FakeDevicePlayerHash;
+        static string FakeDeviceEditorHash;
         //-------------------------------------------------------------------------------------------------------------
-        public static void DevicePlayerReset()
+        public static void FakeDevicePlayerReset()
         {
-            DevicePlayerHash = "PlaY3r-" + NWDToolbox.RandomStringUnix(NWDAppEnvironment.kSecretKeyDevicePlayerLength);
+            FakeDevicePlayerHash = "PlaY3r-" + NWDToolbox.RandomStringUnix(NWDAppEnvironment.kSecretKeyDevicePlayerLength);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetDevicePlayer()
+        public static string GetFakeDevicePlayer()
         {
-            if (string.IsNullOrEmpty(DevicePlayerHash))
+            if (string.IsNullOrEmpty(FakeDevicePlayerHash))
             {
-                DevicePlayerReset();
+                FakeDevicePlayerReset();
             }
-            return DevicePlayerHash;
+            return FakeDevicePlayerHash;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void DeviceEditorReset()
+        public static void FakeDeviceEditorReset()
         {
-            DeviceEditorHash = "ediT0R-" + NWDToolbox.RandomStringUnix(NWDAppEnvironment.kSecretKeyDevicePlayerLength);
+            FakeDeviceEditorHash = "ediT0R-" + NWDToolbox.RandomStringUnix(NWDAppEnvironment.kSecretKeyDevicePlayerLength);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetDeviceEditor()
+        public static string GetFakeDeviceEditor()
         {
-            if (string.IsNullOrEmpty(DeviceEditorHash))
+            if (string.IsNullOrEmpty(FakeDeviceEditorHash))
             {
-                DeviceEditorReset();
+                FakeDeviceEditorReset();
             }
-            return DeviceEditorHash;
+            return FakeDeviceEditorHash;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool FakeDevice()
+        public static bool IsFakeDevice()
         {
-            return TestDevice;
+            return UseFakeDevice;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ActiveDevice()
+
+        public delegate void NWEDeviceBlock();
+        //-------------------------------------------------------------------------------------------------------------
+        public static void TryWithFakeDevice(NWEDeviceBlock sDeviceBlock)
         {
-            TestDevice = true;
+            UseFakeDevice = true;
+            sDeviceBlock();
+            UseFakeDevice = false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void DisableDevice()
+        public static void EnableFakeDevice()
         {
-            TestDevice = false;
+            UseFakeDevice = true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ResetDevice()
+        public static void DisableFakeDevice()
+        {
+            UseFakeDevice = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ResetFakeDevice()
         {
             LogStep("ResetDevice()");
-            DevicePlayerReset();
-            DeviceEditorReset();
-            ShowDevice();
+            FakeDevicePlayerReset();
+            FakeDeviceEditorReset();
+            ShowFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ShowDevice()
+        public static void ShowFakeDevice()
         {
             LogStep("ShowDevice()");
             Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
@@ -99,12 +109,12 @@ namespace NetWorkedData
             Log("SecretKeyDevicePlayer SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void TemporaryAccount()
+        public static void UseTemporaryAccount()
         {
             NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
             LogStep("TemporaryAccount()");
             Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-            ShowDevice();
+            ShowFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

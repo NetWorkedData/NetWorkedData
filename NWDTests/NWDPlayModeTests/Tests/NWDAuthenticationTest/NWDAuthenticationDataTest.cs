@@ -19,10 +19,10 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporaryDataSync()
         {
-            NWDUnitTests.ActiveDevice();
+            NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.LogNewTest();
-            NWDUnitTests.ResetDevice();
-            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.ResetFakeDevice();
+            NWDUnitTests.UseTemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             NWDUnitTests.Log("account before" + tEnvironment.PlayerAccountReference);
@@ -84,16 +84,16 @@ namespace NWDPlayModeTests
             NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null, tAvatarTestB);
 
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporaryNewDataSync()
         {
             Debug.Log("TemporarySync() Reset account");
-            NWDUnitTests.ActiveDevice();
-            NWDUnitTests.ResetDevice();
-            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.ResetFakeDevice();
+            NWDUnitTests.UseTemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
@@ -146,7 +146,7 @@ namespace NWDPlayModeTests
             // try get data with success
             NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(tAvatarTestB, null);
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

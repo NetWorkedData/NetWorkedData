@@ -18,9 +18,9 @@ namespace NWDPlayModeTests
         public IEnumerator TemporarySync()
         {
             Debug.Log("TemporarySync() Reset account");
-            NWDUnitTests.ActiveDevice();
-            NWDUnitTests.ResetDevice();
-            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.ResetFakeDevice();
+            NWDUnitTests.UseTemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
@@ -37,16 +37,16 @@ namespace NWDPlayModeTests
             Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
             string tC = tAccountC.Substring(tAccountC.Length - 1);
             Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporarySync_Reset_ReSync()
         {
             Debug.Log("TemporarySync() Reset account");
-            NWDUnitTests.ActiveDevice();
-            NWDUnitTests.ResetDevice();
-            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.ResetFakeDevice();
+            NWDUnitTests.UseTemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before " + tEnvironment.PlayerAccountReference);
@@ -65,8 +65,8 @@ namespace NWDPlayModeTests
             string tC = tAccountC.Substring(tAccountC.Length - 1);
             Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
 
-            NWDUnitTests.TemporaryAccount();
-            NWDUnitTests.ShowDevice();
+            NWDUnitTests.UseTemporaryAccount();
+            NWDUnitTests.ShowFakeDevice();
             Debug.Log("@@@@@@@@ account before second " + tEnvironment.PlayerAccountReference);
             // Sync
             NWDOperationWebSynchronisation tOperationB = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
@@ -77,16 +77,16 @@ namespace NWDPlayModeTests
             Debug.Log("@@@@@@@@ account after second " + tEnvironment.PlayerAccountReference);
             string tAccountB = tEnvironment.PlayerAccountReference + string.Empty;
             Assert.AreEqual(tAccountC, tAccountB);
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporaryUserTransfertSync()
         {
             Debug.Log("TemporaryUserTransfertSync() Reset account");
-            NWDUnitTests.ActiveDevice();
-            NWDUnitTests.ResetDevice();
-            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.ResetFakeDevice();
+            NWDUnitTests.UseTemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
@@ -108,16 +108,16 @@ namespace NWDPlayModeTests
             Assert.AreEqual(tT, NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE);
             Assert.AreEqual(tC, NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE);
             Assert.AreEqual(tAccountC, tAvatar.Account.GetReference());
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]
         public IEnumerator TemporaryUserTransfertSyncMoreComplexe()
         {
             Debug.Log("TemporaryUserTransfertSyncMoreComplexe() Reset account");
-            NWDUnitTests.ActiveDevice();
-            NWDUnitTests.ResetDevice();
-            NWDUnitTests.TemporaryAccount();
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.ResetFakeDevice();
+            NWDUnitTests.UseTemporaryAccount();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             string tAccountT = tEnvironment.PlayerAccountReference + string.Empty;
             Debug.Log("@@@@@@@@ account before" + tEnvironment.PlayerAccountReference);
@@ -145,7 +145,7 @@ namespace NWDPlayModeTests
             Assert.AreEqual(tAccountC, tAvatar.Account.GetReference());
             Assert.AreEqual(tAccountC, tGameSave.Account.GetReference());
             Assert.AreEqual(tAccountC, tAccountInfos.Account.GetReference());
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

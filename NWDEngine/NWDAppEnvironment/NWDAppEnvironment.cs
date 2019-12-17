@@ -224,9 +224,9 @@ namespace NetWorkedData
             string rReturn;
             rReturn = NWESecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
 #if UNITY_INCLUDE_TESTS
-            if (NWDUnitTests.FakeDevice())
+            if (NWDUnitTests.IsFakeDevice())
             {
-                rReturn = NWDUnitTests.GetDeviceEditor();
+                rReturn = NWDUnitTests.GetFakeDeviceEditor();
             }
 #endif
             return rReturn;
@@ -247,9 +247,9 @@ namespace NetWorkedData
                 rReturn = NWEPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
             }
 #if UNITY_INCLUDE_TESTS
-            if (NWDUnitTests.FakeDevice())
+            if (NWDUnitTests.IsFakeDevice())
             {
-                rReturn = NWDUnitTests.GetDevicePlayer();
+                rReturn = NWDUnitTests.GetFakeDevicePlayer();
             }
 #endif
             return rReturn;
@@ -259,9 +259,9 @@ namespace NetWorkedData
         {
             NWEPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
 #if UNITY_INCLUDE_TESTS
-            if (NWDUnitTests.FakeDevice())
+            if (NWDUnitTests.IsFakeDevice())
             {
-                NWDUnitTests.DevicePlayerReset();
+                NWDUnitTests.FakeDevicePlayerReset();
             }
 #endif
         }

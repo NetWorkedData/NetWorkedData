@@ -17,14 +17,14 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator Sync()
         {
-            NWDUnitTests.ActiveDevice();
+            NWDUnitTests.EnableFakeDevice();
             NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
             while (!tOperation.IsFinish)
             {
                 yield return null;
             }
             Debug.Log("TestSync() Finish");
-            NWDUnitTests.DisableDevice();
+            NWDUnitTests.DisableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
