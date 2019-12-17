@@ -17,14 +17,48 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator Sync()
         {
-            NWDUnitTests.EnableFakeDevice();
-            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, null, true, false, NWDOperationSpecial.None);
-            while (!tOperation.IsFinish)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            Debug.Log("TestSync() Finish");
+            NWDUnitTests.LogStep("web sync A");
+            bool tTest = false;
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.ResetFakeDevice();
+            NWDOperationWebSynchronisation tOperation = NWDOperationWebSynchronisation.AddOperation(null,
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
+                {
+                    Debug.Log("NWDSyncTest Success");
+                    tTest = true;
+                }, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            NWDUnitTests.Log("TestSync() Start");
+            while (!tOperation.IsFinish)
+            {
+                //NWDUnitTests.Log("TestSync() in progress");
+            }
+            NWDUnitTests.Log("TestSync() Finished");
             NWDUnitTests.DisableFakeDevice();
+
+            Assert.IsTrue(tTest);
+
+            tTest = false;
+            NWDUnitTests.EnableFakeDevice();
+            NWDUnitTests.LogStep("web sync B");
+            NWDOperationWebSynchronisation tOperationB = NWDOperationWebSynchronisation.AddOperation(null,
+                delegate (NWEOperation bOperation, float bProgress, NWEOperationResult bResult)
+                {
+                    Debug.Log("NWDSyncTest Success");
+                    tTest = true;
+                }, null, null, null, null, null, true, false, NWDOperationSpecial.None);
+            NWDUnitTests.Log("TestSync() B Start");
+            while (!tOperationB.IsFinish)
+            {
+                //NWDUnitTests.Log("TestSync() B in progress");
+            }
+            NWDUnitTests.Log("TestSync() B Finished");
+            NWDUnitTests.DisableFakeDevice();
+
+            Assert.IsTrue(tTest);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

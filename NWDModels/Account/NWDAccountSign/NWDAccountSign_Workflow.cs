@@ -24,14 +24,14 @@ namespace NetWorkedData
         public NWDAccountSign()
         {
 #if UNITY_EDITOR
-            Debug.Log("<color=red>NWDAccountSign()</color>");
+            //Debug.Log("<color=red>NWDAccountSign()</color>");
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
 #if UNITY_EDITOR
-            Debug.Log("<color=red>NWDAccountSign(sInsertInNetWorkedData = " + sInsertInNetWorkedData.ToString() + ")</color>");
+            //Debug.Log("<color=red>NWDAccountSign(sInsertInNetWorkedData = " + sInsertInNetWorkedData.ToString() + ")</color>");
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

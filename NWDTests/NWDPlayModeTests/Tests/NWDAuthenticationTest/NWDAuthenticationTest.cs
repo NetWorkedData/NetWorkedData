@@ -18,6 +18,10 @@ namespace NWDPlayModeTests
         public IEnumerator TemporarySync()
         {
             Debug.Log("TemporarySync() Reset account");
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.ResetFakeDevice();
             NWDUnitTests.UseTemporaryAccount();
@@ -44,6 +48,10 @@ namespace NWDPlayModeTests
         public IEnumerator TemporarySync_Reset_ReSync()
         {
             Debug.Log("TemporarySync() Reset account");
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.ResetFakeDevice();
             NWDUnitTests.UseTemporaryAccount();
@@ -84,6 +92,10 @@ namespace NWDPlayModeTests
         public IEnumerator TemporaryUserTransfertSync()
         {
             Debug.Log("TemporaryUserTransfertSync() Reset account");
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.ResetFakeDevice();
             NWDUnitTests.UseTemporaryAccount();
@@ -115,6 +127,10 @@ namespace NWDPlayModeTests
         public IEnumerator TemporaryUserTransfertSyncMoreComplexe()
         {
             Debug.Log("TemporaryUserTransfertSyncMoreComplexe() Reset account");
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.ResetFakeDevice();
             NWDUnitTests.UseTemporaryAccount();

@@ -18,6 +18,11 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporarySyncAddSign()
         {
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
+
             NWDUnitTests.EnableFakeDevice();
             // create account
             Debug.Log("TemporarySync() Reset account");
@@ -95,6 +100,10 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporarySyncAndAddSignSignIn()
         {
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             NWDUnitTests.EnableFakeDevice();
             // create account
             Debug.Log("TemporarySync() Reset account");

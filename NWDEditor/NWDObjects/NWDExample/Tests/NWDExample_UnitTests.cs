@@ -36,8 +36,8 @@ namespace NetWorkedDataTests
         //-------------------------------------------------------------------------------------------------------------
         [Test]
 		public void Test_Duplicate()
-		{
-			NWDUnitTests.CleanUnitTests(); // clean environment before
+        {
+            NWDUnitTests.CleanUnitTests(); // clean environment before
             NWDExample tItemA = NWDUnitTests.NewData<NWDExample>();
 			tItemA.UpdateData();
             NWDExample tItemB = NWDUnitTests.DuplicateData(tItemA);

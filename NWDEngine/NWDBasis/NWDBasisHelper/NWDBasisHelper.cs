@@ -922,7 +922,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsIndexed()
         {
-            return NWDDataManager.SharedInstance().DataIndexed;
+            return NWDDataManager.SharedInstance().DatasAreIndexed();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsLoaded()

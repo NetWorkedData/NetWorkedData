@@ -20,7 +20,7 @@ namespace NWDPlayModeTests
         public IEnumerator BasisHelperNew()
         {
             Debug.Log("BasisHelperNew()");
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
@@ -32,11 +32,11 @@ namespace NWDPlayModeTests
             // Memorise Reference of Data
             string tReference = tAvatar.Reference + string.Empty;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null, tAvatarTest);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace NWDPlayModeTests
         public IEnumerator BasisHelperNewWithoutReccord()
         {
             Debug.Log("BasisHelperNew()");
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
@@ -54,11 +54,11 @@ namespace NWDPlayModeTests
             // Memorise Reference of Data
             string tReference = tAvatar.Reference + string.Empty;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null, tAvatarTest);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ namespace NWDPlayModeTests
         public IEnumerator BasisHelperNewData()
         {
             Debug.Log("BasisHelperNewData()");
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
@@ -78,11 +78,11 @@ namespace NWDPlayModeTests
             // Memorise Reference of Data
             string tReference = tAvatar.Reference + string.Empty;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null,tAvatarTest);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ namespace NWDPlayModeTests
         public IEnumerator BasisHelperNewAndDeleteData()
         {
             Debug.Log("BasisHelperNewData()");
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
@@ -102,22 +102,22 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // Memorise Reference of Data
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null, tAvatarTest);
             tAvatarTest.DeleteData();
             // force to write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             // Memorise Reference of Data
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTestDeleted = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTestDeleted = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreEqual(null, tAvatarTestDeleted);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ namespace NWDPlayModeTests
         public IEnumerator BasisHelperNewDataAndDeleteData()
         {
             Debug.Log("BasisHelperNewData()");
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
@@ -137,22 +137,22 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // Memorise Reference of Data
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null, tAvatarTest);
             tAvatarTest.DeleteData();
             // force to write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
             // Memorise Reference of Data
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTestDeleted = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTestDeleted = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreEqual(null, tAvatarTestDeleted);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ namespace NWDPlayModeTests
         public IEnumerator BasisHelperUpdateTestOne()
         {
             Debug.Log("BasisHelperNewData()");
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
@@ -177,12 +177,12 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // reload datas
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
             // test description was reccorded
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreEqual(tDescriptionTest, tAvatarTest.InternalDescription);
             // create new description
             string tDescriptionTestB = NWDToolbox.RandomStringUnix(32);
@@ -192,11 +192,11 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // reccord other of Data
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTestNotModified = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTestNotModified = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(tDescriptionTestB, tAvatarTestNotModified.InternalDescription);
             // assign and save
             tAvatarTestNotModified.InternalDescription = tDescriptionTestB;
@@ -206,11 +206,11 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // Memorise Reference of Data
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
-            NWDAccountAvatar tAvatarTestModified = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTestModified = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(tDescriptionTestB, tAvatarTestModified.InternalDescription);
         }
         //-------------------------------------------------------------------------------------------------------------

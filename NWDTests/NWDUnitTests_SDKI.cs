@@ -14,6 +14,7 @@
 using System;
 using UnityEngine;
 using NetWorkedData;
+using System.Collections.Generic;
 
 #if UNITY_INCLUDE_TESTS
 //=====================================================================================================================
@@ -69,16 +70,6 @@ namespace NetWorkedData
         public static bool IsFakeDevice()
         {
             return UseFakeDevice;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-
-        public delegate void NWEDeviceBlock();
-        //-------------------------------------------------------------------------------------------------------------
-        public static void TryWithFakeDevice(NWEDeviceBlock sDeviceBlock)
-        {
-            UseFakeDevice = true;
-            sDeviceBlock();
-            UseFakeDevice = false;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void EnableFakeDevice()

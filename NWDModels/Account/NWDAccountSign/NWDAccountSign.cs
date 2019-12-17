@@ -37,8 +37,14 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
     {
-#if UNITY_EDITOR
+#if UNITY_INCLUDE_TESTS
         public static NWDAccountSignType Fake = Add(88, "FakeID"); // NEVER CHANGE INT VALUE !!!
+#endif
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
+    {
+#if UNITY_EDITOR
         public static NWDAccountSignType EditorID = Add(99, "EditorID"); // NEVER CHANGE INT VALUE !!!
 #endif
     }

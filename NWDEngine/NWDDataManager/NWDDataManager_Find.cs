@@ -194,7 +194,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncIndexAllObjects()
         {
-            DataIndexed = false;
+            DatasIndexed = false;
             while (DataAccountConnected == false)
             {
                 yield return null;
@@ -208,7 +208,7 @@ namespace NetWorkedData
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
                 yield return null;
             }
-            DataIndexed = true;
+            DatasIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
@@ -232,7 +232,7 @@ namespace NetWorkedData
         {
             NWEBenchmark.Start();
             int tRow = 0;
-            DataIndexed = false;
+            DatasIndexed = false;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
@@ -242,7 +242,7 @@ namespace NetWorkedData
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }
-            DataIndexed = true;
+            DatasIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             NWEBenchmark.Finish();
             Debug.Log("row indexed : "+ tRow + " rows.");

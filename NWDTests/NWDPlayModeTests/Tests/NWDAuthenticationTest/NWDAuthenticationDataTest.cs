@@ -19,6 +19,10 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporaryDataSync()
         {
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.LogNewTest();
             NWDUnitTests.ResetFakeDevice();
@@ -64,12 +68,12 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // reload data from base
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
             // try get data with no success
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreEqual(null, tAvatarTest);
 
 
@@ -81,7 +85,7 @@ namespace NWDPlayModeTests
                 yield return null;
             }
             // try get data with success
-            NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(null, tAvatarTestB);
 
             NWDUnitTests.DisableFakeDevice();
@@ -90,6 +94,10 @@ namespace NWDPlayModeTests
         [UnityTest]
         public IEnumerator TemporaryNewDataSync()
         {
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
+            {
+                yield return null;
+            }
             Debug.Log("TemporarySync() Reset account");
             NWDUnitTests.EnableFakeDevice();
             NWDUnitTests.ResetFakeDevice();
@@ -130,12 +138,12 @@ namespace NWDPlayModeTests
             NWDDataManager.SharedInstance().DataQueueExecute();
             // reload data from base
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            while (NWDDataManager.SharedInstance().DataIndexed == false)
+            while (NWDDataManager.SharedInstance().DatasAreNotReady())
             {
                 yield return null;
             }
             // try get data with no success
-            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTest = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreEqual(null, tAvatarTest);
             // Sync Force
             NWDOperationWebSynchronisation tOperationC = NWDOperationWebSynchronisation.AddOperation(null, null, null, null, null, null, new List<Type>() { typeof(NWDAccountAvatar) }, true, false, NWDOperationSpecial.None);
@@ -144,7 +152,7 @@ namespace NWDPlayModeTests
                 yield return null;
             }
             // try get data with success
-            NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetEditorDataByReference<NWDAccountAvatar>(tReference);
+            NWDAccountAvatar tAvatarTestB = NWDBasisHelper.GetRawDataByReference<NWDAccountAvatar>(tReference);
             Assert.AreNotEqual(tAvatarTestB, null);
             NWDUnitTests.DisableFakeDevice();
         }
