@@ -21,21 +21,11 @@ namespace NetWorkedData
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign()
-        {
-#if UNITY_EDITOR
-            //Debug.Log("<color=red>NWDAccountSign()</color>");
-#endif
-        }
+        public NWDAccountSign() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-#if UNITY_EDITOR
-            //Debug.Log("<color=red>NWDAccountSign(sInsertInNetWorkedData = " + sInsertInNetWorkedData.ToString() + ")</color>");
-#endif
-        }
+        public NWDAccountSign(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() { }
+        public override void Initialization() {}
         //=============================================================================================================
         // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
@@ -423,7 +413,6 @@ namespace NetWorkedData
             }
             else
             {
-                //InternalKey = "Sign Assosiate";
                 InternalKey = "(" + SignStatus.ToString() + ")";
             }
             Tag = NWDBasisTag.TagAdminCreated;
