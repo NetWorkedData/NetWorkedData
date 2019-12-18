@@ -382,6 +382,24 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountSign GetReacheableAccountSign(string sSignHash, NWDAccountSignType sAccountType)
+        {
+            NWDAccountSign rResult = null;
+            NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
+            foreach (NWDAccountSign k in tSigns)
+            {
+                if (k.SignType == sAccountType)
+                {
+                    if (k.SignHash.Equals(sSignHash) || sSignHash.Equals(""))
+                    {
+                        rResult = k;
+                        break;
+                    }
+                }
+            }
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountSign GetFirstReacheableAccountSign(NWDAccountSignType sAccountType)
         {
             NWDAccountSign[] tSigns = NWDBasisHelper.GetReachableDatas<NWDAccountSign>();
