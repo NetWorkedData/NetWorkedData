@@ -18,7 +18,7 @@ using NUnit.Framework;
 using NetWorkedData;
 
 //=====================================================================================================================
-namespace NetWorkedDataTests
+namespace NWDEditorTests
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDExample_UnitTests

@@ -52,7 +52,7 @@ namespace NetWorkedData
         //    StringBuilder tFile = new StringBuilder();
         //    tFile.AppendLine("using NUnit.Framework;");
         //    tFile.AppendLine("using NetWorkedData;");
-        //    tFile.AppendLine("namespace NetWorkedDataTests");
+        //    tFile.AppendLine("namespace NWDEditorTests");
         //    tFile.AppendLine("{");
         //    tFile.AppendLine("\tpublic partial class " + sClassNamePHP + "_Tests");
         //    tFile.AppendLine("\t{");

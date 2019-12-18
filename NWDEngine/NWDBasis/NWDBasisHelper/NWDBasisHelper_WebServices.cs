@@ -40,14 +40,14 @@ namespace NetWorkedData
             NWDTypeClass tObject = GetDataByReference(tReference);
             if (tObject == null)
             {
-                Debug.Log("SynchronizationTryToUse () NEW DATA Reference " + tReference);
+                //Debug.Log("SynchronizationTryToUse () NEW DATA Reference " + tReference);
                 sInfos.RowAddedCounter++;
                 tObject = NewDataFromWeb(sEnvironment, sDataArray, tReference);
                 //AddObjectInListOfEdition(tObject);
             }
             else
             {
-                Debug.Log("SynchronizationTryToUse () OLD DATA Reference " + tReference);
+                //Debug.Log("SynchronizationTryToUse () OLD DATA Reference " + tReference);
                 string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
@@ -80,7 +80,7 @@ namespace NetWorkedData
             {
 #if UNITY_EDITOR
                 //Datas().CSVAssemblyOrderArrayPrepare();
-                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + ClassTableName + " \n" + string.Join("|", sData + "\n"));
+                //Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + ClassTableName + " \n" + string.Join("|", sData + "\n"));
                 //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
 #endif
             }
