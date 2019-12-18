@@ -1,5 +1,5 @@
 {
-    "name": "Tests",
+    "name": "NWDPlayMode_UnitTests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
