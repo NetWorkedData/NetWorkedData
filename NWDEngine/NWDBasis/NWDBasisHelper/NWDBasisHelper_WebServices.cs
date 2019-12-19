@@ -280,7 +280,7 @@ namespace NetWorkedData
         /// <param name="sData">S data.</param>
         public string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
         {
-            Debug.Log("NWDBasis SynchronizationPullData() " + ClassTableName);
+            //Debug.Log("NWDBasis SynchronizationPullData() " + ClassTableName);
             //NWEBenchmark.Start();
             //NWEBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";
