@@ -288,7 +288,8 @@ namespace NetWorkedData
 
             tFile.AppendLine("function CreateAccount($sOldUUID, $sSDKt, $sSDKv, $sSDKr, $sSDKl)");
             tFile.AppendLine("{");
-            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "$sOldUUID = '.$sOldUUID.'"));
             tFile.AppendLine("$rReturn = false;");
             tFile.AppendLine("global $ACC_TMP, $TIME_SYNC, $ACC_NEED_USER_TRANSFERT;");
             tFile.AppendLine("global $shs, $ereg_token;");

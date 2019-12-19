@@ -803,12 +803,16 @@ namespace NetWorkedData
                     string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
                     File.WriteAllText(tPath, tFileDebug);
 #if UNITY_EDITOR
-                    EditorUtility.RevealInFinder(tPath);
+                    //EditorUtility.RevealInFinder(tPath);
+                    //NWDAppEnvironmentSync.SharedInstanceFocus();
 #endif
                 }
-                if (Environment.LogMode == true)
+                else
                 {
-                    NWDDebug.Log(tFileDebug);
+                    if (Environment.LogMode == true)
+                    {
+                        NWDDebug.Log(tFileDebug);
+                    }
                 }
             }
         }
@@ -858,12 +862,16 @@ namespace NetWorkedData
                     string tPath = Application.persistentDataPath + "/WEBLOG-secure-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
                     File.WriteAllText(tPath, tFileDebug);
 #if UNITY_EDITOR
-                    EditorUtility.RevealInFinder(tPath);
+                    //EditorUtility.RevealInFinder(tPath);
+                    //NWDAppEnvironmentSync.SharedInstanceFocus();
 #endif
                 }
-                if (Environment.LogMode == true)
+                else
                 {
-                    NWDDebug.Log(tFileDebug);
+                    if (Environment.LogMode == true)
+                    {
+                        NWDDebug.Log(tFileDebug);
+                    }
                 }
             }
         }

@@ -1758,6 +1758,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respond_RestartWebService()");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_RESTART_WEBSERVICE_KEY + "'] = true;");
             tFile.AppendLine("}");
@@ -1765,6 +1766,9 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respond_UserTransfert($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_USER_TRANSFERT_KEY + "'] = true;");
@@ -1775,6 +1779,9 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respond_NewUser($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
             //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
@@ -1784,12 +1791,15 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respond_ChangeUser($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $CHANGE_USER;");
             tFile.AppendLine("$CHANGE_USER = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEXT_USER_KEY + "'] = $sNewReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEXT_USER_KEY + "'] = $sNewReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 

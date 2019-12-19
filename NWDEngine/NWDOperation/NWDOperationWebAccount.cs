@@ -119,8 +119,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override bool CanRestart()
         {
-            Statut = NWEOperationState.ReStart;
-            return true;
+            //Statut = NWEOperationState.ReStart;
+            //return true;
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------

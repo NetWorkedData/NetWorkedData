@@ -34,6 +34,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override bool IsSynchronized()
         {
+            if (SynchronizeStamp() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public int SynchronizeStamp()
+        {
             int tD = 0;
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement())
             {
@@ -47,15 +59,7 @@ namespace NetWorkedData
             {
                 tD = ProdSync;
             }
-
-            if (tD > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+                return tD;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override int WebModelToUse()

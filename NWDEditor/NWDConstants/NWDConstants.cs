@@ -159,6 +159,9 @@ namespace NetWorkedData
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 
+
+        public const string K_MENU_DEBUG_FOLDER = K_MENU_BASE + "/Show debug Folder File";
+
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Ref";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account Internal Key";

@@ -715,7 +715,8 @@ namespace NetWorkedData
             tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("// respondUUID($tNewUuid);");
-            tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
+            //tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
+            tFile.AppendLine("NWDRequestTokenDeleteAllToken($HeaderUUID); // delete old tokens");
             //tFile.AppendLine("respond_SignIn();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
@@ -740,7 +741,8 @@ namespace NetWorkedData
             //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
             tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
-            tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
+            //tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
+            tFile.AppendLine("NWDRequestTokenDeleteAllToken($HeaderUUID);  // delete old tokens");
             //tFile.AppendLine("respond_SignOut();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");

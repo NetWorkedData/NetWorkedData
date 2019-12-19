@@ -661,6 +661,13 @@ namespace NetWorkedData
             Debug.Log(tText.ToString());
         }
         //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_DEBUG_FOLDER, false, 9999)]
+        public static void ShowDebugFolder()
+        {
+            string tPath = Application.persistentDataPath + "/Unity";
+            EditorUtility.RevealInFinder(tPath);
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
