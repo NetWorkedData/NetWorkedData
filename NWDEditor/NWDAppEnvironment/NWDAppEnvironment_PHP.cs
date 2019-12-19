@@ -709,9 +709,10 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tOldUuid = $uuid;");
-            tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, false);");
-            tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            //tFile.AppendLine("$tOldUuid = $uuid;");
+            tFile.AppendLine("$tNewUuid = FindAccount($HeaderUUID, $sdki, false);");
+            //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("// respondUUID($tNewUuid);");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
@@ -733,10 +734,11 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tOldUuid = $uuid;");
+            //tFile.AppendLine("$tOldUuid = $uuid;");
             //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
             tFile.AppendLine("$tNewUuid = FindAccount(time().'" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "', $sdki, true);");
-            tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
             //tFile.AppendLine("respond_SignOut();");

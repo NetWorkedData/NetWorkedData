@@ -1208,6 +1208,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("// I must prevent admin mode in table creation");
             tFile.AppendLine("global $admin;");
+            tFile.AppendLine("global $HeaderUUID;");
             tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
             tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
             tFile.AppendLine("if ($admin==true)");
@@ -1224,6 +1225,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (headerValue ('uuid', '" + NWD.UUIDKey + "', $ereg_UUID, '" + NWDError.NWDError_HEA04.Code + "', '" + NWDError.NWDError_HEA14.Code + "')) // test UUID of headers");
             tFile.AppendLine("{");
+            tFile.AppendLine("$HeaderUUID = $uuid;");
             tFile.AppendLine("if (headerValue ('hash', '" + NWD.HashKey + "', $ereg_hash, '" + NWDError.NWDError_HEA05.Code + "', '" + NWDError.NWDError_HEA15.Code + "')) // test hash of headers");
             tFile.AppendLine("{");
             tFile.AppendLine("headerBrutalValue ('token', '" + NWD.RequestTokenKey + "');");

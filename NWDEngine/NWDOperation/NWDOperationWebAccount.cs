@@ -42,8 +42,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccountAction Action;
-        public string PasswordToken;
-        public string SignHash;
+        public string PasswordToken; // rename SignInHash
+        public string SignHash; // rename SignUpHash
         public string RescueHash;
         public string LoginHash;
         public string RescueEmail;
@@ -119,6 +119,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override bool CanRestart()
         {
+            Statut = NWEOperationState.ReStart;
+            return true;
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------

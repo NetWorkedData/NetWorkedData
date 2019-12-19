@@ -29,9 +29,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperationWebAction : int
+    public enum NWDOperationWebAction
     {
-        Sync = 1,
+        Sync = 0,
         SignIn = 1,
         SignOut = 2,
         Rescue = 3,
@@ -40,9 +40,17 @@ namespace NetWorkedData
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDOperationFinalStatut
+    {
+        Success = 0,
+        Fail = 1,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
     public partial class NWDOperationWebUnity : NWEOperation
     {
+        NWDOperationFinalStatut FinalStatut;
+
         //-------------------------------------------------------------------------------------------------------------
         //public static int kTimeOutOfRequest = 300;
         public GameObject GameObjectToSpawn;
@@ -280,7 +288,8 @@ namespace NetWorkedData
                             ResultInfos.SetError(NWDError.NWDError_WEB04);
                             // Application is in running mode
                             // Request Failed, send Invoke
-                            FailInvoke(Request.downloadProgress, ResultInfos);
+                            //FailInvoke(Request.downloadProgress, ResultInfos);
+                            FinalStatut = NWDOperationFinalStatut.Fail;
                         }
                         else
                         {
@@ -302,7 +311,8 @@ namespace NetWorkedData
                                         // Notification of a Download success
                                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                                         // Request Failed, send Invoke
-                                        FailInvoke(Request.downloadProgress, ResultInfos);
+                                        //FailInvoke(Request.downloadProgress, ResultInfos);
+                                        FinalStatut = NWDOperationFinalStatut.Fail;
                                     }
                                     else
                                     {
@@ -443,7 +453,8 @@ namespace NetWorkedData
                                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
 
                                             // Request Success, send Invoke
-                                            SuccessInvoke(Request.downloadProgress, ResultInfos);
+                                            //SuccessInvoke(Request.downloadProgress, ResultInfos);
+                                            FinalStatut = NWDOperationFinalStatut.Success;
                                         }
                                     }
                                 }
@@ -489,7 +500,8 @@ namespace NetWorkedData
                     NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, ResultInfos));
 
                     // Invoke fail callback methode
-                    FailInvoke(Request.downloadProgress, ResultInfos);
+                    //FailInvoke(Request.downloadProgress, ResultInfos);
+                    FinalStatut = NWDOperationFinalStatut.Fail;
                 }
                 Finish();
             }
@@ -527,7 +539,26 @@ namespace NetWorkedData
             {
                 Statut = NWEOperationState.Finish;
                 IsFinish = true;
+
+                switch (FinalStatut)
+                {
+                    case NWDOperationFinalStatut.Success:
+                        {
+                            SuccessInvoke(Request.downloadProgress, ResultInfos);
+                        }
+                        break;
+                    case NWDOperationFinalStatut.Fail:
+                        {
+                            FailInvoke(Request.downloadProgress, ResultInfos);
+                        }
+                        break;
+                }
+
+
                 Parent.NextOperation(QueueName);
+
+
+
             }
         }
         //-------------------------------------------------------------------------------------------------------------
