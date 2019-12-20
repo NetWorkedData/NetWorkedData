@@ -96,6 +96,9 @@ namespace NWDEditorTests
         [Test]
         public void TestFakeDevice()
         {
+            // force DisableFakeDevice
+            NWDUnitTests.DisableFakeDevice();
+
             string SecretEditor = NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor() + string.Empty;
             string SecretPlayMode = NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer() + string.Empty;
 
@@ -113,6 +116,9 @@ namespace NWDEditorTests
         [Test]
         public void TestRestaureFakeDevice()
         {
+
+            // force DisableFakeDevice
+            NWDUnitTests.DisableFakeDevice();
             NWDUnitTests.ShowFakeDevice();
 
             string SecretEditor = NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDeviceEditor() + string.Empty;

@@ -30,12 +30,18 @@ namespace NetWorkedData
         {
             Debug.Log("NWDUnitTests EnableTest()");
             kActive = true;
+            // active device
+            EnableFakeDevice();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void DisableTest()
         {
             Debug.Log("NWDUnitTests DisableTest()");
             kActive = false;
+            // restaure device
+            DisableFakeDevice();
+            // clean data? YES
+            CleanUnitTests(false);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsTest()
