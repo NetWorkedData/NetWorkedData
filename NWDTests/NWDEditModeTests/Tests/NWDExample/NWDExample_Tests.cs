@@ -14,7 +14,7 @@ using NetWorkedData;
 //=====================================================================================================================
 namespace NWDEditorTests
 {
-    public partial class NWDExample_Tests
+    public class NWDExample_Tests : NWDClassTest
     {
         //-------------------------------------------------------------------------------------------------------------
         [Test]

@@ -14,7 +14,7 @@ using NetWorkedData;
 //=====================================================================================================================
 namespace NWDPlayModeProcess
 {
-    public class NWDExample_Process
+    public class NWDExample_Process : NWDClassTest
     {
         //-------------------------------------------------------------------------------------------------------------
         [UnityTest]

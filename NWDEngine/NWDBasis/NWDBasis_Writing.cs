@@ -446,9 +446,12 @@ namespace NetWorkedData
         public void InsertDataOperation(bool sAutoDate = true)
         {
             //NWEBenchmark.Start();
-//#if UNITY_INCLUDE_TESTS
-            // Tag = NWDBasisTag.UnitTestToDelete;
-//#endif
+#if UNITY_INCLUDE_TESTS
+            if (NWDUnitTests.IsTest())
+            {
+                Tag = NWDBasisTag.UnitTestToDelete;
+            }
+#endif
             if (sAutoDate == true)
             {
                 this.DC = NWDToolbox.Timestamp();

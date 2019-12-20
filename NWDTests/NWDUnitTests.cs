@@ -24,6 +24,25 @@ namespace NetWorkedData
     public partial class NWDUnitTests
     {
         //-------------------------------------------------------------------------------------------------------------
+        private static bool kActive;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void EnableTest()
+        {
+            Debug.Log("NWDUnitTests EnableTest()");
+            kActive = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DisableTest()
+        {
+            Debug.Log("NWDUnitTests DisableTest()");
+            kActive = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsTest()
+        {
+            return kActive;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //const int kUnitTestDC = 123456789;
         const string kDescriptionMark = "For UnitTest only";
         const string kDescriptionMarkNew = "For UnitTest only -- new --";

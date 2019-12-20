@@ -1,27 +1,24 @@
 //=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:22:47
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
-//
-//  All rights reserved by ideMobi
+//  ideMobi 2019© All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+#if UNITY_INCLUDE_TESTS
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
 using NetWorkedData;
-
 //=====================================================================================================================
 namespace NWDEditorTests
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDExample_UnitTests
+    public partial class NWDExample_UnitTests : NWDClassTest
+    {
+        // herited NWDClassTest
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDExample_UnitTests : NWDClassTest
     {
         //-------------------------------------------------------------------------------------------------------------
         [Test]
@@ -35,17 +32,18 @@ namespace NWDEditorTests
         }
         //-------------------------------------------------------------------------------------------------------------
         [Test]
-		public void Test_Duplicate()
+        public void Test_Duplicate()
         {
             NWDUnitTests.CleanUnitTests(); // clean environment before
             NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
-			tItemA.UpdateData();
+            tItemA.UpdateData();
             NWDExample tItemB = NWDBasisHelper.DuplicateData(tItemA);
-			Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
-			NWDUnitTests.CleanUnitTests(); // clean environment after
+            Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
+            NWDUnitTests.CleanUnitTests(); // clean environment after
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
