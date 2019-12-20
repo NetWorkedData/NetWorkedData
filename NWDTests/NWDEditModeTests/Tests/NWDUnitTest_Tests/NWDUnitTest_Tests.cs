@@ -20,34 +20,34 @@ namespace NWDEditorTests
         [Test]
         public void TestNewData_NotClean()
         {
-            NWDEditorModelTest tItemA = NWDBasisHelper.NewData<NWDEditorModelTest>();
+            NWDExample tItemA = NWDBasisHelper.NewData<NWDExample>();
             Assert.AreEqual(tItemA.Tag, NWDBasisTag.UnitTestToDelete);
         }
         //-------------------------------------------------------------------------------------------------------------
         [Test]
         public void TestNewLocalData_NotClean()
         {
-            NWDEditorModelTest tItemA = NWDUnitTests.NewLocalData<NWDEditorModelTest>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
             Assert.AreEqual(tItemA.Tag, NWDBasisTag.UnitTestToDelete);
         }
         //-------------------------------------------------------------------------------------------------------------
         [Test]
         public void TestNewData()
         {
-            NWDEditorModelTest tItemA = NWDBasisHelper.NewData<NWDEditorModelTest>();
+            NWDExample tItemA = NWDBasisHelper.NewData<NWDExample>();
             Assert.AreEqual(tItemA.Tag, NWDBasisTag.UnitTestToDelete);
             NWDUnitTests.CleanUnitTests();
-            NWDEditorModelTest tItemB = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(tItemA.Reference);
+            NWDExample tItemB = NWDBasisHelper.GetRawDataByReference<NWDExample>(tItemA.Reference);
             Assert.AreEqual(null, tItemB);
         }
         //-------------------------------------------------------------------------------------------------------------
         [Test]
         public void TestNewLocalData()
         {
-            NWDEditorModelTest tItemA = NWDUnitTests.NewLocalData<NWDEditorModelTest>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
             Assert.AreEqual(tItemA.Tag, NWDBasisTag.UnitTestToDelete);
             NWDUnitTests.CleanUnitTests();
-            NWDEditorModelTest tItemB = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(tItemA.Reference);
+            NWDExample tItemB = NWDBasisHelper.GetRawDataByReference<NWDExample>(tItemA.Reference);
             Assert.AreEqual(null, tItemB);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -56,40 +56,40 @@ namespace NWDEditorTests
         [Test]
         public void TestPermanentData()
         {
-            NWDEditorModelTest tItemA = NWDUnitTests.PermanentData<NWDEditorModelTest>("unit test", kPermanentDataReference);
+            NWDExample tItemA = NWDUnitTests.PermanentData<NWDExample>("unit test", kPermanentDataReference);
             Assert.AreEqual(tItemA.Tag, NWDBasisTag.UnitTestNotDelete);
             NWDUnitTests.CleanUnitTests();
-            NWDEditorModelTest tItemB = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(kPermanentDataReference);
+            NWDExample tItemB = NWDBasisHelper.GetRawDataByReference<NWDExample>(kPermanentDataReference);
             Assert.AreNotEqual(null, tItemB);
         }
         //-------------------------------------------------------------------------------------------------------------
         [Test]
         public void TestLocalDataDupplicate()
         {
-            NWDEditorModelTest tItemA = NWDUnitTests.NewLocalData<NWDEditorModelTest>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
             tItemA.UpdateData();
-            NWDEditorModelTest tItemB = NWDBasisHelper.DuplicateData(tItemA, false);
+            NWDExample tItemB = NWDBasisHelper.DuplicateData(tItemA, false);
             NWDUnitTests.SetUnitTestData(tItemB);
             Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
             NWDUnitTests.CleanUnitTests();
-            NWDEditorModelTest tItemC = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(tItemA.Reference);
+            NWDExample tItemC = NWDBasisHelper.GetRawDataByReference<NWDExample>(tItemA.Reference);
             Assert.AreEqual(null, tItemC);
-            NWDEditorModelTest tItemD = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(tItemB.Reference);
+            NWDExample tItemD = NWDBasisHelper.GetRawDataByReference<NWDExample>(tItemB.Reference);
             Assert.AreEqual(null, tItemD);
         }
         //-------------------------------------------------------------------------------------------------------------
         [Test]
         public void TestDataDupplicate()
         {
-            NWDEditorModelTest tItemA = NWDBasisHelper.NewData<NWDEditorModelTest>();
+            NWDExample tItemA = NWDBasisHelper.NewData<NWDExample>();
             tItemA.UpdateData();
-            NWDEditorModelTest tItemB = NWDBasisHelper.DuplicateData(tItemA, false);
+            NWDExample tItemB = NWDBasisHelper.DuplicateData(tItemA, false);
             NWDUnitTests.SetUnitTestData(tItemB);
             Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
             NWDUnitTests.CleanUnitTests();
-            NWDEditorModelTest tItemC = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(tItemA.Reference);
+            NWDExample tItemC = NWDBasisHelper.GetRawDataByReference<NWDExample>(tItemA.Reference);
             Assert.AreEqual(null, tItemC);
-            NWDEditorModelTest tItemD = NWDBasisHelper.GetRawDataByReference<NWDEditorModelTest>(tItemB.Reference);
+            NWDExample tItemD = NWDBasisHelper.GetRawDataByReference<NWDExample>(tItemB.Reference);
             Assert.AreEqual(null, tItemD);
         }
         //-------------------------------------------------------------------------------------------------------------
