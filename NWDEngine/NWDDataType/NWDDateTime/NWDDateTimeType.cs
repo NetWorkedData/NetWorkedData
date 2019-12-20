@@ -21,6 +21,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
+using System.Globalization;
 
 //using BasicToolBox;
 
@@ -268,6 +269,12 @@ namespace NetWorkedData
 			"50", "51", "52", "53", "54", "55", "56", "57", "58", "59",
 		};
 		//-------------------------------------------------------------------------------------------------------------
+		public static DateTimeFormatInfo GetLocalDateTimeFormat()
+		{
+			CultureInfo tCulture = new CultureInfo(NWDDataLocalizationManager.SystemLanguageString());
+            return tCulture.DateTimeFormat;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public void SetDateTime (DateTime sDatetime)
         {
             sDatetime = sDatetime.ToLocalTime();
@@ -302,7 +309,7 @@ namespace NetWorkedData
 			if (tDateComponent.Count() == 6) {
 				int.TryParse(tDateComponent [0], out tYear);
 				int.TryParse(tDateComponent [1], out tMonth);
-				int.TryParse(tDateComponent [2],out tDay);
+				int.TryParse(tDateComponent [2], out tDay);
 				int.TryParse(tDateComponent [3], out tHour);
 				int.TryParse(tDateComponent [4], out tMinute);
 				int.TryParse(tDateComponent [5], out tSecond);
@@ -331,7 +338,7 @@ namespace NetWorkedData
 				tSecond = 0;
 			}
 
-			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
+			DateTime rReturn = new DateTime(tYear, tMonth, tDay, tHour, tMinute, tSecond, DateTimeKind.Local);
 			return rReturn;
 		}
         //-------------------------------------------------------------------------------------------------------------

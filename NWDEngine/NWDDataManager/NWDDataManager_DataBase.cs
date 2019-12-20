@@ -73,29 +73,9 @@ namespace NetWorkedData
 #elif (UNITY_IOS || UNITY_TVOS)
                     var tLoadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
                     File.Copy(tLoadDb, tPathEditor);
-/*#elif UNITY_TVOS
-                    var tLoadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
-                    File.Copy(tLoadDb, tPathEditor);
-                    */
 #elif (UNITY_STANDALONE_OSX || UNITY_WP8 || UNITY_WINRT || UNITY_WSA_10_0 || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX)
                     var tLoadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseNameEditor;
                     File.Copy(tLoadDb, tPathEditor);
-/*#elif UNITY_WP8
-                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    File.Copy(tLoadDb, tPathEditor);
-#elif UNITY_WINRT
-                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    File.Copy(tLoadDb, tPathEditor);
-#elif UNITY_WSA_10_0
-                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    File.Copy(tLoadDb, tPathEditor);
-#elif UNITY_STANDALONE_WIN
-                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    File.Copy(tLoadDb, tPathEditor);
-#elif UNITY_STANDALONE_LINUX
-                    var tLoadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-                    File.Copy(tLoadDb, tPathEditor);
-                    */
 #else
                     var tLoadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseNameEditor;
                     File.Copy(tLoadDb, tPathEditor);
@@ -105,14 +85,14 @@ namespace NetWorkedData
 #endif
 
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-#if UNITY_EDITOR
+
                 // Show SQL password database in console
                 if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
                     NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
                 }
-#endif
+
                 try
                 {
                     SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
@@ -127,7 +107,7 @@ namespace NetWorkedData
                     // Waiting the tables and file will be open...
                     while (SQLiteConnectionEditor.IsOpen() == false)
                     {
-                        //Debug.LogWarning("SQLiteConnectionEditor is not opened!");
+                        // do nothing, just wait :)
                     }
 
                     // Finish test opened database
