@@ -262,8 +262,17 @@ namespace NetWorkedData
             {
                 TagList.Add(21, "TO DELETE");
             }
-#endif
+
+            if (TagList.ContainsKey(22) == false)
+            {
+                TagList.Add(22, "UnitTest To Delete");
             }
+            if (TagList.ContainsKey(23) == false)
+            {
+                TagList.Add(23, "UnitTest Not Delete");
+            }
+#endif
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 

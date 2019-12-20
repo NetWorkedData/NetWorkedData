@@ -20,8 +20,8 @@ namespace NWDEditorTests
         [Test]
         public void TestNewData()
         {
-            NWDExample tItemA = NWDUnitTests.NewData<NWDExample>();
-            NWDExample tItemB = NWDUnitTests.NewData<NWDExample>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
+            NWDExample tItemB = NWDUnitTests.NewLocalData<NWDExample>();
             Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
             NWDUnitTests.CleanUnitTests();
         }
@@ -29,7 +29,7 @@ namespace NWDEditorTests
         [Test]
         public void TestDataDupplicate()
         {
-            NWDExample tItemA = NWDUnitTests.NewData<NWDExample>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
             tItemA.UpdateData();
             NWDExample tItemB = NWDBasisHelper.DuplicateData(tItemA, false);
             NWDUnitTests.SetUnitTestData(tItemB);

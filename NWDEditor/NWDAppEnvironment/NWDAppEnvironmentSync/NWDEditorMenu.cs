@@ -661,11 +661,17 @@ namespace NetWorkedData
             Debug.Log(tText.ToString());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_DEBUG_FOLDER, false, 9999)]
+        [MenuItem(NWDConstants.K_MENU_DEBUG_FOLDER, false, 9998)]
         public static void ShowDebugFolder()
         {
             string tPath = Application.persistentDataPath + "/Unity";
             EditorUtility.RevealInFinder(tPath);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_UNITTEST_CLEAN, false, 9999)]
+        public static void CleanUnitTest()
+        {
+            NWDUnitTests.CleanUnitTests(false);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

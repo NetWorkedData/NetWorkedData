@@ -38,6 +38,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static string FakeDevicePlayerHash;
         static string FakeDeviceEditorHash;
+        static Dictionary<string, string> FakeDevicePlayerHashDico = new Dictionary<string, string>();
+        static Dictionary<string, string> FakeDeviceEditorHashDico = new Dictionary<string, string>();
         //-------------------------------------------------------------------------------------------------------------
         public static void FakeDevicePlayerReset()
         {
@@ -80,6 +82,56 @@ namespace NetWorkedData
         public static void DisableFakeDevice()
         {
             UseFakeDevice = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MemoryFakeDevice(string sKey)
+        {
+            if (FakeDevicePlayerHashDico.ContainsKey(sKey))
+            {
+                FakeDevicePlayerHashDico[sKey] = FakeDevicePlayerHash + string.Empty;
+            }
+            else
+            {
+                FakeDevicePlayerHashDico.Add(sKey, FakeDevicePlayerHash + string.Empty);
+            }
+            if (FakeDeviceEditorHashDico.ContainsKey(sKey))
+            {
+                FakeDeviceEditorHashDico[sKey] = FakeDeviceEditorHash + string.Empty;
+            }
+            else
+            {
+                FakeDeviceEditorHashDico.Add(sKey, FakeDeviceEditorHash + string.Empty);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool RestaureFakeDevice(string sKey)
+        {
+            bool rReturn = true;
+            if (FakeDevicePlayerHashDico.ContainsKey(sKey))
+            {
+                FakeDevicePlayerHash = FakeDevicePlayerHashDico[sKey] + string.Empty;
+            }
+            else
+            {
+                rReturn = false;
+            }
+            if (FakeDeviceEditorHashDico.ContainsKey(sKey))
+            {
+                FakeDeviceEditorHash = FakeDeviceEditorHashDico[sKey] + string.Empty;
+            }
+            else
+            {
+                rReturn = false;
+            }
+            if (rReturn)
+            {
+                LogStep("RestaureDevice(" + sKey + ") : Success!");
+            }
+            else
+            {
+                LogStep("RestaureDevice(" + sKey + ") : FAIL!");
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ResetFakeDevice()

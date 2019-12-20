@@ -24,7 +24,7 @@ namespace NetWorkedData
     public partial class NWDUnitTests
     {
         //-------------------------------------------------------------------------------------------------------------
-        const int kUnitTestDC = 123456789;
+        //const int kUnitTestDC = 123456789;
         const string kDescriptionMark = "For UnitTest only";
         const string kDescriptionMarkNew = "For UnitTest only -- new --";
         //-------------------------------------------------------------------------------------------------------------
@@ -39,38 +39,17 @@ namespace NetWorkedData
                 rObject.DevSync = -1;
                 rObject.PreprodSync = -1;
                 rObject.ProdSync = -1;
-                //rObject.DC = kUnitTestDC; // because is permanent
+                rObject.Tag = NWDBasisTag.UnitTestNotDelete;
+                rObject.UpdateData();
             }
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsNewPermanentData<T>(T sData) where T : NWDTypeClass, new()
-        {
-            bool rReturn = false;
-            if (sData != null)
-            {
-                if (sData.InternalDescription == kDescriptionMarkNew)
-                {
-                    sData.InternalDescription = kDescriptionMark;
-                    sData.UpdateData();
-                    rReturn = true;
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static T NewData<T>(string sAddInternalKey = "") where T : NWDTypeClass, new()
+        public static T NewLocalData<T>(string sAddInternalKey = "") where T : NWDTypeClass, new()
         {
             T rObject = NWDBasisHelper.NewData<T>();
             rObject.InternalKey = sAddInternalKey + " (UnitTest " + NWDToolbox.RandomStringCypher(8) + ")";
-            UnitTestData(rObject);
-            return rObject;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static T DuplicateData<T>(T sData) where T : NWDTypeClass, new()
-        {
-            T rObject = NWDBasisHelper.DuplicateData<T>(sData);
-            UnitTestData(rObject);
+            SetUnitTestData(rObject);
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -80,37 +59,13 @@ namespace NetWorkedData
             sData.DevSync = -1;
             sData.PreprodSync = -1;
             sData.ProdSync = -1;
-            sData.DC = kUnitTestDC;
+            sData.Tag = NWDBasisTag.UnitTestToDelete;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetUnitTestData(NWDTypeClass sData)
         {
             UnitTestData(sData);
             sData.UpdateData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void CleanUnitTests()
-        {
-            List<NWDTypeClass> tToDelete = new List<NWDTypeClass>();
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
-            {
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                foreach (NWDTypeClass tObject in tHelper.Datas)
-                {
-                    if (tObject.DC == kUnitTestDC
-                        && tObject.DevSync == -1
-                        && tObject.PreprodSync == -1
-                        && tObject.ProdSync == -1
-                        && tObject.InternalDescription == kDescriptionMark)
-                    {
-                        tToDelete.Add(tObject);
-                    }
-                }
-            }
-            foreach (NWDTypeClass tObject in tToDelete)
-            {
-                tObject.DeleteData(NWDWritingMode.MainThread);
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static int Step;

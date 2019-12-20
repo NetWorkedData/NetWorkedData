@@ -62,7 +62,7 @@ namespace NetWorkedData
         //    tFile.AppendLine("\t\t\tNWDUnitTests.CleanUnitTests(); // clean environment before");
         //    tFile.AppendLine("\t\t\t" + sClassNamePHP + " tItemA = NWDUnitTests.NewData<" + sClassNamePHP + ">();");
         //    tFile.AppendLine("\t\t\ttItemA.UpdateData();");
-        //    tFile.AppendLine("\t\t\t" + sClassNamePHP + " tItemB = NWDUnitTests.DuplicateData(tItemA);");
+        //    tFile.AppendLine("\t\t\t" + sClassNamePHP + " tItemB = NWDBasisHelper.DuplicateData(tItemA);");
         //    tFile.AppendLine("\t\t\tAssert.AreNotEqual(tItemA.Reference, tItemB.Reference);");
         //    tFile.AppendLine("\t\t\tNWDUnitTests.CleanUnitTests(); // clean environment after");
         //    tFile.AppendLine("\t\t}");
@@ -159,7 +159,7 @@ namespace NetWorkedData
             string tClassExample_Editor = File.ReadAllText(tClassExamplePath_Editor);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDExample", sClassNamePHP);
             tClassExample_Editor = tClassExample_Editor.Replace("NWDBasis", sClassNameBasis);
-            string tFilePath_Editor = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Editor.cs";
+            string tFilePath_Editor = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Editor";
             int tG = 0;
             while (File.Exists(tFilePath_Editor + ".cs") == true)
             {
@@ -181,7 +181,7 @@ namespace NetWorkedData
             string tClassExample_Index = File.ReadAllText(tClassExamplePath_Index);
             tClassExample_Index = tClassExample_Index.Replace("NWDExample", sClassNamePHP);
             tClassExample_Index = tClassExample_Index.Replace("NWDBasis", sClassNameBasis);
-            string tFilePath_Index = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Index.cs";
+            string tFilePath_Index = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Index";
             int tG = 0;
             while (File.Exists(tFilePath_Index + ".cs") == true)
             {
@@ -203,7 +203,7 @@ namespace NetWorkedData
             string tClassExample_PHP = File.ReadAllText(tClassExamplePath_PHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDExample", sClassNamePHP);
             tClassExample_PHP = tClassExample_PHP.Replace("NWDBasis", sClassNameBasis);
-            string tFilePath_PHP = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_PHP.cs";
+            string tFilePath_PHP = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_PHP";
             int tG = 0;
             while (File.Exists(tFilePath_PHP + ".cs") == true)
             {
@@ -225,7 +225,7 @@ namespace NetWorkedData
             string tClassExample_Override = File.ReadAllText(tClassExamplePath_Override);
             tClassExample_Override = tClassExample_Override.Replace("NWDExample", sClassNamePHP);
             tClassExample_Override = tClassExample_Override.Replace("NWDBasis", sClassNameBasis);
-            string tFilePath_Override = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Override .cs";
+            string tFilePath_Override = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Override";
             int tG = 0;
             while (File.Exists(tFilePath_Override + ".cs") == true)
             {
@@ -247,7 +247,7 @@ namespace NetWorkedData
             string tClassExample_Extension = File.ReadAllText(tClassExamplePath_Extension);
             tClassExample_Extension = tClassExample_Extension.Replace("NWDExample", sClassNamePHP);
             tClassExample_Extension = tClassExample_Extension.Replace("NWDBasis", sClassNameBasis);
-            string tFilePath_Extension = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Extension .cs";
+            string tFilePath_Extension = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Extension";
             int tG = 0;
             while (File.Exists(tFilePath_Extension + ".cs") == true)
             {
@@ -269,7 +269,7 @@ namespace NetWorkedData
             string tClassExample_Helper = File.ReadAllText(tClassExamplePath_Helper);
             tClassExample_Helper = tClassExample_Helper.Replace("NWDExample", sClassNamePHP);
             tClassExample_Helper = tClassExample_Helper.Replace("NWDBasis", sClassNameBasis);
-            string tFilePath_Helper = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Helper.cs";
+            string tFilePath_Helper = tOwnerClassesFolderPath + "/" + sClassNamePHP + "_Helper";
             int tG = 0;
             while (File.Exists(tFilePath_Helper + ".cs") == true)
             {

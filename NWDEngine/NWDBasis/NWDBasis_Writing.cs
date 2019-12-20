@@ -446,6 +446,9 @@ namespace NetWorkedData
         public void InsertDataOperation(bool sAutoDate = true)
         {
             //NWEBenchmark.Start();
+#if UNITY_INCLUDE_TESTS
+            Tag = NWDBasisTag.UnitTestToDelete;
+#endif
             if (sAutoDate == true)
             {
                 this.DC = NWDToolbox.Timestamp();
@@ -696,6 +699,9 @@ namespace NetWorkedData
         public override void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
         {
             //NWEBenchmark.Start();
+//#if UNITY_INCLUDE_TESTS
+//            Tag = NWDBasisTag.UnitTestToDelete;
+//#endif
             // so object is prepared to be update
             if (sAutoDate == true)
             {
@@ -959,6 +965,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDataOperation()
         {
+//#if UNITY_INCLUDE_TESTS
+//            Tag = NWDBasisTag.UnitTestToDelete;
+//#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceed()

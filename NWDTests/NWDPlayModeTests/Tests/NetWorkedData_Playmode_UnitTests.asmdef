@@ -1,9 +1,9 @@
 {
     "name": "NWDPlayMode_UnitTests",
     "references": [
+        "NetWorkedDataAssembly",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "NetWorkedDataAssembly"
+        "UnityEditor.TestRunner"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

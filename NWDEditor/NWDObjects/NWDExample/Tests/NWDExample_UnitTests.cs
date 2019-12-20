@@ -28,8 +28,8 @@ namespace NWDEditorTests
         public void Test_NewData()
         {
             NWDUnitTests.CleanUnitTests(); // clean environment before
-            NWDExample tItemA = NWDUnitTests.NewData<NWDExample>();
-            NWDExample tItemB = NWDUnitTests.NewData<NWDExample>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
+            NWDExample tItemB = NWDUnitTests.NewLocalData<NWDExample>();
             Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
             NWDUnitTests.CleanUnitTests(); // clean environment after
         }
@@ -38,9 +38,9 @@ namespace NWDEditorTests
 		public void Test_Duplicate()
         {
             NWDUnitTests.CleanUnitTests(); // clean environment before
-            NWDExample tItemA = NWDUnitTests.NewData<NWDExample>();
+            NWDExample tItemA = NWDUnitTests.NewLocalData<NWDExample>();
 			tItemA.UpdateData();
-            NWDExample tItemB = NWDUnitTests.DuplicateData(tItemA);
+            NWDExample tItemB = NWDBasisHelper.DuplicateData(tItemA);
 			Assert.AreNotEqual(tItemA.Reference, tItemB.Reference);
 			NWDUnitTests.CleanUnitTests(); // clean environment after
         }
