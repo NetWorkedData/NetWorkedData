@@ -762,6 +762,10 @@ namespace NetWorkedData
                                                    // restore the DC and Reference 
                     rReturnObject.Reference = tReference;
                     rReturnObject.DC = tDC;
+//#if UNITY_INCLUDE_TESTS
+//                    rReturnObject.Tag = sData.Tag;
+//#endif
+                    //rReturnObject.Tag = sData.Tag;
                     // WARNING ... copy generate an error in XX ? 
                     // but copy the DD XX and AC from this
                     rReturnObject.DD = sData.DD;

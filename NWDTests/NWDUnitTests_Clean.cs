@@ -37,8 +37,9 @@ namespace NetWorkedData
                 {
                     if (tObject.Tag == NWDBasisTag.UnitTestToDelete)
                     {
-                        if (tObject.DevSync < 0 && tObject.PreprodSync < 0 && tObject.ProdSync < 0)
-                        {
+                        //if (tObject.DevSync < 0 && tObject.PreprodSync < 0 && tObject.ProdSync < 0)
+                        if (tObject.DevSync < 1 && tObject.PreprodSync < 1 && tObject.ProdSync < 1)
+                            {
                             // local ... delete now
                             tToDelete.Add(tObject);
                         }
