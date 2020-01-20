@@ -19,16 +19,37 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// Can create basic class working like dynamical enum when generic
+    /// </summary>
     [Serializable]
     public class NWEDataTypeEnum : IComparable
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The value of the static enum instance
+        /// </summary>
         public long Value;
+        /// <summary>
+        /// The name of this enum
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// R-The description of this enum
+        /// </summary>
         public string Representation;
+        /// <summary>
+        /// The type of SQL column to reccord this data linearization
+        /// </summary>
         public const string SQLType = "int";
+        /// <summary>
+        /// Define if this instance can be override by another one. Default is true.
+        /// </summary>
         public bool Overridable = true;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Basic constructor
+        /// </summary>
         public NWEDataTypeEnum()
         {
             Value = 0;
@@ -37,21 +58,37 @@ namespace NetWorkedData
             Overridable = true;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert enum to string with value as string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Value.ToString(CultureInfo.InvariantCulture);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert value of enum instance to long
+        /// </summary>
+        /// <returns></returns>
         public long ToLong()
         {
             return Value;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert value of enum instance to long
+        /// </summary>
+        /// <returns></returns>
         public long GetLong()
         {
             return Value;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set long as value of enum instance
+        /// </summary>
+        /// <param name="sLong"></param>
         public void SetLong(long sLong)
         {
             Value = sLong;
@@ -59,13 +96,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public bool InError = false;
+        /// <summary>
+        /// If an error is detected this property return true
+        /// </summary>
+        private bool InError = false;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return the height of controlfield in the editor inspector
+        /// </summary>
+        /// <returns></returns>
         public virtual float ControlFieldHeight()
         {
             return EditorStyles.popup.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return the controlfield instance for the inspector
+        /// </summary>
+        /// <param name="sPosition"></param>
+        /// <param name="sEntitled"></param>
+        /// <param name="sDisabled"></param>
+        /// <param name="sTooltips"></param>
+        /// <returns></returns>
         public virtual NWEDataTypeEnum ControlField(Rect sPosition, string sEntitled, bool sDisabled, string sTooltips = "")
         {
             NWEDataTypeEnum tTemporary = new NWEDataTypeEnum();
@@ -74,11 +126,19 @@ namespace NetWorkedData
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return if is in error
+        /// </summary>
+        /// <returns></returns>
         public virtual bool IsInError()
         {
             return InError;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Analyze if is in error and return the result
+        /// </summary>
+        /// <returns></returns>
         public virtual bool ErrorAnalyze()
         {
             InError = false;
@@ -87,11 +147,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set the default value. 0 by default.
+        /// </summary>
         public virtual void Default()
         {
             Value = 0;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Flush the value and reset to 0 (not th default).
+        /// </summary>
         public void Flush()
         {
             Value = 0;
@@ -169,6 +235,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// Can create generic class working like dynamical enum
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
     [Serializable]
     public class NWEDataTypeEnumGeneric<K> : NWEDataTypeEnum where K : NWEDataTypeEnumGeneric<K>, new()
     {
@@ -227,14 +297,33 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return static instance for this long value
+        /// </summary>
+        /// <param name="sID"></param>
+        /// <returns></returns>
         public static K GetForValue(long sID)
         {
             return kList[sID];
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return static instance for this string value
+        /// </summary>
+        /// <param name="sName"></param>
+        /// <returns></returns>
         public static K GetForValue(string sName)
         {
             return kStringList[sName];
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// return all keys in of string
+        /// </summary>
+        /// <returns></returns>
+        public static string[] GetAllValues()
+        {
+            return kStringList.Keys.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         protected static K Add(int sID, string sName)
