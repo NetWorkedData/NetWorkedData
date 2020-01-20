@@ -65,13 +65,21 @@ namespace NetWorkedData
             Folder = NWDToolbox.UnixCleaner(Folder);
 
             User = NWDToolbox.UnixCleaner(User);
-            Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
-
+            if (Password != null)
+            {
+                Password.SetValue(NWDToolbox.UnixCleaner(Password.GetValue()));
+            }
             Admin_User = NWDToolbox.UnixCleaner(Admin_User);
-            Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            if (Admin_Password != null)
+            {
+                Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            }
 
             Root_User = NWDToolbox.UnixCleaner(Root_User);
-            Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            if (Root_Password != null)
+            {
+                Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerAuthentication GetServerSFTP(NWDAppEnvironment sEnvironment)

@@ -46,20 +46,28 @@ namespace NetWorkedData
             ProdSync = -1;
             AccountRangeStart = 000;
             AccountRangeEnd = 999;
-    }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
             base.AddonUpdateMe();
             MySQLUser = NWDToolbox.UnixCleaner(MySQLUser);
             MySQLBase = NWDToolbox.UnixCleaner(MySQLBase);
-            Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_MysqlPassword.GetValue()));
+            if (Root_MysqlPassword != null)
+            {
+                Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_MysqlPassword.GetValue()));
+            }
 
             Admin_User = NWDToolbox.UnixCleaner(Admin_User);
-            Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
-
+            if (Admin_Password != null)
+            {
+                Admin_Password.SetValue(NWDToolbox.UnixCleaner(Admin_Password.GetValue()));
+            }
             Root_User = NWDToolbox.UnixCleaner(Root_User);
-            Root_Password.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            if (Root_MysqlPassword != null)
+            {
+                Root_MysqlPassword.SetValue(NWDToolbox.UnixCleaner(Root_Password.GetValue()));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDServerDatabaseAuthentication GetServerDatabase(NWDAppEnvironment sEnvironment)

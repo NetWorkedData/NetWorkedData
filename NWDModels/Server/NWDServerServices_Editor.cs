@@ -97,19 +97,20 @@ namespace NetWorkedData
                 System.Diagnostics.Process.Start(tFileInfo.FullName);
             }
             tI++;
+            if (IP != null && Root_Password != null && Admin_Password != null)
+            {
+                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server SSH");
+                tI++;
+                GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerSSH(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), Admin_User, Admin_Password.GetValue()));
+                tI += 11;
 
-            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server SSH");
-            tI++;
+                GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server Apache command");
+                tI++;
 
-            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerSSH(Distribution, IP.GetValue(), Port, Root_User, Root_Password.GetValue(), Admin_User, Admin_Password.GetValue()));
-            tI += 11;
+                GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerApache(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue()));
+                tI += 11;
 
-            GUI.Label(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Install Server Apache command");
-            tI++;
-
-            GUI.TextArea(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI + 10]), NWDServerInstall.CommandInstallServerApache(Distribution, IP.GetValue(), Port, Admin_User, Admin_Password.GetValue(), Root_Password.GetValue()));
-            tI += 11;
-
+            }
             if (GUI.Button(tMatrix[0, tI], "http://" + IP))
             {
                 Application.OpenURL("http://" + IP);
