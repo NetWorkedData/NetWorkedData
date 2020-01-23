@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Generic;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -21,26 +20,46 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
     {
-        public static NWDAccountSignType DeviceID = Add(1, "DeviceID");
-        public static NWDAccountSignType LoginPassword = Add(2, "LoginPassword");
-        public static NWDAccountSignType Facebook = Add(3, "Facebook");
-        public static NWDAccountSignType Google = Add(4, "Google");
-#if UNITY_EDITOR
-        public static NWDAccountSignType EditorID = Add(99, "EditorID");
+        // 0 is reserved by None and invalidate the signup process
+
+        public static NWDAccountSignType DeviceID = Add(1, "DeviceID");                         // NEVER CHANGE INT VALUE !
+
+        public static NWDAccountSignType EmailPassword = Add(10, "EmailPassword");              // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType LoginPasswordEmail = Add(11, "LoginPasswordEmail");    // NEVER CHANGE INT VALUE ! //TODO Perhaps forbidden this sign (login is soo hasbeen)
+                                                                                                // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType Facebook = Add(20, "FacebookID");                      // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType Google = Add(21, "GoogleID");                          // NEVER CHANGE INT VALUE !
+        public static NWDAccountSignType Apple = Add(22, "AppleID");                            // NEVER CHANGE INT VALUE !
+
+
+        //public static NWDAccountSignType Biometric = Add(66, "Biometric");                      // NEVER CHANGE INT VALUE !
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
+    {
+#if UNITY_INCLUDE_TESTS
+        public static NWDAccountSignType Fake = Add(88, "FakeID"); // NEVER CHANGE INT VALUE !!!
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDAccountSignAction : int
+    public partial class NWDAccountSignType : NWEDataTypeEnumGeneric<NWDAccountSignType>
     {
-        None = 0,
+#if UNITY_EDITOR
+        public static NWDAccountSignType EditorID = Add(99, "EditorID"); // NEVER CHANGE INT VALUE !!!
+#endif
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDAccountSignAction
+    {
+        None = 0, // NEVER CHANGE INT VALUE !!!
 
-        TryToAssociate = 10,
-        Associated = 11,
-        ErrorAssociated = 12,
+        TryToAssociate = 10, // NEVER CHANGE INT VALUE !!!
+        Associated = 11, // NEVER CHANGE INT VALUE !!!
+        ErrorAssociated = 12, // NEVER CHANGE INT VALUE !!!
 
-        TryToDissociate = 20,
-        Dissociated = 21,
-        //ErrorDissociated = 22,
+        TryToDissociate = 20, // NEVER CHANGE INT VALUE !!!
+        Dissociated = 21, // NEVER CHANGE INT VALUE !!!
+        //ErrorDissociated = 22, // no possible case  // NEVER CHANGE INT VALUE !!!
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAccountSignHelper : NWDHelper<NWDAccountSign>
@@ -50,36 +69,34 @@ namespace NetWorkedData
     /// <summary>
     /// NWDAccountSign class. This class is use for (complete description here).
     /// </summary>
+    [NWDInternalKeyNotEditable]
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("SKD")]
     [NWDClassDescriptionAttribute("Account Sign to connect by hash of sign")]
     [NWDClassMenuNameAttribute("Account Sign")]
     [NWDForceSecureData]
+    [NWDClassClusterAttribute(3, 32)]
     public partial class NWDAccountSign : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_NO_HASH = "-";
+        //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations")]
-		public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDAccount> Account { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Sign Send")]
         [NWDNotEditable]
-		public NWDAccountSignType SignType {get; set; }
+        public NWDAccountSignType SignType { get; set; }
         [NWDNotEditable]
-        public string SignHash {get; set; }
+        public string SignHash { get; set; }
         [NWDNotEditable]
-        public string RescueHash {get; set; }
+        public string RescueHash { get; set; }
+        [NWDNotEditable]
+        public string LoginHash { get; set; }
         [NWDInspectorGroupEnd]
         [NWDInspectorGroupStart("Server Action")]
         [NWDNotEditable]
         public NWDAccountSignAction SignStatus { get; set; }
-        [NWDNotEditable]
-        public string SignHashServer { get; set; }
-        [NWDNotEditable]
-        public string RescueHashServer { get; set; }
-        [NWDInspectorGroupEnd]
-        [NWDInspectorGroupStart("Rescue")]
-        [NWDNotEditable]
-        public string RescuePinCode { get; set; } // to recreate the password and send by email the url send to user containt the email and the rescue pincode 
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

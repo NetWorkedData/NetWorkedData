@@ -26,130 +26,62 @@ namespace NetWorkedData
     public partial class NWDAppEnvironment
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true)
+        public void CreatePHP(List<Type> sTypeList, bool sCreateAll = true, bool sWriteOnDisk = true, NWDServerAuthentication sConn = null)
         {
             NWEBenchmark.Start();
             List<string> tFolders = CreatePHPFolder(sWriteOnDisk);
             Dictionary<string, string> tFilesAndDatas = new Dictionary<string, string>();
-            float tCountClass = 4;
-            float tOperation = 0;
-            tCountClass = tCountClass + sTypeList.Count * 2;
-            if (sCreateAll == true)
-            {
-                tCountClass = tCountClass + 25;
-            }
-            else
-            {
-                tCountClass = tCountClass + 5;
-            }
-            if (sWriteOnDisk == false)
-            {
-                tCountClass = tCountClass + 1;
-            }
-            else
-            {
-                tCountClass = tCountClass + 3;
-            }
-            string tTitle = Environment + " PHP Creation";
-            EditorUtility.DisplayProgressBar(tTitle, "Start", tOperation++ / tCountClass);
-            if (sWriteOnDisk == false)
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Connect SFTP", tOperation++ / tCountClass);
-                ConnectSFTP();
-            }
-            EditorUtility.DisplayProgressBar(tTitle, "Management file generate", tOperation++ / tCountClass);
             CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
-            EditorUtility.DisplayProgressBar(tTitle, "Webservices file generate", tOperation++ / tCountClass);
             CreatePHPWebservicesFile(tFilesAndDatas, sWriteOnDisk);
-            EditorUtility.DisplayProgressBar(tTitle, "Webservices inside file generate", tOperation++ / tCountClass);
-            //CreatePHPWebservicesInsideFile(tFilesAndDatas, sWriteOnDisk);
-            EditorUtility.DisplayProgressBar(tTitle, "Webservices addon file generate", tOperation++ / tCountClass);
-            //CreatePHPWebservicesAddonFile(tFilesAndDatas, sWriteOnDisk);
             if (sCreateAll == true)
             {
-                EditorUtility.DisplayProgressBar(tTitle, "Error generate", tOperation++ / tCountClass);
                 CreatePHPErrorGenerate();
-                EditorUtility.DisplayProgressBar(tTitle, "Constant file generate", tOperation++ / tCountClass);
                 CreatePHPConstantsFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Account services file generate", tOperation++ / tCountClass);
-                //CreatePHPAccountServicesFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Account file generate", tOperation++ / tCountClass);
-                CreatePHPAuthentificationFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Blank file generate", tOperation++ / tCountClass);
+                CreatePHPAuthenticationFile(tFilesAndDatas, sWriteOnDisk);
+                CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
                 CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Index file generate", tOperation++ / tCountClass);
                 CreatePHPIndexFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Rescue file generate", tOperation++ / tCountClass);
-                //CreatePHPRescueFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "htaccess file generate", tOperation++ / tCountClass);
                 CreatePHPDotHTAccessFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Maintenance file generate", tOperation++ / tCountClass);
                 CreatePHPMaintenanceFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Obsolete file generate", tOperation++ / tCountClass);
                 CreatePHPObsoleteFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static account file generate", tOperation++ / tCountClass);
-                //CreatePHP_StaticAccountFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Error file generate", tOperation++ / tCountClass);
-                //CreatePHP_StaticErrorFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Finish file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Functions file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Request file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static RequestToken file generate", tOperation++ / tCountClass);
-                //CreatePHP_StaticRequestTokenFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Rescue file generate", tOperation++ / tCountClass);
-                //CreatePHP_StaticRescueFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Respond file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRespondFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Start file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "Static Values file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
             }
-            if (sWriteOnDisk == true)
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Writing files on disk", tOperation++ / tCountClass);
-                WriteFolderAndFiles(tFolders, tFilesAndDatas);
-            }
-            else
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Send files on server", tOperation++ / tCountClass);
-                SendFolderAndFiles(tFolders, tFilesAndDatas, false, false);
-            }
-            EditorUtility.DisplayProgressBar(tTitle, "Generate class models", tOperation++ / tCountClass);
-            // generate models' files
             foreach (Type tType in sTypeList)
             {
-                tFolders.Clear();
-                tFilesAndDatas.Clear();
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
-                EditorUtility.DisplayProgressBar(tTitle, "Create " + tType.Name + " files", tOperation++ / tCountClass);
 
                 Dictionary<string, string> tResult = NWDBasisHelper.FindTypeInfos(tType).CreatePHP(this, true);
                 foreach (KeyValuePair<string, string> tKeyValue in tResult)
                 {
                     tFilesAndDatas.Add(DBFolder(sWriteOnDisk) + tKeyValue.Key, tKeyValue.Value);
                 }
-                if (sWriteOnDisk == true)
+                Dictionary<string, string> tResultAddOn = NWDBasisHelper.FindTypeInfos(tType).CreatePHPAddonFiles(this,  sWriteOnDisk);
+                foreach (KeyValuePair<string, string> tKeyValue in tResultAddOn)
                 {
-                    EditorUtility.DisplayProgressBar(tTitle, "Writing " + tType.Name + " files on disk", tOperation++ / tCountClass);
-                    WriteFolderAndFiles(tFolders, tFilesAndDatas);
+                    tFilesAndDatas.Add(tKeyValue.Key, tKeyValue.Value);
+                }
+            }
+            if (sWriteOnDisk == true)
+            {
+                WriteFolderAndFiles(tFolders, tFilesAndDatas);
+            }
+            else
+            {
+                if (sConn == null)
+                {
+                    SendFolderAndFiles(tFolders, tFilesAndDatas, false);
                 }
                 else
                 {
-                    EditorUtility.DisplayProgressBar(tTitle, "Send " + tType.Name + " files on server", tOperation++ / tCountClass);
-                    SendFolderAndFiles(tFolders, tFilesAndDatas, false, false);
+                    sConn.SendFolderAndFiles(tFolders, tFilesAndDatas, false);
                 }
             }
-            if (sWriteOnDisk == false)
-            {
-                EditorUtility.DisplayProgressBar(tTitle, "Close SFTP", tOperation++ / tCountClass);
-                DeconnectSFTP();
-            }
-            EditorUtility.ClearProgressBar();
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -173,7 +105,7 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string EnvFolder(bool sWriteOnDisk = true)
+        public string EnvFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             string rReturn = string.Empty;
@@ -191,7 +123,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string EngFolder(bool sWriteOnDisk = true)
+        public string EngFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_ENG + "/";
@@ -199,7 +131,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private string DBFolder(bool sWriteOnDisk = true)
+        public string DBFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_DB + "/";
@@ -266,7 +198,7 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("// CONSTANT FOR WEB");
             tConstantsFile.AppendLine("$NWD_FLOAT_FORMAT = " + NWDConstants.FloatSQLFormat + ";");
             tConstantsFile.AppendLine("$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";");
-            tConstantsFile.AppendLine("$HTTP_URL = '" + ServerHTTPS.TrimEnd('/') + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
+            tConstantsFile.AppendLine("$HTTP_URL = 'https://" + GetConfigurationServerHTTPS() + "/" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
             tConstantsFile.AppendLine("$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';");
             tConstantsFile.AppendLine(NWD.K_CommentSeparator);
             tConstantsFile.AppendLine("// CONSTANT FOR SHA512");
@@ -296,6 +228,15 @@ namespace NetWorkedData
             tConstantsFile.AppendLine("$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';");
             tConstantsFile.AppendLine("$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';");
+            foreach (NWDServerDatabaseAuthentication tServerDatabase in NWDServerDatas.GetAllConfigurationServerDatabase(this))
+            {
+                tConstantsFile.AppendLine("$SQL_ARRAY_HOT[] = '" + tServerDatabase.Host.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_PRT[] = '" + tServerDatabase.Port.ToString()+"';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_USR[] = '" + tServerDatabase.User.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_PSW[] = '" + tServerDatabase.Password.Replace("'", "\'") + "';");
+                tConstantsFile.AppendLine("$SQL_ARRAY_BSE[] = '" + tServerDatabase.Database.Replace("'", "\'") + "';");
+            }
+
             tConstantsFile.AppendLine("//connection to mysql socket");
             tConstantsFile.AppendLine("" + NWD.K_SQL_CON + " = '';");
             tConstantsFile.AppendLine("" + NWD.K_SQL_CON + "DB = '';");
@@ -368,7 +309,7 @@ namespace NetWorkedData
             tManagementFile.AppendLine(NWD.K_CommentSeparator);
             tManagementFile.AppendLine("if($admin == true)");
             tManagementFile.AppendLine("{");
-            tManagementFile.AppendLine("CreateAllTables ();"); 
+            tManagementFile.AppendLine("CreateAllTables ();");
             tManagementFile.AppendLine("}");
             tManagementFile.AppendLine(NWD.K_CommentSeparator);
             tManagementFile.AppendLine("// finish the generic process");
@@ -488,14 +429,16 @@ namespace NetWorkedData
         //private void CreatePHPWebservicesAddonFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         //{
         //    //NWEBenchmark.Start();
-        //    StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);         //    tWebServicesAddon.AppendLine("<?php");
+        //    StringBuilder tWebServicesAddon = new StringBuilder(string.Empty);
+        //    tWebServicesAddon.AppendLine("<?php");
         //    tWebServicesAddon.AppendLine(Headlines());
         //    tWebServicesAddon.AppendLine("// WEBSERVICES ADDON");
         //    tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
         //    tWebServicesAddon.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
         //    tWebServicesAddon.AppendLine("{");
         //    // I need include ALL tables management files to manage ALL tables
-        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)         //    {
+        //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+        //    {
         //        bool tCanBeAddoned = false;
         //        foreach (Type tSecondType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
         //        {
@@ -551,7 +494,8 @@ namespace NetWorkedData
         //                tWebServicesAddon.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS_BY_ACCOUNT() + "(0, array_keys($ACC_NEEDED['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']));");
         //                tWebServicesAddon.AppendLine("}");
         //            }
-        //        }         //    }
+        //        }
+        //    }
         //    tWebServicesAddon.AppendLine("}");
         //    tWebServicesAddon.AppendLine(NWD.K_CommentSeparator);
         //    tWebServicesAddon.AppendLine("?>");
@@ -604,7 +548,65 @@ namespace NetWorkedData
         //    //NWEBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHPAuthentificationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(Headlines());
+            if (LogMode == true)
+            {
+                tFile.AppendLine("error_reporting (E_ALL);");
+                tFile.AppendLine("ini_set ('display_errors', 1);");
+            }
+            tFile.AppendLine("// RESCUE");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// Determine the file tree path");
+            tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// include all necessary files");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
+            tFile.AppendLine("$TIME_MICRO = microtime(true); // perhaps use in instance of $TIME_STAMP in sync ");
+            tFile.AppendLine("settype($TIME_MICRO, \"float\");");
+            tFile.AppendLine("" + NWD.K_PHP_TIME_SYNC + " = intval($TIME_MICRO);");
+            tFile.AppendLine("settype(" + NWD.K_PHP_TIME_SYNC + ", \"integer\");");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// use functions library");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FUNCTIONS_PHP + "');");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// connect MYSQL");
+            tFile.AppendLine("" + NWD.K_SQL_CON + " = new mysqli($SQL_HOT,$SQL_USR,$SQL_PSW, $SQL_BSE);");
+            tFile.AppendLine("if (" + NWD.K_SQL_CON + "->connect_errno)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("echo('internal error');");
+            tFile.AppendLine("exit;");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDError>().ClassNamePHP + "/" + NWD.K_WS_ENGINE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDAccountSign>().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.BasisHelper<NWDError>().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            tFile.AppendLine("if (getValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (getValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (getValue('fyr', '" + NWD.K_WEB_RESCUE_PROOF_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
+            tFile.AppendLine("RescueSignProceed($rescueemail, $rescuelang, $fyr);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_RESCUE_PHP, tFileFormatted);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHPAuthenticationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
@@ -626,14 +628,80 @@ namespace NetWorkedData
             tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
             tFile.AppendLine("// start the script");
             tFile.AppendLine(NWD.K_CommentSeparator);
-            tFile.AppendLine("if (!"+NWDError.FUNCTIONPHP_errorDetected+"())");
+            tFile.AppendLine("if (!" + NWDError.FUNCTIONPHP_errorDetected + "())");
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('action', '" + NWD.K_WEB_ACTION_KEY + "', " + NWD.K_WEB_EREG_ACTION + ", '" + NWDError.NWDError_ACC01.Code + "', '" + NWDError.NWDError_ACC02.Code + "')) // test if action is valid");
             tFile.AppendLine("{");
+
+            tFile.AppendLine("//---- SECURE SYNC ----");
+
+
+            tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if(NWDRequestTokenIsValid($uuid,$token) == true)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if(TestBanAccount($uuid) == false)");
+            tFile.AppendLine("{");
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+            {
+                tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
+                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+                tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+                tFile.AppendLine("}");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+
             tFile.AppendLine("//---- RESCUE ----");
             tFile.AppendLine("// I ask rescue for my account");
             tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_RESCUE_KEY + "')");
             tFile.AppendLine("{");
+
+            tFile.AppendLine("if (paramValue('rescueemail', '" + NWD.K_WEB_RESCUE_EMAIL_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (paramValue('rescuelang', '" + NWD.K_WEB_RESCUE_LANGUAGE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("include_once (" + NWDBasisHelper.BasisHelper<NWDAccountSign>().PHP_ENGINE_PATH(this) + ");");
+            tFile.AppendLine("RescueSign($rescueemail, $rescuelang);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+
+
+            tFile.AppendLine("}");
+            tFile.AppendLine("//---- SIGN UP ----");
+            tFile.AppendLine("// I sign up with the value");
+            tFile.AppendLine("if ($action == '" + NWD.K_WEB_ACTION_SIGNUP_KEY + "')");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (paramValue('sdkt', '" + NWD.K_WEB_SIGN_UP_TYPE_Key + "', " + NWD.K_WEB_EREG_SDKT + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (paramValue('sdkv', '" + NWD.K_WEB_SIGN_UP_VALUE_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (paramValue('sdkr', '" + NWD.K_WEB_SIGN_UP_RESCUE_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if (paramValue('sdkl', '" + NWD.K_WEB_SIGN_UP_LOGIN_Key + "', " + NWD.K_WEB_EREG_SDKR + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
+            tFile.AppendLine("{");
+            tFile.AppendLine("FindSDKI($sdkt, $sdkv, $sdkr, $sdkl);");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SHS01));
+            tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("//---- SIGN IN ----");
             tFile.AppendLine("// I sign in with the good value");
@@ -641,13 +709,15 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tOldUuid = $uuid;");
-            tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, false);");
-            tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            //tFile.AppendLine("$tOldUuid = $uuid;");
+            tFile.AppendLine("$tNewUuid = FindAccount($HeaderUUID, $sdki, false);");
+            //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
             tFile.AppendLine("// respondUUID($tNewUuid);");
-            tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
-            tFile.AppendLine("respond_SignIn();");
+            //tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid); // delete old tokens");
+            tFile.AppendLine("NWDRequestTokenDeleteAllToken($HeaderUUID); // delete old tokens");
+            //tFile.AppendLine("respond_SignIn();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -665,12 +735,15 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
-            tFile.AppendLine("$tOldUuid = $uuid;");
-            tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
-            tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            //tFile.AppendLine("$tOldUuid = $uuid;");
+            //tFile.AppendLine("$tNewUuid = FindAccount($tOldUuid, $sdki, true);");
+            tFile.AppendLine("$tNewUuid = FindAccount(time().'" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "', $sdki, true);");
+            //tFile.AppendLine("if ($tOldUuid != $tNewUuid)");
+            tFile.AppendLine("if ($HeaderUUID != $tNewUuid)");
             tFile.AppendLine("{");
-            tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
-            tFile.AppendLine("respond_SignOut();");
+            //tFile.AppendLine("NWDRequestTokenDeleteAllToken($tOldUuid);  // delete old tokens");
+            tFile.AppendLine("NWDRequestTokenDeleteAllToken($HeaderUUID);  // delete old tokens");
+            //tFile.AppendLine("respond_SignOut();");
             tFile.AppendLine("}");
             tFile.AppendLine("else");
             tFile.AppendLine("{");
@@ -684,178 +757,208 @@ namespace NetWorkedData
             tFile.AppendLine("}");
 
 
+            //tFile.AppendLine("if (!"+NWDError.FUNCTIONPHP_errorDetected+"())");
+            //tFile.AppendLine("{");
+            //// I need include ALL tables management files to manage ALL tables
+            //foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+            //{
+            //    tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
+            //    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //    tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+            //    tFile.AppendLine("}");
+            //}
+            //tFile.AppendLine("}");
 
-            // I need include ALL tables management files to manage ALL tables
-            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-            {
-                tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-                tFile.AppendLine("}");
-            }
-            // I need to prevent Non synchronized class from editor
-            if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-            {
+            //// I need to prevent Non synchronized class from editor
+            //if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            //{
 
-                tFile.AppendLine("if ($admin == true)\n{");
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
+            //    tFile.AppendLine("if ($admin == true)\n{");
+            //    foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
+            //    {
+            //        tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
+            //        tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //        tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+            //        tFile.AppendLine("}");
+            //    }
+            //    tFile.AppendLine("}");
+            //}
+
+            tFile.AppendLine("if (!" + NWDError.PHP_errorDetected() + "())");
+            tFile.AppendLine("{");
+
+            tFile.AppendLine("if(TestBanAccount($uuid) == false)");
+            tFile.AppendLine("{");
+
+            tFile.AppendLine("// get all datas for this account with reset sync... as force pull all!");
+
+            //foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            //{
+            //tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+            //tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
+            //tFile.AppendLine("}");
+            //}
+
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+            {
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tType))
                 {
-                    tFile.AppendLine("if (isset($dico['" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "']))\n{");
-                    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
-                    tFile.AppendLine("" + NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_SYNCHRONIZE() + " ($dico, $uuid, $admin);");
-                    tFile.AppendLine("}");
+                tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_DB + "/" + NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');");
+                tFile.AppendLine(NWDBasisHelper.FindTypeInfos(tType).PHP_FUNCTION_GET_DATAS() + " (0, $uuid);");
                 }
-                tFile.AppendLine("}");
             }
 
 
+            tFile.AppendLine("}");
 
-
+            tFile.AppendLine("}");
 
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// finish the generic process");
-            tFile.AppendLine("include_once ("+NWD.K_PATH_BASE+".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FINISH_PHP + "');");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FINISH_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
             string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_AUTHENTIFICATION_PHP, tFileFormatted);
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_AUTHENTICATION_PHP, tFileFormatted);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void CreatePHPBlankFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-{
-    //NWEBenchmark.Start();
-    StringBuilder tFile = new StringBuilder(string.Empty);
-    tFile.AppendLine("<?php");
-    tFile.AppendLine(Headlines());
-    if (LogMode == true)
-    {
-        tFile.AppendLine("error_reporting (E_ALL);");
-        tFile.AppendLine("ini_set ('display_errors', 1);");
-    }
-    tFile.AppendLine("// BLANK");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("// Determine the file tree path");
-    tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
-    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
-    //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_INSIDE_FILE + "');");
-    tFile.AppendLine("mysqli_close (" + NWD.K_SQL_CON + ");");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("?>");
-    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_BLANK_PHP, tFileFormatted);
-    //NWEBenchmark.Finish();
-}
-//-------------------------------------------------------------------------------------------------------------
-//private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-//{
-//    //NWEBenchmark.Start();
-//    StringBuilder tFile = new StringBuilder(string.Empty);
-//    tFile.AppendLine("<?php");
-//    tFile.AppendLine(Headlines());
-//    if (LogMode == true)
-//    {
-//        tFile.AppendLine("error_reporting (E_ALL);");
-//        tFile.AppendLine("ini_set ('display_errors', 1);");
-//    }
-//    tFile.AppendLine("// RESCUE");
-//    tFile.AppendLine("$NWD_TMA = microtime(true);");
-//    tFile.AppendLine(NWD.K_CommentSeparator);
-//    tFile.AppendLine("// Determine the file tree path");
-//    tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
-//    tFile.AppendLine(NWD.K_CommentSeparator);
-//    tFile.AppendLine("" + NWD.K_ENV + " = '" + Environment + "';");
-//    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_RESCUE_PHP + "');");
-//    tFile.AppendLine(NWD.K_CommentSeparator);
-//    tFile.AppendLine("?>");
-//    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-//    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_RESCUE_PHP, tFileFormatted);
-//    //NWEBenchmark.Finish();
-//}
-//-------------------------------------------------------------------------------------------------------------
-private void CreatePHPIndexFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-{
-    //NWEBenchmark.Start();
-    StringBuilder tFile = new StringBuilder(string.Empty);
-    tFile.AppendLine("<?php");
-    tFile.AppendLine(Headlines());
-    if (LogMode == true)
-    {
-        tFile.AppendLine("error_reporting (E_ALL);");
-        tFile.AppendLine("ini_set ('display_errors', 1);");
-    }
-    tFile.AppendLine("// INDEX");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("?>");
-    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_INDEX_PHP, tFileFormatted);
-    sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_INDEX_PHP, tFileFormatted);
-    //NWEBenchmark.Finish();
-}
-//-------------------------------------------------------------------------------------------------------------
-private void CreatePHPMaintenanceFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-{
-    //NWEBenchmark.Start();
-    StringBuilder tFile = new StringBuilder(string.Empty);
-    tFile.AppendLine("<?php");
-    tFile.AppendLine(Headlines());
-    if (LogMode == true)
-    {
-        tFile.AppendLine("error_reporting (E_ALL);");
-        tFile.AppendLine("ini_set ('display_errors', 1);");
-    }
-    tFile.AppendLine("// " + NWD.K_MAINTENANCE_ERROR + "");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("header('" + NWD.K_MAINTENANCE_HEADER_KEY + ": true');");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("?>");
-    tFile.AppendLine("{\"" + NWD.K_MAINTENANCE_HEADER_KEY + "\":\"true\"}");
-    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_MAINTENANCE_PHP, tFileFormatted);
-    //NWEBenchmark.Finish();
-}
-//-------------------------------------------------------------------------------------------------------------
-private void CreatePHPObsoleteFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-{
-    //NWEBenchmark.Start();
-    StringBuilder tFile = new StringBuilder(string.Empty);
-    tFile.AppendLine("<?php");
-    tFile.AppendLine(Headlines());
-    if (LogMode == true)
-    {
-        tFile.AppendLine("error_reporting (E_ALL);");
-        tFile.AppendLine("ini_set ('display_errors', 1);");
-    }
-    tFile.AppendLine("// " + NWD.K_OBSOLETE_ERROR + "");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("header('" + NWD.K_OBSOLETE_HEADER_KEY + ": true');");
-    tFile.AppendLine(NWD.K_CommentSeparator);
-    tFile.AppendLine("?>");
-    tFile.AppendLine("{\"" + NWD.K_OBSOLETE_HEADER_KEY + "\":\"true\"}");
-    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
-    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_OBSOLETE_PHP, tFileFormatted);
-    //NWEBenchmark.Finish();
-}
-//-------------------------------------------------------------------------------------------------------------
-private void CreatePHPDotHTAccessFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
-{
-    //NWEBenchmark.Start();
-    if (sWriteOnDisk == false)
-    {
-        sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_HTACCESS, "deny from all");
-        sFilesAndDatas.Add(DBFolder(sWriteOnDisk) + NWD.K_HTACCESS, "deny from all");
-    }
-    else
-    {
-        sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_DOT_HTACCESS, "deny from all");
-        sFilesAndDatas.Add(DBFolder(sWriteOnDisk) + NWD.K_DOT_HTACCESS, "deny from all");
-    }
-    //NWEBenchmark.Finish();
-}
+        {
+            //NWEBenchmark.Start();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(Headlines());
+            if (LogMode == true)
+            {
+                tFile.AppendLine("error_reporting (E_ALL);");
+                tFile.AppendLine("ini_set ('display_errors', 1);");
+            }
+            tFile.AppendLine("// BLANK");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// Determine the file tree path");
+            tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
+            tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
+            //tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_INSIDE_FILE + "');");
+            tFile.AppendLine("mysqli_close (" + NWD.K_SQL_CON + ");");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_BLANK_PHP, tFileFormatted);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //private void CreatePHPRescueFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        //{
+        //    //NWEBenchmark.Start();
+        //    StringBuilder tFile = new StringBuilder(string.Empty);
+        //    tFile.AppendLine("<?php");
+        //    tFile.AppendLine(Headlines());
+        //    if (LogMode == true)
+        //    {
+        //        tFile.AppendLine("error_reporting (E_ALL);");
+        //        tFile.AppendLine("ini_set ('display_errors', 1);");
+        //    }
+        //    tFile.AppendLine("// RESCUE");
+        //    tFile.AppendLine("$NWD_TMA = microtime(true);");
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    tFile.AppendLine("// Determine the file tree path");
+        //    tFile.AppendLine("" + NWD.K_PATH_BASE + " = dirname(__DIR__);");
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    tFile.AppendLine("" + NWD.K_ENV + " = '" + Environment + "';");
+        //    tFile.AppendLine("include_once (" + NWD.K_PATH_BASE + ".'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_RESCUE_PHP + "');");
+        //    tFile.AppendLine(NWD.K_CommentSeparator);
+        //    tFile.AppendLine("?>");
+        //    string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+        //    sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_RESCUE_PHP, tFileFormatted);
+        //    //NWEBenchmark.Finish();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHPIndexFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(Headlines());
+            if (LogMode == true)
+            {
+                tFile.AppendLine("error_reporting (E_ALL);");
+                tFile.AppendLine("ini_set ('display_errors', 1);");
+            }
+            tFile.AppendLine("// INDEX");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_INDEX_PHP, tFileFormatted);
+            sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_INDEX_PHP, tFileFormatted);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHPMaintenanceFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(Headlines());
+            if (LogMode == true)
+            {
+                tFile.AppendLine("error_reporting (E_ALL);");
+                tFile.AppendLine("ini_set ('display_errors', 1);");
+            }
+            tFile.AppendLine("// " + NWD.K_MAINTENANCE_ERROR + "");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("header('" + NWD.K_MAINTENANCE_HEADER_KEY + ": true');");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            tFile.AppendLine("{\"" + NWD.K_MAINTENANCE_HEADER_KEY + "\":\"true\"}");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_MAINTENANCE_PHP, tFileFormatted);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHPObsoleteFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(Headlines());
+            if (LogMode == true)
+            {
+                tFile.AppendLine("error_reporting (E_ALL);");
+                tFile.AppendLine("ini_set ('display_errors', 1);");
+            }
+            tFile.AppendLine("// " + NWD.K_OBSOLETE_ERROR + "");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("header('" + NWD.K_OBSOLETE_HEADER_KEY + ": true');");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            tFile.AppendLine("{\"" + NWD.K_OBSOLETE_HEADER_KEY + "\":\"true\"}");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            sFilesAndDatas.Add(EnvFolder(sWriteOnDisk) + NWD.K_OBSOLETE_PHP, tFileFormatted);
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void CreatePHPDotHTAccessFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            if (sWriteOnDisk == false)
+            {
+                sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_HTACCESS, "deny from all");
+                sFilesAndDatas.Add(DBFolder(sWriteOnDisk) + NWD.K_HTACCESS, "deny from all");
+            }
+            else
+            {
+                sFilesAndDatas.Add(EngFolder(sWriteOnDisk) + NWD.K_DOT_HTACCESS, "deny from all");
+                sFilesAndDatas.Add(DBFolder(sWriteOnDisk) + NWD.K_DOT_HTACCESS, "deny from all");
+            }
+            //NWEBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

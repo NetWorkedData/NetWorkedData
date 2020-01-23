@@ -11,17 +11,18 @@
 //
 //=====================================================================================================================
 
-
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Craft",
+    [NWDTypeWindowParamAttribute(
+        "Craft",
         "Craft edition",
-            new Type[] {
+        new Type[] {
             typeof(NWDCraftBook),
             typeof(NWDCraftReward),
             typeof(NWDCraftRecipient),
@@ -29,13 +30,26 @@ namespace NetWorkedData
             typeof(NWDItem),
 		}
     )]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDCraftBookWindow : NWDBasisWindow<NWDCraftBookWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "CraftBooks", false, 531)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Craft/Recipe", false, 530)]
         public static void MenuMethod()
         {
             ShowWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Craft/Reward", false, 531)]
+        public static void MenuMethodReward()
+        {
+            ShowWindow(typeof(NWDCraftReward));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Craft/Recipient", false, 532)]
+        public static void MenuMethodRecipient()
+        {
+            ShowWindow(typeof(NWDCraftRecipient));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

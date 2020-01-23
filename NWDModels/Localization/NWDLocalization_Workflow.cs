@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -24,13 +23,9 @@ namespace NetWorkedData
     public partial class NWDLocalization : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalization()
-        {
-        }
+        public NWDLocalization() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalization(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-        }
+        public NWDLocalization(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
@@ -70,9 +65,13 @@ namespace NetWorkedData
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetLocalString()         {             string tText = TextValue.GetLocalString();             return tText.Replace("<br>", Environment.NewLine);         }
+        public string GetLocalString()
+        {
+            string tText = TextValue.GetLocalString();
+            return tText.Replace("<br>", Environment.NewLine);
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

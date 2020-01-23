@@ -12,6 +12,7 @@
 //=====================================================================================================================
 
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Text;
 //using BasicToolBox;
 
@@ -103,7 +104,21 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogMode) + " = " + LogMode.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.LogInFileMode) + " = " + LogInFileMode.ToString().ToLower() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.SFTPBalanceLoad) + " = " + SFTPBalanceLoad.ToString() + ";");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + " = new Dictionary<long, string>();");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Clear();");
+            foreach (KeyValuePair<long, string> tKeyValue in RuntimeDefineDictionary)
+            {
+                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RuntimeDefineDictionary) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+            }
             rReturn.AppendLine("#if UNITY_EDITOR");
+            //rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + " = new Dictionary<long, string>();");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Clear();");
+            foreach (KeyValuePair<long, string> tKeyValue in EditorDefineDictionary)
+            {
+                rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.EditorDefineDictionary) + ".Add("+ tKeyValue.Key+", \""+ tKeyValue.Value.Replace("\"","\\\"")+ "\");");
+            }
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanMaxTentative) + " = " + IPBanMaxTentative.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanTimer) + " = " + IPBanTimer.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.IPBanActive) + " = " + IPBanActive.ToString().ToLower() + ";");
@@ -125,7 +140,11 @@ namespace NetWorkedData
                 rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
             }
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueEmail) + " = \"" + RescueEmail.Replace("\"", "\\\"").Trim() + "\";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueDelay) + " = " + RescueDelay.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescueLoginLength) + " = " + RescueLoginLength.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.RescuePasswordLength) + " = " + RescuePasswordLength.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.TokenHistoric) + " = " + TokenHistoric.ToString() + ";");
+            rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailBySMTP) + " = " + MailBySMTP.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailHost) + " =  \"" + MailHost.Trim() + "\";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailPort) + " = " + MailPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.MailUserName) + " =  \"" + MailUserName.Trim() + "\";");

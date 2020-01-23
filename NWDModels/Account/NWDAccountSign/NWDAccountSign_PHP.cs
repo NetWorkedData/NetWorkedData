@@ -34,10 +34,12 @@ namespace NetWorkedData
             string tSignStatusKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignStatus);
             string tSignHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().SignHash);
             string tRescueHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().RescueHash);
+            string tLoginHashKey = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().LoginHash);
             string tInternalDescription = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccountSign>().InternalDescription);
             int t_Index_SignActionKey =  CSV_IndexOf(tSignStatusKey);
             int t_Index_SignHashKey =  CSV_IndexOf(tSignHashKey);
             int t_Index_RescueHashKey =  CSV_IndexOf(tRescueHashKey);
+            int t_Index_LoginHashKey =  CSV_IndexOf(tLoginHashKey);
             int t_Index_InternalDescription=  CSV_IndexOf(tInternalDescription);
             StringBuilder sScript = new StringBuilder(string.Empty);
             sScript.AppendLine("// analyze the sign ");
@@ -48,6 +50,10 @@ namespace NetWorkedData
             sScript.AppendLine("if ($sCsvList[" + t_Index_RescueHashKey + "]!='')");
             sScript.AppendLine("{");
             sScript.Append("$tQueryRequest .= ' OR `" + tRescueHashKey + "` = \\''."+NWD.K_SQL_CON+"->real_escape_string($sCsvList[" + t_Index_RescueHashKey + "]).'\\'';");
+            sScript.AppendLine("}");
+            sScript.AppendLine("if ($sCsvList[" + t_Index_LoginHashKey + "]!='')");
+            sScript.AppendLine("{");
+            sScript.Append("$tQueryRequest .= ' OR `" + tLoginHashKey + "` = \\''." + NWD.K_SQL_CON + "->real_escape_string($sCsvList[" + t_Index_LoginHashKey + "]).'\\'';");
             sScript.AppendLine("}");
             sScript.Append("$tQueryRequest .= ' ) AND `"+tSignReference+"` != \\''."+NWD.K_SQL_CON+"->real_escape_string($tReference).'\\' ");
             sScript.Append("AND `AC` = 1");

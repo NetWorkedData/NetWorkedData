@@ -40,14 +40,14 @@ namespace NetWorkedData
             NWDTypeClass tObject = GetDataByReference(tReference);
             if (tObject == null)
             {
-                //Debug.Log("SynchronizationTryToUse () NEW DATA");
+                //Debug.Log("SynchronizationTryToUse () NEW DATA Reference " + tReference);
                 sInfos.RowAddedCounter++;
                 tObject = NewDataFromWeb(sEnvironment, sDataArray, tReference);
                 //AddObjectInListOfEdition(tObject);
             }
             else
             {
-                //Debug.Log("SynchronizationTryToUse () OLD DATA");
+                //Debug.Log("SynchronizationTryToUse () OLD DATA Reference " + tReference);
                 string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
@@ -80,7 +80,7 @@ namespace NetWorkedData
             {
 #if UNITY_EDITOR
                 //Datas().CSVAssemblyOrderArrayPrepare();
-                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + ClassTableName + " \n" + string.Join("|", sData + "\n"));
+                //Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + ClassTableName + " \n" + string.Join("|", sData + "\n"));
                 //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
 #endif
             }
@@ -90,6 +90,30 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+
+        
+        //-------------------------------------------------------------------------------------------------------------
+        //public Dictionary<string, object> SynchronizationGetNewData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll)
+        //{
+        //    //Debug.Log("NWDBasis SynchronizationSignActionData() " + ClassName);
+        //    // create respond object
+        //    Dictionary<string, object> rSend = new Dictionary<string, object>();
+        //    // create dictionnary for this tablename and insert in the respond
+        //    Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
+        //    rSend.Add(ClassTableName, rSendDatas);
+        //    // get last synchro
+        //    int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
+        //    if (sForceAll==true)
+        //    {
+        //        tLastSynchronization = 0;
+        //    }
+        //    // I get all objects 
+        //    rSendDatas.Add(NWD.K_WEB_ACTION_SYNC_KEY, tLastSynchronization);
+        //    rSendDatas.Add(NWD.K_WEB_WEBSIGN_KEY, WebServiceSign(LastWebBuild));
+        //    // return the data
+        //    return rSend;
+        //}
+
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial)
         {
@@ -119,7 +143,10 @@ namespace NetWorkedData
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
                 if (sSpecial != NWDOperationSpecial.Pull)
                 {
-                    LoadFromDatabase();
+                    if (IsLoaded() == false)
+                    {
+                        LoadFromDatabase();
+                    }
                     foreach (NWDTypeClass tO in Datas)
                     {
                         bool tAddEnv = true;
@@ -253,7 +280,7 @@ namespace NetWorkedData
         /// <param name="sData">S data.</param>
         public string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, NWDOperationSpecial sSpecial)
         {
-            //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
+            //Debug.Log("NWDBasis SynchronizationPullData() " + ClassTableName);
             //NWEBenchmark.Start();
             //NWEBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";

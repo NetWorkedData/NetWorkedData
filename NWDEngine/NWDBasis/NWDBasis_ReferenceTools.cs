@@ -75,10 +75,10 @@ namespace NetWorkedData
         public string UUIDTransformForReference(string sUUID)
         {
             string tUUID = NWEConstants.K_MINUS + sUUID;
-            tUUID = tUUID.Replace("ACC", string.Empty);
-            tUUID = tUUID.Replace("S", string.Empty);
-            tUUID = tUUID.Replace("C", string.Empty);
-            //tUUID = tUUID.Replace ("T", ""); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
+            tUUID = tUUID.Replace(NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme, string.Empty);
+            //tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_SIGNED_SUFFIXE, string.Empty);
+            tUUID = tUUID.Replace(NWDAccount.K_ACCOUNT_CERTIFIED_SUFFIXE, string.Empty);
+            //tUUID = tUUID.Replace (NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE, string.Empty); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
             tUUID = tUUID.Replace(NWEConstants.K_MINUS, string.Empty);
             return tUUID;
         }
@@ -96,9 +96,6 @@ namespace NetWorkedData
             {
                 sUUID = UUIDTransformForReference(sUUID) + NWEConstants.K_MINUS;
             }
-            //int tTimeRef = 0;
-            //int.TryParse(sUUID, out tTimeRef);
-            //int tTime = NWDToolbox.Timestamp() - tTimeRef;
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 18h00:00
             while (tValid == false)
             {
@@ -136,7 +133,7 @@ namespace NetWorkedData
         //		}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Test the reference allready exists.
+        /// Test the reference already exists.
         /// </summary>
         /// <returns><c>true</c>, if reference was tested, <c>false</c> otherwise.</returns>
         /// <param name="sReference">reference.</param>
@@ -242,15 +239,21 @@ namespace NetWorkedData
                         if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
                         {
                             NWDReferenceSimple tTestChange = tProp.GetValue(this, null) as NWDReferenceSimple;
-                            tTestChange.ChangeReferenceForAnother(sOldReference, sNewReference);
-                            tProp.SetValue(this, tTestChange, null);
+                            if (tTestChange != null)
+                            {
+                                tTestChange.ChangeReferenceForAnother(sOldReference, sNewReference);
+                                tProp.SetValue(this, tTestChange, null);
+                            }
                         }
 
                         if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
                         {
                             NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
-                            tTestChange.ChangeReferenceForAnother(sOldReference, sNewReference);
-                            tProp.SetValue(this, tTestChange, null);
+                            if (tTestChange != null)
+                            {
+                                tTestChange.ChangeReferenceForAnother(sOldReference, sNewReference);
+                                tProp.SetValue(this, tTestChange, null);
+                            }
                         }
 
                         //if (
@@ -298,6 +301,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void ChangeUser(string sOldUser, string sNewUser)
         {
+            //Debug.Log("##### ChangeUser" + Reference + " sOldUser " + sOldUser + " sNewUser " + sNewUser);
             if (IntegrityIsValid() == true)
             {
                 if (AccountDependent() == true)
@@ -311,15 +315,21 @@ namespace NetWorkedData
                             if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceSimple)))
                             {
                                 NWDReferenceSimple tTestChange = tProp.GetValue(this, null) as NWDReferenceSimple;
-                                tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
-                                tProp.SetValue(this, tTestChange, null);
+                                if (tTestChange != null)
+                                {
+                                    tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+                                    tProp.SetValue(this, tTestChange, null);
+                                }
                             }
 
                             if (tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple)))
                             {
                                 NWDReferenceMultiple tTestChange = tProp.GetValue(this, null) as NWDReferenceMultiple;
-                                tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
-                                tProp.SetValue(this, tTestChange, null);
+                                if (tTestChange != null)
+                                {
+                                    tTestChange.ChangeReferenceForAnother(sOldUser, sNewUser);
+                                    tProp.SetValue(this, tTestChange, null);
+                                }
                             }
 
                             //NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
@@ -329,9 +339,20 @@ namespace NetWorkedData
                             //}
                         }
                     }
-                    UpdateDataIfModified();
+                    if (UpdateDataIfModified())
+                    {
+                        Debug.Log("##### ChangeUser success : " + BasisHelper().ClassNamePHP + " Reference = " + Reference);
+                    }
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
                 }
+                else
+                {
+                    Debug.Log("##### ChangeUser not account dependant");
+                }
+            }
+            else
+            {
+                Debug.Log("##### ChangeUser integrity false : " +BasisHelper().ClassNamePHP + " Reference = "+ Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

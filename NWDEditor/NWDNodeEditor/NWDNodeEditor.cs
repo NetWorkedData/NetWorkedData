@@ -10,19 +10,11 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
 #if UNITY_EDITOR
-
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
 using UnityEngine;
-using System;
-using System.Reflection;
 using System.IO;
-
 using UnityEditor;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -83,8 +75,11 @@ namespace NetWorkedData
             if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tTypeEdited);
-                NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
-                SetObjectInNodeWindow(tData);
+                if (tHelper != null)
+                {
+                    NWDTypeClass tData = tHelper.GetDataByReference(tLastReferenceEdited);
+                    SetObjectInNodeWindow(tData);
+                }
             }
             //NWEBenchmark.Finish();
         }
@@ -114,7 +109,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (sSelection != null)
             {
-                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+                if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
                 {
                     kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
                     kNodeEditorSharedInstance.Show();
@@ -203,7 +198,7 @@ namespace NetWorkedData
         public void SetSelection(NWDTypeClass sSelection)
         {
             //NWEBenchmark.Start();
-            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).DatabaseIsLoaded())
+            if (NWDBasisHelper.FindTypeInfos(sSelection.GetType()).AllDatabaseIsLoaded())
             {
                 Document.EditorWindow = this;
                 Document.SetData(sSelection);

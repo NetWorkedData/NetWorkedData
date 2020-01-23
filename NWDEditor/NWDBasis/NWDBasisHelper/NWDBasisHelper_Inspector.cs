@@ -626,6 +626,10 @@ namespace NetWorkedData
                         {
                             tProperty.Tooltips += tReference.ToolsTips;
                         }
+                        foreach (NWDEntitled tReference in tProp.GetCustomAttributes(typeof(NWDEntitled), true))
+                        {
+                            tProperty.Name = tReference.Entitled;
+                        }
 
                         foreach (NWDPropertyRename tReference in ClassType.GetCustomAttributes(typeof(NWDPropertyRename), true))
                         {
@@ -783,6 +787,17 @@ namespace NetWorkedData
             else
             {
                rReturn = new GUIContent("");
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool HasPreview(string sReference)
+        {
+            bool rReturn = false;
+            if (DatasByReference.ContainsKey(sReference))
+            {
+                NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
+                rReturn = tObject.PreviewTexture2D()!=null;
             }
             return rReturn;
         }

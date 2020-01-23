@@ -11,39 +11,50 @@
 //
 //=====================================================================================================================
 
-
-
-using System;
-using UnityEngine;
-using SQLite4Unity3d;
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Items",
-                                 "Items",
-                                 "NWDItemWindow",
+    [NWDTypeWindowParamAttribute(
+        "Items",
+        "Items",
+        "NWDItemWindow",
         new Type[] {
             typeof(NWDItem),
             typeof(NWDItemRarity),
-            //typeof(NWDItemProperty),
             typeof(NWDItemGroup),
-            typeof(NWDUserOwnership),
             typeof(NWDItemSlot),
-            typeof(NWDUserItemSlot),
-			/* Add NWDBasis here*/
 		}
     )]
     public class NWDItemWindow : NWDBasisWindow<NWDItemWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Items", false, 530)]
-        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Item/All", false, 500)]
         public static void MenuMethod()
         {
             ShowWindow();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Item/Rarity", false, 501)]
+        public static void MenuMethodRarity()
+        {
+            ShowWindow(typeof(NWDItemRarity));
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Item/Group", false, 502)]
+        public static void MenuMethodGroup()
+        {
+            ShowWindow(typeof(NWDItemGroup));
+        }
+        //-------------------------------------------------------------------------------------------------------------        
+        [MenuItem(NWDConstants.K_MENU_BASE + "Item/Slot", false, 503)]
+        public static void MenuMethodSlot()
+        {
+            ShowWindow(typeof(NWDItemSlot));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

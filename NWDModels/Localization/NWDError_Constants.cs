@@ -19,7 +19,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -34,7 +33,8 @@ namespace NetWorkedData
         static public NWDError NWDError_WEB01;
         /// <summary>
         /// HTTP error
-        /// </summary>         static public NWDError NWDError_WEB02;
+        /// </summary>
+        static public NWDError NWDError_WEB02;
         /// <summary>
         /// HTTP respond is empty
         /// </summary>
@@ -44,13 +44,7 @@ namespace NetWorkedData
         /// </summary>
         static public NWDError NWDError_WEB04;
 
-        /// <summary>
-        /// Error in unique generate
-        /// </summary>
         static public NWDError NWDError_UIG00;
-        /// <summary>
-        /// SQL no connexion!
-        /// </summary>
         static public NWDError NWDError_SQL00;
 
         static public NWDError NWDError_HEA01;
@@ -117,7 +111,9 @@ namespace NetWorkedData
         static public NWDError NWDError_ACC97;
         static public NWDError NWDError_ACC98;
         static public NWDError NWDError_ACC99;
-        static public NWDError NWDError_SGN01;         static public NWDError NWDError_SGN20;
+
+        static public NWDError NWDError_SGN01;
+        static public NWDError NWDError_SGN20;
         static public NWDError NWDError_SGN03;
         static public NWDError NWDError_SGN04;
         static public NWDError NWDError_SGN05;
@@ -136,7 +132,6 @@ namespace NetWorkedData
         static public NWDError NWDError_SGN18;
         static public NWDError NWDError_SGN19;
         static public NWDError NWDError_SGN33;
-
         static public NWDError NWDError_SGN70;
         static public NWDError NWDError_SGN71;
         static public NWDError NWDError_SGN72;
@@ -247,9 +242,15 @@ namespace NetWorkedData
         static public NWDError NWDError_MAINTENANCE;
         static public NWDError NWDError_OBSOLETE;
         static public NWDError NWDError_SERVER;
-        static public NWDError NWDError_RESC01;
-        static public NWDError NWDError_RESC02;
-        static public NWDError NWDError_RESC03;           static public NWDError NWDError_IPB01; 
+        //static public NWDError NWDError_RESC01;
+        //static public NWDError NWDError_RESC02;
+        //static public NWDError NWDError_RESC03;
+        static public NWDError NWDError_IPB01;
+        static public NWDError NWDError_RescueRequest;
+        static public NWDError NWDError_RescuePage;
+        static public NWDError NWDError_RescuePageError;
+        static public NWDError NWDError_RescueAnswerLogin;
+        static public NWDError NWDError_RescueAnswerEmail;
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

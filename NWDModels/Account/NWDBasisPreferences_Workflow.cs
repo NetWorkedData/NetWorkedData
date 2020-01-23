@@ -19,7 +19,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
 using SQLite.Attribute;
 
 #if UNITY_EDITOR

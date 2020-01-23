@@ -11,12 +11,11 @@
 //
 //=====================================================================================================================
 
-
 #if UNITY_EDITOR
 using System;
 using UnityEngine;
-//using BasicToolBox;
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -40,10 +39,8 @@ namespace NetWorkedData
             float tYadd = 0.0f;
 
             tYadd += NWDGUI.kFieldMarge;
-            // Draw line 
 
             tYadd += NWDGUI.Line(EditorGUI.IndentedRect(new Rect(tX, tY, tWidth, 1))).height;
-            // draw Flash My App
 
             foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -56,7 +53,6 @@ namespace NetWorkedData
                 }
                 tYadd += tMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
 
-                // Draw QRCode texture
                 Texture2D tTexture = FlashMyApp(tProto,false, 256);
                 EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDGUI.kPrefabSize * 2, NWDGUI.kPrefabSize * 2),
                                              tTexture);
@@ -68,7 +64,6 @@ namespace NetWorkedData
         {
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-            // Height calculate for the interface addon for editor
             float tYadd = 0.0F;
             foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
             {

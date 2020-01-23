@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-//using BasicToolBox;
 using System.Text;
 
 //=====================================================================================================================
@@ -51,7 +50,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function NWDRequestTokenCreate($sUUIDHash)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON, $ENV, $TIME_SYNC;");
             tFile.AppendLine("$tToken = NWDRequestTokenGenerateToken($sUUIDHash);");
             tFile.AppendLine("$tInsert = $SQL_CON->query('INSERT INTO `"+NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment)+ "` (`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDRequestToken>().DC) + "`, `" + NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().DM)+"`, `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().DD)+"`, `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().AC)+"`, `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().Token)+"`, `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash)+"`, `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().Integrity)+"`) VALUES ( \\''.$TIME_SYNC.'\\', \\''.$TIME_SYNC.'\\', \\'0\\', \\'1\\', \\''.$SQL_CON->real_escape_string($tToken).'\\', \\''.$SQL_CON->real_escape_string($sUUIDHash).'\\', \\'???????\\' );');");
@@ -71,7 +70,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function NWDRequestTokenDeleteOldToken ($sUUIDHash, $sTimestamp, $sToken)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON, $ENV;");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "delete old token"));
             tFile.AppendLine("$tQuery = 'DELETE FROM `"+NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment)+"` WHERE `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash)+"` = \\''.$SQL_CON->real_escape_string($sUUIDHash).'\\' AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().DM)+"` <= \\''.$SQL_CON->real_escape_string($sTimestamp).'\\' AND `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().Token)+"` != \\''.$SQL_CON->real_escape_string($sToken).'\\';';");
@@ -88,7 +87,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function NWDRequestTokenGenerateToken ($sUUIDHash)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $TIME_SYNC;");
             tFile.AppendLine("$tRandom = $sUUIDHash.'-'.$TIME_SYNC.'-'.rand ( 1000000000 , 9999999999 ).'-0';");
             tFile.AppendLine("return md5($tRandom);");
@@ -98,7 +97,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function NWDRequestTokenDeleteAllToken ($sUUIDHash)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON, $ENV;");
             tFile.AppendLine("$tQuery = 'DELETE FROM `"+NWDBasisHelper.TableNamePHP<NWDRequestToken>(sEnvironment)+"` WHERE `"+NWDToolbox.PropertyName(()=>NWDBasisHelper.FictiveData<NWDRequestToken>().UUIDHash)+"` = \\''.$SQL_CON->real_escape_string($sUUIDHash).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
@@ -114,7 +113,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function NWDRequestTokenReset ($sUUIDHash)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("NWDRequestTokenDeleteAllToken ($sUUIDHash);");
             tFile.AppendLine("respondToken(NWDRequestTokenCreate ($sUUIDHash));");
             tFile.AppendLine("}");
@@ -123,7 +122,7 @@ namespace NetWorkedData
 
             tFile.AppendLine("function NWDRequestTokenIsValid ($sUUIDHash, $sToken)");
             tFile.AppendLine("{");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON, $ENV, $TIME_SYNC;");
             tFile.AppendLine("global $sdki;");
             tFile.AppendLine("global $token_FirstUse;");
@@ -145,7 +144,7 @@ namespace NetWorkedData
             tFile.AppendLine("if (TestTemporaryAccount($sUUIDHash))");
             tFile.AppendLine("{");
             tFile.AppendLine("$ereg_password = '/^(.{24,64})$/';");
-            tFile.AppendLine("if (paramValue('sdki', 'sdki', $ereg_password, 'SHS01', 'SHS01'))");
+            tFile.AppendLine("if (paramValue('sdki', '" + NWD.K_WEB_SIGN_Key + "', " + NWD.K_WEB_EREG_SDKI + ", '" + NWDError.NWDError_SHS01.Code + "', '" + NWDError.NWDError_SHS02.Code + "'))");
             tFile.AppendLine("{");
             tFile.AppendLine(NWDError.PHP_log(sEnvironment, "It is an account temporary"));
             tFile.AppendLine("$tNewUuid = FindAccount($sUUIDHash, $sdki, true);");

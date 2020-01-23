@@ -11,11 +11,6 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-//using BasicToolBox;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -24,6 +19,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
+    [NWDClassClusterAttribute(1, 32)]
     public partial class NWDUserNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

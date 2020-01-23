@@ -11,17 +11,7 @@
 //
 //=====================================================================================================================
 
-//=====================================================================================================================
-//
-// ideMobi copyright 2018
-// All rights reserved by ideMobi
-//
-//=====================================================================================================================
-
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-//using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -37,7 +27,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void DataNotLoaded()
         {
-            //Debug.Log("NWDAutolocalized DataIsLoaded()");
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
             if (UseCanvas == true)
@@ -59,7 +48,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void DataIsLoaded()
         {
-            //Debug.Log("NWDAutolocalized DataIsLoaded()");
             if (UseCanvas == true)
             {
                 Canvas tCanvas = GetComponent<Canvas>();
@@ -79,10 +67,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
-            //Debug.Log("NWDAutolocalized Awake()");
             if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
             {
-                //Debug.Log("NWDAutolocalized Awake() install observer");
                 DataNotLoaded();
                 NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
                 tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (NWENotification sNotification)
@@ -93,14 +79,12 @@ namespace NetWorkedData
             }
             else
             {
-                //Debug.Log("NWDAutolocalized Awake() DataAccountLoaded already loaded!");
                 DataIsLoaded();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         private void OnDestroy()
         {
-            //Debug.Log("NWDAutolocalized OnDestroy()");
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
         }

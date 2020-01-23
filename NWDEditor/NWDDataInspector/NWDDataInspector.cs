@@ -144,7 +144,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (sTarget != null)
             {
-                if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
+                if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).AllDatabaseIsLoaded())
                 {
                     if (ShareInstance().mObjectInEdition != sTarget)
                     {
@@ -165,7 +165,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             if (sTarget != null)
             {
-                if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).DatabaseIsLoaded())
+                if (NWDBasisHelper.FindTypeInfos(sTarget.GetType()).AllDatabaseIsLoaded())
                 {
                     //MethodBase tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(sTarget.GetType(), NWDConstants.M_CheckError);
                     //if (tMethodInfo != null)

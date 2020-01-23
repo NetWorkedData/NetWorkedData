@@ -10,29 +10,14 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-//=====================================================================================================================
-//
-// ideMobi copyright 2019
-// All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
-//
-//=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
-//using BasicToolBox;
-
 using ZXing;
 using ZXing.QrCode;
 using UnityEngine.Networking;

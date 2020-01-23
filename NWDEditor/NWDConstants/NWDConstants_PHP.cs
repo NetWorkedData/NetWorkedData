@@ -21,6 +21,7 @@ namespace NetWorkedData
         // SQL INDEXATION
         public const string K_REFERENCE_INDEX = "ReferenceIndex";
         public const string K_BASIS_INDEX = "BasisIndex";
+        public const string K_ACCOUNT_INDEX = "AccountIndex";
         public const string K_INTERNAL_INDEX = "InternalIndex";
         public const string K_EDITOR_INDEX = "EditorIndex";
         //-------------------------------------------------------------------------------------------------------------
@@ -40,24 +41,38 @@ namespace NetWorkedData
         public const string K_SQL_CON = "$SQL_CON";
         public const string K_ENV = "$ENV";
         public const string K_NWD_SLT_SRV = "$NWD_SLT_SRV";
-        public const string K_PHP_TIME_SYNC = "$TME_SYNC";
+        public const string K_PHP_TIME_SYNC = "$TIME_SYNC";
         public const string K_JSON_SECURE_KEY = "securePost";
         public const string K_WEB_ACTION_KEY = "action";
+        public const string K_WEB_ACTION_SIGNUP_KEY = "signup";
         public const string K_WEB_ACTION_SIGNIN_KEY = "signin";
         public const string K_WEB_ACTION_SIGNOUT_KEY = "signout";
         public const string K_WEB_ACTION_RESCUE_KEY = "rescue";
         public const string K_WEB_ACTION_RESTART_WEBSERVICE_KEY = "restartWebservice";
-        public const string K_WEB_ACTION_USER_TRANSFERT_KEY = "usertransfert";
+        public const string K_WEB_ACTION_USER_TRANSFERT_KEY = "usertransfert"; // used
         public const string K_WEB_ACTION_NEW_USER_KEY = "newuser";
-        public const string K_WEB_ACTION_OLD_USER_KEY = "old_user";
-        public const string K_WEB_ACTION_REPLACE_USER_KEY = "new_user";
-        public const string K_WEB_EREG_ACTION = "'/^("+K_WEB_ACTION_SIGNIN_KEY+"|"+K_WEB_ACTION_SIGNOUT_KEY+"|"+K_WEB_ACTION_RESCUE_KEY+")$/'";
-        public const string K_WEB_EREG_SDKI = "'/^(.{24,64})$/'";
-        public const string K_WEB_EREG_EMAIL = "'/^(.{24,64})$/'";
-        public const string K_WEB_EREG_PASSWORD = "'/^(.{24,64})$/'";
+        public const string K_WEB_ACTION_PREVIEW_USER_KEY = "preview_user";
+        public const string K_WEB_ACTION_NEXT_USER_KEY = "next_user";
+        public const string K_WEB_EREG_ACTION = "'/^("+K_WEB_ACTION_SIGNIN_KEY+"|"+K_WEB_ACTION_SIGNOUT_KEY+"|"+K_WEB_ACTION_RESCUE_KEY+"|"+K_WEB_ACTION_SIGNUP_KEY+")$/'";
+        public const string K_WEB_EREG_SDKI = "'/^(.{1,64})$/'";
+        public const string K_WEB_EREG_SDKT = "'/^(.{1,32})$/'";
+        public const string K_WEB_EREG_SDKR = "'/^(.{0,128})$/'";
+        //public const string K_WEB_EREG_EMAIL = "'/^(.{24,64})$/'";
+        //public const string K_WEB_EREG_PASSWORD = "'/^(.{24,64})$/'";
         public const string K_WEB_WEBSIGN_KEY = "Wign";
         public const string K_WEB_ACTION_SYNC_KEY = "sync";
         public const string K_WEB_SIGN_Key = "sdki";
+        public const string K_WEB_SIGN_UP_TYPE_Key = "sdkt";
+        public const string K_WEB_SIGN_UP_VALUE_Key = "sdkv";
+        public const string K_WEB_SIGN_UP_RESCUE_Key = "sdkr";
+        public const string K_WEB_SIGN_UP_LOGIN_Key = "sdkl";
+
+        // if rescue
+        public const string K_WEB_RESCUE_EMAIL_Key = "email";
+        public const string K_WEB_RESCUE_LANGUAGE_Key = "language";
+        public const string K_WEB_RESCUE_PROOF_Key = "fyr"; // use in URL of rescue email
+
+        // for sync
         public const string K_WEB_DATA_KEY = "data";
         public const string K_WEB_DATA_ROW_COUNTER = "rowCount";
         public const string K_WEB_HEADER_OS_KEY = "os";
@@ -86,10 +101,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public const string K_ENV = "Environment";
         public const string K_WS_FILE = "webservices.php";
-        public const string K_WS_INSIDE_FILE = "webservices_inside.php";
-        public const string K_WS_FILE_ADDON = "webservices_addon.php";
-        public const string K_WS_ACCOUNT_ADDON = "accountservices.php";
-        public const string K_AUTHENTIFICATION_PHP = "authentification.php";
+        //public const string K_WS_INSIDE_FILE = "webservices_inside.php";
+        //public const string K_WS_FILE_ADDON = "webservices_addon.php";
+        //public const string K_WS_ACCOUNT_ADDON = "accountservices.php";
+        public const string K_AUTHENTICATION_PHP = "authentication.php";
         public const string K_BLANK_PHP = "blank.php";
         public const string K_INDEX_PHP = "index.php";
         public const string K_RESCUE_PHP = "rescue.php";
@@ -106,6 +121,7 @@ namespace NetWorkedData
         public const string K_JSON_ERROR_INFOS_KEY= "error_infos";
         public const string K_JSON_WEB_SERVICE_KEY= "wsbuild";
         public const string K_JSON_PERFORM_KEY = "perform";
+        public const string K_JSON_AVG_KEY = "avg";
         public const string K_JSON_PERFORM_REQUEST_KEY = "performRequest";
         public const string K_JSON_TIMESTAMP_KEY = "timestamp";
         //-------------------------------------------------------------------------------------------------------------

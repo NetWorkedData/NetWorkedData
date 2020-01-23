@@ -19,6 +19,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 //using BasicToolBox;
 using NWEMiniJSON;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -28,9 +29,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperationWebAction : int
+    public enum NWDOperationWebAction
     {
-        Sync = 1,
+        Sync = 0,
         SignIn = 1,
         SignOut = 2,
         Rescue = 3,
@@ -39,9 +40,17 @@ namespace NetWorkedData
 #endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDOperationFinalStatut
+    {
+        Success = 0,
+        Fail = 1,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
     public partial class NWDOperationWebUnity : NWEOperation
     {
+        NWDOperationFinalStatut FinalStatut;
+
         //-------------------------------------------------------------------------------------------------------------
         //public static int kTimeOutOfRequest = 300;
         public GameObject GameObjectToSpawn;
@@ -109,7 +118,7 @@ namespace NetWorkedData
             //Debug.Log("NWDOperationWebUnity DataUploadPrepare()");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DataAddSecetDevicekey()
+        public void DataAddSecretDevicekey()
         {
             //Debug.Log("NWDOperationWebUnity DataAddSecetDevicekey()");
             // insert device key in data
@@ -121,6 +130,7 @@ namespace NetWorkedData
             {
                 Data.Add(NWD.K_WEB_SIGN_Key, Environment.SecretKeyDevice());
             }
+            Environment.CleanSecretKeyDevice();
             // force temporary account to be secure to transit the secretkey of device!
             SecureData = true;
         }
@@ -140,7 +150,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDOperationWebUnity ServerBase()");
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
+            return Environment.GetServerHTTPS() + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool CanRestart()
@@ -188,13 +198,13 @@ namespace NetWorkedData
             NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
             if (tAccountInfos == null)
             {
-                DataAddSecetDevicekey();
+                DataAddSecretDevicekey();
             }
             else
             {
                 if (tAccountInfos.AccountType() == NWDAppEnvironmentPlayerStatut.Temporary)
                 {
-                    DataAddSecetDevicekey();
+                    DataAddSecretDevicekey();
                 }
             }
             // I prepare the data
@@ -215,10 +225,7 @@ namespace NetWorkedData
                 // I send the data
                 ResultInfos.WebDateTime = DateTime.Now;
                 // Debug Show Header Uploaded
-                if (Environment.LogMode == true)
-                {
-                    DebugShowHeaderUploaded(tWWWForm.data);
-                }
+                DebugShowHeaderUploaded(tWWWForm.data);
                 // Notification of an Upload start
                 NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
                 Request.SendWebRequest();
@@ -272,22 +279,17 @@ namespace NetWorkedData
                         // Notification of an Download is done
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
                         // Debug Show Header Download
-                        if (Environment.LogMode == true)
-                        {
-                            DebugShowHeaderDownloaded(tDataConverted);
-                        }
+                        DebugShowHeaderDownloaded(tDataConverted);
                         // Debug Show Header Up vs Down
-                        if (Environment.LogMode == true)
-                        {
-                            DebugShowHeaderTotal(tDataConverted);
-                        }
+                        DebugShowHeaderTotal(tDataConverted);
                         // Check for error
                         if (tDataConverted.Equals(string.Empty))
                         {
                             ResultInfos.SetError(NWDError.NWDError_WEB04);
                             // Application is in running mode
                             // Request Failed, send Invoke
-                            FailInvoke(Request.downloadProgress, ResultInfos);
+                            //FailInvoke(Request.downloadProgress, ResultInfos);
+                            FinalStatut = NWDOperationFinalStatut.Fail;
                         }
                         else
                         {
@@ -309,7 +311,8 @@ namespace NetWorkedData
                                         // Notification of a Download success
                                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
                                         // Request Failed, send Invoke
-                                        FailInvoke(Request.downloadProgress, ResultInfos);
+                                        //FailInvoke(Request.downloadProgress, ResultInfos);
+                                        FinalStatut = NWDOperationFinalStatut.Fail;
                                     }
                                     else
                                     {
@@ -333,10 +336,7 @@ namespace NetWorkedData
                                                     }
                                                     else
                                                     {
-                                                        if (Environment.LogMode == true)
-                                                        {
-                                                            DebugShowHeaderTotalDecoded(Json.Serialize(tData).Replace("\\\\r", "\r\n"));
-                                                        }
+                                                        DebugShowHeaderTotalDecoded(tData);
                                                     }
                                                 }
                                             }
@@ -403,7 +403,7 @@ namespace NetWorkedData
                                                 // Notification of a Session expired
                                                 NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
                                                 // Restore for anonymous account
-                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetSession();
+                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
                                             }
                                             else
                                             {
@@ -432,22 +432,29 @@ namespace NetWorkedData
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
                                                         // creer Device sign and send to serever with new package
-                                                        NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
-                                                        tSign.Account.SetReference(ResultInfos.uuid);
-                                                        tSign.RegisterDevice();
-                                                        NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.uuid /*, ResultInfos.signkey*/);
+                                                        // TODO Created on server automatically
+                                                        //NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
+                                                        //tSign.Account.SetReference(ResultInfos.uuid);
+                                                        //tSign.RegisterDevice();
+
+
+                                                        NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
                                                     }
                                                 }
                                             }
+
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
                                                 Environment.PlayerAccountReference = ResultInfos.uuid;
                                             }
                                             DataDownloadedCompute(ResultInfos);
+
                                             // Notification of a Download success
                                             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
+
                                             // Request Success, send Invoke
-                                            SuccessInvoke(Request.downloadProgress, ResultInfos);
+                                            //SuccessInvoke(Request.downloadProgress, ResultInfos);
+                                            FinalStatut = NWDOperationFinalStatut.Success;
                                         }
                                     }
                                 }
@@ -464,30 +471,41 @@ namespace NetWorkedData
                     }
                     // Save preference localy
                     Environment.SavePreferences();
+
                     // Notification of current Account have change
                     if (tUserChange == true)
                     {
                         NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                     }
                 }
-                //if (ResultInfos.errorDesc != null)
+
                 if (ResultInfos.isError)
                 {
-                    // Notification of a Download success
-                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
-                    if (ResultInfos != null)
+                    if (ResultInfos.errorDesc != null)
                     {
+#if UNITY_EDITOR
+                        //EditorUtility.DisplayDialog("Error: " + ResultInfos.errorDesc.Code, "" + ResultInfos.errorDesc.Title + "\n" + ResultInfos.errorDesc.Description, "OK");
+#endif
+
                         if (ResultInfos.errorInfos != null)
                         {
                             ResultInfos.errorDesc.ShowAlert(ResultInfos.errorInfos);
                         }
                     }
-                    // Notification of a Download success
+
+                    // Notification of an web operation error
+                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
+
+                    // Notification of a download failed
                     NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, ResultInfos));
-                    FailInvoke(Request.downloadProgress, ResultInfos);
+
+                    // Invoke fail callback methode
+                    //FailInvoke(Request.downloadProgress, ResultInfos);
+                    FinalStatut = NWDOperationFinalStatut.Fail;
                 }
                 Finish();
             }
+
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
@@ -521,7 +539,26 @@ namespace NetWorkedData
             {
                 Statut = NWEOperationState.Finish;
                 IsFinish = true;
+
+                switch (FinalStatut)
+                {
+                    case NWDOperationFinalStatut.Success:
+                        {
+                            SuccessInvoke(Request.downloadProgress, ResultInfos);
+                        }
+                        break;
+                    case NWDOperationFinalStatut.Fail:
+                        {
+                            FailInvoke(Request.downloadProgress, ResultInfos);
+                        }
+                        break;
+                }
+
+
                 Parent.NextOperation(QueueName);
+
+
+
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -664,124 +701,179 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderUploaded(byte[] sData)
         {
-#if UNITY_EDITOR
-            string tDebugRequestHeader = string.Empty;
-            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+            if (Environment.LogMode == true)
             {
-                tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-            }
-            NWDDebug.Log("NWDOperationWebUnity UPLOADED \n" +
-                         "-------------------\n" +
-                         "<b>Request URl :</b> " + Request.url + "\n" +
-                         "-------------------\n" +
-                         "<b>Headers :</b> \n" +
-                         "-------------------\n" +
-                         tDebugRequestHeader + "\n" +
-                         "-------------------\n" +
-                         "<b>Datas :</b> \n" +
-                         "-------------------\n" +
-                         Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
-                         "-------------------\n" +
-                         Encoding.UTF8.GetString(sData) + "\n" +
-                         "-------------------\n" +
-                         ""
-            );
+#if UNITY_EDITOR
+                //string tDebugRequestHeader = string.Empty;
+                //foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                //{
+                //    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                //}
+                //NWDDebug.Log("*******************************************************************\n" +
+                //            "NWDOperationWebUnity UPLOADED " + name + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Request URl :</b> " + Request.url + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Headers :</b> \n" +
+                //             "-------------------\n" +
+                //             tDebugRequestHeader + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Datas :</b> \n" +
+                //             "-------------------\n" +
+                //             Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
+                //             "-------------------\n" +
+                //             Encoding.UTF8.GetString(sData) + "\n" +
+                //             "-------------------\n" +
+                //             "*******************************************************************\n"
+                //);
 #endif
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderDownloaded(string sData)
         {
-#if UNITY_EDITOR
-            string tDebugResponseHeader = string.Empty;
-            foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+            if (Environment.LogMode == true)
             {
-                tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-            }
-            NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
-                         "-------------------\n" +
-                         "<b>Request URl :</b> " + Request.url + "\n" +
-                         "-------------------\n" +
-                         "<b>Headers :</b> \n" +
-                         "-------------------\n" +
-                         tDebugResponseHeader + "\n" +
-                         "-------------------\n" +
-                         "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
-                         "-------------------\n" +
-                         sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n"
-            );
+#if UNITY_EDITOR
+                //string tDebugResponseHeader = string.Empty;
+                //foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+                //{
+                //    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                //}
+                //NWDDebug.Log("*******************************************************************\n" +
+                //    "NWDOperationWebUnity DOWNLOADED " + name + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Request URl :</b> " + Request.url + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Headers :</b> \n" +
+                //             "-------------------\n" +
+                //             tDebugResponseHeader + "\n" +
+                //             "-------------------\n" +
+                //             "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                //             "-------------------\n" +
+                //             sData.Replace("\\\\r", "\r\n") + "\n" +
+                //             "-------------------\n" +
+                //             "*******************************************************************\n"
+                //);
 #endif
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderTotal(string sData)
         {
+            if (Environment.LogMode == true || Environment.LogInFileMode == true)
+            {
+                string tDebugRequestHeader = string.Empty;
+                foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                {
+                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
+                }
+                string tDebugResponseHeader = string.Empty;
+                foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+                {
+                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
+                }
+                string tFileDebug = "*******************************************************************\n" +
+                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED " + name + "\n" +
+                             "-------------------\n" +
+                             "<b>Request URl :</b> " + Request.url + "\n" +
+                             "-------------------\n" +
+                             "<b>Headers UPLOAD :</b> \n" +
+                             "-------------------\n" +
+                             tDebugRequestHeader + "\n" +
+                             "-------------------\n" +
+                             "<b>Datas UPLOAD : </b> \n" +
+                             "-------------------\n" +
+                             Json.Serialize(Data) + "\n" +
+                             "-------------------\n\n\n" +
+                             "-------------------\n" +
+                             "<b>Headers DOWNLOAD :</b> \n" +
+                             "-------------------\n" +
+                             tDebugResponseHeader + "\n" +
+                             "-------------------\n" +
+                             "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                             "-------------------\n" +
+                             sData.Replace("\\\\r", "\r\n") + "\n" +
+                             "-------------------\n" +
+                             "*******************************************************************\n";
+                if (Environment.LogInFileMode == true)
+                {
+                    tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
+                    tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
+                    string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
+                    File.WriteAllText(tPath, tFileDebug);
 #if UNITY_EDITOR
-            string tDebugRequestHeader = string.Empty;
-            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-            {
-                tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-            }
-            string tDebugResponseHeader = string.Empty;
-            foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
-            {
-                tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-            }
-            NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
-                         "-------------------\n" +
-                         "<b>Request URl :</b> " + Request.url + "\n" +
-                         "-------------------\n" +
-                         "<b>Headers UPLOAD :</b> \n" +
-                         "-------------------\n" +
-                         tDebugRequestHeader + "\n" +
-                         "-------------------\n" +
-                         "<b>Headers DOWNLOAD :</b> \n" +
-                         "-------------------\n" +
-                         tDebugResponseHeader + "\n" +
-                         "-------------------\n" +
-                         "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
-                         "-------------------\n" +
-                         sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n"
-            );
+                    //EditorUtility.RevealInFinder(tPath);
+                    //NWDAppEnvironmentSync.SharedInstanceFocus();
 #endif
+                }
+                else
+                {
+                    if (Environment.LogMode == true)
+                    {
+                        NWDDebug.Log(tFileDebug);
+                    }
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void DebugShowHeaderTotalDecoded(string sData)
+        private void DebugShowHeaderTotalDecoded(Dictionary<string, object> sDico)
         {
+            if (Environment.LogMode == true || Environment.LogInFileMode == true)
+            {
+                string tData = Json.Serialize(sDico).Replace("\\\\r", "\r\n");
+                string tDebugRequestHeader = string.Empty;
+                foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                {
+                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , ";//, \n";
+                }
+                string tDebugResponseHeader = string.Empty;
+                foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+                {
+                    tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , ";//, \n";
+                }
+                string tFileDebug = "*******************************************************************\n" +
+                    "NWDOperationWebUnity UPLOAD VS DOWNLOADED DECODED " + name + "\n" +
+                             "-------------------\n" +
+                             "<b>Request URl : </b> " + Request.url + "\n" +
+                             "-------------------\n" +
+                             "<b>Headers UPLOAD : </b> \n" +
+                             "-------------------\n" +
+                             tDebugRequestHeader + "\n" +
+                             "-------------------\n" +
+                             "<b>Datas UPLOAD : </b> \n" +
+                             "-------------------\n" +
+                             Json.Serialize(Data) + "\n" +
+                             "-------------------\n\n\n" +
+                             "-------------------\n" +
+                             "<b>Headers DOWNLOAD : </b> \n" +
+                             "-------------------\n" +
+                             tDebugResponseHeader + "\n" +
+                             "-------------------\n" +
+                             "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                             "-------------------\n" +
+                             tData.Replace("\\\\r", "\r\n") + "\n" +
+                             "-------------------\n" +
+                             "*******************************************************************\n";
+                if (Environment.LogInFileMode == true)
+                {
+                    tFileDebug = tFileDebug.Replace(",\"", ",\r\n\"").Replace("{", "\r\n{\r\n").Replace("}", "\r\n}\r\n").Replace("\r\n}\r\n,\r\n", "\r\n},\r\n");
+                    tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
+                    string tPath = Application.persistentDataPath + "/WEBLOG-secure-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
+                    File.WriteAllText(tPath, tFileDebug);
 #if UNITY_EDITOR
-            string tDebugRequestHeader = string.Empty;
-            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-            {
-                tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-            }
-            string tDebugResponseHeader = string.Empty;
-            foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
-            {
-                tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-            }
-            NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED DECODED \n" +
-                         "-------------------\n" +
-                         "<b>Request URl : </b> " + Request.url + "\n" +
-                         "-------------------\n" +
-                         "<b>Headers UPLOAD : </b> \n" +
-                         "-------------------\n" +
-                         tDebugRequestHeader + "\n" +
-                         "-------------------\n" +
-                         "<b>Datas UPLOAD : </b> \n" +
-                         "-------------------\n" +
-                         Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
-                         "-------------------\n\n\n" +
-                         "-------------------\n" +
-                         "<b>Headers DOWNLOAD : </b> \n" +
-                         "-------------------\n" +
-                         tDebugResponseHeader + "\n" +
-                         "-------------------\n" +
-                         "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
-                         "-------------------\n" +
-                         sData.Replace("\\\\r", "\r\n") + "\n" +
-                         "-------------------\n"
-            );
+                    //EditorUtility.RevealInFinder(tPath);
+                    //NWDAppEnvironmentSync.SharedInstanceFocus();
 #endif
+                }
+                else
+                {
+                    if (Environment.LogMode == true)
+                    {
+                        NWDDebug.Log(tFileDebug);
+                    }
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

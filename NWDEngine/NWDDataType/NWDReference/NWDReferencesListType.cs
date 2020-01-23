@@ -52,15 +52,6 @@ namespace NetWorkedData
             Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            if (sReference == null)
-            {
-                return false;
-            }
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void SetReferences(string[] sReferences)
         {
             List<string> tList = new List<string>();
@@ -84,6 +75,19 @@ namespace NetWorkedData
             {
                 tList.Add(tReference);
             }
+            string[] tNextValueArray = tList.Distinct().ToArray();
+            Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddReference(string sReference)
+        {
+            List<string> tList = new List<string>();
+            if (Value != null && Value != string.Empty)
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                tList = new List<string>(tValueArray);
+            }
+            tList.Add(sReference);
             string[] tNextValueArray = tList.Distinct().ToArray();
             Value = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
         }

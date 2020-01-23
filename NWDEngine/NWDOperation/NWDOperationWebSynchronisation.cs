@@ -39,6 +39,8 @@ namespace NetWorkedData
         Clean = 4,
 
         Pull = 5,
+
+        Indexes = 8,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDOperationWebSynchronisation : NWDOperationWebUnity
@@ -93,7 +95,7 @@ namespace NetWorkedData
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
 
-                GameObject tGameObjectToSpawn = new GameObject(sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
@@ -104,16 +106,23 @@ namespace NetWorkedData
                 rReturn.Environment = sEnvironment;
                 rReturn.QueueName = sEnvironment.Environment;
                 List<Type> tReturn = new List<Type>();
-                if (sTypeList != null)
+                //if (sTypeList == null)
+                //{
+                //    sTypeList = NWDDataManager.SharedInstance().mTypeSynchronizedList;
+                //}
+                    if (sTypeList != null)
                 {
                     foreach (Type tType in sTypeList)
                     {
                         NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                        foreach (Type tR in tHelper.ClasseInThisSync())
+                        if (tHelper != null)
                         {
-                            if (tReturn.Contains(tR) == false)
+                            foreach (Type tR in tHelper.ClasseInThisSync())
                             {
-                                tReturn.Add(tR);
+                                if (tReturn.Contains(tR) == false)
+                                {
+                                    tReturn.Add(tR);
+                                }
                             }
                         }
                         //MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -135,12 +144,15 @@ namespace NetWorkedData
                 rReturn.Special = sSpecial;
                 rReturn.SecureData = sEnvironment.AllwaysSecureData;
                 // TODO : Mettre dans le helper!!!!
-                foreach (Type tType in sTypeList)
+                if (sTypeList != null)
                 {
-                    if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                    foreach (Type tType in sTypeList)
                     {
-                        rReturn.SecureData = true;
-                        break;
+                        if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                        {
+                            rReturn.SecureData = true;
+                            break;
+                        }
                     }
                 }
                 rReturn.InitBlock(sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
@@ -193,12 +205,13 @@ namespace NetWorkedData
             }
             else
             {
-                DataAddSecetDevicekey();
+                DataAddSecretDevicekey();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
+            Debug.Log("DataDownloadedCompute()");
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();

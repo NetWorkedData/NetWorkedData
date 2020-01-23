@@ -34,6 +34,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UIF")]
     [NWDClassDescriptionAttribute("General User Informations")]
     [NWDClassMenuNameAttribute("User Infos")]
+    [NWDClassClusterAttribute(1, 32)]
     public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

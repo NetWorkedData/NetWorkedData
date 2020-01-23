@@ -69,15 +69,6 @@ namespace NetWorkedData
             Value = string.Empty + sArray.Value;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            if (sReference == null)
-            {
-                return false;
-            }
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void SetReferences(string[] sReferences)
         {
             List<string> tList = new List<string>();

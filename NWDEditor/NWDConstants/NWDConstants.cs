@@ -29,6 +29,7 @@ namespace NetWorkedData
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "NWD Chooser";
         public static string K_APP_MODEL_MANAGER_TITLE = "Model Manager";
+        public static string K_APP_CLUSTER_SIZER_TITLE = "Cluster Sizer";
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
 
         public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
@@ -81,14 +82,15 @@ namespace NetWorkedData
         public const string K_BUTTON_ROOT_NODAL = "Root";
         public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Tools/New Data/Create New NWDBasis Class";
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Tools/New Data/Create New Window NWD management";
+        public const string K_MENU_EDITOR_NEWEXTENSION = K_MENU_BASE + "Tools/New Data/Create New Extension Class";
         
         public const string K_MENU_EDITOR_FOOTER = K_MENU_BASE + "Tools/New Footer";
 
-        public const string K_MENU_APP_EDIT = K_MENU_BASE + "App configurations";
-        public const string K_MENU_MODEL_MANAGER = K_MENU_BASE + "Models manager";
-        public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments configurations";
-        public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments player chooser";
-        public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments synchronize";
+        public const string K_MENU_APP_EDIT = K_MENU_BASE + "Application/Configurations";
+        public const string K_MENU_MODEL_MANAGER = K_MENU_BASE + "Application/Models Manager";
+        public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments/Configurations";
+        public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments/Player";
+        public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments/Synchronize";
 
         public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis)";
 
@@ -156,6 +158,10 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_UNBLOCK_RECOMPILE = K_MENU_BASE + "/SPECIAL/UNBLOCK RECOMPILE";
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
+
+
+        public const string K_MENU_DEBUG_FOLDER = K_MENU_BASE + "/Show debug Folder File";
+        public const string K_MENU_UNITTEST_CLEAN = K_MENU_BASE + "/Clean UnitTests Datas";
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Ref";
@@ -456,7 +462,7 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";
-        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, all sync not effective!";
+        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, sync only effective on player's data!";
         public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
 
        //-------------------------------------------------------------------------------------------------------------

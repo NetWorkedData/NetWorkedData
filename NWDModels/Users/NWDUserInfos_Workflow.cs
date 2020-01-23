@@ -32,15 +32,12 @@ namespace NetWorkedData
         public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() {}
-        //-------------------------------------------------------------------------------------------------------------
-        private static NWDUserInfos kCurrent = null;
-        private static NWDUserInfos ActiveUser => CheckUser();
         //=============================================================================================================
         // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetNickname()
+        public static string GetCurrentNickname()
         {
-            NWDUserNickname tNickname = ActiveUser.Nickname.GetRawData();
+            NWDUserNickname tNickname = CurrentData().Nickname.GetReachableData();
             if (tNickname != null)
             {
                 return tNickname.Nickname;
@@ -49,12 +46,12 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatar(bool isRenderTexture = false)
+        public static Sprite GetCurrentAvatar(bool isRenderTexture = false)
         {
-            NWDUserAvatar tAvatar = ActiveUser.Avatar.GetRawData();
+            NWDUserAvatar tAvatar = CurrentData().Avatar.GetReachableData();
             if (tAvatar != null)
             {
-                NWDItem tItem = tAvatar.RenderItem.GetRawData();
+                NWDItem tItem = tAvatar.RenderItem.GetReachableData();
                 if (tItem != null)
                 {
                     if (isRenderTexture)
@@ -80,6 +77,17 @@ namespace NetWorkedData
             }
 
             return null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetNicknameByUserReference(string sReference)
+        {
+            NWDUserNickname tNickname = NWDBasisHelper.GetCorporateFirstData<NWDUserNickname>(sReference);
+            if (tNickname != null)
+            {
+                return tNickname.Nickname;
+            }
+
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Sprite GetAvatarByUserReference(string sReference, bool isRenderTexture = false)
@@ -115,38 +123,63 @@ namespace NetWorkedData
             return null;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeDatas()
+        public static void SetCurrentNickname(string sNickname)
         {
-            NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos CheckUser()
-        {
-            NWDUserInfos rUserInfos = CurrentData();
-            if (rUserInfos != null)
+            NWDUserNickname tNickname = CurrentData().Nickname.GetRawData();
+            if (tNickname == null)
             {
-                rUserInfos.SetLastSignIn();
+                tNickname = NWDBasisHelper.NewData<NWDUserNickname>();
+                tNickname.InternalKey = NWDAccount.CurrentReference();
+                tNickname.InternalDescription = sNickname;
+                tNickname.Tag = NWDBasisTag.TagUserCreated;
+
+                // Set a Nickname define by user
+                CurrentData().Nickname.SetData(tNickname);
+                CurrentData().SaveData();
             }
-            return rUserInfos;
+
+            // Set the new Nickname
+            tNickname.Nickname = sNickname;
+            tNickname.SaveData();
         }
-        //=============================================================================================================
-        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public void SetAvatar(NWDItem sAvatar)
+        public static void SetCurrentAvatar(NWDItem sAvatar)
         {
-            NWDUserAvatar tAvatar = Avatar.GetRawData();
+            NWDUserAvatar tAvatar = CurrentData().Avatar.GetRawData();
             if (tAvatar == null)
             {
                 tAvatar = NWDBasisHelper.NewData<NWDUserAvatar>();
                 tAvatar.InternalKey = NWDAccount.CurrentReference();
                 tAvatar.Tag = NWDBasisTag.TagUserCreated;
+
+                // Set an Avatar define by user
+                CurrentData().Avatar.SetData(tAvatar);
+                CurrentData().SaveData();
             }
+
+            // Set the new Avatar
             tAvatar.RenderItem.SetData(sAvatar);
             tAvatar.SaveData();
-
-            Avatar.SetData(tAvatar);
-            SaveData();
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetCurrentLastSignIn()
+        {
+            CurrentData().LastSignIn.SetCurrentDateTime();
+            CurrentData().SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ResetSession()
+        {
+            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            tAppEnvironment.ResetPreferences();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            NWDBasisHelper.SynchronizationFromWebService<NWDUserInfos>();
+        }
+        //=============================================================================================================
+        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public string GetAbsoluteNickname()
         {
@@ -179,35 +212,6 @@ namespace NetWorkedData
                 }
             }
             return rAvatar;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetNickname(string sNickname)
-        {
-            NWDUserNickname tNickname = Nickname.GetRawData();
-            if (tNickname == null)
-            {
-                tNickname = NWDBasisHelper.NewData<NWDUserNickname>();
-                tNickname.InternalKey = NWDAccount.CurrentReference();
-                tNickname.InternalDescription = sNickname;
-                tNickname.Tag = NWDBasisTag.TagUserCreated;
-            }
-            tNickname.Nickname = sNickname;
-            tNickname.SaveData();
-
-            Nickname.SetData(tNickname);
-            SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ResetSession()
-        {
-            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            tAppEnvironment.ResetSession();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetLastSignIn()
-        {
-            LastSignIn.SetCurrentDateTime();
-            SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()

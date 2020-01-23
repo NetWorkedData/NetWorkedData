@@ -34,7 +34,7 @@ namespace NetWorkedData
         {
             if (SharedInstance == null)
             {
-                
+
                 Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
                 Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                        where (
@@ -46,6 +46,12 @@ namespace NetWorkedData
                 SharedInstance = EditorWindow.GetWindow<K>(tAllNWDTypes);
             }
             SharedInstance.Show(true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ShowWindow(Type sType)
+        {
+            ShowWindow();
+            SharedInstance.SelectTab(sType);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -63,7 +69,7 @@ namespace NetWorkedData
         /// <summary>
         /// The type's list of the tables managed in this windows
         /// </summary>
-        public Type[] mTabTypeList = { typeof(NWDItem) };
+        public List<Type> mTabTypeList = new List<Type>();
         /// <summary>
         /// the array to reccord the name menu of each Type
         /// </summary>
@@ -85,7 +91,7 @@ namespace NetWorkedData
             //Debug.Log ("NWDBasisWindow basic construtor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBasisWindow(string sTitleKey = NWEConstants.K_EMPTY_STRING, string sDescriptionKey = NWEConstants.K_EMPTY_STRING, Type[] sTabTypeList = null)
+        public NWDBasisWindow(string sTitleKey = NWEConstants.K_EMPTY_STRING, string sDescriptionKey = NWEConstants.K_EMPTY_STRING, List<Type> sTabTypeList = null)
         {
             //Debug.Log ("NWDBasisWindow advanced constructor");
             this.mTitleKey = sTitleKey;
@@ -191,12 +197,31 @@ namespace NetWorkedData
                     {
                         tTabTypeList.Add(tNWDBasisHelper.ClassType);
                     }
-                    mTabTypeList = tTabTypeList.ToArray();
+                    mTabTypeList = tTabTypeList;
                 }
                 else
                 {
-                    mTabTypeList = tNWDBasisWindowParamAttribute.TypeList;
+                    mTabTypeList.Clear();
+                    foreach (Type tType in tNWDBasisWindowParamAttribute.TypeList)
+                    {
+                        mTabTypeList.Add(tType);
+                    }
                 }
+
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    foreach (NWDWindowOwnerAttribute tOnwer in tType.GetCustomAttributes(typeof(NWDWindowOwnerAttribute), true))
+                    {
+                        if (tOnwer.WindowType != null)
+                        {
+                            if (tOnwer.WindowType == this.GetType())
+                            {
+                                mTabTypeList.Add(tType);
+                            }
+                        }
+                    }
+                }
+
                 // create the title content
                 titleContent = new GUIContent();
                 titleContent.text = mTitleKey;
@@ -341,7 +366,7 @@ namespace NetWorkedData
         {
             if (mTabTypeList.Contains(tType))
             {
-                mTabSelected = Array.IndexOf(mTabTypeList, tType);
+                mTabSelected = mTabTypeList.IndexOf(tType);
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.LoadEditorPrefererences();
             }

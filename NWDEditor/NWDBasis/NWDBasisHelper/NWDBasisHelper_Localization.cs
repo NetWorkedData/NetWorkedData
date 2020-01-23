@@ -29,15 +29,22 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void ReOrderAllLocalizations()
+        public void ReOrderLocalizations(List<NWDTypeClass> sDatas)
         {
             //NWEBenchmark.Start();
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDTypeClass tObject in Datas)
+            foreach (NWDTypeClass tObject in sDatas)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ReOrderAllLocalizations()
+        {
+            //NWEBenchmark.Start();
+            ReOrderLocalizations(Datas);
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -52,7 +59,7 @@ namespace NetWorkedData
                 string.Empty,
                 ClassNamePHP + ".csv",
                 "csv");
-            if (string.IsNullOrEmpty(tPath) ==false)
+            if (string.IsNullOrEmpty(tPath) == false)
             {
                 // prepare header
                 string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" +
@@ -81,7 +88,7 @@ namespace NetWorkedData
             }
             else
             {
-                foreach (KeyValuePair<NWDTypeClass,bool> tObjectSelection in EditorTableDatasSelected)
+                foreach (KeyValuePair<NWDTypeClass, bool> tObjectSelection in EditorTableDatasSelected)
                 {
                     if (tObjectSelection.Value == true)
                     {
@@ -167,7 +174,7 @@ namespace NetWorkedData
                             {
                                 if (tInfo.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
                                 {
-                                    Debug.Log("import : " + tDico["Type"] + " "+ tPropertyName);
+                                    Debug.Log("import : " + tDico["Type"] + " " + tPropertyName);
                                     NWDLocalizableType tPropertyValueOld = (NWDLocalizableType)tInfo.GetValue(tData, null);
                                     if (tPropertyValueOld.Value != tNextValue)
                                     {

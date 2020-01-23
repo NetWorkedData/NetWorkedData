@@ -61,17 +61,17 @@ namespace NetWorkedData
             {
             tFile.AppendLine("$tIPBanMaxTentative = " + sEnvironment.IPBanMaxTentative.ToString() + ";");
             tFile.AppendLine("$tIPBanTimer = " + sEnvironment.IPBanTimer.ToString() + ";");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.Append("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Reference) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` WHERE ");
             tFile.Append("\\''.$SQL_CON->real_escape_string($_SERVER['REMOTE_ADDR']).'\\' LIKE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().IP) + "` AND ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Counter) + "` >= `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().CounterMaximum) + "` AND ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Deadline) + "` >= '.$SQL_CON->real_escape_string(" + NWD.K_PHP_TIME_SYNC + ").' AND ");
             tFile.Append("`" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC) + "` = 1");
             tFile.AppendLine(";';");
-            tFile.AppendLine(NWDError.PHP_log(sEnvironment, "$tQuery = '.$tQuery.'"));
+            //tFile.AppendLine(NWDError.PHP_log(sEnvironment, "$tQuery = '.$tQuery.'"));
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -100,7 +100,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_CON;");
             tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
             tFile.AppendLine("$tIPBanMaxTentative = " + sEnvironment.IPBanMaxTentative.ToString() + ";");
-            tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
+            //tFile.AppendLine(NWDError.PHP_logTrace(sEnvironment));
             tFile.Append("$tQuery = 'SELECT `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().Reference) + "` FROM `" + NWDBasisHelper.TableNamePHP<NWDIPBan>(sEnvironment) + "` WHERE");
             tFile.Append(" \\''.$SQL_CON->real_escape_string($_SERVER['REMOTE_ADDR']).'\\' LIKE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDIPBan>().IP) + "` AND");
             tFile.Append(" `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDAccount>().AC) + "` = 1");

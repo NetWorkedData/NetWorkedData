@@ -11,8 +11,6 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,11 +19,10 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-//using BasicToolBox;
-
 using UnityEngine;
 using System.Text;
 using System.Security.Cryptography;
+using System.Globalization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -40,6 +37,46 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region class method
         //-------------------------------------------------------------------------------------------------------------
+        public static string RemoveDiacritics(string sText)
+        {
+            string rReturn = string.Empty;
+            if (string.IsNullOrWhiteSpace(sText))
+            {
+                rReturn = sText;
+            }
+            else
+            {
+                sText = sText.Normalize(NormalizationForm.FormD);
+                var chars = sText.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
+                rReturn = new string(chars).Normalize(NormalizationForm.FormC);
+                rReturn = NWDToolbox.AplhaNumericCleaner(rReturn);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string CleanDNS(string sServerDNS)
+        {
+            string rServerDNS = sServerDNS;
+
+            if (string.IsNullOrEmpty(sServerDNS) == false)
+            {
+                rServerDNS = rServerDNS.TrimEnd('/');
+                if (rServerDNS.StartsWith("https://", StringComparison.Ordinal))
+                {
+                    rServerDNS = rServerDNS.Substring("https://".Length);
+                }
+                if (rServerDNS.StartsWith("http://", StringComparison.Ordinal))
+                {
+                    rServerDNS = rServerDNS.Substring("http://".Length);
+                }
+                if (rServerDNS.StartsWith("http://", StringComparison.Ordinal))
+                {
+                    rServerDNS = rServerDNS.Substring("http://".Length);
+                }
+            }
+            return rServerDNS;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void EditorAndPlaying(string sWhere = "")
         {
 
@@ -53,6 +90,18 @@ namespace NetWorkedData
                 Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT AND NOT SWITCH TO IT PLAYING</color> ");
             }
             if (EditorApplication.isPlaying == true)
+            {
+                Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+            }
+            else
+            {
+                Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+            }
+#endif
+
+            if (Application.isEditor == true)
+            {
+                if (Application.isPlaying == true)
                 {
                     Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
                 }
@@ -60,22 +109,10 @@ namespace NetWorkedData
                 {
                     Debug.Log("<b>" + sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
                 }
-#endif
-
-            if (Application.isEditor == true)
-            {
-                if (Application.isPlaying == true)
-                {
-                    Debug.Log("<b>"+ sWhere + "</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
-                }
-                else
-                {
-                    Debug.Log("<b>"+ sWhere + "</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
-                }
             }
             else
             {
-                Debug.Log("<b>"+ sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
+                Debug.Log("<b>" + sWhere + "</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
 
         }
@@ -90,11 +127,86 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Color MixColor(Color sColorA, Color sColorB)
         {
-            Color rResult = new Color(sColorA.r + sColorB.r* sColorB.a,
-             sColorA.g + sColorB.g * sColorB.a,
-                 sColorA.b + sColorB.b * sColorB.a,
-              sColorA.a);
+            Color rResult = new Color(
+                Mathf.Max(sColorA.r + sColorB.r * sColorB.a, 1F),
+                Mathf.Max(sColorA.g + sColorB.g * sColorB.a, 1F),
+                Mathf.Max(sColorA.b + sColorB.b * sColorB.a, 1F),
+                sColorA.a
+            );
             return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color Color255(int sR, int sG, int sB, int sA)
+        {
+            float tR = (float)Mathf.Max(Mathf.Min((float)sR, 255), 0) / 255F;
+            float tG = (float)Mathf.Max(Mathf.Min((float)sG, 255), 0) / 255F;
+            float tB = (float)Mathf.Max(Mathf.Min((float)sB, 255), 0) / 255F;
+            float tA = (float)Mathf.Max(Mathf.Min((float)sA, 255), 0) / 255F;
+            Color rResult = new Color(tR, tG, tB, tA);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorWithAlpha(Color sColor, float sAlpha)
+        {
+            sAlpha = Mathf.Max(sAlpha, 0F);
+            sAlpha = Mathf.Min(sAlpha, 1F);
+            Color rResult = new Color(sColor.r, sColor.g, sColor.b, sAlpha);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorPastelAlpha(Color sColor, float sPercent, float sAlpha)
+        {
+            float tPercent = Mathf.Abs(sPercent);
+            float tAlpha = Mathf.Max(Mathf.Min(sAlpha, 1F), 0F);
+            Color rResult = new Color(
+            Mathf.Max(sColor.r * tPercent, 1F),
+            Mathf.Max(sColor.g * tPercent, 1F),
+            Mathf.Max(sColor.b * tPercent, 1F),
+            tAlpha
+        );
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorPercent(Color sColor, float sPercentR, float sPercentG, float sPercentB)
+        {
+
+            float tR = (float)Mathf.Max(Mathf.Min(sColor.r * sPercentR, 1F), 0F);
+            float tG = (float)Mathf.Max(Mathf.Min(sColor.g * sPercentG, 1F), 0F);
+            float tB = (float)Mathf.Max(Mathf.Min(sColor.b * sPercentB, 1F), 0F);
+            float tA = (float)Mathf.Max(Mathf.Min(sColor.a, 1F), 0F);
+            Color rResult = new Color(tR, tG, tB, tA);
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Color ColorInverse(Color sColor)
+        {
+            Color rResult = new Color(
+            1F - sColor.r,
+            1F - sColor.g,
+            1F - sColor.b,
+            sColor.a
+        );
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Protect the text for the separator usage.
+        /// </summary>
+        /// <returns>The protect text.</returns>
+        /// <param name="sText">text.</param>
+        public static string TextRemoveSeparator(string sText)
+        {
+            string rText = sText;
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                rText = rText.Replace(NWDConstants.kFieldSeparatorA, string.Empty);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorB, string.Empty);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorC, string.Empty);
+                // new adds
+                rText = rText.Replace(NWDConstants.kFieldSeparatorD, string.Empty);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorE, string.Empty);
+            }
+            return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -105,13 +217,15 @@ namespace NetWorkedData
         public static string TextProtect(string sText)
         {
             string rText = sText;
-            rText = rText.Replace(NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorASubstitute);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorBSubstitute);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorC, NWDConstants.kFieldSeparatorCSubstitute);
-            // new adds
-            rText = rText.Replace(NWDConstants.kFieldSeparatorD, NWDConstants.kFieldSeparatorDSubstitute);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorE, NWDConstants.kFieldSeparatorESubstitute);
-
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                rText = rText.Replace(NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorASubstitute);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorB, NWDConstants.kFieldSeparatorBSubstitute);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorC, NWDConstants.kFieldSeparatorCSubstitute);
+                // new adds
+                rText = rText.Replace(NWDConstants.kFieldSeparatorD, NWDConstants.kFieldSeparatorDSubstitute);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorE, NWDConstants.kFieldSeparatorESubstitute);
+            }
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -123,12 +237,15 @@ namespace NetWorkedData
         public static string TextUnprotect(string sText)
         {
             string rText = sText;
-            rText = rText.Replace(NWDConstants.kFieldSeparatorASubstitute, NWDConstants.kFieldSeparatorA);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorBSubstitute, NWDConstants.kFieldSeparatorB);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorCSubstitute, NWDConstants.kFieldSeparatorC);
-            // new adds
-            rText = rText.Replace(NWDConstants.kFieldSeparatorDSubstitute, NWDConstants.kFieldSeparatorD);
-            rText = rText.Replace(NWDConstants.kFieldSeparatorESubstitute, NWDConstants.kFieldSeparatorE);
+            if (string.IsNullOrEmpty(sText) == false)
+            {
+                rText = rText.Replace(NWDConstants.kFieldSeparatorASubstitute, NWDConstants.kFieldSeparatorA);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorBSubstitute, NWDConstants.kFieldSeparatorB);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorCSubstitute, NWDConstants.kFieldSeparatorC);
+                // new adds
+                rText = rText.Replace(NWDConstants.kFieldSeparatorDSubstitute, NWDConstants.kFieldSeparatorD);
+                rText = rText.Replace(NWDConstants.kFieldSeparatorESubstitute, NWDConstants.kFieldSeparatorE);
+            }
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -246,6 +363,18 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string RandomStringNumeric(int sLength)
+        {
+            string rReturn = string.Empty;
+            const string tChars = "0123456789";
+            int tCharLenght = tChars.Length;
+            while (rReturn.Length < sLength)
+            {
+                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string URLCleaner(string sString)
         {
             //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
@@ -262,8 +391,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string UnixCleaner(string sString)
         {
-            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-            Regex rgx = new Regex("[^a-zA-Z0-9-_]");
+            if (sString != null)
+            {
+                //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
+                Regex rgx = new Regex("[^a-zA-Z0-9-_]");
+                return rgx.Replace(sString, string.Empty);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AplhaNumericCleaner(string sString)
+        {
+            Regex rgx = new Regex("[^a-zA-Z0-9]");
             return rgx.Replace(sString, string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -452,12 +594,22 @@ namespace NetWorkedData
         /// <summary>
         /// Generate unique Temporary USER ID
         /// </summary>
-        public static string GenerateUniqueID()
+        public static string GenerateUniqueID(bool isTemporaryAccount = true)
         {
             string rReturn = string.Empty;
             int tUnixCurrentTime = Timestamp();
             int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = "ACC-" + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString() + "T";
+            rReturn = NWDBasisHelper.FindTypeInfos(typeof(NWDAccount)).ClassTrigramme + NWEConstants.K_MINUS + UnityEngine.Random.Range(000, 999).ToString("000") + NWEConstants.K_MINUS + tTime.ToString() + NWEConstants.K_MINUS + UnityEngine.Random.Range(1000000, 9999999).ToString();
+
+            if (isTemporaryAccount)
+            {
+                rReturn += NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE;
+            }
+            else
+            {
+                rReturn += NWDAccount.K_ACCOUNT_NEW_SUFFIXE;
+            }
+
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -501,12 +653,17 @@ namespace NetWorkedData
             return NWESecurityTools.GenerateSha(sAdminKey + GenerateSALT(sFrequence), NWESecurityShaTypeEnum.Sha1);
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        public static string NewLineUnixFix(string sString)
+        {
+            return sString.Replace("\r\n", "\n"); // anti window bug
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string CSharpFormat(string sString)
         {
             StringBuilder rReturn = new StringBuilder();
             int tIndentCount = 0;
-            string[] tLines = sString.Split(new string[] { "\n", "\r" }, StringSplitOptions.None);
+            string tString = NewLineUnixFix(sString);
+            string[] tLines = tString.Split(new string[] { "\n", "\r" }, StringSplitOptions.None);
             foreach (string tLine in tLines)
             {
                 if (tLine.Contains("{"))
@@ -535,6 +692,7 @@ namespace NetWorkedData
             }
             return rReturn.ToString().TrimEnd(new char[] { '\n', '\r' });
         }
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public static string FindOwnerServerFolder()
         {

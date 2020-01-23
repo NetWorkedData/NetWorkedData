@@ -28,10 +28,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
         //-------------------------------------------------------------------------------------------------------------
-		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
+		public void AddWindowInManager (NWDTypeWindow sWindow , List<Type> sType)
         {
             //NWEBenchmark.Start();
-            foreach (Type tType in sType) 
+            foreach (Type tType in sType)
 			{
 				if (mTypeWindowDico.ContainsKey (tType))
 				{
@@ -46,7 +46,6 @@ namespace NetWorkedData
 					List<NWDTypeWindow> tList = new List<NWDTypeWindow> ();
 					tList.Add (sWindow);
 					mTypeWindowDico.Add (tType, tList);
-						
 				}
             }
             //NWEBenchmark.Finish();
@@ -55,10 +54,10 @@ namespace NetWorkedData
         public void RemoveWindowFromManager (NWDTypeWindow sWindow)
         {
             //NWEBenchmark.Start();
-            foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
+            foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico)
 			{
 				List<NWDTypeWindow> tList = tKeyValue.Value;
-				if (tList.Contains (sWindow) == true) 
+				if (tList.Contains (sWindow) == true)
 				{
 					tList.Remove (sWindow);
                 }

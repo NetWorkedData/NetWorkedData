@@ -35,7 +35,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type>  OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDExample)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type>
+            {
+                typeof(NWDExample),
+                //typeof(NWDOtehrType),
+            };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

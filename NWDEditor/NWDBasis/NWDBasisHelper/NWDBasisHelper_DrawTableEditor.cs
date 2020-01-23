@@ -677,10 +677,6 @@ namespace NetWorkedData
             if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_ADD_ROW, NWDGUI.KTableSearchButton))
             {
                 NWDTypeClass tNewObject = NewData();
-                NWDBasisHelper.NewData<NWDExample>();
-                NWDBasisHelper.NewData<NWDAccount>();
-                NWDBasisHelper.NewData<NWDAccountAvatar>();
-
                 if (m_SearchTag != NWDBasisTag.NoTag)
                 {
                     tNewObject.Tag = m_SearchTag;
@@ -985,7 +981,7 @@ namespace NetWorkedData
             }
             if (TableActions == true)
             {
-                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 5;
+                tHeightTable = NWDGUI.kBoldLabelStyle.fixedHeight + NWDGUI.kFieldMarge + (NWDGUI.KTableSearchTextfield.fixedHeight + NWDGUI.kFieldMarge) * 6;
             }
             rRect.height = tHeightAction + tHeightTable;
             rRect.y = sRect.height - rRect.height;
@@ -1027,9 +1023,9 @@ namespace NetWorkedData
             bool tReintegrateSelection = false;  //prevent GUIlayout error
             bool tResetTable = false;  //prevent GUIlayout error
             bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
-            bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
-            bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
-            bool tDeleteOldModelOnlyThisClass = false; //prevent GUIlayout error
+            //bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
+            //bool tReintegrateOnlyThisClass = false; //prevent GUIlayout error
+            //bool tDeleteOldModelOnlyThisClass = false; //prevent GUIlayout error
             bool tSyncProd = false; //prevent GUIlayout error
             bool tSyncForceProd = false; //prevent GUIlayout error
             bool tPullProd = false; //prevent GUIlayout error
@@ -1037,7 +1033,7 @@ namespace NetWorkedData
             bool tSyncCleanProd = false; //prevent GUIlayout error
             bool tSyncSpecialProd = false; //prevent GUIlayout error
             bool tCleanLocalTable = false; //prevent GUIlayout error
-            bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
+            //bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
             bool tDisableProd = false;
 
             if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType))
@@ -1116,9 +1112,10 @@ namespace NetWorkedData
                 tRect.y = tRectActionLeft.y;
 
                 // draw row Actions 
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
+                    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
                 {
                     foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
                     {
@@ -1195,6 +1192,7 @@ namespace NetWorkedData
                     NWDDataInspector.ActiveRepaint();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                EditorGUI.EndDisabledGroup();
                 //if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_EXPORT_TRANSLATION, NWDGUI.KTableSearchButton))
                 //{
                 //    tLocalizeLocalTable = true;
@@ -1233,15 +1231,23 @@ namespace NetWorkedData
                 GUI.Label(tRect, "Translates", NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // export import
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 if (GUI.Button(tRect, "Reorder localization", NWDGUI.KTableSearchButton))
                 {
-                    ReOrderAllLocalizations();
+                    List<NWDTypeClass> tListToReorder = new List<NWDTypeClass>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            tListToReorder.Add(tKeyValue.Key);
+                        }
+                    }
+                    ReOrderLocalizations(tListToReorder);
                     NWDDataInspector.Refresh();
                     GUIUtility.ExitGUI();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
-                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 if (GUI.Button(tRect, "Export localization", NWDGUI.KTableSearchButton))
                 {
                     ExportLocalization(true);
@@ -1461,11 +1467,11 @@ namespace NetWorkedData
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // reset icon of class
                 NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, "Reset Icon", NWDGUI.KTableSearchButton))
-                {
-                    ResetIconByDefaultIcon();
-                }
-                NWDGUI.EndRedArea();
+                //if (GUI.Button(tRect, "Reset Icon", NWDGUI.KTableSearchButton))
+                //{
+                //    ResetIconByDefaultIcon();
+                //}
+                //NWDGUI.EndRedArea();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 // Change Colmun
@@ -1487,22 +1493,22 @@ namespace NetWorkedData
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw Purge table
-                EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
-                if (GUI.Button(tRect, "Purge accounts", NWDGUI.KTableSearchButton))
-                {
-                    tCleanLocalTableWithAccount = true;
-                }
-                EditorGUI.EndDisabledGroup();
+                //EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
+                //if (GUI.Button(tRect, "Purge accounts", NWDGUI.KTableSearchButton))
+                //{
+                //    tCleanLocalTableWithAccount = true;
+                //}
+                //EditorGUI.EndDisabledGroup();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 // reintegrate all objects
-                NWDGUI.BeginRedArea();
-                if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDGUI.KTableSearchButton))
-                {
-                    GUI.FocusControl(null);
-                    RecalculateAllIntegrities();
-                }
-                NWDGUI.EndRedArea();
+                //NWDGUI.BeginRedArea();
+                //if (GUI.Button(tRect, NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, NWDGUI.KTableSearchButton))
+                //{
+                //    GUI.FocusControl(null);
+                //    RecalculateAllIntegrities();
+                //}
+                //NWDGUI.EndRedArea();
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
 
                 // Change Colmun
@@ -1517,23 +1523,23 @@ namespace NetWorkedData
                     tCreateAllPHPForOnlyThisClassDEV = true;
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw Replace WS in all by sftp
-                if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
-                {
-                    tCreateAllPHPForOnlyThisClass = true;
-                }
+                //// draw Replace WS in all by sftp
+                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                //{
+                //    tCreateAllPHPForOnlyThisClass = true;
+                //}
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw reintegrate the model
-                if (GUI.Button(tRect, NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
-                {
-                    tReintegrateOnlyThisClass = true;
-                }
-                tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                // draw delete old model
-                if (GUI.Button(tRect, NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, NWDGUI.KTableSearchButton))
-                {
-                    tDeleteOldModelOnlyThisClass = true;
-                }
+                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+                //{
+                //    tReintegrateOnlyThisClass = true;
+                //}
+                //tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                //// draw delete old model
+                //if (GUI.Button(tRect, NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+                //{
+                //    tDeleteOldModelOnlyThisClass = true;
+                //}
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
                 // Change Colmun
@@ -1577,6 +1583,15 @@ namespace NetWorkedData
                         EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                     }
                     SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                {
+                    if (Application.isPlaying == true && kAccountDependent == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Indexes);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
@@ -1623,6 +1638,15 @@ namespace NetWorkedData
                     SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                {
+                    if (Application.isPlaying == true && kAccountDependent == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Indexes);
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
                 // Change Colmun
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
@@ -1665,6 +1689,15 @@ namespace NetWorkedData
                         EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                     }
                     SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                if (GUI.Button(tRect, "Indexes", NWDGUI.KTableSearchButton))
+                {
+                    if (Application.isPlaying == true && kAccountDependent == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Indexes);
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 NWDGUI.EndRedArea();
@@ -1907,41 +1940,41 @@ namespace NetWorkedData
                     CleanTable();
                 }
             }
-            if (tCleanLocalTableWithAccount == true)
-            {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
-                            NWDConstants.K_PURGE_ALERT_MESSAGE,
-                            NWDConstants.K_PURGE_ALERT_OK,
-                            NWDConstants.K_PURGE_ALERT_CANCEL))
-                {
-                    PurgeTable();
-                }
-            }
+            //if (tCleanLocalTableWithAccount == true)
+            //{
+            //    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+            //                NWDConstants.K_PURGE_ALERT_MESSAGE,
+            //                NWDConstants.K_PURGE_ALERT_OK,
+            //                NWDConstants.K_PURGE_ALERT_CANCEL))
+            //    {
+            //        PurgeTable();
+            //    }
+            //}
             //if (tLocalizeLocalTable == true)
             //{
             //    ExportLocalization();
             //}
-            if (tCreateAllPHPForOnlyThisClass == true)
-            {
-                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
-                NWDEditorWindow.GenerateCSharpFile();
-            }
-            if (tReintegrateOnlyThisClass == true)
-            {
-                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            }
-            if (tDeleteOldModelOnlyThisClass == true)
-            {
-                DeleteOldsModels();
-                ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
-                NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            }
+            //if (tCreateAllPHPForOnlyThisClass == true)
+            //{
+            //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            //    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+            //    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+            //    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+            //    NWDEditorWindow.GenerateCSharpFile();
+            //}
+            //if (tReintegrateOnlyThisClass == true)
+            //{
+            //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            //    NWDEditorWindow.GenerateCSharpFile();
+            //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            //}
+            //if (tDeleteOldModelOnlyThisClass == true)
+            //{
+            //    DeleteOldsModels();
+            //    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+            //    NWDEditorWindow.GenerateCSharpFile();
+            //    //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            //}
             if (tCreateAllPHPForOnlyThisClassDEV == true)
             {
                 ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
@@ -1956,7 +1989,7 @@ namespace NetWorkedData
         public void DrawTableEditor(EditorWindow sEditorWindow)
         {
             //NWEBenchmark.Start();
-            bool rLoaded = DatabaseIsLoaded();
+            bool rLoaded = AllDatabaseIsLoaded();
 
             EditorGUI.BeginDisabledGroup(!rLoaded);
 

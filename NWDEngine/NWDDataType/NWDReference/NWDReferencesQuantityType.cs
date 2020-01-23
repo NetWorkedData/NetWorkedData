@@ -57,31 +57,6 @@ namespace NetWorkedData
             return Value.Contains(sObject.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReference(string sReference)
-        {
-            return Value.Contains(sReference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            bool rReturn = true;
-            if (Value != string.Empty)
-            {
-                rReturn = false;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool IsNotEmpty()
-        {
-            bool rReturn = false;
-            if (Value != string.Empty)
-            {
-                rReturn = true;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public bool ContainedIn(NWDReferencesQuantityType<K> sReferencesQuantity, bool sExceptIfIsEmpty = true)
         {
             bool rReturn = true;
@@ -587,7 +562,7 @@ namespace NetWorkedData
             float tIntWidth = NWDGUI.kIntWidth;
             float tEditWidth = NWDGUI.kEditWidth;
             List<string> tValueList = new List<string>();
-            List<string> tValueListReferenceAllReady = new List<string>();
+            List<string> tValueListReferenceAlReady = new List<string>();
             if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -638,10 +613,10 @@ namespace NetWorkedData
                             }
                         }
                     }
-                    if (!tValueListReferenceAllReady.Contains(tV))
+                    if (!tValueListReferenceAlReady.Contains(tV))
                     {
                         tValueList[i] = tV + NWDConstants.kFieldSeparatorB + NWDToolbox.IntToString(tQ);
-                        tValueListReferenceAllReady.Add(tV);
+                        tValueListReferenceAlReady.Add(tV);
                     }
                 }
                 else

@@ -12,6 +12,7 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #if UNITY_IOS
@@ -26,25 +27,85 @@ namespace NetWorkedData
     public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountInfos() {}
+        public NWDAccountInfos() { }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
+        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) { }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() {}
+        public override void Initialization() { }
+        //=============================================================================================================
+        // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDAccountInfos ActiveAccount => CheckAccount();
+        public static void LoadBalacing(int sAvg)
+        {
+            Debug.Log("LoadBalacing() " + sAvg);
+            bool tChangeServer = true;
+            NWDAccountInfos rAccountInfos = CurrentData();
+            if (rAccountInfos != null)
+            {
+                NWDServerDomain tServer = null;
+                if (rAccountInfos.Server != null)
+                {
+                    tServer = rAccountInfos.Server.GetReachableData();
+                }
+                if (tServer != null)
+                {
+                    if (tServer.BalanceLoad > sAvg)
+                    {
+                        tChangeServer = false;
+                        Debug.Log("NOT CHANGE SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " > " + sAvg);
+                    }
+                    else
+                    {
+                        Debug.Log("CHANGE SERVER " + tServer.BalanceLoad + " < " + sAvg);
+                    }
+                }
+                else
+                {
+                    if (NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad > sAvg)
+                    {
+                        tChangeServer = false;
+                        Debug.Log("NOT CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " > " + sAvg);
+                    }
+                    else
+                    {
+                        Debug.Log("CHANGE DEFAULT SERVER " + NWDAppEnvironment.SelectedEnvironment().SFTPBalanceLoad + " < " + sAvg);
+                    }
+                }
+                if (tChangeServer == true)
+                {
+                    List<NWDServerDomain> tServerList = new List<NWDServerDomain>();
+                    foreach (NWDServerDomain tServerInList in NWDBasisHelper.GetReachableDatas<NWDServerDomain>())
+                    {
+                        if (tServerInList != tServer && tServerInList.ValidInSelectedEnvironment())
+                        {
+                            tServerList.Add(tServerInList);
+                        }
+                    }
+                    if (tServerList.Count > 0)
+                    {
+                        if (tServerList.Count > 1)
+                        {
+                            tServerList.ShuffleList();
+                        }
+                        tServer = tServerList[0];
+                    }
+                    rAccountInfos.Server.SetData(tServer);
+                    rAccountInfos.UpdateDataIfModified();
+                }
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountInfos CheckAccount()
+        /*public static NWDAccountInfos GetCurrentAccount()
         {
             NWDAccountInfos rAccountInfos = CurrentData();
             if (rAccountInfos != null)
             {
-                rAccountInfos.SetLastSignIn();
+                SetCurrentLastSignIn();
             }
             return rAccountInfos;
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetNickname()
+        public static string GetCurrentNickname()
         {
             NWDAccountNickname tNickname = CurrentData().Nickname.GetReachableData();
             if (tNickname != null)
@@ -54,8 +115,8 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatar(bool isRenderTexture = false)
-        {            
+        public static Sprite GetCurrentAvatar(bool isRenderTexture = false)
+        {
             Sprite rSprite = null;
             NWDAccountAvatar tAvatar = CurrentData().Avatar.GetReachableData();
             if (tAvatar != null)
@@ -86,6 +147,14 @@ namespace NetWorkedData
             }
             return rSprite;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetCurrentLastSignIn()
+        {
+            CurrentData().LastSignIn.SetCurrentDateTime();
+            CurrentData().SaveData();
+        }
+        //=============================================================================================================
+        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public string GetAbsoluteNickname()
         {
@@ -164,12 +233,6 @@ namespace NetWorkedData
             return rDifference.Days.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetLastSignIn()
-        {
-            LastSignIn.SetCurrentDateTime();
-            SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void SetAvatar(NWDItem sAvatar)
         {
             NWDAccountAvatar tAvatar = Avatar.GetRawData();
@@ -181,7 +244,7 @@ namespace NetWorkedData
             }
             tAvatar.RenderItem.SetData(sAvatar);
             tAvatar.SaveData();
-            
+
             Avatar.SetData(tAvatar);
             SaveData();
         }

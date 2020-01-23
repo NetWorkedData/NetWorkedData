@@ -173,7 +173,7 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public override NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            return BasisHelper().DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
+            return NWDBasisHelper.DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -425,6 +425,8 @@ namespace NetWorkedData
                         this.AddonInsertMe();
                         InsertDataOperation(sAutoDate);
                         BasisHelper().AddData(this);
+
+                        this.AddonInsertedMe();
                         //AddObjectInListOfEdition(this);
                         WritingLockAdd();
                         WritingPending = NWDWritingPending.InsertInMemory;
@@ -433,7 +435,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    // error this reference allready exist
+                    // error this reference already exist
                     UpdateDataIfModified(sAutoDate, sWritingMode);
                 }
             }
@@ -444,6 +446,12 @@ namespace NetWorkedData
         public void InsertDataOperation(bool sAutoDate = true)
         {
             //NWEBenchmark.Start();
+#if UNITY_INCLUDE_TESTS
+            if (NWDUnitTests.IsTest())
+            {
+                Tag = NWDBasisTag.UnitTestToDelete;
+            }
+#endif
             if (sAutoDate == true)
             {
                 this.DC = NWDToolbox.Timestamp();
@@ -957,6 +965,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDataOperation()
         {
+//#if UNITY_INCLUDE_TESTS
+//            Tag = NWDBasisTag.UnitTestToDelete;
+//#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceed()
@@ -1044,7 +1055,7 @@ namespace NetWorkedData
 #else
             WebserviceVersionCheckMe();
 #endif
-            ReIndex();
+            //ReIndex();
             BasisHelper().AddData(this);
             //NWEBenchmark.Finish();
         }

@@ -47,8 +47,9 @@ namespace NetWorkedData
         public string DatabaseNameEditor = "NWDDatabaseEditor.prp"; // TODO rename DataEditorBasename by  replace by DataEditorPath()
         public SQLiteConnection SQLiteConnectionEditor;             // TODO rename SQLiteEditorConnection
         //-------------------------------------------------------------------------------------------------------------
+        private bool DatasIndexed = false;
+        //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguage = "en";
-        public bool IsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         public List<Type> mTypeLoadedList = new List<Type>();                   // TODO rename ClassLoadedList
         public List<Type> mTypeList = new List<Type>();                         // TODO rename ClassList
@@ -136,7 +137,7 @@ namespace NetWorkedData
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DataLoaded()
+        public bool DataLoaded() // loaded but not indexed
         {
             bool rReturn = true;
             if (DataEditorLoaded == false || DataAccountLoaded == false)
@@ -144,6 +145,21 @@ namespace NetWorkedData
                 rReturn = false;
             }
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DatasAreIndexed() // loaded and indexed
+        {
+            return DatasIndexed;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DatasAreNotReady()
+        {
+            return !DatasIndexed;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool DatasAreReady()
+        {
+            return DatasIndexed;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

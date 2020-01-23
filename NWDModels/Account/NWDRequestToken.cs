@@ -11,34 +11,18 @@
 //
 //=====================================================================================================================
 
-
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
-using UnityEngine;
-
-using SQLite4Unity3d;
-
-//using BasicToolBox;
 using SQLite.Attribute;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDClassUnityEditorOnlyAttribute]
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("RQT")]
     [NWDClassDescriptionAttribute("RequestToken descriptions Class")]
     [NWDClassMenuNameAttribute("RequestToken")]
+    [NWDClassClusterAttribute(1, 6)]
     public partial class NWDRequestToken : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

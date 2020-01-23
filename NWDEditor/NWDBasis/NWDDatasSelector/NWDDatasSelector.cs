@@ -197,16 +197,22 @@ namespace NetWorkedData
             Rect tField = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, sRect.width - EditorGUIUtility.labelWidth - NWDGUI.kEditWidth - NWDGUI.kFieldMarge - sInsertion, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
             Rect tEditRect = new Rect(sRect.position.x + sRect.width - NWDGUI.kEditWidth, sRect.position.y + NWDGUI.kDatasSelectorYOffset, NWDGUI.kEditWidth, NWDGUI.kMiniButtonStyle.fixedHeight);
 
-            Rect tPreviewRect = new Rect(sRect.position.x + EditorGUIUtility.labelWidth - NWDGUI.kFieldMarge - NWDGUI.kDataSelectorFieldStyle.fixedHeight, sRect.position.y, NWDGUI.kDataSelectorFieldStyle.fixedHeight, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
+            if (sHelper.HasPreview(sReference))
+            {
+                GUIContent sImageLabel = sHelper.GetGUIPreview(sReference);
+                Rect tPreviewRect = new Rect(sRect.position.x + EditorGUIUtility.labelWidth, sRect.position.y, NWDGUI.kDataSelectorFieldStyle.fixedHeight, NWDGUI.kDataSelectorFieldStyle.fixedHeight);
+                //GUI.Label(tPreviewRect, sImageLabel);
+                GUI.Label(tPreviewRect, sImageLabel, NWDGUI.kDataSelectorFieldStyle);
+                tField.x += NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
+                tField.width -= NWDGUI.kFieldMarge + NWDGUI.kDataSelectorFieldStyle.fixedHeight;
+            }
 
             tEntitlement = EditorGUI.IndentedRect(tEntitlement);
             GUI.Label(tEntitlement, sContent, NWDGUI.kPropertyEntitlementStyle);
 
             GUIContent sDataLabel = sHelper.GetGUIContent(sReference);
-            GUIContent sImageLabel = sHelper.GetGUIPreview(sReference);
             NWDTypeClass tData = sHelper.GetDataByReference(sReference);
 
-            GUI.Label(tPreviewRect, sImageLabel);
 
             if (string.IsNullOrEmpty(sReference) == false && sHelper.GetDataByReference(sReference) == null)
             {
@@ -414,6 +420,11 @@ namespace NetWorkedData
             {
                 TagIntList.Add(tTag.Key);
                 TagStringList.Add(tTag.Value);
+            }
+            if (TagIntList.Contains(-1) ==false)
+            {
+                TagIntList.Add(-1);
+                TagStringList.Add("No Tag");
             }
 
             //NWEBenchmark.Finish();

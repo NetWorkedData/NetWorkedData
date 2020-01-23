@@ -287,7 +287,7 @@ namespace NetWorkedData
                 NWDTypeClass tData = DatasByReference[sReference];
                 tData.Desindex(); // call override method
                 RemoveData(tData);
-                tData.Delete();
+                //tData.Delete();
             }
 #if UNITY_EDITOR
             FilterTableEditor();

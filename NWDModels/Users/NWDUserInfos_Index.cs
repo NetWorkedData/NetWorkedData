@@ -21,7 +21,9 @@ namespace NetWorkedData
     public partial class NWDUserInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDGameSave, NWDUserInfos> kIndex = new NWDIndex<NWDGameSave, NWDUserInfos>();
+        private static protected NWDIndex<NWDGameSave, NWDUserInfos> kIndex = new NWDIndex<NWDGameSave, NWDUserInfos>();
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDUserInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInsert]
         public void InsertInTipKeyIndex()
@@ -73,9 +75,26 @@ namespace NetWorkedData
             return kCurrent;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserInfos CurrentData()
+        //public static NWDUserInfos CurrentData()
+        //{
+        //    return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInfos CurrentData(bool sOrCreate = true)
         {
-            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
+            NWDUserInfos rReturn = null;
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos));
+            if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
+            {
+                rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+                if (rReturn == null && sOrCreate == true)
+                {
+                    rReturn = NWDBasisHelper.NewData<NWDUserInfos>();
+                    rReturn.GameSave.SetData(NWDGameSave.CurrentData());
+                    rReturn.UpdateData();
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         /*public static NWDUserInfos CurrentData()

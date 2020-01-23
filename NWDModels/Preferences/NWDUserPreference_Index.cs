@@ -54,6 +54,9 @@ namespace NetWorkedData
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NWDBasisHelper.NewData<NWDUserPreference>();
+                #if UNITY_EDITOR
+                rReturn.InternalKey = sKey.InternalKey;
+                #endif
                 rReturn.PreferenceKey.SetData(sKey);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 rReturn.Value.SetValue(sKey.Default.Value);

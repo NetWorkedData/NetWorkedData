@@ -14,7 +14,6 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -195,6 +194,19 @@ namespace NetWorkedData
         {
             IndexName = sIndexName;
             IndexColumn = sIndexColumn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    public class NWDIndexedAttribut : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string IndexName = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIndexedAttribut(string sIndexName)
+        {
+            this.IndexName = sIndexName;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -488,6 +500,14 @@ namespace NetWorkedData
             this.mPropertyName = sPropertyName;
             this.mValues = new string[] { sValueMin.ToString(), sValueMax.ToString() };
             this.TypeOfCompare = NWDIfType.Range;
+            this.mVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIf(string sPropertyName, string sValue, bool sVisible = true, NWDIfType sIfType = NWDIfType.Equal)
+        {
+            this.mPropertyName = sPropertyName;
+            this.mValues = new string[] { sValue.ToString() };
+            this.TypeOfCompare = NWDIfType.Equal;
             this.mVisible = sVisible;
         }
         //-------------------------------------------------------------------------------------------------------------

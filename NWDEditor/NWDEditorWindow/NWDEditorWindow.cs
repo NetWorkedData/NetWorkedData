@@ -78,6 +78,7 @@ namespace NetWorkedData
         public void OnGUI()
         {
             //Debug.Log("NWDEditorWindow OnGUI()");
+            NWDGUI.LoadStyles();
             if (Recompile == false || EditorApplication.isCompiling == false)
             {
                 OnPreventGUI();
@@ -85,8 +86,17 @@ namespace NetWorkedData
             else
             {
                 GUILayout.FlexibleSpace();
-                EditorGUILayout.HelpBox("...compile in progress...", MessageType.Warning, true);
+                GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
+                EditorGUILayout.HelpBox("...compile in progress...", MessageType.Warning, false);
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+                GUILayout.FlexibleSpace();
+            }
+           // if (EditorGUIUtility.isProSkin == true)
+            {
+                float LogoSize = NWDGUI.kTitleStyle.fixedHeight;
+                GUI.Label(new Rect(position.width - LogoSize, 0, LogoSize, LogoSize), NWDGUI.kNetWorkedDataLogoContent);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -27,10 +27,7 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClassReference(bool sFromDatabase)
-        {
-            // come from table select
-        }
+        public NWDTypeClassReference(bool sFromDatabase) {}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -49,7 +46,8 @@ namespace NetWorkedData
             get; set;
         }
         //[SQLite.Attribute.IndexedAttribute(NWD.K_REFERENCE_INDEX, 0)]
-        [Indexed(NWD.K_BASIS_INDEX, 0)]
+        //[Indexed(NWD.K_BASIS_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public string Reference
@@ -65,12 +63,12 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 4)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int WebModel
         {
             get; set;
         }
-        [Indexed(NWD.K_INTERNAL_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public string InternalKey
@@ -79,7 +77,7 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_INTERNAL_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_INTERNAL_INDEX)]
         public string InternalDescription
         {
             get; set;
@@ -90,21 +88,21 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 0)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public bool AC
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 1)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int DC
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 2)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int DM
@@ -117,7 +115,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed(NWD.K_EDITOR_INDEX, 3)]
+        [NWDIndexedAttribut(NWD.K_EDITOR_INDEX)]
         [NWDNotEditable]
         [NWDCertified]
         public int XX
@@ -138,21 +136,21 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 3)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int DevSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 2)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int PreprodSync
         {
             get; set;
         }
         [NWDNotEditable]
         [NWDCertified]
-        [Indexed(NWD.K_BASIS_INDEX, 1)]
+        [NWDIndexedAttribut(NWD.K_BASIS_INDEX)]
         public int ProdSync
         {
             get; set;
@@ -194,6 +192,12 @@ namespace NetWorkedData
         /// The writing pending.
         /// </summary>
         public NWDWritingPending WritingPending = NWDWritingPending.Unknow;
+        //=============================================================================================================
+        // PRIVATE METHOD
+        //-------------------------------------------------------------------------------------------------------------
+        ~NWDTypeClass() {}
+        //=============================================================================================================
+        // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------
         public NWDWritingPending DatabasePending()
         {
@@ -232,93 +236,9 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void InstanceInit()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void Initialization()
-        {
-            // for developper
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string NewReference()
-        {
-            return "ERROR";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void WebserviceVersionCheckMe()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool WebserviceVersionIsValid()
-        {
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public virtual string InternalKeyValue()
-        //{
-        //    return string.Empty;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public virtual string InternalDescriptionValue()
-        //{
-        //    return string.Empty;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public virtual string ReferenceValue()
-        //{
-        //    return string.Empty;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void LoadedFromDatabase()
-        {
-            ReIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void Index()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ReIndex()
-        {
-            Desindex();
-            Index();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void Desindex()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public virtual string ClassNameUsedValue()
-        //{
-        //    return string.Empty;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool IntegrityIsValid()
-        {
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public virtual bool TestIntegrity()
-        //{
-        //    return true;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public bool IsEnable()
         {
             return AC;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ReOrderLocalizationsValues(string[] sLanguageArray)
-        {
-        }
-        public virtual string ExportCSV(string[] sLanguageArray)
-        {
-            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool IsTrashed()
@@ -333,84 +253,90 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool IsUsable()
+        {
+            if (AC == true && XX <= 0 && IntegrityIsValid() == true)
+            {
+                return true;
+            }
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string DatasMenu()
+        {
+            string rReturn = InternalKey + " <" + Reference + ">";
+            rReturn = rReturn.Replace("/", " ");
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //public void Delete() {}
+        //=============================================================================================================
+        // PUBLIC VIRTUAL METHOD
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void InstanceInit() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void Initialization() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string NewReference()
+        {
+            return "ERROR";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void WebserviceVersionCheckMe() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool WebserviceVersionIsValid()
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void LoadedFromDatabase()
+        {
+            ReIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void Index() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ReIndex()
+        {
+            Desindex();
+            Index();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void Desindex() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool IntegrityIsValid()
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ReOrderLocalizationsValues(string[] sLanguageArray) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string ExportCSV(string[] sLanguageArray)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual Texture2D PreviewTexture2D()
         {
             return null;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-
-        }
+        public virtual void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void RowAnalyze()
-        {
-        }
+        public virtual void RowAnalyze() {}
         //-------------------------------------------------------------------------------------------------------------
         public virtual NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             return null;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-        }
-#if UNITY_EDITOR
+        public virtual void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) {}
         //-------------------------------------------------------------------------------------------------------------
-        //public virtual float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    return 0;
-        //}
+        public virtual void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
-        {
-            return 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
-        {
-            return Rect.zero;
-        }
-#endif
-        //-------------------------------------------------------------------------------------------------------------
-        //public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
-        //{
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public virtual void DrawEditorMiddle(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
-        //{
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public virtual void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
-        //{
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public virtual float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    return 0;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public virtual float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    return DrawInspectorHeight(sNodalCard, sWidth);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public virtual float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
-        //{
-        //    return 0;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-        }
+        public virtual void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) {}
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
@@ -437,47 +363,17 @@ namespace NetWorkedData
             return true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsUsable()
-        {
-            if (AC == true && XX <= 0 && IntegrityIsValid() == true)
-            {
-                return true;
-            }
-            return false;
-        }
+        public virtual void TrashAction() {}
         //-------------------------------------------------------------------------------------------------------------
-        //public virtual bool TrashState()
-        //{
-        //    return false;
-        //}
+        public virtual void UpdateIntegrity() {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void TrashAction()
-        {
-        }
+        public virtual void UpdateDataEditor() {}
         //-------------------------------------------------------------------------------------------------------------
-        //public virtual void UpdateIntegrityAction()
-        //{
-        //}
+        public virtual void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true) {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateIntegrity()
-        {
-        }
+        public virtual void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataEditor()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true, bool sWithCallBack = true)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ErrorCheck()
-        {
-        }
+        public virtual void ErrorCheck() {}
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool IsSynchronized()
         {
@@ -509,6 +405,126 @@ namespace NetWorkedData
         {
             return 0;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void InsertDataProceedWithTransaction() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void InsertDataProceed() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void InsertDataFinish() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataProceedWithTransaction() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataProceed() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataFinish() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DeleteDataProceedWithTransaction() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DeleteDataProceed() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void DeleteDataFinish() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void AnalyzeData() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void ChangeUser(string sOldUser, string sNewUser) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool IsLockedObject()
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string CSVAssembly()
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
+                                      string[] sDataArray,
+                                      NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string DGPRLinearization(string sTypeName, bool sAsssemblyAsCSV = true)
+        {
+            return string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void PropertiesAutofill() {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        {
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void CopyData(NWDTypeClass sOriginal) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddonDuplicateMe() { }
+        public virtual void AddonDuplicatedMe() { }
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard)
+        //{
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual void DrawEditorMiddle(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        //{
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual void DrawEditorBottom(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard, bool sEditionEnable)
+        //{
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual float DrawEditorTopHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return 0;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual float DrawEditorMiddleHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return DrawInspectorHeight(sNodalCard, sWidth);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual float DrawEditorBottomHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return 0;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual string InternalKeyValue()
+        //{
+        //    return string.Empty;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual string InternalDescriptionValue()
+        //{
+        //    return string.Empty;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public virtual string ReferenceValue()
+        //{
+        //    return string.Empty;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual string ClassNameUsedValue()
+        //{
+        //    return string.Empty;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual bool TestIntegrity()
+        //{
+        //    return true;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual bool TrashState()
+        //{
+        //    return false;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //public virtual void UpdateIntegrityAction()
+        //{
+        //}
         //------------------------------------------------------------------------------------------------------------- 
         //public virtual bool EnableState()
         //{
@@ -529,127 +545,27 @@ namespace NetWorkedData
         //{
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public string DatasMenu()
-        {
-            string rReturn = InternalKey + " <" + Reference + ">";
-            rReturn = rReturn.Replace("/", " ");
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void InsertDataProceedWithTransaction()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void InsertDataProceed()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void InsertDataFinish()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataProceedWithTransaction()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataProceed()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataFinish()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void DeleteDataProceedWithTransaction()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void DeleteDataProceed()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void DeleteDataFinish()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void AnalyzeData()
-        {
-
-        }
 #if UNITY_EDITOR
+        //public virtual float DrawInspectorHeight(NWDNodeCard sNodalCard, float sWidth)
+        //{
+        //    return 0;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NodeCardAnalyze(NWDNodeCard sCard)
+        public virtual void DrawEditor(Rect sInRect, bool sWithScrollview, NWDNodeCard sNodalCard) {}
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual float DrawEditorTotalHeight(NWDNodeCard sNodalCard, float sWidth)
         {
-
+            return 0;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual Rect DrawRowInEditor(Vector2 sMouseClickPosition, Rect sRectRow, bool sSelectAndClick, int sRow, float sZoom)
+        {
+            return Rect.zero;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void NodeCardAnalyze(NWDNodeCard sCard) {}
+        //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ChangeReferenceForAnother(string sOldReference, string sNewReference)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void ChangeUser(string sOldUser, string sNewUser)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool IsLockedObject()
-        {
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string CSVAssembly()
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
-                                      string[] sDataArray,
-                                      NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string DGPRLinearization(string sTypeName, bool sAsssemblyAsCSV = true)
-        {
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void PropertiesAutofill()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        {
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void CopyData(NWDTypeClass sOriginal)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Delete()
-        {
-            //this = null;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddonDuplicateMe()
-        {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        ~NWDTypeClass()
-        {
-            //Debug.Log("Destructor : " + Reference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -664,6 +580,29 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class NWDClassUnityEditorOnlyAttribute : Attribute
+    {
+    }
+#if UNITY_EDITOR
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class NWDWindowOwnerAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public Type WindowType;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDWindowOwnerAttribute(Type sWindowType)
+        {
+            if (sWindowType.IsSubclassOf(typeof(NWDTypeWindow)))
+            {
+                this.WindowType = sWindowType;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class NWDClassServerSynchronizeAttribute : Attribute

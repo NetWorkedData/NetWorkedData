@@ -32,17 +32,17 @@ namespace NetWorkedData
         #region properties
         //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
-       // [NWDAlias(NWD.K_DevEnvironment)]
+        // [NWDAlias(NWD.K_DevEnvironment)]
         public NWDAppEnvironment DevEnvironment
         {
             set; get;
         }
-       // [NWDAlias(NWD.K_PreprodEnvironment)]
+        // [NWDAlias(NWD.K_PreprodEnvironment)]
         public NWDAppEnvironment PreprodEnvironment
         {
             set; get;
         }
-       // [NWDAlias(NWD.K_ProdEnvironment)]
+        // [NWDAlias(NWD.K_ProdEnvironment)]
         public NWDAppEnvironment ProdEnvironment
         {
             set; get;
@@ -86,6 +86,7 @@ namespace NetWorkedData
 
         public bool EditorTableCommun = true; //TODO param in config editor extension...
         public bool ShowCompile = true; //TODO param in config editor extension...
+        public Color TintColor;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
@@ -109,8 +110,13 @@ namespace NetWorkedData
             Install();
         }
         //-------------------------------------------------------------------------------------------------------------
-            public void Install()
-            {
+        public void ResetTintColor()
+        {
+            TintColor = NWDToolbox.Color255(25, 20, 34, 255);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Install()
+        {
             DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
             PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
             ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
@@ -120,7 +126,7 @@ namespace NetWorkedData
             AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
             AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
             AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-
+            ResetTintColor();
             // REMOVED : Change to remove invoke!
             Type tType = this.GetType();
             //var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
@@ -163,6 +169,107 @@ namespace NetWorkedData
                 default:
                     this.DevEnvironment.Selected = true;
                     break;
+            }
+            if (TagList.ContainsKey(-1) == false)
+            {
+                TagList.Add(-1, "No Tag");
+            }
+            if (TagList.ContainsKey(0) == false)
+            {
+                TagList.Add(0, "tag 0");
+            }
+            if (TagList.ContainsKey(1) == false)
+            {
+                TagList.Add(1, "tag 1");
+            }
+            if (TagList.ContainsKey(2) == false)
+            {
+                TagList.Add(2, "tag 2");
+            }
+            if (TagList.ContainsKey(3) == false)
+            {
+                TagList.Add(3, "tag 3");
+            }
+            if (TagList.ContainsKey(4) == false)
+            {
+                TagList.Add(4, "tag 4");
+            }
+            if (TagList.ContainsKey(5) == false)
+            {
+                TagList.Add(5, "tag 5");
+            }
+            if (TagList.ContainsKey(6) == false)
+            {
+                TagList.Add(6, "tag 6");
+            }
+            if (TagList.ContainsKey(7) == false)
+            {
+                TagList.Add(7, "tag 7");
+            }
+            if (TagList.ContainsKey(8) == false)
+            {
+                TagList.Add(8, "tag 8");
+            }
+            if (TagList.ContainsKey(9) == false)
+            {
+                TagList.Add(9, "tag 9");
+            }
+            if (TagList.ContainsKey(10) == false)
+            {
+                TagList.Add(10, "tag 10");
+            }
+            if (TagList.ContainsKey(11) == false)
+            {
+                TagList.Add(11, "Internal Created");
+            }
+            if (TagList.ContainsKey(12) == false)
+            {
+                TagList.Add(12, "(Reserved)");
+            }
+            if (TagList.ContainsKey(13) == false)
+            {
+                TagList.Add(13, "(Reserved)");
+            }
+            if (TagList.ContainsKey(14) == false)
+            {
+                TagList.Add(14, "(Reserved)");
+            }
+            if (TagList.ContainsKey(15) == false)
+            {
+                TagList.Add(15, "Test for Preprod");
+            }
+            if (TagList.ContainsKey(16) == false)
+            {
+                TagList.Add(16, "Test for Dev");
+            }
+            if (TagList.ContainsKey(17) == false)
+            {
+                TagList.Add(17, "Admin Created");
+            }
+            if (TagList.ContainsKey(18) == false)
+            {
+                TagList.Add(18, "Device Created");
+            }
+            if (TagList.ContainsKey(19) == false)
+            {
+                TagList.Add(19, "Server Created");
+            }
+            if (TagList.ContainsKey(20) == false)
+            {
+                TagList.Add(20, "User Created");
+            }
+            if (TagList.ContainsKey(21) == false)
+            {
+                TagList.Add(21, "TO DELETE");
+            }
+
+            if (TagList.ContainsKey(22) == false)
+            {
+                TagList.Add(22, "UnitTest To Delete");
+            }
+            if (TagList.ContainsKey(23) == false)
+            {
+                TagList.Add(23, "UnitTest Not Delete");
             }
 #endif
         }
@@ -228,7 +335,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountPass(string sPinCode)
         {
-            string tDeviceUniqueID = sPinCode+SystemInfo.deviceUniqueIdentifier;
+            string tDeviceUniqueID = sPinCode + SystemInfo.deviceUniqueIdentifier;
             string tPass = tDeviceUniqueID;
             if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().AccountHashSalt))
             {

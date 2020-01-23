@@ -12,19 +12,30 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using BasicToolBox;
-#if UNITY_EDITOR
-using UnityEditor;
-using Renci.SshNet;
-using Renci.SshNet.Common;
-using Renci.SshNet.Sftp;
-#endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public partial class NWDAppEnvironmentRuntimeDefineEnum : NWEDataTypeEnumGeneric<NWDAppEnvironmentRuntimeDefineEnum>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentRuntimeDefineEnum DefaultKey = Add(1, "DefaultKey");
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public partial class NWDAppEnvironmentEditorDefineEnum : NWEDataTypeEnumGeneric<NWDAppEnvironmentEditorDefineEnum>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentEditorDefineEnum DefaultKey = Add(1, "DefaultKey");
+        public static NWDAppEnvironmentEditorDefineEnum DefaultKey2 = Add(2, "2");
+        public static NWDAppEnvironmentEditorDefineEnum DefaultKey3 = Add(3, "3");
+        //-------------------------------------------------------------------------------------------------------------
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
@@ -36,11 +47,14 @@ namespace NetWorkedData
         //public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
         public string PlayerAccountReference = string.Empty;
         public string RequesToken = string.Empty;
+        public Dictionary<long, string> RuntimeDefineDictionary = new Dictionary<long, string>();
         // for debug anti-crack
 #if UNITY_EDITOR
         public string PreviewRequesToken = string.Empty;
         public string LastPreviewRequesToken = string.Empty;
+        public Dictionary<long, string> EditorDefineDictionary = new Dictionary<long, string>();
 #endif
+        private string WithSpecialSDKI;
         //-------------------------------------------------------------------------------------------------------------
         //public string AnonymousPlayerAccountReference = string.Empty;
         // reccord the first anonymous value to restaure old original account
@@ -54,9 +68,11 @@ namespace NetWorkedData
         public int IPBanTimer = 3600;
         public int IPBanMaxTentative = 3;
         public bool IPBanActive = true;
+        public int SFTPBalanceLoad = 50; // TODO : Rename LoadBalancingLimit
 #if UNITY_EDITOR
         public NWDServerLanguage ServerLanguage = NWDServerLanguage.PHP;
         public string SaltServer = string.Empty;
+        public bool MailBySMTP = false;
         public string MailHost = string.Empty;
         public int MailPort = 465;
         public string MailUserName = string.Empty;
@@ -68,12 +84,16 @@ namespace NetWorkedData
         public string MailFrom = string.Empty;
         public string MailReplyTo = string.Empty;
         public string RescueEmail = "no-reply@my-web-site.com";
+        public int RescueDelay = 3600;
+        public int RescueLoginLength = 12;
+        public int RescuePasswordLength = 24;
         public string ServerHost = "localhost";
         public string ServerUser = "user";
         public string ServerPassword = string.Empty;
         public string ServerBase = "myDatabase";
 #endif
         public bool LogMode = true;
+        public bool LogInFileMode = true;
         public string AdminKey = string.Empty;
         public string AdminKeyHash = string.Empty;
         public bool AdminInPlayer = false;
@@ -109,6 +129,26 @@ namespace NetWorkedData
         public NWDWritingMode WritingModeLocal = NWDWritingMode.QueuedMainThread;
         public NWDWritingMode WritingModeWebService = NWDWritingMode.QueuedMainThread;
         public NWDWritingMode WritingModeEditor = NWDWritingMode.QueuedMainThread;
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetServerHTTPS()
+        {
+            string rReturn = ServerHTTPS;
+            NWDAccountInfos tAccountInfos = NWDAccountInfos.CurrentData();
+            if (tAccountInfos != null)
+            {
+                NWDServerDomain tServer = tAccountInfos.Server.GetReachableData();
+                if (tServer != null)
+                {
+                    rReturn = tServer.ServerDNS;
+                }
+            }
+            return "https://" + NWDToolbox.CleanDNS(rReturn);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetConfigurationServerHTTPS()
+        {
+            return "https://" + NWDToolbox.CleanDNS(ServerHTTPS);
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         #region constructor
@@ -152,15 +192,10 @@ namespace NetWorkedData
         #endregion
         #region instance methods
         //-------------------------------------------------------------------------------------------------------------
-        //public void AnonymousVerification ()
-        //{
-        //	if (AnonymousPlayerAccountReference == string.Empty) {
-        //		AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID ();
-        //	}
-        //	if (AnonymousResetPassword == string.Empty) {
-        //		AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
-        //	}
-        //}
+        public void CleanSecretKeyDevice()
+        {
+            WithSpecialSDKI = null;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevice()
         {
@@ -177,6 +212,10 @@ namespace NetWorkedData
             {
                 rReturn = "Hacker?";
             }
+            if (string.IsNullOrEmpty(WithSpecialSDKI) == false)
+            {
+                rReturn = WithSpecialSDKI;
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -184,11 +223,17 @@ namespace NetWorkedData
         {
             string rReturn;
             rReturn = NWESecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier + SaltStart);
+#if UNITY_INCLUDE_TESTS
+            if (NWDUnitTests.IsFakeDevice())
+            {
+                rReturn = NWDUnitTests.GetFakeDeviceEditor();
+            }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         const string kSecretKeyDevicePlayerKey = "kSecretKeyDevicePlayerKey_dad42928";
-        const int kSecretKeyDevicePlayerLength = 36;
+        public const int kSecretKeyDevicePlayerLength = 36;
         //-------------------------------------------------------------------------------------------------------------
         public string SecretKeyDevicePlayer()
         {
@@ -201,12 +246,24 @@ namespace NetWorkedData
             {
                 rReturn = NWEPrefsManager.ShareInstance().getString(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
             }
+#if UNITY_INCLUDE_TESTS
+            if (NWDUnitTests.IsFakeDevice())
+            {
+                rReturn = NWDUnitTests.GetFakeDevicePlayer();
+            }
+#endif
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SecretKeyDevicePlayerReset()
         {
             NWEPrefsManager.ShareInstance().set(kSecretKeyDevicePlayerKey, NWDToolbox.RandomStringUnix(kSecretKeyDevicePlayerLength));
+#if UNITY_INCLUDE_TESTS
+            if (NWDUnitTests.IsFakeDevice())
+            {
+                NWDUnitTests.FakeDevicePlayerReset();
+            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AdminKeyHashGenerate()

@@ -32,22 +32,27 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-             LoadFromDatabase();
+            LoadFromDatabase();
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
             }
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-             LoadFromDatabase();
-            foreach (NWDTypeClass tObject in Datas)
+            //Debug.Log("##### TryToChangeUserForAllObjects");
+            if (kAccountDependent == true)
             {
-                tObject.ChangeUser(sOldUser, sNewUser);
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    tObject.ChangeUser(sOldUser, sNewUser);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

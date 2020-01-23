@@ -25,11 +25,13 @@ namespace NetWorkedData
     /// <summary>
     /// NWDExample class. This class is use for (complete description here).
     /// </summary>
+    //[NWDClassUnityEditorOnlyAttribute()]
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("NWDExample_Tri")]
     [NWDClassDescriptionAttribute("NWDExample_Description")]
     [NWDClassMenuNameAttribute("NWDExample_MenuName")]
     //[NWDInternalKeyNotEditableAttribute]
+    //[NWDInternalDescriptionNotEditable]
     public partial class NWDExample : NWDBasis
     {
         //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -38,10 +40,31 @@ namespace NetWorkedData
         // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
         // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        
+        //-------------------------------------------------------------------------------------------------------------
+
         //PROPERTIES
 
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        // never change the constructors! they are used by the NetWorkedData Writing System
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDExample()
+        {
+            //Debug.Log("NWDExample Constructor");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDExample(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDExample Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

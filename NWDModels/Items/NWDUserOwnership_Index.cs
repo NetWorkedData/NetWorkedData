@@ -19,7 +19,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -170,7 +169,7 @@ namespace NetWorkedData
                 string tKey = Item.GetReference() + "*" + GameSave.GetReference();
                 if (kIndexList != null)
                 {
-                    // I have allready index
+                    // I have already index
                     if (kIndex.ContainsKey(tKey))
                     {
                         if (kIndex[tKey] == kIndexList)

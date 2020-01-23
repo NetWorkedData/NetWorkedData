@@ -49,6 +49,83 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasisHelper
     {
+
+        //-------------------------------------------------------------------------------------------------------------
+        public double SizerCalculate(float sIndexationPercent = 0.15F)
+        {
+            Sizer = 0;
+            foreach (PropertyInfo tPropertyInfo in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (tPropertyInfo != null)
+                {
+                    Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                    {
+                        Sizer += 256;
+                    }
+                    else if (tTypeOfThis.IsEnum)
+                    {
+                        Sizer += 1;
+                    }
+                    else if (tTypeOfThis == typeof(bool))
+                    {
+                        Sizer += 1;
+                    }
+                    else if (tTypeOfThis == typeof(int))
+                    {
+                        Sizer += 4;
+                    }
+                    else if (tTypeOfThis == typeof(long))
+                    {
+                        Sizer += 8;
+                    }
+                    else if (tTypeOfThis == typeof(float))
+                    {
+                        Sizer += 8;
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        Sizer += 8;
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                    {
+                        if (tTypeOfThis.IsGenericType)
+                        {
+                            if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                            {
+                                Sizer += 48;
+                            }
+                        }
+                        else
+                        {
+                            Sizer += 256;
+                        }
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                    {
+                        Sizer += 8;
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                    {
+                        Sizer += 8;
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                    {
+                        Sizer += 8;
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                    {
+                        Sizer += 8;
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            // use index percent
+            Sizer += Mathf.FloorToInt((float)Sizer * sIndexationPercent); 
+            return Sizer;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public string WebServiceOrder(int sWebBuild)
         {

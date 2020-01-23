@@ -27,6 +27,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
+    [NWDClassClusterAttribute(1, 2)]
     public partial class NWDAccountInfos : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -36,6 +37,10 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
         public NWDReferenceFreeType<NWDGameSave> CurrentGameSave { get; set; }
+        [NWDInspectorGroupEnd]
+
+        [NWDInspectorGroupStart("Host")]
+        public NWDReferenceType<NWDServerDomain> Server { get; set; }
         [NWDInspectorGroupEnd]
 
         [NWDInspectorGroupStart("Stat")]
@@ -51,7 +56,11 @@ namespace NetWorkedData
         public NWDAppEnvironmentPlayerStatut AccountType()
         {
             NWDAppEnvironmentPlayerStatut rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
-            if (Account.GetReference().Contains("T"))
+            if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE))
+            {
+                rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
+            }
+            else if (Account.GetReference().Contains(NWDAccount.K_ACCOUNT_NEW_SUFFIXE))
             {
                 rReturn = NWDAppEnvironmentPlayerStatut.Temporary;
             }

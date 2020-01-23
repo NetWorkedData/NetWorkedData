@@ -138,7 +138,7 @@ namespace NetWorkedData
         /// Gets the value as string.
         /// </summary>
         /// <returns>The string.</returns>
-        public string GetValue ()
+        public virtual string GetValue ()
 		{
 			if (Value == null) {
 				return string.Empty;
@@ -150,7 +150,7 @@ namespace NetWorkedData
 		/// Sets the string as value.
 		/// </summary>
 		/// <param name="sString">S string.</param>
-		public void SetValue (string sString)
+		public virtual void SetValue (string sString)
 		{
 			if (sString == null) {
 				Value = string.Empty;

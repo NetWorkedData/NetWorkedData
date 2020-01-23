@@ -11,12 +11,9 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-//using BasicToolBox;
 using SQLite.Attribute;
 
 #if UNITY_EDITOR
@@ -79,15 +76,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnership()
-        {
-
-        }
+        public NWDUserOwnership() {}
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-
-        }
+        public NWDUserOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData) {}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

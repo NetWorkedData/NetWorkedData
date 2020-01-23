@@ -55,7 +55,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void PreferenceApply()
         {
-            bool tToogle = PreferenceKeyConnection.GetBool();
+            bool tToogle = PreferenceKeyConnection.GetBoolValue();
             foreach (GameObject tG in ObjectsActivationSync)
             {
                 if (tG != null)

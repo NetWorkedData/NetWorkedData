@@ -15,13 +15,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-//using BasicToolBox;
 using UnityEditor;
-using System.Text;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -29,6 +28,21 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDExampleHelper : NWDHelper<NWDExample>
     {
+        public override Dictionary<string, string> CreatePHPAddonFiles(NWDAppEnvironment sEnvironment, bool sWriteOnDisk = true)
+        {
+            Dictionary<string, string> rReturn = new Dictionary<string, string>();
+            StringBuilder tFile = new StringBuilder(string.Empty);
+            tFile.AppendLine("<?php");
+            tFile.AppendLine(sEnvironment.Headlines());
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("// EXAMPLE ENGINE FILE");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+            tFile.AppendLine("?>");
+            string tFileFormatted = NWDToolbox.CSharpFormat(tFile.ToString());
+            rReturn.Add(sEnvironment.EnvFolder(sWriteOnDisk) + "/NWDExample_engine.php", tFileFormatted);
+            //NWD.K_DB
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public override string AddonPhpPreCalculate(NWDAppEnvironment sEnvironment)
         {

@@ -60,7 +60,7 @@ namespace NetWorkedData
             }
             if (string.IsNullOrEmpty(TablePrefix) == false)
             {
-                GUILayout.Label(new GUIContent("Prefixe Table in WS : "+ TablePrefix));
+                GUILayout.Label(new GUIContent("Prefixe Table in WS : " + TablePrefix));
                 //tHelper.TablePrefix = EditorGUILayout.TextField(new GUIContent("Prefixe Table in WS"), tHelper.TablePrefix);
             }
             if (TablePrefix != TablePrefixOld)
@@ -137,6 +137,7 @@ namespace NetWorkedData
             {
                 EditorGUILayout.HelpBox(NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
 
+                //NWDGUI.BeginRedArea();
                 if (GUILayout.Button(NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton))
                 {
                     ResetTable();
@@ -178,6 +179,99 @@ namespace NetWorkedData
                 {
                     GUI.FocusControl(null);
                     RecalculateAllIntegrities();
+                }
+
+                if (GUILayout.Button("Reset Icon", EditorStyles.miniButton))
+                {
+                    ResetIconByDefaultIcon();
+                }
+
+                EditorGUI.BeginDisabledGroup(!ClassGameSaveDependent);
+                if (GUILayout.Button("Purge accounts", EditorStyles.miniButton))
+                {
+                    if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+                            NWDConstants.K_PURGE_ALERT_MESSAGE,
+                            NWDConstants.K_PURGE_ALERT_OK,
+                            NWDConstants.K_PURGE_ALERT_CANCEL))
+                    {
+                        PurgeTable();
+                    }
+                }
+                EditorGUI.EndDisabledGroup();
+
+
+                if (GUILayout.Button(NWDConstants.K_APP_WS_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+                {
+                    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDEditorWindow.GenerateCSharpFile();
+                }
+                // draw delete old model
+                if (GUILayout.Button(NWDConstants.K_APP_WS_DELETE_OLD_MODEL_TOOLS, NWDGUI.KTableSearchButton))
+                {
+                    DeleteOldsModels();
+                    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDEditorWindow.GenerateCSharpFile();
+                }
+
+                if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), NWDGUI.KTableSearchButton))
+                {
+                    ForceOrders(NWDAppConfiguration.SharedInstance().WebBuild);
+                    NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { ClassType }, false, false);
+                    NWDEditorWindow.GenerateCSharpFile();
+                }
+                //NWDGUI.EndRedArea();
+
+
+
+                if (GUILayout.Button("Generate File UnitTest", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileUnitTest();
+                }
+
+                if (GUILayout.Button("Generate File Connection", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileConnection();
+                }
+
+                if (GUILayout.Button("Generate File Workflow", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileWorkflow();
+                }
+
+                if (GUILayout.Button("Generate File Override", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileOverride();
+                }
+
+                if (GUILayout.Button("Generate File Extension", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileExtension();
+                }
+
+                if (GUILayout.Button("Generate File Helper", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileHelper();
+                }
+
+                if (GUILayout.Button("Generate File Editor", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileEditor();
+                }
+
+                if (GUILayout.Button("Generate File Index", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileIndex();
+                }
+
+                if (GUILayout.Button("Generate File PHP", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFilePHP();
+                }
+                if (GUILayout.Button("Generate File Icon", NWDGUI.KTableSearchButton))
+                {
+                    GenerateFileIcon();
                 }
             }
             //NWEBenchmark.Finish();

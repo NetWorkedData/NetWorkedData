@@ -232,7 +232,7 @@ namespace NetWorkedData
         //    tFile.AppendLine("errorDeclaration('ACC75', 'Google sql select error');");
         //    tFile.AppendLine("errorDeclaration('ACC76', 'Google sql update error');");
         //    tFile.AppendLine("errorDeclaration('ACC77', 'Google multi-account');");
-        //    tFile.AppendLine("errorDeclaration('ACC78', 'Google singin error allready log with this account');");
+        //    tFile.AppendLine("errorDeclaration('ACC78', 'Google singin error already log with this account');");
         //    tFile.AppendLine("errorDeclaration('ACC81', 'FacebookID is empty');");
         //    tFile.AppendLine("errorDeclaration('ACC82', 'FacebookID is invalid format');");
         //    tFile.AppendLine("errorDeclaration('ACC83', 'Facebook Graph error');");
@@ -240,7 +240,7 @@ namespace NetWorkedData
         //    tFile.AppendLine("errorDeclaration('ACC85', 'Facebook sql select error');");
         //    tFile.AppendLine("errorDeclaration('ACC86', 'Facebook sql update error');");
         //    tFile.AppendLine("errorDeclaration('ACC87', 'Facebook multi-account');");
-        //    tFile.AppendLine("errorDeclaration('ACC88', 'Facebook singin error allready log with this account');");
+        //    tFile.AppendLine("errorDeclaration('ACC88', 'Facebook singin error already log with this account');");
         //    tFile.AppendLine("errorDeclaration('ACC90', 'error in request select in Account');");
         //    tFile.AppendLine("errorDeclaration('ACC91', 'error in request insert anonymous Account');");
         //    tFile.AppendLine("errorDeclaration('ACC92', 'error in unknow account');");
@@ -251,25 +251,25 @@ namespace NetWorkedData
         //    tFile.AppendLine("errorDeclaration('SGN01', 'sign-up error in select valid account');");
         //    tFile.AppendLine("errorDeclaration('SGN02', 'sign-up error in select account by uuid');");
         //    tFile.AppendLine("errorDeclaration('SGN03', 'sign-up error in update account');");
-        //    tFile.AppendLine("errorDeclaration('SGN04', 'sign-up error account allready linked with another email');");
+        //    tFile.AppendLine("errorDeclaration('SGN04', 'sign-up error account already linked with another email');");
         //    tFile.AppendLine("errorDeclaration('SGN05', 'sign-up error multi-account by uuid');");
-        //    tFile.AppendLine("errorDeclaration('SGN06', 'sign-up error account allready linked with this email');");
-        //    tFile.AppendLine("errorDeclaration('SGN07', 'sign-up error another account allready linked with this email');");
-        //    tFile.AppendLine("errorDeclaration('SGN08', 'sign-up error multi-account allready linked with this email');");
+        //    tFile.AppendLine("errorDeclaration('SGN06', 'sign-up error account already linked with this email');");
+        //    tFile.AppendLine("errorDeclaration('SGN07', 'sign-up error another account already linked with this email');");
+        //    tFile.AppendLine("errorDeclaration('SGN08', 'sign-up error multi-account already linked with this email');");
         //    tFile.AppendLine("errorDeclaration('SGN09', 'modify error in select valid account');");
         //    tFile.AppendLine("errorDeclaration('SGN10', 'modify error unknow account');");
         //    tFile.AppendLine("errorDeclaration('SGN11', 'sign-up error in update account');");
         //    tFile.AppendLine("errorDeclaration('SGN12', 'modify error multi-account');");
         //    tFile.AppendLine("errorDeclaration('SGN13', 'modify error in select valid account');");
-        //    tFile.AppendLine("errorDeclaration('SGN14', 'modify error email allready use in another account');");
+        //    tFile.AppendLine("errorDeclaration('SGN14', 'modify error email already use in another account');");
         //    tFile.AppendLine("errorDeclaration('SGN15', 'singin error in request account ');");
         //    tFile.AppendLine("errorDeclaration('SGN16', 'singin error no account ');");
-        //    tFile.AppendLine("errorDeclaration('SGN17', 'singin error allready log with this account');");
+        //    tFile.AppendLine("errorDeclaration('SGN17', 'singin error already log with this account');");
         //    tFile.AppendLine("errorDeclaration('SGN18', 'singin error multi-account ');");
         //    tFile.AppendLine("errorDeclaration('SGN19', 'delete error in update account');");
         //    //tFile.AppendLine("errorDeclaration('SGN25', 'signanonymous error in request account ');");
         //    //tFile.AppendLine("errorDeclaration('SGN26', 'signanonymous error no account ');");
-        //    //tFile.AppendLine("errorDeclaration('SGN27', 'signanonymous error allready log with this account');");
+        //    //tFile.AppendLine("errorDeclaration('SGN27', 'signanonymous error already log with this account');");
         //    //tFile.AppendLine("errorDeclaration('SGN28', 'signanonymous error multi-account ');");
         //    tFile.AppendLine("errorDeclaration('SGN33', 'signout impossible with anonymous account equal to restaured account');");
         //    tFile.AppendLine("errorDeclaration('SGN70', 'rescue select error');");
@@ -411,7 +411,7 @@ namespace NetWorkedData
             if (LogMode == true)
             {
                 tFile.AppendLine("// add log");
-               tFile.AppendLine(NWDError.FUNCTIONPHP_respond+"();");
+                tFile.AppendLine(NWDError.FUNCTIONPHP_respond + "();");
                 //tFile.AppendLine("respondAdd('log',$RRR_LOG);");
             }
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -425,6 +425,7 @@ namespace NetWorkedData
             tFile.AppendLine("" + NWDError.FUNCTIONPHP_errorResult + "();");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("// server benchmark");
+            tFile.AppendLine("respondAdd('" + NWD.K_JSON_AVG_KEY + "', intval(sys_getloadavg()[0]*100));");
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_KEY + "',microtime(true)-$NWD_TMA);");
             tFile.AppendLine("respondAdd('" + NWD.K_JSON_PERFORM_REQUEST_KEY + "',microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']);");
             tFile.AppendLine(NWD.K_CommentSeparator);
@@ -517,6 +518,37 @@ namespace NetWorkedData
             tFile.AppendLine("return $tString;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+            tFile.AppendLine("function SendEmail($sSubject, $sMessage, $sEmail, $sEmailFrom)");
+            tFile.AppendLine("{");
+            if (MailBySMTP == true)
+            {
+                tFile.AppendLine("global $SMTP_HOST, $SMTP_PORT, $SMTP_DOMAIN, $SMTP_FROM, $SMTP_REPLY, $SMTP_USER, $SMTP_PSW, $SMTP_AUT, $SMTP_STARTTLS, $SMTP_OPENSSL;");
+                tFile.AppendLine("$headers['From'] = $sEmailFrom;");
+                tFile.AppendLine("$headers['To'] = $sEmail;");
+                tFile.AppendLine("$headers['Subject'] =$sSubject;");
+                tFile.AppendLine("$params['sendmail_path'] = '/usr/lib/sendmail';");
+                tFile.AppendLine("// Create the mail object using the Mail::factory method");
+                tFile.AppendLine("$mail_object = Mail::factory('smtp', array ('host' => $SMTP_HOST, ");
+                tFile.AppendLine("'auth' => true, ");
+                tFile.AppendLine("'username' => $SMTP_USER, ");
+                tFile.AppendLine("'password' => $SMTP_PSW));");
+                tFile.AppendLine("$mail_object->send($sEmail, $headers, $sMessage);");
+            }
+            else
+            {
+                tFile.AppendLine("global $NWD_APP_NAM;");
+                tFile.AppendLine("$headers = 'Reply-to: '.$sEmailFrom.''.\"\\n\";");
+                tFile.AppendLine("$headers .= 'From: \"'.$NWD_APP_NAM.'\" <'.$sEmailFrom.'>'.\"\\n\";");
+                tFile.AppendLine("$headers .= 'Return-path: '.$sEmailFrom.\"\\n\";");
+                tFile.AppendLine("$headers .= 'X-Mailer: PHP '.phpversion().\"\\n\";");
+                tFile.AppendLine("$headers .= 'X-Priority: 1 '.\"\\n\";");
+                tFile.AppendLine("mail($sEmail,$sSubject, $sMessage,$headers);");
+            }
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
 
             //tFile.AppendLine("function versionTest($sVersion)");
             //tFile.AppendLine("{");
@@ -688,6 +720,45 @@ namespace NetWorkedData
             tFile.AppendLine("else");
             tFile.AppendLine("{");
             tFile.AppendLine("$tReference = referenceRandom();");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("}");
+            tFile.AppendLine("return $tReference;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+
+            tFile.AppendLine("function referenceSecondRandom ($sPrefix)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_PHP_TIME_SYNC + ";");
+            tFile.AppendLine("$tTime = " + NWD.K_PHP_TIME_SYNC + "-1492711200; // Timestamp unix format");
+            tFile.AppendLine("return $sPrefix.'-'.str_pad(rand(000, 999), 3, '0').'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            tFile.AppendLine("function referenceSecondGenerate ($sPrefix, $sTable, $sColumn)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("global " + NWD.K_SQL_CON + ";");
+            tFile.AppendLine("$tReference = referenceSecondRandom($sPrefix);");
+            tFile.AppendLine("$tTested = false;");
+            tFile.AppendLine("while ($tTested == false)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tQuery = 'SELECT `'.$sColumn.'` FROM `'.$sTable.'` WHERE `'.$sColumn.'` LIKE \\''." + NWD.K_SQL_CON + "->real_escape_string($tReference).'\\';';");
+            tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
+            tFile.AppendLine("if (!$tResult)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_ErrorSQL(this, "$tQuery"));
+            tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("if ($tResult->num_rows == 0)");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tTested = true;");
+            tFile.AppendLine("}");
+            tFile.AppendLine("else");
+            tFile.AppendLine("{");
+            tFile.AppendLine("$tReference = referenceSecondRandom();");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
             tFile.AppendLine("}");
@@ -1003,7 +1074,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
-            //tFile.AppendLine("errorDeclaration('UPVFV00', 'error in select other UniqueNickname allready install');");
+            //tFile.AppendLine("errorDeclaration('UPVFV00', 'error in select other UniqueNickname already install');");
             //tFile.AppendLine("error('UPVFV00',true, __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
@@ -1042,7 +1113,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultTest = " + NWD.K_SQL_CON + "->query($tQueryTest);");
             tFile.AppendLine("if (!$tResultTest)");
             tFile.AppendLine("{");
-            //tFile.AppendLine("errorDeclaration('UPVFV01', 'error in select other UniqueNickname allready install');");
+            //tFile.AppendLine("errorDeclaration('UPVFV01', 'error in select other UniqueNickname already install');");
             //tFile.AppendLine("error('UPVFV01',true, __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
@@ -1064,7 +1135,7 @@ namespace NetWorkedData
             tFile.AppendLine("$tResultTestUnique = " + NWD.K_SQL_CON + "->query($tQueryTestUnique);");
             tFile.AppendLine("if (!$tResultTestUnique)");
             tFile.AppendLine("{");
-            //tFile.AppendLine("errorDeclaration('UPVFV02', 'error in select other UniqueNickname allready install');");
+            //tFile.AppendLine("errorDeclaration('UPVFV02', 'error in select other UniqueNickname already install');");
             //tFile.AppendLine("error('UPVFV02',true, __FILE__, __FUNCTION__, __LINE__);");
             tFile.AppendLine(NWDError.PHP_Error(NWDError.NWDError_SERVER));
             tFile.AppendLine("}");
@@ -1137,6 +1208,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("// I must prevent admin mode in table creation");
             tFile.AppendLine("global $admin;");
+            tFile.AppendLine("global $HeaderUUID;");
             tFile.AppendLine("headerBrutalValue ('adminHash', '" + NWD.AdminHashKey + "');");
             tFile.AppendLine("$admin = adminHashTest ($adminHash, $NWD_ADM_KEY, $NWD_SLT_TMP);");
             tFile.AppendLine("if ($admin==true)");
@@ -1153,6 +1225,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (headerValue ('uuid', '" + NWD.UUIDKey + "', $ereg_UUID, '" + NWDError.NWDError_HEA04.Code + "', '" + NWDError.NWDError_HEA14.Code + "')) // test UUID of headers");
             tFile.AppendLine("{");
+            tFile.AppendLine("$HeaderUUID = $uuid;");
             tFile.AppendLine("if (headerValue ('hash', '" + NWD.HashKey + "', $ereg_hash, '" + NWDError.NWDError_HEA05.Code + "', '" + NWDError.NWDError_HEA15.Code + "')) // test hash of headers");
             tFile.AppendLine("{");
             tFile.AppendLine("headerBrutalValue ('token', '" + NWD.RequestTokenKey + "');");
@@ -1182,8 +1255,8 @@ namespace NetWorkedData
             //tFile.AppendLine("{");
             //tFile.AppendLine("if ($tResult->num_rows == 0)");
             //tFile.AppendLine("{");
-            //tFile.AppendLine("// if user is temporary user I must find the last letter equal to 'T'");
-            //tFile.AppendLine("if (substr($uuid, -1) == 'T')");
+            //tFile.AppendLine("// if user is temporary user I must find the last letter equal to '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "'");
+            //tFile.AppendLine("if (substr($uuid, -1) == '" + NWDAccount.K_ACCOUNT_TEMPORARY_SUFFIXE + "')");
             //tFile.AppendLine("{");
             //tFile.AppendLine("// I put order to create anonymous account if account is not resolve before action (sync, etc)");
             //tFile.AppendLine("AccountAnonymousNeeded(true);");
@@ -1669,22 +1742,23 @@ namespace NetWorkedData
 
 
 
-            tFile.AppendLine("function respond_SignOut()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_SignOut()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNOUT_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
-            tFile.AppendLine("function respond_SignIn()");
-            tFile.AppendLine("{");
-            tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNIN_KEY + "'] = true;");
-            tFile.AppendLine("}");
-            tFile.AppendLine(NWD.K_CommentSeparator);
+            //tFile.AppendLine("function respond_SignIn()");
+            //tFile.AppendLine("{");
+            //tFile.AppendLine("global $REP;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_SIGNIN_KEY + "'] = true;");
+            //tFile.AppendLine("}");
+            //tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("function respond_RestartWebService()");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_RESTART_WEBSERVICE_KEY + "'] = true;");
             tFile.AppendLine("}");
@@ -1692,22 +1766,40 @@ namespace NetWorkedData
 
             tFile.AppendLine("function respond_UserTransfert($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
             tFile.AppendLine("global $REP;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_USER_TRANSFERT_KEY + "'] = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_USER_TRANSFERT_KEY + "'] = true;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEXT_USER_KEY + "'] = $sNewReference;");
+            tFile.AppendLine("}");
+            tFile.AppendLine(NWD.K_CommentSeparator);
+
+            tFile.AppendLine("function respond_NewUser($sOldReference, $sNewReference)");
+            tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
+            tFile.AppendLine("global $REP;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEXT_USER_KEY + "'] = $sNewReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
             tFile.AppendLine("function respond_ChangeUser($sOldReference, $sNewReference)");
             tFile.AppendLine("{");
+            tFile.AppendLine(NWDError.PHP_logTrace(this));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sOldReference = '.$sOldReference.'"));
+            tFile.AppendLine(NWDError.PHP_log(this, "$sNewReference = '.$sNewReference.'"));
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $CHANGE_USER;");
             tFile.AppendLine("$CHANGE_USER = true;");
             tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEW_USER_KEY + "'] = true;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_OLD_USER_KEY + "'] = $sOldReference;");
-            tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_REPLACE_USER_KEY + "'] = $sNewReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_PREVIEW_USER_KEY + "'] = $sOldReference;");
+            //tFile.AppendLine("$REP['" + NWD.K_WEB_ACTION_NEXT_USER_KEY + "'] = $sNewReference;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 

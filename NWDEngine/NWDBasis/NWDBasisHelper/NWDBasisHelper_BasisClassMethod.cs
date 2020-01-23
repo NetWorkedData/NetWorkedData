@@ -91,6 +91,18 @@ namespace NetWorkedData
             return tHelper.PHP_TABLENAME(sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_ClassNameFor<T>() where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.ClassNamePHP;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHP_TrigrammeFor<T>() where T : NWDTypeClass, new()
+        {
+            NWDBasisHelper tHelper = BasisHelper<T>();
+            return tHelper.ClassTrigramme;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper BasisHelper<T>() where T : NWDTypeClass, new()
         {
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(T));
@@ -469,6 +481,10 @@ namespace NetWorkedData
                             foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in AccountMethodDico)
                             {
                                 var tValue = tInfos.Key.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
                                 string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
                                 if (tAccountValue.Contains(sAccountReference))
                                 {
@@ -527,6 +543,10 @@ namespace NetWorkedData
                             foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper<T>().AccountMethodDico)
                             {
                                 var tValue = tInfos.Key.GetValue(sData, null);
+                                if (tValue == null)
+                                {
+                                    tValue = string.Empty;
+                                }
                                 string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
                                 if (tAccountValue.Contains(sAccountReference))
                                 {
@@ -723,7 +743,7 @@ namespace NetWorkedData
             BasisHelper<T>().SynchronizationFromWebService(sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sForce, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public T DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
+        public static T DuplicateData<T>(T sData, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal) where T : NWDTypeClass, new()
         {
             //NWEBenchmark.Start();
             T rReturnObject = null;
@@ -731,7 +751,8 @@ namespace NetWorkedData
             {
                 if (sData.IntegrityIsValid() == true)
                 {
-                    rReturnObject = (T)Activator.CreateInstance(ClassType, new object[] { false });
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sData.GetType());
+                    rReturnObject = (T)Activator.CreateInstance(tHelper.ClassType, new object[] { false });
                     rReturnObject.InstanceInit();
                     //rReturnObject.PropertiesAutofill();
                     rReturnObject.Initialization();
@@ -741,6 +762,10 @@ namespace NetWorkedData
                                                    // restore the DC and Reference 
                     rReturnObject.Reference = tReference;
                     rReturnObject.DC = tDC;
+//#if UNITY_INCLUDE_TESTS
+//                    rReturnObject.Tag = sData.Tag;
+//#endif
+                    //rReturnObject.Tag = sData.Tag;
                     // WARNING ... copy generate an error in XX ? 
                     // but copy the DD XX and AC from this
                     rReturnObject.DD = sData.DD;
@@ -757,7 +782,8 @@ namespace NetWorkedData
                     int tCounter = 1;
                     string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
                     // search available internal key
-                    while (DatasByInternalKey.ContainsKey(tCopy) == true)
+
+                    while (tHelper.DatasByInternalKey.ContainsKey(tCopy) == true)
                     {
                         tCounter++;
                         tCopy = tOriginalKey + " (COPY " + tCounter + ")";
@@ -765,11 +791,16 @@ namespace NetWorkedData
                     // set found internalkey
                     rReturnObject.InternalKey = tCopy;
                     // Update Data! become it's not a real insert but a copy!
+                    rReturnObject.AddonDuplicatedMe();
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
-                    rReturnObject.AddonDuplicateMe();
                     rReturnObject.ReIndex();
+                    rReturnObject.AddonDuplicatedMe();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
+                }
+                else
+                {
+                    Debug.LogWarning("Data no integrity, no dupplicate possibility");
                 }
             }
             else

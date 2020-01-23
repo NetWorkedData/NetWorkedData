@@ -74,7 +74,7 @@ namespace NetWorkedData
                 {
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
-                GameObject tGameObjectToSpawn = new GameObject(sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else

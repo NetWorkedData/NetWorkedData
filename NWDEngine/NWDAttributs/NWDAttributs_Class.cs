@@ -47,6 +47,16 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    public class NWDInternalDescriptionNotEditableAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDInternalDescriptionNotEditableAttribute()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class NWDForceSecureDataAttribute : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------

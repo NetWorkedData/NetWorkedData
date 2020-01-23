@@ -11,16 +11,9 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading;
-//using BasicToolBox;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -75,7 +68,7 @@ namespace NetWorkedData
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             //URL = tEnvironment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + tEnvironment.Environment + "/index.php";
-            URL = tEnvironment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/index.php";
+            URL = tEnvironment.GetServerHTTPS() + "/" + tFolderWebService + "/index.php";
             AddressPing = tEnvironment.AddressPing;
             if (string.IsNullOrEmpty(URL))
             {
@@ -373,9 +366,10 @@ namespace NetWorkedData
             {
                 tResponse = (HttpWebResponse)tRequest.GetResponse();
             }
-            catch (WebException tWebException)
+            catch (WebException e)
             {
-                Debug.Log(URL + " doesn't exist: " + tWebException.Message);
+                Debug.LogException(e);
+                //Debug.Log(URL + " doesn't exist: " + e.Message);
                 tNetworkState = NWDNetworkState.OffLine;
             }
             finally

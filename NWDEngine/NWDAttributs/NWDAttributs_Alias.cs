@@ -41,16 +41,16 @@ namespace NetWorkedData
         public static MethodInfo GetMethod(Type sType, string sAlias, BindingFlags sFlags)
         {
             MethodInfo rReturn = null;
-            bool tAllreadyCache = false;
+            bool tAlreadyCache = false;
             if (kCache.ContainsKey(sType))
             {
                 if (kCache[sType].ContainsKey(sAlias))
                 {
-                    tAllreadyCache = true;
+                    tAlreadyCache = true;
                     rReturn = kCache[sType][sAlias];
                 }
             }
-            if (tAllreadyCache == false)
+            if (tAlreadyCache == false)
             {
                 foreach (MethodInfo tProp in sType.GetMethods(sFlags))
                 {

@@ -32,17 +32,17 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             sCard.ClassTexture = BasisHelper().TextureOfClass();
-            bool tDataAllReadyAnalyze = false;
+            bool tDataAlReadyAnalyze = false;
             foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCardsAnalyzed)
             {
                 if (tCard.DataObject == sCard.DataObject)
                 {
-                    tDataAllReadyAnalyze = true;
+                    tDataAlReadyAnalyze = true;
                     break;
                 }
             }
             // data is not in a preview card
-            if (tDataAllReadyAnalyze == false)
+            if (tDataAlReadyAnalyze == false)
             {
                 // I add this card
                 sCard.ParentDocument.AllCardsAnalyzed.Add(sCard);

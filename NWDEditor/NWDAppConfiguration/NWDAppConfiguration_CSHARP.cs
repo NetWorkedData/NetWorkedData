@@ -18,7 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-//using BasicToolBox;
 using UnityEditor;
 
 //=====================================================================================================================
@@ -42,13 +41,14 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             Debug.Log("NWDAppConfiguration GenerateCSharpFile()");
+            string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
 
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine("//=====================================================================================================================");
-            rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
+            //rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
             rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
             rReturn.AppendLine(NWD.K_CommentCreator);
             rReturn.AppendLine("//=====================================================================================================================");
@@ -84,6 +84,11 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ShowCompile) + " = " + ShowCompile.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TintColor) + " = new Color(" + NWDToolbox.FloatToString(TintColor.r) + "F," +
+                                                                NWDToolbox.FloatToString(TintColor.g) + "F," +
+                                                                NWDToolbox.FloatToString(TintColor.b) + "F," +
+                                                                NWDToolbox.FloatToString(TintColor.a) + "F);");
+
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
                 rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BundleName) + "[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");
@@ -106,7 +111,8 @@ namespace NetWorkedData
                 }
             }
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + " = new Dictionary<int, string>();");
-            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TagList) + ".Add(-1,\"No Tag\");"); // -1
+            for (int tI = 0; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
             {
                 if (TagList.ContainsKey(tI) == true)
                 {
@@ -140,11 +146,38 @@ namespace NetWorkedData
             rReturn.AppendLine("return true;");
             rReturn.AppendLine("}");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-            rReturn.AppendLine("/// <summary>");
-            rReturn.AppendLine("/// Restaure the configurations Types by Types");
-            rReturn.AppendLine("/// </summary>");
-            rReturn.AppendLine("public override bool RestaureTypesConfigurations()");
-            rReturn.AppendLine("{");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            rReturn.AppendLine("}");
+            rReturn.AppendLine("//=====================================================================================================================");
+            string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
+            string rReturnFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
+            File.WriteAllText(tPath, rReturnFormatted);
+
+
+
+            StringBuilder rReturnType = new StringBuilder(string.Empty);
+            rReturnType.AppendLine("//=====================================================================================================================");
+            //rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
+            rReturnType.AppendLine(NWD.K_CommentCopyright + tYearString);
+            rReturnType.AppendLine(NWD.K_CommentCreator);
+            rReturnType.AppendLine("//=====================================================================================================================");
+            rReturnType.AppendLine("using System.Collections;");
+            rReturnType.AppendLine("using System.Collections.Generic;");
+            rReturnType.AppendLine("using UnityEngine;");
+            rReturnType.AppendLine("//=====================================================================================================================");
+            rReturnType.AppendLine("namespace NetWorkedData");
+            rReturnType.AppendLine("{");
+            rReturnType.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            rReturnType.AppendLine("public partial class NWDAppConfiguration : NWDApp");
+            rReturnType.AppendLine("{");
+
+            rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+            rReturnType.AppendLine("/// <summary>");
+            rReturnType.AppendLine("/// Restaure the configurations Types by Types");
+            rReturnType.AppendLine("/// </summary>");
+            rReturnType.AppendLine("public override bool RestaureTypesConfigurations()");
+            rReturnType.AppendLine("{");
             List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in tAllTypes)
@@ -152,44 +185,44 @@ namespace NetWorkedData
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
-                    rReturn.Append(tDatas.CreationCSHARPCallLoader());
+                    rReturnType.Append(tDatas.CreationCSHARPCallLoader());
                 }
             }
-            rReturn.AppendLine("return true;");
-            rReturn.AppendLine("}");
-            rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+            rReturnType.AppendLine("return true;");
+            rReturnType.AppendLine("}");
+            rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
             foreach (Type tType in tAllTypes)
             {
                 NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
-                    rReturn.AppendLine("/// <summary>");
-                    rReturn.AppendLine("/// Restaure the configurations for " + tDatas.ClassNamePHP + "");
-                    rReturn.AppendLine("/// </summary>");
-                    rReturn.AppendLine(tDatas.CreationCSHARP());
-                    rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                    rReturnType.AppendLine("/// <summary>");
+                    rReturnType.AppendLine("/// Restaure the configurations for " + tDatas.ClassNamePHP + "");
+                    rReturnType.AppendLine("/// </summary>");
+                    rReturnType.AppendLine(tDatas.CreationCSHARP());
+                    rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                 }
             }
-            rReturn.AppendLine("}");
-            rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            rReturn.AppendLine("}");
-            rReturn.AppendLine("//=====================================================================================================================");
-            string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();
-            string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
-            string rReturnFormatted = NWDToolbox.CSharpFormat(rReturn.ToString());
-            File.WriteAllText(tPath, rReturnFormatted);
+            rReturnType.AppendLine("}");
+            rReturnType.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            rReturnType.AppendLine("}");
+            rReturnType.AppendLine("//=====================================================================================================================");
+            string tPathType = tOwnerConfigurationFolderPath + "/NWDConfigurations_Classes.cs";
+            string rReturnTypeFormatted = NWDToolbox.CSharpFormat(rReturnType.ToString());
+            File.WriteAllText(tPathType, rReturnTypeFormatted);
 
             try
             {
                 AssetDatabase.ImportAsset(tPath, ImportAssetOptions.ForceUpdate);
                 //AssetDatabase.Refresh();
             }
-            catch (IOException sException)
+            catch (IOException e)
             {
-                if (sException.Source != null)
+                Debug.LogException(e);
+                /*if (e.Source != null)
                 {
-                    Console.WriteLine("IOException source: {0}", sException.Source);
-                }
+                    Console.WriteLine("IOException source: {0}", e.Source);
+                }*/
                 throw;
             }
             //NWEBenchmark.Finish();

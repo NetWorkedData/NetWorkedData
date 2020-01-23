@@ -38,108 +38,43 @@ namespace NetWorkedData
             }
             else
             {
-                //NWEPrefsManager.ShareInstance().set(Environment + kPlayerStatusKey, PlayerStatut.ToString());
-                //NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
-                //NWEPrefsManager.ShareInstance().set(Environment + kRequesTokenKey, RequesToken);
-                //NWEPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                //NWEPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
-
                 NWEPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
-                //NWDBasisPreferences.SetString(kPlayerAccountReferenceKey, this, PlayerAccountReference, false);
-                //NWDBasisPreferences.SetString(kPlayerStatusKey, this, PlayerStatut.ToString(), true);
                 NWDBasisPreferences.SetString(kRequesTokenKey, this, RequesToken, false);
-
-                //if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
-                //{
-                //    NWEPrefsManager.ShareInstance().set(Environment + kAnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
-                //    NWEPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
-                //}
-                //else
-                //{
-                //    NWDBasisPreferences.SetString(kAnonymousPlayerAccountReferenceKey, this, AnonymousPlayerAccountReference, true);
-                //    NWDBasisPreferences.SetString(kAnonymousResetPasswordKey, this, AnonymousResetPassword, true);
-                //}
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void LoadPreferences()
         {
-//            string tEnvCompiler = "player";
-//#if UNITY_EDITOR
-//            if (Application.isPlaying == false)
-//            {
-//                tEnvCompiler = "editor";
-//            }
-//#endif
-            //Debug.Log("<color=blue>NWDAppEnvironment() LoadPreferences : " + Environment + " " + tEnvCompiler + "</color>");
-            //try
-            //{
-            //    PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), NWEPrefsManager.ShareInstance().getString(Environment + kPlayerStatusKey), true);
-            //}
-            //catch (ArgumentException e)
-            //{
-            //    Debug.Log(e.StackTrace);
-            //}
-
-            //PlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
-            //RequesToken = NWEPrefsManager.ShareInstance().getString(Environment + kRequesTokenKey);
-            //AnonymousPlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
-            //AnonymousResetPassword = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
-
-            //try
-            //{
-            //    PlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), NWDBasisPreferences.GetString(kPlayerStatusKey, this, NWDAppEnvironmentPlayerStatut.Unknow.ToString(), true), true);
-            //}
-            //catch (ArgumentException e)
-            //{
-            //    Debug.Log(e.StackTrace);
-            //}
-
             PlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
-            //PlayerAccountReference = NWDBasisPreferences.GetString(kPlayerAccountReferenceKey, this, string.Empty, false);
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
-
-            //if (NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal == true)
-            //{
-            //    AnonymousPlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
-            //    AnonymousResetPassword = NWEPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
-            //}
-            //else
-            //{
-            //    AnonymousPlayerAccountReference = NWDBasisPreferences.GetString(kAnonymousPlayerAccountReferenceKey, this, string.Empty, true);
-            //    AnonymousResetPassword = NWDBasisPreferences.GetString(kAnonymousResetPasswordKey, this, string.Empty, true);
-            //}
-
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
-                //ResetSession();
-                //AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
-                //AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
                 PlayerAccountReference = NWDToolbox.GenerateUniqueID();
                 RequesToken = string.Empty;
-                //PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
                 SavePreferences();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ResetPreferences()
+        public void ResetPreferences(bool withTemporaryAccount = true, string sWithSign = null)
         {
-            ResetSession();
-            // and ?....
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ResetSession()
-        {
-            SavePreferences(); // old datas for old Guy
-            NWDDataManager.SharedInstance().DataQueueExecute();
-            //Debug.Log ("ResetSession in " + Environment);
-            //AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
-            //AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
-            PlayerAccountReference = NWDToolbox.GenerateUniqueID();
-            RequesToken = string.Empty;
-            //PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
+            NWDDataManager.SharedInstance().DataQueueExecute();
+            PlayerAccountReference = NWDToolbox.GenerateUniqueID(withTemporaryAccount);
+            RequesToken = string.Empty;
+            SavePreferences();
+            if (withTemporaryAccount == false)
+            {
+                // create new account
+                if (string.IsNullOrEmpty(sWithSign) == false)
+                {
+                    WithSpecialSDKI = sWithSign;
+                }
+                else
+                {
+                    WithSpecialSDKI = string.Empty;
+                }
+            }
             // add notification
             NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
             NWDDataManager.SharedInstance().PlayerLanguageLoad();
@@ -147,60 +82,6 @@ namespace NetWorkedData
             NWDAppEnvironmentChooser.Refresh();
 #endif
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ResetPlayerSession()
-        {
-            SavePreferences(); // old datas for old Guy
-            NWDDataManager.SharedInstance().DataQueueExecute();
-            //Debug.Log ("ResetPlayerSession in " + Environment);
-            PlayerAccountReference = NWDToolbox.GenerateUniqueID();
-            RequesToken = string.Empty;
-            //PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
-            SavePreferences();
-            // add notification
-            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
-            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-#if UNITY_EDITOR
-            NWDAppEnvironmentChooser.Refresh();
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //        public void ResetAnonymousSession()
-        //        {
-        //            SavePreferences(); // old datas for old Guy
-        //            NWDDataManager.SharedInstance().DataQueueExecute();
-        //            //Debug.Log ("ResetAnonymousSession in " + Environment);
-        //            //AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
-        //            //AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
-        //            SavePreferences();
-        //            // add notification
-        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
-        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-        //#if UNITY_EDITOR
-        //            NWDAppEnvironmentChooser.Refresh();
-        //#endif
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //        public void RestaureAnonymousSession()
-        //        {
-        //            SavePreferences(); // old datas for old Guy
-        //            NWDDataManager.SharedInstance().DataQueueExecute();
-        //            //Debug.Log ("RestaureAnonymousSession in " + Environment);
-        //            PlayerAccountReference = AnonymousPlayerAccountReference;
-        //            RequesToken = string.Empty;
-        //            PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;
-        //            // TODO :  must connect to server
-        //            SavePreferences();
-        //            // add notification
-        //            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
-        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-        //            NWDDataManager.SharedInstance().PlayerLanguageLoad();
-        //#if UNITY_EDITOR
-        //            NWDAppEnvironmentChooser.Refresh();
-        //#endif
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

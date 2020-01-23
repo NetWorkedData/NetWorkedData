@@ -36,18 +36,21 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         bool DatasLoaded = false;
+        bool DataIndexed = false;
+        double Sizer; // the max size of instance
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAll()
         {
+            DataIndexed = false;
+            int tRow = 0;
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.Index();
+                tRow++;
             }
-<<<<<<< Updated upstream
-=======
             DataIndexed = true;
 #if UNITY_EDITOR
-           // Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
+            Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -59,8 +62,13 @@ namespace NetWorkedData
         public bool IsLoaded()
         {
             return DatasLoaded;
->>>>>>> Stashed changes
         }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool DatasAreLoaded()
+        //{
+        //    return DatasLoaded;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void RepaintTableEditor()
@@ -76,6 +84,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeAssetPath(string sOldPath, string sNewPath)
         {
+            //Debug.Log("sOldPath = " + sOldPath + " to sNewPath " + sNewPath);
             if (kAssetDependent == true)
             {
                 foreach (NWDTypeClass tObject in Datas)
@@ -189,6 +198,9 @@ namespace NetWorkedData
         public List<MethodInfo> IndexInsertMethodList = new List<MethodInfo>();
         public List<MethodInfo> IndexRemoveMethodList = new List<MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
+        public int ClusterMin;
+        public int ClusterMax;
+        //-------------------------------------------------------------------------------------------------------------
         //#if UNITY_EDITOR
         //public List<string> ObjectsInEditorTableKeyList = new List<string>();
         //public List<string> ObjectsInEditorTableList = new List<string>();
@@ -254,7 +266,7 @@ namespace NetWorkedData
                 // find infos object if exists or create 
                 if (TypesDictionary.ContainsKey(sType))
                 {
-                    Debug.LogWarning(sType.Name + " allready in TypesDictionary");
+                    Debug.LogWarning(sType.Name + " already in TypesDictionary");
                     tTypeInfos = TypesDictionary[sType];
                 }
                 else
@@ -297,13 +309,14 @@ namespace NetWorkedData
                 //NWEBenchmark.Finish("Declare() step A");
                 //NWEBenchmark.Start("Declare() step B");
 
-                TableMapping tTableMapping = new TableMapping(sType);
-                string rClassName = tTableMapping.TableName;
+                //TableMapping tTableMapping = new TableMapping(sType);
+                //string rClassName = tTableMapping.TableName;
+                string rClassName = sType.Name;
                 tTypeInfos.ClassNamePHP = rClassName;
                 tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassNamePHP + "_";
                 if (StringsDictionary.ContainsKey(rClassName))
                 {
-                    Debug.LogWarning(rClassName + " allready in StringsDictionary!");
+                    Debug.LogWarning(rClassName + " already in StringsDictionary!");
                 }
                 else
                 {
@@ -373,7 +386,9 @@ namespace NetWorkedData
                 tTypeInfos.ClassGameDependentProperties = null;
                 tTypeInfos.GameSaveMethod = null;
                 // exception for NWDAccount table
-                if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken))
+                //if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken) || sType == typeof(NWDServerSFTP))
+                NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
+                if (tServerOnlyAttribut != null)
                 {
                     rAccountConnected = true;
                 }
@@ -524,6 +539,23 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
                 tTypeInfos.ClassInitialization();
+
+
+                NWDClassClusterAttribute tClusterAttribute = null;
+                if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
+                {
+                    tClusterAttribute = (NWDClassClusterAttribute)sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true)[0];
+                }
+                if (tClusterAttribute != null)
+                {
+                    tTypeInfos.ClusterMin = tClusterAttribute.Min;
+                    tTypeInfos.ClusterMax = tClusterAttribute.Max;
+                }
+                else
+                {
+                    tTypeInfos.ClusterMin = 0;
+                    tTypeInfos.ClusterMax = 2048;
+                }
 
 #if UNITY_EDITOR
                 tTypeInfos.LoadEditorPrefererences();
@@ -859,6 +891,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
+            DatasLoaded = false;
             //Debug.Log("ResetDatas()");
             //NWEBenchmark.Start();
             // all datas prepare handler
@@ -887,23 +920,25 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatabaseIsLoaded()
+        public bool AllDatabaseIsIndexed()
         {
-            bool rLoaded = true;
-            if (kAccountDependent == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
-            {
-                rLoaded = false;
-            }
-            else if (kAccountDependent == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
-            {
-                rLoaded = false;
-            }
-            return rLoaded;
+            return NWDDataManager.SharedInstance().DatasAreIndexed();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool DatasAreLoaded()
+        public bool AllDatabaseIsLoaded()
         {
-            return DatasLoaded;
+            return (NWDDataManager.SharedInstance().DataAccountLoaded == true && NWDDataManager.SharedInstance().DataEditorLoaded == true);
+
+            //bool rLoaded = true;
+            //if (kAccountDependent == true && NWDDataManager.SharedInstance().DataAccountLoaded == false)
+            //{
+            //    rLoaded = false;
+            //}
+            //else if (kAccountDependent == false && NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            //{
+            //    rLoaded = false;
+            //}
+            //return rLoaded;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()
@@ -933,7 +968,7 @@ namespace NetWorkedData
         //    if (sData.ReachableState() == true)
         //    {
         //        string tReference = sData.ReferenceUsedValue();
-        //        // Anyway I check if Data is allready in datalist
+        //        // Anyway I check if Data is already in datalist
         //        if (DatasReachableByReference.ContainsKey(tReference) == false)
         //        {
         //            // get internal key
@@ -963,7 +998,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
-            // Anyway I check if Data is allready in datalist
+            // Anyway I check if Data is already in datalist
             if (DatasByReference.ContainsKey(tReference) == false)
             {
                 //Debug.Log("NWDDatas AddData() add data");
@@ -1040,7 +1075,7 @@ namespace NetWorkedData
         //{
         //    NWEBenchmark.Start();
         //    string tReference = sData.ReferenceUsedValue();
-        //    // Anyway I check if Data is allready in datalist
+        //    // Anyway I check if Data is already in datalist
         //    if (DatasReachableByReference.ContainsKey(tReference) == true)
         //    {
         //        // get internal key
@@ -1067,7 +1102,7 @@ namespace NetWorkedData
             //NWEBenchmark.Start();
             // get reference
             string tReference = sData.Reference;
-            // Anyway I check if Data is allready in datalist
+            // Anyway I check if Data is already in datalist
             if (DatasByReference.ContainsKey(tReference) == true)
             {
                 // get internal key

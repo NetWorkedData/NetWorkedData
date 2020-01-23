@@ -30,10 +30,11 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperationWebAccountAction : int
+    public enum NWDOperationWebAccountAction
     {
         signin = 0,
         signout = 1,
+        signup = 2,
         rescue = 9,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -41,7 +42,13 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccountAction Action;
-        public string PasswordToken;
+        public string PasswordToken; // rename SignInHash
+        public string SignHash; // rename SignUpHash
+        public string RescueHash;
+        public string LoginHash;
+        public string RescueEmail;
+        public string RescueLanguage;
+        public NWDAccountSignType SignType;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebAccount AddOperation(string sName,
                                                            NWEOperationBlock sSuccessBlock = null,
@@ -76,11 +83,11 @@ namespace NetWorkedData
                 {
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
-                GameObject tGameObjectToSpawn = new GameObject(sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
-            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+                tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif
                 rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebAccount>();
                 rReturn.GameObjectToSpawn = tGameObjectToSpawn;
@@ -99,11 +106,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override string ServerFile()
         {
-            return NWD.K_AUTHENTIFICATION_PHP;
+            return NWD.K_AUTHENTICATION_PHP;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string ServerBase()
+        {
+            //Debug.Log("NWDOperationWebUnity ServerBase()");
+            // use exceptionaly the default server
+            string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            return Environment.GetConfigurationServerHTTPS() + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool CanRestart()
         {
+            //Statut = NWEOperationState.ReStart;
+            //return true;
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -111,6 +128,8 @@ namespace NetWorkedData
         {
             //go in secure
             SecureData = true;
+            Dictionary<string, object> tDataNotAccount = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas(ResultInfos, Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
+            Data = Data.Concat(tDataNotAccount).ToDictionary(x => x.Key, x => x.Value);
             // insert action
             if (Data.ContainsKey(NWD.K_WEB_ACTION_KEY))
             {
@@ -124,9 +143,53 @@ namespace NetWorkedData
             if (Action == NWDOperationWebAccountAction.signout)
             {
                 // insert device key in data and go in secure
-                DataAddSecetDevicekey();
+                DataAddSecretDevicekey();
             }
-            else
+            else if (Action == NWDOperationWebAccountAction.signup)
+            {
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_TYPE_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_TYPE_Key] = SignType.ToLong();
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_TYPE_Key, SignType.ToLong());
+                }
+
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_VALUE_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_VALUE_Key] = SignHash;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_VALUE_Key, SignHash);
+                }
+                if (string.IsNullOrEmpty(RescueHash))
+                {
+                    RescueHash = NWDAccountSign.K_NO_HASH;
+                }
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_RESCUE_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_RESCUE_Key] = RescueHash;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_RESCUE_Key, RescueHash);
+                }
+                if (string.IsNullOrEmpty(LoginHash))
+                {
+                    LoginHash = NWDAccountSign.K_NO_HASH;
+                }
+                if (Data.ContainsKey(NWD.K_WEB_SIGN_UP_LOGIN_Key))
+                {
+                    Data[NWD.K_WEB_SIGN_UP_LOGIN_Key] = LoginHash;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_SIGN_UP_LOGIN_Key, LoginHash);
+                }
+            }
+            else if (Action == NWDOperationWebAccountAction.signin)
             {
                 // insert sign
                 if (Data.ContainsKey(NWD.K_WEB_SIGN_Key))
@@ -136,6 +199,25 @@ namespace NetWorkedData
                 else
                 {
                     Data.Add(NWD.K_WEB_SIGN_Key, PasswordToken);
+                }
+            }
+            else if (Action == NWDOperationWebAccountAction.rescue)
+            {
+                if (Data.ContainsKey(NWD.K_WEB_RESCUE_EMAIL_Key))
+                {
+                    Data[NWD.K_WEB_RESCUE_EMAIL_Key] = RescueEmail;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_RESCUE_EMAIL_Key, RescueEmail);
+                }
+                if (Data.ContainsKey(NWD.K_WEB_RESCUE_LANGUAGE_Key))
+                {
+                    Data[NWD.K_WEB_RESCUE_LANGUAGE_Key] = RescueLanguage;
+                }
+                else
+                {
+                    Data.Add(NWD.K_WEB_RESCUE_LANGUAGE_Key, RescueLanguage);
                 }
             }
         }

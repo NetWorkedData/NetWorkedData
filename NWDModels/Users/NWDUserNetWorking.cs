@@ -31,6 +31,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNW")]
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]
+    [NWDClassClusterAttribute(1, 32)]
     public partial class NWDUserNetWorking : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

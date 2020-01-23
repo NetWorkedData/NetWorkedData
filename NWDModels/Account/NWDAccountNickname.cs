@@ -11,8 +11,6 @@
 //
 //=====================================================================================================================
 
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,8 +20,6 @@ using System.Reflection;
 
 using UnityEngine;
 
-//using BasicToolBox;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -32,6 +28,7 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("Account Nickname")]
     [NWDClassMenuNameAttribute("Account Nickname")]
+    [NWDClassClusterAttribute(1, 10)]
     public partial class NWDAccountNickname : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

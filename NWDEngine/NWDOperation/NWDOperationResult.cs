@@ -21,6 +21,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public int timestamp { get; private set; }
+        public int avg { get; private set; }
         public float perform { get; private set; }
         public float performRequest { get; private set; }
         public bool isError { get; private set; }
@@ -29,9 +30,11 @@ namespace NetWorkedData
         public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
         public string uuid { get; private set; }
-        public bool isSignIn { get; private set; }
-        public bool isSignOut { get; private set; }
-        public bool isRescue { get; private set; }
+        public string preview_user { get; private set; }
+        public string next_user { get; private set; }
+        //public bool isSignIn { get; private set; }
+        //public bool isSignOut { get; private set; }
+        //public bool isRescue { get; private set; }
         public bool isNewUser { get; private set; }
         public bool isUserTransfert { get; private set; }
         public int wsBuild { get; private set; }
@@ -63,6 +66,11 @@ namespace NetWorkedData
             {
                 timestamp = int.Parse(sData[NWD.K_JSON_TIMESTAMP_KEY].ToString());
             }
+            if (sData.ContainsKey(NWD.K_JSON_AVG_KEY))
+            {
+                avg = NWDToolbox.IntFromString(sData[NWD.K_JSON_AVG_KEY].ToString());
+                NWDAccountInfos.LoadBalacing(avg);
+            }
             if (sData.ContainsKey(NWD.K_JSON_PERFORM_KEY))
             {
                 perform = float.Parse(sData[NWD.K_JSON_PERFORM_KEY].ToString());
@@ -75,21 +83,29 @@ namespace NetWorkedData
             {
                 token = sData[NWD.RequestTokenKey] as string;
             }
-            if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNIN_KEY))
-            {
-                isSignIn = (bool)sData[NWD.K_WEB_ACTION_SIGNIN_KEY];
-            }
-            if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNOUT_KEY))
-            {
-                isSignOut = (bool)sData[NWD.K_WEB_ACTION_SIGNOUT_KEY];
-            }
-            if (sData.ContainsKey(NWD.K_WEB_ACTION_RESCUE_KEY))
-            {
-                isRescue = (bool)sData[NWD.K_WEB_ACTION_RESCUE_KEY];
-            }
+            //if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNIN_KEY))
+            //{
+            //    isSignIn = (bool)sData[NWD.K_WEB_ACTION_SIGNIN_KEY];
+            //}
+            //if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNOUT_KEY))
+            //{
+            //    isSignOut = (bool)sData[NWD.K_WEB_ACTION_SIGNOUT_KEY];
+            //}
+            //if (sData.ContainsKey(NWD.K_WEB_ACTION_RESCUE_KEY))
+            //{
+            //    isRescue = (bool)sData[NWD.K_WEB_ACTION_RESCUE_KEY];
+            //}
             if (sData.ContainsKey(NWD.K_JSON_ERROR_INFOS_KEY))
             {
                 errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
+            }
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_PREVIEW_USER_KEY))
+            {
+                preview_user = sData[NWD.K_WEB_ACTION_PREVIEW_USER_KEY] as string;
+            }
+            if (sData.ContainsKey(NWD.K_WEB_ACTION_NEXT_USER_KEY))
+            {
+                next_user = sData[NWD.K_WEB_ACTION_NEXT_USER_KEY] as string;
             }
             if (sData.ContainsKey(NWD.K_JSON_ERROR_KEY))
             {
@@ -142,12 +158,15 @@ namespace NetWorkedData
         private void Init()
         {
             timestamp = 0;
+            avg = -1;
             perform = 0.0f;
             isError = false;
             errorCode = string.Empty;
             token = string.Empty;
-            isSignIn = false;
-            isSignOut = false;
+            preview_user = string.Empty;
+            next_user = string.Empty;
+            //isSignIn = false;
+            //isSignOut = false;
             isNewUser = false;
             isUserTransfert = false;
             uuid = string.Empty;

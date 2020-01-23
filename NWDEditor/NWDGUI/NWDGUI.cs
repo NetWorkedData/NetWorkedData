@@ -68,9 +68,11 @@ namespace NetWorkedData
         public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
         public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
         public static Texture2D kImageSyncProceed = NWDFindPackage.PackageEditorTexture("NWDProceed.png");
-
         public static Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd"); //for nodal line?
         public static Texture2D kImageDefaultIcon = NWDFindPackage.PackageEditorTexture("NWDExample.psd");
+        //-------------------------------------------------------------------------------------------------------------
+        public static Texture2D kNetWorkedDataLogo = NWDFindPackage.PackageEditorTexture("NWDWindowLogo.psd");
+        public static GUIContent kNetWorkedDataLogoContent;
         //-------------------------------------------------------------------------------------------------------------
         // change color of background interface element
         static Color kOldColor;
@@ -97,7 +99,7 @@ namespace NetWorkedData
         public static GUIStyle kTitleStyle;
         static Texture2D kTitleTexture;
         static Color kTitleColor;
-        //-----------------------------------------------------------k-----------------k-------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         public static GUIStyle kSectionStyle;
         static Texture2D kSectionTexture;
         static Color kSectionColor;
@@ -113,14 +115,12 @@ namespace NetWorkedData
         public static float KTableRowWebModelWidth = 70.0F;
         public static float KTablePageMarge = 5.0F;
         public static float KTableMinWidth = (KTableReferenceWidth + kFieldMarge) * 6.0F;
-
         public static Color kRowColorSelected;
         public static Color kRowColorSelectedDark;
         public static Color kRowColorError;
         public static Color kRowColorWarning;
         public static Color kRowColorTrash;
         public static Color kRowColorDisactive;
-
         public static GUIStyle KTableToolbar;
         public static GUIStyle KTableSearchTitle;
         public static GUIStyle KTableSearchMask;
@@ -132,15 +132,12 @@ namespace NetWorkedData
         public static GUIStyle KTableSearchClassIcon;
         public static GUIStyle KTableSearchIcon;
         public static GUIStyle KTableSearchTextfield;
-
         public static GUIStyle KTableClassToolbar;
         public static GUIStyle KTableClassPopup;
-
         public static float kTablePrefabWidth = 40.0F;
         public static float kTableSelectWidth = 20.0f;
         public static float kTableIDWidth = 45.0f;
         public static float kTableIconWidth = 44.0f;
-
         public static float kTableHeaderHeight = 30.0f;
         public static Color kTableHeaderColor;
         public static GUIStyle KTableHeaderSelect;
@@ -150,7 +147,6 @@ namespace NetWorkedData
         public static GUIStyle KTableHeaderIcon;
         public static GUIStyle KTableHeaderStatut;
         public static GUIStyle KTableHeaderReference;
-
         public static float kTableRowHeight = 40.0f;
         public static Color kRowColorLineWhite;
         public static Color kRowColorLineBlack;
@@ -164,21 +160,13 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         // Datas Selector
-        //public static Color kSelectorTileSelected;
-        //public static GUIStyle kSelectorTileDarkStyle;
-        //public static Color kSelectorRowSelected;
-        //public static GUIStyle kSelectorRowDarkStyle;
-        ////public static GUIStyle kDatasSelectorRowStyle;
-        //public static GUIStyle kDatasSelectorRowErrorStyle;
-
         public static GUIStyle kDataSelectorFieldStyle;
         public static GUIStyle kDataSelectorTileStyle;
         public static GUIStyle kDataSelectorRowStyle;
         public static float kDatasSelectorYOffset;
+
         //-------------------------------------------------------------------------------------------------------------
         // Data inspector properties
-        // TODO : all rename!! with right name!
-
         public static Color kIdentityColor; // inspector identity color area
         public static Color kPropertyColor; // inspector identity color area
 
@@ -283,7 +271,7 @@ namespace NetWorkedData
         public static Rect AssemblyArea(Rect sA, Rect sB)
         {
             float tXo = Math.Min(sA.x, sB.x);
-            float tXf = Math.Max(sA.x+sA.width, sB.x+sB.width);
+            float tXf = Math.Max(sA.x + sA.width, sB.x + sB.width);
             float tYo = Math.Min(sA.y, sB.y);
             float tYf = Math.Max(sA.y + sA.height, sB.y + sB.height);
             return new Rect(tXo, tYo, tXf - tXo, tYf - tYo);
@@ -321,7 +309,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Rect[,] DiviseArea(Rect sRect, int sX, int sY, bool sAlreadyMarged = true)
         {
-            Rect[,] rReturn = new Rect[sX,sY];
+            Rect[,] rReturn = new Rect[sX, sY];
             if (sX < 1)
             {
                 sX = 1;
@@ -344,7 +332,7 @@ namespace NetWorkedData
                 {
                     for (int tJ = 0; tJ < sY; tJ++)
                     {
-                        rReturn[tI,tJ] = new Rect(sRect.x + tI * tWL, sRect.y + tJ * tHL, tWW, tHH);
+                        rReturn[tI, tJ] = new Rect(sRect.x + tI * tWL, sRect.y + tJ * tHL, tWW, tHH);
                     }
                 }
             }
@@ -362,7 +350,7 @@ namespace NetWorkedData
                 {
                     for (int tJ = 0; tJ < sY; tJ++)
                     {
-                        rReturn[tI,tJ] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y + kFieldMarge + tJ * tHL, tWW, tHH);
+                        rReturn[tI, tJ] = new Rect(sRect.x + kFieldMarge + tI * tWL, sRect.y + kFieldMarge + tJ * tHL, tWW, tHH);
                     }
                 }
             }
@@ -374,65 +362,104 @@ namespace NetWorkedData
             StyleLoaded = false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void LoadStyles()
+        public static void LoadColor()
+        {
+
+            Color tBaseColor = NWDAppConfiguration.SharedInstance().TintColor;
+
+            //Color tBaseColor = NWDToolbox.Color255(25, 20, 34, 255);
+            Color tRedColor = NWDToolbox.ColorPercent(tBaseColor, 4F, 2F, 4F);
+
+            //Color tRedColor = NWDToolbox.Color255(102, 36, 131, 255);
+
+            //Debug.Log("LoadStyles()");
+            StyleLoaded = true;
+            kNetWorkedDataLogoContent = new GUIContent(kNetWorkedDataLogo);
+
+            // color force 
+
+            KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+            KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+            KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+            kRedElementColor = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+
+            kGreenElementColor = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
+            kYellowElementColor = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
+            kBlueElementColor = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
+            kOrangeElementColor = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
+            kGrayElementColor = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+
+            kSeparatorColor = new Color(0, 0, 0, 0.5F);
+
+            kLineColor = new Color(0, 0, 0, 0.5F);
+
+            kTitleColor = new Color(0, 0, 0, 0.3F);
+            //kTitleColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.3F);
+
+            kSectionColor = new Color(0, 0, 0, 0.2F);
+            //kSectionColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.2F);
+
+            kSubSectionColor = new Color(0, 0, 0, 0.1F);
+            //kSubSectionColor = new Color(102F / 255F, 36F / 255F, 131F / 255F, 0.1F);
+
+
+            kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
+            kRowColorSelectedDark = new Color(0.55f, 0.55f, 1.00f, 0.75f);
+
+
+            kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
+            kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
+            kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
+            kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
+
+
+            kTableHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.35f);
+
+            kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
+            kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
+
+            kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
+            kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
+
+            kNodeCanvasMargeBlack = new Color(0.1F, 0.1F, 0.1F, 1.0F);
+
+            kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
+            kNodeOverLineColor = new Color(0.50F, 0.50F, 0.50F, 0.70F);
+
+            // Inspector 
+
+            kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
+            kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
+
+            if (EditorGUIUtility.isProSkin)
+            {
+                kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+
+
+                kRedElementColor = tRedColor;
+
+                kRowColorSelected = NWDToolbox.ColorWithAlpha(tBaseColor, 0.8F);
+                kRowColorSelectedDark = NWDToolbox.ColorWithAlpha(tBaseColor, 0.8F);
+
+                kTitleColor = NWDToolbox.ColorWithAlpha(tBaseColor, 0.7F);
+                kSectionColor = NWDToolbox.ColorWithAlpha(tBaseColor, 0.5F);
+                kSubSectionColor = NWDToolbox.ColorWithAlpha(tBaseColor, 0.2F);
+
+
+                kRowColorLineWhite = NWDToolbox.ColorWithAlpha(NWDToolbox.MixColor(tBaseColor,Color.white), 0.25F);
+                //kRowColorLineBlack = NWDToolbox.ColorWithAlpha(NWDToolbox.MixColor(tBaseColor,Color.black), 0.25F);
+            }
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            public static void LoadStyles()
         {
             //NWEBenchmark.Start();
             if (StyleLoaded == false)
             {
-                //Debug.Log("LoadStyles()");
-                StyleLoaded = true;
-
-                // color force 
-
-                KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-                KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-                KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
-
-                kRedElementColor = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
-                kGreenElementColor = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
-                kYellowElementColor = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
-                kBlueElementColor = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
-                kOrangeElementColor = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
-                kGrayElementColor = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
-
-                kSeparatorColor = new Color(0, 0, 0, 0.5F);
-
-                kLineColor = new Color(0, 0, 0, 0.5F);
-
-                kTitleColor = new Color(0, 0, 0, 0.3F);
-
-                kSectionColor = new Color(0, 0, 0, 0.2F);
-
-                kSubSectionColor = new Color(0, 0, 0, 0.1F);
-
-                kRowColorSelected = new Color(0.55f, 0.55f, 1.00f, 0.25f);
-                kRowColorSelectedDark = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-                kRowColorError = new Color(1.00f, 0.00f, 0.00f, 0.55f);
-                kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
-                kRowColorTrash = new Color(0.00f, 0.00f, 0.00f, 0.45f);
-                kRowColorDisactive = new Color(0.00f, 0.00f, 0.00f, 0.35f);
-
-
-                kTableHeaderColor = new Color(0.0f, 0.0f, 0.0f, 0.35f);
-
-                kRowColorLineWhite = new Color(1.0f, 1.0f, 1.0f, 0.25f);
-                kRowColorLineBlack = new Color(0.0f, 0.0f, 0.0f, 0.25f);
-
-
-                //kSelectorTileSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-
-                //kSelectorRowSelected = new Color(0.55f, 0.55f, 1.00f, 0.75f);
-
-                kNodeCanvasMajor = new Color(1.0F, 1.0F, 1.0F, 0.20F);
-                kNodeCanvasMinor = new Color(1.0F, 1.0F, 1.0F, 0.10F);
-
-                kNodeCanvasMargeBlack = new Color(0.1F, 0.1F, 0.1F, 1.0F);
-
-                kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
-                kNodeOverLineColor = new Color(0.50F, 0.50F, 0.50F, 0.70F);
-
+                LoadColor();
                 // texture apply
-
                 kSeparatorTexture = new Texture2D(1, 1);
                 kSeparatorTexture.SetPixel(0, 0, kSeparatorColor);
                 kSeparatorTexture.Apply();
@@ -452,44 +479,33 @@ namespace NetWorkedData
                 kSubSectionTexture = new Texture2D(1, 1);
                 kSubSectionTexture.SetPixel(0, 0, kSubSectionColor);
                 kSubSectionTexture.Apply();
-
-
                 // Scrollview full marging
-
                 kScrollviewFullWidth = new GUIStyle(EditorStyles.inspectorFullWidthMargins);
                 kScrollviewFullWidth.padding = new RectOffset(0, 0, 0, 0);
                 kScrollviewFullWidth.margin = new RectOffset(0, 0, 0, 0);
-
                 // Separator
-
                 kSeparatorStyle = new GUIStyle(EditorStyles.label);
                 kSeparatorStyle.fontSize = 0;
                 kSeparatorStyle.normal.background = kSeparatorTexture;
                 kSeparatorStyle.padding = new RectOffset(2, 2, 2, 2);
                 kSeparatorStyle.margin = new RectOffset(0, 0, 1, 1);
                 kSeparatorStyle.fixedHeight = kSeparatorHeight;
-
                 // Line
-
                 kLineStyle = new GUIStyle(EditorStyles.label);
                 kLineStyle.fontSize = 0;
                 kLineStyle.normal.background = kLineTexture;
                 kLineStyle.padding = new RectOffset(0, 0, 0, 0);
                 kLineStyle.margin = new RectOffset(0, 0, 0, 0);
                 kLineStyle.fixedHeight = kLineHeight;
-
                 // general windows design 
-
                 kTitleStyle = new GUIStyle(EditorStyles.label);
                 kTitleStyle.fontSize = 14;
                 //kTitleStyle.fontStyle = FontStyle.Bold;
                 kTitleStyle.normal.background = kTitleTexture;
                 kTitleStyle.padding = new RectOffset(6, 2, 16, 2);
                 kTitleStyle.margin = new RectOffset(0, 0, 1, 1);
-                kTitleStyle.fixedHeight = kTitleStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+                kTitleStyle.fixedHeight = 48F;
                 kTitleStyle.richText = true;
-                //kTitleStyle.normal.textColor = Color.red;
-
                 kSectionStyle = new GUIStyle(EditorStyles.label);
                 kSectionStyle.fontSize = 12;
                 kSectionStyle.fontStyle = FontStyle.Italic;
@@ -497,8 +513,6 @@ namespace NetWorkedData
                 kSectionStyle.padding = new RectOffset(6, 2, 8, 2);
                 kSectionStyle.margin = new RectOffset(0, 0, 1, 1);
                 kSectionStyle.fixedHeight = kSectionStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-                //kSectionStyle.normal.textColor = Color.yellow;
-
                 kSubSectionStyle = new GUIStyle(EditorStyles.label);
                 kSubSectionStyle.fontSize = 12;
                 kSubSectionStyle.fontStyle = FontStyle.Italic;
@@ -506,15 +520,11 @@ namespace NetWorkedData
                 kSubSectionStyle.padding = new RectOffset(6, 2, 8, 2);
                 kSubSectionStyle.margin = new RectOffset(0, 0, 1, 1);
                 kSubSectionStyle.fixedHeight = kSubSectionStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-                //kSubSectionStyle.normal.textColor = Color.blue;
-
                 // Table design
-
                 KTableClassToolbar = new GUIStyle(GUI.skin.button);
                 KTableClassToolbar.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 KTableClassPopup = new GUIStyle(EditorStyles.popup);
                 KTableClassPopup.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
                 KTableToolbar = new GUIStyle(EditorStyles.toolbar);
                 KTableSearchIcon = new GUIStyle(EditorStyles.label);
                 KTableSearchTitle = new GUIStyle(EditorStyles.helpBox);
@@ -526,12 +536,9 @@ namespace NetWorkedData
                 KTableSearchMask = new GUIStyle(EditorStyles.layerMaskField);
                 KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
                 KTableSearchLabel = new GUIStyle(EditorStyles.label);
-
                 KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
-
                 float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
                 KTableSearchTitle.fixedHeight = tTableSearchHeight;
                 KTableSearchTextfield.fixedHeight = tTableSearchHeight;
                 KTableSearchToggle.fixedHeight = tTableSearchHeight;
@@ -539,10 +546,8 @@ namespace NetWorkedData
                 KTableSearchMask.fixedHeight = tTableSearchHeight;
                 KTableSearchButton.fixedHeight = tTableSearchHeight;
                 KTableSearchLabel.fixedHeight = tTableSearchHeight;
-
                 KTableSearchTitle.alignment = TextAnchor.MiddleCenter;
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
-
                 KTableHeaderSelect = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderPrefab = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderId = new GUIStyle(EditorStyles.helpBox);
@@ -550,7 +555,6 @@ namespace NetWorkedData
                 KTableHeaderInformations = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderStatut = new GUIStyle(EditorStyles.helpBox);
                 KTableHeaderReference = new GUIStyle(EditorStyles.helpBox);
-
                 KTableHeaderSelect.alignment = TextAnchor.MiddleCenter;
                 KTableHeaderPrefab.alignment = TextAnchor.MiddleCenter;
                 KTableHeaderId.alignment = TextAnchor.MiddleCenter;
@@ -558,7 +562,6 @@ namespace NetWorkedData
                 KTableHeaderInformations.alignment = TextAnchor.MiddleCenter;
                 KTableHeaderStatut.alignment = TextAnchor.MiddleCenter;
                 KTableHeaderReference.alignment = TextAnchor.MiddleCenter;
-
                 KTableRowSelect = new GUIStyle(EditorStyles.label);
                 KTableRowPrefab = new GUIStyle(EditorStyles.label);
                 KTableRowId = new GUIStyle(EditorStyles.label);
@@ -566,9 +569,7 @@ namespace NetWorkedData
                 KTableRowInformations = new GUIStyle(EditorStyles.label);
                 KTableRowStatut = new GUIStyle(EditorStyles.label);
                 KTableRowReference = new GUIStyle(EditorStyles.label);
-
                 KTableRowSelect.fixedHeight = KTableRowSelect.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
                 KTableRowSelect.alignment = TextAnchor.MiddleCenter;
                 KTableRowPrefab.alignment = TextAnchor.MiddleCenter;
                 KTableRowId.alignment = TextAnchor.MiddleRight;
@@ -576,67 +577,41 @@ namespace NetWorkedData
                 KTableRowInformations.alignment = TextAnchor.MiddleLeft;
                 KTableRowStatut.alignment = TextAnchor.MiddleCenter;
                 KTableRowReference.alignment = TextAnchor.MiddleRight;
-
                 KTableRowIcon.richText = true;
                 KTableRowInformations.richText = true;
                 KTableRowStatut.richText = true;
-
                 KTableRowIcon.padding = new RectOffset(10, 10, 10, 10);
                 KTableRowInformations.wordWrap = true;
-
                 // Inspector 
-
-                kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
-                kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
-
-                if (EditorGUIUtility.isProSkin)
-                {
-                    kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
-                    kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
-                }
-
                 kInspectorInternalTitle = new GUIStyle(EditorStyles.boldLabel);
                 kInspectorInternalTitle.alignment = TextAnchor.MiddleCenter;
                 kInspectorInternalTitle.fontSize = 14;
                 kInspectorInternalTitle.fixedHeight = kInspectorInternalTitle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kInspectorInternalTitle.richText = true;
-
                 kInspectorReferenceCenter = new GUIStyle(EditorStyles.miniLabel);
                 kInspectorReferenceCenter.fixedHeight = kInspectorReferenceCenter.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kInspectorReferenceCenter.alignment = TextAnchor.MiddleCenter;
-
-
                 kPropertyEntitlementStyle = new GUIStyle(EditorStyles.label);
                 kPropertyEntitlementStyle.fixedHeight = kPropertyEntitlementStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 kPropertyEntitlementStyle.richText = true;
-
                 kLabelStyle = new GUIStyle(EditorStyles.label);
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
                 kFooterLabelStyle = new GUIStyle(EditorStyles.label);
                 kFooterLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kFooterLabelStyle.richText = true;
-
-
                 kMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
                 kMiniLabelStyle.fixedHeight = kMiniLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
                 kBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
                 kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
                 kHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                 kHelpBoxStyle.fixedHeight = kHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), 100);
-
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
                 kObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
                 kObjectFieldStyle.fixedHeight = kObjectFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
-
                 kTextFieldStyle = new GUIStyle(EditorStyles.textField);
                 kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
                 kTextFieldStyle.richText = true;
-
                 kFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
                 kFloatFieldStyle.fixedHeight = kFloatFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100);
 
@@ -672,10 +647,8 @@ namespace NetWorkedData
                 kLabelRightStyle.alignment = TextAnchor.MiddleRight;
                 kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
-
                 kTextAreaStyle = new GUIStyle(EditorStyles.textField);
                 kTextAreaStyle.wordWrap = true;
-
 
                 kRedLabelStyle = new GUIStyle(EditorStyles.label);
                 kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
@@ -683,7 +656,6 @@ namespace NetWorkedData
 
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
 
                 // Data Selector design
 
@@ -695,9 +667,6 @@ namespace NetWorkedData
                 kDataSelectorFieldStyle.imagePosition = ImagePosition.ImageLeft;
                 kDataSelectorFieldStyle.border = new RectOffset(2, 2, 2, 2);
                 kDataSelectorFieldStyle.fixedHeight = kDataSelectorFieldStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-                //kDatasSelectorRowErrorStyle = new GUIStyle(kDataSelectorFieldStyle);
-                //kDatasSelectorRowErrorStyle.normal.textColor = Color.red;
-
                 // Selector design
 
                 kDataSelectorTileStyle = new GUIStyle(EditorStyles.helpBox);
@@ -708,14 +677,6 @@ namespace NetWorkedData
                 kDataSelectorTileStyle.alignment = TextAnchor.LowerCenter;
                 kDataSelectorTileStyle.fixedHeight = kDataSelectorTileStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
 
-                //kSelectorTileDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                //kSelectorTileDarkStyle.richText = true;
-                //kSelectorTileDarkStyle.fontSize = 14;
-                //kSelectorTileDarkStyle.imagePosition = ImagePosition.ImageAbove;
-                //kSelectorTileDarkStyle.border = new RectOffset(2, 2, 2, 4);
-                //kSelectorTileDarkStyle.alignment = TextAnchor.LowerCenter;
-                //kSelectorTileDarkStyle.fixedHeight = kSelectorTileDarkStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
                 kDataSelectorRowStyle = new GUIStyle(EditorStyles.helpBox);
                 kDataSelectorRowStyle.richText = true;
                 kDataSelectorRowStyle.fontSize = 14;
@@ -723,15 +684,6 @@ namespace NetWorkedData
                 kDataSelectorRowStyle.border = new RectOffset(2, 4, 2, 2);
                 kDataSelectorRowStyle.alignment = TextAnchor.MiddleLeft;
                 kDataSelectorRowStyle.fixedHeight = kDataSelectorRowStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
-                //kSelectorRowDarkStyle = new GUIStyle(EditorStyles.helpBox);
-                //kSelectorRowDarkStyle.richText = true;
-                //kSelectorRowDarkStyle.fontSize = 14;
-                //kSelectorRowDarkStyle.imagePosition = ImagePosition.ImageLeft;
-                //kSelectorRowDarkStyle.border = new RectOffset(2, 4, 2, 2);
-                //kSelectorRowDarkStyle.alignment = TextAnchor.MiddleLeft;
-                //kSelectorRowDarkStyle.fixedHeight = kSelectorRowDarkStyle.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
-
 
                 // References content
 
@@ -756,15 +708,6 @@ namespace NetWorkedData
                 kRightContentIcon = new GUIContent(kImageRight, ">");
 
                 kDatasSelectorYOffset = 2;
-
-                //kNodeContentIcon = new GUIContent("node");
-                //kEditContentIcon = new GUIContent("edit");
-                //kNewContentIcon = new GUIContent("new");
-                //kCleanContentIcon = new GUIContent("clean");
-                //kUpContentIcon = new GUIContent("up");
-                //kDownContentIcon = new GUIContent("down");
-                //kLeftContentIcon = new GUIContent("<");
-                //kRightContentIcon = new GUIContent(">");
             }
             //NWEBenchmark.Finish();
         }
@@ -799,6 +742,19 @@ namespace NetWorkedData
             sRect.height = kLineStyle.fixedHeight;
             GUI.Label(sRect, string.Empty, kLineStyle);
             sRect.y += kLineStyle.fixedHeight;
+            return sRect;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Rect Line(Rect sRect, Color sColor)
+        {
+            Texture2D tOldLineTexture = kLineStyle.normal.background;
+            Texture2D tLineTexture = new Texture2D(1, 1);
+            tLineTexture.SetPixel(0, 0, sColor);
+            tLineTexture.Apply();
+            kLineStyle.normal.background = tLineTexture;
+            GUI.Label(sRect, string.Empty, kLineStyle);
+            sRect.y += kLineStyle.fixedHeight;
+            kLineStyle.normal.background = tOldLineTexture;
             return sRect;
         }
         //-------------------------------------------------------------------------------------------------------------

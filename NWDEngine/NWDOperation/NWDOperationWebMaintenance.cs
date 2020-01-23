@@ -74,7 +74,7 @@ namespace NetWorkedData
                 {
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
-                GameObject tGameObjectToSpawn = new GameObject(sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
@@ -114,7 +114,7 @@ namespace NetWorkedData
         public override string ServerBase()
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string rURL = Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/" + ServerFile();
+            string rURL = Environment.GetServerHTTPS() + "/" + tFolderWebService + "/" + ServerFile();
             return rURL;
         }
         //-------------------------------------------------------------------------------------------------------------

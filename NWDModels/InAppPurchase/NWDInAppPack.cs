@@ -11,7 +11,6 @@
 //
 //=====================================================================================================================
 
-
 using System;
 
 //=====================================================================================================================
@@ -20,8 +19,8 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("IAP")]
-    [NWDClassDescriptionAttribute("In App Purchase descriptions Class")]
-    [NWDClassMenuNameAttribute("In App Purchase")]
+    [NWDClassDescriptionAttribute("In App Pack descriptions Class")]
+    [NWDClassMenuNameAttribute("In App Pack")]
     public partial class NWDInAppPack : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

@@ -58,7 +58,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(NWDTypeClass sData)
         {
-            if (NWDBasisHelper.FindTypeInfos(sData.GetType()).DatabaseIsLoaded())
+            if (NWDBasisHelper.FindTypeInfos(sData.GetType()).AllDatabaseIsLoaded())
             {
                 DataObject = sData;
             }
@@ -96,18 +96,18 @@ namespace NetWorkedData
                     ParentDocument.AnalyzeStyleClasses[tTypeOfThis.Name] == NWDClasseAnalyseEnum.Analyze
                     )
                 {
-                        bool tDataAllReadyShow = false;
+                        bool tDataAlReadyShow = false;
                         NWDNodeCard tCard = null;
                         foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                         {
                             if (tOldCard.DataObject == tObject)
                             {
-                                tDataAllReadyShow = true;
+                                tDataAlReadyShow = true;
                                 tCard = tOldCard;
                                 break;
                             }
                         }
-                        if (tDataAllReadyShow == false)
+                        if (tDataAlReadyShow == false)
                         {
                             tCard = new NWDNodeCard();
                             tCard.Column = Column + 1;

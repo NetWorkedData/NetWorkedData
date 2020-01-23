@@ -2,18 +2,77 @@
 //
 //  ideMobi 2019©
 //
+//  Date		2019-4-12 18:45:41
 //  Author		Kortex (Jean-François CONTART) 
 //  Email		jfcontart@idemobi.com
-//  Project 	SceneTransitionSystem for Unity3D
+//  Project 	NetWorkedData for Unity3D
 //
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
+
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// Class Exemple for create an Unity Singleton
+    /// 
+    /* public class NWESingletonExample : NWESingletonUnity<NWESingletonExample>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Create the singleton automatically at start of app
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod]
+        static void RuntimeInitializeOnLoad()
+        {
+            Singleton();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        protected override void Awake()
+        {
+            //Is reserved by singleton, if you need to use it, add the instance method base.Awake();
+            base.Awake();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void InitInstance()
+        {
+            // do something by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void OnSceneLoaded(Scene sScene, LoadSceneMode sMode)
+        {
+            // do something by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void Start()
+        {
+            //usable
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnEnable()
+        {
+            //usable
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnDisable()
+        {
+            //usable
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // decided if singleton delete just component or  gameobject with all components 
+        public override NWESingletonRoot DestroyRoot()
+        {
+            return NWESingletonRoot.Component;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    } */
+    /// </summary>
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWESingletonRoot
     {
@@ -51,18 +110,18 @@ namespace NetWorkedData
             return NWESingletonRoot.Component;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void Awake()
+        protected void InternalAwake()
         {
-            //Debug.Log("NWESingletonUnity<K> Awake() for gameobject named '" + gameObject.name + "'");
+            //Debug.Log("NWESingletonUnity<K> InternalAwake() for gameobject named '" + gameObject.name + "'");
             //Check if there is already an instance of K
             if (kSingleton == null)
             {
-                //Debug.Log("NWESingletonUnity<K> Awake() case kSingleton == null for gameobject named '" + gameObject.name + "'");
+                //Debug.Log("NWESingletonUnity<K> InternalAwake() case kSingleton == null for gameobject named '" + gameObject.name + "'");
                 //if not, set it to this.
                 kSingleton = this as K;
                 if (Initialized == false)
                 {
-                    //Debug.Log("NWESingletonUnity<K> Awake() case kSingleton.Initialized == false for gameobject named '" + gameObject.name + "'");
+                    //Debug.Log("NWESingletonUnity<K> InternalAwake() case kSingleton.Initialized == false for gameobject named '" + gameObject.name + "'");
                     // Init Instance
                     InitInstance();
                     // scene is use on laded new scene
@@ -78,7 +137,7 @@ namespace NetWorkedData
             //If instance already exists:
             if (kSingleton != this)
             {
-                //Debug.Log("NWESingletonUnity<K> Awake() case kSingleton != this for gameobject named '" + gameObject.name + "'");
+                //Debug.Log("NWESingletonUnity<K> InternalAwake() case kSingleton != this for gameobject named '" + gameObject.name + "'");
                 //Destroy this, this enforces our singleton pattern so there can only be one instance of SoundManager.
                 //Debug.Log("singleton prevent destruction gameobject named '" + gameObject.name + "'");
                 if (DestroyRoot() == NWESingletonRoot.Component)
@@ -90,6 +149,12 @@ namespace NetWorkedData
                     Destroy(gameObject);
                 }
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //[Obsolete("This method is reserved in Singleton pattern")]
+        protected virtual void Awake()
+        {
+            InternalAwake();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool SingletonExists()

@@ -24,8 +24,9 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().DevEnvironment.SavePreferences();
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.SavePreferences();
             NWDAppConfiguration.SharedInstance().ProdEnvironment.SavePreferences();
-#endif
+#else
             sEnvironment.SavePreferences ();
+#endif
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void LoadPreferences (NWDAppEnvironment sEnvironment)
@@ -34,8 +35,9 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().DevEnvironment.LoadPreferences();
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.LoadPreferences();
             NWDAppConfiguration.SharedInstance().ProdEnvironment.LoadPreferences();
-#endif
+#else
             sEnvironment.LoadPreferences ();
+#endif
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetPreferences (NWDAppEnvironment sEnvironment)
@@ -44,8 +46,9 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().DevEnvironment.ResetPreferences();
             NWDAppConfiguration.SharedInstance().PreprodEnvironment.ResetPreferences();
             NWDAppConfiguration.SharedInstance().ProdEnvironment.ResetPreferences();
-#endif
+#else
             sEnvironment.ResetPreferences ();
+#endif
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

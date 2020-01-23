@@ -11,7 +11,6 @@
 //
 //=====================================================================================================================
 
-
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
@@ -112,39 +111,39 @@ namespace NetWorkedData
                 //tAddEditor = true;
                 //}
                 bool tActive = true;
-                List<string> tEnvironment = new  List<string>();
+                List<string> tEnvironment = new List<string>();
 
-                if (tSign.DevSync>=0)
+                if (tSign.DevSync >= 0)
                 {
                     tEnvironment.Add(NWDConstants.K_DEVELOPMENT_NAME);
-                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                    if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
                     {
-                    tActive = false;
+                        tActive = false;
                     }
                 }
-                if (tSign.PreprodSync>=0)
+                if (tSign.PreprodSync >= 0)
                 {
                     tEnvironment.Add(NWDConstants.K_PREPRODUCTION_NAME);
-                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                    if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                     {
-                    tActive = false;
+                        tActive = false;
                     }
                 }
-                if (tSign.ProdSync>=0)
+                if (tSign.ProdSync >= 0)
                 {
                     tEnvironment.Add(NWDConstants.K_PRODUCTION_NAME);
-                    if( NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                    if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().ProdEnvironment)
                     {
-                    tActive = false;
+                        tActive = false;
                     }
                 }
                 EditorGUI.BeginDisabledGroup(tActive);
-                if (GUI.Button(tMatrix[0, tI], "Sign with " + tSign.SignType.ToString() +" "+string.Join(" ",tEnvironment), NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrix[0, tI], new GUIContent("Sign with " + tSign.SignType.ToString() + " " + string.Join(" ", tEnvironment), tSign.SignHash), NWDGUI.kMiniButtonStyle))
                 {
                     NWDDataManager.SharedInstance().AddWebRequestSignIn(tSign.SignHash);
                 }
                 EditorGUI.EndDisabledGroup();
-                if (GUI.Button(tMatrix[1,tI], "Edit" , NWDGUI.kMiniButtonStyle))
+                if (GUI.Button(tMatrix[1, tI], new GUIContent("Edit", tSign.SignHash), NWDGUI.kMiniButtonStyle))
                 {
                     NWDBasisHelper.BasisHelper<NWDAccountSign>().SetObjectInEdition(tSign);
                 }
@@ -162,9 +161,24 @@ namespace NetWorkedData
             tI++;
             NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
             tI++;
+
+            EditorGUI.BeginDisabledGroup(!NWDAccount.AccountCanSignOut());
             if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Log Out"))
             {
-            NWDDataManager.SharedInstance().AddWebRequestSignOut();
+                NWDDataManager.SharedInstance().AddWebRequestSignOut();
+            }
+            EditorGUI.EndDisabledGroup();
+            tI++;
+            NWDGUI.Separator(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]));
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp Fake Random"))
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.Fake, NWDToolbox.RandomStringUnix(32), null, null);
+            }
+            tI++;
+            if (GUI.Button(NWDGUI.AssemblyArea(tMatrix[0, tI], tMatrix[1, tI]), "Test SignUp email password"))
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSignUp(NWDAccountSignType.EmailPassword, NWDToolbox.RandomStringUnix(32), NWDAccountSign.GetRescueEmailHash(NWDAppEnvironment.SelectedEnvironment().RescueEmail), null);
             }
             tI++;
             /*
