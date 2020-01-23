@@ -20,7 +20,7 @@ using System.Reflection;
 using UnityEngine;
 
 using SQLite4Unity3d;
-//using BasicToolBox;
+using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -58,20 +58,20 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
             ClassEditorDataLoaded = 0;
             while (ClassEditorDataLoaded < ClassEditorExpected)
             {
                 ReloadAllObjectsByClassEditor(ClassEditorDataLoaded);
                 ClassEditorDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
                 yield return null;
             }
             DataEditorLoaded = true;
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
@@ -94,12 +94,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsEditor()
         {
-            NWEBenchmark.Start();
+            BTBBenchmark.Start();
             if (DataEditorConnected == true)
             {
                 DataEditorLoaded = false;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
                 ClassEditorExpected = mTypeNotAccountDependantList.Count();
                 ClassEditorDataLoaded = 0;
                 foreach (Type tType in mTypeNotAccountDependantList)
@@ -109,16 +109,16 @@ namespace NetWorkedData
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassEditorDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
                 }
                 NWDDataManager.SharedInstance().DataEditorLoaded = true;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
                 PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
             }
-            NWEBenchmark.Finish();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsAccount()
@@ -128,7 +128,7 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
             ClassAccountExpected = mTypeAccountDependantList.Count();
             ClassAccountDataLoaded = 0;
             while (ClassAccountDataLoaded < ClassAccountExpected)
@@ -136,14 +136,14 @@ namespace NetWorkedData
                 ReloadAllObjectsByClassAccount(ClassAccountDataLoaded);
                 ClassAccountDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
                 yield return null;
             }
             DataAccountLoaded = true;
             Debug.Log("NWDDataManager AsyncReloadAllObjects() post notification Account is loaded and All Datas is loaded");
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
@@ -165,11 +165,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsAccount()
         {
-            NWEBenchmark.Start();
+            BTBBenchmark.Start();
             if (DataAccountConnected == true)
             {
                 DataAccountLoaded = false;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
                 ClassAccountExpected = mTypeAccountDependantList.Count();
                 ClassAccountDataLoaded = 0;
                 foreach (Type tType in mTypeAccountDependantList)
@@ -179,17 +179,17 @@ namespace NetWorkedData
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassAccountDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+                    BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
                 }
                 DataAccountLoaded = true;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
                 PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
             }
-            NWEBenchmark.Finish();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncIndexAllObjects()
@@ -199,17 +199,17 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
             {
                 IndexAllObjectsByClass(ClassAccountDataLoaded);
                 ClassIndexation++;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
                 yield return null;
             }
             DataAccountLoaded = true;
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
@@ -230,17 +230,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
-            NWEBenchmark.Start();
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
+            BTBBenchmark.Start();
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.IndexAll();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }
+<<<<<<< Updated upstream
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
+            BTBBenchmark.Finish();
+=======
+            DatasIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             NWEBenchmark.Finish();
+            //Debug.Log("row indexed : "+ tRow + " rows.");
+>>>>>>> Stashed changes
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects()

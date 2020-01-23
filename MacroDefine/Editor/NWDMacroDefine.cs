@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
+﻿//=====================================================================================================================
+//
+//  ideMobi 2019©
+//
+//  Date		2019-11-06 9:45:00
+//  Author		Kortex (Jean-François CONTART) 
+//  Email		jfcontart@idemobi.com
+//  Project 	NetWorkedData for Unity3D
+//
+//  All rights reserved by ideMobi
+//
+//=====================================================================================================================
 
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
+using System.Collections.Generic;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedDataMacroDefine
@@ -16,10 +25,12 @@ namespace NetWorkedDataMacroDefine
 	public partial class NWDMacroDefine :  IActiveBuildTargetChanged
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		static NWDMacroDefine kSharedInstance = new NWDMacroDefine("NET_WORKED_DATA", true);
+		private static NWDMacroDefine kSharedInstance = new NWDMacroDefine("NET_WORKED_DATA", true);
         //-------------------------------------------------------------------------------------------------------------
-        string Macro;
-        bool Install;
+        private string Macro;
+        private bool Install;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMacroDefine () {}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDMacroDefine (string sMacro, bool sInstall)
 		{
@@ -42,6 +53,7 @@ namespace NetWorkedDataMacroDefine
 		//-------------------------------------------------------------------------------------------------------------
 		public void InstallMacro (BuildTargetGroup sBuildTarget)
 		{
+            //Debug.Log("InstallMacro "+ Install.ToString() + " macro " + Macro);
             List<string> tMacroList = new List<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(sBuildTarget).Split(new char[] { ';' }));
             if (Install == true)
             {

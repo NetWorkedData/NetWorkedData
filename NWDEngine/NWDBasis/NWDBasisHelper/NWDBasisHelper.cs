@@ -43,6 +43,23 @@ namespace NetWorkedData
             {
                 tObject.Index();
             }
+<<<<<<< Updated upstream
+=======
+            DataIndexed = true;
+#if UNITY_EDITOR
+           // Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsIndexed()
+        {
+            return DataIndexed;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsLoaded()
+        {
+            return DatasLoaded;
+>>>>>>> Stashed changes
         }
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
