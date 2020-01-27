@@ -302,9 +302,19 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sID"></param>
         /// <returns></returns>
+        public static K GetForValue(long sID, K sDefault)
+        {
+            K rReturn = sDefault;
+            if (kList.ContainsKey(sID))
+            {
+                rReturn = kList[sID];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static K GetForValue(long sID)
         {
-            return kList[sID];
+            return GetForValue(sID, None);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -312,9 +322,19 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sName"></param>
         /// <returns></returns>
+        public static K GetForValue(string sName, K sDefault)
+        {
+            K rReturn = sDefault;
+            if (kStringList.ContainsKey(sName))
+            {
+                rReturn = kStringList[sName];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static K GetForValue(string sName)
         {
-            return kStringList[sName];
+            return GetForValue(sName, None);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
