@@ -150,6 +150,12 @@ namespace NetWorkedData
             NWDGUILayout.Line();
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
+
+            NWDGUILayout.Section("Slack with Editor");
+            NWDGUILayout.SubSection("Webhook URL");
+            NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
+
+
             NWDGUILayout.Section("Account");
             NWDGUILayout.SubSection("Account Anonymous");
             //NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal = EditorGUILayout.ToggleLeft("Anonymous account is stored on system device!", NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal);
