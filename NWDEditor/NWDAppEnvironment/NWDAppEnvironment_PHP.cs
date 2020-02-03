@@ -105,6 +105,21 @@ namespace NetWorkedData
             return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string RootFolder(bool sWriteOnDisk = true)
+        {
+            //NWEBenchmark.Start();
+            string rReturn = string.Empty;
+            if (sWriteOnDisk == true)
+            {
+                rReturn = NWDToolbox.FindOwnerServerFolder();
+            }
+            else
+            {
+            }
+            //NWEBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string EnvFolder(bool sWriteOnDisk = true)
         {
             //NWEBenchmark.Start();
