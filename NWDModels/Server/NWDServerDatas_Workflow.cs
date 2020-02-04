@@ -73,17 +73,20 @@ namespace NetWorkedData
         public NWDServerDatabaseAuthentication GetServerDatabase(NWDAppEnvironment sEnvironment)
         {
             NWDServerDatabaseAuthentication rReturn = null;
-            NWDServerDomain tServerDNS = Server.GetRawData();
-            if (tServerDNS != null)
+            if (Server != null)
             {
-
-                if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
+                NWDServerDomain tServerDNS = Server.GetRawData();
+                if (tServerDNS != null)
                 {
-                    if ((sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tServerDNS.Dev == true) ||
-                        (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tServerDNS.Preprod == true) ||
-                        (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tServerDNS.Prod == true))
+
+                    if (string.IsNullOrEmpty(tServerDNS.ServerDNS) == false)
                     {
-                        rReturn = new NWDServerDatabaseAuthentication(NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLPassword.ToString()));
+                        if ((sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tServerDNS.Dev == true) ||
+                            (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tServerDNS.Preprod == true) ||
+                            (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tServerDNS.Prod == true))
+                        {
+                            rReturn = new NWDServerDatabaseAuthentication(NWDToolbox.TextUnprotect(MySQLIP.GetValue()), MySQLPort, NWDToolbox.TextUnprotect(MySQLBase), NWDToolbox.TextUnprotect(MySQLUser), NWDToolbox.TextUnprotect(MySQLPassword.ToString()));
+                        }
                     }
                 }
             }

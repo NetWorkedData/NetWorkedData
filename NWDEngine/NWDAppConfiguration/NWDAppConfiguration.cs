@@ -79,6 +79,8 @@ namespace NetWorkedData
         //public bool AnonymousPlayerIsLocal = true;
         public bool AnonymousDeviceConnected = true;
 
+        public string SlackWebhookURL = "";
+
         public bool SurProtected = false; //TODO:  rename OverProtected
         public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
         public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
