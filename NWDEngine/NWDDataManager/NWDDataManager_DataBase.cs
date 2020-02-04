@@ -86,13 +86,6 @@ namespace NetWorkedData
 
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
 
-                // Show SQL password database in console
-                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
-                    NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-                {
-                    Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " : " + tEditorPass);
-                }
-
                 try
                 {
                     SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
@@ -132,6 +125,15 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionEditor is not valid!");
                 }
                 DataEditorConnectionInProgress = false;
+
+
+                // Show SQL password database in console
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
+                    NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                {
+                    var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
+                    Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + tEditorPass);
+                }
             }
             else
             {
@@ -180,11 +182,6 @@ namespace NetWorkedData
                 DataAccountConnectionInProgress = true;
                 string tDatabasePathAccount = PathDatabaseAccount();
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass(sSurProtection);
-                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
-                || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-                {
-                    Debug.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " : " + tAccountPass);
-                }
 
                 //if (NWDAppConfiguration.SharedInstance().SurProtected == true)
                 //{
@@ -226,6 +223,14 @@ namespace NetWorkedData
                 }
                 DataAccountConnectionInProgress = false;
                 //}
+
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
+                || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                {
+
+                    var fileInfo = new System.IO.FileInfo(tDatabasePathAccount);
+                    Debug.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + tAccountPass);
+                }
             }
             else
             {

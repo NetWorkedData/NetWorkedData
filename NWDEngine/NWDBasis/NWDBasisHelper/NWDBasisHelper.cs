@@ -50,7 +50,7 @@ namespace NetWorkedData
             }
             DataIndexed = true;
 #if UNITY_EDITOR
-            Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
+            //Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -161,6 +161,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
+            NWEBenchmark.Start();
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
             ResultInfos = new NWDOperationResult();
             // reinit benchmark stat values
@@ -509,6 +510,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()
