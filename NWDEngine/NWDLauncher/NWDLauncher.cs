@@ -101,11 +101,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
-            NWEBenchmark.Start("NetWorkedData");
             if (Launched == false)
             {
+                NWEBenchmark.Start("NetWorkedData");
                 Launched = true;
-
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
 #if UNITY_EDITOR

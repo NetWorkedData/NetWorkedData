@@ -96,13 +96,13 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueExecute()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             if (DataInWritingProcess())
             {
                 DataQueueMainExecute();
                 DataQueuePoolExecute();
             }
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -110,7 +110,7 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueMainExecute()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             if (DataInWritingProcess())
             {
                 List<NWDTypeClass> tInsertDataQueueMain = new List<NWDTypeClass>(kInsertDataQueueMain);
@@ -123,7 +123,7 @@ namespace NetWorkedData
                 UpdateDataQueueExecute(tUpdateDataQueueMain);
                 DeleteDataQueueExecute(tDeleteDataQueueMain);
             }
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -131,7 +131,7 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueuePoolExecute()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             if (DataInWritingProcess())
             {
                 List<NWDTypeClass> tInsertDataQueuePool = new List<NWDTypeClass>(kInsertDataQueuePool);
@@ -146,7 +146,7 @@ namespace NetWorkedData
                 tDeleteDataQueuePool
             });
             }
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -154,7 +154,7 @@ namespace NetWorkedData
         /// </summary>
         private void DataQueuePoolThread(object sState)
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             object[] tParam = sState as object[];
             List<NWDTypeClass> tInsertDataQueue = tParam[0] as List<NWDTypeClass>;
             List<NWDTypeClass> tUpdateDataQueue = tParam[1] as List<NWDTypeClass>;
@@ -162,7 +162,7 @@ namespace NetWorkedData
             InsertDataQueueExecute(tInsertDataQueue);
             UpdateDataQueueExecute(tUpdateDataQueue);
             DeleteDataQueueExecute(tDeleteDataQueue);
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Queue Data

@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadBalacing(int sAvg)
         {
-            Debug.Log("LoadBalacing() " + sAvg);
+            //Debug.Log("LoadBalacing() " + sAvg);
             bool tChangeServer = true;
             NWDAccountInfos rAccountInfos = CurrentData();
             if (rAccountInfos != null)

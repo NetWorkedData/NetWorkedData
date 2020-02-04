@@ -313,8 +313,8 @@ namespace NetWorkedData
                     {
                         tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
                         NWEBenchmark.Increment(tListOfRows.Count);
-                        Debug.Log("TEST DATAS : " + tListOfRows.Count + " rows");
-                       NWEBenchmark.Start("TEST DATAS");
+                        //Debug.Log("TEST DATAS : " + tListOfRows.Count + " rows");
+                       //NWEBenchmark.Start("TEST DATAS");
                         if (tListOfRows.Count > 0)
                         {
                             //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
@@ -343,7 +343,7 @@ namespace NetWorkedData
                             NWDDataInspector.ShareInstance().Repaint();
 #endif
                         }
-                        NWEBenchmark.Finish("TEST DATAS");
+                        //NWEBenchmark.Finish("TEST DATAS");
                     }
                     else
                     {

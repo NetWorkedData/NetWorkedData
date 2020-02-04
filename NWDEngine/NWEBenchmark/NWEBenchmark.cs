@@ -49,11 +49,13 @@ namespace NetWorkedData
         {
             if (cStartDico.ContainsKey(sKey) == true)
             {
-                cStartDico[sKey] = DateTime.Now;
+                //cStartDico[sKey] = DateTime.Now;
                 cCounterDico[sKey] = 0;
                 cTagDico[sKey] = string.Empty;
                 cMaxDico[sKey] = kMaxDefault;
                 cMaxGranDico[sKey] = kMaxPerOperationDefault;
+
+                UnityEngine.Debug.Log("benchmark : '" + sKey + " all ready started!");
             }
             else
             {
@@ -62,8 +64,9 @@ namespace NetWorkedData
                 cTagDico.Add(sKey, string.Empty);
                 cMaxDico.Add(sKey, kMaxDefault);
                 cMaxGranDico.Add(sKey,kMaxPerOperationDefault);
+
+                UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
             }
-          // UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Tag(string sTag)

@@ -42,11 +42,11 @@ namespace NetWorkedData
         public void IndexAll()
         {
             DataIndexed = false;
-            int tRow = 0;
+            //int tRow = 0;
             foreach (NWDTypeClass tObject in Datas)
             {
                 tObject.Index();
-                tRow++;
+                //tRow++;
             }
             DataIndexed = true;
 #if UNITY_EDITOR

@@ -387,8 +387,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList, NWDOperationSpecial sSpecial)
         {
-            NWEBenchmark.Start();
-            Debug.Log("SynchronizationPullClassesDatas()");
+            //NWEBenchmark.Start();
+            //Debug.Log("SynchronizationPullClassesDatas()");
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
             {
@@ -423,7 +423,7 @@ namespace NetWorkedData
             {
                 NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
             }
-            NWEBenchmark.Finish();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> SynchronizationPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
