@@ -47,6 +47,8 @@ namespace NetWorkedData
             {
                 LaunchNext();
             }
+
+            Debug.Log("sqlite version "+ SQLite4Unity3d.SQLite3.LibVersionNumber());
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void ConnectToDatabaseEditor()

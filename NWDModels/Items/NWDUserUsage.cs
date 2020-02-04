@@ -26,7 +26,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Informations", true, true, true)] // ok
-        [Indexed("AccountIndex", 0)]
+        //[Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave
         {

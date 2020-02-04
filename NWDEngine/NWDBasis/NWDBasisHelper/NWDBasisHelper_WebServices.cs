@@ -67,7 +67,7 @@ namespace NetWorkedData
         public NWDTypeClass SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         {
             //Debug.Log("SynchronizationTryToUse ()");
-
+            //NWEBenchmark.Start();
             NWDTypeClass rReturn = null;
             string[] tDataArray = sData.Split(NWDConstants.kStandardSeparator.ToCharArray());
             for (int tI = 0; tI < tDataArray.Length; tI++)
@@ -75,7 +75,8 @@ namespace NetWorkedData
                 tDataArray[tI] = NWDToolbox.TextCSVUnprotect(tDataArray[tI]);
             }
             // I need to test the integrity of datas... 
-            bool tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
+            bool tIntegrityTest = true;
+            tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
             if (tIntegrityTest == false)
             {
 #if UNITY_EDITOR
@@ -88,6 +89,7 @@ namespace NetWorkedData
             {
                 rReturn = SynchronizationInsertInBase(sInfos, sEnvironment, tDataArray);
             }
+            //NWEBenchmark.Finish();
             return rReturn;
         }
 
@@ -310,7 +312,9 @@ namespace NetWorkedData
                     if (tClassResult.ContainsKey(NWD.K_WEB_DATA_KEY))
                     {
                         tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
-                        //NWEBenchmark.Increment(tListOfRows.Count);
+                        NWEBenchmark.Increment(tListOfRows.Count);
+                        Debug.Log("TEST DATAS : " + tListOfRows.Count + " rows");
+                       NWEBenchmark.Start("TEST DATAS");
                         if (tListOfRows.Count > 0)
                         {
                             //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
@@ -339,6 +343,7 @@ namespace NetWorkedData
                             NWDDataInspector.ShareInstance().Repaint();
 #endif
                         }
+                        NWEBenchmark.Finish("TEST DATAS");
                     }
                     else
                     {
