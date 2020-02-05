@@ -139,9 +139,9 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DataLocalizationManager) + "." + NWDToolbox.PropertyName(() => this.DataLocalizationManager.LanguagesString) + " = \"" + this.DataLocalizationManager.LanguagesString + "\";");
             //rReturn.AppendLine("AnonymousPlayerIsLocal = " + AnonymousPlayerIsLocal.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AnonymousDeviceConnected) + " = " + AnonymousDeviceConnected.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideMaxMethod) + " = " + OverrideMaxMethod.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideMaxMethodInPlayMode) + " = " + OverrideMaxMethodInPlayMode.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideMaxMethodAll) + " = " + OverrideMaxMethodAll.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethod) + " = " + OverrideCacheMethod.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethodInPlayMode) + " = " + OverrideCacheMethodInPlayMode.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethodEverywhere) + " = " + OverrideCacheMethodEverywhere.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SurProtected) + " = " + SurProtected.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMin) + " = " + PinCodeLenghtMin.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMax) + " = " + PinCodeLenghtMax.ToString().ToLower() + ";");

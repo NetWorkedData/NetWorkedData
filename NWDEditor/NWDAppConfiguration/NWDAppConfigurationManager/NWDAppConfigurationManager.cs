@@ -153,16 +153,16 @@ namespace NetWorkedData
 
             NWDGUILayout.Section("Override on compile");
             NWDGUILayout.SubSection("Override max methods on compile");
-            NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll);
-            if (NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll == false)
+            NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere);
+            if (NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere == false)
             {
-                NWDAppConfiguration.SharedInstance().OverrideMaxMethod = EditorGUILayout.Toggle("Override", NWDAppConfiguration.SharedInstance().OverrideMaxMethod);
-                NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode = EditorGUILayout.Toggle("Override in PlayMode", NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode);
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethod = EditorGUILayout.Toggle("Override", NWDAppConfiguration.SharedInstance().OverrideCacheMethod);
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode = EditorGUILayout.Toggle("Override in PlayMode", NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode);
             }
             else
             {
-                NWDAppConfiguration.SharedInstance().OverrideMaxMethod = true;
-                NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode = true;
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethod = true;
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode = true;
             }
 
             NWDGUILayout.Section("Slack with Editor");

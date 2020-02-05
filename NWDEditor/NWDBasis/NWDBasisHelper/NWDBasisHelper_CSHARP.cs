@@ -78,9 +78,9 @@ namespace NetWorkedData
 
                     rReturn.AppendLine("public override void InitHelper(Type sType)");
                     rReturn.AppendLine("{");
-                    if (tApp.OverrideMaxMethodAll == false)
+                    if (tApp.OverrideCacheMethodEverywhere == false)
                     {
-                        if (tApp.OverrideMaxMethodInPlayMode == false)
+                        if (tApp.OverrideCacheMethodInPlayMode == false)
                         {
                             rReturn.AppendLine("if (Application.isEditor == false)");
                         }
@@ -223,7 +223,7 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-            CreationCSHARP_PreCompileOption(tApp.OverrideMaxMethod);
+            CreationCSHARP_PreCompileOption(tApp.OverrideCacheMethod);
             // Write data ...
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine("public void " + ClassNamePHP + NWD.K_LOADER + "()");
@@ -261,7 +261,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            if (NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll == false)
+            if (NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere == false)
             {
                 rReturn.AppendLine("#if UNITY_EDITOR");
                 rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"" + TablePrefix + "\";");
