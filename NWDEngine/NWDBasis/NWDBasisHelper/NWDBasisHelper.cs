@@ -456,7 +456,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InstallHelper()
         {
-            NWEBenchmark.Start();
+            //NWEBenchmark.Start();
             if (StringsDictionary.ContainsKey(ClassNamePHP))
             {
                 Debug.LogWarning(ClassNamePHP + " already in StringsDictionary!");
@@ -530,7 +530,7 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTypeLoadedList.Add(ClassType);
             }
-            NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
+            //NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)

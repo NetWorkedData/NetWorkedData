@@ -148,7 +148,7 @@ namespace NetWorkedData
                     }
                 }
                 //NWEBenchmark.Finish("Launcher() reflexion");
-                //NWEBenchmark.Start("Launcher() loop");
+                NWEBenchmark.Start("Launcher() loop");
                 foreach (Type tType in tAllNWDTypes)
                 {
                     //Debug.Log(" **********************************************************");
@@ -161,7 +161,7 @@ namespace NetWorkedData
                     //Debug.Log(" **********************************************************");
                 }
                 AllTypes = tTypeList.ToArray();
-                //NWEBenchmark.Finish("Launcher() loop", true, " count class : " + tTypeList.Count);
+                NWEBenchmark.Finish("Launcher() loop", true, " count class : " + tTypeList.Count);
                 NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
                 NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
                 NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();

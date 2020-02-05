@@ -37,10 +37,11 @@ namespace NetWorkedData
             string tPathType = tCompileFolderPath + "/" + ClassNamePHP + "_override.cs";
             if (sCreate == false)
             {
-                if (File.Exists(tPathType) == true)
-                {
-                    File.Delete(tPathType);
-                }
+                //if (File.Exists(tPathType) == true)
+                //{
+                //    File.Delete(tPathType);
+                //}
+                File.WriteAllText(tPathType, "");
             }
             else
             {
@@ -77,13 +78,20 @@ namespace NetWorkedData
 
                     rReturn.AppendLine("public override void InitHelper(Type sType)");
                     rReturn.AppendLine("{");
-                    if (tApp.OverrideMaxMethodInPlayMode == false)
+                    if (tApp.OverrideMaxMethodAll == false)
                     {
-                        rReturn.AppendLine("if (Application.isEditor == false)");
+                        if (tApp.OverrideMaxMethodInPlayMode == false)
+                        {
+                            rReturn.AppendLine("if (Application.isEditor == false)");
+                        }
+                        else
+                        {
+                            rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                        }
                     }
                     else
                     {
-                       rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                        rReturn.AppendLine("if (true)");
                     }
                     rReturn.AppendLine("{");
                     // NWDHelper override start
@@ -140,9 +148,9 @@ namespace NetWorkedData
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexRemoveMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
                     }
 
-                    if (ClassGameDependentProperties!=null)
+                    if (ClassGameDependentProperties != null)
                     {
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameDependentProperties) + " = ClassType.GetProperty(\"" + ClassGameDependentProperties.Name + "\");");
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameDependentProperties) + " = ClassType.GetProperty(\"" + ClassGameDependentProperties.Name + "\");");
                     }
                     if (GameSaveMethod != null)
                     {
@@ -171,6 +179,24 @@ namespace NetWorkedData
                     rReturn.AppendLine("{");
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     // NWDBasis override
+                    rReturn.AppendLine("public override void Index()");
+                    rReturn.AppendLine("{");
+                    foreach (MethodInfo tMethod in IndexInsertMethodList)
+                    {
+                        rReturn.AppendLine(tMethod.Name + "();");
+                        rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
+                    }
+                    rReturn.AppendLine("}");
+                    rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+
+                    rReturn.AppendLine("public override void Desindex()");
+                    rReturn.AppendLine("{");
+                    foreach (MethodInfo tMethod in IndexRemoveMethodList)
+                    {
+                        rReturn.AppendLine(tMethod.Name + "();");
+                    }
+                    rReturn.AppendLine("}");
+
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -181,6 +207,7 @@ namespace NetWorkedData
                     File.WriteAllText(tPathType, rReturnTypeFormatted);
                 }
             }
+            AssetDatabase.ImportAsset(tPathType, ImportAssetOptions.ForceUpdate);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()
@@ -234,23 +261,26 @@ namespace NetWorkedData
                     }
                 }
             }
-            rReturn.AppendLine("#if UNITY_EDITOR");
-            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"" + TablePrefix + "\";");
-            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Clear();");
-            foreach (KeyValuePair<int, string> tKeyValue in WebModelSQLOrder.OrderBy(x => x.Key))
+            if (NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll == false)
             {
-                if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
+                rReturn.AppendLine("#if UNITY_EDITOR");
+                rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.TablePrefixOld) + " = \"" + TablePrefix + "\";");
+                rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Clear();");
+                foreach (KeyValuePair<int, string> tKeyValue in WebModelSQLOrder.OrderBy(x => x.Key))
                 {
-                    if (tApp.WSList[tKeyValue.Key] == true)
+                    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
                     {
-                        rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+                        if (tApp.WSList[tKeyValue.Key] == true)
+                        {
+                            rReturn.AppendLine("tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelSQLOrder) + ".Add(" + tKeyValue.Key + ", \"" + tKeyValue.Value.Replace("\"", "\\\"") + "\");");
+                        }
                     }
                 }
+                rReturn.AppendLine("tBasisHelper.ModelAnalyze();");
+                rReturn.AppendLine("//tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelChanged) + " = " + ClassNamePHP + ".ModelChanged();");
+                rReturn.AppendLine("//tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelDegraded) + " = " + ClassNamePHP + ".ModelDegraded();");
+                rReturn.AppendLine("#endif");
             }
-            rReturn.AppendLine("tBasisHelper.ModelAnalyze();");
-            rReturn.AppendLine("//tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelChanged) + " = " + ClassNamePHP + ".ModelChanged();");
-            rReturn.AppendLine("//tBasisHelper." + NWDToolbox.PropertyName(() => this.WebModelDegraded) + " = " + ClassNamePHP + ".ModelDegraded();");
-            rReturn.AppendLine("#endif");
             rReturn.AppendLine("}");
             rReturn.AppendLine("}");
             //NWEBenchmark.Finish();

@@ -81,6 +81,7 @@ namespace NetWorkedData
 
         public string SlackWebhookURL = "";
 
+        public bool OverrideMaxMethodAll = false;
         public bool OverrideMaxMethod = false;
         public bool OverrideMaxMethodInPlayMode = false;
 

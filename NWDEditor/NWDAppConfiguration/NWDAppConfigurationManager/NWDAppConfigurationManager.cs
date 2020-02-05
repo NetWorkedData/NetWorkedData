@@ -153,8 +153,17 @@ namespace NetWorkedData
 
             NWDGUILayout.Section("Override on compile");
             NWDGUILayout.SubSection("Override max methods on compile");
-            NWDAppConfiguration.SharedInstance().OverrideMaxMethod = EditorGUILayout.Toggle("Override", NWDAppConfiguration.SharedInstance().OverrideMaxMethod);
-            NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode = EditorGUILayout.Toggle("Override in PlayMode", NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode);
+            NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll);
+            if (NWDAppConfiguration.SharedInstance().OverrideMaxMethodAll == false)
+            {
+                NWDAppConfiguration.SharedInstance().OverrideMaxMethod = EditorGUILayout.Toggle("Override", NWDAppConfiguration.SharedInstance().OverrideMaxMethod);
+                NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode = EditorGUILayout.Toggle("Override in PlayMode", NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode);
+            }
+            else
+            {
+                NWDAppConfiguration.SharedInstance().OverrideMaxMethod = true;
+                NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode = true;
+            }
 
             NWDGUILayout.Section("Slack with Editor");
             NWDGUILayout.SubSection("Webhook URL");
