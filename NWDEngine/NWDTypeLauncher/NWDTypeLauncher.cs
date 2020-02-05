@@ -29,13 +29,24 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDTypeLauncherType
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static void PreCompiledData()
+        {
+            
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDTypeLauncher is the first class launch in the NetWorkedData lib. It's used to determine the class model and interaction.
     /// </summary>
 #if UNITY_EDITOR
     [InitializeOnLoad]
 #endif
-    public class NWDTypeLauncher // TODO : put in static?
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDTypeLauncher : NWDTypeLauncherType
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -102,178 +113,63 @@ namespace NetWorkedData
             // not double launching!
             if (NWDLauncher.GetState() == NWDStatut.EngineLaunching)
             {
+                NWEBenchmark.Start("### LAUNCH CLASSES DECLARE");
                 // craeta a list to reccord all classes
                 List<Type> tTypeList = new List<Type>();
                 // Find all Type of NWDType
                 //NWEBenchmark.Start("Launcher() reflexion");
+
+                Dictionary<Type, Type> BasisToHelperList = new Dictionary<Type, Type>();
+                List<Type> BasisTypeList = new List<Type>();
                 Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
                 // sort and filter by NWDBasis (NWDTypeClass subclass)
-                Type[] tAllNWDTypes = (from System.Type type in tAllTypes
-                                       where type.IsSubclassOf(typeof(NWDTypeClass))
-                                       select type).ToArray();
-                //NWEBenchmark.Finish("Launcher() reflexion");
+                Type[] tAllNWDTypes = (from System.Type type in tAllTypes where type.IsSubclassOf(typeof(NWDTypeClass)) select type).ToArray();
+                Type[] tAllHelperDTypes = (from System.Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
                 foreach (Type tType in tAllNWDTypes)
                 {
-                    // not the NWDBasis because it's generic class
-                    if (tType.ContainsGenericParameters == false)
+                    if (tType != typeof(NWDBasis))
                     {
-                        // add type in list of class
-                        tTypeList.Add(tType);
-                        // invoke the ClassDeclare method!
-
-                        NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType);
-
-                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
-
-                        //if (tMethodInfo != null)
-                        //{
-                        //    tMethodInfo.Invoke(null, null);
-                        //}
+                        BasisTypeList.Add(tType);
+                        foreach (Type tPossibleHelper in tAllHelperDTypes)
+                        {
+                            if (tPossibleHelper.ContainsGenericParameters == false)
+                            {
+                                if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                {
+                                    BasisToHelperList.Add(tType, tPossibleHelper);
+                                    break;
+                                }
+                            }
+                        }
+                        if (BasisToHelperList.ContainsKey(tType) == false)
+                        {
+                            BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                        }
                     }
                 }
+                //NWEBenchmark.Finish("Launcher() reflexion");
+                //NWEBenchmark.Start("Launcher() loop");
+                foreach (Type tType in tAllNWDTypes)
+                {
+                    //Debug.Log(" **********************************************************");
+                    if (tType != typeof(NWDBasis))
+                    {
+                        // not the NWDBasis because it's generic class
+                            tTypeList.Add(tType);
+                            NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType, BasisToHelperList[tType]);
+                    }
+                    //Debug.Log(" **********************************************************");
+                }
                 AllTypes = tTypeList.ToArray();
+                //NWEBenchmark.Finish("Launcher() loop", true, " count class : " + tTypeList.Count);
                 NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
                 NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
                 NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
                 NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
+
+                NWEBenchmark.Finish("### LAUNCH CLASSES DECLARE");
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //public static void DatabaseEditorLauncher()
-        //{
-        //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataEditorConnected == false)
-        //    {
-        //        if (NWDDataManager.SharedInstance().ConnectToDatabaseEditor())
-        //        {
-        //            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
-        //        }
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static void DatabaseEditorLoadDatas()
-        //{
-        //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataEditorConnected == true)
-        //    {
-        //        if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
-        //        {
-        //            NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
-        //        }
-        //        NWDDataManager.SharedInstance().DataEditorLoaded = true;
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static void DatabaseAccountLauncher()
-        //{
-        //    NWEBenchmark.Start();
-        //    if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == false && IsLaunching == true)
-        //    {
-        //        string tSurProtection = string.Empty;
-        //        if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-        //        {
-        //            NWDTypeLauncher.CodePinNeeded = true;
-        //            NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
-        //            if (tShareInstance.DatabaseAccountExists() == false)
-        //            {
-        //                Debug.LogWarning("### Database NOT EXISTS");
-        //                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
-        //                NWDTypeLauncher.CodePinCreationNeeded = true;
-        //            }
-        //            else
-        //            {
-        //                Debug.LogWarning("### Database EXISTS NEED PINCODE");
-        //                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            DatabaseAccountConnection(string.Empty);
-        //        }
-        //    }
-        //    NWEBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-//        public static void DatabaseAccountConnection(string sSurProtection)
-//        {
-//            Debug.Log("<color=orange>DatabaseAccountConnection(" + sSurProtection + ")</color>");
-//            NWEBenchmark.Start();
-//            //if (IsLaunched == true && DataAccountConnected == false && IsLaunching == true)
-//            if (NWDDataManager.SharedInstance().DataAccountConnected == false)
-//            {
-//                CodePinTentative++;
-//                // Get ShareInstance of datamanager instance
-//                if (NWDDataManager.SharedInstance().ConnectToDatabaseAccount(sSurProtection) == false)
-//                {
-//                    if (CodePinTentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
-//                    {
-//#if UNITY_EDITOR
-//                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
-//#endif
-//                        Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
-//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
-//                        //DatabaseAccountLauncher();
-//                    }
-//                    else
-//                    {
-//                        Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
-//                        // Kill App || Destroy Database || Call FBI || Vodoo ?
-//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_STOP);
-//                    }
-//                }
-//                else
-//                {
-//                    CodePinTentative = 0;
-//                    if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-//                    {
-//                        Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
-//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
-//                    }
-//                    NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
-//                    Debug.Log("<color=orange>Database is connected</color>");
-//                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_CONNECTED);
-//#if UNITY_EDITOR
-//                    if (Application.isEditor && Application.isPlaying == false)
-//                    {
-//                        DatabaseAccountLoadDatas();
-//                    }
-//#endif
-        //        }
-        //    }
-        //    NWEBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-//        public static void DatabaseAccountLoadDatas()
-//        {
-//            NWEBenchmark.Start();
-//            if (IsLaunched == true && NWDDataManager.SharedInstance().DataAccountConnected == true)
-//            {
-//                // Ok database is connected
-//                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_CONNECTED);
-//                // start to lauch datas from database
-//                // create, recreate or update all account's tables!
-//                // Loaded data 
-//                if (NWDDataManager.SharedInstance().DataAccountLoaded == false)
-//                {
-//                    bool tEditorByPass = false;
-//#if UNITY_EDITOR
-//                    if (Application.isEditor && Application.isPlaying == false)
-//                    {
-//                        tEditorByPass = true;
-//                        //Debug.Log("NWD => Preload Datas bypass by editor");
-//                    }
-//#endif
-        //            if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
-        //            {
-        //                NWEBenchmark.Start("DatabaseAccountLoadDatas() load Datas");
-        //                NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-        //                NWEBenchmark.Finish("DatabaseAccountLoadDatas() load Datas");
-        //            }
-        //        }
-        //        // finish launch
-        //        NWDDataManager.SharedInstance().DataAccountLoaded = true;
-        //        //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-        //    }
-        //    NWEBenchmark.Finish();
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

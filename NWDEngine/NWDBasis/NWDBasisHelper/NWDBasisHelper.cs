@@ -175,12 +175,12 @@ namespace NetWorkedData
         public MethodInfo GameSaveMethod;
         //-------------------------------------------------------------------------------------------------------------
         public bool kAccountDependent = false;
-        public PropertyInfo[] kAccountDependentProperties;
-        public PropertyInfo[] kAccountConnectedProperties;
+        public List<PropertyInfo> kAccountDependentProperties = new List<PropertyInfo>();
+        public List<PropertyInfo> kAccountConnectedProperties = new List<PropertyInfo>();
         public Dictionary<PropertyInfo, MethodInfo> AccountMethodDico = new Dictionary<PropertyInfo, MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public bool kAssetDependent;
-        public PropertyInfo[] kAssetDependentProperties;
+        public List<PropertyInfo> kAssetDependentProperties =  new List<PropertyInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public int LastWebBuild = 0;
         //-------------------------------------------------------------------------------------------------------------
@@ -214,13 +214,9 @@ namespace NetWorkedData
         public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
         public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>();
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDBasisHelper Declare(Type sType)
+        public virtual void InitHelper(Type sType)
         {
             //NWEBenchmark.Start();
-            //Debug.Log("NWDDatas Declare for " + sType.Name + " !");
-
-            NWDBasisHelper tTypeInfos = null;
-
             bool tServerSynchronize = true;
             if (sType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
             {
@@ -258,7 +254,290 @@ namespace NetWorkedData
                 }
             }
 
+            // insert basic infos
+            ClassType = sType;
+            ClassTableName = sType.Name;
 
+            ClassName = sType.AssemblyQualifiedName;
+            //NWEBenchmark.Finish("Declare() step A");
+            //NWEBenchmark.Start("Declare() step B");
+
+            //TableMapping tTableMapping = new TableMapping(sType);
+            //string rClassName = tTableMapping.TableName;
+            string rClassName = sType.Name;
+            ClassNamePHP = rClassName;
+            ClassPrefBaseKey = ClassNamePHP + "_";
+            //if (StringsDictionary.ContainsKey(rClassName))
+            //{
+            //    Debug.LogWarning(rClassName + " already in StringsDictionary!");
+            //}
+            //else
+            //{
+            //    StringsDictionary.Add(rClassName, this);
+            //}
+            //NWEBenchmark.Finish("Declare() step B");
+            //NWEBenchmark.Start("Declare() step C");
+            // insert attributs infos
+            ClassTrigramme = tClassTrigramme;
+            ClassMenuName = tMenuName;
+            ClassDescription = tDescription;
+            ClassSynchronize = tServerSynchronize;
+
+            //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Instance))
+            foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            {
+                //if (sType.Name == "NWDItem")
+                //{
+                //    Debug.Log("<color=blue>tMethod</color> " + tMethod.Name + " "+ tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length);
+                //}
+                if (tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length > 0)
+                {
+                    IndexInsertMethodList.Add(tMethod);
+                }
+                if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
+                {
+                    IndexRemoveMethodList.Add(tMethod);
+                }
+            }
+            //NWEBenchmark.Finish("Declare() step C");
+            //NWEBenchmark.Start("Declare() step D");
+            // create GUI object
+
+            //#if UNITY_EDITOR
+            // tTypeInfos.ClassMenuNameContent = new GUIContenm();t(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
+            //#endif
+
+            //NWEBenchmark.Finish("Declare() step D");
+            //NWEBenchmark.Start("Declare() step E");
+            // Prepare engine informlations
+            //tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
+            //tTypeInfos.PropertiesArrayPrepare();
+            //tTypeInfos.PropertiesOrderArrayPrepare();
+            //tTypeInfos.SLQAssemblyOrderArrayPrepare();
+            //tTypeInfos.SLQAssemblyOrderPrepare();
+            //tTypeInfos.SLQIntegrityOrderPrepare();
+            //tTypeInfos.DataAssemblyPropertiesListPrepare();
+
+            //NWEBenchmark.Finish("Declare() step E");
+            //NWEBenchmark.Start("Declare() step F");
+            // get salt 
+            PrefLoad();
+            //NWEBenchmark.Finish("Declare() step F");
+            //NWEBenchmark.Finish();
+            //NWEBenchmark.Start();
+
+            bool rAccountConnected = false;
+            bool rAssetConnected = false;
+            bool rLockedObject = true;
+            List<PropertyInfo> tPropertyList = new List<PropertyInfo>();
+            List<PropertyInfo> tPropertyListConnected = new List<PropertyInfo>();
+            List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
+            Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
+
+
+            ClassGameSaveDependent = false;
+            ClassGameDependentProperties = null;
+            GameSaveMethod = null;
+            // exception for NWDAccount table
+            //if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken) || sType == typeof(NWDServerSFTP))
+            NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
+            if (tServerOnlyAttribut != null)
+            {
+                rAccountConnected = true;
+            }
+
+            foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                Type tTypeOfThis = tProp.PropertyType;
+                if (tTypeOfThis != null)
+                {
+                    if (tTypeOfThis.IsGenericType)
+                    {
+                        if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                        {
+                            Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                            if (tSubType == typeof(NWDAccount))
+                            {
+                                tPropertyList.Add(tProp);
+                                tPropertyListConnected.Add(tProp);
+                                MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                tAccountMethodList.Add(tProp, tMethod);
+                                rAccountConnected = true;
+                                rLockedObject = false;
+                            }
+                            if (tSubType == typeof(NWDGameSave))
+                            {
+                                ClassGameSaveDependent = true;
+                                ClassGameDependentProperties = tProp;
+                                MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                GameSaveMethod = tGameSaveMethod;
+                            }
+                        }
+                        else if (
+                            tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesConditionalType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                        //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
+                        )
+                        {
+                            Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                            if (tSubType == typeof(NWDAccount))
+                            {
+                                // it's not directly a NWDAccount a dependency ....
+                                tPropertyListConnected.Add(tProp);
+                                MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                tAccountMethodList.Add(tProp, tMethod);
+                            }
+                        }
+                        else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
+                        {
+                            Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                            if (tSubType == typeof(NWDAccount))
+                            {
+                                // it's not directly a NWDAccount a dependency ....
+                                // I don't know what I must do with in this case..
+                            }
+                        }
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWDAssetType)))
+                    {
+                        rAssetConnected = true;
+                        tAssetPropertyList.Add(tProp);
+                    }
+                }
+            }
+
+            kAccountDependent = rAccountConnected;
+            // reccord class' object is account dependent properties
+            kAccountDependentProperties = tPropertyList;
+
+            // reccord class' object is account connected properties
+            kAccountConnectedProperties = tPropertyListConnected;
+            AccountMethodDico = tAccountMethodList;
+
+            // reccord if class' object is locked for editor
+
+#if UNITY_EDITOR
+            rLockedObject = false;
+#endif
+            kLockedObject = rLockedObject;
+
+            // reccord if class' object is asset dependent
+            kAssetDependent = rAssetConnected;
+            kAssetDependentProperties = tAssetPropertyList;
+            //NWEBenchmark.Finish();
+
+
+
+
+            NWDClassClusterAttribute tClusterAttribute = null;
+            if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
+            {
+                tClusterAttribute = (NWDClassClusterAttribute)sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true)[0];
+            }
+            if (tClusterAttribute != null)
+            {
+                ClusterMin = tClusterAttribute.Min;
+                ClusterMax = tClusterAttribute.Max;
+            }
+            else
+            {
+                ClusterMin = 0;
+                ClusterMax = 2048;
+            }
+
+            //NWEBenchmark.Finish(true, "editor mode " + ClassNamePHP);
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void InstallHelper()
+        {
+            NWEBenchmark.Start();
+            if (StringsDictionary.ContainsKey(ClassNamePHP))
+            {
+                Debug.LogWarning(ClassNamePHP + " already in StringsDictionary!");
+            }
+            else
+            {
+                //Debug.LogWarning(ClassNamePHP + " installed in StringsDictionary!");
+                StringsDictionary.Add(ClassNamePHP, this);
+            }
+
+
+            if (NWDDataManager.SharedInstance().mTypeList.Contains(ClassType) == false)
+            {
+                NWDDataManager.SharedInstance().mTypeList.Add(ClassType);
+            }
+
+            if (kAccountDependent)
+            {
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(ClassType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(ClassType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(ClassType);
+                }
+            }
+            else
+            {
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(ClassType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(ClassType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(ClassType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(ClassType);
+                }
+            }
+
+            if (ClassSynchronize == true)
+            {
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(ClassType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(ClassType);
+                }
+            }
+            else
+            {
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(ClassType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(ClassType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(ClassType);
+                }
+            }
+            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(ClassTrigramme))
+            {
+                Debug.LogWarning("ERROR in " + ClassType.AssemblyQualifiedName + ", this trigramme '" + ClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[ClassTrigramme] + ")");
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(ClassTrigramme, ClassType);
+            }
+            if (NWDDataManager.SharedInstance().mTypeLoadedList.Contains(ClassType) == false)
+            {
+                NWDDataManager.SharedInstance().mTypeLoadedList.Add(ClassType);
+            }
+            NWEBenchmark.Finish(true, "mixte mode " + ClassNamePHP);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDBasisHelper Declare(Type sType, Type sTypeHelper)
+        {
+            //NWEBenchmark.Start("Declare NWDBasisHelper " + sType.Name);
+            //Debug.Log("NWDDatas Declare for " + sType.Name + " !");
+            NWDBasisHelper tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
 
@@ -271,24 +550,24 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    //TODO : find all NWDHelper and generic compare!
-                    //Debug.Log("sType.Name + Helper = " + sType.Name + "Helper");
-                    //Type tTypeHelper = Type.GetType("NetWorkedData." + sType.Name + "Helper");
-
-                    Type tTypeHelper = null;
-                    Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
-                    Type[] tAllHelperDTypes = (from System.Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
-                    foreach (Type tPossibleHelper in tAllHelperDTypes)
-                    {
-                        if (tPossibleHelper.ContainsGenericParameters == false)
-                        {
-                            if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(sType))
-                            {
-                                tTypeHelper = tPossibleHelper;
-                                break;
-                            }
-                        }
-                    }
+                    //NWEBenchmark.Start("Declare part 1");
+                    Type tTypeHelper = sTypeHelper;
+                    //Type tTypeHelper = null;
+                    //Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+                    //Type[] tAllHelperDTypes = (from System.Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
+                    //foreach (Type tPossibleHelper in tAllHelperDTypes)
+                    //{
+                    //    if (tPossibleHelper.ContainsGenericParameters == false)
+                    //    {
+                    //        if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(sType))
+                    //        {
+                    //            tTypeHelper = tPossibleHelper;
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                    //NWEBenchmark.Finish("Declare part 1");
+                    //NWEBenchmark.Start("Declare part 2");
                     if (tTypeHelper != null)
                     {
                         tTypeInfos = Activator.CreateInstance(tTypeHelper) as NWDBasisHelper;
@@ -299,271 +578,20 @@ namespace NetWorkedData
                         tTypeInfos = new NWDBasisHelper();
                         //Debug.Log("<color=red> NO </color> create "+ tTypeInfos.GetType().Name + " instance for " + sType.Name + " ");
                     }
+                    //NWEBenchmark.Finish("Declare part 2");
+                    tTypeInfos.InitHelper(sType);
+                    //NWEBenchmark.Start("Declare part 3");
+                    tTypeInfos.InstallHelper();
+                    tTypeInfos.ClassInitialization();
+#if UNITY_EDITOR
+                    tTypeInfos.LoadEditorPrefererences();
+#endif
+                    tTypeInfos.ClassLoaded = true;
                     TypesDictionary.Add(sType, tTypeInfos);
+                    //NWEBenchmark.Finish("Declare part 3");
                 }
-                // insert basic infos
-                tTypeInfos.ClassType = sType;
-                tTypeInfos.ClassTableName = sType.Name;
-
-                tTypeInfos.ClassName = sType.AssemblyQualifiedName;
-                //NWEBenchmark.Finish("Declare() step A");
-                //NWEBenchmark.Start("Declare() step B");
-
-                //TableMapping tTableMapping = new TableMapping(sType);
-                //string rClassName = tTableMapping.TableName;
-                string rClassName = sType.Name;
-                tTypeInfos.ClassNamePHP = rClassName;
-                tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassNamePHP + "_";
-                if (StringsDictionary.ContainsKey(rClassName))
-                {
-                    Debug.LogWarning(rClassName + " already in StringsDictionary!");
-                }
-                else
-                {
-                    StringsDictionary.Add(rClassName, tTypeInfos);
-                }
-                //NWEBenchmark.Finish("Declare() step B");
-                //NWEBenchmark.Start("Declare() step C");
-                // insert attributs infos
-                tTypeInfos.ClassTrigramme = tClassTrigramme;
-                tTypeInfos.ClassMenuName = tMenuName;
-                tTypeInfos.ClassDescription = tDescription;
-                tTypeInfos.ClassSynchronize = tServerSynchronize;
-
-                //foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Instance))
-                foreach (MethodInfo tMethod in sType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                {
-                    //if (sType.Name == "NWDItem")
-                    //{
-                    //    Debug.Log("<color=blue>tMethod</color> " + tMethod.Name + " "+ tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length);
-                    //}
-                    if (tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length > 0)
-                    {
-                        tTypeInfos.IndexInsertMethodList.Add(tMethod);
-                    }
-                    if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
-                    {
-                        tTypeInfos.IndexRemoveMethodList.Add(tMethod);
-                    }
-                }
-                //NWEBenchmark.Finish("Declare() step C");
-                //NWEBenchmark.Start("Declare() step D");
-                // create GUI object
-
-                //#if UNITY_EDITOR
-                // tTypeInfos.ClassMenuNameContent = new GUIContenm();t(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
-                //#endif
-
-                //NWEBenchmark.Finish("Declare() step D");
-                //NWEBenchmark.Start("Declare() step E");
-                // Prepare engine informlations
-                //tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
-                //tTypeInfos.PropertiesArrayPrepare();
-                //tTypeInfos.PropertiesOrderArrayPrepare();
-                //tTypeInfos.SLQAssemblyOrderArrayPrepare();
-                //tTypeInfos.SLQAssemblyOrderPrepare();
-                //tTypeInfos.SLQIntegrityOrderPrepare();
-                //tTypeInfos.DataAssemblyPropertiesListPrepare();
-
-                //NWEBenchmark.Finish("Declare() step E");
-                //NWEBenchmark.Start("Declare() step F");
-                // get salt 
-                tTypeInfos.PrefLoad();
-                //NWEBenchmark.Finish("Declare() step F");
-                //NWEBenchmark.Finish();
-                //NWEBenchmark.Start();
-
-                bool rAccountConnected = false;
-                bool rAssetConnected = false;
-                bool rLockedObject = true;
-                List<PropertyInfo> tPropertyList = new List<PropertyInfo>();
-                List<PropertyInfo> tPropertyListConnected = new List<PropertyInfo>();
-                List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
-                Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
-
-
-                tTypeInfos.ClassGameSaveDependent = false;
-                tTypeInfos.ClassGameDependentProperties = null;
-                tTypeInfos.GameSaveMethod = null;
-                // exception for NWDAccount table
-                //if (sType == typeof(NWDAccount) || sType == typeof(NWDRequestToken) || sType == typeof(NWDServerSFTP))
-                NWDClassUnityEditorOnlyAttribute tServerOnlyAttribut = (NWDClassUnityEditorOnlyAttribute)sType.GetCustomAttribute(typeof(NWDClassUnityEditorOnlyAttribute), true);
-                if (tServerOnlyAttribut != null)
-                {
-                    rAccountConnected = true;
-                }
-
-                foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                {
-                    Type tTypeOfThis = tProp.PropertyType;
-                    if (tTypeOfThis != null)
-                    {
-                        if (tTypeOfThis.IsGenericType)
-                        {
-                            if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
-                            {
-                                Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                if (tSubType == typeof(NWDAccount))
-                                {
-                                    tPropertyList.Add(tProp);
-                                    tPropertyListConnected.Add(tProp);
-                                    MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                    tAccountMethodList.Add(tProp, tMethod);
-                                    rAccountConnected = true;
-                                    rLockedObject = false;
-                                }
-                                if (tSubType == typeof(NWDGameSave))
-                                {
-                                    tTypeInfos.ClassGameSaveDependent = true;
-                                    tTypeInfos.ClassGameDependentProperties = tProp;
-                                    MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                    tTypeInfos.GameSaveMethod = tGameSaveMethod;
-                                }
-                            }
-                            else if (
-                                tTypeOfThis.IsSubclassOf(typeof(NWDReferenceMultiple))
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesConditionalType<>)
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                            //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
-                            )
-                            {
-                                Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                if (tSubType == typeof(NWDAccount))
-                                {
-                                    // it's not directly a NWDAccount a dependency ....
-                                    tPropertyListConnected.Add(tProp);
-                                    MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                    tAccountMethodList.Add(tProp, tMethod);
-                                }
-                            }
-                            else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
-                            {
-                                Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                if (tSubType == typeof(NWDAccount))
-                                {
-                                    // it's not directly a NWDAccount a dependency ....
-                                    // I don't know what I must do with in this case..
-                                }
-                            }
-                        }
-                        else if (tTypeOfThis.IsSubclassOf(typeof(NWDAssetType)))
-                        {
-                            rAssetConnected = true;
-                            tAssetPropertyList.Add(tProp);
-                        }
-                    }
-                }
-
-                tTypeInfos.kAccountDependent = rAccountConnected;
-                // reccord class' object is account dependent properties
-                tTypeInfos.kAccountDependentProperties = tPropertyList.ToArray();
-
-                // reccord class' object is account connected properties
-                tTypeInfos.kAccountConnectedProperties = tPropertyListConnected.ToArray();
-                tTypeInfos.AccountMethodDico = tAccountMethodList;
-
-                // reccord if class' object is locked for editor
-
-#if UNITY_EDITOR
-                rLockedObject = false;
-#endif
-                tTypeInfos.kLockedObject = rLockedObject;
-
-                // reccord if class' object is asset dependent
-                tTypeInfos.kAssetDependent = rAssetConnected;
-                tTypeInfos.kAssetDependentProperties = tAssetPropertyList.ToArray();
-                //NWEBenchmark.Finish();
-
-                if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeList.Add(sType);
-                }
-
-                if (tTypeInfos.kAccountDependent)
-                {
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(sType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
-                    }
-                }
-                else
-                {
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(sType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
-                    }
-                }
-
-                if (tServerSynchronize == true)
-                {
-                    if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(sType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(sType);
-                    }
-                }
-                else
-                {
-                    if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(sType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(sType);
-                    }
-                }
-                if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
-                {
-                    Debug.LogWarning("ERROR in " + sType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
-                }
-                else
-                {
-                    NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, sType);
-                }
-                NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
-
-                tTypeInfos.ClassInitialization();
-
-
-                NWDClassClusterAttribute tClusterAttribute = null;
-                if (sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true).Length > 0)
-                {
-                    tClusterAttribute = (NWDClassClusterAttribute)sType.GetCustomAttributes(typeof(NWDClassClusterAttribute), true)[0];
-                }
-                if (tClusterAttribute != null)
-                {
-                    tTypeInfos.ClusterMin = tClusterAttribute.Min;
-                    tTypeInfos.ClusterMax = tClusterAttribute.Max;
-                }
-                else
-                {
-                    tTypeInfos.ClusterMin = 0;
-                    tTypeInfos.ClusterMax = 2048;
-                }
-
-#if UNITY_EDITOR
-                tTypeInfos.LoadEditorPrefererences();
-#endif
-
-                tTypeInfos.ClassLoaded = true;
             }
-
+            //NWEBenchmark.Finish("Declare NWDBasisHelper " + sType.Name);
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -630,12 +658,12 @@ namespace NetWorkedData
             return tTypeInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDBasisHelper FindTypeInfos(string sTypeName)
+        public static NWDBasisHelper FindTypeInfos(string sClassNamePHP)
         {
             NWDBasisHelper tTypeInfos = null;
-            if (StringsDictionary.ContainsKey(sTypeName))
+            if (StringsDictionary.ContainsKey(sClassNamePHP))
             {
-                tTypeInfos = StringsDictionary[sTypeName];
+                tTypeInfos = StringsDictionary[sClassNamePHP];
             }
             return tTypeInfos;
         }

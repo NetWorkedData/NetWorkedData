@@ -218,7 +218,7 @@ namespace NetWorkedData
             return BasisHelper().kAssetDependent;
         }
         //----------------------------------------------
-        public PropertyInfo[] PropertiesAssetDependent()
+        public List<PropertyInfo> PropertiesAssetDependent()
         {
             return BasisHelper().kAssetDependentProperties;
         }

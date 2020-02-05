@@ -715,6 +715,11 @@ namespace NetWorkedData
             return NWDToolbox.FindClassFolder("NWDFindOwnerConfiguration", "NetWorkedData_Configuration");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string FindCompileConfigurationFolder()
+        {
+            return NWDToolbox.FindClassFolder("NWDCompileConfiguration", "NetWorkedData_Compile");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Find the folder with FindClassName (ScriptableObject) or create the folder and the script FindClassName to find the folder if not found.
         /// </summary>

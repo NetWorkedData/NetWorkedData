@@ -139,6 +139,8 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.DataLocalizationManager) + "." + NWDToolbox.PropertyName(() => this.DataLocalizationManager.LanguagesString) + " = \"" + this.DataLocalizationManager.LanguagesString + "\";");
             //rReturn.AppendLine("AnonymousPlayerIsLocal = " + AnonymousPlayerIsLocal.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AnonymousDeviceConnected) + " = " + AnonymousDeviceConnected.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideMaxMethod) + " = " + OverrideMaxMethod.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideMaxMethodInPlayMode) + " = " + OverrideMaxMethodInPlayMode.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SurProtected) + " = " + SurProtected.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMin) + " = " + PinCodeLenghtMin.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMax) + " = " + PinCodeLenghtMax.ToString().ToLower() + ";");
@@ -183,6 +185,8 @@ namespace NetWorkedData
             rReturnType.AppendLine("/// </summary>");
             rReturnType.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturnType.AppendLine("{");
+
+            rReturnType.AppendLine("NWEBenchmark.Start();");
             List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in tAllTypes)
@@ -193,6 +197,7 @@ namespace NetWorkedData
                     rReturnType.Append(tDatas.CreationCSHARPCallLoader());
                 }
             }
+            rReturnType.AppendLine("NWEBenchmark.Finish();");
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
             rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");

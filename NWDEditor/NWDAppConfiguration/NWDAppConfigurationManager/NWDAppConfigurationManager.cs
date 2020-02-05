@@ -151,6 +151,11 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
 
+            NWDGUILayout.Section("Override on compile");
+            NWDGUILayout.SubSection("Override max methods on compile");
+            NWDAppConfiguration.SharedInstance().OverrideMaxMethod = EditorGUILayout.Toggle("Override", NWDAppConfiguration.SharedInstance().OverrideMaxMethod);
+            NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode = EditorGUILayout.Toggle("Override in PlayMode", NWDAppConfiguration.SharedInstance().OverrideMaxMethodInPlayMode);
+
             NWDGUILayout.Section("Slack with Editor");
             NWDGUILayout.SubSection("Webhook URL");
             NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);
