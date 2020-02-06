@@ -167,7 +167,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
                 NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
 
-                NWEBenchmark.Finish("### LAUNCH CLASSES DECLARE");
+                NWEBenchmark.Finish("### LAUNCH CLASSES DECLARE", true, " with "+ tAllNWDTypes.Length + " classes");
             }
         }
         //-------------------------------------------------------------------------------------------------------------
