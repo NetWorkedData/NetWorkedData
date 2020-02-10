@@ -49,11 +49,13 @@ namespace NetWorkedData
         {
             if (cStartDico.ContainsKey(sKey) == true)
             {
-                cStartDico[sKey] = DateTime.Now;
+                //cStartDico[sKey] = DateTime.Now;
                 cCounterDico[sKey] = 0;
                 cTagDico[sKey] = string.Empty;
                 cMaxDico[sKey] = kMaxDefault;
                 cMaxGranDico[sKey] = kMaxPerOperationDefault;
+
+                UnityEngine.Debug.Log("benchmark : '" + sKey + " all ready started!");
             }
             else
             {
@@ -62,8 +64,9 @@ namespace NetWorkedData
                 cTagDico.Add(sKey, string.Empty);
                 cMaxDico.Add(sKey, kMaxDefault);
                 cMaxGranDico.Add(sKey,kMaxPerOperationDefault);
+
+                UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
             }
-          // UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Tag(string sTag)
@@ -118,12 +121,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double Finish(bool sWithDebug = true)
+        public static double Finish(bool sWithDebug = true, string sMoreInfos = "")
         {
-            return Finish(GetKey(), sWithDebug);
+            return Finish(GetKey(), sWithDebug, sMoreInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static double Finish(string sKey, bool sWithDebug = true)
+        public static double Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
             double rDelta = 0;
             double rFrameSpend = 0;
@@ -155,9 +158,14 @@ namespace NetWorkedData
                 {
                     if (tCounter == 1)
                     {
-                        UnityEngine.Debug.Log("benchmark : '" + sKey +"'"+tTag+ " execute " + tCounter +
-                         " operation in <color=" + tMaxColor + ">" +
-                         rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps");
+                        string tLog = "benchmark : '" + sKey + "'" + tTag + " execute " + tCounter +
+                          " operation in <color=" + tMaxColor + ">" +
+                          rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
+#if UNITY_EDITOR
+#else
+                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ");
+#endif
+                        UnityEngine.Debug.Log(tLog);
                     }
                     else if (tCounter > 1)
                     {
@@ -167,15 +175,25 @@ namespace NetWorkedData
                         {
                             tMaxGranuleColor = "red";
                         }
-                        UnityEngine.Debug.Log("benchmark : '" + sKey + "'"+tTag+ " execute " + tCounter +
+                        string tLog = "benchmark : '" + sKey + "'"+tTag+ " execute " + tCounter +
                          " operations in <color=" + tMaxColor + ">" + rDelta.ToString("F3") +
                          " seconds </color>(<color="+tMaxGranuleColor+">" + tGranule.ToString("F5") +
-                         " seconds per operation</color>) spent " + rFrameSpend.ToString("F1") + "F/60Fps");
+                         " seconds per operation</color>) spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
+#if UNITY_EDITOR
+#else
+                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("<color=" + tMaxGranuleColor + ">", "").Replace("  ", " ");
+#endif
+                        UnityEngine.Debug.Log(tLog);
                     }
                     else
                     {
-                        UnityEngine.Debug.Log("benchmark : '" + sKey + "'"+tTag+ " execute in <color="+tMaxColor+">" +
-                         rDelta.ToString("F3") + " seconds </color> spent "+ rFrameSpend.ToString("F1") + "F/60Fps");
+                        string tLog = "benchmark : '" + sKey + "'" + tTag + " execute in <color=" + tMaxColor + ">" +
+                         rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
+#if UNITY_EDITOR
+#else
+                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ");
+#endif
+                        UnityEngine.Debug.Log(tLog);
                     }
                 }
             }
@@ -183,7 +201,7 @@ namespace NetWorkedData
             {
                 if (sWithDebug == true)
                 {
-                    UnityEngine.Debug.Log("benchmark : error '" + sKey + "' has no start value");
+                    UnityEngine.Debug.Log("benchmark : error '" + sKey + "' has no start value. " + sMoreInfos);
                 }
             }
             return rDelta;

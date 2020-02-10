@@ -115,36 +115,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
-            // TODO Determine WebService Model
-            // TODO USe the good model to Update
             int tModel = BasisHelper().GetWebModelValueFromCSV(sDataArray);
-
-
             // FORCE TO ENGLISH FORMAT!
-            //Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
-
-            //Debug.Log("UpdateWithCSV ref " + Reference);
-            // get key order assembly of cvs
             string[] tKey = BasisHelper().PropertiesOrderArray(tModel).ToArray();
             // get values 
             string[] tValue = sDataArray;
-            // Short circuit the sync date
-            // not replace the date from the other environment
-            //if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
-            //{
-            //    tValue[4] = PreprodSync.ToString();
-            //    tValue[5] = ProdSync.ToString();
-            //}
-            //else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-            //{
-            //    tValue[3] = DevSync.ToString();
-            //    tValue[5] = ProdSync.ToString();
-            //}
-            //else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
-            //{
-            //    tValue[3] = DevSync.ToString();
-            //    tValue[4] = PreprodSync.ToString();
-            //}
             // process to insertion
             Type tType = ClassType();
             for (int tI = 0; tI < tKey.Count(); tI++)
@@ -159,7 +134,6 @@ namespace NetWorkedData
 
                         if (tTypeOfThis.IsEnum)
                         {
-                            // sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), data["sign"].ToString(), true);
                             int tValueInsert = 0;
                             int.TryParse(tValueString, out tValueInsert);
                             tPropertyInfo.SetValue(this, tValueInsert, null);
@@ -232,16 +206,12 @@ namespace NetWorkedData
                         }
                         else if (tTypeOfThis == typeof(float))
                         {
-                            // TODO: bug with dot, comma
-                            //Debug.Log("float tValueString = " + tValueString);
                             float tValueInsert = 0;
                             float.TryParse(tValueString, out tValueInsert);
                             tPropertyInfo.SetValue(this, tValueInsert, null);
                         }
                         else if (tTypeOfThis == typeof(double))
                         {
-                            // TODO: bug with dot, comma
-                            //Debug.Log("float tValueString = " + tValueString);
                             double tValueInsert = 0;
                             double.TryParse(tValueString, out tValueInsert);
                             tPropertyInfo.SetValue(this, tValueInsert, null);

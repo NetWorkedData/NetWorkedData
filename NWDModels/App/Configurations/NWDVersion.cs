@@ -51,7 +51,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Information", true, true, true)]
         [NWDTooltips("Version reccord in database. The format is X.XX.XX")]
-        [Indexed(K_VERSION_INDEX, 0)]
+        //[Indexed(K_VERSION_INDEX, 0)]
         [NWDCertified]
         public NWDVersionType Version
         {
@@ -63,7 +63,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("This version can be used to build")]
-        [Indexed(K_VERSION_INDEX, 0)]
+        //[Indexed(K_VERSION_INDEX, 0)]
         [NWDCertified]
         public bool Buildable
         {
@@ -79,21 +79,21 @@ namespace NetWorkedData
         
         [NWDInspectorGroupStart("Environment", true, true, true)]
         [NWDTooltips("This version can be used to build dev environement")]
-        [Indexed(K_VERSION_INDEX, 0)]
+        //[Indexed(K_VERSION_INDEX, 0)]
         [NWDCertified]
         public bool ActiveDev
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build preprod environement")]
-        [Indexed(K_VERSION_INDEX, 0)]
+        //[Indexed(K_VERSION_INDEX, 0)]
         [NWDCertified]
         public bool ActivePreprod
         {
             get; set;
         }
         [NWDTooltips("This version can be used to build prod environement")]
-        [Indexed(K_VERSION_INDEX, 0)]
+        //[Indexed(K_VERSION_INDEX, 0)]
         [NWDCertified]
         public bool ActiveProd
         {

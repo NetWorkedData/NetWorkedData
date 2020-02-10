@@ -36,7 +36,10 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        public string PHP_TABLENAME(NWDAppEnvironment sEnvironment) { return NWDAppConfiguration.SharedInstance().TablePrefixe + sEnvironment.Environment + "_" + TablePrefix + ClassTableName; }
+        public string PHP_TABLENAME(NWDAppEnvironment sEnvironment)
+        {
+            return NWDAppConfiguration.SharedInstance().TablePrefixe + sEnvironment.Environment + "_" + TablePrefix + ClassTableName;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeClass NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {

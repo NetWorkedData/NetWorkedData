@@ -211,7 +211,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute(NWDOperationResult sData)
         {
-            Debug.Log("DataDownloadedCompute()");
+            //Debug.Log("DataDownloadedCompute()");
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, TypeList, Special);
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();

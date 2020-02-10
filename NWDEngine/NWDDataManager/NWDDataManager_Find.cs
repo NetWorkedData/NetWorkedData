@@ -228,15 +228,19 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public int IndexationCounterOp = 0;
+        //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
             NWEBenchmark.Start();
             int tRow = 0;
+            int tMethod = 0;
             DatasIndexed = false;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tMethod += tHelper.IndexInsertMethodList.Count;
                 tRow += tHelper.Datas.Count;
                 tHelper.IndexAll();
                 //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
@@ -244,8 +248,8 @@ namespace NetWorkedData
             }
             DatasIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
+            Debug.Log("row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
             NWEBenchmark.Finish();
-            Debug.Log("row indexed : "+ tRow + " rows.");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects()

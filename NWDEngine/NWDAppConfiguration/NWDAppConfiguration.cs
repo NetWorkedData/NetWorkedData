@@ -81,6 +81,11 @@ namespace NetWorkedData
 
         public string SlackWebhookURL = "";
 
+        public bool OverrideCacheMethodEverywhere = false;
+        public bool OverrideCacheMethod = false;
+        public bool OverrideCacheMethodInPlayMode = false;
+
+
         public bool SurProtected = false; //TODO:  rename OverProtected
         public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
         public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
