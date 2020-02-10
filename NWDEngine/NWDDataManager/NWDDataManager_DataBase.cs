@@ -595,6 +595,12 @@ namespace NetWorkedData
         {
             DropTable(sType, sAccountConnected);
             CreateTable(sType, sAccountConnected);
+            //NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+            //if (tHelper != null)
+            //{
+            //    tHelper.LoadFromDatabase();
+            //    tHelper.RowAnalyze();
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool SQLiteConnectionEditorIsValid()

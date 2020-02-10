@@ -242,6 +242,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void LoadFromDatabase()
         {
+            NWEBenchmark.Start();
+            int tCount = 0;
 #if UNITY_EDITOR
             RowAnalyzed = false;
 #endif
@@ -257,7 +259,6 @@ namespace NetWorkedData
                 {
                     //List<NWDTypeClass> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
                     List<object> tSelect = tSQLiteConnection.Query(new TableMapping(ClassType), "SELECT * FROM " + ClassNamePHP);
-                    int tCount = 0;
                     // Prepare the datas
                     if (tSelect != null)
                     {
@@ -277,6 +278,7 @@ namespace NetWorkedData
             RepaintTableEditor();
 #endif
 
+            NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded!");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UnloadDataByReference(string sReference)
@@ -299,7 +301,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().ResetTable(ClassType, kAccountDependent);
             // reload empty datas
-             LoadFromDatabase();
+            LoadFromDatabase();
 #if UNITY_EDITOR
             // refresh the tables windows
             RepaintTableEditor();

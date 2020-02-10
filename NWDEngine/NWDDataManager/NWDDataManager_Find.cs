@@ -97,23 +97,31 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             if (DataEditorConnected == true)
             {
+                //NWEBenchmark.Start("LoadData");
                 DataEditorLoaded = false;
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
                 ClassEditorExpected = mTypeNotAccountDependantList.Count();
                 ClassEditorDataLoaded = 0;
+                //double tBenchmark = 0.0F;
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
+                    //NWEBenchmark.Start("LoadData " + tType.Name);
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                     tHelper.LoadFromDatabase();
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassEditorDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == false)
+                    {
+                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
+                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                    }
+                    //tBenchmark += NWEBenchmark.Finish("LoadData " + tType.Name);
                 }
                 NWDDataManager.SharedInstance().DataEditorLoaded = true;
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+                //NWEBenchmark.Finish("LoadData", true, "with total = " + tBenchmark.ToString("F5") + "s in total");
                 PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
@@ -179,8 +187,11 @@ namespace NetWorkedData
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassAccountDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
-                    NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == false)
+                    {
+                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
+                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                    }
                 }
                 DataAccountLoaded = true;
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
@@ -248,8 +259,7 @@ namespace NetWorkedData
             }
             DatasIndexed = true;
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
-            Debug.Log("row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
-            NWEBenchmark.Finish();
+            NWEBenchmark.Finish(true, "row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects()

@@ -77,6 +77,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
         {
+            NWEBenchmark.Start();
             if (DataAccountLoaded == true)
             {
                 NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
@@ -93,6 +94,7 @@ namespace NetWorkedData
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
+            NWEBenchmark.Finish();
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -243,7 +243,9 @@ namespace NetWorkedData
         {
             base.ClassDatasAreLoaded();
             //Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
+#if UNITY_EDITOR
             GenerateBasisError();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

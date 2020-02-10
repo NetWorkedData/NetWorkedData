@@ -46,6 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void LoadPreferences()
         {
+            NWEBenchmark.Start();
             PlayerAccountReference = NWEPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
             RequesToken = NWDBasisPreferences.GetString(kRequesTokenKey, this, string.Empty, false);
             if (string.IsNullOrEmpty(PlayerAccountReference))
@@ -54,6 +55,7 @@ namespace NetWorkedData
                 RequesToken = string.Empty;
                 SavePreferences();
             }
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetPreferences(bool withTemporaryAccount = true, string sWithSign = null)

@@ -65,7 +65,7 @@ namespace NetWorkedData
                 cMaxDico.Add(sKey, kMaxDefault);
                 cMaxGranDico.Add(sKey,kMaxPerOperationDefault);
 
-                UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
+               // UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -119,6 +119,11 @@ namespace NetWorkedData
             {
                 cCounterDico[sKey] = cCounterDico[sKey] + sVal;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void Log(string sInfos = "")
+        {
+            UnityEngine.Debug.Log("benchmark : '"+ GetKey() + "' Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static double Finish(bool sWithDebug = true, string sMoreInfos = "")
