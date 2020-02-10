@@ -46,26 +46,6 @@ namespace NetWorkedData
             tNotification.Post();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInterMessage PostCustomNotification(
-                                          NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
-                                          NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
-                                          NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
-                                          NWDReferencesQuantityType<NWDPack> sReplacePacks = null,
-                                          NWDUserNotificationDelegate sValidationbBlock = null,
-                                          NWDUserNotificationDelegate sCancelBlock = null)
-        {
-            NWDUserInterMessage rUserIntermessage = NWDUserInterMessage.CreateNewMessageWith(this,
-                    string.Empty,
-                    0,
-                    sReplaceCharacters,
-                    sReplaceItems,
-                    sReplaceItemPack,
-                    sReplacePacks);
-            NWDUserNotification tNotification = new NWDUserNotification(rUserIntermessage, sValidationbBlock, sCancelBlock);
-            tNotification.Post();
-            return rUserIntermessage;
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

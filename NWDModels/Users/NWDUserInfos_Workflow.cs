@@ -35,133 +35,6 @@ namespace NetWorkedData
         //=============================================================================================================
         // PUBLIC STATIC METHOD
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetCurrentNickname()
-        {
-            NWDUserNickname tNickname = CurrentData().Nickname.GetReachableData();
-            if (tNickname != null)
-            {
-                return tNickname.Nickname;
-            }
-
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetCurrentAvatar(bool isRenderTexture = false)
-        {
-            NWDUserAvatar tAvatar = CurrentData().Avatar.GetReachableData();
-            if (tAvatar != null)
-            {
-                NWDItem tItem = tAvatar.RenderItem.GetReachableData();
-                if (tItem != null)
-                {
-                    if (isRenderTexture)
-                    {
-                        NWDImagePNGType tImage = tAvatar.RenderTexture;
-                        if (tImage != null)
-                        {
-                            return tImage.ToSprite();
-                        }
-                    }
-                    else
-                    {
-                        if (!tItem.SecondarySprite.ValueIsNullOrEmpty())
-                        {
-                            return tItem.SecondarySprite.ToSprite();
-                        }
-                        else
-                        {
-                            return tItem.PrimarySprite.ToSprite();
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string GetNicknameByUserReference(string sReference)
-        {
-            NWDUserNickname tNickname = NWDBasisHelper.GetCorporateFirstData<NWDUserNickname>(sReference);
-            if (tNickname != null)
-            {
-                return tNickname.Nickname;
-            }
-
-            return string.Empty;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Sprite GetAvatarByUserReference(string sReference, bool isRenderTexture = false)
-        {
-            NWDUserAvatar tAvatar = NWDBasisHelper.GetCorporateFirstData<NWDUserAvatar>(sReference);
-            if (tAvatar != null)
-            {
-                NWDItem tItem = tAvatar.RenderItem.GetRawData();
-                if (tItem != null)
-                {
-                    if (isRenderTexture)
-                    {
-                        NWDImagePNGType tImage = tAvatar.RenderTexture;
-                        if (tImage != null)
-                        {
-                            return tImage.ToSprite();
-                        }
-                    }
-                    else
-                    {
-                        if (!tItem.SecondarySprite.ValueIsNullOrEmpty())
-                        {
-                            return tItem.SecondarySprite.ToSprite();
-                        }
-                        else
-                        {
-                            return tItem.PrimarySprite.ToSprite();
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetCurrentNickname(string sNickname)
-        {
-            NWDUserNickname tNickname = CurrentData().Nickname.GetRawData();
-            if (tNickname == null)
-            {
-                tNickname = NWDBasisHelper.NewData<NWDUserNickname>();
-                tNickname.InternalKey = NWDAccount.CurrentReference();
-                tNickname.InternalDescription = sNickname;
-                tNickname.Tag = NWDBasisTag.TagUserCreated;
-
-                // Set a Nickname define by user
-                CurrentData().Nickname.SetData(tNickname);
-                CurrentData().SaveData();
-            }
-
-            // Set the new Nickname
-            tNickname.Nickname = sNickname;
-            tNickname.SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetCurrentAvatar(NWDItem sAvatar)
-        {
-            NWDUserAvatar tAvatar = CurrentData().Avatar.GetRawData();
-            if (tAvatar == null)
-            {
-                tAvatar = NWDBasisHelper.NewData<NWDUserAvatar>();
-                tAvatar.InternalKey = NWDAccount.CurrentReference();
-                tAvatar.Tag = NWDBasisTag.TagUserCreated;
-
-                // Set an Avatar define by user
-                CurrentData().Avatar.SetData(tAvatar);
-                CurrentData().SaveData();
-            }
-
-            // Set the new Avatar
-            tAvatar.RenderItem.SetData(sAvatar);
-            tAvatar.SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static void SetCurrentLastSignIn()
         {
             CurrentData().LastSignIn.SetCurrentDateTime();
@@ -170,8 +43,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ResetSession()
         {
-            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            tAppEnvironment.ResetPreferences();
+           NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeDatas()
@@ -180,39 +52,6 @@ namespace NetWorkedData
         }
         //=============================================================================================================
         // PUBLIC METHOD
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetAbsoluteNickname()
-        {
-            string rNickname = NWEConstants.K_MINUS;
-            NWDUserNickname tNickname = Nickname.GetRawData();
-            if (tNickname != null)
-            {
-                rNickname = tNickname.Nickname;
-            }
-            return rNickname;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public Sprite GetAbsoluteAvatar(bool isPrimarySprite = true)
-        {
-            Sprite rAvatar = null;
-            NWDUserAvatar tAvatar = Avatar.GetRawData();
-            if (tAvatar != null)
-            {
-                NWDItem tItem = tAvatar.RenderItem.GetRawData();
-                if (tItem != null)
-                {
-                    if (isPrimarySprite)
-                    {
-                        rAvatar = tItem.PrimarySprite.ToSprite();
-                    }
-                    else
-                    {
-                        rAvatar = tItem.SecondarySprite.ToSprite();
-                    }
-                }
-            }
-            return rAvatar;
-        }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()
         {

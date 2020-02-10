@@ -151,6 +151,20 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
 
+            NWDGUILayout.Section("Cache on compile");
+            NWDGUILayout.SubSection("Override max methods in cache");
+            NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere);
+            if (NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere == false)
+            {
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethod = EditorGUILayout.Toggle("Override", NWDAppConfiguration.SharedInstance().OverrideCacheMethod);
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode = EditorGUILayout.Toggle("Override in PlayMode", NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode);
+            }
+            else
+            {
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethod = true;
+                NWDAppConfiguration.SharedInstance().OverrideCacheMethodInPlayMode = true;
+            }
+
             NWDGUILayout.Section("Slack with Editor");
             NWDGUILayout.SubSection("Webhook URL");
             NWDAppConfiguration.SharedInstance().SlackWebhookURL = EditorGUILayout.TextField("Webhook URL", NWDAppConfiguration.SharedInstance().SlackWebhookURL);

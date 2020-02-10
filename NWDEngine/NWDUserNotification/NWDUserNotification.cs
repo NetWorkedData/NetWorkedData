@@ -34,7 +34,7 @@ namespace NetWorkedData
         InterMessage,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDUserNotification
+    public partial class NWDUserNotification
     {
         //-------------------------------------------------------------------------------------------------------------
         private NWDUserNotificationDelegate _ValidationDelegate;
@@ -50,8 +50,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         private NWDMessage _Message;
-        //-------------------------------------------------------------------------------------------------------------
-        private NWDUserInterMessage _UserMessage;
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNotification(NWDError sError, string sInfo, NWDUserNotificationDelegate sCompleteBlock = null)
         {
@@ -70,14 +68,6 @@ namespace NetWorkedData
             _CancelDelegate = sCancelBlock;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserNotification(NWDUserInterMessage sUserInterMessage, NWDUserNotificationDelegate sValidationbBlock = null, NWDUserNotificationDelegate sCancelBlock = null)
-        {
-            _Origin = NWDUserNotificationOrigin.InterMessage;
-            _UserMessage = sUserInterMessage;
-            _ValidationDelegate = sValidationbBlock;
-            _CancelDelegate = sCancelBlock;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public NWDUserNotification PostNotification(NWDError sError, string sInfo, NWDUserNotificationDelegate sCompleteBlock = null)
         {
             NWDUserNotification rReturn = new NWDUserNotification(sError, sInfo, sCompleteBlock);
@@ -88,13 +78,6 @@ namespace NetWorkedData
         public NWDUserNotification PostNotification(NWDMessage sMessage, NWDUserNotificationDelegate sValidationbBlock = null, NWDUserNotificationDelegate sCancelBlock = null)
         {
             NWDUserNotification rReturn = new NWDUserNotification(sMessage, sValidationbBlock, sCancelBlock);
-            rReturn.Post();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserNotification PostNotification(NWDUserInterMessage sUserInterMessage, NWDUserNotificationDelegate sValidationbBlock = null, NWDUserNotificationDelegate sCancelBlock = null)
-        {
-            NWDUserNotification rReturn = new NWDUserNotification(sUserInterMessage, sValidationbBlock, sCancelBlock);
             rReturn.Post();
             return rReturn;
         }

@@ -76,20 +76,6 @@ namespace NetWorkedData
         }
         [NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("Classification", true, true, true)]
-        public NWDReferencesListType<NWDCategory> CategoryList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FamilyList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> KeywordList
-        {
-            get; set;
-        }
-        [NWDInspectorGroupEnd]
 
         //[NWDInspectorGroupStart("Geograpphical", true, true, true)]
         //public NWDReferencesListType<NWDWorld> WorldList
