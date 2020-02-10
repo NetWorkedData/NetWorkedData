@@ -25,36 +25,16 @@ namespace NetWorkedData
         "NWDItemWindow",
         new Type[] {
             typeof(NWDItem),
-            typeof(NWDItemRarity),
             typeof(NWDItemGroup),
-            typeof(NWDItemSlot),
-		}
+        }
     )]
-    public class NWDItemWindow : NWDBasisWindow<NWDItemWindow>
+    public partial class NWDItemWindow : NWDBasisWindow<NWDItemWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Item/All", false, 500)]
         public static void MenuMethod()
         {
             ShowWindow();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Item/Rarity", false, 501)]
-        public static void MenuMethodRarity()
-        {
-            ShowWindow(typeof(NWDItemRarity));
-        }
-        //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Item/Group", false, 502)]
-        public static void MenuMethodGroup()
-        {
-            ShowWindow(typeof(NWDItemGroup));
-        }
-        //-------------------------------------------------------------------------------------------------------------        
-        [MenuItem(NWDConstants.K_MENU_BASE + "Item/Slot", false, 503)]
-        public static void MenuMethodSlot()
-        {
-            ShowWindow(typeof(NWDItemSlot));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

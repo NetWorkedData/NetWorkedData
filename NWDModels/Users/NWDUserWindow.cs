@@ -24,16 +24,14 @@ namespace NetWorkedData
         "Users",
         new Type[] {
             typeof(NWDUserInfos),
-            typeof(NWDUserNickname),
-            typeof(NWDUserAvatar),
+            //typeof(NWDUserNickname),
+            //typeof(NWDUserAvatar),
             typeof(NWDUserPreference),
             typeof(NWDUserOwnership),
 #if NWD_MODULE_MARKETPLACES
             //typeof(NWDUserTransaction),
 #endif
-            typeof(NWDUserInterMessage),
             typeof(NWDGameSave),
-            typeof(NWDUserItemSlot),
 		}
     )]
     public partial class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
@@ -43,18 +41,6 @@ namespace NetWorkedData
         public static void MenuMethod()
         {
             ShowWindow();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Nickname", false, 301)]
-        public static void MenuMethodNickname()
-        {
-            ShowWindow(typeof(NWDUserNickname));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Avatar", false, 302)]
-        public static void MenuMethodAvatar()
-        {
-            ShowWindow(typeof(NWDUserAvatar));
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "User/Preference", false, 303)]
@@ -77,22 +63,10 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Inter Message", false, 306)]
-        public static void MenuMethodInterMessage()
-        {
-            ShowWindow(typeof(NWDUserInterMessage));
-        }
-        //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "User/Game Save", false, 307)]
         public static void MenuMethodGameSave()
         {
             ShowWindow(typeof(NWDGameSave));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "User/Slot", false, 308)]
-        public static void MenuMethodSlot()
-        {
-            ShowWindow(typeof(NWDUserItemSlot));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -153,6 +153,16 @@ namespace NetWorkedData
             CurrentData().LastSignIn.SetCurrentDateTime();
             CurrentData().SaveData();
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ResetSession()
+        {
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeDatas()
+        {
+            NWDBasisHelper.SynchronizationFromWebService<NWDAccountInfos>();
+        }
         //=============================================================================================================
         // PUBLIC METHOD
         //-------------------------------------------------------------------------------------------------------------

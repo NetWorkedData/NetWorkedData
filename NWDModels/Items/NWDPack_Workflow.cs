@@ -69,24 +69,6 @@ namespace NetWorkedData
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetIAPKey()
-        {
-            NWDInAppPack tInAppPack = InAppReference.GetRawData();
-            if (tInAppPack != null)
-            {
-                if (Application.platform == RuntimePlatform.Android)
-                {
-                    return tInAppPack.GoogleID;
-                }
-                else if (Application.platform == RuntimePlatform.IPhonePlayer)
-                {
-                   return tInAppPack.AppleID;
-                }
-            }
-
-            return "NoSupportedKeyFound";
-        }
-        //-------------------------------------------------------------------------------------------------------------
 		public NWDItem[] GetAllItemsInPack ()
 		{
 			List<NWDItem> tlist = new List<NWDItem> ();

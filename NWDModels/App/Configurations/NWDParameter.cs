@@ -37,10 +37,6 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferencesListType<NWDCategory> CategoryList
-        {
-            get; set;
-        }
         [NWDTooltips("The description item. Usable to be ownershipped")]
         public NWDReferenceType<NWDItem> ItemDescription
         {

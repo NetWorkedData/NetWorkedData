@@ -36,27 +36,15 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDInspectorGroupEnd]
+        //[NWDInspectorGroupEnd]
 
-        [NWDInspectorGroupStart("Classification", true, true, true)]
+        //[NWDInspectorGroupStart("Classification", true, true, true)]
 #if NWD_MODULE_GAME
         public NWDReferencesListType<NWDWorld> Worlds
         {
             get; set;
         }
 #endif
-        public NWDReferencesListType<NWDCategory> Categories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> Families
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> Keywords
-        {
-            get; set;
-        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

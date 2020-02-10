@@ -35,6 +35,9 @@ namespace NetWorkedData
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             string tCompileFolderPath = NWDToolbox.FindCompileConfigurationFolder();
             string tPathType = tCompileFolderPath + "/" + ClassNamePHP + "_override.cs";
+
+            InitHelper(ClassType, true);
+
             if (sCreate == false)
             {
                 //if (File.Exists(tPathType) == true)
@@ -76,24 +79,28 @@ namespace NetWorkedData
                     rReturn.AppendLine("{");
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
 
-                    rReturn.AppendLine("public override void InitHelper(Type sType)");
+                    rReturn.AppendLine("public override void InitHelper(Type sType, bool sBase = false)");
+                    rReturn.AppendLine("{");
+
+                    rReturn.AppendLine("if (sBase == false)");
                     rReturn.AppendLine("{");
                     if (tApp.OverrideCacheMethodEverywhere == false)
                     {
                         if (tApp.OverrideCacheMethodInPlayMode == false)
                         {
                             rReturn.AppendLine("if (Application.isEditor == false)");
+                            rReturn.AppendLine("{");
                         }
                         else
                         {
                             rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                            rReturn.AppendLine("{");
                         }
                     }
                     else
                     {
-                        rReturn.AppendLine("if (true)");
+
                     }
-                    rReturn.AppendLine("{");
                     // NWDHelper override start
                     //rReturn.AppendLine("base.InitHelper(sType);");
                     //rReturn.AppendLine("Debug.Log(\"PLAYING MODE InitHelper()\");");
@@ -112,7 +119,6 @@ namespace NetWorkedData
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAccountDependent) + " = " + kAccountDependent.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kLockedObject) + " = " + kLockedObject.ToString().ToLower() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => kAssetDependent) + " = " + kAssetDependent.ToString().ToLower() + ";");
-
 
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClusterMin) + " = " + ClusterMin.ToString() + ";");
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => ClusterMax) + " = " + ClusterMax.ToString() + ";");
@@ -134,7 +140,6 @@ namespace NetWorkedData
                     {
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => kAssetDependentProperties) + ".Add(ClassType.GetProperty(\"" + tProp.Name + "\"));");
                     }
-
 
                     rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInsertMethodList) + ".Clear();");
                     foreach (MethodInfo tMethodInfo in IndexInsertMethodList)
@@ -163,13 +168,23 @@ namespace NetWorkedData
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => AccountMethodDico) + ".Add(ClassType.GetProperty(\"" + tPropertyMethodInfo.Key.Name + "\"),ClassType.GetMethod(\"" + tPropertyMethodInfo.Value.Name + "\"));");
                     }
                     // NWDHelper override finish
-                    //rReturn.AppendLine("NWEBenchmark.Finish(true, \" play mode \" + ClassNamePHP);");
+                    if (tApp.OverrideCacheMethodEverywhere == false)
+                    {
+                        rReturn.AppendLine("}");
+                        rReturn.AppendLine("else");
+                        rReturn.AppendLine("{");
+                        rReturn.AppendLine("base.InitHelper(sType, true);");
+                        rReturn.AppendLine("}");
 
+                    }
+                    else
+                    {
+                        rReturn.AppendLine("base.InitHelper(sType, true);");
+                    }
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("else");
                     rReturn.AppendLine("{");
-                    //rReturn.AppendLine("Debug.Log(\"EDITOR BASE InitHelper()\");");
-                    rReturn.AppendLine("base.InitHelper(sType);");
+                    rReturn.AppendLine("base.InitHelper(sType, true);");
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
@@ -181,22 +196,64 @@ namespace NetWorkedData
                     // NWDBasis override
                     rReturn.AppendLine("public override void Index()");
                     rReturn.AppendLine("{");
+                    if (tApp.OverrideCacheMethodEverywhere == false)
+                    {
+                        if (tApp.OverrideCacheMethodInPlayMode == false)
+                        {
+                            rReturn.AppendLine("if (Application.isEditor == false)");
+                            rReturn.AppendLine("{");
+                        }
+                        else
+                        {
+                            rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                            rReturn.AppendLine("{");
+                        }
+                    }
                     foreach (MethodInfo tMethod in IndexInsertMethodList)
                     {
                         rReturn.AppendLine(tMethod.Name + "();");
                         rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
                     }
+                    if (tApp.OverrideCacheMethodEverywhere == false)
+                    {
+                        rReturn.AppendLine("}");
+                        rReturn.AppendLine("else");
+                        rReturn.AppendLine("{");
+                        rReturn.AppendLine("base.Index();");
+                        rReturn.AppendLine("}");
+
+                    }
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-
                     rReturn.AppendLine("public override void Desindex()");
                     rReturn.AppendLine("{");
+                    if (tApp.OverrideCacheMethodEverywhere == false)
+                    {
+                        if (tApp.OverrideCacheMethodInPlayMode == false)
+                        {
+                            rReturn.AppendLine("if (Application.isEditor == false)");
+                            rReturn.AppendLine("{");
+                        }
+                        else
+                        {
+                            rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                            rReturn.AppendLine("{");
+                        }
+                    }
                     foreach (MethodInfo tMethod in IndexRemoveMethodList)
                     {
                         rReturn.AppendLine(tMethod.Name + "();");
                     }
-                    rReturn.AppendLine("}");
+                    if (tApp.OverrideCacheMethodEverywhere == false)
+                    {
+                        rReturn.AppendLine("}");
+                        rReturn.AppendLine("else");
+                        rReturn.AppendLine("{");
+                        rReturn.AppendLine("base.Desindex();");
+                        rReturn.AppendLine("}");
 
+                    }
+                    rReturn.AppendLine("}");
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");

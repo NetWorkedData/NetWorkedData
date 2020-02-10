@@ -180,7 +180,7 @@ namespace NetWorkedData
         public Dictionary<PropertyInfo, MethodInfo> AccountMethodDico = new Dictionary<PropertyInfo, MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public bool kAssetDependent;
-        public List<PropertyInfo> kAssetDependentProperties =  new List<PropertyInfo>();
+        public List<PropertyInfo> kAssetDependentProperties = new List<PropertyInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public int LastWebBuild = 0;
         //-------------------------------------------------------------------------------------------------------------
@@ -214,7 +214,7 @@ namespace NetWorkedData
         public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
         public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>();
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void InitHelper(Type sType)
+        public virtual void InitHelper(Type sType, bool sBase = false)
         {
             //NWEBenchmark.Start();
             bool tServerSynchronize = true;
@@ -292,11 +292,17 @@ namespace NetWorkedData
                 //}
                 if (tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length > 0)
                 {
-                    IndexInsertMethodList.Add(tMethod);
+                    if (IndexInsertMethodList.Contains(tMethod) == false)
+                    {
+                        IndexInsertMethodList.Add(tMethod);
+                    }
                 }
                 if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
                 {
-                    IndexRemoveMethodList.Add(tMethod);
+                    if (IndexRemoveMethodList.Contains(tMethod) == false)
+                    {
+                        IndexRemoveMethodList.Add(tMethod);
+                    }
                 }
             }
             //NWEBenchmark.Finish("Declare() step C");

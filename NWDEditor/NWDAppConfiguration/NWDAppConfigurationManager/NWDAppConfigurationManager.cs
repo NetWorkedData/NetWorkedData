@@ -151,8 +151,8 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             // start interface
 
-            NWDGUILayout.Section("Override on compile");
-            NWDGUILayout.SubSection("Override max methods on compile");
+            NWDGUILayout.Section("Cache on compile");
+            NWDGUILayout.SubSection("Override max methods in cache");
             NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere = EditorGUILayout.Toggle("Override All", NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere);
             if (NWDAppConfiguration.SharedInstance().OverrideCacheMethodEverywhere == false)
             {
