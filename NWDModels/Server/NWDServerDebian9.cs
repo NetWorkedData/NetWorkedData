@@ -143,6 +143,7 @@ namespace NetWorkedData
             tScriptServer.AppendLine(SUDO + "apt-get -y install apache2");// + OutputNull);
             tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-doc");// + OutputNull);
             tScriptServer.AppendLine(SUDO + "apt-get -y install apache2-suexec-custom");// + OutputNull);
+            tScriptServer.AppendLine(SUDO + "apt-get -y install logrotate");// + OutputNull);
             tScriptServer.AppendLine("echo \" -> active apache mod\"");
             tScriptServer.AppendLine(SUDO + "a2enmod ssl");// + OutputNull);
             tScriptServer.AppendLine(SUDO + "a2enmod userdir");// + OutputNull);
