@@ -536,6 +536,14 @@ namespace NetWorkedData
                 KTableSearchMask = new GUIStyle(EditorStyles.layerMaskField);
                 KTableSearchButton = new GUIStyle(EditorStyles.miniButton);
                 KTableSearchLabel = new GUIStyle(EditorStyles.label);
+int tTextSize = 10;
+                KTableSearchButton.fontSize = tTextSize;
+                KTableSearchLabel.fontSize = tTextSize;
+KTableSearchTextfield.fontSize = tTextSize;
+KTableSearchToggle.fontSize = tTextSize;
+KTableSearchEnum.fontSize = tTextSize;
+KTableSearchMask.fontSize = tTextSize;
+
                 KTableToolbar.fixedHeight = KTableToolbar.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
                 KTableSearchIcon.alignment = TextAnchor.MiddleCenter;
                 float tTableSearchHeight = KTableSearchTextfield.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
@@ -570,6 +578,9 @@ namespace NetWorkedData
                 KTableRowStatut = new GUIStyle(EditorStyles.label);
                 KTableRowReference = new GUIStyle(EditorStyles.label);
                 KTableRowSelect.fixedHeight = KTableRowSelect.CalcHeight(new GUIContent(NWEConstants.K_A), 100.0F);
+#if UNITY_2019_3_OR_NEWER
+                KTableRowSelect.fixedHeight = 36.0F;
+#endif
                 KTableRowSelect.alignment = TextAnchor.MiddleCenter;
                 KTableRowPrefab.alignment = TextAnchor.MiddleCenter;
                 KTableRowId.alignment = TextAnchor.MiddleRight;
