@@ -121,6 +121,7 @@ namespace NetWorkedData
                             {
                                 if (tReturn.Contains(tR) == false)
                                 {
+                                    // check if Sync is possible with this webmodel (not changed)
                                     NWDBasisHelper tHelperSync = NWDBasisHelper.FindTypeInfos(tR);
                                     if (tHelperSync.WebModelChanged == false)
                                     {
