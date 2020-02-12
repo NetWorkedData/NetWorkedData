@@ -516,51 +516,52 @@ namespace NetWorkedData
         public override void Cancel()
         {
             //Debug.Log("NWDOperationWebUnity Cancel()");
-            ResultInfos.FinishDateTime = DateTime.Now;
-            Statut = NWEOperationState.Cancel;
-            if (Request != null)
+            if (IsFinish == false)
             {
-                Request.Abort();
+                ResultInfos.FinishDateTime = DateTime.Now;
+                Statut = NWEOperationState.Cancel;
+                if (Request != null)
+                {
+                    Request.Abort();
+                }
+                NWDOperationResult tInfosCancel = new NWDOperationResult();
+                CancelInvoke(Request.downloadProgress, tInfosCancel);
+                IsFinish = true;
+                Parent.NextOperation(QueueName);
             }
-            NWDOperationResult tInfosCancel = new NWDOperationResult();
-            CancelInvoke(Request.downloadProgress, tInfosCancel);
-            IsFinish = true;
-            Parent.NextOperation(QueueName);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Finish()
         {
             //Debug.Log("NWDOperationWebUnity Finish()");
-            ResultInfos.FinishDateTime = DateTime.Now;
-            if (Statut == NWEOperationState.ReStart)
+            if (IsFinish == false)
             {
-                // I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT
-                Parent.ReplayOperation(QueueName);
-            }
-            else
-            {
-                Statut = NWEOperationState.Finish;
-                IsFinish = true;
-
-                switch (FinalStatut)
+                ResultInfos.FinishDateTime = DateTime.Now;
+                if (Statut == NWEOperationState.ReStart)
                 {
-                    case NWDOperationFinalStatut.Success:
-                        {
-                            SuccessInvoke(Request.downloadProgress, ResultInfos);
-                        }
-                        break;
-                    case NWDOperationFinalStatut.Fail:
-                        {
-                            FailInvoke(Request.downloadProgress, ResultInfos);
-                        }
-                        break;
+                    // I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT
+                    Parent.ReplayOperation(QueueName);
                 }
+                else
+                {
+                    Statut = NWEOperationState.Finish;
+                    IsFinish = true;
 
-
-                Parent.NextOperation(QueueName);
-
-
-
+                    switch (FinalStatut)
+                    {
+                        case NWDOperationFinalStatut.Success:
+                            {
+                                SuccessInvoke(Request.downloadProgress, ResultInfos);
+                            }
+                            break;
+                        case NWDOperationFinalStatut.Fail:
+                            {
+                                FailInvoke(Request.downloadProgress, ResultInfos);
+                            }
+                            break;
+                    }
+                    Parent.NextOperation(QueueName);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
