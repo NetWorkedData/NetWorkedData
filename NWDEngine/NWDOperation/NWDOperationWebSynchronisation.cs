@@ -95,7 +95,7 @@ namespace NetWorkedData
                     sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                 }
 
-                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16)+sName);
+                GameObject tGameObjectToSpawn = new GameObject(NWDToolbox.RandomStringUnix(16) + sName);
 #if UNITY_EDITOR
                 tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
 #else
@@ -110,7 +110,7 @@ namespace NetWorkedData
                 //{
                 //    sTypeList = NWDDataManager.SharedInstance().mTypeSynchronizedList;
                 //}
-                    if (sTypeList != null)
+                if (sTypeList != null)
                 {
                     foreach (Type tType in sTypeList)
                     {
@@ -121,7 +121,16 @@ namespace NetWorkedData
                             {
                                 if (tReturn.Contains(tR) == false)
                                 {
-                                    tReturn.Add(tR);
+                                    // check if Sync is possible with this webmodel (not changed)
+                                    NWDBasisHelper tHelperSync = NWDBasisHelper.FindTypeInfos(tR);
+                                    if (tHelperSync.WebModelChanged == false)
+                                    {
+                                        tReturn.Add(tR);
+                                    }
+                                    else
+                                    {
+                                        Debug.Log(tHelperSync.ClassNamePHP + " WebModelChanged is true, removed from sync!");
+                                    }
                                 }
                             }
                         }
