@@ -526,6 +526,7 @@ namespace NetWorkedData
                 {
                     CancelInvoke(Request.downloadProgress, tInfosCancel);
                     Request.Abort();
+                    Request.Dispose();
                 }
                 Parent.NextOperation(QueueName);
             }
