@@ -48,7 +48,25 @@ namespace NetWorkedData
                 LaunchNext();
             }
 
-            Debug.Log("sqlite version "+ SQLite4Unity3d.SQLite3.LibVersionNumber());
+            Debug.Log("sqlite version " + SQLite4Unity3d.SQLite3.LibVersionNumber());
+
+            Debug.Log("Application.version " + Application.version);
+
+            NWDBasisHelper tHelper = NWDBasisHelper.BasisHelper<NWDVersion>();
+            Debug.Log("FINAL : nombre de version = " + tHelper.Datas.Count);
+            if (tHelper.Datas.Count > 0)
+            {
+                Debug.Log("FINAL : find 1 with = " + ((NWDVersion)tHelper.Datas[0]).Version.ToString());
+            }
+
+            if (NWDVersion.CurrentData() != null)
+            {
+                Debug.Log("FINAL : numero de version " + NWDVersion.CurrentData().Version.ToString());
+            }
+            else
+            {
+                Debug.Log("FINAL : numero de version CurrentData() ERROR");
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static private void ConnectToDatabaseEditor()
@@ -80,7 +98,7 @@ namespace NetWorkedData
             }
             else
             {
-            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_START_ASYNC_LOADING);
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_EDITOR_START_ASYNC_LOADING);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -284,7 +302,7 @@ namespace NetWorkedData
             }
             else
             {
-            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_START_ASYNC_LOADING);
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_START_ASYNC_LOADING);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -304,22 +322,25 @@ namespace NetWorkedData
             State = NWDStatut.DataAccountLoading;
             IEnumerator tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount();
             yield return tWaitTime;
+            Debug.Log("############################### je passe ici");
             State = NWDStatut.DataAccountLoaded;
             //NWEBenchmark.Finish();
             LaunchNext();
         }
-        
+
         //-------------------------------------------------------------------------------------------------------------
         static private void DatabaseIndexationStart()
         {
+            Debug.Log("############################### je suis là ici");
             State = NWDStatut.DataIndexationStart;
             if (Preload == true)
             {
-                DatabaseIndexation();
+                //DatabaseIndexation();
+                LaunchNext();
             }
             else
             {
-            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_INDEXATION_START_ASYNC);
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_INDEXATION_START_ASYNC);
             }
         }
 
@@ -346,14 +367,14 @@ namespace NetWorkedData
         static private void Ready()
         {
             //NWEBenchmark.Start();
+            NWEBenchmark.Finish("NetWorkedData");
             State = NWDStatut.NetWorkedDataReady;
             NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
             //NWEBenchmark.Finish();
-            NWEBenchmark.Finish("NetWorkedData");
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
-       static public void OnApplicationPause(bool sPauseStatus)
+        static public void OnApplicationPause(bool sPauseStatus)
         {
             if (sPauseStatus == false)
             {

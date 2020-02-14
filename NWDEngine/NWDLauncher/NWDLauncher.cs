@@ -90,6 +90,11 @@ namespace NetWorkedData
             return State;
         }
         //-------------------------------------------------------------------------------------------------------------
+        static public void SetState(NWDStatut sState)
+        {
+            State = sState;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static public bool GetPreload()
         {
             return Preload;
@@ -147,7 +152,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void LaunchNext()
         {
-            //Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
+            Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
             //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
@@ -236,6 +241,7 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountLoaded:
                     {
+                        Debug.Log("############################### je passe aussi ici");
                         DatabaseIndexationStart();
                     }
                     break;

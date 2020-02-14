@@ -193,6 +193,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         protected void LaunchNext()
         {
+            Debug.Log("LaunchNext() Preload " + NWDLauncher.GetPreload().ToString() + " and state = " + NWDLauncher.GetState().ToString());
             if (NWDLauncher.GetPreload() == false)
             {
                 switch (NWDLauncher.GetState())
