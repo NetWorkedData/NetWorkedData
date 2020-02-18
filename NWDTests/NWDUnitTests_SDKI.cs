@@ -152,12 +152,23 @@ namespace NetWorkedData
             Log("SecretKeyDevicePlayer SDKI : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().SecretKeyDevicePlayer());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void UseTemporaryAccount()
+        public static string UseTemporaryAccount(bool sNewAccount = false)
         {
-            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences(true);
             LogStep("TemporaryAccount()");
             Log("Account : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
             ShowFakeDevice();
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RestaureAccount(string sAccount)
+        {
+            NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference = sAccount;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetAccount()
+        {
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
