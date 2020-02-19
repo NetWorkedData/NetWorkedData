@@ -22,6 +22,11 @@ namespace NetWorkedData
             cTagDico = new Dictionary<string, string>();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetKeyWihRandom()
+        {
+            return GetKey() + " " + NWDToolbox.RandomStringUnix(12);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         protected static string GetKey()
         {
             StackTrace st = new StackTrace();

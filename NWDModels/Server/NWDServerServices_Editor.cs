@@ -182,7 +182,7 @@ namespace NetWorkedData
                             NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                             if (tCon != null)
                             {
-                                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
+                                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
                             }
                         }
                         tI++;
@@ -194,7 +194,7 @@ namespace NetWorkedData
                             NWDServerAuthentication tCon = GetServerSFTP(NWDAppConfiguration.SharedInstance().ProdEnvironment);
                             if (tCon != null)
                             {
-                                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
+                                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, false, tCon);
                             }
                         }
                         tI++;

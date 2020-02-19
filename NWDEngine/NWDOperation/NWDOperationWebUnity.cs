@@ -161,7 +161,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
         {
-            NWEBenchmark.Start("ExecuteAsync");
+            string tBenchmark = NWEBenchmark.GetKeyWihRandom();
+            NWEBenchmark.Start(tBenchmark);
             //Debug.Log("NWDOperationWebUnity ExecuteAsync()");
             ResultInfos = new NWDOperationResult();
             // reinit benchmark stat values
@@ -387,36 +388,44 @@ namespace NetWorkedData
                                         if (ResultInfos.isError)
                                         {
                                             Statut = NWEOperationState.Failed;
-
-                                            if (
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT90.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT91.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT92.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT93.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT94.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT95.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT96.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT97.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT98.Code ||
-                                                ResultInfos.errorCode == NWDError.NWDError_RQT99.Code
-                                                )
+                                            if (NWDError.NWDError_RQT90 != null &&
+                                                NWDError.NWDError_RQT91 != null &&
+                                                NWDError.NWDError_RQT92 != null &&
+                                                NWDError.NWDError_RQT93 != null &&
+                                                NWDError.NWDError_RQT94 != null &&
+                                                NWDError.NWDError_RQT95 != null &&
+                                                NWDError.NWDError_RQT96 != null &&
+                                                NWDError.NWDError_RQT97 != null &&
+                                                NWDError.NWDError_RQT98 != null &&
+                                                NWDError.NWDError_RQT99 != null)
                                             {
-                                                // Notification of a Session expired
-                                                NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
-                                                // Restore for anonymous account
-                                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
-                                            }
-                                            else
-                                            {
-                                                if (ResultInfos.errorDesc != null)
+                                                if (ResultInfos.errorCode == NWDError.NWDError_RQT90.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT91.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT92.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT93.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT94.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT95.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT96.Code ||
+                                                    ResultInfos.errorCode == NWDError.NWDError_RQT97.Code
+                                                    )
                                                 {
-                                                    if (
-                                                        ResultInfos.errorCode == NWDError.NWDError_ACC98.Code ||
-                                                        ResultInfos.errorCode == NWDError.NWDError_ACC99.Code
-                                                        )
+                                                    // Notification of a Session expired
+                                                    NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
+                                                    // Restore for anonymous account
+                                                    NWDAppConfiguration.SharedInstance().SelectedEnvironment().ResetPreferences();
+                                                }
+                                                else
+                                                {
+                                                    if (ResultInfos.errorDesc != null)
                                                     {
-                                                        // Notification of an Account Banned
-                                                        NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
+                                                        if (
+                                                            ResultInfos.errorCode == NWDError.NWDError_ACC98.Code ||
+                                                            ResultInfos.errorCode == NWDError.NWDError_ACC99.Code
+                                                            )
+                                                        {
+                                                            // Notification of an Account Banned
+                                                            NWENotificationManager.SharedInstance().PostNotification(new NWENotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
+                                                        }
                                                     }
                                                 }
                                             }
@@ -510,7 +519,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             NWDAppEnvironmentChooser.Refresh();
 #endif
-            NWEBenchmark.Finish("ExecuteAsync");
+            NWEBenchmark.Finish(tBenchmark);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Cancel()
@@ -779,7 +788,7 @@ namespace NetWorkedData
                     {
                         tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , "; //, \n";
                     }
-                
+
                     string tFileDebug = "*******************************************************************\n" +
                                         "NWDOperationWebUnity UPLOAD VS DOWNLOADED " + name + "\n" +
                                         "-------------------\n" +
@@ -809,10 +818,10 @@ namespace NetWorkedData
                         tFileDebug = NWDToolbox.CSharpFormat(tFileDebug);
                         string tPath = Application.persistentDataPath + "/WEBLOG-" + DateTime.Now.ToString("yyyy'-'MM'-'dd'_'HH'-'mm'-'ss") + ".txt";
                         File.WriteAllText(tPath, tFileDebug);
-                        #if UNITY_EDITOR
+#if UNITY_EDITOR
                         //EditorUtility.RevealInFinder(tPath);
                         //NWDAppEnvironmentSync.SharedInstanceFocus();
-                        #endif
+#endif
                     }
                     else
                     {

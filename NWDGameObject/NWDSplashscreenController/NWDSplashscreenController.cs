@@ -23,12 +23,20 @@ namespace NetWorkedData
         public bool Log = false;
         public bool AutoClickNextButton = true;
         public Button NextButton;
+        public Button SyncButton;
         //-------------------------------------------------------------------------------------------------------------
         private void Start()
         {
-            if (NextButton != null)
+            if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
-                NextButton.gameObject.SetActive(false);
+                if (NextButton != null)
+                {
+                    NextButton.gameObject.SetActive(false);
+                }
+                if (SyncButton != null)
+                {
+                    SyncButton.gameObject.SetActive(false);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -241,6 +249,10 @@ namespace NetWorkedData
                     NextButton.onClick.Invoke();
                 }
             }
+            if (SyncButton != null)
+            {
+                SyncButton.gameObject.SetActive(true);
+            }
             NWDBasisHelper tHelper = NWDBasisHelper.BasisHelper<NWDVersion>();
             Debug.Log("FINAL : Application.version = " + Application.version);
             Debug.Log("FINAL : nombre de version = " + tHelper.Datas.Count);
@@ -256,6 +268,11 @@ namespace NetWorkedData
             {
                 Debug.Log("FINAL : numero de version CurrentData() ERROR");
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SyncAll()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestAllSynchronization();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

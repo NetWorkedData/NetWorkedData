@@ -221,6 +221,7 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             StepIndcrement();
             State = NWDStatut.NetWorkedDataReady;
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
