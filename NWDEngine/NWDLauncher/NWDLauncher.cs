@@ -146,7 +146,7 @@ namespace NetWorkedData
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
                     if (Preload == true)
                     {
-                        //Launch_Runtime_Sync();
+                        Launch_Runtime_Sync();
                     }
                     else
                     {
