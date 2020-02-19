@@ -266,7 +266,7 @@ namespace NetWorkedData
                     State = NWDStatut.DataAccountConnected;
                 }
             }
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish();
             LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------

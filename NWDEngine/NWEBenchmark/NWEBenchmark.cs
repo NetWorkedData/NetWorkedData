@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -25,7 +26,10 @@ namespace NetWorkedData
         {
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(2);
-            string tMethod = sf.GetMethod().DeclaringType.Name + " "+ sf.GetMethod().Name;
+            MethodBase tM = sf.GetMethod();
+            string tDot = ".";
+            if (tM.IsStatic == true) { tDot = ">"; }
+            string tMethod = tM.DeclaringType.Name + tDot + tM.Name;
             return tMethod;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -44,6 +48,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static float kMaxDefault = 0.010f;
         static float kMaxPerOperationDefault = 0.001f;
+        static int StartCount = 0;
+        //-------------------------------------------------------------------------------------------------------------
+        private static string GetIndentation()
+        {
+            string rReturn = "";
+            for (int i = 0; i < StartCount; i++)
+            {
+                if (i == 0)
+                {
+                    rReturn = rReturn + "\t";
+                }
+                else
+                {
+                    rReturn = rReturn + "|\t";
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void Start(string sKey)
         {
@@ -55,17 +77,28 @@ namespace NetWorkedData
                 cMaxDico[sKey] = kMaxDefault;
                 cMaxGranDico[sKey] = kMaxPerOperationDefault;
 
-                UnityEngine.Debug.Log("benchmark : '" + sKey + " all ready started!");
+                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
+#if UNITY_EDITOR
+#else
+                tLog = tLog.Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+#endif
+                UnityEngine.Debug.Log(tLog);
             }
             else
             {
+                StartCount++;
                 cStartDico.Add(sKey, DateTime.Now);
                 cCounterDico.Add(sKey, 0);
                 cTagDico.Add(sKey, string.Empty);
                 cMaxDico.Add(sKey, kMaxDefault);
-                cMaxGranDico.Add(sKey,kMaxPerOperationDefault);
+                cMaxGranDico.Add(sKey, kMaxPerOperationDefault);
 
-               // UnityEngine.Debug.Log("benchmark : '" + sKey + " start now!");
+                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " start now!";
+#if UNITY_EDITOR
+#else
+                tLog = tLog.Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+#endif
+                UnityEngine.Debug.Log(tLog);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -123,7 +156,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Log(string sInfos = "")
         {
-            UnityEngine.Debug.Log("benchmark : '"+ GetKey() + "' Log : " + sInfos);
+            UnityEngine.Debug.Log("benchmark : " + GetKey() + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static double Finish(bool sWithDebug = true, string sMoreInfos = "")
@@ -142,7 +175,7 @@ namespace NetWorkedData
                 string tTag = cTagDico[sKey];
                 if (string.IsNullOrEmpty(tTag) == false)
                 {
-                    tTag = " (tag : "+tTag+")";
+                    tTag = " (tag : " + tTag + ")";
                 }
                 float tMax = cMaxDico[sKey];
                 float tMaxGranule = cMaxGranDico[sKey];
@@ -154,7 +187,7 @@ namespace NetWorkedData
                 double tFinish = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                 rDelta = tFinish - tStart;
                 rFrameSpend = 60 * rDelta;
-                string tMaxColor = "black";
+                string tMaxColor = "green";
                 if (rDelta >= tMax)
                 {
                     tMaxColor = "red";
@@ -163,12 +196,12 @@ namespace NetWorkedData
                 {
                     if (tCounter == 1)
                     {
-                        string tLog = "benchmark : '" + sKey + "'" + tTag + " execute " + tCounter +
+                        string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + tTag + " execute " + tCounter +
                           " operation in <color=" + tMaxColor + ">" +
                           rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
 #if UNITY_EDITOR
 #else
-                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ");
+                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                         UnityEngine.Debug.Log(tLog);
                     }
@@ -180,33 +213,34 @@ namespace NetWorkedData
                         {
                             tMaxGranuleColor = "red";
                         }
-                        string tLog = "benchmark : '" + sKey + "'"+tTag+ " execute " + tCounter +
+                        string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + tTag + " execute " + tCounter +
                          " operations in <color=" + tMaxColor + ">" + rDelta.ToString("F3") +
-                         " seconds </color>(<color="+tMaxGranuleColor+">" + tGranule.ToString("F5") +
+                         " seconds </color>(<color=" + tMaxGranuleColor + ">" + tGranule.ToString("F5") +
                          " seconds per operation</color>) spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
 #if UNITY_EDITOR
 #else
-                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("<color=" + tMaxGranuleColor + ">", "").Replace("  ", " ");
+                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("<color=" + tMaxGranuleColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                         UnityEngine.Debug.Log(tLog);
                     }
                     else
                     {
-                        string tLog = "benchmark : '" + sKey + "'" + tTag + " execute in <color=" + tMaxColor + ">" +
+                        string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + tTag + " execute in <color=" + tMaxColor + ">" +
                          rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
 #if UNITY_EDITOR
 #else
-                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ");
+                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                         UnityEngine.Debug.Log(tLog);
                     }
                 }
+                StartCount--;
             }
             else
             {
                 if (sWithDebug == true)
                 {
-                    UnityEngine.Debug.Log("benchmark : error '" + sKey + "' has no start value. " + sMoreInfos);
+                    UnityEngine.Debug.Log("benchmark : error '" + GetIndentation() + sKey + "' has no start value. " + sMoreInfos);
                 }
             }
             return rDelta;

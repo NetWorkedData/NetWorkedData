@@ -520,13 +520,14 @@ namespace NetWorkedData
             {
                 ResultInfos.FinishDateTime = DateTime.Now;
                 Statut = NWEOperationState.Cancel;
+                NWDOperationResult tInfosCancel = new NWDOperationResult();
+                IsFinish = true;
                 if (Request != null)
                 {
+                    CancelInvoke(Request.downloadProgress, tInfosCancel);
                     Request.Abort();
+                    Request.Dispose();
                 }
-                NWDOperationResult tInfosCancel = new NWDOperationResult();
-                CancelInvoke(Request.downloadProgress, tInfosCancel);
-                IsFinish = true;
                 Parent.NextOperation(QueueName);
             }
         }

@@ -485,7 +485,7 @@ namespace NetWorkedData
                     LoadingDatasGauge.IsVisible = true;
                 }
                 //Debug.LogWarning("NWD => LaunchResume!");
-                NWDLauncher.LaunchResume();
+                //NWDLauncher.LaunchResume();
             }
             else
             {
@@ -581,6 +581,7 @@ namespace NetWorkedData
         public override void DataEditorLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("<color=red>!!!!!</color><color=orange>DataEditorLoaded</color>");
+            LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountPinCodeRequest(NWENotification sNotification, bool sPreloadDatas)
@@ -633,6 +634,7 @@ namespace NetWorkedData
         public override void DataAccountLoaded(NWENotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("<color=red>!!!!!</color><color=orange>DataAccountLoaded</color>");
+            LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataStartLoading(NWENotification sNotification, bool sPreloadDatas)
@@ -666,7 +668,7 @@ namespace NetWorkedData
         public override void DataIndexationStartAsync(NWENotification sNotification, bool sPreloadDatas)
         {
             // create your method by override
-            LaunchNext();
+            //Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationStartAsync</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DataIndexationStart(NWENotification sNotification, bool sPreloadDatas)
@@ -685,6 +687,7 @@ namespace NetWorkedData
         {
             // create your method by override
             //Debug.Log("<color=red>!!!!!</color><color=orange>DataIndexationFinish</color>");
+            //LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void EngineReady(NWENotification sNotification, bool sPreloadDatas)

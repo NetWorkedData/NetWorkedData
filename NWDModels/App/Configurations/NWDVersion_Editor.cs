@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
-            //Debug.Log("NWDVersion UpdateVersionBundle()");
+            Debug.Log("NWDVersion UpdateVersionBundle()");
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsProdEnvironement() == false
@@ -47,9 +47,10 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
             // I will change the last version of my App
-            string tVersionString = "0.00.00";
+            //string tVersionString = "0.00.00";
+            string tVersionString = PlayerSettings.bundleVersion;
             int tVersionInt = 0;
-            int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
+            //int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
             NWDVersion tMaxVersionObject = null;
             foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
             {
