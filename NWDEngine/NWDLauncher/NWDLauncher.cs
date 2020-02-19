@@ -150,6 +150,7 @@ namespace NetWorkedData
                     }
                     else
                     {
+                        Launch_Runtime_Sync();
                         //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
