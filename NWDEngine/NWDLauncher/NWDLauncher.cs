@@ -13,11 +13,12 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
 using System.Collections;
 using System.IO;
+using System.Reflection;
+
+using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -34,6 +35,12 @@ namespace NetWorkedData
 
         // launch engine NetWorkedData
         EngineLaunching = 10,
+
+        ClassDeclareStart = 11,
+        ClassDeclareFinish = 12,
+        ClassRestaureStart = 13,
+        ClassRestaureFinish = 14,
+
         EngineLaunched = 19,
         // engine NetWorkedData ready
 
@@ -48,6 +55,10 @@ namespace NetWorkedData
             // DataEditorLoaded
         DataEditorLoading = 28,
         DataEditorLoaded = 29,
+
+
+        DataEditorIndexationStart = 50,
+        DataEditorIndexationFinish = 52,
 
         DataAccountConnecting = 30,
         DataAccountCodePinCreate = 31,
@@ -121,10 +132,19 @@ namespace NetWorkedData
                 if (EditorByPass == true)
                 {
                     Preload = true;
+                    Launch_Editor();
                 }
                 else
                 {
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
+                    if (Preload==true)
+                    {
+                        Launch_Runtime_Sync();
+                    }
+                    else
+                    {
+                        Launch_Runtime_Async();
+                    }
                 }
             }
             LaunchNext();

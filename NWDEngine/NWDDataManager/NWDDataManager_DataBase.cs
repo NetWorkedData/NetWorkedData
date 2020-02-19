@@ -498,6 +498,7 @@ namespace NetWorkedData
                 if (SQLiteConnectionAccountIsValid())
                 {
                     //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+                    //TODO : change create table with new method
                     SQLiteConnectionAccount.CreateTableByType(sType);
                 }
             }
@@ -506,6 +507,7 @@ namespace NetWorkedData
                 if (SQLiteConnectionEditorIsValid())
                 {
                     //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+                    //TODO : change create table with new method
                     SQLiteConnectionEditor.CreateTableByType(sType);
                 }
             }

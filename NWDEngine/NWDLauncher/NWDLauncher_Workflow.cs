@@ -11,12 +11,10 @@
 //
 //=====================================================================================================================
 
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
 using System.Collections;
 using System.IO;
 
@@ -33,6 +31,8 @@ namespace NetWorkedData
         private static int CodePinTentative = 0;
         public static string CodePinValue;
         public static string CodePinValueConfirm;
+        static List<Type> AllNetWorkedDataTypes = new List<Type>();
+        static Dictionary<Type, Type> BasisToHelperList = new Dictionary<Type, Type>();
         //-------------------------------------------------------------------------------------------------------------
         static private void EngineLaunch()
         {
@@ -47,7 +47,6 @@ namespace NetWorkedData
             {
                 LaunchNext();
             }
-
             Debug.Log("sqlite version "+ SQLite4Unity3d.SQLite3.LibVersionNumber());
         }
         //-------------------------------------------------------------------------------------------------------------
