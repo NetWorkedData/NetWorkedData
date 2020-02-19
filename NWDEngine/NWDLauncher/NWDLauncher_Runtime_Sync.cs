@@ -26,6 +26,8 @@ namespace NetWorkedData
         private static void Launch_Runtime_Sync()
         {
             NWEBenchmark.Start();
+            StepSum = 12;
+            StepIndex = 0;
             // lauch engine
             Engine_Editor();
             // declare models

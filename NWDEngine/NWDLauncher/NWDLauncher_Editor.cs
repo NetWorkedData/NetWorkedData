@@ -32,6 +32,8 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             EditorUtility.ClearProgressBar();
 #endif
+            StepSum = 12;
+            StepIndex = 0;
             // lauch engine
             Engine_Editor();
             // declare models
@@ -93,6 +95,8 @@ namespace NetWorkedData
                     }
                 }
             }
+            StepIndcrement();
+            StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineLaunched;
             NWEBenchmark.Finish();
         }
@@ -108,6 +112,7 @@ namespace NetWorkedData
                     NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType, BasisToHelperList[tType]);
                 }
             }
+            StepIndcrement();
             State = NWDStatut.ClassDeclareFinish;
             NWEBenchmark.Finish();
         }
@@ -121,6 +126,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
             NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
             NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
+            StepIndcrement();
             State = NWDStatut.ClassRestaureFinish;
             NWEBenchmark.Finish();
         }
@@ -137,6 +143,7 @@ namespace NetWorkedData
             {
                 State = NWDStatut.Error;
             }
+            StepIndcrement();
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -144,6 +151,7 @@ namespace NetWorkedData
         {
             NWEBenchmark.Start();
             DatabaseEditorTable();
+            StepIndcrement();
             State = NWDStatut.DataEditorTableUpdated;
             NWEBenchmark.Finish();
         }
@@ -153,6 +161,7 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             State = NWDStatut.DataEditorLoading;
             NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
+            StepIndcrement();
             State = NWDStatut.DataEditorLoaded;
             NWEBenchmark.Finish();
         }
@@ -162,6 +171,7 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             State = NWDStatut.DataEditorIndexationStart;
             //NWDDataManager.SharedInstance().IndexAllObjects();
+            StepIndcrement();
             State = NWDStatut.DataEditorIndexationFinish;
             NWEBenchmark.Finish();
         }
@@ -172,6 +182,7 @@ namespace NetWorkedData
             State = NWDStatut.DataAccountConnecting;
             //ConnectToDatabaseAccount();
             DatabaseAccountConnection(string.Empty);
+            StepIndcrement();
             State = NWDStatut.DataAccountConnected;
             NWEBenchmark.Finish();
         }
@@ -181,6 +192,7 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             DatabaseAccountTable();
             State = NWDStatut.DataAccountTableUpdated;
+            StepIndcrement();
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -189,6 +201,7 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             State = NWDStatut.DataAccountLoading;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
+            StepIndcrement();
             State = NWDStatut.DataAccountLoaded;
             NWEBenchmark.Finish();
         }
@@ -198,6 +211,7 @@ namespace NetWorkedData
             NWEBenchmark.Start();
             State = NWDStatut.DataIndexationStart;
             NWDDataManager.SharedInstance().IndexAllObjects();
+            StepIndcrement();
             State = NWDStatut.DataIndexationFinish;
             NWEBenchmark.Finish();
         }
@@ -205,6 +219,7 @@ namespace NetWorkedData
         private static void Ready_Editor()
         {
             NWEBenchmark.Start();
+            StepIndcrement();
             State = NWDStatut.NetWorkedDataReady;
             NWEBenchmark.Finish();
         }

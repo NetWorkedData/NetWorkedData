@@ -93,10 +93,15 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
-        static int StepSum;
-        static int StepIndex;
+        static private int StepSum;
+        static private int StepIndex;
         static private bool Launched = false;
         static bool Preload = true;
+        //-------------------------------------------------------------------------------------------------------------
+        static public void StepIndcrement()
+        {
+            StepIndex++;
+        }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDStatut GetState()
         {
@@ -280,111 +285,111 @@ namespace NetWorkedData
             */
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void LaunchPause()
-        {
-            switch (State)
-            {
-                case NWDStatut.None:
-                    {
-                    }
-                    break;
-                case NWDStatut.EngineLaunching:
-                    {
-                        // engine in progress ... do nothing
-                    }
-                    break;
-                case NWDStatut.EngineLaunched:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorConnecting:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorConnected:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorTableUpdated:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorLoading:
-                    {
-                        State = NWDStatut.DataEditorTableUpdated;
-                    }
-                    break;
-                case NWDStatut.DataEditorLoaded:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountConnecting:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinCreate:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinRequest:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinFail:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinStop:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinSuccess:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountConnected:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountTableUpdated:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountLoading:
-                    {
-                        State = NWDStatut.DataAccountTableUpdated;
-                    }
-                    break;
-                case NWDStatut.DataAccountLoaded:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationStart:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationFinish:
-                    {
-                    }
-                    break;
-                case NWDStatut.NetWorkedDataReady:
-                    {
-                    }
-                    break;
-            }
-        }
+        //static public void LaunchPause()
+        //{
+        //    switch (State)
+        //    {
+        //        case NWDStatut.None:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.EngineLaunching:
+        //            {
+        //                // engine in progress ... do nothing
+        //            }
+        //            break;
+        //        case NWDStatut.EngineLaunched:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorConnecting:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorConnected:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorTableUpdated:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorLoading:
+        //            {
+        //                State = NWDStatut.DataEditorTableUpdated;
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorLoaded:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountConnecting:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinCreate:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinRequest:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinFail:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinStop:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinSuccess:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountConnected:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountTableUpdated:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountLoading:
+        //            {
+        //                State = NWDStatut.DataAccountTableUpdated;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountLoaded:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataIndexationStart:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataIndexationFinish:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.NetWorkedDataReady:
+        //            {
+        //            }
+        //            break;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        static public void LaunchResume()
-        {
-            LaunchNext();
-        }
+        //static public void LaunchResume()
+        //{
+        //    LaunchNext();
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -485,7 +485,7 @@ namespace NetWorkedData
                     LoadingDatasGauge.IsVisible = true;
                 }
                 //Debug.LogWarning("NWD => LaunchResume!");
-                NWDLauncher.LaunchResume();
+                //NWDLauncher.LaunchResume();
             }
             else
             {
