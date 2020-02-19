@@ -42,7 +42,7 @@ namespace NetWorkedData
         int SyncInfosTab = 0;
         Vector2 ScrollPosition;
         //-------------------------------------------------------------------------------------------------------------
-        NWDOperationResult LastInfos = new NWDOperationResult();
+        NWDOperationResult LastInfos; // = new NWDOperationResult();
         //-------------------------------------------------------------------------------------------------------------
         private NWEOperationBlock SuccessBlock = null;
         private NWEOperationBlock FailBlock = null;
@@ -93,6 +93,10 @@ namespace NetWorkedData
         public void OnEnable()
         {
             //NWEBenchmark.Start();
+            if (LastInfos == null) {
+                LastInfos = new NWDOperationResult();
+            }
+
             DevIcon = NWDGUI.kImageWaiting;
             PreprodIcon = NWDGUI.kImageWaiting;
             ProdIcon = NWDGUI.kImageWaiting;
@@ -570,6 +574,10 @@ namespace NetWorkedData
         public void WebServicesLastSync()
         {
             //NWEBenchmark.Start();
+            if (LastInfos == null) {
+                LastInfos = new NWDOperationResult();
+            }
+            
             double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
             double tPrepareNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
             double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;

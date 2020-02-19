@@ -41,11 +41,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> param { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
-        public DateTime PrepareDateTime = DateTime.Now;
-        public DateTime WebDateTime = DateTime.Now;
-        public DateTime UploadedDateTime = DateTime.Now;
-        public DateTime DownloadedDateTime = DateTime.Now;
-        public DateTime FinishDateTime = DateTime.Now;
+        public DateTime PrepareDateTime; // = DateTime.Now;
+        public DateTime WebDateTime; // = DateTime.Now;
+        public DateTime UploadedDateTime; // = DateTime.Now;
+        public DateTime DownloadedDateTime; // = DateTime.Now;
+        public DateTime FinishDateTime; // = DateTime.Now;
         public double OctetUpload = 0.0F;
         public double OctetDownload = 0.0F;
         public int ClassPullCounter = 0;
@@ -150,9 +150,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetError(NWDError sError)
         {
-            errorDesc = sError;
             isError = true;
-            errorCode = sError.Code;
+            if (sError != null)
+            {
+                errorDesc = sError;
+                errorCode = sError.Code;
+            }
+            else
+            {
+                errorDesc = null; //"Error not define"
+                errorCode = "WEB00";
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private void Init()
