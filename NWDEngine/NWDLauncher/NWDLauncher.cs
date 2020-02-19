@@ -93,6 +93,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
+        static int StepSum;
+        static int StepIndex;
         static private bool Launched = false;
         static bool Preload = true;
         //-------------------------------------------------------------------------------------------------------------
@@ -143,11 +145,11 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        Launch_Runtime_Async();
+                        //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
             }
-            LaunchNext();
+            //LaunchNext();
         }
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()
@@ -167,6 +169,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void LaunchNext()
         {
+            /*
             //Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
             //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
@@ -274,6 +277,7 @@ namespace NetWorkedData
                     }
                     break;
             }
+            */
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void LaunchPause()

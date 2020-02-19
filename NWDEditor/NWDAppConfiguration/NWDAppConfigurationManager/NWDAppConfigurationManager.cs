@@ -237,20 +237,23 @@ namespace NetWorkedData
             // Database informations
             NWDGUILayout.Section("Databases");
             NWDGUILayout.SubSection("Databases parameters");
-            NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Overprotected Database", NWDAppConfiguration.SharedInstance().SurProtected);
-            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            {
-                NWDAppConfiguration.SharedInstance().PreloadDatas = false;
-            }
-            EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
-            NWDAppConfiguration.SharedInstance().PinCodeLenghtMin = EditorGUILayout.IntField("Min length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMin);
-            NWDAppConfiguration.SharedInstance().PinCodeLenghtMax = EditorGUILayout.IntField("Max length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMax);
 
-            NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Maximum attempt", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
-            EditorGUI.EndDisabledGroup();
-            EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
+            //NWDAppConfiguration.SharedInstance().SurProtected = false;
+            //NWDAppConfiguration.SharedInstance().SurProtected = EditorGUILayout.Toggle("Overprotected Database", NWDAppConfiguration.SharedInstance().SurProtected);
+            //if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+            //{
+            //    NWDAppConfiguration.SharedInstance().PreloadDatas = false;
+            //}
+            //EditorGUI.BeginDisabledGroup(!NWDAppConfiguration.SharedInstance().SurProtected);
+            //NWDAppConfiguration.SharedInstance().PinCodeLenghtMin = EditorGUILayout.IntField("Min length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMin);
+            //NWDAppConfiguration.SharedInstance().PinCodeLenghtMax = EditorGUILayout.IntField("Max length", NWDAppConfiguration.SharedInstance().PinCodeLenghtMax);
+
+            //NWDAppConfiguration.SharedInstance().ProtectionTentativeMax = EditorGUILayout.IntField("Maximum attempt", NWDAppConfiguration.SharedInstance().ProtectionTentativeMax);
+            //EditorGUI.EndDisabledGroup();
+            //EditorGUI.BeginDisabledGroup(NWDAppConfiguration.SharedInstance().SurProtected);
+
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
-            EditorGUI.EndDisabledGroup();
+            //EditorGUI.EndDisabledGroup();
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             // Database editor informations
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
@@ -278,25 +281,25 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Account hash salt B", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
             string tSurProtection = string.Empty;
 
-           if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            {
-                if (NWDDataManager.SharedInstance().DatabaseAccountExists() == false)
-                {
-                }
-                else
-                {
-#if UNITY_EDITOR
-                    if (NWDLauncher.EditorByPass == true)
-                    {
-                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
-                        {
-                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
-                        }
-                    }
-#endif
-                }
-            }
-            else
+//           if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+//            {
+//                if (NWDDataManager.SharedInstance().DatabaseAccountExists() == false)
+//                {
+//                }
+//                else
+//                {
+//#if UNITY_EDITOR
+//                    if (NWDLauncher.EditorByPass == true)
+//                    {
+//                        if (EditorPrefs.HasKey(NWDLauncher.K_PINCODE_KEY))
+//                        {
+//                            tSurProtection = EditorPrefs.GetString(NWDLauncher.K_PINCODE_KEY);
+//                        }
+//                    }
+//#endif
+//                }
+//            }
+//            else
             {
 #if UNITY_EDITOR
                 if (NWDLauncher.EditorByPass == true)

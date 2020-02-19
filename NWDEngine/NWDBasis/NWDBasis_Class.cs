@@ -40,7 +40,8 @@ namespace NetWorkedData
         static NWDBasis()
         {
             //Debug.Log("NWDBasis Static Class Constructor()");
-            NWDTypeLauncher.Launcher();
+            //NWDTypeLauncher.Launcher();
+            NWDLauncher.Launch();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper BasisHelper()

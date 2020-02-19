@@ -31,14 +31,14 @@ namespace NetWorkedData
         private static int CodePinTentative = 0;
         public static string CodePinValue;
         public static string CodePinValueConfirm;
-        static List<Type> AllNetWorkedDataTypes = new List<Type>();
-        static Dictionary<Type, Type> BasisToHelperList = new Dictionary<Type, Type>();
+        public static List<Type> AllNetWorkedDataTypes = new List<Type>();
+        public static Dictionary<Type, Type> BasisToHelperList = new Dictionary<Type, Type>();
         //-------------------------------------------------------------------------------------------------------------
         static private void EngineLaunch()
         {
             //NWEBenchmark.Start();
             State = NWDStatut.EngineLaunching;
-            NWDTypeLauncher.RunLauncher();
+            //NWDTypeLauncher.RunLauncher();
             State = NWDStatut.EngineLaunched;
             //NWEBenchmark.Finish();
             // Ok engine is launched
@@ -131,18 +131,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private void DeconnectAccountAnalyzeState()
         {
-            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            {
-                if (NWDDataManager.SharedInstance().DatabaseAccountExists() == true)
-                {
-                    State = NWDStatut.DataAccountCodePinRequest;
-                }
-                else
-                {
-                    State = NWDStatut.DataAccountCodePinCreate;
-                }
-            }
-            else
+            //if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+            //{
+            //    if (NWDDataManager.SharedInstance().DatabaseAccountExists() == true)
+            //    {
+            //        State = NWDStatut.DataAccountCodePinRequest;
+            //    }
+            //    else
+            //    {
+            //        State = NWDStatut.DataAccountCodePinCreate;
+            //    }
+            //}
+            //else
             {
                 State = NWDStatut.DataEditorLoaded;
             }
@@ -174,32 +174,32 @@ namespace NetWorkedData
             // prevent old connexion
             tShareInstance.DeconnectFromDatabaseAccount();
 
-            string tSurProtection = string.Empty;
-            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-            {
-                if (tShareInstance.DatabaseAccountExists() == false)
-                {
-                    Debug.LogWarning("### Database NOT EXISTS");
-                    State = NWDStatut.DataAccountCodePinCreate;
-                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
-                }
-                else
-                {
-                    Debug.LogWarning("### Database EXISTS NEED PINCODE");
-                    State = NWDStatut.DataAccountCodePinRequest;
-                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
-#if UNITY_EDITOR
-                    if (EditorByPass == true)
-                    {
-                        if (EditorPrefs.HasKey(K_PINCODE_KEY))
-                        {
-                            DatabaseAccountConnection(EditorPrefs.GetString(K_PINCODE_KEY));
-                        }
-                    }
-#endif
-                }
-            }
-            else
+//            string tSurProtection = string.Empty;
+//            if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+//            {
+//                if (tShareInstance.DatabaseAccountExists() == false)
+//                {
+//                    Debug.LogWarning("### Database NOT EXISTS");
+//                    State = NWDStatut.DataAccountCodePinCreate;
+//                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_NEEDED);
+//                }
+//                else
+//                {
+//                    Debug.LogWarning("### Database EXISTS NEED PINCODE");
+//                    State = NWDStatut.DataAccountCodePinRequest;
+//                    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_REQUEST);
+//#if UNITY_EDITOR
+//                    if (EditorByPass == true)
+//                    {
+//                        if (EditorPrefs.HasKey(K_PINCODE_KEY))
+//                        {
+//                            DatabaseAccountConnection(EditorPrefs.GetString(K_PINCODE_KEY));
+//                        }
+//                    }
+//#endif
+//                }
+//            }
+            //else
             {
                 string tPincode = string.Empty;
 #if UNITY_EDITOR
@@ -229,17 +229,17 @@ namespace NetWorkedData
                 // Get ShareInstance of datamanager instance
                 if (NWDDataManager.SharedInstance().ConnectToDatabaseAccount(sSurProtection) == false)
                 {
-                    if (CodePinTentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
-                    {
-                        State = NWDStatut.DataAccountCodePinFail;
-                        //#if UNITY_EDITOR
-                        //                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
-                        //#endif
-                        //Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
-                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
-                        //DatabaseAccountLauncher();
-                    }
-                    else
+                    //if (CodePinTentative < NWDAppConfiguration.SharedInstance().ProtectionTentativeMax)
+                    //{
+                    //    State = NWDStatut.DataAccountCodePinFail;
+                    //    //#if UNITY_EDITOR
+                    //    //                        EditorUtility.DisplayDialog("ERROR", "CodePin for account database is invalid!", "OK");
+                    //    //#endif
+                    //    //Debug.Log("<color=orange>Database is not openable with this sur protected code! Tentative n°" + CodePinTentative + " : " + sSurProtection + "</color>");
+                    //    NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_FAIL);
+                    //    //DatabaseAccountLauncher();
+                    //}
+                    //else
                     {
                         State = NWDStatut.DataAccountCodePinStop;
                         //Debug.Log("<color=orange>Database is not openable max tentative over! Tentative n°" + CodePinTentative + "</color>");
@@ -250,19 +250,19 @@ namespace NetWorkedData
                 else
                 {
                     CodePinTentative = 0;
-                    if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-                    {
-#if UNITY_EDITOR
-                        if (EditorByPass == true)
-                        {
-                            EditorPrefs.SetString(K_PINCODE_KEY, sSurProtection);
-                        }
-#endif
+//                    if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+//                    {
+//#if UNITY_EDITOR
+//                        if (EditorByPass == true)
+//                        {
+//                            EditorPrefs.SetString(K_PINCODE_KEY, sSurProtection);
+//                        }
+//#endif
 
-                        State = NWDStatut.DataAccountCodePinSuccess;
-                        //Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
-                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
-                    }
+//                        State = NWDStatut.DataAccountCodePinSuccess;
+//                        //Debug.Log("<color=orange>Database is opened with this sur protected code! Tentative n°" + CodePinTentative + "</color>");
+//                        NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DB_ACCOUNT_PINCODE_SUCCESS);
+//                    }
                     State = NWDStatut.DataAccountConnected;
                 }
             }
@@ -361,10 +361,10 @@ namespace NetWorkedData
             else
             {
                 //Debug.Log("OnApplicationPause Pause is ON");
-                if (NWDAppConfiguration.SharedInstance().SurProtected == true)
-                {
-                    NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
-                }
+                //if (NWDAppConfiguration.SharedInstance().SurProtected == true)
+                //{
+                //    NWDDataManager.SharedInstance().DeconnectFromDatabaseAccount();
+                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------

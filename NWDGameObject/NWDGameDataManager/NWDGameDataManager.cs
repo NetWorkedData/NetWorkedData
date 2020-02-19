@@ -474,6 +474,9 @@ namespace NetWorkedData
             void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
+
+            Launch_Runtime_Async();
+
             if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
                 //Debug.LogWarning("NWD => not finish ... need load async!");

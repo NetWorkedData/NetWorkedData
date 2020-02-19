@@ -20,104 +20,107 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDGameDataManager : NWDCallBackDataLoadOnly
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        private void Launch_Runtime_Async()
+        {
+            if (NWDAppConfiguration.SharedInstance().PreloadDatas == false)
+            {
+                if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
+                {
+                    // Load async the engine!
+                    Debug.Log("########## <color=blue>Load async the engine</color>!");
+                    //NWDLauncher.Launch_Runtime_Async();
+                    StartCoroutine(NWDLauncher.Launch_Runtime_Async());
+                }
+                else
+                {
+                    Debug.Log("########## <color=blue>Load async the engine ALL READY READY!</color>!");
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static partial class NWDLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
-        const string NWDLauncher_Runtime_Async = "NWDLauncher_Runtime_Async";
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Launch_Runtime_Async()
+        public static IEnumerator Launch_Runtime_Async()
         {
-            NWEBenchmark.Start(NWDLauncher_Runtime_Async);
+            NWEBenchmark.Start();
+            Debug.Log("########## <color=blue>Launch_Runtime_AsyncAsync</color>!");
+
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
             // lauch engine
-            Engine_Runtime_Async();
+            Engine_Editor();
+            while (State != NWDStatut.EngineLaunched)
+            {
+                yield return null;
+            }
             // declare models
-            Declare_Runtime_Async();
+            Declare_Editor();
+            while (State != NWDStatut.ClassDeclareFinish)
+            {
+                yield return null;
+            }
             // restaure models' param
-            Restaure_Runtime_Async();
+            Restaure_Editor();
+            while (State != NWDStatut.ClassRestaureFinish)
+            {
+                yield return null;
+            }
             // connect editor
-            Connect_Editor_Runtime_Async();
+            Connect_Editor_Editor();
+            while (State != NWDStatut.DataEditorConnected)
+            {
+                yield return null;
+            }
+            // create table editor
+            CreateTable_Editor_Editor();
+            while (State != NWDStatut.DataEditorTableUpdated)
+            {
+                yield return null;
+            }
             // load editor data
-            LoadData_Editor_Runtime_Async();
+            LoadData_Editor_Editor();
+            while (State != NWDStatut.DataEditorLoaded)
+            {
+                yield return null;
+            }
             // index all data editor
-            Index_Editor_Runtime_Async();
+            Index_Editor_Editor();
+            while (State != NWDStatut.DataEditorIndexationFinish)
+            {
+                yield return null;
+            }
             // need account pincode
-            //PinCode_Account_Runtime_Sync(string sPinCode);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Engine_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Declare_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Restaure_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Connect_Editor_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void LoadData_Editor_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Index_Editor_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void PinCode_Account_Runtime_Async(string sPinCode)
-        {
-            NWEBenchmark.Start();
-            // connect account
-            Connect_Account_Runtime_Async();
+            Connect_Account_Editor();
+            while (State != NWDStatut.DataAccountConnected)
+            {
+                yield return null;
+            }
+            // create table account
+            CreateTable_Account_Editor();
+            while (State != NWDStatut.DataAccountTableUpdated)
+            {
+                yield return null;
+            }
             // load account data account
-            LoadData_Account_Runtime_Async();
+            LoadData_Account_Editor();
+            while (State != NWDStatut.DataAccountLoaded)
+            {
+                yield return null;
+            }
             // index all data
-            Index_Account_Runtime_Async();
+            Index_Account_Editor();
+            while (State != NWDStatut.DataIndexationFinish)
+            {
+                yield return null;
+            }
             // Ready!
-            Ready_Runtime_Async();
+            Ready_Editor();
             NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Connect_Account_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void LoadData_Account_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Index_Account_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Ready_Runtime_Async()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-            NWEBenchmark.Finish(NWDLauncher_Runtime_Async);
         }
         //-------------------------------------------------------------------------------------------------------------
     }
