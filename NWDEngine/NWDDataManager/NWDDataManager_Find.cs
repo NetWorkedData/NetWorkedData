@@ -74,7 +74,7 @@ namespace NetWorkedData
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
+            //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ namespace NetWorkedData
                 PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
-                NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
+                //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
                 NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
             }
             NWEBenchmark.Finish();
@@ -155,7 +155,7 @@ namespace NetWorkedData
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            NWDLauncher.SetState(NWDStatut.DataAccountLoaded);
+            //NWDLauncher.SetState(NWDStatut.DataAccountLoaded);
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
 
             //NWDLauncher.SetState(NWDStatut.DataLoaded);
