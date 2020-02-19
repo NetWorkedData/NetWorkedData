@@ -96,6 +96,24 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the current account infos instance for the current account
+        /// </summary>
+        /// <returns></returns>
+        public static NWDUserInfos CurrentData()
+        {
+            string tGameSaveReference = NWDGameSave.CurrentData().Reference;
+            NWDUserInfos tInfos = NWDBasisHelper.GetRawDataByReference<NWDUserInfos>(tGameSaveReference);
+            if (tInfos == null)
+            {
+                tInfos = NWDBasisHelper.NewDataWithReference<NWDUserInfos>(tGameSaveReference);
+                tInfos.SaveData();
+            }
+            return tInfos;
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         /*public static NWDUserInfos CurrentData()
         {

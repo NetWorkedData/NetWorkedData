@@ -377,6 +377,7 @@ namespace NetWorkedData
         {
             Debug.Log("##### ChangeAllDatasForUserToAnotherUser " + sOldAccountReference + " to " + sNewAccountReference);
             NWDDataManager.SharedInstance().DataQueueExecute();
+            NWDAccountInfos.ChangeCurrentData(sOldAccountReference, sNewAccountReference);
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper.FindTypeInfos(tType).TryToChangeUserForAllObjects(sOldAccountReference, sNewAccountReference);

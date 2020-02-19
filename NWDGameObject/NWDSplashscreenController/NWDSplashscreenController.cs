@@ -27,6 +27,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void Start()
         {
+            if (Log == true)
+            {
+                Debug.Log("<color=red>!!!!!</color><color=orange> Start </color>" + " state : " + NWDLauncher.GetState().ToString());
+            }
             if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
                 if (NextButton != null)
