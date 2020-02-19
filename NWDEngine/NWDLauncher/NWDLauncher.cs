@@ -49,10 +49,10 @@ namespace NetWorkedData
         DataEditorConnected = 21,
         DataEditorTableUpdated = 22,
         // waiting to load data async or sync order
-            // then Notify K_DB_EDITOR_START_ASYNC_LOADING to call 
-            // DataEditorStartLoading
-            // DataEditorPartialLoaded
-            // DataEditorLoaded
+        // then Notify K_DB_EDITOR_START_ASYNC_LOADING to call 
+        // DataEditorStartLoading
+        // DataEditorPartialLoaded
+        // DataEditorLoaded
         DataEditorLoading = 28,
         DataEditorLoaded = 29,
 
@@ -70,18 +70,18 @@ namespace NetWorkedData
 
         DataAccountTableUpdated = 37,
         // waiting to load data async or sync order
-            // then Notify K_DB_ACCOUNT_START_ASYNC_LOADING to call 
-            // DataAccountStartLoading
-            // DataAccountPartialLoaded
-            // DataAccountLoaded
+        // then Notify K_DB_ACCOUNT_START_ASYNC_LOADING to call 
+        // DataAccountStartLoading
+        // DataAccountPartialLoaded
+        // DataAccountLoaded
         DataAccountLoading = 38,
         DataAccountLoaded = 39,
-        
+
         // waiting to load data async or sync order
-            // then Notify K_DB_INDEXATION_START_ASYNC_LOADING to call 
-            // DataIndexationStart
-            // DataIndexationStep
-            // DataIndexationFinish
+        // then Notify K_DB_INDEXATION_START_ASYNC_LOADING to call 
+        // DataIndexationStart
+        // DataIndexationStep
+        // DataIndexationFinish
         DataIndexationStart = 40,
         DataIndexationFinish = 42,
 
@@ -119,9 +119,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
+            NWEBenchmark.Start();
             if (Launched == false)
             {
-                NWEBenchmark.Start("NetWorkedData");
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
@@ -144,9 +144,9 @@ namespace NetWorkedData
                 else
                 {
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
-                    if (Preload==true)
+                    if (Preload == true)
                     {
-                        Launch_Runtime_Sync();
+                        //Launch_Runtime_Sync();
                     }
                     else
                     {
@@ -155,6 +155,7 @@ namespace NetWorkedData
                 }
             }
             //LaunchNext();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()
