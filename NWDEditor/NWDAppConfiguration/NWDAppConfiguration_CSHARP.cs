@@ -142,10 +142,10 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethod) + " = " + OverrideCacheMethod.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethodInPlayMode) + " = " + OverrideCacheMethodInPlayMode.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.OverrideCacheMethodEverywhere) + " = " + OverrideCacheMethodEverywhere.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SurProtected) + " = " + SurProtected.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMin) + " = " + PinCodeLenghtMin.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMax) + " = " + PinCodeLenghtMax.ToString().ToLower() + ";");
-            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProtectionTentativeMax) + " = " + ProtectionTentativeMax.ToString() + ";");
+            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SurProtected) + " = " + SurProtected.ToString().ToLower() + ";");
+            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMin) + " = " + PinCodeLenghtMin.ToString().ToLower() + ";");
+            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PinCodeLenghtMax) + " = " + PinCodeLenghtMax.ToString().ToLower() + ";");
+            //rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProtectionTentativeMax) + " = " + ProtectionTentativeMax.ToString() + ";");
 
             rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SlackWebhookURL) + " = \"" + SlackWebhookURL + "\";");
@@ -188,7 +188,8 @@ namespace NetWorkedData
             rReturnType.AppendLine("{");
 
             rReturnType.AppendLine("NWEBenchmark.Start();");
-            List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
+            //List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
+            List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in tAllTypes)
             {

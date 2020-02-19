@@ -150,7 +150,8 @@ namespace NetWorkedData
         static NWDBasisHelper()
         {
             //Debug.Log("NWDDatas Static Class Constructor()");
-            NWDTypeLauncher.Launcher();
+            //NWDTypeLauncher.Launcher();
+            NWDLauncher.Launch();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ClassLoaded = false;

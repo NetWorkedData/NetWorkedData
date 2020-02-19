@@ -260,11 +260,14 @@ namespace NetWorkedData
             if (kDataList.Contains(sData))
             {
                 kDataList.RemoveAll(x => x == sData);
-                foreach (List<TData> tIndex in kIndexInversed[sData.Reference])
+                if (kIndexInversed.ContainsKey(sData.Reference))
                 {
-                    tIndex.RemoveAll(x => x == sData);
+                    foreach (List<TData> tIndex in kIndexInversed[sData.Reference])
+                    {
+                        tIndex.RemoveAll(x => x == sData);
+                    }
+                    kIndexInversed.Remove(sData.Reference);
                 }
-                kIndexInversed.Remove(sData.Reference);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

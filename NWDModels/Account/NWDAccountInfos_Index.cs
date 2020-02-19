@@ -65,9 +65,35 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Used it to change and Temporary acount to a certified account.
+        /// </summary>
+        /// <param name="sOldAccount"></param>
+        /// <param name="sNewAccount"></param>
+        public static void ChangeCurrentData(string sOldAccount, string sNewAccount)
+        {
+            NWDAccountInfos tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(sOldAccount);
+            if (tInfos != null)
+            {
+                tInfos.Reference = sNewAccount;
+                tInfos.SaveData();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the current account infos instance for the current account
+        /// </summary>
+        /// <returns></returns>
         public static NWDAccountInfos CurrentData()
         {
-            return FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
+            //NWDAccountInfos tInfos = FindFirstDataByAccount(NWDAccount.CurrentReference(), true);
+            NWDAccountInfos tInfos = NWDBasisHelper.GetRawDataByReference<NWDAccountInfos>(NWDAccount.CurrentReference());
+            if (tInfos == null)
+            {
+                tInfos = NWDBasisHelper.NewDataWithReference<NWDAccountInfos>(NWDAccount.CurrentReference());
+                tInfos.SaveData();
+            }
+            return tInfos;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

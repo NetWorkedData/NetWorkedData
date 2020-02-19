@@ -2236,10 +2236,10 @@ namespace NetWorkedData
                     {
                         tValid = false;
                     }
-                    if (NWDLauncher.CodePinValue.Length < NWDAppConfiguration.SharedInstance().PinCodeLenghtMin || NWDLauncher.CodePinValue.Length > NWDAppConfiguration.SharedInstance().PinCodeLenghtMax)
-                    {
-                        tValid = false;
-                    }
+                    //if (NWDLauncher.CodePinValue.Length < NWDAppConfiguration.SharedInstance().PinCodeLenghtMin || NWDLauncher.CodePinValue.Length > NWDAppConfiguration.SharedInstance().PinCodeLenghtMax)
+                    //{
+                    //    tValid = false;
+                    //}
                     if (string.IsNullOrEmpty(NWDLauncher.CodePinValue))
                     {
                         tValid = false;

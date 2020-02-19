@@ -92,16 +92,16 @@ namespace NetWorkedData
                     double tSeconds = SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
                     DateTime t = DateTime.Now;
                     DateTime tf = DateTime.Now.AddSeconds(tSeconds);
-                    while (t < tf)
-                    {
-                        t = DateTime.Now;
-                    }
+                    //while (t < tf)
+                    //{
+                    //    t = DateTime.Now;
+                    //}
 
                     // Waiting the tables and file will be open...
-                    while (SQLiteConnectionEditor.IsOpen() == false)
-                    {
-                        // do nothing, just wait :)
-                    }
+                    //while (SQLiteConnectionEditor.IsOpen() == false)
+                    //{
+                    //    // do nothing, just wait :)
+                    //}
 
                     // Finish test opened database
                     rReturn = SQLiteConnectionEditor.IsValid();
@@ -498,6 +498,7 @@ namespace NetWorkedData
                 if (SQLiteConnectionAccountIsValid())
                 {
                     //Debug.Log("<color=green>CreateTable() account" + sType.Name + " </color>");
+                    //TODO : change create table with new method
                     SQLiteConnectionAccount.CreateTableByType(sType);
                 }
             }
@@ -506,6 +507,7 @@ namespace NetWorkedData
                 if (SQLiteConnectionEditorIsValid())
                 {
                     //Debug.Log("<color=green>CreateTable() editor" + sType.Name + " </color>");
+                    //TODO : change create table with new method
                     SQLiteConnectionEditor.CreateTableByType(sType);
                 }
             }

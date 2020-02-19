@@ -13,11 +13,12 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using SQLite4Unity3d;
-//using BasicToolBox;
 using System.Collections;
 using System.IO;
+using System.Reflection;
+
+using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -34,6 +35,12 @@ namespace NetWorkedData
 
         // launch engine NetWorkedData
         EngineLaunching = 10,
+
+        ClassDeclareStart = 11,
+        ClassDeclareFinish = 12,
+        ClassRestaureStart = 13,
+        ClassRestaureFinish = 14,
+
         EngineLaunched = 19,
         // engine NetWorkedData ready
 
@@ -42,12 +49,16 @@ namespace NetWorkedData
         DataEditorConnected = 21,
         DataEditorTableUpdated = 22,
         // waiting to load data async or sync order
-            // then Notify K_DB_EDITOR_START_ASYNC_LOADING to call 
-            // DataEditorStartLoading
-            // DataEditorPartialLoaded
-            // DataEditorLoaded
+        // then Notify K_DB_EDITOR_START_ASYNC_LOADING to call 
+        // DataEditorStartLoading
+        // DataEditorPartialLoaded
+        // DataEditorLoaded
         DataEditorLoading = 28,
         DataEditorLoaded = 29,
+
+
+        DataEditorIndexationStart = 50,
+        DataEditorIndexationFinish = 52,
 
         DataAccountConnecting = 30,
         DataAccountCodePinCreate = 31,
@@ -59,18 +70,18 @@ namespace NetWorkedData
 
         DataAccountTableUpdated = 37,
         // waiting to load data async or sync order
-            // then Notify K_DB_ACCOUNT_START_ASYNC_LOADING to call 
-            // DataAccountStartLoading
-            // DataAccountPartialLoaded
-            // DataAccountLoaded
+        // then Notify K_DB_ACCOUNT_START_ASYNC_LOADING to call 
+        // DataAccountStartLoading
+        // DataAccountPartialLoaded
+        // DataAccountLoaded
         DataAccountLoading = 38,
         DataAccountLoaded = 39,
-        
+
         // waiting to load data async or sync order
-            // then Notify K_DB_INDEXATION_START_ASYNC_LOADING to call 
-            // DataIndexationStart
-            // DataIndexationStep
-            // DataIndexationFinish
+        // then Notify K_DB_INDEXATION_START_ASYNC_LOADING to call 
+        // DataIndexationStart
+        // DataIndexationStep
+        // DataIndexationFinish
         DataIndexationStart = 40,
         DataIndexationFinish = 42,
 
@@ -82,17 +93,19 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
+        static private int StepSum;
+        static private int StepIndex;
         static private bool Launched = false;
         static bool Preload = true;
+        //-------------------------------------------------------------------------------------------------------------
+        static public void StepIndcrement()
+        {
+            StepIndex++;
+        }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDStatut GetState()
         {
             return State;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public void SetState(NWDStatut sState)
-        {
-            State = sState;
         }
         //-------------------------------------------------------------------------------------------------------------
         static public bool GetPreload()
@@ -106,9 +119,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void Launch()
         {
+            NWEBenchmark.Start();
             if (Launched == false)
             {
-                NWEBenchmark.Start("NetWorkedData");
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
@@ -126,13 +139,24 @@ namespace NetWorkedData
                 if (EditorByPass == true)
                 {
                     Preload = true;
+                    Launch_Editor();
                 }
                 else
                 {
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
+                    if (Preload == true)
+                    {
+                        Launch_Runtime_Sync();
+                    }
+                    else
+                    {
+                        Launch_Runtime_Sync();
+                        //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
+                    }
                 }
             }
-            LaunchNext();
+            //LaunchNext();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()
@@ -152,7 +176,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public void LaunchNext()
         {
-            Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
+            /*
+            //Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
             //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
             switch (State)
             {
@@ -241,7 +266,6 @@ namespace NetWorkedData
                     break;
                 case NWDStatut.DataAccountLoaded:
                     {
-                        Debug.Log("############################### je passe aussi ici");
                         DatabaseIndexationStart();
                     }
                     break;
@@ -260,113 +284,114 @@ namespace NetWorkedData
                     }
                     break;
             }
+            */
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void LaunchPause()
-        {
-            switch (State)
-            {
-                case NWDStatut.None:
-                    {
-                    }
-                    break;
-                case NWDStatut.EngineLaunching:
-                    {
-                        // engine in progress ... do nothing
-                    }
-                    break;
-                case NWDStatut.EngineLaunched:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorConnecting:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorConnected:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorTableUpdated:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorLoading:
-                    {
-                        State = NWDStatut.DataEditorTableUpdated;
-                    }
-                    break;
-                case NWDStatut.DataEditorLoaded:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountConnecting:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinCreate:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinRequest:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinFail:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinStop:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinSuccess:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountConnected:
-                    {
-                        State = NWDStatut.DataEditorLoaded;
-                    }
-                    break;
-                case NWDStatut.DataAccountTableUpdated:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountLoading:
-                    {
-                        State = NWDStatut.DataAccountTableUpdated;
-                    }
-                    break;
-                case NWDStatut.DataAccountLoaded:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationStart:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationFinish:
-                    {
-                    }
-                    break;
-                case NWDStatut.NetWorkedDataReady:
-                    {
-                    }
-                    break;
-            }
-        }
+        //static public void LaunchPause()
+        //{
+        //    switch (State)
+        //    {
+        //        case NWDStatut.None:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.EngineLaunching:
+        //            {
+        //                // engine in progress ... do nothing
+        //            }
+        //            break;
+        //        case NWDStatut.EngineLaunched:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorConnecting:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorConnected:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorTableUpdated:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorLoading:
+        //            {
+        //                State = NWDStatut.DataEditorTableUpdated;
+        //            }
+        //            break;
+        //        case NWDStatut.DataEditorLoaded:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountConnecting:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinCreate:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinRequest:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinFail:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinStop:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountCodePinSuccess:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountConnected:
+        //            {
+        //                State = NWDStatut.DataEditorLoaded;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountTableUpdated:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountLoading:
+        //            {
+        //                State = NWDStatut.DataAccountTableUpdated;
+        //            }
+        //            break;
+        //        case NWDStatut.DataAccountLoaded:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataIndexationStart:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.DataIndexationFinish:
+        //            {
+        //            }
+        //            break;
+        //        case NWDStatut.NetWorkedDataReady:
+        //            {
+        //            }
+        //            break;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        static public void LaunchResume()
-        {
-            LaunchNext();
-        }
+        //static public void LaunchResume()
+        //{
+        //    LaunchNext();
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
