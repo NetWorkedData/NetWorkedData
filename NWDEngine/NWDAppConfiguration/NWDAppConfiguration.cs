@@ -86,10 +86,10 @@ namespace NetWorkedData
         public bool OverrideCacheMethodInPlayMode = false;
 
 
-        //public bool SurProtected = false; //TODO:  rename OverProtected
-        //public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
-        //public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
-        //public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
+        public bool SurProtected = false; //TODO:  rename OverProtected
+        public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
+        public int PinCodeLenghtMax = 8; //TODO:  rename PinCodeMaxLength
+        public int ProtectionTentativeMax = 6; //TODO:  rename maximum attempt
 
         public bool EditorTableCommun = true; //TODO param in config editor extension...
         public bool ShowCompile = true; //TODO param in config editor extension...
