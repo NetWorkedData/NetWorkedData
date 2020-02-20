@@ -125,8 +125,14 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             NWDGUI.LoadStyles();
+
             NWDGUILayout.Title("Editor preferences");
-            //NWDGUILayout.Informations("Some informations!");
+
+            // start scroll
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            //General preferences
+            NWDGUILayout.Section("General preferences");
             NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
             NWDAppConfiguration.SharedInstance().ShowCompile = EditorGUILayout.Toggle("Show re-compile ", NWDAppConfiguration.SharedInstance().ShowCompile);
             NWDAppConfiguration.SharedInstance().TintColor = EditorGUILayout.ColorField("Tint color ", NWDAppConfiguration.SharedInstance().TintColor);
@@ -146,7 +152,23 @@ namespace NetWorkedData
                     //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+
+            // build preference section
+            NWDGUILayout.Section("Editor build preferences");
+            //define environment build
+            NWDEditorBuildEnvironment tNWDEditorBuildEnvironment = NWDBuildPreProcess.GetEditoBuildEnvironment();
+            tNWDEditorBuildEnvironment = (NWDEditorBuildEnvironment)EditorGUILayout.EnumPopup("Build Environment", tNWDEditorBuildEnvironment);
+            NWDBuildPreProcess.SetEditorBuildEnvironment(tNWDEditorBuildEnvironment);
+            // define rename option
+            NWDEditorBuildRename tNWDEditorBuildRename = NWDBuildPreProcess.GetEditoBuildRename();
+            tNWDEditorBuildRename = (NWDEditorBuildRename)EditorGUILayout.EnumPopup("Build Rename", tNWDEditorBuildRename);
+            NWDBuildPreProcess.SetEditorBuildRename(tNWDEditorBuildRename);
+            // define update database
+            NWDEditorBuildDatabaseUpdate tNWDEditorBuildDatabaseUpdate = NWDBuildPreProcess.GetEditorBuildDatabaseUpdate();
+            tNWDEditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Build Database Update", tNWDEditorBuildDatabaseUpdate);
+            NWDBuildPreProcess.SetEditorBuildDatabaseUpdate(tNWDEditorBuildDatabaseUpdate);
+
+            // Data tag
             NWDGUILayout.Section("Datas Tags");
             NWDGUILayout.Informations("Some informations about tags!");
             if (tColum > 1)
@@ -173,6 +195,9 @@ namespace NetWorkedData
             {
                 EditorGUILayout.EndHorizontal();
             }
+
+
+            // end scroll
             GUILayout.EndScrollView();
 
             NWDGUILayout.Line();
