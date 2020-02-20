@@ -119,7 +119,7 @@ namespace NetWorkedData
                         case NWDErrorType.Upgrade:
                             {
                                 NWDDataManager.SharedInstance().DataQueueExecute();
-                                Application.OpenURL(NWDVersion.SelectMaxDataForEnvironment(NWDAppEnvironment.SelectedEnvironment()).URLMyApp(false));
+                                Application.OpenURL(NWDVersion.SelectMaxRecheableDataForEnvironment(NWDAppEnvironment.SelectedEnvironment()).URLMyApp(false));
                                 Application.Quit(9);
                             }
                             break;

@@ -60,6 +60,16 @@ namespace NetWorkedData
             Value = "0.00.00";
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SetIntValue(int sNewIntValue)
+        {
+            //NWEBenchmark.Start();
+            string tNewIntValue = sNewIntValue.ToString("00000");
+            tNewIntValue = tNewIntValue.Insert(tNewIntValue.Length - 4, ".");
+            tNewIntValue = tNewIntValue.Insert(tNewIntValue.Length - 2, ".");
+            Value = tNewIntValue;
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void BaseVerif()
         {
             // Need to check with a new dictionary each time

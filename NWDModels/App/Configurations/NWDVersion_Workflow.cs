@@ -57,6 +57,19 @@ namespace NetWorkedData
             //Debug.Log("NWDVersion Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
+            //NWEBenchmark.Start();
+            base.Initialization();
+            NWDVersion tMaxVersion = SelectMaxRecheableData();
+            if (tMaxVersion!=null)
+            {
+                Version.SetIntValue(tMaxVersion.Version.ToInt() + 1);
+            }
+            InternalKey = Version.ToString();
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override int WebModelToUse()
         {
             return 0;
@@ -64,37 +77,65 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonTrashMe()
         {
-
+            //NWEBenchmark.Start();
 #if UNITY_EDITOR
-            GetDefaultVersion();
+            //PreventDefaultVersion(this);
 #endif
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            //NWEBenchmark.Start();
+#if UNITY_EDITOR
+            //PreventDefaultVersion(this);
+#endif
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonEnableMe()
+        {
+            //NWEBenchmark.Start();
+#if UNITY_EDITOR
+            //PreventDefaultVersion(this);
+#endif
+            //NWEBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDisableMe()
+        {
+            //NWEBenchmark.Start();
+#if UNITY_EDITOR
+            //PreventDefaultVersion(this);
+#endif
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDeletedMe()
         {
+            //NWEBenchmark.Start();
 #if UNITY_EDITOR
             GetDefaultVersion();
 #endif
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
+            //NWEBenchmark.Start();
             InternalKey = Version.ToString();
 #if UNITY_EDITOR
             // Add QRCodeTexture
             QRCodeTexture = FlashMyApp(false, 256);
-            // check default value for default version
-            NWDVersion tDefaultVersion = GetDefaultVersion();
-            if (tDefaultVersion == this)
-            {
-                // force version default to default value
-                ResetToDefaultVersionValue();
-            }
+            // Prevent Default Version if it's default value
+            PreventDefaultVersion(this);
 #endif
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMe()
         {
+            //NWEBenchmark.Start();
             // do something when object finish to be updated
 #if UNITY_EDITOR
             // update bundle version
@@ -102,12 +143,13 @@ namespace NetWorkedData
             // refresh window
             NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDVersion));
 #endif
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RecommendationBy(NWDRecommendationType sType)
         {
             //Debug.Log("NWDVersion RecommendationBy()");
-            NWDVersion tVersion = SelectMaxDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
+            NWDVersion tVersion = SelectMaxRecheableDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
 
             string tToFlash = tVersion.URLMyApp(false);
             switch (sType)
@@ -275,15 +317,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetMaxVersion()
         {
-            //Debug.Log("NWDVersion GetMaxVersion()");
             return GetMaxVersionStringForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string GetMaxVersionStringForEnvironemt(NWDAppEnvironment sEnvironment)
         {
-            //Debug.Log("NWDVersion GetMaxVersionStringForEnvironemt()");
             string tVersionString = "0.00.00";
-            NWDVersion tVersion = SelectMaxDataForEnvironment(sEnvironment);
+            NWDVersion tVersion = SelectMaxRecheableDataForEnvironment(sEnvironment);
             if (tVersion != null)
             {
                 tVersionString = tVersion.Version.ToString();

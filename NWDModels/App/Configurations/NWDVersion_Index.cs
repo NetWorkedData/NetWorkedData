@@ -35,13 +35,37 @@ namespace NetWorkedData
     public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion SelectMaxDataForEnvironment(NWDAppEnvironment sEnvironment)
+        /// <summary>
+        /// Return the Max Version Data in database.
+        /// </summary>
+        /// <returns></returns>
+        public static NWDVersion SelectMaxRecheableData()
         {
-            //Debug.Log("NWDVersion FindMaxVersionByEnvironment()");
             NWDVersion tVersion = null;
-            string tVersionString = "0.00.00";
-            int tVersionInt = 0;
-            int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
+            int tVersionInt = -1;
+            if (NWDBasisHelper.BasisHelper<NWDVersion>() != null)
+            {
+                foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
+                {
+                    if (tVersionInt < tVersionObject.Version.ToInt())
+                    {
+                        tVersionInt = tVersionObject.Version.ToInt();
+                        tVersion = tVersionObject;
+                    }
+                }
+            }
+            return tVersion;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return the Max Version Data in database for specific environment, active, buildable and valid.
+        /// </summary>
+        /// <param name="sEnvironment"></param>
+        /// <returns></returns>
+        public static NWDVersion SelectMaxRecheableDataForEnvironment(NWDAppEnvironment sEnvironment)
+        {
+            NWDVersion tVersion = null;
+            int tVersionInt = -1;
             if (NWDBasisHelper.BasisHelper<NWDVersion>() != null)
             {
                 foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
@@ -52,12 +76,9 @@ namespace NetWorkedData
                             (NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
                             (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
                         {
-                            int tVersionInteger = 0;
-                            int.TryParse(tVersionObject.Version.ToString().Replace(".", string.Empty), out tVersionInteger);
-                            if (tVersionInt < tVersionInteger)
+                            if (tVersionInt < tVersionObject.Version.ToInt())
                             {
-                                tVersionInt = tVersionInteger;
-                                tVersionString = tVersionObject.Version.ToString();
+                                tVersionInt = tVersionObject.Version.ToInt();
                                 tVersion = tVersionObject;
                             }
                         }
@@ -67,16 +88,33 @@ namespace NetWorkedData
             return tVersion;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the current Version for selected environment, active, buildable and valid.
+        /// </summary>
+        /// <returns></returns>
         public static NWDVersion CurrentData()
         {
-            //Debug.Log("NWDVersion Current()");
-            return SelectCurrentDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
+            return SelectMaxRecheableDataForEnvironment(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDVersion SelectCurrentDataForEnvironment(NWDAppEnvironment sEnvironment)
+        /// <summary>
+        /// Get the current Version for specific environment, active, buildable and valid.
+        /// </summary>
+        /// <param name="sEnvironment"></param>
+        /// <returns></returns>
+        public static NWDVersion CurrentData(NWDAppEnvironment sEnvironment)
         {
-            //Debug.Log("NWDVersion CurrentByEnvironment()");
-            NWDVersion tVersion = null;
+            return SelectMaxRecheableDataForEnvironment(sEnvironment);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the current Version for selected environment, active, buildable and valid.
+        /// </summary>
+        /// <param name="sEnvironment"></param>
+        /// <returns></returns>
+        public static List<NWDVersion> SelectReacheableDatasForEnvironment(NWDAppEnvironment sEnvironment)
+        {
+            List<NWDVersion> rReturn = new List<NWDVersion>();
             foreach (NWDVersion tVersionObject in NWDBasisHelper.BasisHelper<NWDVersion>().Datas)
             {
                 if (tVersionObject.IntegrityIsValid() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
@@ -87,12 +125,12 @@ namespace NetWorkedData
                     {
                         if (Application.version == tVersionObject.Version.ToString())
                         {
-                            tVersion = tVersionObject;
+                            rReturn.Add(tVersionObject);
                         }
                     }
                 }
             }
-            return tVersion;
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

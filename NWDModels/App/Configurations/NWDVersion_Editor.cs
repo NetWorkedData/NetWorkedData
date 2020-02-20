@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
-            Debug.Log("NWDVersion UpdateVersionBundle()");
+            //Debug.Log("NWDVersion UpdateVersionBundle()");
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsProdEnvironement() == false
@@ -221,24 +221,50 @@ namespace NetWorkedData
 
             return tYadd;
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        private static string DefaultVersionReference()
+        {
+            return NWDBasisHelper.BasisHelper<NWDVersion>().ClassTrigramme + "-00000000-000";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Prevent Default Version
+        /// </summary>
+        private static void PreventDefaultVersion(NWDVersion sVersion)
+        {
+            //NWEBenchmark.Start();
+            // check default value for default version
+            NWDVersion tDefaultVersion = NWDBasisHelper.GetEditorDataByReference<NWDVersion>(DefaultVersionReference());
+            if (tDefaultVersion == sVersion)
+            {
+                Debug.LogWarning("Default version lock some properties");
+                // force version default to default value
+                sVersion.ResetToDefaultVersionValue();
+            }
+            //NWEBenchmark.Finish();
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Check if default version exists or create one.
         /// </summary>
         public static void CheckDefaultVersion()
         {
+            //NWEBenchmark.Start();
             GetDefaultVersion();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Return the default version. Create one if necessary.
         /// </summary>
         /// <returns></returns>
-        public static NWDVersion GetDefaultVersion()
+        private static NWDVersion GetDefaultVersion()
         {
+            //NWEBenchmark.Start();
             // Add version by default, the version 0.00.00 of Application
-            string tReference = NWDBasisHelper.BasisHelper<NWDVersion>().ClassTrigramme + "-00000000-000";
-            NWDVersion tVersionDefault = NWDBasisHelper.GetRawDataByReference<NWDVersion>(tReference);
+            string tReference = DefaultVersionReference();
+            NWDVersion tVersionDefault = NWDBasisHelper.GetEditorDataByReference<NWDVersion>(tReference);
             if (tVersionDefault == null)
             {
                 tVersionDefault = NWDBasisHelper.NewDataWithReference<NWDVersion>(tReference);
@@ -246,16 +272,21 @@ namespace NetWorkedData
                 tVersionDefault.ResetToDefaultVersionValue();
                 tVersionDefault.SaveDataIfModified();
             }
+            //NWEBenchmark.Finish();
             return tVersionDefault;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Reset to default version value
         /// </summary>
-        public void ResetToDefaultVersionValue()
+        private void ResetToDefaultVersionValue()
         {
+            //NWEBenchmark.Start();
+            AC = true;
+            XX = 0;
+            DD = 0;
             Version.Default();
-            if (DevSync<0)
+            if (DevSync < 0)
             {
                 DevSync = 0;
             }
@@ -273,6 +304,7 @@ namespace NetWorkedData
             Editable = true;
             Buildable = true;
             InternalDescription = "Default version";
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
