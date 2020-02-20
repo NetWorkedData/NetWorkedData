@@ -959,6 +959,7 @@ namespace NetWorkedData
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.DeleteInMemory;
                 NWDDataManager.SharedInstance().DeleteData(this, sWritingMode);
+                this.AddonDeletedMe(); // call override method
             }
             //NWEBenchmark.Finish();
         }

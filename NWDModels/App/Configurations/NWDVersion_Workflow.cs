@@ -30,6 +30,20 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDVersionHelper : NWDHelper<NWDVersion>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public override void ClassDatasAreLoaded()
+        {
+            base.ClassDatasAreLoaded();
+#if UNITY_EDITOR
+            // Add version by default, the version 0.00.00 of application
+            NWDVersion.CheckDefaultVersion();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDVersion : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -48,13 +62,45 @@ namespace NetWorkedData
             return 0;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+
+#if UNITY_EDITOR
+            GetDefaultVersion();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDeletedMe()
+        {
+#if UNITY_EDITOR
+            GetDefaultVersion();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            InternalKey = Version.ToString();
+#if UNITY_EDITOR
+            // Add QRCodeTexture
+            QRCodeTexture = FlashMyApp(false, 256);
+            // check default value for default version
+            NWDVersion tDefaultVersion = GetDefaultVersion();
+            if (tDefaultVersion == this)
+            {
+                // force version default to default value
+                ResetToDefaultVersionValue();
+            }
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMe()
         {
             // do something when object finish to be updated
 #if UNITY_EDITOR
+            // update bundle version
             NWDVersion.UpdateVersionBundle();
+            // refresh window
             NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDVersion));
-            QRCodeTexture = FlashMyApp(false, 256);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -186,7 +232,7 @@ namespace NetWorkedData
             }
             else
             {
-                tText =  NWD.K_STATIC_FLASH_PHP + "?r=1";
+                tText = NWD.K_STATIC_FLASH_PHP + "?r=1";
             }
             if (string.IsNullOrEmpty(OSXStoreID) == false)
             {

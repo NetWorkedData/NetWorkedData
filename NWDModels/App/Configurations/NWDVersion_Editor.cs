@@ -105,7 +105,7 @@ namespace NetWorkedData
             //float tX = sInRect.position.x + NWDGUI.kFieldMarge;
             //float tY = sInRect.position.y + NWDGUI.kFieldMarge;
             // darw information about actual bundle 
-           Rect sInRect = NWDGUI.MargeLeftRight(sRect);
+            Rect sInRect = NWDGUI.MargeLeftRight(sRect);
             // Draw line 
             sInRect.y += NWDGUI.Separator(sInRect).height;
 
@@ -130,7 +130,7 @@ namespace NetWorkedData
             sInRect.height = NWDGUI.kMiniButtonStyle.fixedHeight;
             if (GUI.Button(sInRect, "Recommendation by SMS", NWDGUI.kMiniButtonStyle))
             {
-                RecommendationBy( NWDRecommendationType.SMS);
+                RecommendationBy(NWDRecommendationType.SMS);
             }
             sInRect.y += sInRect.height + NWDGUI.kFieldMarge;
             if (GUI.Button(sInRect, "Recommendation by Email", NWDGUI.kMiniButtonStyle))
@@ -220,6 +220,59 @@ namespace NetWorkedData
             tYadd += NWDGUI.kFieldMarge;
 
             return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Check if default version exists or create one.
+        /// </summary>
+        public static void CheckDefaultVersion()
+        {
+            GetDefaultVersion();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return the default version. Create one if necessary.
+        /// </summary>
+        /// <returns></returns>
+        public static NWDVersion GetDefaultVersion()
+        {
+            // Add version by default, the version 0.00.00 of Application
+            string tReference = NWDBasisHelper.BasisHelper<NWDVersion>().ClassTrigramme + "-00000000-000";
+            NWDVersion tVersionDefault = NWDBasisHelper.GetRawDataByReference<NWDVersion>(tReference);
+            if (tVersionDefault == null)
+            {
+                tVersionDefault = NWDBasisHelper.NewDataWithReference<NWDVersion>(tReference);
+                tVersionDefault.Version = new NWDVersionType();
+                tVersionDefault.ResetToDefaultVersionValue();
+                tVersionDefault.SaveDataIfModified();
+            }
+            return tVersionDefault;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reset to default version value
+        /// </summary>
+        public void ResetToDefaultVersionValue()
+        {
+            Version.Default();
+            if (DevSync<0)
+            {
+                DevSync = 0;
+            }
+            if (PreprodSync < 0)
+            {
+                PreprodSync = 0;
+            }
+            if (ProdSync < 0)
+            {
+                ProdSync = 0;
+            }
+            ActiveDev = true;
+            ActivePreprod = true;
+            ActiveProd = true;
+            Editable = true;
+            Buildable = true;
+            InternalDescription = "Default version";
         }
         //-------------------------------------------------------------------------------------------------------------
     }

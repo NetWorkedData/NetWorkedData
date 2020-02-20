@@ -142,9 +142,17 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Addon method when untrahs me. Can be ovverride in herited Class.
+        /// Addon method when delete me. Can be ovverride in herited Class.
         /// </summary>
         public virtual void AddonDeleteMe()
+        {
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addon method when deleted me. Can be ovverride in herited Class.
+        /// </summary>
+        public virtual void AddonDeletedMe()
         {
 
         }
