@@ -43,9 +43,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            //Debug.Log("NWDUserNetWorkingScript Start()");
-            NWDUserNetWorking.PrepareUpdate(0, null);
-            //CheckStart();
+            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            {
+                NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
+                {
+                    NWENotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+                    NWDUserNetWorking.PrepareUpdate(0, null);
+                });
+            }
+            else
+            {
+                NWDUserNetWorking.PrepareUpdate(0, null);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator UserNetworkinUpdate()

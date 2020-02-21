@@ -62,6 +62,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
+            if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
+            {
+                NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
+                {
+                    NWENotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+                    PrepareUpdate();
+                });
+            }
+            else
+            {
+                PrepareUpdate();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void PrepareUpdate()
+        {
             //Debug.Log("NWDNetworkCheck Start()");
             CheckCoroutine = CheckUpdate();
             NetworkStatutChange(NWDNetworkState.Unknow);
@@ -218,7 +234,7 @@ namespace NetWorkedData
                         Request.url = URL;
                         Request.method = UnityWebRequest.kHttpVerbGET;   // can be set to any custom method, common constants privided
                         Request.useHttpContinue = false;
-                        Request.chunkedTransfer = false;
+                        //Request.chunkedTransfer = false;
                         Request.redirectLimit = 0;  // disable redirects
                         Request.timeout = 10;
                         using (Request)
@@ -248,8 +264,8 @@ namespace NetWorkedData
                         Request = new UnityWebRequest();
                         Request.url = URL;
                         Request.method = UnityWebRequest.kHttpVerbHEAD;   // can be set to any custom method, common constants privided
+                        //Request.chunkedTransfer = false;
                         Request.useHttpContinue = false;
-                        Request.chunkedTransfer = false;
                         Request.redirectLimit = 0;  // disable redirects
                         Request.timeout = 10;
                         using (Request)

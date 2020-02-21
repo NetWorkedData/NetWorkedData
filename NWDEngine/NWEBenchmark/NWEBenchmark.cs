@@ -161,7 +161,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Log(string sInfos = "")
         {
-            UnityEngine.Debug.Log("benchmark : " + GetKey() + " Log : " + sInfos);
+            UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "|\t• " + " Log : " + sInfos);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LogWarning(string sInfos = "")
+        {
+            UnityEngine.Debug.LogWarning("benchmark : " + GetIndentation() + "|\t !!! " + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static double Finish(bool sWithDebug = true, string sMoreInfos = "")

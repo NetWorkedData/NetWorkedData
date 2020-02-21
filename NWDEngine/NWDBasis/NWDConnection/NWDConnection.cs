@@ -1,43 +1,23 @@
 ﻿//=====================================================================================================================
 //
-//  ideMobi 2019©
-//
-//  Date		2019-4-12 18:25:36
-//  Author		Kortex (Jean-François CONTART) 
-//  Email		jfcontart@idemobi.com
-//  Project 	NetWorkedData for Unity3D
+//  ideMobi 2020©
 //
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.IO;
-
-//using BasicToolBox;
-
-using SQLite4Unity3d;
-
 using UnityEngine;
-
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditorInternal;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDConnection is generic class to create connection to NWDBasis generic class by object's reference.
+    /// NWDConnection is generic abstract class to create connection to NWDBasis generic class by object's reference.
     /// </summary>
     [Serializable]
-    public class NWDConnection<K> : NWDBasisConnection where K : NWDBasis, new()
+    public abstract class NWDConnection<K> : NWDBasisConnection where K : NWDBasis, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -46,7 +26,19 @@ namespace NetWorkedData
         /// <returns>The object.</returns>
         public void Log()
         {
-            //Debug.Log(" type is " + GetType().Name + " with Generic " + NWDBasisHelper.FindTypeInfos(typeof(K)).ClassNamePHP + " and reference is " + Reference);
+            NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(K));
+            if (tHelper != null)
+            {
+                K tObject = (K)tHelper.GetDataByReference(Reference);
+                if (tObject == null)
+                {
+                    Debug.Log(" type is " + GetType().Name + " with Generic " + NWDBasisHelper.FindTypeInfos(typeof(K)).ClassNamePHP + " and reference is " + Reference + " BUT IS NULL");
+                }
+                else
+                {
+                    Debug.Log(" type is " + GetType().Name + " with Generic " + NWDBasisHelper.FindTypeInfos(typeof(K)).ClassNamePHP + " and reference is " + Reference + " AND EXISTS");
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -58,23 +50,36 @@ namespace NetWorkedData
             return NWDBasisHelper.GetRawDataByReference<K>(Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the object instance referenced if it's corporate by account.
+        /// </summary>
+        /// <param name="sAccountReference"></param>
+        /// <returns></returns>
         public K GetCorporateData(string sAccountReference)
         {
             return NWDBasisHelper.GetCorporateDataByReference<K>(Reference, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the object instance referenced if it's reacheable by current account.
+        /// </summary>
+        /// <returns></returns>
         public K GetReachableData()
         {
             return NWDBasisHelper.GetReachableDataByReference<K>(Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
+        /// <summary>
+        /// Get the object instance referenced for the editor mode.
+        /// </summary>
+        /// <returns></returns>
         public K GetEditorData()
         {
             return NWDBasisHelper.GetEditorDataByReference<K>(Reference);
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
-        #endif
         /// <summary>
         /// Set the object instance by its reference.
         /// </summary>

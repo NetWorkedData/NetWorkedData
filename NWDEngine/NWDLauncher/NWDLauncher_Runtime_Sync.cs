@@ -29,7 +29,7 @@ namespace NetWorkedData
             StepSum = 12;
             StepIndex = 0;
             // lauch engine
-            Engine_Editor();
+            Engine_Runtime_Sync();
             // declare models
             Declare_Editor();
             // restaure models' param
@@ -50,6 +50,8 @@ namespace NetWorkedData
             LoadData_Account_Editor();
             // index all data
             Index_Account_Editor();
+            // Special NWDAppConfiguration loaded()
+            NWDAppConfiguration.SharedInstance().Loaded();
             // Ready!
             Ready_Editor();
             NWEBenchmark.Finish();
@@ -58,6 +60,52 @@ namespace NetWorkedData
         private static void Engine_Runtime_Sync()
         {
             NWEBenchmark.Start();
+
+            State = NWDStatut.EngineLaunching;
+            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+            AllNetWorkedDataTypes.Clear();
+            BasisToHelperList.Clear();
+            List<Type> tTypeList = new List<Type>();
+            Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
+            Type[] tAllNWDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDTypeClass)) select type).ToArray();
+            Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
+            foreach (Type tType in tAllNWDTypes)
+            {
+                if (tType != typeof(NWDBasis))
+                {
+                    bool tEditorOnly = false;
+                    if (tType != typeof(NWDAccount))
+                    {
+                        if (tType.GetCustomAttributes(typeof(NWDClassUnityEditorOnlyAttribute), true).Length > 0)
+                        {
+                            tEditorOnly = true;
+                            NWEBenchmark.LogWarning("exclude " + tType.Name);
+                        }
+                    }
+                    if (tEditorOnly == false)
+                    {
+                        AllNetWorkedDataTypes.Add(tType);
+                        foreach (Type tPossibleHelper in tAllHelperDTypes)
+                        {
+                            if (tPossibleHelper.ContainsGenericParameters == false)
+                            {
+                                if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                {
+                                    BasisToHelperList.Add(tType, tPossibleHelper);
+                                    break;
+                                }
+                            }
+                        }
+                        if (BasisToHelperList.ContainsKey(tType) == false)
+                        {
+                            BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                        }
+                    }
+                }
+            }
+            StepIndcrement();
+            StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
+            State = NWDStatut.EngineLaunched;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

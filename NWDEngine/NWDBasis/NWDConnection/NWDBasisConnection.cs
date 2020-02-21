@@ -32,7 +32,7 @@ namespace NetWorkedData
     /// NWDBasisConnection is an abstract class to refere to an NWDBasis generic class object by its reference.
     /// </summary>
 	[Serializable]
-	public class NWDBasisConnection
+	public abstract class NWDBasisConnection
 	{
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>

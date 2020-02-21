@@ -27,17 +27,33 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDApp
+    public abstract partial class NWDApp
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to restaure configuration of your App: never override the NetWorkedData engine will do it for you!
+        /// </summary>
+        /// <returns></returns>
         public virtual bool RestaureConfigurations()
         {
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to restaure configuration of your App: never override the NetWorkedData engine will do it for you!
+        /// </summary>
+        /// <returns></returns>
         public virtual bool RestaureTypesConfigurations()
         {
             return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to do some operation after engine was launched and datas were loaded. You can override in public partial class NWDAppConfiguration 
+        /// </summary>
+        /// <returns></returns>
+        public virtual void Loaded()
+        {
         }
         //-------------------------------------------------------------------------------------------------------------
     }

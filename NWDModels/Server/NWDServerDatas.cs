@@ -10,7 +10,6 @@
 //  All rights reserved by ideMobi
 //
 //=====================================================================================================================
-#if UNITY_EDITOR
 using System;
 
 //=====================================================================================================================
@@ -25,6 +24,7 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Server Datas")]
     public partial class NWDServerDatas : NWDBasis
     {
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         [NWDInspectorGroupStart("Server Services")]
         public NWDReferenceType<NWDServerDomain> Server { get; set; }
@@ -81,8 +81,8 @@ namespace NetWorkedData
         [NWDInspectorGroupStart("Install Server Options")]
         public NWDServerDistribution Distribution { get; set; }
         //-------------------------------------------------------------------------------------------------------------
+#endif
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif

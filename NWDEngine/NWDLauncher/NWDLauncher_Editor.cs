@@ -56,6 +56,8 @@ namespace NetWorkedData
             LoadData_Account_Editor();
             // index all data
             Index_Account_Editor();
+            // Special NWDAppConfiguration loaded()
+            NWDAppConfiguration.SharedInstance().Loaded();
             // Ready!
             Ready_Editor();
             NWEBenchmark.Finish();
@@ -64,7 +66,6 @@ namespace NetWorkedData
         private static void Engine_Editor()
         {
             NWEBenchmark.Start();
-
             State = NWDStatut.EngineLaunching;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();

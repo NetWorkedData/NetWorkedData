@@ -126,16 +126,18 @@ namespace NetWorkedData
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
 #if UNITY_EDITOR
-                EditorApplication.quitting += Quit;
-                if (EditorApplication.isPlayingOrWillChangePlaymode == false)
+                NWEBenchmark.Log("Pass in editor macro-block");
+#endif
+                if (Application.isEditor == true)
                 {
+                    NWEBenchmark.Log("Launch in editor");
                     EditorByPass = true;
-                    if (EditorPrefs.HasKey(K_PINCODE_KEY))
+                    if (Application.isPlaying == true)
                     {
-                        string tPincode = EditorPrefs.GetString(K_PINCODE_KEY);
+                        NWEBenchmark.Log("Launch as playmode");
+                        EditorByPass = true;
                     }
                 }
-#endif
                 if (EditorByPass == true)
                 {
                     Preload = true;
@@ -146,12 +148,13 @@ namespace NetWorkedData
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
                     if (Preload == true)
                     {
+                        NWEBenchmark.Log("Launch in runtime preload (sync)");
                         Launch_Runtime_Sync();
                     }
                     else
                     {
-                        Launch_Runtime_Sync();
-                        //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
+                        NWEBenchmark.Log("Launch in runtile laoding gauge (async)");
+                        Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
             }

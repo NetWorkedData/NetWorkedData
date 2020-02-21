@@ -54,10 +54,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Localize(bool sUseBaseString = false)
         {
-            if (LocalizationReference != null)
-            {
-                NWDLocalization tLocalization = LocalizationReference.GetReachableData();
-            }
+            Debug.Log("Localize");
+            //if (LocalizationReference != null)
+            //{
+            //    NWDLocalization tLocalization = LocalizationReference.GetReachableData();
+            //}
             
             //Text
             if (TextBinding == true)
@@ -83,6 +84,7 @@ namespace NetWorkedData
                         NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                         if (tLocalization != null)
                         {
+                            Debug.Log("Reference "+ LocalizationReference.Reference+ " exists!");
                             string tTextString = string.Empty;
                             if (sUseBaseString == true)
                             {
@@ -102,6 +104,10 @@ namespace NetWorkedData
                             {
                                 TextTarget.text = tTextString;
                             }
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Reference " + LocalizationReference.Reference + " NOT exists!");
                         }
                     }
                 }
@@ -206,6 +212,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void DataIsLoaded()
         {
+
+            Debug.Log("Data editor just loaded");
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
             Localize(false);
@@ -219,9 +227,9 @@ namespace NetWorkedData
         void OnEnable()
         {
             LocalizationReference.Log();
-
             if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
+                Debug.Log("Data editor not loaded");
                 if (EmptyIfNotLoaded == true)
                 {
                     Empty();
@@ -233,8 +241,10 @@ namespace NetWorkedData
             }
             else
             {
+                Debug.Log("Data editor allready loaded");
                 Localize(false);
             }
+
             NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_LANGUAGE_CHANGED, delegate (NWENotification sNotification)
             {
                 Localize(false);

@@ -456,22 +456,22 @@ namespace NetWorkedData
             }
             else
             {
-               //Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+                //Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
             }
         }
-            //-------------------------------------------------------------------------------------------------------------
-            /// <summary>
-            /// On enable. call every times is necessary.
-            /// </summary>
-            //void OnEnable()
-            //{
-            //    base.OnEnable();
-            //}
-            //-------------------------------------------------------------------------------------------------------------
-            /// <summary>
-            /// Start this instance. Called once.
-            /// </summary>
-            void Start()
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable. call every times is necessary.
+        /// </summary>
+        //void OnEnable()
+        //{
+        //    base.OnEnable();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Start this instance. Called once.
+        /// </summary>
+        void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
 
@@ -556,7 +556,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void EngineLaunch(NWENotification sNotification, bool sPreloadDatas)
         {
-            //Debug.Log("<color=red>!!!!!</color><color=orange> EngineLaunch</color>");
+            Debug.Log("<color=red>!!!!!</color><color=orange> EngineLaunch</color>" + " state : " + NWDLauncher.GetState().ToString());
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBEditorConnected(NWENotification sNotification, bool sPreloadDatas)
@@ -588,7 +588,7 @@ namespace NetWorkedData
         public override void DBAccountPinCodeRequest(NWENotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeRequest</color>");
-           // PinCodeInsert("111","111");
+            // PinCodeInsert("111","111");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountPinCodeSuccess(NWENotification sNotification, bool sPreloadDatas)
@@ -609,7 +609,7 @@ namespace NetWorkedData
         public override void DBAccountPinCodeNeeded(NWENotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("<color=red>!!!!!</color><color=orange>DBAccountPinCodeNeeded</color>");
-           // PinCodeInsert("111","111");
+            // PinCodeInsert("111","111");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DBAccountConnected(NWENotification sNotification, bool sPreloadDatas)
