@@ -2189,7 +2189,7 @@ namespace NetWorkedData
                     if (GUI.Button(tDialogRect, "Valid", NWDGUI.kMiniButtonStyle))
                     {
                         //Debug.LogWarning("Try this code");
-                        NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
+                        //NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
                     }
                     tDialogRect.y += (NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge);
                     tDialogRect.y += NWDGUI.Separator(tDialogRect).height;
@@ -2199,7 +2199,7 @@ namespace NetWorkedData
                         Debug.LogWarning("Delete account base?!");
                         if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
                         {
-                            NWDDataManager.SharedInstance().DeleteDatabaseAccount();
+                            //NWDDataManager.SharedInstance().DeleteDatabaseAccount();
                             NWDLauncher.Launch();
                         }
                         GUI.FocusControl(null);
@@ -2262,13 +2262,13 @@ namespace NetWorkedData
                     {
                         Debug.LogWarning("Create account base?!");
                         GUI.FocusControl(null);
-                        NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
+                        //NWDLauncher.DatabaseAccountConnection(NWDLauncher.CodePinValue);
                     }
                     tDialogRect.y += NWDGUI.kMiniButtonStyle.fixedHeight + NWDGUI.kFieldMarge;
                     EditorGUI.EndDisabledGroup();
                     NWDGUI.EndRedArea();
                 }
-                else if (NWDLauncher.GetState() == NWDStatut.DataEditorLoaded)
+                else if (NWDLauncher.GetState() == NWDStatut.EditorReady)
                 {
                     tDialogRect.height += NWDGUI.kFieldMarge;
                     Rect tDialogRectBox = NWDGUI.UnMargeAll(tDialogRect);

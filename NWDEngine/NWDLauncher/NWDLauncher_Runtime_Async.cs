@@ -30,12 +30,12 @@ namespace NetWorkedData
                 if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
                 {
                     // Load async the engine!
-                    Debug.Log("########## <color=blue>Load async the engine</color>!");
+                    //Debug.Log("########## <color=blue>Load async the engine</color>!");
                     StartCoroutine(NWDLauncher.Launch_Runtime_Async());
                 }
                 else
                 {
-                    Debug.Log("########## <color=blue>Load async the engine ALL READY READY!</color>!");
+                    //Debug.Log("########## <color=blue>Load async the engine ALL READY READY!</color>!");
                 }
             }
         }
@@ -48,53 +48,74 @@ namespace NetWorkedData
         public static IEnumerator Launch_Runtime_Async()
         {
             NWEBenchmark.Start();
-            StepSum = 12;
+            IEnumerator tWaitTime = null;
+            StepSum = 21;
             StepIndex = 0;
             // lauch engine
-            yield return Engine_Runtime_Async();
+            tWaitTime = Engine_Runtime_Async();
+            yield return tWaitTime;
             // declare models
-            yield return Declare_Runtime_Async();
+            tWaitTime = Declare_Runtime_Async();
+            yield return tWaitTime;
             // restaure models' param
+            tWaitTime = null;
             Restaure_Editor();
-            yield return null;
+            yield return tWaitTime;
+
+            NotifyEngineReady();
+
             // connect editor
+            tWaitTime = null;
             Connect_Editor_Editor();
-            yield return null;
+            yield return tWaitTime;
             // create table editor
+            tWaitTime = null;
             CreateTable_Editor_Editor();
-            yield return null;
+            yield return tWaitTime;
             // load editor data
-            LoadData_Editor_Editor();
-            yield return null;
+            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor();
+            yield return tWaitTime;
             // index all data editor
-            Index_Editor_Editor();
-            yield return null;
+            tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects(); ;
+            yield return tWaitTime;
+
+            NotifyDataEditorReady();
+
             // need account pincode
+            tWaitTime = null;
             Connect_Account_Editor();
-            yield return null;
+            yield return tWaitTime;
             // create table account
+            tWaitTime = null;
             CreateTable_Account_Editor();
-            yield return null;
+            yield return tWaitTime;
+
+            NotifyDataAccountReady();
+
             // load account data account
-            LoadData_Account_Editor();
-            yield return null;
+            tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount();
+            yield return tWaitTime;
             // index all data
-            Index_Account_Editor();
-            yield return null;
+            tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
+            yield return tWaitTime;
             // Special NWDAppConfiguration loaded()
+            tWaitTime = null;
             NWDAppConfiguration.SharedInstance().Loaded();
-            yield return null;
+            yield return tWaitTime;
             // Ready!
+            tWaitTime = null;
             Ready_Editor();
-            yield return null;
+            yield return tWaitTime;
+
+            NotifyNetWorkedDataReady();
+
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator Engine_Runtime_Async()
         {
             NWEBenchmark.Start();
-
-            State = NWDStatut.EngineLaunching;
+            State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
             BasisToHelperList.Clear();
@@ -137,9 +158,8 @@ namespace NetWorkedData
                 }
                 yield return null;
             }
-            StepIndcrement();
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
-            State = NWDStatut.EngineLaunched;
+            State = NWDStatut.EngineFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -152,11 +172,12 @@ namespace NetWorkedData
                 if (tType != typeof(NWDBasis))
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType, BasisToHelperList[tType]);
+                    State = NWDStatut.ClassDeclareStep;
                 }
                 yield return null;
             }
-            StepIndcrement();
             State = NWDStatut.ClassDeclareFinish;
+            NotifyStep();
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

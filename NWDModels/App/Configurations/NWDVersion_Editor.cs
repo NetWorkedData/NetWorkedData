@@ -265,6 +265,11 @@ namespace NetWorkedData
             // Add version by default, the version 0.00.00 of Application
             string tReference = DefaultVersionReference();
             NWDVersion tVersionDefault = NWDBasisHelper.GetEditorDataByReference<NWDVersion>(tReference);
+            if (tVersionDefault.IntegrityIsValid()==false)
+            {
+                tVersionDefault.ResetToDefaultVersionValue();
+                tVersionDefault.SaveDataIfModified();
+            }
             if (tVersionDefault == null)
             {
                 tVersionDefault = NWDBasisHelper.NewDataWithReference<NWDVersion>(tReference);

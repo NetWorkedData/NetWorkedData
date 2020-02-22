@@ -40,6 +40,9 @@ namespace NetWorkedData
             Declare_Editor();
             // restaure models' param
             Restaure_Editor();
+
+            NotifyEngineReady();
+
             // connect editor
             Connect_Editor_Editor();
             // create table editor
@@ -48,6 +51,9 @@ namespace NetWorkedData
             LoadData_Editor_Editor();
             // index all data editor
             Index_Editor_Editor();
+
+            NotifyDataEditorReady();
+
             // need account pincode
             Connect_Account_Editor();
             // create table account
@@ -56,17 +62,23 @@ namespace NetWorkedData
             LoadData_Account_Editor();
             // index all data
             Index_Account_Editor();
+
+            NotifyDataAccountReady();
+
             // Special NWDAppConfiguration loaded()
             NWDAppConfiguration.SharedInstance().Loaded();
             // Ready!
             Ready_Editor();
+
+            NotifyNetWorkedDataReady();
+
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Engine_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.EngineLaunching;
+            State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
             BasisToHelperList.Clear();
@@ -96,9 +108,8 @@ namespace NetWorkedData
                     }
                 }
             }
-            StepIndcrement();
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
-            State = NWDStatut.EngineLaunched;
+            State = NWDStatut.EngineFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -113,7 +124,6 @@ namespace NetWorkedData
                     NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType, BasisToHelperList[tType]);
                 }
             }
-            StepIndcrement();
             State = NWDStatut.ClassDeclareFinish;
             NWEBenchmark.Finish();
         }
@@ -127,7 +137,6 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
             NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
             NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
-            StepIndcrement();
             State = NWDStatut.ClassRestaureFinish;
             NWEBenchmark.Finish();
         }
@@ -135,94 +144,92 @@ namespace NetWorkedData
         private static void Connect_Editor_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.DataEditorConnecting;
+            State = NWDStatut.DataEditorConnectionStart;
             if (NWDDataManager.SharedInstance().ConnectToDatabaseEditor())
             {
-                State = NWDStatut.DataEditorConnected;
+                State = NWDStatut.DataEditorConnectionFinish;
             }
             else
             {
-                State = NWDStatut.Error;
+                State = NWDStatut.DataEditorConnectionError;
             }
-            StepIndcrement();
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void CreateTable_Editor_Editor()
         {
             NWEBenchmark.Start();
-            DatabaseEditorTable();
-            StepIndcrement();
-            State = NWDStatut.DataEditorTableUpdated;
+            State = NWDStatut.DataEditorTableCreateStart;
+            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
+            State = NWDStatut.DataEditorTableCreateFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void LoadData_Editor_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.DataEditorLoading;
+            State = NWDStatut.DataEditorLoadStart;
             NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
-            StepIndcrement();
-            State = NWDStatut.DataEditorLoaded;
+            State = NWDStatut.DataEditorLoadFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Index_Editor_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.DataEditorIndexationStart;
-            //NWDDataManager.SharedInstance().IndexAllObjects();
-            StepIndcrement();
-            State = NWDStatut.DataEditorIndexationFinish;
+            State = NWDStatut.DataEditorIndexStart;
+            State = NWDStatut.DataEditorIndexFinish;
+            State = NWDStatut.EditorReady;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Connect_Account_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.DataAccountConnecting;
-            //ConnectToDatabaseAccount();
-            DatabaseAccountConnection(string.Empty);
-            StepIndcrement();
-            State = NWDStatut.DataAccountConnected;
+            State = NWDStatut.DataAccountConnectionStart;
+            if (NWDDataManager.SharedInstance().ConnectToDatabaseAccount(string.Empty))
+            {
+                State = NWDStatut.DataAccountConnectionFinish;
+            }
+            else
+            {
+                State = NWDStatut.DataAccountConnectionError;
+            }
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void CreateTable_Account_Editor()
         {
             NWEBenchmark.Start();
-            DatabaseAccountTable();
-            State = NWDStatut.DataAccountTableUpdated;
-            StepIndcrement();
+            State = NWDStatut.DataAccountTableCreateStart;
+            NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+            State = NWDStatut.DataAccountTableCreateFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void LoadData_Account_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.DataAccountLoading;
+            State = NWDStatut.DataAccountLoadStart;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
-            StepIndcrement();
-            State = NWDStatut.DataAccountLoaded;
+            State = NWDStatut.DataAccountLoadFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Index_Account_Editor()
         {
             NWEBenchmark.Start();
-            State = NWDStatut.DataIndexationStart;
+            State = NWDStatut.DataAccountIndexStart;
             NWDDataManager.SharedInstance().IndexAllObjects();
-            StepIndcrement();
-            State = NWDStatut.DataIndexationFinish;
+            State = NWDStatut.DataAccountIndexFinish;
+            State = NWDStatut.AccountReady;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Ready_Editor()
         {
             NWEBenchmark.Start();
-            StepIndcrement();
             State = NWDStatut.NetWorkedDataReady;
-            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_READY);
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

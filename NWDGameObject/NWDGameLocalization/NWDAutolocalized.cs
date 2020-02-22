@@ -215,7 +215,7 @@ namespace NetWorkedData
 
             Debug.Log("Data editor just loaded");
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_LAUNCHER_EDITOR_READY);
             Localize(false);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ namespace NetWorkedData
                 {
                     Empty();
                 }
-                NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED, delegate (NWENotification sNotification)
+                NWENotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_LAUNCHER_EDITOR_READY, delegate (NWENotification sNotification)
                  {
                      DataIsLoaded();
                  });

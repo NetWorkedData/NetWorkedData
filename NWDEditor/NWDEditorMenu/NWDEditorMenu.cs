@@ -480,40 +480,40 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]
-        public static void DeconnectAccountDataBase()
-        {
-            NWDLauncher.DeconnectFromDatabaseAccount();
-            //NWDLauncher.Launch();
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_DECONNECT_ACCOUNT_DATAS, false, 9303)]
+        //public static void DeconnectAccountDataBase()
+        //{
+        //    NWDLauncher.DeconnectFromDatabaseAccount();
+        //    //NWDLauncher.Launch();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_DELETEACCOUNTE_DATAS, false, 9304)]
-        public static void DeleetAccountDataBase()
-        {
-            if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
-            {
-                NWDLauncher.DeleteDatabaseAccount();
-                //NWDLauncher.Launch();
-            }
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_DELETEACCOUNTE_DATAS, false, 9304)]
+        //public static void DeleetAccountDataBase()
+        //{
+        //    if (EditorUtility.DisplayDialog("DELETE ACCOUNT DATABASE", "YOU WILL DELETE ACCOUNT DATABASE! ARE YOU SURE?", "DELETE!", "CANCEL"))
+        //    {
+        //        NWDLauncher.DeleteDatabaseAccount();
+        //        //NWDLauncher.Launch();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS, false, 9305)]
-        public static void CreateAllDataBases()
-        {
-            NWDDataManager.SharedInstance().RecreateDatabase();
-            NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
-            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS_AND_PASS, false, 9305)]
-        public static void CreateAllDataBasesAndPass()
-        {
-            NWDDataManager.SharedInstance().RecreateDatabase(true, true);
-            NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
-            NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
-            NWDDataManager.SharedInstance().ReloadAllObjects();
-        }
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS, false, 9305)]
+        //public static void CreateAllDataBases()
+        //{
+        //    NWDDataManager.SharedInstance().RecreateDatabase();
+        //    NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+        //    NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
+        //    NWDDataManager.SharedInstance().ReloadAllObjects();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //[MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS_AND_PASS, false, 9305)]
+        //public static void CreateAllDataBasesAndPass()
+        //{
+        //    NWDDataManager.SharedInstance().RecreateDatabase(true, true);
+        //    NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
+        //    NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
+        //    NWDDataManager.SharedInstance().ReloadAllObjects();
+        //}
 
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_INTEGRITY_TO_TRASHED, false, 9355)]

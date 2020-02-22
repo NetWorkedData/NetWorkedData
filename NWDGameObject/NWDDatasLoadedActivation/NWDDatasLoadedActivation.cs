@@ -28,14 +28,15 @@ namespace NetWorkedData
         void DataNotLoaded()
         {
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY);
             if (UseCanvas == true)
             {
                 Canvas tCanvas = GetComponent<Canvas>();
-                if (tCanvas != null)
+                if (tCanvas == null)
                 {
-                    tCanvas.enabled = ActiveDatasNotLoaded;
+                    tCanvas = gameObject.AddComponent<Canvas>();
                 }
+                tCanvas.enabled = ActiveDatasNotLoaded;
             }
             if (UseChildGameObjects == true)
             {
@@ -44,7 +45,7 @@ namespace NetWorkedData
                     tChild.gameObject.SetActive(ActiveDatasNotLoaded);
                 }
             }
-            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED, delegate (NWENotification sNotification)
+            tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY, delegate (NWENotification sNotification)
             {
                 DataIsLoaded();
             });
@@ -53,14 +54,15 @@ namespace NetWorkedData
         void DataIsLoaded()
         {
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY);
             if (UseCanvas == true)
             {
                 Canvas tCanvas = GetComponent<Canvas>();
-                if (tCanvas != null)
+                if (tCanvas == null)
                 {
-                    tCanvas.enabled = ActiveDatasLoaded;
+                    tCanvas = gameObject.AddComponent<Canvas>();
                 }
+                tCanvas.enabled = ActiveDatasLoaded;
             }
             if (UseChildGameObjects == true)
             {
@@ -71,14 +73,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        void Awake()
+        void OnEnable()
         {
             if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
+                Debug.Log("Data not loaded");
                 DataNotLoaded();
             }
             else
             {
+                Debug.Log("Data allready loaded");
                 DataIsLoaded();
             }
         }
@@ -86,7 +90,7 @@ namespace NetWorkedData
         private void OnDestroy()
         {
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY);
         }
         //-------------------------------------------------------------------------------------------------------------
     }

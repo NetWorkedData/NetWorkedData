@@ -34,6 +34,9 @@ namespace NetWorkedData
             Declare_Editor();
             // restaure models' param
             Restaure_Editor();
+
+            NotifyEngineReady();
+
             // connect editor
             Connect_Editor_Editor();
             // create table editor
@@ -42,7 +45,10 @@ namespace NetWorkedData
             LoadData_Editor_Editor();
             // index all data editor
             Index_Editor_Editor();
-            // need account pincode
+
+            NotifyDataEditorReady();
+
+            // connect account
             Connect_Account_Editor();
             // create table account
             CreateTable_Account_Editor();
@@ -50,10 +56,16 @@ namespace NetWorkedData
             LoadData_Account_Editor();
             // index all data
             Index_Account_Editor();
+
+            NotifyDataAccountReady();
+
             // Special NWDAppConfiguration loaded()
             NWDAppConfiguration.SharedInstance().Loaded();
             // Ready!
             Ready_Editor();
+
+            NotifyNetWorkedDataReady();
+
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -61,7 +73,7 @@ namespace NetWorkedData
         {
             NWEBenchmark.Start();
 
-            State = NWDStatut.EngineLaunching;
+            State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
             BasisToHelperList.Clear();
@@ -103,69 +115,8 @@ namespace NetWorkedData
                     }
                 }
             }
-            StepIndcrement();
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
-            State = NWDStatut.EngineLaunched;
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Declare_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Restaure_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Connect_Editor_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void LoadData_Editor_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Index_Editor_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void PinCode_Account_Runtime_Sync(string sPinCode)
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Connect_Account_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void LoadData_Account_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Index_Account_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
-            NWEBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private static void Ready_Runtime_Sync()
-        {
-            NWEBenchmark.Start();
+            State = NWDStatut.EngineFinish;
             NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -58,24 +58,19 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
             ClassEditorDataLoaded = 0;
             while (ClassEditorDataLoaded < ClassEditorExpected)
             {
                 ReloadAllObjectsByClassEditor(ClassEditorDataLoaded);
                 ClassEditorDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                NWDLauncher.NotifyStep();
                 yield return null;
             }
             DataEditorLoaded = true;
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClassEditor(int sCounter)
@@ -100,8 +95,6 @@ namespace NetWorkedData
             {
                 //NWEBenchmark.Start("LoadData");
                 DataEditorLoaded = false;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_START_LOADING);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_START_LOADING);
                 ClassEditorExpected = mTypeNotAccountDependantList.Count();
                 ClassEditorDataLoaded = 0;
                 //double tBenchmark = 0.0F;
@@ -113,11 +106,6 @@ namespace NetWorkedData
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassEditorDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == false)
-                    {
-                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_PARTIAL_LOADED);
-                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
-                    }
                     //tBenchmark += NWEBenchmark.Finish("LoadData " + tType.Name);
                 }
                 NWDDataManager.SharedInstance().DataEditorLoaded = true;
@@ -126,7 +114,6 @@ namespace NetWorkedData
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
                 //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_EDITOR_LOADED);
             }
             NWEBenchmark.Finish();
         }
@@ -138,7 +125,6 @@ namespace NetWorkedData
             {
                 yield return null;
             }
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
             ClassAccountExpected = mTypeAccountDependantList.Count();
             ClassAccountDataLoaded = 0;
             while (ClassAccountDataLoaded < ClassAccountExpected)
@@ -146,8 +132,7 @@ namespace NetWorkedData
                 ReloadAllObjectsByClassAccount(ClassAccountDataLoaded);
                 ClassAccountDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
+                NWDLauncher.NotifyStep();
                 yield return null;
             }
             DataAccountLoaded = true;
@@ -155,11 +140,6 @@ namespace NetWorkedData
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-            //NWDLauncher.SetState(NWDStatut.DataAccountLoaded);
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
-
-            //NWDLauncher.SetState(NWDStatut.DataLoaded);
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClassAccount(int sCounter)
@@ -182,7 +162,6 @@ namespace NetWorkedData
             if (DataAccountConnected == true)
             {
                 DataAccountLoaded = false;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_START_LOADING);
                 ClassAccountExpected = mTypeAccountDependantList.Count();
                 ClassAccountDataLoaded = 0;
                 foreach (Type tType in mTypeAccountDependantList)
@@ -192,15 +171,8 @@ namespace NetWorkedData
                     //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                     ClassAccountDataLoaded++;
                     ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
-                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == false)
-                    {
-                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_PARTIAL_LOADED);
-                        NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_PARTIAL_LOADED);
-                    }
                 }
                 DataAccountLoaded = true;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_ACCOUNT_LOADED);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOADED);
                 PlayerLanguageLoad();
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
@@ -211,21 +183,15 @@ namespace NetWorkedData
         public IEnumerator AsyncIndexAllObjects()
         {
             DatasIndexed = false;
-            while (DataAccountConnected == false)
-            {
-                yield return null;
-            }
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
             {
                 IndexAllObjectsByClass(ClassIndexation);
                 ClassIndexation++;
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
+                NWDLauncher.NotifyStep();
                 yield return null;
             }
             DatasIndexed = true;
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             //PlayerLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
@@ -252,18 +218,14 @@ namespace NetWorkedData
             int tRow = 0;
             int tMethod = 0;
             DatasIndexed = false;
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_START);
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tMethod += tHelper.IndexInsertMethodList.Count;
                 tRow += tHelper.Datas.Count;
                 tHelper.IndexAll();
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
-                NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_STEP);
             }
             DatasIndexed = true;
-            NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_INDEXATION_FINISH);
             NWEBenchmark.Finish(true, "row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
         }
         //-------------------------------------------------------------------------------------------------------------

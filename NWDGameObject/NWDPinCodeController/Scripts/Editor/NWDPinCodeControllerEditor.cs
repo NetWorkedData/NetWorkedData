@@ -23,17 +23,17 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [CustomEditor(typeof(NWDPinCodeController))]
-    public class NWDPinCodeControllerEditor : Editor
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public override void OnInspectorGUI()
-        {
-            NWDPinCodeController tTarget = (NWDPinCodeController)target;
-            DrawDefaultInspector();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
+    //[CustomEditor(typeof(NWDPinCodeController))]
+    //public class NWDPinCodeControllerEditor : Editor
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public override void OnInspectorGUI()
+    //    {
+    //        NWDPinCodeController tTarget = (NWDPinCodeController)target;
+    //        DrawDefaultInspector();
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

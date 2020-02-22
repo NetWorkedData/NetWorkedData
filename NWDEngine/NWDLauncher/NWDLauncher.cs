@@ -31,62 +31,76 @@ namespace NetWorkedData
     {
         Error = -9,
 
-        None = -1,
+        None = 0,
 
-        // launch engine NetWorkedData
-        EngineLaunching = 10,
+        EngineStart = 1,
+        EngineFinish = 9,
 
         ClassDeclareStart = 11,
-        ClassDeclareFinish = 12,
-        ClassRestaureStart = 13,
-        ClassRestaureFinish = 14,
+        ClassDeclareStep = 12,
+        ClassDeclareFinish = 19,
 
-        EngineLaunched = 19,
-        // engine NetWorkedData ready
+        ClassRestaureStart = 21,
+        ClassRestaureFinish = 29,
 
-        // connect database editor
-        DataEditorConnecting = 20,
-        DataEditorConnected = 21,
-        DataEditorTableUpdated = 22,
-        // waiting to load data async or sync order
-        // then Notify K_DB_EDITOR_START_ASYNC_LOADING to call 
-        // DataEditorStartLoading
-        // DataEditorPartialLoaded
-        // DataEditorLoaded
-        DataEditorLoading = 28,
-        DataEditorLoaded = 29,
+        EngineReady = 30,
 
+        DataEditorConnectionStart = 31,
+        DataEditorConnectionError = 32,
+        DataEditorConnectionFinish = 33,
 
-        DataEditorIndexationStart = 50,
-        DataEditorIndexationFinish = 52,
+        DataEditorTableCreateStart = 34,
+        DataEditorTableCreateStep = 35,
+        DataEditorTableCreateFinish = 36,
 
-        DataAccountConnecting = 30,
-        DataAccountCodePinCreate = 31,
-        DataAccountCodePinRequest = 32,
-        DataAccountCodePinFail = 33,
-        DataAccountCodePinStop = 34,
-        DataAccountCodePinSuccess = 35,
-        DataAccountConnected = 36,
+        DataEditorLoadStart = 37,
+        DataEditorLoadStep = 38,
+        DataEditorLoadFinish = 39,
 
-        DataAccountTableUpdated = 37,
-        // waiting to load data async or sync order
-        // then Notify K_DB_ACCOUNT_START_ASYNC_LOADING to call 
-        // DataAccountStartLoading
-        // DataAccountPartialLoaded
-        // DataAccountLoaded
-        DataAccountLoading = 38,
-        DataAccountLoaded = 39,
+        DataEditorIndexStart = 40,
+        DataEditorIndexStep = 41,
+        DataEditorIndexFinish = 42,
 
-        // waiting to load data async or sync order
-        // then Notify K_DB_INDEXATION_START_ASYNC_LOADING to call 
-        // DataIndexationStart
-        // DataIndexationStep
-        // DataIndexationFinish
-        DataIndexationStart = 40,
-        DataIndexationFinish = 42,
+        EditorReady = 50,
+
+        DataAccountConnectionStart = 51,
+
+        DataAccountCodePinCreate = 52,
+        DataAccountCodePinRequest = 53,
+        DataAccountCodePinFail = 54,
+        DataAccountCodePinStop = 55,
+        DataAccountCodePinSuccess = 56,
+
+        DataAccountConnectionError = 62,
+        DataAccountConnectionFinish = 63,
+
+        DataAccountTableCreateStart = 64,
+        DataAccountTableCreateStep = 65,
+        DataAccountTableCreateFinish = 66,
+
+        DataAccountLoadStart = 67,
+        DataAccountLoadStep = 68,
+        DataAccountLoadFinish = 69,
+
+        DataAccountIndexStart = 70,
+        DataAccountIndexStep = 71,
+        DataAccountIndexFinish = 72,
+
+        AccountReady = 80,
 
         NetWorkedDataReady = 99,
 
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDNotificationConstants
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_LAUNCHER_STEP = "K_LAUNCHER_STEP";
+        public const string K_LAUNCHER_ENGINE_READY = "K_LAUNCHER_ENGINE_READY";
+        public const string K_LAUNCHER_EDITOR_READY = "K_LAUNCHER_EDITOR_READY";
+        public const string K_LAUNCHER_ACCOUNT_READY = "K_LAUNCHER_ACCOUN_READY";
+        public const string K_NETWORKEDDATA_READY = "K_NETWORKEDDATA_READY";
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static partial class NWDLauncher
@@ -94,13 +108,35 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
         static private int StepSum;
+        static private int StepSumToEditor;
         static private int StepIndex;
         static private bool Launched = false;
         static bool Preload = true;
         //-------------------------------------------------------------------------------------------------------------
-        static public void StepIndcrement()
+        public static void NotifyStep()
         {
             StepIndex++;
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NotifyEngineReady()
+        {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_ENGINE_READY);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NotifyDataEditorReady()
+        {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_EDITOR_READY);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NotifyDataAccountReady()
+        {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_ACCOUNT_READY);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NotifyNetWorkedDataReady()
+        {
+            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_NETWORKEDDATA_READY);
         }
         //-------------------------------------------------------------------------------------------------------------
         static public NWDStatut GetState()
@@ -120,6 +156,9 @@ namespace NetWorkedData
         static public void Launch()
         {
             NWEBenchmark.Start();
+            StepSum = 0;
+            StepSumToEditor = 0;
+            StepIndex = 0;
             if (Launched == false)
             {
                 Launched = true;
@@ -164,9 +203,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()
         {
-            // close connection?
-            //TODO: close connection ?
-
             // delete editor key
 #if UNITY_EDITOR
             //Debug.Log("Quitting the Editor");
@@ -176,225 +212,6 @@ namespace NetWorkedData
             }
 #endif
         }
-        //-------------------------------------------------------------------------------------------------------------
-        static public void LaunchNext()
-        {
-            /*
-            //Debug.Log("LaunchNext() Preload " + Preload.ToString() + " and state = " + State.ToString());
-            //NWDToolbox.EditorAndPlaying("NWDLauncher LaunchNext()");
-            switch (State)
-            {
-                case NWDStatut.Error:
-                    {
-                        // TODO error;
-                    }
-                    break;
-                case NWDStatut.None:
-                    {
-                        EngineLaunch();
-                    }
-                    break;
-                case NWDStatut.EngineLaunching:
-                    {
-                        // engine in progress ... do nothing
-                    }
-                    break;
-                case NWDStatut.EngineLaunched:
-                    {
-                        ConnectToDatabaseEditor();
-                    }
-                    break;
-                case NWDStatut.DataEditorConnecting:
-                    {
-                        // engine in progress ... do nothing
-                    }
-                    break;
-                case NWDStatut.DataEditorConnected:
-                    {
-                        DatabaseEditorTable();
-                    }
-                    break;
-                case NWDStatut.DataEditorTableUpdated:
-                    {
-                        DatabaseEditorLoadData();
-                    }
-                    break;
-                case NWDStatut.DataEditorLoading:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataEditorLoaded:
-                    {
-                        ConnectToDatabaseAccount();
-                    }
-                    break;
-                case NWDStatut.DataAccountConnecting:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinCreate:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinRequest:
-                    {
-                        ConnectToDatabaseAccount();
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinFail:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinStop:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountCodePinSuccess:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountConnected:
-                    {
-                        DatabaseAccountTable();
-                    }
-                    break;
-                case NWDStatut.DataAccountTableUpdated:
-                    {
-                        DatabaseAccountLoadData();
-                    }
-                    break;
-                case NWDStatut.DataAccountLoading:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataAccountLoaded:
-                    {
-                        DatabaseIndexationStart();
-                    }
-                    break;
-                case NWDStatut.DataIndexationStart:
-                    {
-                    }
-                    break;
-                case NWDStatut.DataIndexationFinish:
-                    {
-                        Ready();
-                    }
-                    break;
-                case NWDStatut.NetWorkedDataReady:
-                    {
-
-                    }
-                    break;
-            }
-            */
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //static public void LaunchPause()
-        //{
-        //    switch (State)
-        //    {
-        //        case NWDStatut.None:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.EngineLaunching:
-        //            {
-        //                // engine in progress ... do nothing
-        //            }
-        //            break;
-        //        case NWDStatut.EngineLaunched:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataEditorConnecting:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataEditorConnected:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataEditorTableUpdated:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataEditorLoading:
-        //            {
-        //                State = NWDStatut.DataEditorTableUpdated;
-        //            }
-        //            break;
-        //        case NWDStatut.DataEditorLoaded:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountConnecting:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountCodePinCreate:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountCodePinRequest:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountCodePinFail:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountCodePinStop:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountCodePinSuccess:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountConnected:
-        //            {
-        //                State = NWDStatut.DataEditorLoaded;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountTableUpdated:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountLoading:
-        //            {
-        //                State = NWDStatut.DataAccountTableUpdated;
-        //            }
-        //            break;
-        //        case NWDStatut.DataAccountLoaded:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataIndexationStart:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.DataIndexationFinish:
-        //            {
-        //            }
-        //            break;
-        //        case NWDStatut.NetWorkedDataReady:
-        //            {
-        //            }
-        //            break;
-        //    }
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //static public void LaunchResume()
-        //{
-        //    LaunchNext();
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

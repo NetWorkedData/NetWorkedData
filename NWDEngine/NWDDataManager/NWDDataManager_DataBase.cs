@@ -247,15 +247,15 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DeconnectFromDatabaseAccount()
-        {
-            NWDLauncher.DeconnectFromDatabaseAccount();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void DeleteDatabaseAccount()
-        {
-            NWDLauncher.DeleteDatabaseAccount();
-        }
+        //public void DeconnectFromDatabaseAccount()
+        //{
+        //    NWDLauncher.DeconnectFromDatabaseAccount();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void DeleteDatabaseAccount()
+        //{
+        //    NWDLauncher.DeleteDatabaseAccount();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDatabaseEditor()
         {
@@ -286,45 +286,45 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DeleteDatabase()
-        {
-            //Debug.Log("DeleteDatabase ()");
-            DeleteDatabaseAccount();
-            DeleteDatabaseEditor();
-        }
+        //public void DeleteDatabase()
+        //{
+        //    //Debug.Log("DeleteDatabase ()");
+        //    DeleteDatabaseAccount();
+        //    DeleteDatabaseEditor();
+        //}
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public void RecreateDatabase(bool sRegeneratePassword = false, bool sRegenerateDeviceSalt = false)
-        {
-            // delete DataBase
-            DeleteDatabase();
-            bool tCSharpRegenerate = false;
-            if (sRegeneratePassword == true)
-            {
-                NWDAppConfiguration.SharedInstance().EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
-                NWDAppConfiguration.SharedInstance().EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-                NWDAppConfiguration.SharedInstance().EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-                // force data base to be copy on next install!
-                int tTimeStamp = NWDToolbox.Timestamp();
-                NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
-                NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
-                NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
-                tCSharpRegenerate = true;
-            }
-            if (sRegenerateDeviceSalt == true)
-            {
-                NWDAppConfiguration.SharedInstance().DatabasePrefix = "NWD" + NWEDateHelper.ConvertToTimestamp(DateTime.Now).ToString("F0");
-                NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
-                NWDAppConfiguration.SharedInstance().AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-                NWDAppConfiguration.SharedInstance().AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-                tCSharpRegenerate = true;
-            }
-            if (tCSharpRegenerate == true)
-            {
-                NWDEditorWindow.GenerateCSharpFile();
-                //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-            }
-        }
+        //public void RecreateDatabase(bool sRegeneratePassword = false, bool sRegenerateDeviceSalt = false)
+        //{
+        //    // delete DataBase
+        //    DeleteDatabase();
+        //    bool tCSharpRegenerate = false;
+        //    if (sRegeneratePassword == true)
+        //    {
+        //        NWDAppConfiguration.SharedInstance().EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+        //        NWDAppConfiguration.SharedInstance().EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        //        NWDAppConfiguration.SharedInstance().EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        //        // force data base to be copy on next install!
+        //        int tTimeStamp = NWDToolbox.Timestamp();
+        //        NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
+        //        NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
+        //        NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
+        //        tCSharpRegenerate = true;
+        //    }
+        //    if (sRegenerateDeviceSalt == true)
+        //    {
+        //        NWDAppConfiguration.SharedInstance().DatabasePrefix = "NWD" + NWEDateHelper.ConvertToTimestamp(DateTime.Now).ToString("F0");
+        //        NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+        //        NWDAppConfiguration.SharedInstance().AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        //        NWDAppConfiguration.SharedInstance().AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        //        tCSharpRegenerate = true;
+        //    }
+        //    if (tCSharpRegenerate == true)
+        //    {
+        //        NWDEditorWindow.GenerateCSharpFile();
+        //        //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+        //    }
+        //}
 #endif
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateBuildTimestamp()

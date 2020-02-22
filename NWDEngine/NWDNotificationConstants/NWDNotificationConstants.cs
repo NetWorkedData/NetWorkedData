@@ -27,42 +27,7 @@ namespace NetWorkedData
 	public partial class NWDNotificationConstants
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Launch NWD engine
-        public const string K_ENGINE_LAUNCH = "K_ENGINE_LAUNCH_Bbf8ke4t"; // OK Needed by test & verify
-        //-------------------------------------------------------------------------------------------------------------
-        // connect to editor database
-        public const string K_DB_EDITOR_READY = "K_DATABASE_EDITOR_READY_de4be4t"; // OK Needed by test & verify
-        public const string K_DB_EDITOR_START_ASYNC_LOADING = "K_DB_EDITOR_START_ASYNC_LOADING_drez4t"; // OK Needed by test & verify
-        //-------------------------------------------------------------------------------------------------------------
-        // connect to account database
-        public const string K_DB_ACCOUNT_PINCODE_REQUEST = "K_DATABASE_PROTECTION_REQUEST_defeet"; // OK Needed by test & verify
-        public const string K_DB_ACCOUNT_PINCODE_SUCCESS = "K_DATABASE_PROTECTION_SUCCESS_de89e4t"; // OK Needed by test & verify
-        public const string K_DB_ACCOUNT_PINCODE_FAIL = "K_DATABASE_PROTECTION_FAIL_lki5dt"; // OK Needed by test & verify
-        public const string K_DB_ACCOUNT_PINCODE_STOP = "K_DATABASE_PROTECTION_STOP_dAe44t"; // OK Needed by test & verify
-        public const string K_DB_ACCOUNT_PINCODE_NEEDED = "K_DATABASE_PROTECTION_NEED_PINCODE_lki5dt"; // OK Needed by test & verify
-
-        public const string K_DB_ACCOUNT_READY = "K_DATABASE_ACCOUNT_READY_de4be4t"; // OK Needed by test & verify
-        public const string K_DB_ACCOUNT_START_ASYNC_LOADING = "K_DB_ACCOUNT_START_ASYNC_LOADING_dee48yu"; // OK Needed by test & verify
-        //-------------------------------------------------------------------------------------------------------------
-        // Load datas
-        public const string K_DATA_EDITOR_START_LOADING = "K_DATAS_EDITOR_START_LOADING_Mr524ztr"; // OK Needed by test & verify
-        public const string K_DATA_EDITOR_PARTIAL_LOADED = "K_DATAS_EDITOR_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify
-        public const string K_DATA_EDITOR_LOADED = "K_DATAS_EDITOR_LOADED_er468rez"; // OK Needed by test & verify
-
-        public const string K_DATA_ACCOUNT_START_LOADING = "K_DATAS_ACCOUNT_START_LOADING_Mr524ztr"; // OK Needed by test & verify
-        public const string K_DATA_ACCOUNT_PARTIAL_LOADED = "K_DATAS_ACCOUNT_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify
-        public const string K_DATA_ACCOUNT_LOADED = "K_DATAS_ACCOUNT_LOADED_er468rez"; // OK Needed by test & verify
-        // global load
-        public const string K_DATA_START_LOADING = "K_DATAS_START_LOADING_M7374ztr"; // OK Needed by test & verify
-        public const string K_DATA_PARTIAL_LOADED = "K_DATAS_PARTIAL_LOADED_f77475df"; // OK Needed by test & verify
-        public const string K_DATA_LOADED = "K_DATAS_LOADED_er47478z"; // OK Needed by test & verify
-        // indexation
-        public const string K_INDEXATION_START_ASYNC = "K_DB_INDEXATION_START_ASYNC_drez4t"; // OK Needed by test & verify
-        public const string K_INDEXATION_START = "K_INDEXATION_START_er668rez"; // OK Needed by test & verify
-        public const string K_INDEXATION_STEP = "K_INDEXATION_STEP_er4678ez"; // OK Needed by test & verify
-        public const string K_INDEXATION_FINISH = "K_INDEXATION_FINISH_e7868rez"; // OK Needed by test & verify
-        //-------------------------------------------------------------------------------------------------------------
-        public const string K_ENGINE_READY = "K_ENGINE_READY_er468rez"; // OK Needed by test & verify
+        //public const string K_ENGINE_READY = "K_ENGINE_READY_er468rez"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         //public const string K_EDITOR_REFRESH = "K_EDITOR_REFRESH_g54D55hs"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
