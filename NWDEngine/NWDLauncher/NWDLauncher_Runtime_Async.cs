@@ -49,48 +49,64 @@ namespace NetWorkedData
         {
             NWEBenchmark.Start();
             IEnumerator tWaitTime = null;
-            StepSum = 21;
+            StepSum = 1024;
             StepIndex = 0;
             // lauch engine
             tWaitTime = Engine_Runtime_Async();
+            NotifyStep();
             yield return tWaitTime;
             // declare models
             tWaitTime = Declare_Runtime_Async();
+            NotifyStep();
             yield return tWaitTime;
             // restaure models' param
             tWaitTime = null;
             Restaure_Editor();
+            NotifyStep();
             yield return tWaitTime;
+
+            StepSum = 12 +
+                NWDDataManager.SharedInstance().ClassEditorExpected + // load editor class
+                NWDDataManager.SharedInstance().ClassAccountExpected + // load account class
+                NWDDataManager.SharedInstance().ClassEditorExpected + // index editor class
+                NWDDataManager.SharedInstance().ClassAccountExpected + // index account class
+                0;
 
             NotifyEngineReady();
 
             // connect editor
             tWaitTime = null;
             Connect_Editor_Editor();
+            NotifyStep();
             yield return tWaitTime;
             // create table editor
             tWaitTime = null;
             CreateTable_Editor_Editor();
+            NotifyStep();
             yield return tWaitTime;
             // load editor data
             tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor();
+            NotifyStep();
             yield return tWaitTime;
             // index all data editor
-            tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects(); ;
-            yield return tWaitTime;
+            //tWaitTime = NWDDataManager.SharedInstance().AsyncIndexAllObjects();
+            //yield return tWaitTime;
 
             NotifyDataEditorReady();
 
             // need account pincode
             tWaitTime = null;
             Connect_Account_Editor();
+            NotifyStep();
             yield return tWaitTime;
             // create table account
             tWaitTime = null;
             CreateTable_Account_Editor();
+            NotifyStep();
             yield return tWaitTime;
 
             NotifyDataAccountReady();
+            NotifyStep();
 
             // load account data account
             tWaitTime = NWDDataManager.SharedInstance().AsyncReloadAllObjectsAccount();
@@ -101,13 +117,19 @@ namespace NetWorkedData
             // Special NWDAppConfiguration loaded()
             tWaitTime = null;
             NWDAppConfiguration.SharedInstance().Loaded();
+            NotifyStep();
             yield return tWaitTime;
             // Ready!
             tWaitTime = null;
             Ready_Editor();
+            NotifyStep();
             yield return tWaitTime;
 
             NotifyNetWorkedDataReady();
+
+            NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassEditorExpected = " + NWDDataManager.SharedInstance().ClassEditorExpected);
+            NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
+            NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
             NWEBenchmark.Finish();
         }

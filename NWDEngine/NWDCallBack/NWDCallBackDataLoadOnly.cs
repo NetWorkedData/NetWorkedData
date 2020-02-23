@@ -48,8 +48,7 @@ namespace NetWorkedData
 
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_LAUNCHER_STEP, delegate (NWENotification sNotification)
             {
-                float tPurcent = NWDDataManager.SharedInstance().PurcentIndexed();
-                LauncherStep(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
+                LauncherStep(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, NWDLauncher.GetPurcent());
             });
 
             tNotifManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY, delegate (NWENotification sNotification)

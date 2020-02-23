@@ -113,10 +113,16 @@ namespace NetWorkedData
         static private bool Launched = false;
         static bool Preload = true;
         //-------------------------------------------------------------------------------------------------------------
+        static public float GetPurcent()
+        {
+            return (float)StepIndex / (float)StepSum;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void NotifyStep()
         {
             StepIndex++;
             NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
+            //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void NotifyEngineReady()

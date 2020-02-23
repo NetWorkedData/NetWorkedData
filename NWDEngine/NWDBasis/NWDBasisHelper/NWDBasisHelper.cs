@@ -43,10 +43,13 @@ namespace NetWorkedData
         {
             DataIndexed = false;
             //int tRow = 0;
-            foreach (NWDTypeClass tObject in Datas)
+            if (IndexInsertMethodList.Count > 0)
             {
-                tObject.Index();
-                //tRow++;
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    tObject.Index();
+                    //tRow++;
+                }
             }
             DataIndexed = true;
 #if UNITY_EDITOR

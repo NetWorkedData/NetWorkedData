@@ -37,6 +37,9 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWEScreenGauge : MonoBehaviour
     {
+        [Header("Gauge Visibility")]
+        public bool UseForLauncher = true;
+        public bool UseForSync = true;
 
         [Header("Gauge Visibility")]
         public bool IsVisible = true;
@@ -87,6 +90,24 @@ namespace NetWorkedData
         public void Show(bool sVisible)
         {
             IsVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set the horizontal and ertical value of fill.
+        /// </summary>
+        /// <param name="sValue">S value.</param>
+        public void SetValue(float sValue)
+        {
+            if (sValue > 1.0F)
+            {
+                sValue = 1.0F;
+            }
+            if (sValue < 0)
+            {
+                sValue = 0.0F;
+            }
+            HorizontalValue = sValue;
+            VerticalValue = sValue;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

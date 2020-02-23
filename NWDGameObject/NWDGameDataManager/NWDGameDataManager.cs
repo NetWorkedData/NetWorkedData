@@ -42,9 +42,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public NWDNetworkState NetworkStatut = NWDNetworkState.Unknow;
         //-------------------------------------------------------------------------------------------------------------
-        public NWEScreenGaugeComplex LoadingDatasGauge;
+        public NWEScreenGauge LoadingDatasGauge;
         //-------------------------------------------------------------------------------------------------------------
-        public NWEScreenGaugeComplex OperationGauge;
+        public NWEScreenGauge OperationGauge;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SharedInstanceAsSingleton. Class to create a ShareInstance use as Singleton by All NWDGameDataManager
@@ -328,13 +328,6 @@ namespace NetWorkedData
                     // Add component to check the network state
                     NWDNetworkCheck tNetWorkCheckScript = tObjToSpawn.AddComponent<NWDNetworkCheck>();
                     tGameDataManager.NetWorkCheck = tNetWorkCheckScript;
-                    // Add GUI component to draw some basic element : gauge, spinner, alert... not in canvas! For canvas element use prefab NWDCanvasDataManager
-                    NWEScreenGaugeComplex tHealthGaugeComplex = tObjToSpawn.AddComponent<NWEScreenGaugeComplex>();
-                    tHealthGaugeComplex.IsVisible = false;
-                    NWEScreenGaugeComplex tHealthGaugeComplexB = tObjToSpawn.AddComponent<NWEScreenGaugeComplex>();
-                    tHealthGaugeComplexB.IsVisible = false;
-                    tGameDataManager.LoadingDatasGauge = tHealthGaugeComplex;
-                    tGameDataManager.OperationGauge = tHealthGaugeComplexB;
 
                     // keep k_Singleton
                     //kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
@@ -474,9 +467,30 @@ namespace NetWorkedData
         void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
-
-            Launch_Runtime_Async();
-
+            NWEScreenGauge[] tAllGauges = FindObjectsOfType<NWEScreenGauge>();
+            Debug.Log("NWDGameDataManager Start() find " + tAllGauges.Length + " NWEScreenGauge");
+            foreach (NWEScreenGauge tNWEScreenGauge in tAllGauges)
+            {
+                tNWEScreenGauge.IsVisible = false;
+                if (tNWEScreenGauge.UseForLauncher == true)
+                {
+                    LoadingDatasGauge = tNWEScreenGauge;
+                }
+                if (tNWEScreenGauge.UseForSync == true)
+                {
+                    OperationGauge = tNWEScreenGauge;
+                }
+            }
+            if (LoadingDatasGauge == null)
+            {
+                LoadingDatasGauge = gameObject.AddComponent<NWEScreenGaugeComplex>();
+                LoadingDatasGauge.IsVisible = false;
+            }
+            if (LoadingDatasGauge == null)
+            {
+                OperationGauge = gameObject.AddComponent<NWEScreenGaugeComplex>();
+                OperationGauge.IsVisible = false;
+            }
             if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
                 //Debug.LogWarning("NWD => not finish ... need load async!");
@@ -484,23 +498,9 @@ namespace NetWorkedData
                 {
                     LoadingDatasGauge.IsVisible = true;
                 }
-                //Debug.LogWarning("NWD => LaunchResume!");
-                //NWDLauncher.LaunchResume();
             }
-            else
-            {
-                Debug.LogWarning("NWD => NWDStatut.NetWorkedDataReady!");
 
-                if (LoadingDatasGauge != null)
-                {
-                    LoadingDatasGauge.IsVisible = false;
-                }
-            }
-            // push gauge for web opeartion to invisible
-            if (OperationGauge != null)
-            {
-                OperationGauge.IsVisible = false;
-            }
+            Launch_Runtime_Async();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllDatas()
@@ -556,7 +556,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void LauncherEngineReady(NWENotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange> LauncherEngineReady</color>" + " state : " + NWDLauncher.GetState().ToString());
+            //Debug.Log("<color=red>!!!!!</color><color=orange> LauncherEngineReady</color>" + " state : " + NWDLauncher.GetState().ToString());
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.Show(true);
@@ -565,26 +565,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void LauncherEditorReady(NWENotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>LauncherEditorReady</color>");
+            //Debug.Log("<color=red>!!!!!</color><color=orange>LauncherEditorReady</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void LauncherAccountReady(NWENotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>LauncherAccountReady</color>");
+            //Debug.Log("<color=red>!!!!!</color><color=orange>LauncherAccountReady</color>");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void LauncherStep(NWENotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-           Debug.Log("<color=red>!!!!!</color><color=orange>LauncherStep</color>");
+            //Debug.Log("<color=red>!!!!!</color><color=orange>LauncherStep</color>");
             if (LoadingDatasGauge != null)
             {
-                LoadingDatasGauge.SetHorizontalValue(sPurcent);
+                LoadingDatasGauge.SetValue(sPurcent);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void LauncherNetWorkdeDataReady(NWENotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("<color=red>!!!!!</color><color=orange>DataStartLoading</color>");
+            //Debug.Log("<color=red>!!!!!</color><color=orange>DataStartLoading</color>");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.Show(false);

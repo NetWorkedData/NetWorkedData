@@ -17,32 +17,53 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDDatasLoadedActivationState
+    {
+        ActiveWhenDatasNotLoaded,
+        ActiveWhenDatasLoaded
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDDatasLoadedActivation : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        public bool ActiveDatasLoaded = true;
-        public bool ActiveDatasNotLoaded = false;
-        public bool UseCanvas = true;
+        public NWDDatasLoadedActivationState ActiveState = NWDDatasLoadedActivationState.ActiveWhenDatasLoaded;
+        public bool UseCanvasGroup = true;
         public bool UseChildGameObjects = false;
         //-------------------------------------------------------------------------------------------------------------
         void DataNotLoaded()
         {
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY);
-            if (UseCanvas == true)
+            if (UseCanvasGroup == true)
             {
-                Canvas tCanvas = GetComponent<Canvas>();
+                CanvasGroup tCanvas = GetComponent<CanvasGroup>();
                 if (tCanvas == null)
                 {
-                    tCanvas = gameObject.AddComponent<Canvas>();
+                    tCanvas = gameObject.AddComponent<CanvasGroup>();
                 }
-                tCanvas.enabled = ActiveDatasNotLoaded;
+                if (ActiveState == NWDDatasLoadedActivationState.ActiveWhenDatasNotLoaded)
+                {
+                    tCanvas.alpha = 1;
+                    tCanvas.interactable = true;
+                }
+                else
+                {
+                    tCanvas.alpha = 0;
+                    tCanvas.interactable = false;
+                }
             }
             if (UseChildGameObjects == true)
             {
                 foreach (Transform tChild in transform)
                 {
-                    tChild.gameObject.SetActive(ActiveDatasNotLoaded);
+                    if (ActiveState == NWDDatasLoadedActivationState.ActiveWhenDatasNotLoaded)
+                    {
+                        tChild.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        tChild.gameObject.SetActive(false);
+                    }
                 }
             }
             tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY, delegate (NWENotification sNotification)
@@ -55,20 +76,32 @@ namespace NetWorkedData
         {
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORKEDDATA_READY);
-            if (UseCanvas == true)
+            if (UseCanvasGroup == true)
             {
-                Canvas tCanvas = GetComponent<Canvas>();
-                if (tCanvas == null)
+                CanvasGroup tCanvas = GetComponent<CanvasGroup>();
+                if (ActiveState == NWDDatasLoadedActivationState.ActiveWhenDatasLoaded)
                 {
-                    tCanvas = gameObject.AddComponent<Canvas>();
+                    tCanvas.alpha = 1;
+                    tCanvas.interactable = true;
                 }
-                tCanvas.enabled = ActiveDatasLoaded;
+                else
+                {
+                    tCanvas.alpha = 0;
+                    tCanvas.interactable = false;
+                }
             }
             if (UseChildGameObjects == true)
             {
                 foreach (Transform tChild in transform)
                 {
-                    tChild.gameObject.SetActive(ActiveDatasLoaded);
+                    if (ActiveState == NWDDatasLoadedActivationState.ActiveWhenDatasLoaded)
+                    {
+                        tChild.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        tChild.gameObject.SetActive(false);
+                    }
                 }
             }
         }
