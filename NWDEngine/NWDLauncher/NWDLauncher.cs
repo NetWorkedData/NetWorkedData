@@ -108,10 +108,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static private NWDStatut State = NWDStatut.None;
         static private int StepSum;
-        static private int StepSumToEditor;
         static private int StepIndex;
         static private bool Launched = false;
         static bool Preload = true;
+        static public bool ActiveBenchmark;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
@@ -123,6 +123,10 @@ namespace NetWorkedData
             StepIndex++;
             NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
+        }
+        public static bool YieldValid()
+        {
+            return (StepIndex % NWDAppConfiguration.SharedInstance().LauncherFaster == 0);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void NotifyEngineReady()
@@ -159,27 +163,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
         //-------------------------------------------------------------------------------------------------------------
+        [RuntimeInitializeOnLoadMethod]
         static public void Launch()
         {
-            NWEBenchmark.Start();
-            StepSum = 0;
-            StepSumToEditor = 0;
-            StepIndex = 0;
             if (Launched == false)
             {
+                ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
+                StepSum = 0;
+                StepIndex = 0;
+                NWEBenchmark.Start();
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
 #if UNITY_EDITOR
-                NWEBenchmark.Log("Pass in editor macro-block");
+                if (ActiveBenchmark)
+                {
+                    NWEBenchmark.Log("Pass in editor macro-block");
+                }
 #endif
                 if (Application.isEditor == true)
                 {
-                    NWEBenchmark.Log("Launch in editor");
+                    if (ActiveBenchmark)
+                    {
+                        NWEBenchmark.Log("Launch in editor");
+                    }
                     EditorByPass = true;
                     if (Application.isPlaying == true)
                     {
-                        NWEBenchmark.Log("Launch as playmode");
+                        if (ActiveBenchmark)
+                        {
+                            NWEBenchmark.Log("Launch as playmode");
+                        }
                         EditorByPass = true;
                     }
                 }
@@ -193,18 +207,23 @@ namespace NetWorkedData
                     Preload = NWDAppConfiguration.SharedInstance().PreloadDatas;
                     if (Preload == true)
                     {
-                        NWEBenchmark.Log("Launch in runtime preload (sync)");
+                        if (ActiveBenchmark)
+                        {
+                            NWEBenchmark.Log("Launch in runtime preload (sync)");
+                        }
                         Launch_Runtime_Sync();
                     }
                     else
                     {
-                        NWEBenchmark.Log("Launch in runtile laoding gauge (async)");
-                        Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
+                        if (ActiveBenchmark)
+                        {
+                            NWEBenchmark.Log("Launch in runtime by NWDGameDataManager.ShareInstance (async)");
+                        }
+                        //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
+                NWEBenchmark.Finish();
             }
-            //LaunchNext();
-            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         static void Quit()

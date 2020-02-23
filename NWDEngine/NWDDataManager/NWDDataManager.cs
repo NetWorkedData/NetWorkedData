@@ -24,7 +24,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         const string PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------
-        private static readonly NWDDataManager kSharedInstance = new NWDDataManager();
+        private static NWDDataManager kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         public int ClassExpected = 0;
         public int ClassEditorExpected = 0;
@@ -77,9 +77,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
         {
-            NWEBenchmark.Start();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             if (DataAccountLoaded == true)
             {
+                //NWEBenchmark.Start("account language");
                 NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
                 if (tUserLanguage.Value.GetStringValue() == string.Empty)
                 {
@@ -87,14 +91,20 @@ namespace NetWorkedData
                     tUserLanguage.UpdateData();
                 }
                 PlayerLanguage = tUserLanguage.Value.GetStringValue();
+                //NWEBenchmark.Finish("account language");
             }
             else
             {
+                //NWEBenchmark.Start("device language");
                 PlayerLanguage = NWEPrefsManager.ShareInstance().getString(PlayerLanguageKey, PlayerLanguage);
+                //NWEBenchmark.Finish("device language");
             }
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             NWENotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
-            NWEBenchmark.Finish();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -136,6 +146,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDataManager SharedInstance()
         {
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = new NWDDataManager();
+            }
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------

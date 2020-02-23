@@ -242,7 +242,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void LoadFromDatabase()
         {
-            NWEBenchmark.Start();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             int tCount = 0;
 #if UNITY_EDITOR
             RowAnalyzed = false;
@@ -278,7 +281,10 @@ namespace NetWorkedData
             RepaintTableEditor();
 #endif
 
-            NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded!");
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded!");
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UnloadDataByReference(string sReference)

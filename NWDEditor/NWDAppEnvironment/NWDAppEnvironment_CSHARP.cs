@@ -164,7 +164,9 @@ namespace NetWorkedData
                 rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminKeyHash) + " = \"" + AdminKeyHashGenerate().Replace("\"", "\\\"") + "\";");
                 rReturn.AppendLine(tPropertyName + "." + NWDToolbox.PropertyName(() => this.AdminInPlayer) + " = " + AdminInPlayer.ToString().ToLower() + ";");
             }
+            rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".FormatVerification ();");
+            rReturn.AppendLine("#endif");
             //NWEBenchmark.Finish();
             return rReturn.ToString();
         }

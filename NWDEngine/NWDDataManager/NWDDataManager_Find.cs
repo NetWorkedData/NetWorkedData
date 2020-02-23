@@ -65,7 +65,10 @@ namespace NetWorkedData
                 ClassEditorDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
                 NWDLauncher.NotifyStep();
-                yield return null;
+                if (NWDLauncher.YieldValid())
+                {
+                    yield return null;
+                }
             }
             DataEditorLoaded = true;
             PlayerLanguageLoad();
@@ -90,7 +93,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsEditor()
         {
-            NWEBenchmark.Start();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             if (DataEditorConnected == true)
             {
                 //NWEBenchmark.Start("LoadData");
@@ -115,11 +121,18 @@ namespace NetWorkedData
                 EditorRefresh();
                 //NWDLauncher.SetState(NWDStatut.DataEditorLoaded);
             }
-            NWEBenchmark.Finish();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsAccount()
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             DataAccountLoaded = false;
             while (DataAccountConnected == false)
             {
@@ -133,13 +146,20 @@ namespace NetWorkedData
                 ClassAccountDataLoaded++;
                 ClassDataLoaded = ClassEditorDataLoaded + ClassAccountDataLoaded;
                 NWDLauncher.NotifyStep();
-                yield return null;
+                if (NWDLauncher.YieldValid())
+                {
+                    yield return null;
+                }
             }
             DataAccountLoaded = true;
-            Debug.Log("NWDDataManager AsyncReloadAllObjects() post notification Account is loaded and All Datas is loaded");
+            //Debug.Log("NWDDataManager AsyncReloadAllObjects() post notification Account is loaded and All Datas is loaded");
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClassAccount(int sCounter)
@@ -158,7 +178,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjectsAccount()
         {
-            NWEBenchmark.Start();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             if (DataAccountConnected == true)
             {
                 DataAccountLoaded = false;
@@ -177,44 +200,79 @@ namespace NetWorkedData
                 LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
                 EditorRefresh();
             }
-            NWEBenchmark.Finish();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncIndexAllObjects()
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
+            int tRow = 0;
+            int tMethod = 0;
             DatasIndexed = false;
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
             {
-                IndexAllObjectsByClass(ClassIndexation);
+                NWDBasisHelper tHelper = IndexAllObjectsByClass(ClassIndexation);
                 ClassIndexation++;
                 NWDLauncher.NotifyStep();
-                yield return null;
+                if (NWDLauncher.YieldValid())
+                {
+                    yield return null;
+                }
+                if (tHelper != null)
+                {
+                    tMethod += tHelper.IndexInsertMethodList.Count;
+                    tRow += tHelper.Datas.Count;
+                }
             }
             DatasIndexed = true;
             //PlayerLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
+
+            NWEBenchmark.Log("row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
+
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IndexAllObjectsByClass(int sCounter)
+        public NWDBasisHelper IndexAllObjectsByClass(int sCounter)
         {
-            bool rReturn = false;
+            NWDBasisHelper tHelper = null;
             if (sCounter >= 0 && sCounter < mTypeList.Count)
             {
+                if (NWDLauncher.ActiveBenchmark)
+                {
+                    NWEBenchmark.Start();
+                }
                 Type tType = mTypeList[sCounter];
-                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper = NWDBasisHelper.FindTypeInfos(tType);
                 tHelper.IndexAll();
-                //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_IndexAll);
+                if (NWDLauncher.ActiveBenchmark)
+                {
+                    NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP);
+                }
             }
-            return rReturn;
+            return tHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
         public int IndexationCounterOp = 0;
         //-------------------------------------------------------------------------------------------------------------
         public void IndexAllObjects()
         {
-            NWEBenchmark.Start();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             int tRow = 0;
             int tMethod = 0;
             DatasIndexed = false;
@@ -226,7 +284,15 @@ namespace NetWorkedData
                 tHelper.IndexAll();
             }
             DatasIndexed = true;
-            NWEBenchmark.Finish(true, "row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
+
+            EditorRefresh();
+
+            NWEBenchmark.Log("row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
+
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllObjects()

@@ -298,20 +298,20 @@ namespace NetWorkedData
         /// <param name="sLength">length.</param>
         public static string RandomString(int sLength)
         {
-            string rReturn = string.Empty;
-            //const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_()[]{}%,?;.:!&";
+            //string rReturn = string.Empty;
+            StringBuilder rReturn = new StringBuilder();
             const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
             {
-                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+                rReturn.Append(tChars[UnityEngine.Random.Range(0, tCharLenght)]);
             }
-            return rReturn;
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string RandomStringCypher(int sLength)
         {
-            string rReturn = string.Empty;
+            StringBuilder rReturn = new StringBuilder();
             const string tChars =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
             //"()[]{}" +
@@ -324,9 +324,9 @@ namespace NetWorkedData
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
             {
-                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+                rReturn.Append(tChars[UnityEngine.Random.Range(0, tCharLenght)]);
             }
-            return rReturn;
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -336,14 +336,14 @@ namespace NetWorkedData
         /// <param name="sLength">length.</param>
         public static string RandomStringAlpha(int sLength)
         {
-            string rReturn = string.Empty;
+            StringBuilder rReturn = new StringBuilder();
             const string tChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
             {
-                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+                rReturn.Append(tChars[UnityEngine.Random.Range(0, tCharLenght)]);
             }
-            return rReturn;
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -353,49 +353,48 @@ namespace NetWorkedData
         /// <param name="sLength">length.</param>
         public static string RandomStringUnix(int sLength)
         {
-            string rReturn = string.Empty;
+            StringBuilder rReturn = new StringBuilder();
             const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
             {
-                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+                rReturn.Append(tChars[UnityEngine.Random.Range(0, tCharLenght)]);
             }
-            return rReturn;
+            return rReturn.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string RandomStringNumeric(int sLength)
         {
-            string rReturn = string.Empty;
+            StringBuilder rReturn = new StringBuilder();
             const string tChars = "0123456789";
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
             {
-                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+                rReturn.Append(tChars[UnityEngine.Random.Range(0, tCharLenght)]);
             }
-            return rReturn;
+            return rReturn.ToString();
         }
+        //-------------------------------------------------------------------------------------------------------------
+        static Regex URLCleanerRgx = new Regex("[^a-zA-Z0-9-_\\:\\/\\.]");
         //-------------------------------------------------------------------------------------------------------------
         public static string URLCleaner(string sString)
         {
-            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-            Regex rgx = new Regex("[^a-zA-Z0-9-_\\:\\/\\.]");
-            return rgx.Replace(sString, string.Empty);
-        }
+            return URLCleanerRgx.Replace(sString, string.Empty);
+        }//-------------------------------------------------------------------------------------------------------------
+        static Regex EmailCleanerRgx = new Regex("[^a-zA-Z0-9-_@\\.]");
         //-------------------------------------------------------------------------------------------------------------
         public static string EmailCleaner(string sString)
         {
-            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-            Regex rgx = new Regex("[^a-zA-Z0-9-_@\\.]");
-            return rgx.Replace(sString, string.Empty);
+            return EmailCleanerRgx.Replace(sString, string.Empty);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        static Regex UnixCleanerRgx = new Regex("[^a-zA-Z0-9-_]");
         //-------------------------------------------------------------------------------------------------------------
         public static string UnixCleaner(string sString)
         {
             if (sString != null)
             {
-                //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-                Regex rgx = new Regex("[^a-zA-Z0-9-_]");
-                return rgx.Replace(sString, string.Empty);
+                return UnixCleanerRgx.Replace(sString, string.Empty);
             }
             else
             {
@@ -403,17 +402,21 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        static Regex AplhaNumericCleanerRgx = new Regex("[^a-zA-Z0-9]");
+        //-------------------------------------------------------------------------------------------------------------
         public static string AplhaNumericCleaner(string sString)
         {
-            Regex rgx = new Regex("[^a-zA-Z0-9]");
-            return rgx.Replace(sString, string.Empty);
+            return AplhaNumericCleanerRgx.Replace(sString, string.Empty);
         }
+        //-------------------------------------------------------------------------------------------------------------
+        static Regex SaltCleanerRgx = new Regex("[^a-zA-Z0-9 -_\\(\\)\\[\\]\\,\\;\\:\\!\\.]");
         //-------------------------------------------------------------------------------------------------------------
         public static string SaltCleaner(string sString)
         {
-            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-            Regex rgx = new Regex("[^a-zA-Z0-9 -_\\(\\)\\[\\]\\,\\;\\:\\!\\.]");
-            return rgx.Replace(sString, string.Empty);
+            //NWEBenchmark.Start();
+            string rReturn = SaltCleanerRgx.Replace(sString, string.Empty);
+            //NWEBenchmark.Finish();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -660,6 +663,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string CSharpFormat(string sString)
         {
+            //NWEBenchmark.Start();
             StringBuilder rReturn = new StringBuilder();
             int tIndentCount = 0;
             string tString = NewLineUnixFix(sString);
@@ -690,6 +694,7 @@ namespace NetWorkedData
                     tIndentCount--;
                 }
             }
+            //NWEBenchmark.Finish();
             return rReturn.ToString().TrimEnd(new char[] { '\n', '\r' });
         }
 #if UNITY_EDITOR

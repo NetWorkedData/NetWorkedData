@@ -32,8 +32,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseEditor()
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             bool rReturn = false;
-            NWEBenchmark.Start();
             if (DataEditorConnected == false && DataEditorConnectionInProgress == false)
             {
                 DataEditorConnectionInProgress = true;
@@ -64,7 +67,10 @@ namespace NetWorkedData
                 {
                     // if it doesn't ->
                     // open StreamingAssets directory and load the db ->
-                    Debug.Log("#DATABASE# Application will copy database : " + tPathEditor);
+                    if (NWDLauncher.ActiveBenchmark)
+                    {
+                        NWEBenchmark.Log("Application will copy editor database : " + tPathEditor);
+                    }
 #if UNITY_ANDROID
                     var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
@@ -146,8 +152,10 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionEditor connexion in progress");
                 }
             }
-            NWEBenchmark.Finish();
-
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -174,8 +182,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool ConnectToDatabaseAccount(string sSurProtection)
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             bool rReturn = true;
-            NWEBenchmark.Start();
             //Debug.LogWarning("ConnectToDatabaseAccount (" + sSurProtection + ")");
             if (DataAccountConnected == false && DataAccountConnectionInProgress == false)
             {
@@ -243,7 +254,10 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionAccount connexion in progress");
                 }
             }
-            NWEBenchmark.Finish();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

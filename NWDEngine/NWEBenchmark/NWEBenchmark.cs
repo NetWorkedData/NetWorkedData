@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -85,7 +86,7 @@ namespace NetWorkedData
                 string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
 #if UNITY_EDITOR
 #else
-                tLog = tLog.Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+               // tLog = tLog.Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                 UnityEngine.Debug.Log(tLog);
             }
@@ -101,7 +102,7 @@ namespace NetWorkedData
                 string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " start now!";
 #if UNITY_EDITOR
 #else
-                tLog = tLog.Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+                //tLog = tLog.Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                 UnityEngine.Debug.Log(tLog);
             }
@@ -176,6 +177,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static double Finish(string sKey, bool sWithDebug = true, string sMoreInfos = "")
         {
+            float tFrameRate = -1;
+            if (Application.targetFrameRate == -1)
+            {
+#if (UNITY_EDITOR)
+                tFrameRate = 60.0F;
+#elif (UNITY_ANDROID || UNITY_IOS)
+                    tFrameRate = 30.0F;
+#else
+                    tFrameRate = 60.0F;
+#endif
+            }
+            else
+            {
+                tFrameRate = (float)Application.targetFrameRate;
+            }
             double rDelta = 0;
             double rFrameSpend = 0;
             if (cStartDico.ContainsKey(sKey) == true)
@@ -196,7 +212,7 @@ namespace NetWorkedData
                 cMaxGranDico.Remove(sKey);
                 double tFinish = NWEDateHelper.ConvertToTimestamp(DateTime.Now);
                 rDelta = tFinish - tStart;
-                rFrameSpend = 60 * rDelta;
+                rFrameSpend = tFrameRate * rDelta;
                 string tMaxColor = "green";
                 if (rDelta >= tMax)
                 {
@@ -208,10 +224,10 @@ namespace NetWorkedData
                     {
                         string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + tTag + " execute " + tCounter +
                           " operation in <color=" + tMaxColor + ">" +
-                          rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
+                          rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + tFrameRate + "Fps. " + sMoreInfos;
 #if UNITY_EDITOR
 #else
-                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+                       // tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                         UnityEngine.Debug.Log(tLog);
                     }
@@ -226,20 +242,20 @@ namespace NetWorkedData
                         string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + tTag + " execute " + tCounter +
                          " operations in <color=" + tMaxColor + ">" + rDelta.ToString("F3") +
                          " seconds </color>(<color=" + tMaxGranuleColor + ">" + tGranule.ToString("F5") +
-                         " seconds per operation</color>) spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
+                         " seconds per operation</color>) spent " + rFrameSpend.ToString("F1") + "F/" + tFrameRate + "Fps. " + sMoreInfos;
 #if UNITY_EDITOR
 #else
-                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("<color=" + tMaxGranuleColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+                       // tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("<color=" + tMaxGranuleColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                         UnityEngine.Debug.Log(tLog);
                     }
                     else
                     {
                         string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + tTag + " execute in <color=" + tMaxColor + ">" +
-                         rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/60Fps. " + sMoreInfos;
+                         rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + tFrameRate + "Fps. " + sMoreInfos;
 #if UNITY_EDITOR
 #else
-                        tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
+                       // tLog = tLog.Replace("</color>", "").Replace("<color=" + tMaxColor + ">", "").Replace("  ", " ").Replace("<b>", "").Replace("</b>", "");
 #endif
                         UnityEngine.Debug.Log(tLog);
                     }

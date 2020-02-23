@@ -52,12 +52,12 @@ namespace NetWorkedData
         public string WebFolder = "NWDFolder";
         public string TablePrefixe = string.Empty;
         public string DatabasePrefix = "NWD000000000";
-        public string EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
-        public string EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-        public string EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-        public string AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
-        public string AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-        public string AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string EditorPass;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+        public string EditorPassA;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string EditorPassB;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string AccountHashSalt;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+        public string AccountHashSaltA;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string AccountHashSaltB;// = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
         public int WebBuild = 0;
         public int WebBuildMax = 0;
         public bool RowDataIntegrity = true;
@@ -75,6 +75,8 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
+        public bool LauncherBenchmark = true;
+        public int LauncherFaster = 10;
         //public bool PreloadDatasInEditor = true;
         //public bool AnonymousPlayerIsLocal = true;
         public bool AnonymousDeviceConnected = true;
@@ -94,15 +96,22 @@ namespace NetWorkedData
         public bool EditorTableCommun = true; //TODO param in config editor extension...
         public bool ShowCompile = true; //TODO param in config editor extension...
         public Color TintColor;
+
+        public int LauncherClassEditorStep = 0;
+        public int LauncherClassAccountStep = 0;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
         #region shareInstance
         //-------------------------------------------------------------------------------------------------------------
-        private static readonly NWDAppConfiguration kSharedInstance = new NWDAppConfiguration();
+        private static NWDAppConfiguration kSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppConfiguration SharedInstance()
         {
+            if (kSharedInstance == null)
+            {
+                kSharedInstance = new NWDAppConfiguration();
+            }
             return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -124,15 +133,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Install()
         {
+            //NWEBenchmark.Start();
             DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
             PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
             ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
-            EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
-            EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-            EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-            AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
-            AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
-            AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
             ResetTintColor();
             // REMOVED : Change to remove invoke!
             Type tType = this.GetType();
@@ -151,6 +155,13 @@ namespace NetWorkedData
 
             if (RestaureConfigurations() == false)
             {
+                EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+                EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+                EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+                AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+                AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+                AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+
                 this.ProdEnvironment.Selected = false;
                 this.PreprodEnvironment.Selected = false;
                 this.DevEnvironment.Selected = true;
@@ -279,6 +290,7 @@ namespace NetWorkedData
                 TagList.Add(23, "UnitTest Not Delete");
             }
 #endif
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

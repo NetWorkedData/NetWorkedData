@@ -39,8 +39,8 @@ namespace NetWorkedData
         /// <param name="sEnvironment"></param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            //NWEBenchmark.Start();
-            Debug.Log("NWDAppConfiguration GenerateCSharpFile()");
+            NWEBenchmark.Start();
+            //Debug.Log("NWDAppConfiguration GenerateCSharpFile()");
             string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
@@ -67,7 +67,10 @@ namespace NetWorkedData
             rReturn.AppendLine("/// </summary>");
             rReturn.AppendLine("public override bool RestaureConfigurations ()");
             rReturn.AppendLine("{");
-
+            //rReturn.AppendLine("NWEBenchmark.Start();");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassAccountStep) + " = " + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassEditorStep) + " = " + NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.TablePrefixe) + " = \"" + TablePrefixe + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebBuild) + " = " + WebBuild + ";");
@@ -81,6 +84,8 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.AccountHashSaltB) + " = \"" + NWDToolbox.SaltCleaner(AccountHashSaltB) + "\";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.RowDataIntegrity) + " = " + RowDataIntegrity.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.PreloadDatas) + " = " + PreloadDatas.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherBenchmark) + " = " + LauncherBenchmark.ToString().ToLower() + ";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherFaster) + " = " + LauncherFaster.ToString() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.EditorTableCommun) + " = " + EditorTableCommun.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ShowCompile) + " = " + ShowCompile.ToString().ToLower() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.ProjetcLanguage) + " = \"" + ProjetcLanguage + "\";");
@@ -151,6 +156,7 @@ namespace NetWorkedData
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.SlackWebhookURL) + " = \"" + SlackWebhookURL + "\";");
             rReturn.AppendLine("#endif");
 
+            //rReturn.AppendLine("NWEBenchmark.Finish();");
             rReturn.AppendLine("return true;");
             rReturn.AppendLine("}");
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
@@ -187,7 +193,7 @@ namespace NetWorkedData
             rReturnType.AppendLine("public override bool RestaureTypesConfigurations()");
             rReturnType.AppendLine("{");
 
-            rReturnType.AppendLine("NWEBenchmark.Start();");
+            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWEBenchmark.Start();};");
             //List<Type> tAllTypes = new List<Type>(NWDTypeLauncher.AllTypes);
             List<Type> tAllTypes = new List<Type>(NWDLauncher.AllNetWorkedDataTypes);
             tAllTypes.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
@@ -199,7 +205,7 @@ namespace NetWorkedData
                     rReturnType.Append(tDatas.CreationCSHARPCallLoader());
                 }
             }
-            rReturnType.AppendLine("NWEBenchmark.Finish();");
+            rReturnType.AppendLine("if (NWDLauncher.ActiveBenchmark == true) {NWEBenchmark.Finish();};");
             rReturnType.AppendLine("return true;");
             rReturnType.AppendLine("}");
             rReturnType.AppendLine("//-------------------------------------------------------------------------------------------------------------");
@@ -238,7 +244,7 @@ namespace NetWorkedData
                 }*/
                 throw;
             }
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

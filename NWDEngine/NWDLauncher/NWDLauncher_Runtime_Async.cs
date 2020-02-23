@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void Launch_Runtime_Async()
         {
-            if (NWDAppConfiguration.SharedInstance().PreloadDatas == false)
+            if (NWDLauncher.GetPreload() == false)
             {
                 if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
                 {
@@ -47,9 +47,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static IEnumerator Launch_Runtime_Async()
         {
-            NWEBenchmark.Start();
+            //if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             IEnumerator tWaitTime = null;
-            StepSum = 1024;
+            StepSum = 12 +
+                NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
+                NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
+                NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
+                NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
+                0;
             StepIndex = 0;
             // lauch engine
             tWaitTime = Engine_Runtime_Async();
@@ -131,12 +139,18 @@ namespace NetWorkedData
             NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
             NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
-            NWEBenchmark.Finish();
+            //if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator Engine_Runtime_Async()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
@@ -160,34 +174,49 @@ namespace NetWorkedData
                     }
                     if (tEditorOnly == false)
                     {
-                        AllNetWorkedDataTypes.Add(tType);
-                        foreach (Type tPossibleHelper in tAllHelperDTypes)
+                        if (AllNetWorkedDataTypes.Contains(tType) == false)
                         {
-                            if (tPossibleHelper.ContainsGenericParameters == false)
+                            AllNetWorkedDataTypes.Add(tType);
+                            foreach (Type tPossibleHelper in tAllHelperDTypes)
                             {
-                                if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                if (tPossibleHelper.ContainsGenericParameters == false)
                                 {
-                                    BasisToHelperList.Add(tType, tPossibleHelper);
-                                    break;
+                                    if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                    {
+                                        if (BasisToHelperList.ContainsKey(tType) == false)
+                                        {
+                                            BasisToHelperList.Add(tType, tPossibleHelper);
+                                        }
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        if (BasisToHelperList.ContainsKey(tType) == false)
-                        {
-                            BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                            if (BasisToHelperList.ContainsKey(tType) == false)
+                            {
+                                BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                            }
                         }
                     }
                 }
-                yield return null;
+                if (YieldValid())
+                {
+                    yield return null;
+                }
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static IEnumerator Declare_Runtime_Async()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.ClassDeclareStart;
             foreach (Type tType in AllNetWorkedDataTypes)
             {
@@ -196,11 +225,17 @@ namespace NetWorkedData
                     NWDBasisHelper tHelper = NWDBasisHelper.Declare(tType, BasisToHelperList[tType]);
                     State = NWDStatut.ClassDeclareStep;
                 }
-                yield return null;
+                if (YieldValid())
+                {
+                    yield return null;
+                }
             }
             State = NWDStatut.ClassDeclareFinish;
             NotifyStep();
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -28,11 +28,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void Launch_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
 #if UNITY_EDITOR
             EditorUtility.ClearProgressBar();
 #endif
-            StepSum = 12;
+            StepSum = 12 +
+                NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
+                NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
+                NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
+                NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
+                0;
             StepIndex = 0;
             // lauch engine
             Engine_Editor();
@@ -72,12 +80,18 @@ namespace NetWorkedData
 
             NotifyNetWorkedDataReady();
 
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Engine_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
@@ -90,32 +104,44 @@ namespace NetWorkedData
             {
                 if (tType != typeof(NWDBasis))
                 {
-                    AllNetWorkedDataTypes.Add(tType);
-                    foreach (Type tPossibleHelper in tAllHelperDTypes)
+                    if (AllNetWorkedDataTypes.Contains(tType) == false)
                     {
-                        if (tPossibleHelper.ContainsGenericParameters == false)
+                        AllNetWorkedDataTypes.Add(tType);
+                        foreach (Type tPossibleHelper in tAllHelperDTypes)
                         {
-                            if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                            if (tPossibleHelper.ContainsGenericParameters == false)
                             {
-                                BasisToHelperList.Add(tType, tPossibleHelper);
-                                break;
+                                if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                {
+                                    if (BasisToHelperList.ContainsKey(tType) == false)
+                                    {
+                                        BasisToHelperList.Add(tType, tPossibleHelper);
+                                    }
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if (BasisToHelperList.ContainsKey(tType) == false)
-                    {
-                        BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                        if (BasisToHelperList.ContainsKey(tType) == false)
+                        {
+                            BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                        }
                     }
                 }
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Declare_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.ClassDeclareStart;
             foreach (Type tType in AllNetWorkedDataTypes)
             {
@@ -125,25 +151,39 @@ namespace NetWorkedData
                 }
             }
             State = NWDStatut.ClassDeclareFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Restaure_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.ClassRestaureStart;
             //NWDTypeLauncher.AllTypes = AllNetWorkedDataTypes.ToArray();
+            //NWEBenchmark.Start();
             NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
+            //NWEBenchmark.Finish();
             NWDDataManager.SharedInstance().ClassEditorExpected = NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count();
             NWDDataManager.SharedInstance().ClassAccountExpected = NWDDataManager.SharedInstance().mTypeAccountDependantList.Count();
             NWDDataManager.SharedInstance().ClassExpected = NWDDataManager.SharedInstance().ClassEditorExpected + NWDDataManager.SharedInstance().ClassAccountExpected;
             State = NWDStatut.ClassRestaureFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Connect_Editor_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataEditorConnectionStart;
             if (NWDDataManager.SharedInstance().ConnectToDatabaseEditor())
             {
@@ -153,39 +193,63 @@ namespace NetWorkedData
             {
                 State = NWDStatut.DataEditorConnectionError;
             }
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void CreateTable_Editor_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataEditorTableCreateStart;
             NWDDataManager.SharedInstance().CreateAllTablesLocalEditor();
             State = NWDStatut.DataEditorTableCreateFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void LoadData_Editor_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataEditorLoadStart;
             NWDDataManager.SharedInstance().ReloadAllObjectsEditor();
             State = NWDStatut.DataEditorLoadFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Index_Editor_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataEditorIndexStart;
             State = NWDStatut.DataEditorIndexFinish;
             State = NWDStatut.EditorReady;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Connect_Account_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataAccountConnectionStart;
             if (NWDDataManager.SharedInstance().ConnectToDatabaseAccount(string.Empty))
             {
@@ -195,42 +259,69 @@ namespace NetWorkedData
             {
                 State = NWDStatut.DataAccountConnectionError;
             }
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void CreateTable_Account_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataAccountTableCreateStart;
             NWDDataManager.SharedInstance().CreateAllTablesLocalAccount();
             State = NWDStatut.DataAccountTableCreateFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void LoadData_Account_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataAccountLoadStart;
             NWDDataManager.SharedInstance().ReloadAllObjectsAccount();
             State = NWDStatut.DataAccountLoadFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Index_Account_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.DataAccountIndexStart;
             NWDDataManager.SharedInstance().IndexAllObjects();
             State = NWDStatut.DataAccountIndexFinish;
             State = NWDStatut.AccountReady;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Ready_Editor()
         {
-            NWEBenchmark.Start();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.NetWorkedDataReady;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

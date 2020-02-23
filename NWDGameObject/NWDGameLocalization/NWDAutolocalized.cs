@@ -54,7 +54,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Localize(bool sUseBaseString = false)
         {
-            Debug.Log("Localize");
+            //Debug.Log("Localize");
             //if (LocalizationReference != null)
             //{
             //    NWDLocalization tLocalization = LocalizationReference.GetReachableData();
@@ -84,7 +84,7 @@ namespace NetWorkedData
                         NWDLocalization tLocalization = LocalizationReference.GetReachableData();
                         if (tLocalization != null)
                         {
-                            Debug.Log("Reference "+ LocalizationReference.Reference+ " exists!");
+                            //Debug.Log("Reference "+ LocalizationReference.Reference+ " exists!");
                             string tTextString = string.Empty;
                             if (sUseBaseString == true)
                             {
@@ -212,8 +212,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void DataIsLoaded()
         {
-
-            Debug.Log("Data editor just loaded");
+            //Debug.Log("Data editor just loaded");
             NWENotificationManager tNotificationManager = NWENotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_LAUNCHER_EDITOR_READY);
             Localize(false);
@@ -226,10 +225,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnEnable()
         {
-            LocalizationReference.Log();
+            //LocalizationReference.Log();
             if (NWDDataManager.SharedInstance().DataEditorLoaded == false)
             {
-                Debug.Log("Data editor not loaded");
+                //Debug.Log("Data editor not loaded");
                 if (EmptyIfNotLoaded == true)
                 {
                     Empty();
@@ -241,7 +240,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.Log("Data editor allready loaded");
+                //Debug.Log("Data editor allready loaded");
                 Localize(false);
             }
 

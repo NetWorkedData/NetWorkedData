@@ -499,19 +499,18 @@ namespace NetWorkedData
                     LoadingDatasGauge.IsVisible = true;
                 }
             }
-
             Launch_Runtime_Async();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllDatas()
-        {
-            StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor());
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void ReloadAllDatasEditor()
-        {
+        //public void ReloadAllDatas()
+        //{
+        //    StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjectsEditor());
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void ReloadAllDatasEditor()
+        //{
 
-        }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         protected void OnGUI()
         {

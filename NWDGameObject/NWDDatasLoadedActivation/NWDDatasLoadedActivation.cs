@@ -79,6 +79,10 @@ namespace NetWorkedData
             if (UseCanvasGroup == true)
             {
                 CanvasGroup tCanvas = GetComponent<CanvasGroup>();
+                if (tCanvas == null)
+                {
+                    tCanvas = gameObject.AddComponent<CanvasGroup>();
+                }
                 if (ActiveState == NWDDatasLoadedActivationState.ActiveWhenDatasLoaded)
                 {
                     tCanvas.alpha = 1;
@@ -110,12 +114,12 @@ namespace NetWorkedData
         {
             if (NWDLauncher.GetState() != NWDStatut.NetWorkedDataReady)
             {
-                Debug.Log("Data not loaded");
+                //Debug.Log("Data not loaded");
                 DataNotLoaded();
             }
             else
             {
-                Debug.Log("Data allready loaded");
+                //Debug.Log("Data allready loaded");
                 DataIsLoaded();
             }
         }

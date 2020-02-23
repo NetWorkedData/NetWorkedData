@@ -25,8 +25,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void Launch_Runtime_Sync()
         {
-            NWEBenchmark.Start();
-            StepSum = 12;
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
+            StepSum = 12 +
+                NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
+                NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
+                NWDAppConfiguration.SharedInstance().LauncherClassEditorStep + // load editor class
+                NWDAppConfiguration.SharedInstance().LauncherClassAccountStep + // load account class
+                0;
             StepIndex = 0;
             // lauch engine
             Engine_Runtime_Sync();
@@ -66,13 +74,18 @@ namespace NetWorkedData
 
             NotifyNetWorkedDataReady();
 
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         private static void Engine_Runtime_Sync()
         {
-            NWEBenchmark.Start();
-
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             State = NWDStatut.EngineStart;
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
@@ -96,28 +109,37 @@ namespace NetWorkedData
                     }
                     if (tEditorOnly == false)
                     {
-                        AllNetWorkedDataTypes.Add(tType);
-                        foreach (Type tPossibleHelper in tAllHelperDTypes)
+                        if (AllNetWorkedDataTypes.Contains(tType) == false)
                         {
-                            if (tPossibleHelper.ContainsGenericParameters == false)
+                            AllNetWorkedDataTypes.Add(tType);
+                            foreach (Type tPossibleHelper in tAllHelperDTypes)
                             {
-                                if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                if (tPossibleHelper.ContainsGenericParameters == false)
                                 {
-                                    BasisToHelperList.Add(tType, tPossibleHelper);
-                                    break;
+                                    if (tPossibleHelper.BaseType.GenericTypeArguments.Contains(tType))
+                                    {
+                                        if (BasisToHelperList.ContainsKey(tType) == false)
+                                        {
+                                            BasisToHelperList.Add(tType, tPossibleHelper);
+                                        }
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        if (BasisToHelperList.ContainsKey(tType) == false)
-                        {
-                            BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                            if (BasisToHelperList.ContainsKey(tType) == false)
+                            {
+                                BasisToHelperList.Add(tType, typeof(NWDBasisHelper));
+                            }
                         }
                     }
                 }
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            NWEBenchmark.Finish();
+            if (ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -161,9 +161,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment(string sEnvironement, bool sSelected)
         {
+            //NWEBenchmark.Start();
             this.Environment = sEnvironement;
             this.Selected = sSelected;
             FormatVerification();
+            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -273,14 +275,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void FormatVerification()
         {
+            //NWEBenchmark.Start();
+#if UNITY_EDITOR
+            //NWEBenchmark.Start("eee");
             // Debug.Log ("VerifySecurity");
             // clean the salts
             DataSHAPassword = NWDToolbox.SaltCleaner(DataSHAPassword);
             DataSHAVector = NWDToolbox.SaltCleaner(DataSHAVector);
             SaltStart = NWDToolbox.SaltCleaner(SaltStart);
             SaltEnd = NWDToolbox.SaltCleaner(SaltEnd);
+            //NWEBenchmark.Finish("eee");
 
-#if UNITY_EDITOR
+
             SaltServer = NWDToolbox.SaltCleaner(SaltServer);
             // ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
             AdminKey = NWDToolbox.SaltCleaner(AdminKey);
@@ -322,6 +328,7 @@ namespace NetWorkedData
                 TokenHistoric = 3;
             }
 #endif
+            //NWEBenchmark.Finish(true, Environment);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

@@ -44,10 +44,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadDatasAction()
-        {
-            NWDGameDataManager.UnitySingleton().ReloadAllDatas();
-        }
+        //public void ReloadDatasAction()
+        //{
+        //    NWDGameDataManager.UnitySingleton().ReloadAllDatas();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void AddStatsAction()
         {
