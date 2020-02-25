@@ -48,7 +48,7 @@ namespace NetWorkedData
         static public NWEPassAnalyseComputer TenClusterGHertz = new NWEPassAnalyseComputer("TenClusterGHertz", 30);
         static public NWEPassAnalyseComputer HundredClusterGHertz = new NWEPassAnalyseComputer("HundredClusterGHertz", 300);
         static public NWEPassAnalyseComputer ViralClusterGHertz = new NWEPassAnalyseComputer("ViralClusterGHertz", 3000000000);
-        static public NWEPassAnalyseComputer MassiveClusterGHertz = new NWEPassAnalyseComputer("MassiveClusterGHertz", 3000000000000);
+        static public NWEPassAnalyseComputer MassiveClusterGHertz = new NWEPassAnalyseComputer("MassiveClusterGHertz", 7000000000000);
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -60,7 +60,7 @@ namespace NetWorkedData
         string Password = string.Empty;
         NWEPassAnalyseComputer AttackType = NWEPassAnalyseComputer.OneGHertz;
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem("Tools/Pass Analyse Window")]
+        [MenuItem("Tools/Pass Analyze Window")]
         public static NWEPassAnalyseWindow SharedInstance()
         {
             if (kSharedInstance == null)
@@ -75,6 +75,7 @@ namespace NetWorkedData
         private void OnEnable()
         {
             titleContent = new GUIContent("Password analyzer");
+            Password = NWDToolbox.RandomString(16);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AnalyzePassword(string sPassword)
@@ -138,10 +139,11 @@ namespace NetWorkedData
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
 
+            /*
             Rect tLastRect = GUILayoutUtility.GetLastRect();
             minSize = new Vector2(400, tLastRect.y + tLastRect.height);
             maxSize = new Vector2(1024, tLastRect.y + tLastRect.height);
-
+            */
         }
         //-------------------------------------------------------------------------------------------------------------
     }
