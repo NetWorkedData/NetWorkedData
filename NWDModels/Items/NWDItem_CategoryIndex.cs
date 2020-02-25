@@ -20,6 +20,30 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDIndexCategorieItem : NWDEditorIndex <NWDCategory,NWDItem>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIndexCategorieItem()
+        {
+            //Debug.Log("NWDItem Constructor");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIndexCategorieItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDBasisHelper GetHelper()
+        {
+            if (Helper == null)
+            {
+                return NWDBasisHelper.FindTypeInfos(typeof(NWDIndexCategorieItem));
+            }
+            return Helper;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------

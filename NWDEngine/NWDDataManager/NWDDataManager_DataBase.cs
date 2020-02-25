@@ -158,21 +158,21 @@ namespace NetWorkedData
             }
 
 
-            Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA synchronous = OFF;");
-            SQLite3.Step(stmtpragma);
-            SQLite3.Finalize(stmtpragma);
+            //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA synchronous = OFF;");
+            //SQLite3.Step(stmtpragma);
+            //SQLite3.Finalize(stmtpragma);
 
-            Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA journal_mode = MEMORY");
-            SQLite3.Step(stmtpragmaB);
-            SQLite3.Finalize(stmtpragmaB);
+            //Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA journal_mode = MEMORY");
+            //SQLite3.Step(stmtpragmaB);
+            //SQLite3.Finalize(stmtpragmaB);
 
-            Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA cache_size = 1000000");
-            SQLite3.Step(stmtpragmaC);
-            SQLite3.Finalize(stmtpragmaC);
+            //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA cache_size = 1000000");
+            //SQLite3.Step(stmtpragmaC);
+            //SQLite3.Finalize(stmtpragmaC);
 
-            Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA temp_store = MEMORY");
-            SQLite3.Step(stmtpragmaD);
-            SQLite3.Finalize(stmtpragmaD);
+            //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA temp_store = MEMORY");
+            //SQLite3.Step(stmtpragmaD);
+            //SQLite3.Finalize(stmtpragmaD);
 
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -278,21 +278,22 @@ namespace NetWorkedData
             }
 
 
-            Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA synchronous = OFF;");
-            SQLite3.Step(stmtpragma);
-            SQLite3.Finalize(stmtpragma);
+            //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA synchronous = OFF;");
+            //SQLite3.Step(stmtpragma);
+            //SQLite3.Finalize(stmtpragma);
 
-            Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA journal_mode = MEMORY");
-            SQLite3.Step(stmtpragmaB);
-            SQLite3.Finalize(stmtpragmaB);
+            //Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA journal_mode = MEMORY");
+            //SQLite3.Step(stmtpragmaB);
+            //SQLite3.Finalize(stmtpragmaB);
 
-            Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA cache_size = 1000000");
-            SQLite3.Step(stmtpragmaC);
-            SQLite3.Finalize(stmtpragmaC);
+            //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA cache_size = 1000000");
+            //SQLite3.Step(stmtpragmaC);
+            //SQLite3.Finalize(stmtpragmaC);
 
-            Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA temp_store = MEMORY");
-            SQLite3.Step(stmtpragmaD);
-            SQLite3.Finalize(stmtpragmaD);
+            //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA temp_store = MEMORY");
+            //SQLite3.Step(stmtpragmaD);
+            //SQLite3.Finalize(stmtpragmaD);
+
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Finish();

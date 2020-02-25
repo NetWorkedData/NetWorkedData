@@ -81,6 +81,15 @@ namespace NetWorkedData
             Index();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void IndexUpdate()
+        {
+            foreach (MethodInfo tMethod in BasisHelper().IndexUpdateMethodList)
+            {
+                tMethod.Invoke(this, null);
+                NWDDataManager.SharedInstance().IndexationCounterOp++;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void Index()
         {
             foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)

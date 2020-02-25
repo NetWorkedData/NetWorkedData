@@ -96,7 +96,7 @@ namespace NetWorkedData
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
             foreach (Type tType in tAllNWDTypes)
             {
-                if (tType != typeof(NWDBasis))
+                if (tType != typeof(NWDBasis) && tType.IsGenericType == false)
                 {
                     bool tEditorOnly = false;
                     if (tType != typeof(NWDAccount))

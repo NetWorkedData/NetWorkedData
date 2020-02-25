@@ -275,7 +275,10 @@ namespace SQLite4Unity3d
         {
             Sqlite3DatabaseHandle stmt;
             Result r = Prepare2(db, query, Encoding.UTF8.GetByteCount(query), out stmt, Sqlite3DatabaseHandle.Zero);
-            if (r != Result.OK) throw SQLiteException.New(r, GetErrmsg(db));
+            if (r != Result.OK)
+            {
+                throw SQLiteException.New(r, GetErrmsg(db) + " in " + query);
+            }
             return stmt;
         }
     }

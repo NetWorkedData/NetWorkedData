@@ -153,6 +153,12 @@ namespace NetWorkedData
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexRemoveMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
                     }
 
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexUpdateMethodList) + ".Clear();");
+                    foreach (MethodInfo tMethodInfo in IndexUpdateMethodList)
+                    {
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexUpdateMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
+                    }
+
                     if (ClassGameDependentProperties != null)
                     {
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => ClassGameDependentProperties) + " = ClassType.GetProperty(\"" + ClassGameDependentProperties.Name + "\");");
@@ -175,7 +181,6 @@ namespace NetWorkedData
                         rReturn.AppendLine("{");
                         rReturn.AppendLine("base.InitHelper(sType, true);");
                         rReturn.AppendLine("}");
-
                     }
                     else
                     {
@@ -189,73 +194,75 @@ namespace NetWorkedData
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturn.AppendLine("}");
-                    rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                    rReturn.AppendLine("public partial class " + ClassNamePHP + " : NWDBasis");
-                    rReturn.AppendLine("{");
-                    rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-                    // NWDBasis override
-                    rReturn.AppendLine("public override void Index()");
-                    rReturn.AppendLine("{");
-                    if (tApp.OverrideCacheMethodEverywhere == false)
-                    {
-                        if (tApp.OverrideCacheMethodInPlayMode == false)
+                    //if (ClassType.IsConstructedGenericType == false)
+                    if (ClassType.IsSubclassOf(typeof(NWDNewIndex)) == false)
                         {
-                            rReturn.AppendLine("if (Application.isEditor == false)");
-                            rReturn.AppendLine("{");
-                        }
-                        else
-                        {
-                            rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
-                            rReturn.AppendLine("{");
-                        }
-                    }
-                    foreach (MethodInfo tMethod in IndexInsertMethodList)
-                    {
-                        rReturn.AppendLine(tMethod.Name + "();");
-                        rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
-                    }
-                    if (tApp.OverrideCacheMethodEverywhere == false)
-                    {
-                        rReturn.AppendLine("}");
-                        rReturn.AppendLine("else");
+                        rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        rReturn.AppendLine("public partial class " + ClassNamePHP + " : NWDBasis");
                         rReturn.AppendLine("{");
-                        rReturn.AppendLine("base.Index();");
-                        rReturn.AppendLine("}");
-
-                    }
-                    rReturn.AppendLine("}");
-                    rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-                    rReturn.AppendLine("public override void Desindex()");
-                    rReturn.AppendLine("{");
-                    if (tApp.OverrideCacheMethodEverywhere == false)
-                    {
-                        if (tApp.OverrideCacheMethodInPlayMode == false)
-                        {
-                            rReturn.AppendLine("if (Application.isEditor == false)");
-                            rReturn.AppendLine("{");
-                        }
-                        else
-                        {
-                            rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
-                            rReturn.AppendLine("{");
-                        }
-                    }
-                    foreach (MethodInfo tMethod in IndexRemoveMethodList)
-                    {
-                        rReturn.AppendLine(tMethod.Name + "();");
-                    }
-                    if (tApp.OverrideCacheMethodEverywhere == false)
-                    {
-                        rReturn.AppendLine("}");
-                        rReturn.AppendLine("else");
+                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                        // NWDBasis override
+                        rReturn.AppendLine("public override void Index()");
                         rReturn.AppendLine("{");
-                        rReturn.AppendLine("base.Desindex();");
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            if (tApp.OverrideCacheMethodInPlayMode == false)
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false)");
+                                rReturn.AppendLine("{");
+                            }
+                            else
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                                rReturn.AppendLine("{");
+                            }
+                        }
+                        foreach (MethodInfo tMethod in IndexInsertMethodList)
+                        {
+                            rReturn.AppendLine(tMethod.Name + "();");
+                            rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
+                        }
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            rReturn.AppendLine("}");
+                            rReturn.AppendLine("else");
+                            rReturn.AppendLine("{");
+                            rReturn.AppendLine("base.Index();");
+                            rReturn.AppendLine("}");
+                        }
                         rReturn.AppendLine("}");
-
+                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                        rReturn.AppendLine("public override void Desindex()");
+                        rReturn.AppendLine("{");
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            if (tApp.OverrideCacheMethodInPlayMode == false)
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false)");
+                                rReturn.AppendLine("{");
+                            }
+                            else
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                                rReturn.AppendLine("{");
+                            }
+                        }
+                        foreach (MethodInfo tMethod in IndexRemoveMethodList)
+                        {
+                            rReturn.AppendLine(tMethod.Name + "();");
+                        }
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            rReturn.AppendLine("}");
+                            rReturn.AppendLine("else");
+                            rReturn.AppendLine("{");
+                            rReturn.AppendLine("base.Desindex();");
+                            rReturn.AppendLine("}");
+                        }
+                        rReturn.AppendLine("}");
+                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                        rReturn.AppendLine("}");
                     }
-                    rReturn.AppendLine("}");
-                    rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-                    rReturn.AppendLine("}");
                     rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                     rReturn.AppendLine("}");
                     rReturn.AppendLine("//=====================================================================================================================");

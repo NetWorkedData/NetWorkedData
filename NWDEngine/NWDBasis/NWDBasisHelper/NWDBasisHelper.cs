@@ -204,6 +204,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<MethodInfo> IndexInsertMethodList = new List<MethodInfo>();
         public List<MethodInfo> IndexRemoveMethodList = new List<MethodInfo>();
+        public List<MethodInfo> IndexUpdateMethodList = new List<MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public int ClusterMin;
         public int ClusterMax;
@@ -309,6 +310,13 @@ namespace NetWorkedData
                     if (IndexRemoveMethodList.Contains(tMethod) == false)
                     {
                         IndexRemoveMethodList.Add(tMethod);
+                    }
+                }
+                if (tMethod.GetCustomAttributes(typeof(NWDIndexUpdate), true).Length > 0)
+                {
+                    if (IndexUpdateMethodList.Contains(tMethod) == false)
+                    {
+                        IndexUpdateMethodList.Add(tMethod);
                     }
                 }
             }
