@@ -264,6 +264,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
+            //NWDBasisHelper tHelper = BasisHelper(); // it's slower than call directly BasisHelper() !?
             if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
             {
                 return BasisHelper().HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);

@@ -84,7 +84,7 @@ namespace NetWorkedData
                 {
                     NWDLocalizableType tValueObject = (NWDLocalizableType)tProp.GetValue(this, null);
                     string tValue = tValueObject.Value;
-                    Dictionary<string, string> tResultSplitDico = new Dictionary<string, string>();
+                    Dictionary<string, string> tResultSplitDico = new Dictionary<string, string>(new StringIndexKeyComparer());
 
                     if (tValue != null && tValue != string.Empty && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)
                     {

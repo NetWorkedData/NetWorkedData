@@ -16,6 +16,10 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using SQLite4Unity3d;
+using System.Text;
+
+using Sqlite3DatabaseHandle = System.IntPtr;
+using Sqlite3Statement = System.IntPtr;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -152,6 +156,24 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionEditor connexion in progress");
                 }
             }
+
+
+            Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA synchronous = OFF;");
+            SQLite3.Step(stmtpragma);
+            SQLite3.Finalize(stmtpragma);
+
+            Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA journal_mode = MEMORY");
+            SQLite3.Step(stmtpragmaB);
+            SQLite3.Finalize(stmtpragmaB);
+
+            Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA cache_size = 1000000");
+            SQLite3.Step(stmtpragmaC);
+            SQLite3.Finalize(stmtpragmaC);
+
+            Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "PRAGMA temp_store = MEMORY");
+            SQLite3.Step(stmtpragmaD);
+            SQLite3.Finalize(stmtpragmaD);
+
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Finish();
@@ -254,6 +276,23 @@ namespace NetWorkedData
                     Debug.LogWarning("SQLiteConnectionAccount connexion in progress");
                 }
             }
+
+
+            Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA synchronous = OFF;");
+            SQLite3.Step(stmtpragma);
+            SQLite3.Finalize(stmtpragma);
+
+            Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA journal_mode = MEMORY");
+            SQLite3.Step(stmtpragmaB);
+            SQLite3.Finalize(stmtpragmaB);
+
+            Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA cache_size = 1000000");
+            SQLite3.Step(stmtpragmaC);
+            SQLite3.Finalize(stmtpragmaC);
+
+            Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "PRAGMA temp_store = MEMORY");
+            SQLite3.Step(stmtpragmaD);
+            SQLite3.Finalize(stmtpragmaD);
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Finish();
@@ -375,16 +414,36 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalAccount()
         {
+            //NWEBenchmark.Start();
+            //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
+            //{
+            //    foreach (Type tType in mTypeAccountDependantList)
+            //    {
+            //        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+            //        tHelper.CreateTable();
+            //    }
+            //}
+            //NWEBenchmark.Finish(true, " old method");
+
+
+            //NWEBenchmark.Start();
+            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "BEGIN TRANSACTION");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
             if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
             {
                 foreach (Type tType in mTypeAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.CreateTable();
-                    //Debug.Log("<color=orange>CreateAllTablesLocalAccount() create Datas </color>");
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
+                    stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, tHelper.CreateTableSQLite());
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
             }
+            stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "COMMIT");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            //NWEBenchmark.Finish(true, " new method");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CleanAllTablesLocalAccount()
@@ -441,15 +500,35 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocalEditor()
         {
+            //NWEBenchmark.Start();
+            //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
+            //{
+            //    foreach (Type tType in mTypeNotAccountDependantList)
+            //    {
+            //        NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+            //        tHelper.CreateTable();
+            //    }
+            //}
+            //NWEBenchmark.Finish(true, " old method");
+
+            //NWEBenchmark.Start();
+            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "BEGIN TRANSACTION");
+            SQLite3.Step(stmt);
+            //SQLite3.Finalize(stmt);
             if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
             {
                 foreach (Type tType in mTypeNotAccountDependantList)
                 {
                     NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                    tHelper.CreateTable();
-                    //NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
+                    stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, tHelper.CreateTableSQLite());
+                    SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
                 }
             }
+            stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "COMMIT");
+            SQLite3.Step(stmt);
+            SQLite3.Finalize(stmt);
+            //NWEBenchmark.Finish(true, " new method");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CleanAllTablesLocalEditor()

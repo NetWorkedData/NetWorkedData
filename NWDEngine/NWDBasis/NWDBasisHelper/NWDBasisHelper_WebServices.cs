@@ -127,9 +127,9 @@ namespace NetWorkedData
                 //LoadDataToSync(sEnvironment);
             }
             // create respond object
-            Dictionary<string, object> rSend = new Dictionary<string, object>();
+            Dictionary<string, object> rSend = new Dictionary<string, object>(new StringIndexKeyComparer());
             // create dictionnary for this tablename and insert in the respond
-            Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
+            Dictionary<string, object> rSendDatas = new Dictionary<string, object>(new StringIndexKeyComparer());
             rSend.Add(ClassTableName, rSendDatas);
             // create List with all object to synchron on the server
             // create List 

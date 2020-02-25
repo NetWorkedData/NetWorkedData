@@ -64,7 +64,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool mSettingsShowing = false;
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, string> EditorDatasMenu = new Dictionary<string, string>(); // reference/desciption for menu <REF>
+        public Dictionary<string, string> EditorDatasMenu = new Dictionary<string, string>(new StringIndexKeyComparer()); // reference/desciption for menu <REF>
 
         public List<NWDTypeClass> EditorTableDatas = new List<NWDTypeClass>(); // NWDTypeClass
         public Dictionary<NWDTypeClass, bool> EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();

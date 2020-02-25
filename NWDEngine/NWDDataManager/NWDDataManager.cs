@@ -57,7 +57,7 @@ namespace NetWorkedData
         public List<Type> mTypeUnSynchronizedList = new List<Type>();           // TODO rename ClassUnsynchronizedList
         public List<Type> mTypeAccountDependantList = new List<Type>();         // TODO rename ClassAccountDependentList
         public List<Type> mTypeNotAccountDependantList = new List<Type>();      // TODO rename ClassEditorDependentList
-        public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type>();
+        public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type>(new StringIndexKeyComparer());
         //-------------------------------------------------------------------------------------------------------------
         public void PlayerLanguageSave(string sNewLanguage)
         {

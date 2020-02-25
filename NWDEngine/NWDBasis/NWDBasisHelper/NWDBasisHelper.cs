@@ -35,6 +35,9 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public PropertyInfo[] PropertiesArray;
+        public PropertyInfo[] NWDDataPropertiesArray;
+        //-------------------------------------------------------------------------------------------------------------
         bool DatasLoaded = false;
         bool DataIndexed = false;
         double Sizer; // the max size of instance
@@ -216,7 +219,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
-        public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>();
+        public static Dictionary<string, NWDBasisHelper> StringsDictionary = new Dictionary<string, NWDBasisHelper>(new StringIndexKeyComparer());
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InitHelper(Type sType, bool sBase = false)
         {
@@ -355,12 +358,22 @@ namespace NetWorkedData
             {
                 rAccountConnected = true;
             }
-
+            PropertiesArray = sType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            List<PropertyInfo> tDataPropertiesArray = new List<PropertyInfo>();
             foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 Type tTypeOfThis = tProp.PropertyType;
                 if (tTypeOfThis != null)
                 {
+                    if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)) ||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)) ||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)) ||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)) ||
+                        tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                    {
+                        tDataPropertiesArray.Add(tProp);
+                    }
+
                     if (tTypeOfThis.IsGenericType)
                     {
                         if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
@@ -420,7 +433,7 @@ namespace NetWorkedData
                     }
                 }
             }
-
+            NWDDataPropertiesArray = tDataPropertiesArray.ToArray();
             kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
             kAccountDependentProperties = tPropertyList;
@@ -880,11 +893,11 @@ namespace NetWorkedData
         /// <summary>
         /// The datas by reference.
         /// </summary>
-        public Dictionary<string, NWDTypeClass> DatasByReference = new Dictionary<string, NWDTypeClass>();
+        public Dictionary<string, NWDTypeClass> DatasByReference = new Dictionary<string, NWDTypeClass>(new StringIndexKeyComparer());
         /// <summary>
         /// The datas by internal key. Return list of datas.
         /// </summary>
-        public Dictionary<string, List<NWDTypeClass>> DatasByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
+        public Dictionary<string, List<NWDTypeClass>> DatasByInternalKey = new Dictionary<string, List<NWDTypeClass>>(new StringIndexKeyComparer());
         /// <summary>
         /// The datas by reverse internal key. You must check if string InternalKey was changed ... in case change the DatasByInternalKey too!
         /// </summary>
@@ -930,32 +943,19 @@ namespace NetWorkedData
         public void ResetDatas()
         {
             DatasLoaded = false;
-            //Debug.Log("ResetDatas()");
-            //NWEBenchmark.Start();
-            // all datas prepare handler
-            Datas = new List<NWDTypeClass>();
-            DatasByReference = new Dictionary<string, NWDTypeClass>();
-            DatasByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
-            DatasByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
-            // reachable datas prepare handler
-            //DatasReachable = new List<NWDTypeClass>();
-            //DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
-            //DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
-            //DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
+            Datas.Clear();
+            DatasByReference.Clear();
+            DatasByInternalKey.Clear();
+            DatasByReverseInternalKey.Clear();
 #if UNITY_EDITOR
-            // editor datas prepare handler
-            //DatasInEditorRowDescriptionList = new List<string>();
-            //DatasInEditorSelectionList = new List<bool>();
-            //DatasInEditorReferenceList = new List<string>();
 
-            EditorTableDatas = new List<NWDTypeClass>();
-            EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+            EditorTableDatas.Clear();
+            EditorTableDatasSelected.Clear();
 
             // use in pop menu in edition of NWD inspector...
-            EditorDatasMenu = new Dictionary<string, string>();
+            EditorDatasMenu.Clear();
             EditorDatasMenu.Add("---", string.Empty);
 #endif
-            //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AllDatabaseIsIndexed()

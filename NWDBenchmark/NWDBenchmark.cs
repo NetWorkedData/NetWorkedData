@@ -35,7 +35,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         private static NWDBenchmark kSharedInstance = new NWDBenchmark();
-        const string kMenu = "NWDBenchmark/";
+        const string kMenu = "Benchmark/NWDSQLite/";
         const string DatabaseName = "DBBenchmark.prp";
         internal static readonly Sqlite3DatabaseHandle NullHandle = default(Sqlite3DatabaseHandle);
         //-------------------------------------------------------------------------------------------------------------
@@ -312,7 +312,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InsertFakeDataInTable(string sTableName)
         {
-            Dictionary<string, string> tKeyValue = new Dictionary<string, string>();
+            Dictionary<string, string> tKeyValue = new Dictionary<string, string>(new StringIndexKeyComparer());
             tKeyValue.Add("Reference", NWDToolbox.GenerateUniqueID());
             tKeyValue.Add("CheckList", "1");
             tKeyValue.Add("WebModel", "2");

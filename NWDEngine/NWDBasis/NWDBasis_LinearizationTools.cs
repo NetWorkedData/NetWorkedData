@@ -238,7 +238,8 @@ namespace NetWorkedData
             return string.Join(NWDConstants.kStandardSeparator, tValues);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string IntegrityAssembly()
+        // TODO Override compiler?
+        public virtual string IntegrityAssembly()
         {
             string[] tValues = Assembly();
             tValues[2] = "";
@@ -249,7 +250,8 @@ namespace NetWorkedData
             return string.Join("", tValues);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string[] Assembly(/*int sWebBuilt = -1*/)
+        // TODO Override compiler?
+        public virtual string[] Assembly(/*int sWebBuilt = -1*/)
         {
             List<string> rReturnList = new List<string>();
             Type tType = ClassType();

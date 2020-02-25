@@ -44,14 +44,21 @@ namespace NetWorkedData
             //NWDLauncher.Launch();
         }
         //-------------------------------------------------------------------------------------------------------------
+        private NWDBasisHelper _BasisHelper;
+        //-------------------------------------------------------------------------------------------------------------
         public NWDBasisHelper BasisHelper()
         {
-            NWDBasisHelper rHelper = NWDBasisHelper.FindTypeInfos(GetType());
-            if (rHelper == null)
+            if (_BasisHelper == null)
             {
-                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + GetType().Name);
+                _BasisHelper = NWDBasisHelper.TypesDictionary[GetType()];
             }
-            return rHelper;
+            return _BasisHelper;
+            //NWDBasisHelper rHelper = NWDBasisHelper.FindTypeInfos(GetType());
+            //if (rHelper == null)
+            //{
+            //    Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + GetType().Name);
+            //}
+            //return rHelper;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static string ClassID()

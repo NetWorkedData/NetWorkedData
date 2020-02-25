@@ -85,7 +85,6 @@ namespace NetWorkedData
         {
             foreach (MethodInfo tMethod in BasisHelper().IndexInsertMethodList)
             {
-                //Debug.Log("Index override" + Reference + " tMethod = "+ tMethod.Name);
                 tMethod.Invoke(this, null);
                 NWDDataManager.SharedInstance().IndexationCounterOp++;
             }
@@ -103,7 +102,7 @@ namespace NetWorkedData
         {
             AC = true;
             DM = NWDToolbox.Timestamp();
-            DC = NWDToolbox.Timestamp();
+            DC = DM;
             DS = 0;
             DD = 0;
 
@@ -118,41 +117,43 @@ namespace NetWorkedData
             InternalDescription = string.Empty;
             Preview = string.Empty;
 
-            int tWebModelToUse = WebModelToUse();
-           // Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
-            WebModel = tWebModelToUse;
-            //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
-            Type tType = ClassType();
-            foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            NWDBasisHelper tHelper = BasisHelper();
+
+            WebModel = tHelper.LastWebBuild;
+            foreach (var tPropertyInfo in tHelper.NWDDataPropertiesArray)
             {
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
                 if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                 {
-                // TODO : Change to remove invoke!
-                    var tObject = Activator.CreateInstance(tTypeOfThis);
-                    var tMethodInfo = tObject.GetType().GetMethod("SetString", BindingFlags.Public | BindingFlags.Instance);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, new object[] { string.Empty });
-                    }
+                    NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+                    //tObject.SetValue(string.Empty);
                     tPropertyInfo.SetValue(this, tObject, null);
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                 {
-                    // int is default 0, not null!
+                    NWEDataTypeInt tObject = (NWEDataTypeInt)Activator.CreateInstance(tTypeOfThis);
+                    //tObject.SetLong(0);
+                    tPropertyInfo.SetValue(this, tObject, null);
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
                 {
-                    // int is default 0, not null!
+                    NWEDataTypeFloat tObject = (NWEDataTypeFloat)Activator.CreateInstance(tTypeOfThis);
+                    //tObject.SetDouble(0);
+                    tPropertyInfo.SetValue(this, tObject, null);
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
                 {
-                    // int is default 0, not null!
+                    NWEDataTypeEnum tObject = (NWEDataTypeEnum)Activator.CreateInstance(tTypeOfThis);
+                    //tObject.SetLong(0);
+                    tPropertyInfo.SetValue(this, tObject, null);
                 }
-                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
                 {
-                    // int is default 0, not null!
+                    NWEDataTypeMask tObject = (NWEDataTypeMask)Activator.CreateInstance(tTypeOfThis);
+                    //tObject.SetLong(0);
+                    tPropertyInfo.SetValue(this, tObject, null);
                 }
+
             }
         }
         //-------------------------------------------------------------------------------------------------------------

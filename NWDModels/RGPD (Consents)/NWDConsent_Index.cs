@@ -34,7 +34,7 @@ namespace NetWorkedData
         public static NWDConsent[] SelectCurrentDatas()
         {
             List<NWDConsent> rList = new List<NWDConsent>();
-            Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>();
+            Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>(new StringIndexKeyComparer());
             NWDConsent[] tConsentList = NWDBasisHelper.GetReachableDatas<NWDConsent>();
             foreach (NWDConsent tConsent in tConsentList)
             {

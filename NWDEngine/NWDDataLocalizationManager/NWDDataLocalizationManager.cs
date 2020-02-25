@@ -24,7 +24,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string kBaseDev = "BASE";
         public string LanguagesString = kBaseDev + ";de;en;es;fr;it;ja;ko;pt;ru;th";
-        public Dictionary<string, string> LanguageDico = new Dictionary<string, string>();
+        public Dictionary<string, string> LanguageDico = new Dictionary<string, string>(new StringIndexKeyComparer());
         //-------------------------------------------------------------------------------------------------------------
         static public string CheckLocalization(string sLanguage)
         {

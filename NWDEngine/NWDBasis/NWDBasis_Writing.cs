@@ -143,21 +143,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
-            foreach (PropertyInfo tPropInfo in BasisHelper().kAccountDependentProperties)
+            // if account dependent then insert the account reference value in all account depedent properties
+            NWDBasisHelper tHelper = BasisHelper();
+            foreach (PropertyInfo tPropInfo in tHelper.kAccountDependentProperties)
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
                 tAtt.Value = NWDAccount.CurrentReference();
                 tPropInfo.SetValue(this, tAtt, null);
             }
-            if (BasisHelper().ClassGameSaveDependent == true)
+            // if gamesave dependent then insert the gamesave reference in the good property 
+            if (tHelper.ClassGameSaveDependent == true)
             {
                 NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
                 if (NWDGameSave.CurrentData() != null)
                 {
                     tAtt.SetReference(NWDGameSave.CurrentData().Reference);
                 }
-                PropertyInfo tPropInfo = BasisHelper().ClassGameDependentProperties;
+                PropertyInfo tPropInfo = tHelper.ClassGameDependentProperties;
                 tPropInfo.SetValue(this, tAtt, null);
             }
         }
@@ -397,46 +400,49 @@ namespace NetWorkedData
                         Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                         break;
                 }
-                if (BasisHelper().DatasByReference.ContainsKey(this.Reference) == false)
+                if (this.Reference != null)
                 {
-                    bool tDoInsert = true;
-                    switch (sWritingMode)
+                    if (BasisHelper().DatasByReference.ContainsKey(this.Reference) == false)
                     {
-                        case NWDWritingMode.MainThread:
-                            break;
-                        case NWDWritingMode.QueuedMainThread:
-                            if (NWDDataManager.SharedInstance().kInsertDataQueueMain.Contains(this))
-                            {
-                                tDoInsert = false;
-                            }
-                            break;
-                        case NWDWritingMode.PoolThread:
-                            break;
-                        case NWDWritingMode.QueuedPoolThread:
-                            if (NWDDataManager.SharedInstance().kInsertDataQueuePool.Contains(this))
-                            {
-                                tDoInsert = false;
-                            }
-                            break;
-                    }
-                    if (tDoInsert == true)
-                    {
-                        rReturn = true;
-                        this.AddonInsertMe();
-                        InsertDataOperation(sAutoDate);
-                        BasisHelper().AddData(this);
+                        bool tDoInsert = true;
+                        switch (sWritingMode)
+                        {
+                            case NWDWritingMode.MainThread:
+                                break;
+                            case NWDWritingMode.QueuedMainThread:
+                                if (NWDDataManager.SharedInstance().kInsertDataQueueMain.Contains(this))
+                                {
+                                    tDoInsert = false;
+                                }
+                                break;
+                            case NWDWritingMode.PoolThread:
+                                break;
+                            case NWDWritingMode.QueuedPoolThread:
+                                if (NWDDataManager.SharedInstance().kInsertDataQueuePool.Contains(this))
+                                {
+                                    tDoInsert = false;
+                                }
+                                break;
+                        }
+                        if (tDoInsert == true)
+                        {
+                            rReturn = true;
+                            this.AddonInsertMe();
+                            InsertDataOperation(sAutoDate);
+                            BasisHelper().AddData(this);
 
-                        this.AddonInsertedMe();
-                        //AddObjectInListOfEdition(this);
-                        WritingLockAdd();
-                        WritingPending = NWDWritingPending.InsertInMemory;
-                        NWDDataManager.SharedInstance().InsertData(this, sWritingMode);
+                            this.AddonInsertedMe();
+                            //AddObjectInListOfEdition(this);
+                            WritingLockAdd();
+                            WritingPending = NWDWritingPending.InsertInMemory;
+                            NWDDataManager.SharedInstance().InsertData(this, sWritingMode);
+                        }
                     }
-                }
-                else
-                {
-                    // error this reference already exist
-                    UpdateDataIfModified(sAutoDate, sWritingMode);
+                    else
+                    {
+                        // error this reference already exist
+                        UpdateDataIfModified(sAutoDate, sWritingMode);
+                    }
                 }
             }
             //NWEBenchmark.Finish();

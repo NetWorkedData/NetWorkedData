@@ -30,7 +30,7 @@ namespace NetWorkedData
     {
         public override Dictionary<string, string> CreatePHPAddonFiles(NWDAppEnvironment sEnvironment, bool sWriteOnDisk = true)
         {
-            Dictionary<string, string> rReturn = new Dictionary<string, string>();
+            Dictionary<string, string> rReturn = new Dictionary<string, string>(new StringIndexKeyComparer());
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
             tFile.AppendLine(sEnvironment.Headlines());

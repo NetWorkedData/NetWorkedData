@@ -434,7 +434,7 @@ namespace NetWorkedData
             sInfos.RowPullCounter = 0;
             sInfos.RowPushCounter = 0;
 
-            Dictionary<string, object> rSend = new Dictionary<string, object>();
+            Dictionary<string, object> rSend = new Dictionary<string, object>(new StringIndexKeyComparer());
             if (sTypeList != null)
             {
                 foreach (Type tType in sTypeList)

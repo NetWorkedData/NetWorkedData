@@ -161,6 +161,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
             return rReturn;
         }
+//-------------------------------------------------------------------------------------------------------------
 
         private string PropertyInfoToSQLType(PropertyInfo sPropertyInfo)
         {
@@ -327,7 +328,7 @@ namespace NetWorkedData
                 }
             }
             tQuery += string.Join(",", PropertiesSQL.ToArray());
-            tQuery += ") ENGINE="+ TableEngine.ToString()+" DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+            tQuery += ") ENGINE=" + TableEngine.ToString() + " DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             tFile.AppendLine("$tQuery = '" + tQuery + "';");
             tFile.AppendLine("$tResult = " + NWD.K_SQL_CON + "->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");

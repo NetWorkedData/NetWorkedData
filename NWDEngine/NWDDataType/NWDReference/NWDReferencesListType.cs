@@ -110,6 +110,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string[] GetReferences()
         {
+            if(Value==null)
+            {
+                return new string[] { };
+            }
             return Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
         }
         //-------------------------------------------------------------------------------------------------------------

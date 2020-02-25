@@ -66,7 +66,10 @@ namespace NetWorkedData
             {
                 Version.SetIntValue(tMaxVersion.Version.ToInt() + 1);
             }
-            InternalKey = Version.ToString();
+            if (Version != null)
+            {
+                InternalKey = Version.ToString();
+            }
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

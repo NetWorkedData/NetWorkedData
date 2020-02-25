@@ -59,7 +59,7 @@ namespace NetWorkedData
             string tClassExamplePath = NWDFindPackage.PathOfPackage() + "/NWDEditor/NWDObjects/NWDExample/NWDExample_Extension.cs";
             string tClassExample = File.ReadAllText(tClassExamplePath);
             // prepare properties 
-            Dictionary<string, string> tPropertiesDico = new Dictionary<string, string>();
+            Dictionary<string, string> tPropertiesDico = new Dictionary<string, string>(new StringIndexKeyComparer());
             foreach (KeyValuePair<string, string> tKeyValue in ClassNameProperties)
             {
                 if (tKeyValue.Key != string.Empty && tKeyValue.Value != " " && tKeyValue.Value != string.Empty)

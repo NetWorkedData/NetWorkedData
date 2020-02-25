@@ -101,7 +101,7 @@ namespace NetWorkedData
             tClassExample = tClassExample.Replace("NWDExample", ClassName);
             tClassExample = tClassExample.Replace("NWDBasis", ClassBase);
             // prepare properties 
-            Dictionary<string, string> tPropertiesDico = new Dictionary<string, string>();
+            Dictionary<string, string> tPropertiesDico = new Dictionary<string, string>(new StringIndexKeyComparer());
             foreach (KeyValuePair<string, string> tKeyValue in ClassNameProperties)
             {
                 if (tKeyValue.Key != string.Empty && tKeyValue.Value != " " && tKeyValue.Value != string.Empty)

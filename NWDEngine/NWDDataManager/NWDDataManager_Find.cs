@@ -53,6 +53,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjectsEditor()
         {
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Start();
+            }
             DataEditorLoaded = false;
             while (DataEditorConnected == false)
             {
@@ -74,6 +78,10 @@ namespace NetWorkedData
             PlayerLanguageLoad();
             LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
+            if (NWDLauncher.ActiveBenchmark)
+            {
+                NWEBenchmark.Finish();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClassEditor(int sCounter)

@@ -649,7 +649,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_BASE + "/SPECIAL/List of trigrammes and classes", false, 4000)]
         public static void EditorListOfTrigramme()
         {
-            Dictionary<string, string> tListClassesTrigramme = new Dictionary<string, string>();
+            Dictionary<string, string> tListClassesTrigramme = new Dictionary<string, string>(new StringIndexKeyComparer());
             StringBuilder tText = new StringBuilder();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
