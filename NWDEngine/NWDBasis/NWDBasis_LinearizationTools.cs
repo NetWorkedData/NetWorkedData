@@ -255,7 +255,8 @@ namespace NetWorkedData
         {
             List<string> rReturnList = new List<string>();
             Type tType = ClassType();
-            List<string> tPropertiesList = BasisHelper().PropertiesOrderArray(-1);
+            //List<string> tPropertiesList = BasisHelper().PropertiesOrderArray(WebModel);
+            string[] tPropertiesList = BasisHelper().PropertiesOrderArray(WebModel).ToArray();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);

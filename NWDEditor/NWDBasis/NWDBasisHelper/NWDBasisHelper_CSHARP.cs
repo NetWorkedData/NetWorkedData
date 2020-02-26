@@ -217,7 +217,7 @@ namespace NetWorkedData
                                 rReturn.AppendLine("{");
                             }
                         }
-                        foreach (MethodInfo tMethod in IndexInsertMethodList)
+                        foreach (MethodInfo tMethod in IndexUpdateMethodList)
                         {
                             rReturn.AppendLine(tMethod.Name + "();");
                             rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
@@ -228,35 +228,6 @@ namespace NetWorkedData
                             rReturn.AppendLine("else");
                             rReturn.AppendLine("{");
                             rReturn.AppendLine("base.Index();");
-                            rReturn.AppendLine("}");
-                        }
-                        rReturn.AppendLine("}");
-                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
-                        rReturn.AppendLine("public override void Desindex()");
-                        rReturn.AppendLine("{");
-                        if (tApp.OverrideCacheMethodEverywhere == false)
-                        {
-                            if (tApp.OverrideCacheMethodInPlayMode == false)
-                            {
-                                rReturn.AppendLine("if (Application.isEditor == false)");
-                                rReturn.AppendLine("{");
-                            }
-                            else
-                            {
-                                rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
-                                rReturn.AppendLine("{");
-                            }
-                        }
-                        foreach (MethodInfo tMethod in IndexRemoveMethodList)
-                        {
-                            rReturn.AppendLine(tMethod.Name + "();");
-                        }
-                        if (tApp.OverrideCacheMethodEverywhere == false)
-                        {
-                            rReturn.AppendLine("}");
-                            rReturn.AppendLine("else");
-                            rReturn.AppendLine("{");
-                            rReturn.AppendLine("base.Desindex();");
                             rReturn.AppendLine("}");
                         }
                         rReturn.AppendLine("}");

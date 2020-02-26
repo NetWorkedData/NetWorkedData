@@ -20,6 +20,21 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDIndexFamilyItem : NWDEditorIndex<NWDIndexFamilyItem, NWDFamily, NWDItem>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIndexFamilyItem()
+        {
+            //Debug.Log("NWDIndexFamilyItem Constructor");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIndexFamilyItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDIndexFamilyItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -29,9 +44,7 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexUpdate]
         public void InsertInFamilyIndex()
         {
             // Re-add to the actual indexation ?
@@ -43,22 +56,15 @@ namespace NetWorkedData
                     foreach (NWDFamily tFamily in FamilyList.GetRawDatas())
                     {
                         // Re-add !
-                        kFamilyIndex.InsertData(this, tFamily);
+                        NWDIndexFamilyItem.UpdateData(this, tFamily);
                     }
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
-        public void RemoveFromFamilyIndex()
-        {
-            // Remove from the actual indexation
-            kFamilyIndex.RemoveData(this);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static List<NWDItem> FindByFamily(NWDFamily sFamily)
         {
-            return kFamilyIndex.RawDatasByKey(sFamily);
+            return new List<NWDItem>(NWDIndexFamilyItem.RawDatasByKey(sFamily));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

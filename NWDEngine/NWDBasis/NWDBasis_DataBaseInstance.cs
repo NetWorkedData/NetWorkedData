@@ -79,6 +79,7 @@ namespace NetWorkedData
         {
             Desindex();
             Index();
+            IndexUpdate();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void IndexUpdate()

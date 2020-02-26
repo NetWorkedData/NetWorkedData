@@ -640,6 +640,7 @@ namespace NetWorkedData
             }
             int tCount = 0;
 #if UNITY_EDITOR
+            NWDDataManager.SharedInstance().DataQueueExecute();
             RowAnalyzed = false;
 #endif
             ResetDatas();

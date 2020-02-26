@@ -20,26 +20,17 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDIndexCategorieItem : NWDEditorIndex <NWDCategory,NWDItem>
+    public partial class NWDIndexCategorieItem : NWDEditorIndex <NWDIndexCategorieItem,NWDCategory, NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDIndexCategorieItem()
         {
-            //Debug.Log("NWDItem Constructor");
+            //Debug.Log("NWDIndexCategorieItem Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDIndexCategorieItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static NWDBasisHelper GetHelper()
-        {
-            if (Helper == null)
-            {
-                return NWDBasisHelper.FindTypeInfos(typeof(NWDIndexCategorieItem));
-            }
-            return Helper;
+            //Debug.Log("NWDIndexCategorieItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
     }
@@ -53,6 +44,41 @@ namespace NetWorkedData
         {
             get; set;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// New index with NWDNewIndex NWDBasis
+        /// </summary>
+        [NWDIndexUpdate]
+        public void UpdateIndexCategorieItem()
+        {
+            Debug.Log("UpdateIndexCategorieItem(" + InternalKey + ")");
+            // Re-add to the actual indexation ?
+            if (IsUsable())
+            {
+                // Re-add ! but for wichn categories?
+                List<NWDCategory> tCategoriesList = new List<NWDCategory>();
+                if (CategoryList != null)
+                {
+                    foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
+                    {
+                        if (tCategoriesList.Contains(tCategories) == false)
+                        {
+                            tCategoriesList.Add(tCategories);
+                        }
+                    }
+                }
+                NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> FindByIndexCategorieItem(NWDCategory sCategory)
+        {
+            List<NWDItem> rReturn = new List<NWDItem>(NWDIndexCategorieItem.RawDatasByKey(sCategory));
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
         //-------------------------------------------------------------------------------------------------------------
@@ -76,7 +102,9 @@ namespace NetWorkedData
                     }
                 }
                 kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
+                 NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
             }
+
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexRemove]
