@@ -31,7 +31,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Account.GetReference();
-                kAccountIndex.InsertData(this, tKey);
+                kAccountIndex.UpdateData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDAccountNickname));
             if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = kAccountIndex.RawFirstDataByKey(sAccountReference);
+                rReturn = kAccountIndex.FirstRawDataByKey(sAccountReference);
                 if (rReturn == null && sOrCreate == true)
                 {
                     rReturn = NWDBasisHelper.NewData<NWDAccountNickname>();

@@ -35,7 +35,7 @@ namespace NetWorkedData
                 if (Consent.GetRawData() != null)
                 {
                     string tKey = Consent.GetReference() + NWDConstants.kFieldSeparatorA + Consent.GetRawData().Version.ToString() + NWDConstants.kFieldSeparatorA + Account.GetReference();
-                    kAccountIndex.InsertData(this, tKey);
+                    kAccountIndex.UpdateData(this, tKey);
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace NetWorkedData
         public static NWDAccountConsent FindDataByConsent(NWDConsent sConsent, bool sOrCreate = true)
         {
             string tKey = sConsent.Reference + NWDConstants.kFieldSeparatorA + sConsent.Version.ToString() + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
-            NWDAccountConsent rReturn = kAccountIndex.RawFirstDataByKey(tKey);
+            NWDAccountConsent rReturn = kAccountIndex.FirstRawDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NWDBasisHelper.NewData<NWDAccountConsent>();

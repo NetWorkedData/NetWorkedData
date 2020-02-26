@@ -19,6 +19,26 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class NWDIndexInBase : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIndexInBase()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class NWDDeindexInBase : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDeindexInBase()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDNewIndexRowType : int
     {
         Key,
@@ -255,33 +275,27 @@ namespace NetWorkedData
             int rReturn = 0;
             if (Helper.DatasByReference.ContainsKey(sDataReference) == true)
             {
-                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sDataReference] as NWDEditorIndex<TIndex, TKey, TValue>;
-                if (tOldKey.DataList.Contains(sDataReference) == false)
-                {
-                    string[] tResult = tOldKey.KeyList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                    rReturn = tResult.Length;
-                }
+                NWDEditorIndex<TIndex, TKey, TValue> tData = Helper.DatasByReference[sDataReference] as NWDEditorIndex<TIndex, TKey, TValue>;
+                string[] tResult = tData.KeyList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                rReturn = tResult.Length;
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static int CountDatasForKey(TKey sKey)
+        public static int CountKeyOccurence(TKey sKey)
         {
-            return CountDatasForKey(sKey.Reference);
+            return CountKeyOccurence(sKey.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static int CountDatasForKey(string sKeyReference)
+        public static int CountKeyOccurence(string sKeyReference)
         {
             GetHelper();
             int rReturn = 0;
             if (Helper.DatasByReference.ContainsKey(sKeyReference) == true)
             {
-                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
-                if (tOldKey.DataList.Contains(sKeyReference) == false)
-                {
-                    string[] tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                    rReturn = tResult.Length;
-                }
+                NWDEditorIndex<TIndex, TKey, TValue> tKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
+                string[] tResult = tKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                rReturn = tResult.Length;
             }
             return rReturn;
         }
@@ -298,10 +312,7 @@ namespace NetWorkedData
             if (Helper.DatasByReference.ContainsKey(sKeyReference) == true)
             {
                 NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
-                if (tOldKey.DataList.Contains(sKeyReference) == false)
-                {
-                    tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                }
+                tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
             }
             return tResult;
         }
@@ -335,10 +346,7 @@ namespace NetWorkedData
             if (Helper.DatasByReference.ContainsKey(sKeyReference) == true)
             {
                 NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
-                if (tOldKey.DataList.Contains(sKeyReference) == false)
-                {
-                    tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                }
+                tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
             }
             NWDBasisHelper tDataHelper = NWDBasisHelper.FindTypeInfos(typeof(TValue));
             List<TValue> rResult = new List<TValue>();

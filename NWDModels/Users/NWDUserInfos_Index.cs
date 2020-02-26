@@ -32,7 +32,7 @@ namespace NetWorkedData
             if (IsUsable())
             {
                 // Re-add !
-                kIndex.InsertData(this, this.GameSave.GetReference());
+                kIndex.UpdateData(this, this.GameSave.GetReference());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(typeof(NWDUserInfos));
             if (tHelper.AllDatabaseIsLoaded() && tHelper.AllDatabaseIsIndexed() == true)
             {
-                rReturn = kIndex.RawFirstDataByKey(NWDGameSave.CurrentData());
+                rReturn = kIndex.FirstRawDataByKey(NWDGameSave.CurrentData());
                 if (rReturn == null && sOrCreate == true)
                 {
                     rReturn = NWDBasisHelper.NewData<NWDUserInfos>();

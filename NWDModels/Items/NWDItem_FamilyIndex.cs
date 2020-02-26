@@ -20,6 +20,10 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("xxf")]
+    [NWDClassDescriptionAttribute("index")]
+    [NWDClassMenuNameAttribute("Index Family->Item")]
     public partial class NWDIndexFamilyItem : NWDEditorIndex<NWDIndexFamilyItem, NWDFamily, NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -49,20 +53,12 @@ namespace NetWorkedData
         /// </summary>
         //-------------------------------------------------------------------------------------------------------------
         [NWDIndexInBase]
-        public void IndexInSQLFamilyIndex()
+        public void IndexInBaseFamilyIndex()
         {
-            // Re-add to the actual indexation ?
-            if (IsUsable())
+            Debug.Log("index in base");
+            if (FamilyList != null)
             {
-                if (FamilyList != null)
-                {
-                    // Re-add ! but for wichn Family?
-                    foreach (NWDFamily tFamily in FamilyList.GetRawDatas())
-                    {
-                        // Re-add !
-                        NWDIndexFamilyItem.UpdateData(this, tFamily);
-                    }
-                }
+                NWDIndexFamilyItem.UpdateData(this, FamilyList.GetRawDatas());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -70,14 +66,40 @@ namespace NetWorkedData
         /// Desindex from NWDIndexFamilyItem
         /// </summary>
         [NWDDeindexInBase]
-        public void DesindexInSQLFamilyIndex()
+        public void DesindexInBaseFamilyIndex()
         {
-            NWDIndexCategorieItem.RemoveData(this);
+            NWDIndexFamilyItem.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindInFamilyIndex(NWDFamily sFamily)
+        public static List<NWDItem> FindInBaseFamilyIndex(NWDFamily sFamily)
         {
             return new List<NWDItem>(NWDIndexFamilyItem.RawDatasByKey(sFamily));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static protected NWDIndex<NWDFamily, NWDItem> kFamilyIndex = new NWDIndex<NWDFamily, NWDItem>();
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInMemory]
+        public void IndexInMemoryFamilyIndex()
+        {
+            Debug.Log("index in memory");
+            if (FamilyList != null)
+            {
+                kFamilyIndex.UpdateData(this, FamilyList.GetRawDatas());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Desindex from NWDIndexFamilyItem
+        /// </summary>
+        [NWDDeindexInMemory]
+        public void DesindexInMemoryFamilyIndex()
+        {
+            kFamilyIndex.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> FindInMemoryFamilyIndex(NWDFamily sFamily)
+        {
+            return new List<NWDItem>(kFamilyIndex.RawDatasByKey(sFamily));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

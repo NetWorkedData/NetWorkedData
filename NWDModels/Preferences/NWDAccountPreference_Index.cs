@@ -35,7 +35,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = PreferenceKey.GetReference() + NWDConstants.kFieldSeparatorA + this.Account.GetReference();
-                kAchievementKeyIndex.InsertData(this, tKey);
+                kAchievementKeyIndex.UpdateData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ namespace NetWorkedData
         public static NWDAccountPreference FindDataByPreferenceKey(NWDPreferenceKey sKey, bool sOrCreate = true)
         {
             string tKey = sKey.Reference + NWDConstants.kFieldSeparatorA + NWDAccount.CurrentReference();
-            NWDAccountPreference rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
+            NWDAccountPreference rReturn = kAchievementKeyIndex.FirstRawDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NWDBasisHelper.NewData<NWDAccountPreference>();

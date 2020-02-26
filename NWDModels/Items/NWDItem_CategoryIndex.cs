@@ -20,6 +20,10 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("xxc")]
+    [NWDClassDescriptionAttribute("index")]
+    [NWDClassMenuNameAttribute("Index Categorie->Item")]
     public partial class NWDIndexCategorieItem : NWDEditorIndex<NWDIndexCategorieItem, NWDCategory, NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -101,7 +105,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
+            kCategoryIndex.UpdateData(this, tCategoriesList.ToArray());
             NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -143,7 +147,7 @@ namespace NetWorkedData
                 }
             }
             // Re-add !
-            kCategoryInverseIndex.InsertData(this, tCategoriesList.ToArray());
+            kCategoryInverseIndex.UpdateData(this, tCategoriesList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
         [NWDDeindexInMemory]
@@ -155,7 +159,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDItem> FindByCategoryInverse(NWDCategory sCategory)
         {
-            return kCategoryInverseIndex.RawDatasByKey(sCategory);
+            return new List<NWDItem>(kCategoryInverseIndex.RawDatasByKey(sCategory));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

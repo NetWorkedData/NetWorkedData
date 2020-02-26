@@ -49,7 +49,7 @@ namespace NetWorkedData
             {
                 // Re-add !
                 string tKey = Item.GetReference() + NWDConstants.kFieldSeparatorA + GameSave.GetReference();
-                kAchievementKeyIndex.InsertData(this, tKey);
+                kAchievementKeyIndex.UpdateData(this, tKey);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace NetWorkedData
         public static NWDUserOwnership FindReachableByItemReference(string sReference, bool sOrCreate = true)
         {
             string tKey = sReference + NWDConstants.kFieldSeparatorA + NWDGameSave.CurrentData().Reference;
-            NWDUserOwnership rReturn = kAchievementKeyIndex.RawFirstDataByKey(tKey);
+            NWDUserOwnership rReturn = kAchievementKeyIndex.FirstRawDataByKey(tKey);
             if (rReturn == null && sOrCreate == true)
             {
                 rReturn = NWDBasisHelper.NewData<NWDUserOwnership>();
