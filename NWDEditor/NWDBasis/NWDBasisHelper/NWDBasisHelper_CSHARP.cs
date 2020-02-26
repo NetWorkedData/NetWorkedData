@@ -141,22 +141,22 @@ namespace NetWorkedData
                         rReturn.AppendLine(NWDToolbox.PropertyName(() => kAssetDependentProperties) + ".Add(ClassType.GetProperty(\"" + tProp.Name + "\"));");
                     }
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInsertMethodList) + ".Clear();");
-                    foreach (MethodInfo tMethodInfo in IndexInsertMethodList)
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInMemoryMethodList) + ".Clear();");
+                    foreach (MethodInfo tMethodInfo in IndexInMemoryMethodList)
                     {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInsertMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInMemoryMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
                     }
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexRemoveMethodList) + ".Clear();");
-                    foreach (MethodInfo tMethodInfo in IndexRemoveMethodList)
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => DeindexInMemoryMethodList) + ".Clear();");
+                    foreach (MethodInfo tMethodInfo in DeindexInMemoryMethodList)
                     {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexRemoveMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => DeindexInMemoryMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
                     }
 
-                    rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexUpdateMethodList) + ".Clear();");
-                    foreach (MethodInfo tMethodInfo in IndexUpdateMethodList)
+                    rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInBaseMethodList) + ".Clear();");
+                    foreach (MethodInfo tMethodInfo in IndexInBaseMethodList)
                     {
-                        rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexUpdateMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
+                        rReturn.AppendLine(NWDToolbox.PropertyName(() => IndexInBaseMethodList) + ".Add(ClassType.GetMethod(\"" + tMethodInfo.Name + "\"));");
                     }
 
                     if (ClassGameDependentProperties != null)
@@ -195,14 +195,14 @@ namespace NetWorkedData
                     rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                     rReturn.AppendLine("}");
                     //if (ClassType.IsConstructedGenericType == false)
-                    if (ClassType.IsSubclassOf(typeof(NWDNewIndex)) == false)
+                    if (ClassType.IsSubclassOf(typeof(NWDIndexByBase)) == false)
                         {
                         rReturn.AppendLine("//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                         rReturn.AppendLine("public partial class " + ClassNamePHP + " : NWDBasis");
                         rReturn.AppendLine("{");
                         rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                         // NWDBasis override
-                        rReturn.AppendLine("public override void Index()");
+                        rReturn.AppendLine("public override void IndexInBase()");
                         rReturn.AppendLine("{");
                         if (tApp.OverrideCacheMethodEverywhere == false)
                         {
@@ -217,7 +217,7 @@ namespace NetWorkedData
                                 rReturn.AppendLine("{");
                             }
                         }
-                        foreach (MethodInfo tMethod in IndexUpdateMethodList)
+                        foreach (MethodInfo tMethod in IndexInBaseMethodList)
                         {
                             rReturn.AppendLine(tMethod.Name + "();");
                             rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
@@ -227,7 +227,101 @@ namespace NetWorkedData
                             rReturn.AppendLine("}");
                             rReturn.AppendLine("else");
                             rReturn.AppendLine("{");
-                            rReturn.AppendLine("base.Index();");
+                            rReturn.AppendLine("base.IndexInBase();");
+                            rReturn.AppendLine("}");
+                        }
+                        rReturn.AppendLine("}");
+                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                        // NWDBasis override
+                        rReturn.AppendLine("public override void DeindexInBase()");
+                        rReturn.AppendLine("{");
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            if (tApp.OverrideCacheMethodInPlayMode == false)
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false)");
+                                rReturn.AppendLine("{");
+                            }
+                            else
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                                rReturn.AppendLine("{");
+                            }
+                        }
+                        foreach (MethodInfo tMethod in DeindexInBaseMethodList)
+                        {
+                            rReturn.AppendLine(tMethod.Name + "();");
+                            rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
+                        }
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            rReturn.AppendLine("}");
+                            rReturn.AppendLine("else");
+                            rReturn.AppendLine("{");
+                            rReturn.AppendLine("base.DeindexInBase();");
+                            rReturn.AppendLine("}");
+                        }
+                        rReturn.AppendLine("}");
+
+                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                        // NWDBasis override
+                        rReturn.AppendLine("public override void IndexInMemory()");
+                        rReturn.AppendLine("{");
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            if (tApp.OverrideCacheMethodInPlayMode == false)
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false)");
+                                rReturn.AppendLine("{");
+                            }
+                            else
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                                rReturn.AppendLine("{");
+                            }
+                        }
+                        foreach (MethodInfo tMethod in IndexInMemoryMethodList)
+                        {
+                            rReturn.AppendLine(tMethod.Name + "();");
+                            rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
+                        }
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            rReturn.AppendLine("}");
+                            rReturn.AppendLine("else");
+                            rReturn.AppendLine("{");
+                            rReturn.AppendLine("base.IndexInMemory();");
+                            rReturn.AppendLine("}");
+                        }
+                        rReturn.AppendLine("}");
+                        rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
+                        // NWDBasis override
+                        rReturn.AppendLine("public override void DeindexInMemory()");
+                        rReturn.AppendLine("{");
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            if (tApp.OverrideCacheMethodInPlayMode == false)
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false)");
+                                rReturn.AppendLine("{");
+                            }
+                            else
+                            {
+                                rReturn.AppendLine("if (Application.isEditor == false || Application.isPlaying == true)");
+                                rReturn.AppendLine("{");
+                            }
+                        }
+                        foreach (MethodInfo tMethod in DeindexInMemoryMethodList)
+                        {
+                            rReturn.AppendLine(tMethod.Name + "();");
+                            rReturn.AppendLine("NWDDataManager.SharedInstance().IndexationCounterOp++;");
+                        }
+                        if (tApp.OverrideCacheMethodEverywhere == false)
+                        {
+                            rReturn.AppendLine("}");
+                            rReturn.AppendLine("else");
+                            rReturn.AppendLine("{");
+                            rReturn.AppendLine("base.DeindexInMemory();");
                             rReturn.AppendLine("}");
                         }
                         rReturn.AppendLine("}");

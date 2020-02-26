@@ -42,15 +42,15 @@ namespace NetWorkedData
         bool DataIndexed = false;
         double Sizer; // the max size of instance
         //-------------------------------------------------------------------------------------------------------------
-        public void IndexAll()
+        public void IndexInMemoryAllObjects()
         {
             DataIndexed = false;
             //int tRow = 0;
-            if (IndexInsertMethodList.Count > 0)
+            if (IndexInMemoryMethodList.Count > 0)
             {
                 foreach (NWDTypeClass tObject in Datas)
                 {
-                    tObject.Index();
+                    tObject.IndexInMemory();
                     //tRow++;
                 }
             }
@@ -202,9 +202,11 @@ namespace NetWorkedData
         public string SaltEnd = string.Empty;
         public bool SaltValid = false;
         //-------------------------------------------------------------------------------------------------------------
-        public List<MethodInfo> IndexInsertMethodList = new List<MethodInfo>();
-        public List<MethodInfo> IndexRemoveMethodList = new List<MethodInfo>();
-        public List<MethodInfo> IndexUpdateMethodList = new List<MethodInfo>();
+        public List<MethodInfo> IndexInMemoryMethodList = new List<MethodInfo>();
+        public List<MethodInfo> DeindexInMemoryMethodList = new List<MethodInfo>();
+        //-------------------------------------------------------------------------------------------------------------
+        public List<MethodInfo> IndexInBaseMethodList = new List<MethodInfo>();
+        public List<MethodInfo> DeindexInBaseMethodList = new List<MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
         public int ClusterMin;
         public int ClusterMax;
@@ -298,25 +300,32 @@ namespace NetWorkedData
                 //{
                 //    Debug.Log("<color=blue>tMethod</color> " + tMethod.Name + " "+ tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length);
                 //}
-                if (tMethod.GetCustomAttributes(typeof(NWDIndexInsert), true).Length > 0)
+                if (tMethod.GetCustomAttributes(typeof(NWDIndexInMemory), true).Length > 0)
                 {
-                    if (IndexInsertMethodList.Contains(tMethod) == false)
+                    if (IndexInMemoryMethodList.Contains(tMethod) == false)
                     {
-                        IndexInsertMethodList.Add(tMethod);
+                        IndexInMemoryMethodList.Add(tMethod);
                     }
                 }
-                if (tMethod.GetCustomAttributes(typeof(NWDIndexRemove), true).Length > 0)
+                if (tMethod.GetCustomAttributes(typeof(NWDDeindexInMemory), true).Length > 0)
                 {
-                    if (IndexRemoveMethodList.Contains(tMethod) == false)
+                    if (DeindexInMemoryMethodList.Contains(tMethod) == false)
                     {
-                        IndexRemoveMethodList.Add(tMethod);
+                        DeindexInMemoryMethodList.Add(tMethod);
                     }
                 }
-                if (tMethod.GetCustomAttributes(typeof(NWDIndexUpdate), true).Length > 0)
+                if (tMethod.GetCustomAttributes(typeof(NWDIndexInBase), true).Length > 0)
                 {
-                    if (IndexUpdateMethodList.Contains(tMethod) == false)
+                    if (IndexInBaseMethodList.Contains(tMethod) == false)
                     {
-                        IndexUpdateMethodList.Add(tMethod);
+                        IndexInBaseMethodList.Add(tMethod);
+                    }
+                }
+                if (tMethod.GetCustomAttributes(typeof(NWDDeindexInBase), true).Length > 0)
+                {
+                    if (DeindexInBaseMethodList.Contains(tMethod) == false)
+                    {
+                        DeindexInBaseMethodList.Add(tMethod);
                     }
                 }
             }

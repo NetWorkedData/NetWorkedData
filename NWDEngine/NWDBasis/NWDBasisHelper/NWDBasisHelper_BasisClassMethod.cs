@@ -797,7 +797,8 @@ namespace NetWorkedData
                     rReturnObject.AddonDuplicatedMe();
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
-                    rReturnObject.ReIndex();
+                    rReturnObject.IndexInBase();
+                    rReturnObject.IndexInMemory();
                     rReturnObject.AddonDuplicatedMe();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }

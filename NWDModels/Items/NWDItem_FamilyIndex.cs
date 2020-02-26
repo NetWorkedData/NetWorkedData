@@ -44,8 +44,12 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexUpdate]
-        public void InsertInFamilyIndex()
+        /// <summary>
+        /// Index with NWDIndexFamilyItem
+        /// </summary>
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDIndexInBase]
+        public void IndexInSQLFamilyIndex()
         {
             // Re-add to the actual indexation ?
             if (IsUsable())
@@ -62,7 +66,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDItem> FindByFamily(NWDFamily sFamily)
+        /// <summary>
+        /// Desindex from NWDIndexFamilyItem
+        /// </summary>
+        [NWDDeindexInBase]
+        public void DesindexInSQLFamilyIndex()
+        {
+            NWDIndexCategorieItem.RemoveData(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDItem> FindInFamilyIndex(NWDFamily sFamily)
         {
             return new List<NWDItem>(NWDIndexFamilyItem.RawDatasByKey(sFamily));
         }

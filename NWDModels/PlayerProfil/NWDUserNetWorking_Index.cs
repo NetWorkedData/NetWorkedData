@@ -23,7 +23,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDGameSave, NWDUserNetWorking> kIndex = new NWDIndex<NWDGameSave, NWDUserNetWorking>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInTipKeyIndex()
         {
             // Re-add to the actual indexation ?
@@ -34,7 +34,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromTipKeyIndex()
         {
             // Remove from the actual indexation

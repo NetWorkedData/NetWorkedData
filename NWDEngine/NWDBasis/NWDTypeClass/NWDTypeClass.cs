@@ -294,17 +294,13 @@ namespace NetWorkedData
             //ReIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void IndexUpdate() {}
+        //public virtual void IndexUpdate() {}
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void Index() {}
+        public virtual void IndexInBase() { }
+        public virtual void DeindexInBase() { }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void ReIndex()
-        {
-            Desindex();
-            Index();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual void Desindex() {}
+        public virtual void IndexInMemory() { }
+        public virtual void DeindexInMemory() { }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath) {}
         //-------------------------------------------------------------------------------------------------------------

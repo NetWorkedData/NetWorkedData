@@ -23,7 +23,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDAccount, NWDAccountNickname> kAccountIndex = new NWDIndex<NWDAccount, NWDAccountNickname>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInAccountIndex()
         {
             // Re-add to the actual indexation ?
@@ -35,7 +35,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromAccountIndex()
         {
             // Remove from the actual indexation

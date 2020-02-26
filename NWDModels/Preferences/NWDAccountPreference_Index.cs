@@ -27,7 +27,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDPreferenceKey, NWDAccountPreference> kAchievementKeyIndex = new NWDIndex<NWDPreferenceKey, NWDAccountPreference>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInLevelIndex()
         {
             // Re-add to the actual indexation ?
@@ -39,7 +39,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromLevelIndex()
         {
             // Remove from the actual indexation

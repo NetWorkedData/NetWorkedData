@@ -226,7 +226,7 @@ namespace NetWorkedData
             ClassIndexation = 0;
             while (ClassIndexation < ClassExpected)
             {
-                NWDBasisHelper tHelper = IndexAllObjectsByClass(ClassIndexation);
+                NWDBasisHelper tHelper = IndexInMemoryAllObjectsByClass(ClassIndexation);
                 ClassIndexation++;
                 NWDLauncher.NotifyStep();
                 if (NWDLauncher.YieldValid())
@@ -235,7 +235,7 @@ namespace NetWorkedData
                 }
                 if (tHelper != null)
                 {
-                    tMethod += tHelper.IndexInsertMethodList.Count;
+                    tMethod += tHelper.IndexInMemoryMethodList.Count;
                     tRow += tHelper.Datas.Count;
                 }
             }
@@ -253,7 +253,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBasisHelper IndexAllObjectsByClass(int sCounter)
+        public NWDBasisHelper IndexInMemoryAllObjectsByClass(int sCounter)
         {
             NWDBasisHelper tHelper = null;
             if (sCounter >= 0 && sCounter < mTypeList.Count)
@@ -264,7 +264,7 @@ namespace NetWorkedData
                 }
                 Type tType = mTypeList[sCounter];
                 tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.IndexAll();
+                tHelper.IndexInMemoryAllObjects();
                 if (NWDLauncher.ActiveBenchmark)
                 {
                     NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP);
@@ -287,9 +287,9 @@ namespace NetWorkedData
             foreach (Type tType in mTypeList)
             {
                 NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tMethod += tHelper.IndexInsertMethodList.Count;
+                tMethod += tHelper.IndexInMemoryMethodList.Count;
                 tRow += tHelper.Datas.Count;
-                tHelper.IndexAll();
+                tHelper.IndexInMemoryAllObjects();
             }
             DatasIndexed = true;
 

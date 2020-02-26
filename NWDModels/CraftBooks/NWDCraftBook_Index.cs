@@ -107,7 +107,7 @@ namespace NetWorkedData
         static string[] GetSignature(string[] sItemGroupIngredient, bool sOrderIsImportant)
         {
             Debug.Log("GetSignature()");
-            List< List<string>> Final = new List<List<string>>();
+            List<List<string>> Final = new List<List<string>>();
             foreach (string tA in sItemGroupIngredient)
             {
                 NWDItemGroup tItemGroup = NWDBasisHelper.GetRawDataByReference<NWDItemGroup>(tA);
@@ -150,7 +150,7 @@ namespace NetWorkedData
             return rResult.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
@@ -190,7 +190,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromIndex()
         {
             if (RecipeHashesArray != null)

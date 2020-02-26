@@ -20,30 +20,40 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class NWDIndexInsert : Attribute
+    public class NWDIndexInMemory : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIndexInsert()
+        public NWDIndexInMemory()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class NWDIndexRemove : Attribute
+    public class NWDDeindexInMemory : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIndexRemove()
+        public NWDDeindexInMemory()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class NWDIndexUpdate : Attribute
+    public class NWDIndexInBase : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDIndexUpdate()
+        public NWDIndexInBase()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class NWDDeindexInBase : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDeindexInBase()
         {
         }
         //-------------------------------------------------------------------------------------------------------------

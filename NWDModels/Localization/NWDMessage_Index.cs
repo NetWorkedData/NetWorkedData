@@ -32,7 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDMessage> kCodeIndex = new NWDIndexSimple<NWDMessage>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInCodeIndex()
         {
             // Re-add to the actual indexation ?
@@ -43,7 +43,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromCodeIndex()
         {
             // Remove from the actual indexation
@@ -57,7 +57,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndexSimple<NWDMessage> kDomainCodeIndex = new NWDIndexSimple<NWDMessage>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInDomainCodeIndex()
         {
             // Re-add to the actual indexation ?
@@ -68,7 +68,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromDomainCodeIndex()
         {
             // Remove from the actual indexation

@@ -20,7 +20,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDIndexCategorieItem : NWDEditorIndex <NWDIndexCategorieItem,NWDCategory, NWDItem>
+    public partial class NWDIndexCategorieItem : NWDEditorIndex<NWDIndexCategorieItem, NWDCategory, NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDIndexCategorieItem()
@@ -48,27 +48,31 @@ namespace NetWorkedData
         /// <summary>
         /// New index with NWDNewIndex NWDBasis
         /// </summary>
-        [NWDIndexUpdate]
-        public void UpdateIndexCategorieItem()
+        [NWDIndexInBase]
+        public void IndexInSQLCategorieItem()
         {
-            Debug.Log("UpdateIndexCategorieItem(" + InternalKey + ")");
-            // Re-add to the actual indexation ?
-            if (IsUsable())
+            // Re-add ! but for wichn categories?
+            List<NWDCategory> tCategoriesList = new List<NWDCategory>();
+            if (CategoryList != null)
             {
-                // Re-add ! but for wichn categories?
-                List<NWDCategory> tCategoriesList = new List<NWDCategory>();
-                if (CategoryList != null)
+                foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
                 {
-                    foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
+                    if (tCategoriesList.Contains(tCategories) == false)
                     {
-                        if (tCategoriesList.Contains(tCategories) == false)
-                        {
-                            tCategoriesList.Add(tCategories);
-                        }
+                        tCategoriesList.Add(tCategories);
                     }
                 }
-                NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
             }
+            NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Remove from index with NWDNewIndex NWDBasis
+        /// </summary>
+        [NWDDeindexInBase]
+        public void DesindexInSQLCategorieItem()
+        {
+            NWDIndexCategorieItem.RemoveData(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static List<NWDItem> FindByIndexCategorieItem(NWDCategory sCategory)
@@ -82,32 +86,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDCategory, NWDItem> kCategoryIndex = new NWDIndex<NWDCategory, NWDItem>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInCategoryIndex()
         {
-            //Debug.Log("InsertInCategoryIndex(" + InternalKey + ")");
-            // Re-add to the actual indexation ?
-            if (IsUsable())
+            // Re-add ! but for wichn categories?
+            List<NWDCategory> tCategoriesList = new List<NWDCategory>();
+            if (CategoryList != null)
             {
-                // Re-add ! but for wichn categories?
-                List<NWDCategory> tCategoriesList = new List<NWDCategory>();
-                if (CategoryList != null)
+                foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
                 {
-                    foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
+                    if (tCategoriesList.Contains(tCategories) == false)
                     {
-                        if (tCategoriesList.Contains(tCategories) == false)
-                        {
-                            tCategoriesList.Add(tCategories);
-                        }
+                        tCategoriesList.Add(tCategories);
                     }
                 }
-                kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
-                 NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
             }
-
+            kCategoryIndex.InsertData(this, tCategoriesList.ToArray());
+            NWDIndexCategorieItem.UpdateData(this, tCategoriesList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromCategoryIndex()
         {
             // Remove from the actual indexation
@@ -126,34 +124,29 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static protected NWDIndex<NWDCategory, NWDItem> kCategoryInverseIndex = new NWDIndex<NWDCategory, NWDItem>();
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInCategoryInverseIndex()
         {
-            //Debug.Log("InsertInCategoryIndex("+InternalKey+")");
-            // Re-add to the actual indexation ?
-            if (IsUsable())
+            // Re-add ! but for wichn categories?
+            List<NWDCategory> tCategoriesList = new List<NWDCategory>();
+            if (CategoryList != null)
             {
-                // Re-add ! but for wichn categories?
-                List<NWDCategory> tCategoriesList = new List<NWDCategory>();
-                if (CategoryList != null)
+                foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
                 {
-                    foreach (NWDCategory tCategories in CategoryList.GetRawDatas())
+                    foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.GetReachableDatas())
                     {
-                        foreach (NWDCategory tSubCategories in tCategories.CascadeCategoryList.GetReachableDatas())
+                        if (tCategoriesList.Contains(tSubCategories) == false)
                         {
-                            if (tCategoriesList.Contains(tSubCategories) == false)
-                            {
-                                tCategoriesList.Add(tSubCategories);
-                            }
+                            tCategoriesList.Add(tSubCategories);
                         }
                     }
                 }
-                // Re-add !
-                kCategoryInverseIndex.InsertData(this, tCategoriesList.ToArray());
             }
+            // Re-add !
+            kCategoryInverseIndex.InsertData(this, tCategoriesList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromCategoryInverseIndex()
         {
             // Remove from the actual indexation

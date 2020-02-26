@@ -25,15 +25,15 @@ namespace NetWorkedData
         Data,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDNewIndex : NWDBasis
+    public partial class NWDIndexByBase : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDNewIndex()
+        public NWDIndexByBase()
         {
             //Debug.Log("NWDNewIndex Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDNewIndex(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDIndexByBase(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDNewIndex Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
@@ -41,7 +41,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDInternalKeyNotEditable]
-    public partial class NWDEditorIndex<TIndex, TKey, TValue> : NWDNewIndex where TIndex : NWDNewIndex where TKey : NWDBasis where TValue : NWDBasis
+    public partial class NWDEditorIndex<TIndex, TKey, TValue> : NWDIndexByBase where TIndex : NWDIndexByBase where TKey : NWDBasis where TValue : NWDBasis
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDNewIndexRowType Role { get; set; }
@@ -97,13 +97,48 @@ namespace NetWorkedData
             UpdateData(sData, tList.ToArray());
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void RemoveData(TValue sData)
+        {
+            GetHelper();
+            if (sData != null)
+            {
+                if (string.IsNullOrEmpty(sData.Reference) == false)
+                {
+                    List<NWDBasis> tListToUpdate = new List<NWDBasis>();
+                    if (Helper.DatasByReference.ContainsKey(sData.Reference) == false)
+                    {
+                        // Cool ... do nothing
+                    }
+                    else
+                    {
+                        //Debug.Log("Get Old data for TValue");
+                        NWDEditorIndex<TIndex, TKey, TValue> tOldData = Helper.DatasByReference[sData.Reference] as NWDEditorIndex<TIndex, TKey, TValue>;
+                        string[] tActualKeys = tOldData.KeyList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string tKey in tActualKeys)
+                        {
+                            if (Helper.DatasByReference.ContainsKey(tKey) == true)
+                            {
+                                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[tKey] as NWDEditorIndex<TIndex, TKey, TValue>;
+                                if (tOldKey.DataList.Contains(sData.Reference) == false)
+                                {
+                                    tOldKey.DataList = tOldKey.DataList.Replace(sData.Reference, string.Empty).Replace(NWDConstants.kFieldSeparatorA + NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA).Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
+                                    tListToUpdate.Add(tOldKey);
+                                }
+                            }
+                        }
+                        // finish ... update if necessary
+                        foreach (NWDBasis tUpdateData in tListToUpdate)
+                        {
+                            tUpdateData.UpdateDataIfModified();
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void UpdateData(TValue sData, string[] sKeyReferences)
         {
             GetHelper();
-            if (Helper == null)
-            {
-                //Debug.Log("Helper is null");
-            }
             if (sData != null)
             {
                 if (string.IsNullOrEmpty(sData.Reference) == false)
@@ -114,7 +149,7 @@ namespace NetWorkedData
                         if (sKeyReferences.Length > 0)
                         {
                             //Debug.Log("create data for TValue");
-                            NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tNewData = Helper.NewDataWithReference(sData.Reference) as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                            NWDEditorIndex<TIndex, TKey, TValue> tNewData = Helper.NewDataWithReference(sData.Reference) as NWDEditorIndex<TIndex, TKey, TValue>;
                             tNewData.Role = NWDNewIndexRowType.Data;
                             tNewData.KeyList = string.Join(NWDConstants.kFieldSeparatorA, sKeyReferences);
                             tListToUpdate.Add(tNewData);
@@ -124,7 +159,7 @@ namespace NetWorkedData
                                 if (Helper.DatasByReference.ContainsKey(tKeyReference) == false)
                                 {
                                     // create data for key
-                                    NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tNewKey = Helper.NewDataWithReference(tKeyReference) as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                                    NWDEditorIndex<TIndex, TKey, TValue> tNewKey = Helper.NewDataWithReference(tKeyReference) as NWDEditorIndex<TIndex, TKey, TValue>;
                                     tNewKey.Role = NWDNewIndexRowType.Key;
                                     tNewKey.DataList = sData.Reference;
                                     // add the new data key to list to update
@@ -132,7 +167,7 @@ namespace NetWorkedData
                                 }
                                 else
                                 {
-                                    NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldKey = Helper.DatasByReference[tKeyReference] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                                    NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[tKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
                                     if (tOldKey.DataList.Contains(sData.Reference) == false)
                                     {
                                         tOldKey.DataList = tOldKey.DataList + NWDConstants.kFieldSeparatorA + sData.Reference;
@@ -146,7 +181,7 @@ namespace NetWorkedData
                     else
                     {
                         //Debug.Log("Get Old data for TValue");
-                        NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldData = Helper.DatasByReference[sData.Reference] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                        NWDEditorIndex<TIndex, TKey, TValue> tOldData = Helper.DatasByReference[sData.Reference] as NWDEditorIndex<TIndex, TKey, TValue>;
                         string[] tActualKeys = tOldData.KeyList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                         List<string> tActualKeyList = new List<string>(tActualKeys);
                         List<string> tNextKeyList = new List<string>(sKeyReferences);
@@ -160,14 +195,14 @@ namespace NetWorkedData
                                 if (Helper.DatasByReference.ContainsKey(tAddKey) == false)
                                 {
                                     // create data for data
-                                    NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tNewKey = Helper.NewDataWithReference(tAddKey) as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                                    NWDEditorIndex<TIndex, TKey, TValue> tNewKey = Helper.NewDataWithReference(tAddKey) as NWDEditorIndex<TIndex, TKey, TValue>;
                                     tNewKey.Role = NWDNewIndexRowType.Key;
                                     tNewKey.DataList = sData.Reference;
                                     tListToUpdate.Add(tNewKey);
                                 }
                                 else
                                 {
-                                    NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldKey = Helper.DatasByReference[tAddKey] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                                    NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[tAddKey] as NWDEditorIndex<TIndex, TKey, TValue>;
                                     if (tOldKey.DataList.Contains(sData.Reference) == false)
                                     {
                                         tOldKey.DataList = tOldKey.DataList + NWDConstants.kFieldSeparatorA + sData.Reference;
@@ -181,14 +216,14 @@ namespace NetWorkedData
                             if (tNextKeyList.Contains(tOldKey) == false)
                             {
                                 //Debug.Log("Remove this tKey " + tOldKey);
-                                tOldData.KeyList = tOldData.KeyList.Replace(tOldKey, string.Empty).Replace(NWDConstants.kFieldSeparatorA+ NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA).Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]) ;
+                                tOldData.KeyList = tOldData.KeyList.Replace(tOldKey, string.Empty).Replace(NWDConstants.kFieldSeparatorA + NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA).Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
                                 // list remove old Key
                                 if (Helper.DatasByReference.ContainsKey(tOldKey) == true)
                                 {
-                                    NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tRemoveKey = Helper.DatasByReference[tOldKey] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                                    NWDEditorIndex<TIndex, TKey, TValue> tRemoveKey = Helper.DatasByReference[tOldKey] as NWDEditorIndex<TIndex, TKey, TValue>;
                                     if (tRemoveKey.DataList.Contains(sData.Reference) == true)
                                     {
-                                        tRemoveKey.DataList = tRemoveKey.DataList.Replace(sData.Reference, string.Empty).Replace(NWDConstants.kFieldSeparatorA+ NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA).Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
+                                        tRemoveKey.DataList = tRemoveKey.DataList.Replace(sData.Reference, string.Empty).Replace(NWDConstants.kFieldSeparatorA + NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorA).Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
                                         tListToUpdate.Add(tRemoveKey);
                                     }
                                 }
@@ -220,7 +255,7 @@ namespace NetWorkedData
             int rReturn = 0;
             if (Helper.DatasByReference.ContainsKey(sDataReference) == true)
             {
-                NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldKey = Helper.DatasByReference[sDataReference] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sDataReference] as NWDEditorIndex<TIndex, TKey, TValue>;
                 if (tOldKey.DataList.Contains(sDataReference) == false)
                 {
                     string[] tResult = tOldKey.KeyList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -241,7 +276,7 @@ namespace NetWorkedData
             int rReturn = 0;
             if (Helper.DatasByReference.ContainsKey(sKeyReference) == true)
             {
-                NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
                 if (tOldKey.DataList.Contains(sKeyReference) == false)
                 {
                     string[] tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -262,7 +297,7 @@ namespace NetWorkedData
             string[] tResult = new string[0];
             if (Helper.DatasByReference.ContainsKey(sKeyReference) == true)
             {
-                NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
                 if (tOldKey.DataList.Contains(sKeyReference) == false)
                 {
                     tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -299,7 +334,7 @@ namespace NetWorkedData
             string[] tResult = new string[0];
             if (Helper.DatasByReference.ContainsKey(sKeyReference) == true)
             {
-                NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<NWDIndexCategorieItem, TKey, TValue>;
+                NWDEditorIndex<TIndex, TKey, TValue> tOldKey = Helper.DatasByReference[sKeyReference] as NWDEditorIndex<TIndex, TKey, TValue>;
                 if (tOldKey.DataList.Contains(sKeyReference) == false)
                 {
                     tResult = tOldKey.DataList.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);

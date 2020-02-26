@@ -663,11 +663,10 @@ namespace NetWorkedData
             }
             //Debug.Log("update ... index method count = "+ BasisHelper().IndexInsertMethodList.Count);
             //UpdateObjectInListOfEdition(this);
-
-            this.ReIndex();
+            this.IndexInBase();
+            this.IndexInMemory();
 
             BasisHelper().UpdateData(this);
-
 
             bool tDoUpdate = true;
             switch (sWritingMode)
@@ -697,7 +696,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().UpdateData(this, sWritingMode);
             }
             //NWEBenchmark.Finish();
-            
+
 #if UNITY_EDITOR
             RowAnalyze();
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
@@ -958,7 +957,8 @@ namespace NetWorkedData
                     WritingLockRemove();
                 }
                 this.AddonDeleteMe(); // call override method
-                this.Desindex(); // call override method
+                this.DeindexInBase(); // call override method
+                this.DeindexInMemory(); // call override method
                 DeleteDataOperation();
                 BasisHelper().RemoveData(this);
                 //RemoveObjectInListOfEdition(this);
@@ -972,9 +972,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDataOperation()
         {
-//#if UNITY_INCLUDE_TESTS
-//            Tag = NWDBasisTag.UnitTestToDelete;
-//#endif
+            //#if UNITY_INCLUDE_TESTS
+            //            Tag = NWDBasisTag.UnitTestToDelete;
+            //#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void DeleteDataProceed()

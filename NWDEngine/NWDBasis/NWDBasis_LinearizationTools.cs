@@ -224,7 +224,7 @@ namespace NetWorkedData
                 }
             }
             AddonUpdatedMeFromWeb();
-            ReIndex();
+            IndexInMemory();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string CSVAssemblyHead()

@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static NWDUserInfos kCurrent = null;
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexInsert]
+        [NWDIndexInMemory]
         public void InsertInTipKeyIndex()
         {
             // Re-add to the actual indexation ?
@@ -36,7 +36,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDIndexRemove]
+        [NWDDeindexInMemory]
         public void RemoveFromTipKeyIndex()
         {
             // Remove from the actual indexation
@@ -60,10 +60,10 @@ namespace NetWorkedData
                 if (tUserInfos == null && sOrCreate)
                 {
                     tUserInfos = NWDBasisHelper.NewData<NWDUserInfos>();
-                    
-                    #if UNITY_EDITOR
+
+#if UNITY_EDITOR
                     tUserInfos.InternalKey = NWDAccount.CurrentReference();
-                    #endif
+#endif
 
                     tUserInfos.GameSave.SetData(NWDGameSave.CurrentData());
                     tUserInfos.Account.SetReference(NWDAccount.CurrentReference());

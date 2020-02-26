@@ -736,7 +736,7 @@ namespace NetWorkedData
             if (DatasByReference.ContainsKey(sReference))
             {
                 NWDTypeClass tData = DatasByReference[sReference];
-                tData.Desindex(); // call override method
+                tData.DeindexInMemory(); // call override method
                 RemoveData(tData);
                 //tData.Delete();
             }
