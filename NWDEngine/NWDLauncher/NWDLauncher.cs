@@ -161,6 +161,34 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public bool EditorByPass;
         //-------------------------------------------------------------------------------------------------------------
+        static double TimeStart;
+        //-------------------------------------------------------------------------------------------------------------
+        static void LauncherBenchmarkToMarkdown(double tNWDFinish)
+        {
+            double tTimeFinish = NWEBenchmark.SinceStartup();
+            Dictionary<string, string> tRepport = new Dictionary<string, string>();
+            List<string> tRepportLayout = new List<string>();
+            tRepport.Add("DATE", DateTime.Now.ToString("yyyy-MM-dd")); tRepportLayout.Add("---");
+            tRepport.Add("TIME", DateTime.Now.ToString("HH:mm:ss")); tRepportLayout.Add("---");
+            tRepport.Add("USER", "(User)"); tRepportLayout.Add("---");
+            tRepport.Add("COMPILE ON", "(mac/windows/linux)"); tRepportLayout.Add("---");
+            tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
+            tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
+            tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
+            tRepport.Add("PRELOAD DATAS", GetPreload().ToString()); tRepportLayout.Add("---");
+            tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
+
+            tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH NWD", tNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH FINAL", tTimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+
+            tRepport.Add("SIGNIN", "(infos)"); tRepportLayout.Add("---");
+
+            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]
@@ -168,6 +196,8 @@ namespace NetWorkedData
         {
             if (Launched == false)
             {
+                TimeStart = Time.realtimeSinceStartup;
+
                 ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
                 StepSum = 0;
                 StepIndex = 0;

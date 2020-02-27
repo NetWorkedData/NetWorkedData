@@ -165,9 +165,11 @@ namespace NetWorkedData
             UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "|\t• " + " Log : " + sInfos);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SinceStartup(string sInfos = "")
+        public static double SinceStartup(string sInfos = "")
         {
-            UnityEngine.Debug.Log("benchmark : Realtime Since Startup : " + Time.realtimeSinceStartup.ToString("F3") +" seconds "+ sInfos);
+            double tTime = Time.realtimeSinceStartup;
+            UnityEngine.Debug.Log("benchmark : Realtime Since Startup : " + tTime.ToString("F3") +" seconds "+ sInfos);
+            return tTime;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void LogWarning(string sInfos = "")

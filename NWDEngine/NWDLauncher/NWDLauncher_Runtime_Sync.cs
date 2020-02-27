@@ -76,8 +76,8 @@ namespace NetWorkedData
 
             if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
-                NWEBenchmark.SinceStartup();
+                double tNWDFinish = NWEBenchmark.Finish();
+                LauncherBenchmarkToMarkdown(tNWDFinish);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
