@@ -82,8 +82,9 @@ namespace NetWorkedData
 
             //if (ActiveBenchmark)
             {
-                double tNWDFinish = NWEBenchmark.Finish();
-                LauncherBenchmarkToMarkdown(tNWDFinish);
+                TimeFinish = NWEBenchmark.SinceStartup();
+                TimeNWDFinish = NWEBenchmark.Finish();
+                LauncherBenchmarkToMarkdown();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

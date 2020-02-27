@@ -135,14 +135,15 @@ namespace NetWorkedData
 
             NotifyNetWorkedDataReady();
 
-            NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassEditorExpected = " + NWDDataManager.SharedInstance().ClassEditorExpected);
-            NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
-            NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
+            //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassEditorExpected = " + NWDDataManager.SharedInstance().ClassEditorExpected);
+            //NWEBenchmark.Log(" NWDDataManager.SharedInstance().ClassAccountExpected = " + NWDDataManager.SharedInstance().ClassAccountExpected);
+            //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
 
             //if (ActiveBenchmark)
             {
-                double tNWDFinish = NWEBenchmark.Finish();
-                LauncherBenchmarkToMarkdown(tNWDFinish);
+                TimeFinish = NWEBenchmark.SinceStartup();
+                TimeNWDFinish = NWEBenchmark.Finish();
+                LauncherBenchmarkToMarkdown();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

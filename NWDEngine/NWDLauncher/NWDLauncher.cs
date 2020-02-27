@@ -112,6 +112,7 @@ namespace NetWorkedData
         static private bool Launched = false;
         static bool Preload = true;
         static public bool ActiveBenchmark;
+        static public string RowInformations;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
@@ -162,10 +163,11 @@ namespace NetWorkedData
         static public bool EditorByPass;
         //-------------------------------------------------------------------------------------------------------------
         static double TimeStart;
+        static double TimeFinish;
+        static double TimeNWDFinish;
         //-------------------------------------------------------------------------------------------------------------
-        static void LauncherBenchmarkToMarkdown(double tNWDFinish)
+        static void LauncherBenchmarkToMarkdown()
         {
-            double tTimeFinish = NWEBenchmark.SinceStartup();
             Dictionary<string, string> tRepport = new Dictionary<string, string>();
             List<string> tRepportLayout = new List<string>();
             tRepport.Add("DATE", DateTime.Now.ToString("yyyy-MM-dd")); tRepportLayout.Add("---");
@@ -187,10 +189,11 @@ namespace NetWorkedData
             tRepport.Add("BENCHMARK STEP", ActiveBenchmark.ToString() ); tRepportLayout.Add("---");
            
             tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
-
             tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
-            tRepport.Add("LAUNCH NWD", tNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
-            tRepport.Add("LAUNCH FINAL", tTimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH FINAL", TimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+
+            tRepport.Add("ROWS INFORMATIONS", RowInformations); tRepportLayout.Add("---");
 
             tRepport.Add("SIGNIN", "(infos)"); tRepportLayout.Add("---");
 
