@@ -24,7 +24,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override List<Type> OverrideClasseInThisSync()
         {
-            Debug.Log("NWDCraftBookHelper OverrideClasseInThisSync() give list");
+            //Debug.Log("NWDCraftBookHelper OverrideClasseInThisSync() give list");
             return new List<Type> { typeof(NWDCraftReward), typeof(NWDCraftBook), typeof(NWDCraftRecipient) };
         }
         //-------------------------------------------------------------------------------------------------------------
