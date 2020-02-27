@@ -55,7 +55,7 @@ namespace NetWorkedData
         [NWDIndexInBase]
         public void IndexInBaseFamilyIndex()
         {
-            Debug.Log("index in base");
+            //Debug.Log("index in base");
             if (FamilyList != null)
             {
                 NWDIndexFamilyItem.UpdateData(this, FamilyList.GetRawDatas());
@@ -81,7 +81,7 @@ namespace NetWorkedData
         [NWDIndexInMemory]
         public void IndexInMemoryFamilyIndex()
         {
-            Debug.Log("index in memory");
+            //Debug.Log("index in memory");
             if (FamilyList != null)
             {
                 kFamilyIndex.UpdateData(this, FamilyList.GetRawDatas());

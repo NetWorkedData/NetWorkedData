@@ -162,6 +162,7 @@ namespace NetWorkedData
 
         public const string K_MENU_DEBUG_FOLDER = K_MENU_BASE + "/Show debug Folder File";
         public const string K_MENU_UNITTEST_CLEAN = K_MENU_BASE + "/Clean UnitTests Datas";
+        public const string K_MENU_REINDEX_ALL_DATAS = K_MENU_BASE + "/Reindex all Datas";
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Ref";
@@ -394,6 +395,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_TOOLS = "Tools";
         public const string K_APP_TABLE_RESET_WARNING = "Warning Table";
         public const string K_APP_TABLE_RESET_ZONE = "Reset table";
+        public const string K_APP_TABLE_REINDEX_ZONE = "Reindex all";
         public const string K_APP_TABLE_RESET_ALERT = "Warning";
         public const string K_APP_TABLE_RESET_TABLE = "Do you want really reset this table?";
         public const string K_APP_TABLE_RESET_YES = "Yes! Reset!";

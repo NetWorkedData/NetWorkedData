@@ -1115,7 +1115,7 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 GUI.Label(tRect, NWDConstants.K_APP_TABLE_ACTIONS, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
-                    if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
+                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REACTIVE, NWDGUI.KTableSearchButton))
                 {
                     foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in EditorTableDatasSelected)
                     {
@@ -1264,7 +1264,7 @@ namespace NetWorkedData
                 tRect.x += tRect.width + NWDGUI.kFieldMarge;
                 tRect.y = tRectActionLeft.y;
 
-                
+
                 // draw row warning
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
                 NWDGUI.BeginRedArea();
@@ -1325,9 +1325,9 @@ namespace NetWorkedData
 
                 tRect = new Rect(tRectActionRight.x, tRectActionRight.y, NWDGUI.KTableSearchWidth, tRectActionRight.height);
 
-                    EditorGUI.BeginDisabledGroup(WebModelChanged);
+                EditorGUI.BeginDisabledGroup(WebModelChanged);
 
-                    GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 GUI.Label(tRect, tDevContent, NWDGUI.KTableSearchTitle);
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 if (GUI.Button(tRect, "Sync table", NWDGUI.KTableSearchButton))
@@ -1488,6 +1488,13 @@ namespace NetWorkedData
                 if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_RESET_ZONE, NWDGUI.KTableSearchButton))
                 {
                     tResetTable = true;
+                }
+                tRect.y += tRect.height + NWDGUI.kFieldMarge;
+                // draw reset table
+                if (GUI.Button(tRect, NWDConstants.K_APP_TABLE_REINDEX_ZONE, NWDGUI.KTableSearchButton))
+                {
+                    IndexInMemoryAllObjects();
+                    IndexInBaseAllObjects();
                 }
                 tRect.y += tRect.height + NWDGUI.kFieldMarge;
                 // draw Clean table

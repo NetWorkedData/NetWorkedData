@@ -661,17 +661,30 @@ namespace NetWorkedData
             Debug.Log(tText.ToString());
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_DEBUG_FOLDER, false, 9998)]
+        [MenuItem(NWDConstants.K_MENU_DEBUG_FOLDER, false, 8998)]
         public static void ShowDebugFolder()
         {
             string tPath = Application.persistentDataPath + "/Unity";
             EditorUtility.RevealInFinder(tPath);
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_UNITTEST_CLEAN, false, 9999)]
+        [MenuItem(NWDConstants.K_MENU_UNITTEST_CLEAN, false, 8999)]
         public static void CleanUnitTest()
         {
             NWDUnitTests.CleanUnitTests(false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_REINDEX_ALL_DATAS, false, 9999)]
+        public static void ReindexAllDatas()
+        {
+            NWEBenchmark.Start();
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                tHelper.IndexInBaseAllObjects();
+                tHelper.IndexInMemoryAllObjects();
+            }
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

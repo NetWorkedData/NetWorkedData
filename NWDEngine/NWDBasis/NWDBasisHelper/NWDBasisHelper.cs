@@ -60,6 +60,24 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void IndexInBaseAllObjects()
+        {
+            DataIndexed = false;
+            //int tRow = 0;
+            if (IndexInMemoryMethodList.Count > 0)
+            {
+                foreach (NWDTypeClass tObject in Datas)
+                {
+                    tObject.IndexInBase();
+                    //tRow++;
+                }
+            }
+            DataIndexed = true;
+#if UNITY_EDITOR
+            //Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool IsIndexed()
         {
             return DataIndexed;
