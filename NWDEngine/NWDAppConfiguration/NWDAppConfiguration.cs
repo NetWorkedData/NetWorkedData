@@ -47,6 +47,7 @@ namespace NetWorkedData
         {
             set; get;
         }
+        public string CompileOn = "Mac Windows Linux";
         //public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
         //public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";

@@ -171,7 +171,8 @@ namespace NetWorkedData
             tRepport.Add("DATE", DateTime.Now.ToString("yyyy-MM-dd")); tRepportLayout.Add("---");
             tRepport.Add("TIME", DateTime.Now.ToString("HH:mm:ss")); tRepportLayout.Add("---");
             tRepport.Add("USER", "(User)"); tRepportLayout.Add("---");
-            tRepport.Add("COMPILE ON", "(mac/windows/linux)"); tRepportLayout.Add("---");
+
+            tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");

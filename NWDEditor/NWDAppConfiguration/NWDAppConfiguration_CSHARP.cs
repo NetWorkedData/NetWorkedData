@@ -69,6 +69,11 @@ namespace NetWorkedData
             rReturn.AppendLine("{");
             //rReturn.AppendLine("NWEBenchmark.Start();");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
+#if UNITY_EDITOR_OSX
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Mac\";");
+#else
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Window/Linux\";");
+#endif
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassAccountStep) + " = " + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.LauncherClassEditorStep) + " = " + NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Count() + ";");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
