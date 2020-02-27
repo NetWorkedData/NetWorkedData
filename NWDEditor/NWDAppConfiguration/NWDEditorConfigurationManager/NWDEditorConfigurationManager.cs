@@ -132,6 +132,10 @@ namespace NetWorkedData
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDGUI.kScrollviewFullWidth, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
             //General preferences
+            NWDGUILayout.Section("User preferences");
+           EditorPrefs.SetString("NWD_USER_BUILDER", EditorGUILayout.TextField("User builder name", EditorPrefs.GetString("NWD_USER_BUILDER","(user)")));
+
+            //General preferences
             NWDGUILayout.Section("General preferences");
             NWDAppConfiguration.SharedInstance().EditorTableCommun = EditorGUILayout.Toggle("Table Pref commun", NWDAppConfiguration.SharedInstance().EditorTableCommun);
             NWDAppConfiguration.SharedInstance().ShowCompile = EditorGUILayout.Toggle("Show re-compile ", NWDAppConfiguration.SharedInstance().ShowCompile);

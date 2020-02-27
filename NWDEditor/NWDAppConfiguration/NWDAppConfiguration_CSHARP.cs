@@ -69,6 +69,7 @@ namespace NetWorkedData
             rReturn.AppendLine("{");
             //rReturn.AppendLine("NWEBenchmark.Start();");
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.WebFolder) + " = \"" + WebFolder + "\";");
+            rReturn.AppendLine(NWDToolbox.PropertyName(() => this.BuilderUser) + " = \"" + EditorPrefs.GetString("NWD_USER_BUILDER", "(user)") + "\";");
 #if UNITY_EDITOR_OSX
             rReturn.AppendLine(NWDToolbox.PropertyName(() => this.CompileOn) + " = \"Mac\";");
 #else

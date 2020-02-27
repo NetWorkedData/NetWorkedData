@@ -170,13 +170,22 @@ namespace NetWorkedData
             List<string> tRepportLayout = new List<string>();
             tRepport.Add("DATE", DateTime.Now.ToString("yyyy-MM-dd")); tRepportLayout.Add("---");
             tRepport.Add("TIME", DateTime.Now.ToString("HH:mm:ss")); tRepportLayout.Add("---");
-            tRepport.Add("USER", "(User)"); tRepportLayout.Add("---");
+            tRepport.Add("BUILDER", NWDAppConfiguration.SharedInstance().BuilderUser); tRepportLayout.Add("---");
 
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
-            tRepport.Add("PRELOAD DATAS", GetPreload().ToString()); tRepportLayout.Add("---");
+            if (GetPreload() == false)
+            {
+                tRepport.Add("PRELOAD DATAS", GetPreload().ToString() + " (" + NWDAppConfiguration.SharedInstance().LauncherFaster.ToString() + ")"); tRepportLayout.Add("---");
+            }
+            else
+            {
+                tRepport.Add("PRELOAD DATAS", GetPreload().ToString()); tRepportLayout.Add("---");
+            }
+            tRepport.Add("BENCHMARK STEP", ActiveBenchmark.ToString() ); tRepportLayout.Add("---");
+           
             tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
 
             tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
@@ -185,8 +194,13 @@ namespace NetWorkedData
 
             tRepport.Add("SIGNIN", "(infos)"); tRepportLayout.Add("---");
 
-            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
-            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+            tRepport.Add("CONCLUSION", ""); tRepportLayout.Add("---");
+
+            if (ActiveBenchmark)
+            {
+                Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+                Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+            }
             Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
         }
         //-------------------------------------------------------------------------------------------------------------

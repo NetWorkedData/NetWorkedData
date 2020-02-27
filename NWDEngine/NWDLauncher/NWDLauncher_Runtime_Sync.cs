@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void Launch_Runtime_Sync()
         {
-            if (ActiveBenchmark)
+            //if (ActiveBenchmark)
             {
                 NWEBenchmark.Start();
             }
@@ -74,7 +74,7 @@ namespace NetWorkedData
 
             NotifyNetWorkedDataReady();
 
-            if (ActiveBenchmark)
+            //if (ActiveBenchmark)
             {
                 double tNWDFinish = NWEBenchmark.Finish();
                 LauncherBenchmarkToMarkdown(tNWDFinish);
