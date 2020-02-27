@@ -77,6 +77,7 @@ namespace NetWorkedData
             if (ActiveBenchmark)
             {
                 NWEBenchmark.Finish();
+                NWEBenchmark.SinceStartup();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
