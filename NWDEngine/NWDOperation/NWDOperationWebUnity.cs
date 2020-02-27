@@ -436,23 +436,39 @@ namespace NetWorkedData
                                             if (ResultInfos.isNewUser)
                                             {
                                                 tUserChange = true;
+                                                NWEBenchmark.Log(" CHANGE USER");
                                                 CanRestart();
                                                 if (ResultInfos.isUserTransfert)
                                                 {
+                                                    NWEBenchmark.Log(" IS TRANSFERT USER");
                                                     if (!ResultInfos.uuid.Equals(string.Empty))
                                                     {
-                                                        // creer Device sign and send to serever with new package
-                                                        // TODO Created on server automatically
-                                                        //NWDAccountSign tSign = NWDBasisHelper.NewData<NWDAccountSign>();
-                                                        //tSign.Account.SetReference(ResultInfos.uuid);
-                                                        //tSign.RegisterDevice();
-
-
                                                         NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, ResultInfos.preview_user, ResultInfos.next_user /*, ResultInfos.signkey*/);
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    if (NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase == true)
+                                                    {
+                                                        NWEBenchmark.Start("PURGE ACCOUNT DATABASE");
+                                                        if (Application.isEditor == false)
+                                                        {
+                                                            // I drop all table account connected?
+                                                            foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                                                            {
+                                                                NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(tType);
+                                                                tHelper.FlushTable();
+                                                                //tHelper.ResetDatas();
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            NWEBenchmark.Log("bypassed because it's editor");
+                                                        }
+                                                        NWEBenchmark.Finish("PURGE ACCOUNT DATABASE");
+                                                    }
+                                                }
                                             }
-
                                             if (!ResultInfos.uuid.Equals(string.Empty))
                                             {
                                                 Environment.PlayerAccountReference = ResultInfos.uuid;

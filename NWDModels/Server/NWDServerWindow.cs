@@ -31,7 +31,7 @@ namespace NetWorkedData
             typeof(NWDServerDatas),
             typeof(NWDBasisPreferences),
             //typeof(NWDUserNetWorking),
-            //typeof(NWDRequestToken),
+            typeof(NWDRequestToken),
             typeof(NWDIPBan),
         }
     )]

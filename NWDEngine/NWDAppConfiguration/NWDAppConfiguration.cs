@@ -89,6 +89,7 @@ namespace NetWorkedData
         public bool OverrideCacheMethod = false;
         public bool OverrideCacheMethodInPlayMode = false;
 
+        public bool PurgeOldAccountDatabase = false;
 
         public bool SurProtected = false; //TODO:  rename OverProtected
         public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength
