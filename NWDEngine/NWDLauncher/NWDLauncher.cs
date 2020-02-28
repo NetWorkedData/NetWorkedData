@@ -112,6 +112,7 @@ namespace NetWorkedData
         static private bool Launched = false;
         static bool Preload = true;
         static public bool ActiveBenchmark;
+        static public string RowInformations;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
@@ -161,6 +162,51 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public bool EditorByPass;
         //-------------------------------------------------------------------------------------------------------------
+        static double TimeStart;
+        static double TimeFinish;
+        static double TimeNWDFinish;
+        //-------------------------------------------------------------------------------------------------------------
+        static void LauncherBenchmarkToMarkdown()
+        {
+            Dictionary<string, string> tRepport = new Dictionary<string, string>();
+            List<string> tRepportLayout = new List<string>();
+            tRepport.Add("DATE", DateTime.Now.ToString("yyyy-MM-dd")); tRepportLayout.Add("---");
+            tRepport.Add("TIME", DateTime.Now.ToString("HH:mm:ss")); tRepportLayout.Add("---");
+            tRepport.Add("BUILDER", NWDAppConfiguration.SharedInstance().BuilderUser); tRepportLayout.Add("---");
+
+            tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
+            tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
+            tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
+            tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
+            if (GetPreload() == false)
+            {
+                tRepport.Add("PRELOAD DATAS", GetPreload().ToString() + " (" + NWDAppConfiguration.SharedInstance().LauncherFaster.ToString() + ")"); tRepportLayout.Add("---");
+            }
+            else
+            {
+                tRepport.Add("PRELOAD DATAS", GetPreload().ToString()); tRepportLayout.Add("---");
+            }
+            tRepport.Add("BENCHMARK STEP", ActiveBenchmark.ToString() ); tRepportLayout.Add("---");
+           
+            tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("LAUNCH FINAL", TimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+
+            tRepport.Add("ROWS INFORMATIONS", RowInformations); tRepportLayout.Add("---");
+
+            tRepport.Add("SIGNIN", "(infos)"); tRepportLayout.Add("---");
+
+            tRepport.Add("CONCLUSION", ""); tRepportLayout.Add("---");
+
+            if (ActiveBenchmark)
+            {
+                Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+                Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+            }
+            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod]
@@ -168,6 +214,8 @@ namespace NetWorkedData
         {
             if (Launched == false)
             {
+                TimeStart = Time.realtimeSinceStartup;
+
                 ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
                 StepSum = 0;
                 StepIndex = 0;

@@ -632,7 +632,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EmptyTable(Type sType, bool sAccountConnected)
+        public void FlushTable(Type sType, bool sAccountConnected)
         {
 
             if (sAccountConnected)
@@ -641,7 +641,14 @@ namespace NetWorkedData
                 //{
                 if (SQLiteConnectionAccountIsValid())
                 {
-                    SQLiteConnectionAccount.TruncateTableByType(sType);
+                    //SQLiteConnectionAccount.TruncateTableByType(sType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "VACUUM;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
                 //}
             }
@@ -651,7 +658,14 @@ namespace NetWorkedData
                 //{
                 if (SQLiteConnectionEditorIsValid())
                 {
-                    SQLiteConnectionEditor.TruncateTableByType(sType);
+                    //SQLiteConnectionEditor.TruncateTableByType(sType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DELETE FROM `" + tHelper.ClassNamePHP + "`;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+                    stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "VACUUM;");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
                 //}
             }
@@ -662,41 +676,38 @@ namespace NetWorkedData
 
             if (sAccountConnected)
             {
-                //if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
-                //{
                 if (SQLiteConnectionAccountIsValid())
                 {
-                    SQLiteConnectionAccount.DropTableByType(sType);
+                    //SQLiteConnectionAccount.DropTableByType(sType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionAccount.Handle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
+
                 }
-                //}
             }
             else
             {
-                //if (DataEditorConnected == true && DataEditorConnectionInProgress == false)
-                //{
                 if (SQLiteConnectionEditorIsValid())
                 {
-                    SQLiteConnectionEditor.DropTableByType(sType);
+                    //SQLiteConnectionEditor.DropTableByType(sType);
+                    NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
+                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteConnectionEditor.Handle, "DROP TABLE IF EXISTS `" + tHelper.ClassNamePHP + "`");
+                    SQLite3.Step(stmt);
+                    SQLite3.Finalize(stmt);
                 }
-                //}
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReInitializeTable(Type sType, bool sAccountConnected)
         {
-            EmptyTable(sType, sAccountConnected);
+            FlushTable(sType, sAccountConnected);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetTable(Type sType, bool sAccountConnected)
         {
             DropTable(sType, sAccountConnected);
             CreateTable(sType, sAccountConnected);
-            //NWDBasisHelper tHelper = NWDBasisHelper.FindTypeInfos(sType);
-            //if (tHelper != null)
-            //{
-            //    tHelper.LoadFromDatabase();
-            //    tHelper.RowAnalyze();
-            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool SQLiteConnectionEditorIsValid()

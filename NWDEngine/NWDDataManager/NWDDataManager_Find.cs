@@ -243,13 +243,11 @@ namespace NetWorkedData
             //PlayerLanguageLoad();
             //LoadPreferences(NWDAppEnvironment.SelectedEnvironment());
             EditorRefresh();
-
-            NWEBenchmark.Log("row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
-
+            NWDLauncher.RowInformations = "Rows indexed : " + tRow + " rows. Used " + IndexationCounterOp + " operation(s) and " + tMethod + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
+                NWEBenchmark.Log(NWDLauncher.RowInformations);
                 NWEBenchmark.Finish();
-
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -292,13 +290,11 @@ namespace NetWorkedData
                 tHelper.IndexInMemoryAllObjects();
             }
             DatasIndexed = true;
-
             EditorRefresh();
-
-            NWEBenchmark.Log("row indexed : " + tRow + " rows. Use " + IndexationCounterOp + " operation(s). Use " + tMethod + " method(s).");
-
+            NWDLauncher.RowInformations = "Rows indexed : " + tRow + " rows. Used " + IndexationCounterOp + " operation(s) and " + tMethod + " method(s).";
             if (NWDLauncher.ActiveBenchmark)
             {
+                NWEBenchmark.Log(NWDLauncher.RowInformations);
                 NWEBenchmark.Finish();
             }
         }

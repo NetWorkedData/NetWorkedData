@@ -47,6 +47,8 @@ namespace NetWorkedData
         {
             set; get;
         }
+        public string CompileOn = "Mac Windows Linux";
+        public string BuilderUser = "User";
         //public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
         //public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
@@ -87,6 +89,7 @@ namespace NetWorkedData
         public bool OverrideCacheMethod = false;
         public bool OverrideCacheMethodInPlayMode = false;
 
+        public bool PurgeOldAccountDatabase = false;
 
         public bool SurProtected = false; //TODO:  rename OverProtected
         public int PinCodeLenghtMin = 4; //TODO:  rename PinCodeMinLength

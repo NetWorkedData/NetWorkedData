@@ -133,40 +133,42 @@ namespace NetWorkedData
             NWDBasisHelper tHelper = BasisHelper();
 
             WebModel = tHelper.LastWebBuild;
-            foreach (var tPropertyInfo in tHelper.NWDDataPropertiesArray)
+            if (tHelper.NWDDataPropertiesArray != null)
             {
-                Type tTypeOfThis = tPropertyInfo.PropertyType;
-                if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                foreach (var tPropertyInfo in tHelper.NWDDataPropertiesArray)
                 {
-                    NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
-                    //tObject.SetValue(string.Empty);
-                    tPropertyInfo.SetValue(this, tObject, null);
+                    Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+                    {
+                        NWEDataType tObject = (NWEDataType)Activator.CreateInstance(tTypeOfThis);
+                        //tObject.SetValue(string.Empty);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+                    {
+                        NWEDataTypeInt tObject = (NWEDataTypeInt)Activator.CreateInstance(tTypeOfThis);
+                        //tObject.SetLong(0);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                    {
+                        NWEDataTypeFloat tObject = (NWEDataTypeFloat)Activator.CreateInstance(tTypeOfThis);
+                        //tObject.SetDouble(0);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                    {
+                        NWEDataTypeEnum tObject = (NWEDataTypeEnum)Activator.CreateInstance(tTypeOfThis);
+                        //tObject.SetLong(0);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+                    {
+                        NWEDataTypeMask tObject = (NWEDataTypeMask)Activator.CreateInstance(tTypeOfThis);
+                        //tObject.SetLong(0);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
                 }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
-                {
-                    NWEDataTypeInt tObject = (NWEDataTypeInt)Activator.CreateInstance(tTypeOfThis);
-                    //tObject.SetLong(0);
-                    tPropertyInfo.SetValue(this, tObject, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
-                {
-                    NWEDataTypeFloat tObject = (NWEDataTypeFloat)Activator.CreateInstance(tTypeOfThis);
-                    //tObject.SetDouble(0);
-                    tPropertyInfo.SetValue(this, tObject, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
-                {
-                    NWEDataTypeEnum tObject = (NWEDataTypeEnum)Activator.CreateInstance(tTypeOfThis);
-                    //tObject.SetLong(0);
-                    tPropertyInfo.SetValue(this, tObject, null);
-                }
-                else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
-                {
-                    NWEDataTypeMask tObject = (NWEDataTypeMask)Activator.CreateInstance(tTypeOfThis);
-                    //tObject.SetLong(0);
-                    tPropertyInfo.SetValue(this, tObject, null);
-                }
-
             }
         }
         //-------------------------------------------------------------------------------------------------------------

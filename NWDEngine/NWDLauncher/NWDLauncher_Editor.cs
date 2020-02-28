@@ -28,7 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static void Launch_Editor()
         {
-            if (ActiveBenchmark)
+            //if (ActiveBenchmark)
             {
                 NWEBenchmark.Start();
             }
@@ -80,9 +80,11 @@ namespace NetWorkedData
 
             NotifyNetWorkedDataReady();
 
-            if (ActiveBenchmark)
+            //if (ActiveBenchmark)
             {
-                NWEBenchmark.Finish();
+                TimeFinish = NWEBenchmark.SinceStartup();
+                TimeNWDFinish = NWEBenchmark.Finish();
+                LauncherBenchmarkToMarkdown();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -130,7 +132,7 @@ namespace NetWorkedData
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            if (ActiveBenchmark)
+            //if (ActiveBenchmark)
             {
                 NWEBenchmark.Finish();
             }

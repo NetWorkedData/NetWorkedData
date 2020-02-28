@@ -218,7 +218,7 @@ namespace NetWorkedData
             Localize(false);
         }
         //-------------------------------------------------------------------------------------------------------------
-        void LanguageChnaged()
+        void LanguageChanged()
         {
             Localize(false);
         }

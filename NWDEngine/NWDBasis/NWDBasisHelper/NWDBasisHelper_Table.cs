@@ -757,11 +757,11 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public void EmptyTable()
+        public void FlushTable()
         {
-            NWDDataManager.SharedInstance().EmptyTable(ClassType, kAccountDependent);
+            NWDDataManager.SharedInstance().FlushTable(ClassType, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DropTable()
@@ -774,7 +774,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReInitializeTable(ClassType, kAccountDependent);
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+//#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

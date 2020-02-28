@@ -174,6 +174,7 @@ namespace NetWorkedData
             NWDGUILayout.SubSection("Account Anonymous");
             //NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal = EditorGUILayout.ToggleLeft("Anonymous account is stored on system device!", NWDAppConfiguration.SharedInstance().AnonymousPlayerIsLocal);
             NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected = EditorGUILayout.ToggleLeft("Anonymous account connected from system device!", NWDAppConfiguration.SharedInstance().AnonymousDeviceConnected);
+            NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase = EditorGUILayout.ToggleLeft("Purge Old Account", NWDAppConfiguration.SharedInstance().PurgeOldAccountDatabase);
 
             NWDGUILayout.Section("Web Services");
             NWDGUILayout.SubSection("Web Services config for all environments");
