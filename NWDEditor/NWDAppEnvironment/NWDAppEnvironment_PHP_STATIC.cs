@@ -432,10 +432,10 @@ namespace NetWorkedData
             tFile.AppendLine("//transform respond in JSON file");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("$temporalSalt = saltTemporal($NWD_SLT_TMP, 0);");
-            tFile.AppendLine("if (isset($REP['" + NWD.RequestTokenKey + "']))");
+            tFile.AppendLine("if (isset($REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']))");
             tFile.AppendLine("{");
-            tFile.AppendLine("header('" + NWD.HashKey + ": '.sha1($temporalSalt.$NWD_SHA_VEC.$REP['" + NWD.RequestTokenKey + "']));");
-            tFile.AppendLine("header('" + NWD.RequestTokenKey + ": '.$REP['" + NWD.RequestTokenKey + "']);");
+            tFile.AppendLine("header('" + NWD.HashKey + ": '.sha1($temporalSalt.$NWD_SHA_VEC.$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']));");
+            tFile.AppendLine("header('" + NWD.K_WEB_REQUEST_TOKEN_KEY + ": '.$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "']);");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("$json = json_encode($REP);");
@@ -1223,12 +1223,12 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("if (headerValue ('lang', '" + NWD.K_WEB_HEADER_LANG_KEY + "', $ereg_lang, '" + NWDError.NWDError_HEA03.Code + "', '" + NWDError.NWDError_HEA13.Code + "')) // test if lang is ok");
             tFile.AppendLine("{");
-            tFile.AppendLine("if (headerValue ('uuid', '" + NWD.UUIDKey + "', $ereg_UUID, '" + NWDError.NWDError_HEA04.Code + "', '" + NWDError.NWDError_HEA14.Code + "')) // test UUID of headers");
+            tFile.AppendLine("if (headerValue ('uuid', '" + NWD.K_WEB_UUID_KEY + "', $ereg_UUID, '" + NWDError.NWDError_HEA04.Code + "', '" + NWDError.NWDError_HEA14.Code + "')) // test UUID of headers");
             tFile.AppendLine("{");
             tFile.AppendLine("$HeaderUUID = $uuid;");
             tFile.AppendLine("if (headerValue ('hash', '" + NWD.HashKey + "', $ereg_hash, '" + NWDError.NWDError_HEA05.Code + "', '" + NWDError.NWDError_HEA15.Code + "')) // test hash of headers");
             tFile.AppendLine("{");
-            tFile.AppendLine("headerBrutalValue ('token', '" + NWD.RequestTokenKey + "');");
+            tFile.AppendLine("headerBrutalValue ('token', '" + NWD.K_WEB_REQUEST_TOKEN_KEY + "');");
             tFile.AppendLine("$temporalSalt = saltTemporal($NWD_SLT_TMP, 0);");
             tFile.AppendLine("$tHash = sha1($os.$version.$lang.$temporalSalt.$uuid.$token);");
             tFile.AppendLine("$temporalSaltMinor = saltTemporal($NWD_SLT_TMP, -1);");
@@ -1713,7 +1713,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP, $uuid;");
             tFile.AppendLine("$uuid = $sValue;");
-            tFile.AppendLine("$REP['" + NWD.UUIDKey + "'] = $sValue;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_UUID_KEY + "'] = $sValue;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 
@@ -1721,7 +1721,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $REP, $token;");
             tFile.AppendLine("$token = $sValue;");
-            tFile.AppendLine("$REP['" + NWD.RequestTokenKey + "'] = $sValue;");
+            tFile.AppendLine("$REP['" + NWD.K_WEB_REQUEST_TOKEN_KEY + "'] = $sValue;");
             tFile.AppendLine("}");
             tFile.AppendLine(NWD.K_CommentSeparator);
 

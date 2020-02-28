@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -20,32 +21,29 @@ namespace NetWorkedData
     public class NWDOperationResult : NWEOperationResult
     {
         //-------------------------------------------------------------------------------------------------------------
-        public int timestamp { get; private set; }
-        public int avg { get; private set; }
-        public float perform { get; private set; }
-        public float performRequest { get; private set; }
-        public bool isError { get; private set; }
         public string errorCode { get; private set; }
-        public string errorInfos { get; private set; }
-        public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
         public string uuid { get; private set; }
         public string preview_user { get; private set; }
         public string next_user { get; private set; }
-        //public bool isSignIn { get; private set; }
-        //public bool isSignOut { get; private set; }
-        //public bool isRescue { get; private set; }
+        public string errorInfos { get; private set; }
+        public NWDError errorDesc { get; private set; }
         public bool isNewUser { get; private set; }
         public bool isUserTransfert { get; private set; }
+        public bool isError { get; private set; }
         public int wsBuild { get; private set; }
+        public int timestamp { get; private set; }
+        public int avg { get; private set; }
+        public float perform { get; private set; }
+        public float performRequest { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> param { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
-        public DateTime PrepareDateTime; // = DateTime.Now;
-        public DateTime WebDateTime; // = DateTime.Now;
-        public DateTime UploadedDateTime; // = DateTime.Now;
-        public DateTime DownloadedDateTime; // = DateTime.Now;
-        public DateTime FinishDateTime; // = DateTime.Now;
+        public DateTime PrepareDateTime;
+        public DateTime WebDateTime;
+        public DateTime UploadedDateTime;
+        public DateTime DownloadedDateTime;
+        public DateTime FinishDateTime;
         public double OctetUpload = 0.0F;
         public double OctetDownload = 0.0F;
         public int ClassPullCounter = 0;
@@ -61,6 +59,85 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(Dictionary<string, object> sData)
+        {
+            foreach(KeyValuePair<string, object> k in sData)
+            {
+                string tKey = k.Key;
+                object tValue = k.Value;
+
+                switch(tKey)
+                {
+                    case NWD.K_JSON_TIMESTAMP_KEY:
+                        timestamp = int.Parse(tValue.ToString());
+                        break;
+                    case NWD.K_JSON_AVG_KEY:
+                        avg = NWDToolbox.IntFromString(tValue.ToString());
+                        NWDAccountInfos.LoadBalacing(avg);
+                        break;
+                    case NWD.K_JSON_PERFORM_KEY:
+                        perform = float.Parse(tValue.ToString());
+                        break;
+                    case NWD.K_JSON_PERFORM_REQUEST_KEY:
+                        performRequest = float.Parse(tValue.ToString());
+                        break;
+                    case NWD.K_WEB_REQUEST_TOKEN_KEY:
+                        token = tValue.ToString();
+                        break;
+                    case NWD.K_JSON_ERROR_INFOS_KEY:
+                        errorInfos = tValue.ToString();
+                        break;
+                    case NWD.K_WEB_ACTION_PREVIEW_USER_KEY:
+                        preview_user = tValue.ToString();
+                        break;
+                    case NWD.K_WEB_ACTION_NEXT_USER_KEY:
+                        next_user = tValue.ToString();
+                        break;
+                    case NWD.K_JSON_ERROR_KEY:
+                        isError = bool.Parse(tValue.ToString());
+                        break;
+                    case NWD.K_WEB_ACTION_NEW_USER_KEY:
+                        isNewUser = bool.Parse(tValue.ToString());
+                        break;
+                    case NWD.K_WEB_ACTION_USER_TRANSFERT_KEY:
+                        isUserTransfert = bool.Parse(tValue.ToString());
+                        break;
+                    case NWD.K_JSON_ERROR_CODE_KEY:
+                        errorCode = tValue.ToString();
+                        break;
+                    case NWD.K_WEB_UUID_KEY:
+                        uuid = tValue.ToString();
+                        break;
+                    case NWD.K_JSON_WEB_SERVICE_KEY:
+                        wsBuild = int.Parse(tValue.ToString());
+                        int tWSBuildEditor = NWDAppConfiguration.SharedInstance().WebBuild;
+                        if (wsBuild != tWSBuildEditor)
+                        {
+                            Debug.LogWarning("wsBuild(" + wsBuild + ") != wsBuildEditor(" + tWSBuildEditor + ")");
+                            // TODO : Error if Ws service is not the good version ? perhaps Error is not necessary ?!
+                            // imagine ws are conciliant!?
+                            // let's go... no error for this moment
+                        }
+                        break;
+                    default:
+                        Type t = tValue.GetType();
+                        bool isDict = t.IsGenericType && t.GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
+                        if (!isDict)
+                        {
+                            Debug.LogWarning("Key: " + tKey + " with value: " + tValue + " not parse!");
+                        }
+                        break;
+                }
+            }
+
+            if (isError)
+            {
+                errorDesc = NWDError.FindDataByCode(errorCode) as NWDError;
+            }
+
+            param = new Dictionary<string, object>(sData);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetDataOld(Dictionary<string, object> sData)
         {
             if (sData.ContainsKey(NWD.K_JSON_TIMESTAMP_KEY))
             {
@@ -79,22 +156,10 @@ namespace NetWorkedData
             {
                 performRequest = float.Parse(sData[NWD.K_JSON_PERFORM_REQUEST_KEY].ToString());
             }
-            if (sData.ContainsKey(NWD.RequestTokenKey))
+            if (sData.ContainsKey(NWD.K_WEB_REQUEST_TOKEN_KEY))
             {
-                token = sData[NWD.RequestTokenKey] as string;
+                token = sData[NWD.K_WEB_REQUEST_TOKEN_KEY] as string;
             }
-            //if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNIN_KEY))
-            //{
-            //    isSignIn = (bool)sData[NWD.K_WEB_ACTION_SIGNIN_KEY];
-            //}
-            //if (sData.ContainsKey(NWD.K_WEB_ACTION_SIGNOUT_KEY))
-            //{
-            //    isSignOut = (bool)sData[NWD.K_WEB_ACTION_SIGNOUT_KEY];
-            //}
-            //if (sData.ContainsKey(NWD.K_WEB_ACTION_RESCUE_KEY))
-            //{
-            //    isRescue = (bool)sData[NWD.K_WEB_ACTION_RESCUE_KEY];
-            //}
             if (sData.ContainsKey(NWD.K_JSON_ERROR_INFOS_KEY))
             {
                 errorInfos = sData[NWD.K_JSON_ERROR_INFOS_KEY] as string;
@@ -123,9 +188,9 @@ namespace NetWorkedData
             {
                 errorCode = sData[NWD.K_JSON_ERROR_CODE_KEY] as string;
             }
-            if (sData.ContainsKey(NWD.UUIDKey))
+            if (sData.ContainsKey(NWD.K_WEB_UUID_KEY))
             {
-                uuid = sData[NWD.UUIDKey] as string;
+                uuid = sData[NWD.K_WEB_UUID_KEY] as string;
             }
             if (sData.ContainsKey(NWD.K_JSON_WEB_SERVICE_KEY))
             {
@@ -139,7 +204,6 @@ namespace NetWorkedData
                     // let's go... no error for this moment
                 }
             }
-
             if (isError)
             {
                 errorDesc = NWDError.FindDataByCode(errorCode) as NWDError;
@@ -158,7 +222,7 @@ namespace NetWorkedData
             }
             else
             {
-                errorDesc = null; //"Error not define"
+                errorDesc = null; //new NWDError();
                 errorCode = "WEB00";
             }
         }
@@ -170,11 +234,10 @@ namespace NetWorkedData
             perform = 0.0f;
             isError = false;
             errorCode = string.Empty;
+            //errorDesc = new NWDError();
             token = string.Empty;
             preview_user = string.Empty;
             next_user = string.Empty;
-            //isSignIn = false;
-            //isSignOut = false;
             isNewUser = false;
             isUserTransfert = false;
             uuid = string.Empty;
