@@ -185,7 +185,7 @@ namespace NetWorkedData
             {
                 case NWDEditorBuildDatabaseUpdate.Ask:
                     {
-                        if (EditorUtility.DisplayDialog("Update the build timestamp?", "Be sure to choose ", "NOT UPDATE", "Update"))
+                        if (EditorUtility.DisplayDialog("Use a your database as new one?", "If you decide to copy your database as new one, that will replace old database on device and insert the sync timestamp to now.", "Use old database", "Copy database"))
                         {
                             tBuild = false;
                         }

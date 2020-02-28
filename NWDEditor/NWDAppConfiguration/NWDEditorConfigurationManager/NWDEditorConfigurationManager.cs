@@ -169,7 +169,7 @@ namespace NetWorkedData
             NWDBuildPreProcess.SetEditorBuildRename(tNWDEditorBuildRename);
             // define update database
             NWDEditorBuildDatabaseUpdate tNWDEditorBuildDatabaseUpdate = NWDBuildPreProcess.GetEditorBuildDatabaseUpdate();
-            tNWDEditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Build Database Update", tNWDEditorBuildDatabaseUpdate);
+            tNWDEditorBuildDatabaseUpdate = (NWDEditorBuildDatabaseUpdate)EditorGUILayout.EnumPopup("Copy database in build", tNWDEditorBuildDatabaseUpdate);
             NWDBuildPreProcess.SetEditorBuildDatabaseUpdate(tNWDEditorBuildDatabaseUpdate);
 
             // Data tag
