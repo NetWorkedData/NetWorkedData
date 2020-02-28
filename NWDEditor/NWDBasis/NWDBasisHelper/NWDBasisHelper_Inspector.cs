@@ -782,11 +782,11 @@ namespace NetWorkedData
             if (DatasByReference.ContainsKey(sReference))
             {
                 NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
-               rReturn = new GUIContent(tObject.PreviewTexture2D());
+                rReturn = new GUIContent(tObject.PreviewTexture2D());
             }
             else
             {
-               rReturn = new GUIContent("");
+                rReturn = new GUIContent("");
             }
             return rReturn;
         }
@@ -794,10 +794,13 @@ namespace NetWorkedData
         public bool HasPreview(string sReference)
         {
             bool rReturn = false;
-            if (DatasByReference.ContainsKey(sReference))
+            if (sReference != null)
             {
-                NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
-                rReturn = tObject.PreviewTexture2D()!=null;
+                if (DatasByReference.ContainsKey(sReference))
+                {
+                    NWDTypeClass tObject = DatasByReference[sReference] as NWDTypeClass;
+                    rReturn = tObject.PreviewTexture2D() != null;
+                }
             }
             return rReturn;
         }
