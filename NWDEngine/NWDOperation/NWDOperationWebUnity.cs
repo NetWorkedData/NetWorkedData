@@ -361,14 +361,14 @@ namespace NetWorkedData
                                             }
                                             else
                                             {
-                                                if (Environment.RequesToken == Request.GetResponseHeader(NWD.RequestTokenKey))
+                                                if (Environment.RequesToken == Request.GetResponseHeader(NWD.K_WEB_REQUEST_TOKEN_KEY))
                                                 {
                                                     // What the token is not beetween respond and header? It's not possible!
                                                     ResultInfos.SetError(NWDError.NWDError_RQT97);
                                                 }
                                                 else
                                                 {
-                                                    if (TestTemporalRequestHash(Request.GetResponseHeader(NWD.HashKey), Request.GetResponseHeader(NWD.RequestTokenKey)) == false)
+                                                    if (TestTemporalRequestHash(Request.GetResponseHeader(NWD.HashKey), Request.GetResponseHeader(NWD.K_WEB_REQUEST_TOKEN_KEY)) == false)
                                                     {
                                                         // What the token is not valid!? It's not possible!
                                                         ResultInfos.SetError(NWDError.NWDError_RQT96);
@@ -644,8 +644,8 @@ namespace NetWorkedData
 #endif
             Lang = NWDDataManager.SharedInstance().PlayerLanguage;
             // insert value in header dico
-            HeaderParams.Add(NWD.UUIDKey, UUID);
-            HeaderParams.Add(NWD.RequestTokenKey, RequestToken);
+            HeaderParams.Add(NWD.K_WEB_UUID_KEY, UUID);
+            HeaderParams.Add(NWD.K_WEB_REQUEST_TOKEN_KEY, RequestToken);
             HeaderParams.Add(NWD.K_WEB_HEADER_OS_KEY, OS);
             HeaderParams.Add(NWD.K_WEB_HEADER_VERSION_KEY, Version);
             HeaderParams.Add(NWD.K_WEB_HEADER_LANG_KEY, Lang);
