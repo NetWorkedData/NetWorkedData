@@ -533,105 +533,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        //private object ReadCol(Sqlite3Statement stmt, int index, SQLite3.ColType type, Type clrType)
-        //{
-        //    if (type == SQLite3.ColType.Null)
-        //        return null;
-
-        //    if (clrType == typeof(string))
-        //        return SQLite3.ColumnString(stmt, index);
-
-        //    if (clrType == typeof(int))
-        //        return SQLite3.ColumnInt(stmt, index);
-
-        //    if (clrType == typeof(bool))
-        //        return SQLite3.ColumnInt(stmt, index) == 1;
-
-        //    if (clrType == typeof(double))
-        //        return SQLite3.ColumnDouble(stmt, index);
-
-        //    if (clrType == typeof(float))
-        //        return (float)SQLite3.ColumnDouble(stmt, index);
-
-        //    if (clrType == typeof(TimeSpan))
-        //        return new TimeSpan(SQLite3.ColumnInt64(stmt, index));
-
-        //    if (clrType == typeof(DateTimeOffset))
-        //    {
-        //        return new DateTimeOffset(SQLite3.ColumnInt64(stmt, index), TimeSpan.Zero);
-        //    }
-
-        //    if (clrType.IsEnum)
-        //    {
-        //        return SQLite3.ColumnInt(stmt, index);
-        //    }
-
-        //    if (clrType == typeof(long))
-        //        return SQLite3.ColumnInt64(stmt, index);
-
-        //    if (clrType == typeof(uint))
-        //        return (uint)SQLite3.ColumnInt64(stmt, index);
-
-        //    if (clrType == typeof(decimal))
-        //        return (decimal)SQLite3.ColumnDouble(stmt, index);
-
-        //    if (clrType == typeof(byte))
-        //        return (byte)SQLite3.ColumnInt(stmt, index);
-
-        //    if (clrType == typeof(ushort))
-        //        return (ushort)SQLite3.ColumnInt(stmt, index);
-
-        //    if (clrType == typeof(short))
-        //        return (short)SQLite3.ColumnInt(stmt, index);
-
-        //    if (clrType == typeof(sbyte))
-        //        return (sbyte)SQLite3.ColumnInt(stmt, index);
-
-        //    if (clrType == typeof(byte[]))
-        //        return SQLite3.ColumnByteArray(stmt, index);
-
-        //    if (clrType == typeof(Guid))
-        //    {
-        //        string text = SQLite3.ColumnString(stmt, index);
-        //        return new Guid(text);
-        //    }
-        //    //------------------------------------------
-        //    //---------- ADD IDEMOBI START -------------
-        //    if (clrType.IsSubclassOf(typeof(NWEDataType)))
-        //    {
-        //        NWEDataType tObject = Activator.CreateInstance(clrType) as NWEDataType;
-        //        tObject.SetValue(SQLite3.ColumnString(stmt, index));
-        //        return tObject;
-        //    }
-        //    if (clrType.IsSubclassOf(typeof(NWEDataTypeInt)))
-        //    {
-        //        NWEDataTypeInt tObject = Activator.CreateInstance(clrType) as NWEDataTypeInt;
-        //        tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
-        //        return tObject;
-        //    }
-        //    if (clrType.IsSubclassOf(typeof(NWEDataTypeFloat)))
-        //    {
-        //        NWEDataTypeFloat tObject = Activator.CreateInstance(clrType) as NWEDataTypeFloat;
-        //        tObject.SetDouble(SQLite3.ColumnDouble(stmt, index));
-        //        return tObject;
-        //    }
-        //    if (clrType.IsSubclassOf(typeof(NWEDataTypeEnum)))
-        //    {
-        //        NWEDataTypeEnum tObject = Activator.CreateInstance(clrType) as NWEDataTypeEnum;
-        //        tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
-        //        return tObject;
-        //    }
-        //    if (clrType.IsSubclassOf(typeof(NWEDataTypeMask)))
-        //    {
-        //        NWEDataTypeMask tObject = Activator.CreateInstance(clrType) as NWEDataTypeMask;
-        //        tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
-        //        return tObject;
-        //    }
-        //    //---------- ADD IDEMOBI FINISH ------------
-        //    //------------------------------------------
-        //    throw new NotSupportedException("Don't know how to read " + clrType);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public void LoadFromDatabase()
         {
             if (NWDLauncher.ActiveBenchmark)
@@ -653,22 +554,6 @@ namespace NetWorkedData
             {
                 if (tSQLiteConnection.IsValid())
                 {
-                    //int c = 0;
-
-                    //NWEBenchmark.Start("NewY_method");
-                    //Sqlite3DatabaseHandle stmty = SQLite3.Prepare2(tSQLiteConnection.Handle, "SELECT * FROM `" + ClassNamePHP + "`;");
-
-                    //while (SQLite3.Step(stmty) == SQLite3.Result.Row)
-                    //{
-                    //    var tD = Activator.CreateInstance(ClassType, new object[] { false });
-                    //}
-                    //SQLite3.Finalize(stmty);
-                    //NWEBenchmark.Finish("NewY_method");
-
-                    //ResetDatas();
-
-                    //NWEBenchmark.Start("New_method");
-                    //List<NWDTypeClass> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
                     List<PropertyInfo> tProplist = new List<PropertyInfo>();
                     List<Type> tPropTypelist = new List<Type>();
                     List<string> tColumnList = new List<string>();
@@ -691,39 +576,19 @@ namespace NetWorkedData
                             PropertyInfo tProp = tProplist[i];
                             Type tTypeOfThis = tPropTypelist[i];
                             ReadCol(tTypeOfThis, tProp, stmtc, i, tD);
-                            //var t = ReadCol(stmtc, i, SQLite3.ColumnType(stmtc, i), tTypeOfThis);
                         }
                         ((NWDTypeClass)tD).LoadedFromDatabase();
                         tCount++;
                     }
                     SQLite3.Finalize(stmtc);
-                    //NWEBenchmark.Finish("New_method", true , " for " + ClassNamePHP);
-
-                    //ResetDatas();
-
-                    //NWEBenchmark.Start("Old_method");
-                    ////List<NWDTypeClass> tSelect = tSQLiteConnection.Query<K>("SELECT * FROM " + ClassNamePHP);
-                    //List<object> tSelect = tSQLiteConnection.Query(new TableMapping(ClassType), "SELECT * FROM " + ClassNamePHP);
-                    //// Prepare the datas
-                    //if (tSelect != null)
-                    //{
-                    //    foreach (object tItem in tSelect)
-                    //    {
-                    //        tCount++;
-                    //        ((NWDTypeClass)tItem).LoadedFromDatabase();
-                    //    }
-                    //}
-                    //NWEBenchmark.Finish("Old_method");
                 }
             }
-            //Debug.Log("NWDBasis LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
             DatasLoaded = true;
             ClassDatasAreLoaded();
 #if UNITY_EDITOR
             FilterTableEditor();
             RepaintTableEditor();
 #endif
-
             if (NWDLauncher.ActiveBenchmark)
             {
                 NWEBenchmark.Finish(true, " " + ClassNamePHP + " " + tCount + " row loaded!");
