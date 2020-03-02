@@ -113,6 +113,7 @@ namespace NetWorkedData
         static bool Preload = true;
         static public bool ActiveBenchmark;
         static public string RowInformations;
+        static public bool CopyDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
         static public float GetPurcent()
         {
@@ -176,6 +177,7 @@ namespace NetWorkedData
 
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
+            tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
             if (GetPreload() == false)
@@ -191,6 +193,7 @@ namespace NetWorkedData
             tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
+            tRepport.Add("COPY DATABASE", CopyDatabase.ToString()); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH FINAL", TimeFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
 
             tRepport.Add("ROWS INFORMATIONS", RowInformations); tRepportLayout.Add("---");
