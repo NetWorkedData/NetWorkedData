@@ -20,6 +20,8 @@ using UnityEngine;
 using System.Threading;
 using System.Text.RegularExpressions;
 using SQLite4Unity3d;
+using Sqlite3DatabaseHandle = System.IntPtr;
+using Sqlite3Statement = System.IntPtr;
 //using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -845,6 +847,9 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
                 }
             }
@@ -852,6 +857,9 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
                 }
             }
@@ -866,6 +874,16 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, "BEGIN TRANSACTION");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, "COMMIT");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
@@ -875,6 +893,16 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, "BEGIN TRANSACTION");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, "COMMIT");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
@@ -928,6 +956,28 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Load Data
+        //-------------------------------------------------------------------------------------------------------------
+        //public string New_SQLInsertOrReplace()
+        //{
+        //    NWDBasisHelper tHelper = BasisHelper();
+        //    List<string> tKeys = new List<string>();
+        //    List<string> tValues = new List<string>();
+        //    foreach (PropertyInfo tProp in tHelper.ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        //    {
+        //        tKeys.Add(tProp.Name);
+        //        tValues.Add(tProp.GetValue(this).ToString());
+        //    }
+        //    string rReturn = "INSERT OR REPLACE INTO `" + tHelper.ClassNamePHP + "` (`" + string.Join("`, `", tKeys) + "`) VALUES (\"" + string.Join("\", \"", tValues) + "\");";
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string New_SQLDelete()
+        //{
+        //    NWDBasisHelper tHelper = BasisHelper();
+        //    string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID);
+        //    string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = `" + ID + "`;";
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
