@@ -75,6 +75,7 @@ namespace NetWorkedData
                     {
                         NWEBenchmark.Log("Application will copy editor database : " + tPathEditor);
                     }
+                NWDLauncher.CopyDatabase = true;
 #if UNITY_ANDROID
                     var tLoadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
                     while (!tLoadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
