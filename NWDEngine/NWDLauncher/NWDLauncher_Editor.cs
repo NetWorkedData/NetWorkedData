@@ -324,6 +324,7 @@ namespace NetWorkedData
             {
                 NWEBenchmark.Finish();
             }
+            //Debug.Log("!!!! BenchmarkError = " + (NWEBenchmark.BenchmarkError / 1000.0F).ToString("F3") + " s !!!!");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

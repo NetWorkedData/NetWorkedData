@@ -17,6 +17,7 @@ using SQLite4Unity3d;
 using System.Collections;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
 
 using UnityEngine;
 
@@ -122,10 +123,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void NotifyStep()
         {
+            //if (ActiveBenchmark)
+            //{
+            //    NWEBenchmark.Start("NotifyStep");
+            //}
             StepIndex++;
-            NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
-            //NWEBenchmark.Log(" StepSum = " + StepSum + " and StepIndex =" + StepIndex);
+            if (YieldValid())
+            {
+                NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
+            }
+            //if (ActiveBenchmark)
+            //{
+            //    NWEBenchmark.Finish("NotifyStep");
+            //}
         }
+        //-------------------------------------------------------------------------------------------------------------
         public static bool YieldValid()
         {
             return (StepIndex % NWDAppConfiguration.SharedInstance().LauncherFaster == 0);
@@ -177,9 +189,11 @@ namespace NetWorkedData
 
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
-            tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
+            //tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
+            tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
-            tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
+            //tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
+            tRepport.Add("DEVICE", SystemInfo.deviceModel); tRepportLayout.Add("---");
             if (GetPreload() == false)
             {
                 tRepport.Add("PRELOAD DATAS", GetPreload().ToString() + " (" + NWDAppConfiguration.SharedInstance().LauncherFaster.ToString() + ")"); tRepportLayout.Add("---");
@@ -188,8 +202,8 @@ namespace NetWorkedData
             {
                 tRepport.Add("PRELOAD DATAS", GetPreload().ToString()); tRepportLayout.Add("---");
             }
-            tRepport.Add("BENCHMARK STEP", ActiveBenchmark.ToString() ); tRepportLayout.Add("---");
-           
+            tRepport.Add("BENCHMARK STEP", ActiveBenchmark.ToString()); tRepportLayout.Add("---");
+
             tRepport.Add("INFOS", "(infos)"); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH UNITY", TimeStart.ToString("F3") + "s"); tRepportLayout.Add("---");
             tRepport.Add("LAUNCH NWD", TimeNWDFinish.ToString("F3") + "s"); tRepportLayout.Add("---");
@@ -204,10 +218,10 @@ namespace NetWorkedData
 
             if (ActiveBenchmark)
             {
-                Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
-                Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+                UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+                UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
             }
-            Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+            UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
         }
         //-------------------------------------------------------------------------------------------------------------
         public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
@@ -222,7 +236,9 @@ namespace NetWorkedData
                 ActiveBenchmark = NWDAppConfiguration.SharedInstance().LauncherBenchmark;
                 StepSum = 0;
                 StepIndex = 0;
-                NWEBenchmark.Start();
+                NWEBenchmark.Start("Launch");
+                Stopwatch tSW = new Stopwatch();
+                tSW.Start();
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
@@ -273,7 +289,9 @@ namespace NetWorkedData
                         //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
-                NWEBenchmark.Finish();
+                tSW.Stop();
+                UnityEngine.Debug.Log("STOPWATCH : " + (tSW.ElapsedMilliseconds / 1000.0F).ToString("F3") + " s");
+                NWEBenchmark.Finish("Launch");
             }
         }
         //-------------------------------------------------------------------------------------------------------------

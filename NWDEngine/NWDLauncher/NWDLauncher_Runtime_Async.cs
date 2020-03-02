@@ -49,7 +49,7 @@ namespace NetWorkedData
         {
             //if (ActiveBenchmark)
             {
-                NWEBenchmark.Start();
+                NWEBenchmark.Start("Launch_Runtime_Async");
             }
             IEnumerator tWaitTime = null;
             StepSum = 12 +
@@ -142,7 +142,7 @@ namespace NetWorkedData
             //if (ActiveBenchmark)
             {
                 TimeFinish = NWEBenchmark.SinceStartup();
-                TimeNWDFinish = NWEBenchmark.Finish();
+                TimeNWDFinish = NWEBenchmark.Finish("Launch_Runtime_Async");
                 LauncherBenchmarkToMarkdown();
             }
         }
@@ -157,10 +157,12 @@ namespace NetWorkedData
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             AllNetWorkedDataTypes.Clear();
             BasisToHelperList.Clear();
+            NWEBenchmark.Start("get_refelexion");
             List<Type> tTypeList = new List<Type>();
             Type[] tAllTypes = Assembly.GetExecutingAssembly().GetTypes();
             Type[] tAllNWDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDTypeClass)) select type).ToArray();
             Type[] tAllHelperDTypes = (from Type type in tAllTypes where type.IsSubclassOf(typeof(NWDBasisHelper)) select type).ToArray();
+            NWEBenchmark.Finish("get_refelexion");
             foreach (Type tType in tAllNWDTypes)
             {
                 if (tType != typeof(NWDBasis) && tType.IsGenericType == false)

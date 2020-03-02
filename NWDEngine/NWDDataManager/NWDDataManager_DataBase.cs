@@ -69,6 +69,10 @@ namespace NetWorkedData
                 // Write editor database
                 if (!File.Exists(tPathEditor))
                 {
+                    if (NWDLauncher.ActiveBenchmark)
+                        {
+                             NWEBenchmark.Start("Copy editor");
+                        }
                     // if it doesn't ->
                     // open StreamingAssets directory and load the db ->
                     if (NWDLauncher.ActiveBenchmark)
@@ -91,6 +95,11 @@ namespace NetWorkedData
                     var tLoadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseNameEditor;
                     File.Copy(tLoadDb, tPathEditor);
 #endif
+                
+                    if (NWDLauncher.ActiveBenchmark)
+                        {
+                             NWEBenchmark.Finish("Copy editor");
+                        }
                 }
                 string tDatabasePathEditor = tPathEditor;
 #endif

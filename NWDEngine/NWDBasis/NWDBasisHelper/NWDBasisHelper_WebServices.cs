@@ -312,7 +312,7 @@ namespace NetWorkedData
                     if (tClassResult.ContainsKey(NWD.K_WEB_DATA_KEY))
                     {
                         tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
-                        NWEBenchmark.Increment(tListOfRows.Count);
+                        //NWEBenchmark.Increment(tListOfRows.Count);
                         //Debug.Log("TEST DATAS : " + tListOfRows.Count + " rows");
                        //NWEBenchmark.Start("TEST DATAS");
                         if (tListOfRows.Count > 0)

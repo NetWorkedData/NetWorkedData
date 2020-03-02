@@ -262,10 +262,10 @@ namespace NetWorkedData
                 }
                 Type tType = mTypeList[sCounter];
                 tHelper = NWDBasisHelper.FindTypeInfos(tType);
-                tHelper.IndexInMemoryAllObjects();
+                int tRow = tHelper.IndexInMemoryAllObjects();
                 if (NWDLauncher.ActiveBenchmark)
                 {
-                    NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP);
+                    NWEBenchmark.Finish(true, " " + tHelper.ClassNamePHP + " "+ tRow + " rows indexed");
                 }
             }
             return tHelper;

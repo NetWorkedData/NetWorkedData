@@ -42,22 +42,23 @@ namespace NetWorkedData
         bool DataIndexed = false;
         double Sizer; // the max size of instance
         //-------------------------------------------------------------------------------------------------------------
-        public void IndexInMemoryAllObjects()
+        public int IndexInMemoryAllObjects()
         {
             DataIndexed = false;
-            //int tRow = 0;
+            int tRow = 0;
             if (IndexInMemoryMethodList.Count > 0)
             {
                 foreach (NWDTypeClass tObject in Datas)
                 {
                     tObject.IndexInMemory();
-                    //tRow++;
+                    tRow++;
                 }
             }
             DataIndexed = true;
 #if UNITY_EDITOR
             //Debug.Log("NWDBasisHelper " + ClassNamePHP + " IndexAll() row indexed : " + tRow + " rows.");
 #endif
+            return tRow;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void IndexInBaseAllObjects()
