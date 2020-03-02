@@ -868,18 +868,18 @@ namespace NetWorkedData
                 string tFileDebug = "*******************************************************************\n" +
                     "NWDOperationWebUnity UPLOAD VS DOWNLOADED DECODED " + name + "\n" +
                              "-------------------\n" +
-                             "<b>Request URl : </b> " + Request.url + "\n" +
+                             "<b>Request URl :</b> " + Request.url + "\n" +
                              "-------------------\n" +
-                             "<b>Headers UPLOAD : </b> \n" +
+                             "<b>Headers UPLOAD :</b> \n" +
                              "-------------------\n" +
                              tDebugRequestHeader + "\n" +
                              "-------------------\n" +
-                             "<b>Datas UPLOAD : </b> \n" +
+                             "<b>Datas UPLOAD :</b> \n" +
                              "-------------------\n" +
                              Json.Serialize(Data) + "\n" +
                              "-------------------\n\n\n" +
                              "-------------------\n" +
-                             "<b>Headers DOWNLOAD : </b> \n" +
+                             "<b>Headers DOWNLOAD :</b> \n" +
                              "-------------------\n" +
                              tDebugResponseHeader + "\n" +
                              "-------------------\n" +
