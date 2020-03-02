@@ -33,6 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateBasisError()
         {
+            NWEBenchmark.Start();
             if (AllDatabaseIsLoaded())
             {
             }
@@ -41,10 +42,12 @@ namespace NetWorkedData
                 GenerateServerErreur();
                 GenerateGenericErreur();
             }
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateServerErreur()
         {
+            NWEBenchmark.Start();
             NWDError.NWDError_WEB01 = NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.InGame, NWDBasisTag.TagInternal);
 
             NWDError.NWDError_WEB02 = NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
@@ -181,10 +184,12 @@ namespace NetWorkedData
             NWDError.NWDError_RescuePageError = NWDError.CreateGenericError("RESC", "NWDError_RescuePageError", "{APP} Rescue request", "{APP} rescue error!", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.NWDError_RescueAnswerLogin = NWDError.CreateGenericError("RESC", "RescueAnswerLogin", "{APP} Rescue Answer Login", "{APP} rescue informations new login is : {LOGIN} new password is : {PASSWORD}", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.NWDError_RescueAnswerEmail = NWDError.CreateGenericError("RESC", "RescueAnswerEmail", "{APP} Rescue Answer Email", "{APP} rescue informations new password is : {PASSWORD} ", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateGenericErreur()
         {
+            NWEBenchmark.Start();
             NWDError.NWDError_XXx01 = NWDError.CreateGenericError("XXX", "XXXx01", "Error in  model XXX", "error in request creation in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.NWDError_XXx02 = NWDError.CreateGenericError("XXX", "XXXx02", "Error in  model XXX", "error in request creation add primary key in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.NWDError_XXx03 = NWDError.CreateGenericError("XXX", "XXXx03", "Error in  model XXX", "error in request creation add autoincrement modify in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
@@ -205,15 +210,18 @@ namespace NetWorkedData
             NWDError.NWDError_XXx99 = NWDError.CreateGenericError("XXX", "XXXx99", "Error in  model XXX", "error columns number in XXX (update table?)", "OK", NWDErrorType.UnityEditor, NWDBasisTag.TagServerCreated);
             NWDError.NWDError_XXx88 = NWDError.CreateGenericError("XXX", "XXXx88", "Error in  model XXX", "integrity of one datas is false, break in XXX", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.NWDError_XXx77 = NWDError.CreateGenericError("XXX", "XXXx77", "Error in  model XXX", "error update log in XXX (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void ClassDatasAreLoaded()
         {
+            NWEBenchmark.Start();
             base.ClassDatasAreLoaded();
             //Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
-#if UNITY_EDITOR
+            //#if UNITY_EDITOR
             GenerateBasisError();
-#endif
+            //#endif
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

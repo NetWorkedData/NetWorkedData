@@ -20,6 +20,8 @@ using UnityEngine;
 using System.Threading;
 using System.Text.RegularExpressions;
 using SQLite4Unity3d;
+using Sqlite3DatabaseHandle = System.IntPtr;
+using Sqlite3Statement = System.IntPtr;
 //using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,116 +32,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis : NWDTypeClass
     {
-        //-------------------------------------------------------------------------------------------------------------
-        #region Lock Data
-        ///// <summary>
-        ///// The current state of the writing for this object.
-        ///// </summary>
-        //private NWDWritingState WritingState = NWDWritingState.Free;
-        ///// <summary>
-        ///// The writing lock counter. If lock is close the number is the number of lock!
-        ///// </summary>
-        //private int WritingLocksCounter = 0;
-        ///// <summary>
-        ///// The writing pending.
-        ///// </summary>
-        //private NWDWritingPending WritingPending = NWDWritingPending.Unknow;
-        ////-------------------------------------------------------------------------------------------------------------
-        //public NWDWritingPending DatabasePending()
-        //{
-        //    return WritingPending;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        ///// <summary>
-        ///// Writing lock close once more.
-        ///// </summary>
-        //private void WritingLockAdd()
-        //{
-        //    //NWEBenchmark.Start();
-        //    WritingLocksCounter++;
-        //    if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
-        //    {
-        //        NWDDataManager.SharedInstance().kDataInWriting.Add(this);
-        //    }
-        //    //NWEBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        ///// <summary>
-        ///// Writing lock open once. If lock =0 then the object can change writing mode.
-        ///// </summary>
-        //private void WritingLockRemove()
-        //{
-        //    //NWEBenchmark.Start();
-        //    WritingLocksCounter--;
-        //    if (WritingLocksCounter == 0)
-        //    {
-        //        WritingState = NWDWritingState.Free;
-        //        if (NWDDataManager.SharedInstance().kDataInWriting.Contains(this) == false)
-        //        {
-        //            NWDDataManager.SharedInstance().kDataInWriting.Remove(this);
-        //        }
-        //    }
-        //    //NWEBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion Lock Data
-        #region New Data
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// New data.
-        /// </summary>
-        /// <returns>The data.</returns>
-        /// <param name="sWritingMode">S writing mode.</param>
-        //static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        //{
-        //    //NWEBenchmark.Start();
-        //    K rReturnObject = NewDataWithReference(null, true, sWritingMode);
-        //    //NWEBenchmark.Finish();
-        //    return rReturnObject;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //static public T NewData<T>(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        //{
-        //    //NWEBenchmark.Start();
-        //    T rReturnObject = PropertiesAutofill as T;
-        //    //NWEBenchmark.Finish();
-        //    return rReturnObject;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// New data with reference.
-        /// </summary>
-        /// <returns>The data with reference.</returns>
-        /// <param name="sReference">S reference.</param>
-        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
-        /// <param name="sWritingMode">S writing mode.</param>
-        //static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
-        //{
-        //    //NWEBenchmark.Start();
-        //    K rReturnObject = null;
-        //    if (ClassType() != null)
-        //    {
-        //        rReturnObject = (K)Activator.CreateInstance(ClassType(), new object[] { false });
-        //        rReturnObject.InstanceInit();
-        //        if (sReference == null || sReference == string.Empty)
-        //        {
-        //            rReturnObject.Reference = rReturnObject.NewReference();
-        //        }
-        //        else
-        //        {
-        //            rReturnObject.Reference = sReference;
-        //        }
-        //        rReturnObject.PropertiesAutofill();
-        //        rReturnObject.Initialization();
-        //        rReturnObject.InsertData(sAutoDate, sWritingMode);
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
-        //    }
-        //    //NWEBenchmark.Finish();
-        //    return rReturnObject;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public override void PropertiesAutofill()
         {
@@ -165,41 +57,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion New Data
         #region Duplicate Data
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Duplicate data.
-        /// </summary>
-        /// <returns>The data.</returns>
-        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
-        /// <param name="sWritingMode">S writing mode.</param>
         public override NWDTypeClass Base_DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             return NWDBasisHelper.DuplicateData(this, sAutoDate, sWritingMode) as NWDTypeClass;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Test if InternalKey exists.
-        /// </summary>
-        /// <returns><c>true</c>, if key exists was internaled, <c>false</c> otherwise.</returns>
-        /// <param name="sInternalKey">S internal key.</param>
-        //public static bool InternalKeyExists(string sInternalKey)
-        //{
-        //    //NWEBenchmark.Start();
-        //    bool rReturn = false;
-        //    K[] tArray = GetAllObjects(null);
-        //    foreach (K tObject in tArray)
-        //    {
-        //        if (tObject.InternalKey == sInternalKey)
-        //        {
-        //            rReturn = true;
-        //            break;
-        //        }
-        //    }
-        //    //NWEBenchmark.Finish();
-        //    return rReturn;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Copy the data.
@@ -357,7 +220,6 @@ namespace NetWorkedData
         public override bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //NWEBenchmark.Start();
-            // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             bool rReturn = false;
             // Verif if Systeme can use the thread (option in Environment)
@@ -985,6 +847,9 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
                 }
             }
@@ -992,6 +857,9 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
                 }
             }
@@ -1006,6 +874,16 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionAccountIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, "BEGIN TRANSACTION");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionAccount.Handle, "COMMIT");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
@@ -1015,6 +893,16 @@ namespace NetWorkedData
             {
                 if (NWDDataManager.SharedInstance().SQLiteConnectionEditorIsValid())
                 {
+                    //Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, "BEGIN TRANSACTION");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, New_SQLDelete());
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+                    //stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteConnectionEditor.Handle, "COMMIT");
+                    //SQLite3.Step(stmt);
+                    //SQLite3.Finalize(stmt);
+
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
                     NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
@@ -1068,6 +956,28 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Load Data
+        //-------------------------------------------------------------------------------------------------------------
+        //public string New_SQLInsertOrReplace()
+        //{
+        //    NWDBasisHelper tHelper = BasisHelper();
+        //    List<string> tKeys = new List<string>();
+        //    List<string> tValues = new List<string>();
+        //    foreach (PropertyInfo tProp in tHelper.ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        //    {
+        //        tKeys.Add(tProp.Name);
+        //        tValues.Add(tProp.GetValue(this).ToString());
+        //    }
+        //    string rReturn = "INSERT OR REPLACE INTO `" + tHelper.ClassNamePHP + "` (`" + string.Join("`, `", tKeys) + "`) VALUES (\"" + string.Join("\", \"", tValues) + "\");";
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string New_SQLDelete()
+        //{
+        //    NWDBasisHelper tHelper = BasisHelper();
+        //    string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().ID);
+        //    string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = `" + ID + "`;";
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
