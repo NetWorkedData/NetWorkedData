@@ -158,6 +158,7 @@ namespace NetWorkedData
                 UnityEngine.Debug.Log(tLog);
                 StartCount--;
                 cStartDico.Remove(sKey);
+                UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "<b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
             }
             else
             {
