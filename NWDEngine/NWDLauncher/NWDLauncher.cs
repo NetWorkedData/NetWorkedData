@@ -189,8 +189,8 @@ namespace NetWorkedData
 
             tRepport.Add("COMPILE ON", NWDAppConfiguration.SharedInstance().CompileOn); tRepportLayout.Add("---");
             tRepport.Add("COMPILE FOR", Application.platform.ToString()); tRepportLayout.Add("---");
-            //tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
-            tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
+            tRepport.Add("OS VERSION", SystemInfo.operatingSystem); tRepportLayout.Add("---");
+            //tRepport.Add("OS VERSION", SystemInfo.operatingSystemFamily.ToString()); tRepportLayout.Add("---");
             tRepport.Add("COMPILE WITH", Application.unityVersion); tRepportLayout.Add("---");
             //tRepport.Add("DEVICE", SystemInfo.deviceName); tRepportLayout.Add("---");
             tRepport.Add("DEVICE", SystemInfo.deviceModel); tRepportLayout.Add("---");

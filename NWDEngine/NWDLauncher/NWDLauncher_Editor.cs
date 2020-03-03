@@ -132,7 +132,7 @@ namespace NetWorkedData
             }
             StepSum = StepSum + AllNetWorkedDataTypes.Count * 3;
             State = NWDStatut.EngineFinish;
-            //if (ActiveBenchmark)
+            if (ActiveBenchmark)
             {
                 NWEBenchmark.Finish();
             }

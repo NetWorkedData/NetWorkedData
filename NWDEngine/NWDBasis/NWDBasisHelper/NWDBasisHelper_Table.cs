@@ -498,6 +498,97 @@ namespace NetWorkedData
             }
             else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
             {
+                //NWEDataType tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
+                //tV.Value = SQLite3.ColumnString(stmtc, i);
+                //tProp.SetValue(tD, tV);
+                
+                NWEDataType tV = tProp.GetValue(tD) as NWEDataType;
+                tV.Value = SQLite3.ColumnString(stmtc, i);
+                return;
+            }
+            else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
+            {
+                //NWEDataTypeInt tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeInt;
+                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeInt tV = tProp.GetValue(tD) as NWEDataTypeInt;
+                tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                return;
+            }
+            else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeEnum)))
+            {
+                //NWEDataTypeEnum tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeEnum;
+                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeEnum tV = tProp.GetValue(tD) as NWEDataTypeEnum;
+                tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                return;
+            }
+            else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeMask)))
+            {
+                //NWEDataTypeMask tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeMask;
+                //tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeMask tV = tProp.GetValue(tD) as NWEDataTypeMask;
+                tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                return;
+            }
+            else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeFloat)))
+            {
+                //NWEDataTypeFloat tV = Activator.CreateInstance(tTypeOfThis) as NWEDataTypeFloat;
+                //tV.Value = SQLite3.ColumnDouble(stmtc, i);
+                //tProp.SetValue(tD, tV);
+
+                NWEDataTypeFloat tV = tProp.GetValue(tD) as NWEDataTypeFloat;
+                tV.Value = SQLite3.ColumnInt64(stmtc, i);
+                return;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void ReadCol_B(Type tTypeOfThis, PropertyInfo tProp, Sqlite3DatabaseHandle stmtc, int i, object tD)
+        {
+            if (tTypeOfThis == typeof(int) ||
+                                tTypeOfThis == typeof(Int16) ||
+                                tTypeOfThis == typeof(Int32) ||
+                                tTypeOfThis.IsEnum
+                                )
+            {
+                tProp.SetValue(tD, SQLite3.ColumnInt(stmtc, i));
+                return;
+            }
+            else if (tTypeOfThis == typeof(long) ||
+                tTypeOfThis == typeof(Int64)
+                )
+            {
+                tProp.SetValue(tD, SQLite3.ColumnInt64(stmtc, i));
+                return;
+            }
+            else if (tTypeOfThis == typeof(double) ||
+                tTypeOfThis == typeof(Double))
+            {
+                tProp.SetValue(tD, SQLite3.ColumnDouble(stmtc, i));
+                return;
+            }
+            else if (tTypeOfThis == typeof(float))
+            {
+                tProp.SetValue(tD, (float)SQLite3.ColumnDouble(stmtc, i));
+                return;
+            }
+            else if (tTypeOfThis == typeof(bool))
+            {
+                tProp.SetValue(tD, SQLite3.ColumnInt(stmtc, i) == 1);
+                return;
+            }
+            else if (tTypeOfThis == typeof(string) || tTypeOfThis == typeof(String))
+            {
+                tProp.SetValue(tD, SQLite3.ColumnString(stmtc, i));
+                return;
+            }
+            else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
+            {
                 NWEDataType tV = Activator.CreateInstance(tTypeOfThis) as NWEDataType;
                 tV.Value = SQLite3.ColumnString(stmtc, i);
                 tProp.SetValue(tD, tV);
@@ -554,28 +645,82 @@ namespace NetWorkedData
             {
                 if (tSQLiteConnection.IsValid())
                 {
-                    List<PropertyInfo> tProplist = new List<PropertyInfo>();
-                    List<Type> tPropTypelist = new List<Type>();
-                    List<string> tColumnList = new List<string>();
+                    List<PropertyInfo> tProplistA = new List<PropertyInfo>();
+                    List<Type> tPropTypelistA = new List<Type>();
+                    List<string> tColumnListA = new List<string>();
+                    List<PropertyInfo> tPropTypelistToCreate = new List<PropertyInfo>();
                     foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
                         //if (tProp.Name != "ID" && string.IsNullOrEmpty(tProp.Name) == false)
                         {
-                            tProplist.Add(tProp);
-                            tPropTypelist.Add(tProp.PropertyType);
-                            tColumnList.Add(tProp.Name);
+                            tProplistA.Add(tProp);
+                            tPropTypelistA.Add(tProp.PropertyType);
+                            tColumnListA.Add(tProp.Name);
+
+                            if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataType)))
+                            {
+                                tPropTypelistToCreate.Add(tProp);
+                            }
+                            else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeInt)))
+                            {
+                                tPropTypelistToCreate.Add(tProp);
+                            }
+                            else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeEnum)))
+                            {
+                                tPropTypelistToCreate.Add(tProp);
+                            }
+                            else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeMask)))
+                            {
+                                tPropTypelistToCreate.Add(tProp);
+                            }
+                            else if (tProp.PropertyType.IsSubclassOf(typeof(NWEDataTypeFloat)))
+                            {
+                                tPropTypelistToCreate.Add(tProp);
+                            }
                         }
                     }
+
+                    PropertyInfo[] tProplist = tProplistA.ToArray();
+                    Type[] tPropTypelist = tPropTypelistA.ToArray();
+                    string[] tColumnList = tColumnListA.ToArray();
+                    PropertyInfo[] tPropTypeArrayToCreate = tPropTypelistToCreate.ToArray();
+
+                    // FOR TEST {
+                    //NWEBenchmark.Start("eee");
+                    //Sqlite3DatabaseHandle stmtcT = SQLite3.Prepare2(tSQLiteConnection.Handle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "`;");
+                    //while (SQLite3.Step(stmtcT) == SQLite3.Result.Row)
+                    //{
+                    //    var tD = CreateInstance_Bypass(false, true);
+                    //}
+                    //NWEBenchmark.Finish("eee");
+                    //NWEBenchmark.Start("ffff");
+                    //Sqlite3DatabaseHandle stmtcA = SQLite3.Prepare2(tSQLiteConnection.Handle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "`;");
+                    //while (SQLite3.Step(stmtcA) == SQLite3.Result.Row)
+                    //{
+                    //    var tD = Activator.CreateInstance(ClassType, new object[] { false });
+                    //}
+                    //NWEBenchmark.Finish("ffff");
+                    // FOR TEST }
+
                     Sqlite3DatabaseHandle stmtc = SQLite3.Prepare2(tSQLiteConnection.Handle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "`;");
+
+                    //while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
+                    //{
+                    //    var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
+                    //    for (int tI = 0; tI < tProplist.Length; tI++)
+                    //    {
+                    //        ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                    //    }
+                    //    ((NWDTypeClass)tD).LoadedFromDatabase();
+                    //    tCount++;
+                    //}
 
                     while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
                     {
                         var tD = Activator.CreateInstance(ClassType, new object[] { false });
-                        for (int i = 0; i < tProplist.Count; i++)
+                        for (int tI = 0; tI < tProplist.Length; tI++)
                         {
-                            PropertyInfo tProp = tProplist[i];
-                            Type tTypeOfThis = tPropTypelist[i];
-                            ReadCol(tTypeOfThis, tProp, stmtc, i, tD);
+                            ReadCol_B(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
                         }
                         ((NWDTypeClass)tD).LoadedFromDatabase();
                         tCount++;
