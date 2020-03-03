@@ -15,7 +15,13 @@ namespace NetWorkedData
         private static float FrameRate = -1;
         private static Stopwatch Watch = new Stopwatch();
         //-------------------------------------------------------------------------------------------------------------
+#if (UNITY_EDITOR)
         public static float kMaxDefault = 0.010f;
+#elif (UNITY_ANDROID || UNITY_IOS)
+        public static float kMaxDefault = 0.030f;
+#else
+        public static float kMaxDefault = 0.015f;
+#endif
         private static int StartCount = 0;
         //-------------------------------------------------------------------------------------------------------------
         static NWEBenchmark()
@@ -95,15 +101,15 @@ namespace NetWorkedData
 
             if (cStartDico.ContainsKey(sKey) == true)
             {
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
-                UnityEngine.Debug.Log(tLog);
+                //string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " all ready started!";
+                //UnityEngine.Debug.Log(tLog);
             }
             else
             {
                 StartCount++;
                 cStartDico.Add(sKey, Watch.ElapsedMilliseconds);
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " start now!";
-                UnityEngine.Debug.Log(tLog);
+                //string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " start now!";
+                //UnityEngine.Debug.Log(tLog);
             }
 
             //long tStop = Watch.ElapsedMilliseconds - tStart;
