@@ -85,6 +85,12 @@ namespace NetWorkedData
                         rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
                         rReturn.AppendLine("protected override NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)");
                         rReturn.AppendLine("{");
+                        if (ClassType == typeof(NWDCategory))
+                        {
+                            rReturn.AppendLine("Debug.Log(\"override NWDTypeClass CreateInstance_Bypass\");");
+                        }
+
+
                         //rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData);");
                         //foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                         //{
@@ -104,6 +110,9 @@ namespace NetWorkedData
                         //        }
                         //    }
                         //}
+
+
+
                         rReturn.AppendLine("" + ClassNamePHP + " rReturn = new " + ClassNamePHP + "(sInsertInNetWorkedData) {");
                         foreach (PropertyInfo tProp in ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                         {
@@ -124,6 +133,9 @@ namespace NetWorkedData
                             }
                         }
                         rReturn.AppendLine("};");
+
+
+
                         rReturn.AppendLine("return rReturn;");
                         rReturn.AppendLine("}");
                     }

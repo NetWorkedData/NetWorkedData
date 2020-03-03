@@ -624,7 +624,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void LoadFromDatabase()
+        public virtual void LoadFromDatabase()
         {
             if (NWDLauncher.ActiveBenchmark)
             {
@@ -704,27 +704,27 @@ namespace NetWorkedData
 
                     Sqlite3DatabaseHandle stmtc = SQLite3.Prepare2(tSQLiteConnection.Handle, "SELECT `" + string.Join("`, `", tColumnList) + "` FROM `" + ClassNamePHP + "`;");
 
-                    //while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
-                    //{
-                    //    var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
-                    //    for (int tI = 0; tI < tProplist.Length; tI++)
-                    //    {
-                    //        ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
-                    //    }
-                    //    ((NWDTypeClass)tD).LoadedFromDatabase();
-                    //    tCount++;
-                    //}
-
                     while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
                     {
-                        var tD = Activator.CreateInstance(ClassType, new object[] { false });
+                        var tD = CreateInstance_Bypass(false, true, tPropTypeArrayToCreate);
                         for (int tI = 0; tI < tProplist.Length; tI++)
                         {
-                            ReadCol_B(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                            ReadCol(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
                         }
                         ((NWDTypeClass)tD).LoadedFromDatabase();
                         tCount++;
                     }
+
+                    //while (SQLite3.Step(stmtc) == SQLite3.Result.Row)
+                    //{
+                    //    var tD = Activator.CreateInstance(ClassType, new object[] { false });
+                    //    for (int tI = 0; tI < tProplist.Length; tI++)
+                    //    {
+                    //        ReadCol_B(tPropTypelist[tI], tProplist[tI], stmtc, tI, tD);
+                    //    }
+                    //    ((NWDTypeClass)tD).LoadedFromDatabase();
+                    //    tCount++;
+                    //}
                     SQLite3.Finalize(stmtc);
                 }
             }

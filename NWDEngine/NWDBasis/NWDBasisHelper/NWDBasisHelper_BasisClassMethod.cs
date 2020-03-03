@@ -36,6 +36,11 @@ namespace NetWorkedData
     public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
+        public NWDTypeClass CreateInstanceQuickly(bool sInsertInNetWorkedData, PropertyInfo[] sPropertyInfo)
+        {
+            return CreateInstance_Bypass(sInsertInNetWorkedData, false, sPropertyInfo);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         protected virtual NWDTypeClass CreateInstance_Bypass(bool sInsertInNetWorkedData, bool sStupid, PropertyInfo[] sPropertyInfo)
         {
             NWDTypeClass rReturn = Activator.CreateInstance(ClassType, new object[] { sInsertInNetWorkedData }) as NWDTypeClass;

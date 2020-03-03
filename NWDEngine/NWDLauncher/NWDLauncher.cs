@@ -121,14 +121,14 @@ namespace NetWorkedData
             return (float)StepIndex / (float)StepSum;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void NotifyStep()
+        public static void NotifyStep(bool sYeld = false)
         {
             //if (ActiveBenchmark)
             //{
             //    NWEBenchmark.Start("NotifyStep");
             //}
             StepIndex++;
-            if (YieldValid())
+            if ( sYeld || YieldValid())
             {
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             }
