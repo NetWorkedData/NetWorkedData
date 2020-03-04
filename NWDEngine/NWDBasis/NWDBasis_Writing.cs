@@ -960,7 +960,7 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataType)))
                     {
-                        tValueString = tValue.ToString();
+                        tValueString = tValue.ToString().Replace("\"","\"\"");
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(NWEDataTypeInt)))
                     {
@@ -980,7 +980,7 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                     {
-                        tValueString = tValue.ToString();
+                        tValueString = tValue.ToString().Replace("\"", "\"\"");
                     }
                     else if (tTypeOfThis == typeof(bool))
                     {
@@ -1004,7 +1004,7 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        tValueString = tValue.ToString();
+                        tValueString = tValue.ToString().Replace("\"", "\"\"");
                     }
 
                     tValues.Add(tValueString);
@@ -1020,7 +1020,7 @@ namespace NetWorkedData
         {
             NWDBasisHelper tHelper = BasisHelper();
             string tSignReference = NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().Reference);
-            string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = \"" + Reference + "\";";
+            string rReturn = "DELETE FROM `" + tHelper.ClassNamePHP + "` WHERE `" + tSignReference + "` = \"" + Reference.Replace("\"", "\"\"") + "\";";
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -108,8 +108,8 @@ namespace NetWorkedData
             {
                 StartCount++;
                 cStartDico.Add(sKey, Watch.ElapsedMilliseconds);
-                //string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " start now!";
-                //UnityEngine.Debug.Log(tLog);
+                string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " start now!";
+                UnityEngine.Debug.Log(tLog);
             }
 
             //long tStop = Watch.ElapsedMilliseconds - tStart;
@@ -159,12 +159,13 @@ namespace NetWorkedData
                 {
                     tMaxColor = "red";
                 }
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " execute in <color=" + tMaxColor + ">" +
+                UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "| <b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
+
+                string tLog = "benchmark : " + GetIndentation() + "•<b>" + sKey + "</b>\t" + " execute in <color=" + tMaxColor + ">" +
                  rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. " + sMoreInfos;
                 UnityEngine.Debug.Log(tLog);
                 StartCount--;
                 cStartDico.Remove(sKey);
-                UnityEngine.Debug.Log("benchmark : " + GetIndentation() + "<b><color=" + tMaxColor + ">" + rDelta.ToString("F3") + "</color></b>" + "");
             }
             else
             {
