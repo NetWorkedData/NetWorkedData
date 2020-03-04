@@ -149,7 +149,7 @@ namespace NetWorkedData
                             NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                         {
                             var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
-                            Debug.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + tEditorPass);
+                            NWEBenchmark.Log("ConnectToDatabaseEditor () tDatabasePathEditor : " + tDatabasePathEditor + " (" + fileInfo.Length + " octets) : " + tEditorPass);
                         }
                     }
 
@@ -338,7 +338,7 @@ namespace NetWorkedData
                     {
 
                         var fileInfo = new System.IO.FileInfo(tDatabasePathAccount);
-                        Debug.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + tAccountPass);
+                        NWEBenchmark.Log("ConnectToDatabaseAccount () tDatabasePathAccount : " + tDatabasePathAccount + " (" + fileInfo.Length + " octets) : " + tAccountPass);
                     }
                 }
 
