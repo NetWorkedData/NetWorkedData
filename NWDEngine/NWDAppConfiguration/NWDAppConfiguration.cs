@@ -77,6 +77,7 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
+        public bool BundleDatas = true;
         public bool LauncherBenchmark = true;
         public int LauncherFaster = 10;
         //public bool PreloadDatasInEditor = true;

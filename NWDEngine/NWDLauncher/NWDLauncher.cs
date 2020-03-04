@@ -128,7 +128,7 @@ namespace NetWorkedData
             //    NWEBenchmark.Start("NotifyStep");
             //}
             StepIndex++;
-            if ( sYeld || YieldValid())
+            if (sYeld || YieldValid())
             {
                 NWENotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_LAUNCHER_STEP);
             }
@@ -218,10 +218,10 @@ namespace NetWorkedData
 
             if (ActiveBenchmark)
             {
-                UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
-                UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
+                UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Keys) + " |");
+                UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepportLayout) + " |");
             }
-            UnityEngine.Debug.Log("benchmark : !!!! REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
+            UnityEngine.Debug.Log("benchmark : REPPORT | " + string.Join(" | ", tRepport.Values) + " |");
         }
         //-------------------------------------------------------------------------------------------------------------
         public const string K_PINCODE_KEY = "K_PINCODE_KEY_jkghvjh";
@@ -237,8 +237,8 @@ namespace NetWorkedData
                 StepSum = 0;
                 StepIndex = 0;
                 NWEBenchmark.Start("Launch");
-                Stopwatch tSW = new Stopwatch();
-                tSW.Start();
+                //Stopwatch tSW = new Stopwatch();
+                //tSW.Start();
                 Launched = true;
                 //NWDToolbox.EditorAndPlaying("NWDLauncher Launch()");
                 EditorByPass = false;
@@ -267,7 +267,7 @@ namespace NetWorkedData
                 if (EditorByPass == true)
                 {
                     Preload = true;
-                    Launch_Editor();
+                    LaunchStandard();
                 }
                 else
                 {
@@ -278,7 +278,7 @@ namespace NetWorkedData
                         {
                             NWEBenchmark.Log("Launch in runtime preload (sync)");
                         }
-                        Launch_Runtime_Sync();
+                        LaunchRuntimeSync();
                     }
                     else
                     {
@@ -289,9 +289,16 @@ namespace NetWorkedData
                         //Launch_Runtime_Async(); // waiting order from NWDGameDataManager.ShareInstance()
                     }
                 }
-                tSW.Stop();
-                UnityEngine.Debug.Log("STOPWATCH : " + (tSW.ElapsedMilliseconds / 1000.0F).ToString("F3") + " s");
+                //tSW.Stop();
+                //UnityEngine.Debug.Log("STOPWATCH : " + (tSW.ElapsedMilliseconds / 1000.0F).ToString("F3") + " s");
                 NWEBenchmark.Finish("Launch");
+                if (Preload == true)
+                {
+                    //if (ActiveBenchmark)
+                    {
+                        LauncherBenchmarkToMarkdown();
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

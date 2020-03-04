@@ -93,7 +93,7 @@ namespace NetWorkedData
             return rReturn;
         }
 
-        
+
         //-------------------------------------------------------------------------------------------------------------
         //public Dictionary<string, object> SynchronizationGetNewData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll)
         //{
@@ -126,6 +126,11 @@ namespace NetWorkedData
                 //TODO Tht lag the webservice
                 //LoadDataToSync(sEnvironment);
             }
+            bool tSync = true;
+            if (Application.isPlaying && kAccountDependent != true)
+            {
+                tSync = false;
+            }
             // create respond object
             Dictionary<string, object> rSend = new Dictionary<string, object>(new StringIndexKeyComparer());
             // create dictionnary for this tablename and insert in the respond
@@ -145,9 +150,16 @@ namespace NetWorkedData
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
                 if (sSpecial != NWDOperationSpecial.Pull)
                 {
-                    if (IsLoaded() == false)
+                    if (NWDAppConfiguration.SharedInstance().BundleDatas == true)
                     {
-                        LoadFromDatabase();
+                        LoadFromDatabase(string.Empty);
+                    }
+                    else
+                    {
+                        if (IsLoaded()==true)
+                        {
+                            LoadFromDatabase(string.Empty);
+                        }
                     }
                     foreach (NWDTypeClass tO in Datas)
                     {
@@ -179,11 +191,18 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.DevSync == 0);
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    foreach (NWDTypeClass tO in Datas)
+                    if (tSync == true)
                     {
-                        if (tO.DevSync == 0 || tO.DevSync == 1 /*|| tO.AddonSyncForce()*/)
+                        if (NWDAppConfiguration.SharedInstance().BundleDatas == true)
                         {
-                            tResults.Add(tO);
+                            LoadFromDatabase("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "` >= " + SynchronizationGetLastTimestamp(sEnvironment) + ";");
+                        }
+                        foreach (NWDTypeClass tO in Datas)
+                        {
+                            if (tO.DevSync == 0 || tO.DevSync == 1 /*|| tO.AddonSyncForce()*/)
+                            {
+                                tResults.Add(tO);
+                            }
                         }
                     }
                 }
@@ -193,11 +212,18 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    foreach (NWDTypeClass tO in Datas)
+                    if (tSync == true)
                     {
-                        if (tO.PreprodSync == 0 || tO.PreprodSync == 1 /*|| tO.AddonSyncForce()*/)
+                        if (NWDAppConfiguration.SharedInstance().BundleDatas == true)
                         {
-                            tResults.Add(tO);
+                            LoadFromDatabase("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "` >= " + SynchronizationGetLastTimestamp(sEnvironment) + ";");
+                        }
+                        foreach (NWDTypeClass tO in Datas)
+                        {
+                            if (tO.PreprodSync == 0 || tO.PreprodSync == 1 /*|| tO.AddonSyncForce()*/)
+                            {
+                                tResults.Add(tO);
+                            }
                         }
                     }
                 }
@@ -207,11 +233,18 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.ProdSync == 0);
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    foreach (NWDTypeClass tO in Datas)
+                    if (tSync == true)
                     {
-                        if (tO.ProdSync == 0 || tO.ProdSync == 1 /*|| tO.AddonSyncForce()*/)
+                        if (NWDAppConfiguration.SharedInstance().BundleDatas == true)
                         {
-                            tResults.Add(tO);
+                            LoadFromDatabase("WHERE `" + NWDToolbox.PropertyName(() => NWDBasisHelper.FictiveData<NWDExample>().DM) + "` >= " + SynchronizationGetLastTimestamp(sEnvironment) + ";");
+                        }
+                        foreach (NWDTypeClass tO in Datas)
+                        {
+                            if (tO.ProdSync == 0 || tO.ProdSync == 1 /*|| tO.AddonSyncForce()*/)
+                            {
+                                tResults.Add(tO);
+                            }
                         }
                     }
                 }
@@ -248,7 +281,7 @@ namespace NetWorkedData
                         }
 #else
                         // not in editor : playing mode only
-                        if (tItem.IsReacheableByAccount())
+                        if (kAccountDependent == true)
                         {
                             tDatas.Add(tItem.CSVAssembly());
                         }
@@ -314,7 +347,7 @@ namespace NetWorkedData
                         tListOfRows = tClassResult[NWD.K_WEB_DATA_KEY] as List<object>;
                         //NWEBenchmark.Increment(tListOfRows.Count);
                         //Debug.Log("TEST DATAS : " + tListOfRows.Count + " rows");
-                       //NWEBenchmark.Start("TEST DATAS");
+                        //NWEBenchmark.Start("TEST DATAS");
                         if (tListOfRows.Count > 0)
                         {
                             //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());

@@ -18,9 +18,6 @@ using UnityEngine;
 using SQLite4Unity3d;
 using System.Text;
 
-using Sqlite3DatabaseHandle = System.IntPtr;
-using Sqlite3Statement = System.IntPtr;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -132,20 +129,20 @@ namespace NetWorkedData
 
                         DataEditorConnected = true;
                         DataEditorConnectionInProgress = false;
-                        //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
-                        //SQLite3.Step(stmtpragma);
-                        //SQLite3.Finalize(stmtpragma);
-                        //Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
-                        //SQLite3.Step(stmtpragmaB);
-                        //SQLite3.Finalize(stmtpragmaB);
-                        //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
-                        //SQLite3.Step(stmtpragmaC);
-                        //SQLite3.Finalize(stmtpragmaC);
-                        //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA temp_store = MEMORY");
-                        //SQLite3.Step(stmtpragmaD);
-                        //SQLite3.Finalize(stmtpragmaD);
+                    //IntPtr stmtpragma = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA synchronous = OFF;");
+                    //SQLite3.Step(stmtpragma);
+                    //SQLite3.Finalize(stmtpragma);
+                    //IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA journal_mode = MEMORY");
+                    //SQLite3.Step(stmtpragmaB);
+                    //SQLite3.Finalize(stmtpragmaB);
+                    //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA cache_size = 1000000");
+                    //SQLite3.Step(stmtpragmaC);
+                    //SQLite3.Finalize(stmtpragmaC);
+                    //Sqlite3DatabaseHandle stmtpragmaD = SQLite3.Prepare2(SQLiteEditorHandle, "PRAGMA temp_store = MEMORY");
+                    //SQLite3.Step(stmtpragmaD);
+                    //SQLite3.Finalize(stmtpragmaD);
 
-                        if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
+                    if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment ||
                             NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                         {
                             var fileInfo = new System.IO.FileInfo(tDatabasePathEditor);
@@ -320,10 +317,10 @@ namespace NetWorkedData
 
                     DataAccountConnected = true;
                     DataAccountConnectionInProgress = false;
-                    //Sqlite3DatabaseHandle stmtpragma = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA synchronous = OFF;");
+                    //IntPtr stmtpragma = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA synchronous = OFF;");
                     //SQLite3.Step(stmtpragma);
                     //SQLite3.Finalize(stmtpragma);
-                    //Sqlite3DatabaseHandle stmtpragmaB = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA journal_mode = MEMORY");
+                    //IntPtr stmtpragmaB = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA journal_mode = MEMORY");
                     //SQLite3.Step(stmtpragmaB);
                     //SQLite3.Finalize(stmtpragmaB);
                     //Sqlite3DatabaseHandle stmtpragmaC = SQLite3.Prepare2(SQLiteAccountHandle, "PRAGMA cache_size = 1000000");
@@ -533,7 +530,7 @@ namespace NetWorkedData
         public void CreateAllTablesLocalAccount()
         {
             //NWEBenchmark.Start();
-            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteAccountHandle, "BEGIN TRANSACTION");
+            IntPtr stmt = SQLite3.Prepare2(SQLiteAccountHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             SQLite3.Finalize(stmt);
             if (DataAccountConnected == true && DataAccountConnectionInProgress == false)
@@ -634,7 +631,7 @@ namespace NetWorkedData
             //NWEBenchmark.Finish(true, " old method");
 
             //NWEBenchmark.Start();
-            Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
+            IntPtr stmt = SQLite3.Prepare2(SQLiteEditorHandle, "BEGIN TRANSACTION");
             SQLite3.Step(stmt);
             //SQLite3.Finalize(stmt);
             if (DataEditorConnected == true && DataEditorConnectionInProgress == false)

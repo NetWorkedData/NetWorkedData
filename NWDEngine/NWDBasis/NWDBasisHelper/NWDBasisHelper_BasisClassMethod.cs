@@ -209,8 +209,8 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    // TODO : Lag connection : look for quick solution
-                    //rReturn = LoadDataByReference<T>(sReference);
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference);
+                    rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
                 }
             }
             //NWEBenchmark.Finish();
@@ -289,8 +289,8 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    // TODO : Lag connection : look for quick solution
-                    //rReturn = LoadDataByReference<T>(sReference);
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference);
+                    rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
                 }
             }
             rReturn = QuickFilter<T>(rReturn, null, null);
@@ -368,8 +368,8 @@ namespace NetWorkedData
             {
                 if (sTryOnDisk == true)
                 {
-                    // TODO : Lag connection : look for quick solution
-                    //rReturn = LoadDataByReference<T>(sReference);
+                    BasisHelper<T>().LoadFromDatabaseByReference(sReference);
+                    rReturn = BasisHelper<T>().DatasByReference[sReference] as T;
                 }
             }
             rReturn = QuickFilter<T>(rReturn, sAccountReference, sGameSave);

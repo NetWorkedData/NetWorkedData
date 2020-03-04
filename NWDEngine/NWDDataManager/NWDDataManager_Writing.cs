@@ -12,16 +12,8 @@
 //=====================================================================================================================
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
-using System.IO;
-using UnityEngine;
 using System.Threading;
-using System.Text.RegularExpressions;
 using SQLite4Unity3d;
-using Sqlite3DatabaseHandle = System.IntPtr;
-//using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -267,14 +259,14 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                    Sqlite3DatabaseHandle stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    IntPtr stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmtE);
                     SQLite3.Finalize(stmtE);
                         //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
@@ -451,16 +443,16 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                        //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                    //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
 
-                    Sqlite3DatabaseHandle stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    IntPtr stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmtE);
                     SQLite3.Finalize(stmtE);
                     //}
@@ -622,14 +614,14 @@ namespace NetWorkedData
                 {
                     //if (NWDDataManager.SharedInstance().DataAccountConnected == true)
                     //{
-                    Sqlite3DatabaseHandle stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
+                    IntPtr stmt = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteAccountHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmt);
                     SQLite3.Finalize(stmt);
                     //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                     //}
                     //if (NWDDataManager.SharedInstance().DataEditorConnected == true)
                     //{
-                    Sqlite3DatabaseHandle stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
+                    IntPtr stmtE = SQLite3.Prepare2(NWDDataManager.SharedInstance().SQLiteEditorHandle, "BEGIN TRANSACTION");
                     SQLite3.Step(stmtE);
                     SQLite3.Finalize(stmtE);
                     //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();

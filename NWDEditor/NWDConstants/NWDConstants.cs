@@ -151,6 +151,8 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";
         public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
+        public const string K_MENU_LOCAL_RECREATE_INDEX_TABLE = K_MENU_BASE + K_MENU_LOCAL + "/Create all index for all tables";
+
         public const string K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/INTEGRATE ALL DATAS";
 
         public const string K_MENU_LOCAL_BLOCK_RECOMPILE = K_MENU_BASE + "/SPECIAL/BLOCK RECOMPILE";

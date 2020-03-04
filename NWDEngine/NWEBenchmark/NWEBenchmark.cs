@@ -26,7 +26,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWEBenchmark()
         {
-            UnityEngine.Debug.Log("START NWEBenchmark CLASS");
+            //UnityEngine.Debug.Log("START NWEBenchmark CLASS");
             Watch.Start();
             if (Application.targetFrameRate == -1)
             {
@@ -194,7 +194,7 @@ namespace NetWorkedData
                 {
                     tMaxColor = "red";
                 }
-                string tLog = "benchmark : " + GetIndentation() + "<b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
+                string tLog = "benchmark : " + GetIndentation() + "|    <b>" + sKey + "</b>\t" + " step <color=" + tMaxColor + ">" +
                  rDelta.ToString("F3") + " seconds </color> spent " + rFrameSpend.ToString("F1") + "F/" + FrameRate + "Fps. " + sMoreInfos;
                 UnityEngine.Debug.Log(tLog);
             }

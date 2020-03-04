@@ -499,7 +499,7 @@ namespace NetWorkedData
                     LoadingDatasGauge.IsVisible = true;
                 }
             }
-            Launch_Runtime_Async();
+            LaunchRuntimeAsync();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void ReloadAllDatas()

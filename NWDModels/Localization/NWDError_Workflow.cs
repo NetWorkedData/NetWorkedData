@@ -33,16 +33,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateBasisError()
         {
-            //NWEBenchmark.Start();
-            if (AllDatabaseIsLoaded())
-            {
-            }
+            NWEBenchmark.Start();
             if (IsLoaded() == true)
             {
                 GenerateServerErreur();
                 GenerateGenericErreur();
             }
-            //NWEBenchmark.Finish();
+            NWEBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GenerateServerErreur()
@@ -217,7 +214,6 @@ namespace NetWorkedData
         {
             //NWEBenchmark.Start();
             base.ClassDatasAreLoaded();
-            //Debug.Log("ClassDatasAreLoaded() override method (" + GetType().FullName + ")");
             //#if UNITY_EDITOR
             GenerateBasisError();
             //#endif

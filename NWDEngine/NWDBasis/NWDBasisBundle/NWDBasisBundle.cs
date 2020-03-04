@@ -16,10 +16,10 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //public partial class NWDBasisBundle : NWEDataTypeMaskGeneric<NWDBasisBundle>
-            public partial class NWDBasisBundle : NWEDataTypeEnumGeneric<NWDBasisBundle>
-
+    public partial class NWDBasisBundle : NWEDataTypeEnumGeneric<NWDBasisBundle>
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDBasisBundle ALL = Add(-1, "ALL");
         //-------------------------------------------------------------------------------------------------------------
         public static NWDBasisBundle Translate = Add(1, "Splashscreen");
         public static NWDBasisBundle Asset = Add(2, "Home");
